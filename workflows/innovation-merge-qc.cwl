@@ -65,7 +65,7 @@ steps:
   #############################################
 
   merge_waltz_output_files_standard:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
+    run: ./innovation-merge-directories/innovation-merge-directories.cwl
     in:
       files_1: standard_waltz_count_reads_files
       files_2: standard_waltz_pileup_metrics_files
@@ -73,7 +73,7 @@ steps:
       [output_files]
 
   merge_waltz_output_files_fulcrum:
-    run: ./innovation-merge-directories/0.0.0/innovation-merge-directories.cwl
+    run: ./innovation-merge-directories/innovation-merge-directories.cwl
     in:
       files_1: fulcrum_waltz_count_reads_files
       files_2: fulcrum_waltz_pileup_metrics_files
@@ -86,14 +86,14 @@ steps:
   ################################################
 
   standard_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    run: ./innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: merge_waltz_output_files_standard/output_files
     out:
       [output_dir]
 
   fulcrum_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    run: ./innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: merge_waltz_output_files_fulcrum/output_files
     out:
@@ -105,7 +105,7 @@ steps:
   #################
 
   innovation_qc:
-    run: ./innovation-qc/0.0.0/innovation-qc.cwl
+    run: ./innovation-qc/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir

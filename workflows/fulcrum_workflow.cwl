@@ -37,6 +37,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -44,32 +45,24 @@ requirements:
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
 
+
 inputs:
   tmp_dir: string
   input_bam: File
 
-  # AnnotateFastqWithUmis
-
   # SortBam
   sort_order: string
-
-  # SetMateInformation
 
   # GroupReads
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
 
-  # CallDuplexConsensusReads
-
   # FilterConsensusReads
   reference_fasta: File
   filter_min_reads: string
   filter_min_base_quality: string
 
-  # sort_bam_queryname
-
-  # samtools fastq
 
 outputs:
   output_fastq_1:
@@ -80,23 +73,24 @@ outputs:
     type: File
     outputSource: gzip_2/output
 
+
 steps:
   innovation_extract_read_names:
-    run: ./innovation-extract-read-names/0.0.0/innovation-extract-read-names.cwl
+    run: ../tools/innovation-extract-reads/innovation-extract-read-names.cwl
     in:
       input_bam: input_bam
     out:
       [read_names]
 
   innovation_map_read_names_to_umis:
-    run: ./innovation-map-read-names-to-umis/0.0.0/innovation-map-read-names-to-umis.cwl
+    run: ../tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
     in:
       read_names: innovation_extract_read_names/read_names
     out:
       [annotated_fastq]
 
   annotate_bam_with_umis:
-    run: ./cmo-fulcrum.AnnotateBamWithUmis/0.2.0/cmo-fulcrum.AnnotateBamWithUmis.cwl
+    run: ../tools/fulcrum/AnnotateBamWithUmis.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: input_bam
@@ -105,7 +99,7 @@ steps:
       [output_bam]
 
   sort_bam:
-    run: ./cmo-fulcrum.SortBam/0.2.0/cmo-fulcrum.SortBam.cwl
+    run: ../tools/fulcrum/SortBam.cwl
     in:
         tmp_dir: tmp_dir
         input_bam: annotate_bam_with_umis/output_bam
@@ -114,7 +108,7 @@ steps:
       [output_bam]
 
   set_mate_information:
-    run: ./cmo-fulcrum.SetMateInformation/0.2.0/cmo-fulcrum.SetMateInformation.cwl
+    run: ../tools/fulcrum/SetMateInformation.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: sort_bam/output_bam
@@ -122,7 +116,7 @@ steps:
       [output_bam]
 
   group_reads_by_umi:
-    run: ./cmo-fulcrum.GroupReadsByUmi/0.2.0/cmo-fulcrum.GroupReadsByUmi.cwl
+    run: ../tools/fulcrum/GroupReadsByUmi.cwl
     in:
       tmp_dir: tmp_dir
       strategy: grouping_strategy
@@ -133,7 +127,7 @@ steps:
       [output_bam]
 
   call_duplex_consensus_reads:
-    run: ./cmo-fulcrum.CallDuplexConsensusReads/0.2.0/cmo-fulcrum.CallDuplexConsensusReads.cwl
+    run: ../tools/fulcrum/CallDuplexConsensusReads.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: group_reads_by_umi/output_bam
@@ -141,7 +135,7 @@ steps:
       [output_bam]
 
   filter_consensus_reads:
-    run: ./cmo-fulcrum.FilterConsensusReads/0.2.0/cmo-fulcrum.FilterConsensusReads.cwl
+    run: ../tools/fulcrum/FilterConsensusReads.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: call_duplex_consensus_reads/output_bam
@@ -152,28 +146,28 @@ steps:
       [output_bam]
 
   sort_bam_queryname:
-    run: ./innovation-sort-bam/0.0.0/innovation-sort-bam.cwl
+    run: ../tools/innovation-sort-bam/innovation-sort-bam.cwl
     in:
       input_bam: filter_consensus_reads/output_bam
     out:
       [bam_sorted_queryname]
 
   samtools_fastq:
-    run: ./innovation-samtools-fastq/0.0.0/innovation-samtools-fastq.cwl
+    run: ../tools/innovation-samtools-fastq/innovation-samtools-fastq.cwl
     in:
       input_bam: sort_bam_queryname/bam_sorted_queryname
     out:
       [output_read_1, output_read_2]
 
   gzip_1:
-    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: samtools_fastq/output_read_1
     out:
       [output]
 
   gzip_2:
-    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: samtools_fastq/output_read_2
     out:

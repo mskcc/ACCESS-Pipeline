@@ -153,7 +153,7 @@ steps:
       waltz_reference_fasta_fai: waltz_reference_fasta_fai
 
     # I7 adapter is different for each sample, I5 is not
-    scatter: [adapter,fastq1,fastq2,sample_sheet,add_rg_LB,add_rg_ID,add_rg_PU,add_rg_SM]
+    scatter: [adapter, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
 
     scatterMethod: dotproduct
 
@@ -168,14 +168,14 @@ steps:
 
 
   standard_consolidate_bam_metrics:
-    run: ./innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: scatter_step/standard_waltz_files
     out:
       [waltz_files]
 
   fulcrum_consolidate_bam_metrics:
-    run: ./innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: scatter_step/fulcrum_waltz_files
     out:
@@ -187,7 +187,7 @@ steps:
   ################################################
 
   standard_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: standard_consolidate_bam_metrics/waltz_files
     out:
@@ -201,7 +201,7 @@ steps:
 #      [output_dir]
 
   fulcrum_aggregate_bam_metrics:
-    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
+    run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: fulcrum_consolidate_bam_metrics/waltz_files
     out:
@@ -213,7 +213,7 @@ steps:
   #################
 
   innovation_qc:
-    run: ./innovation-qc/0.0.0/innovation-qc.cwl
+    run: ../tools/innovation-qc/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
 #      marianas_waltz_metrics: marianas_aggregate_bam_metrics/output_dir
