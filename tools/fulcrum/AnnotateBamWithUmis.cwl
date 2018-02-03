@@ -46,7 +46,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     # Requires large amount of ram (loads all read names into a java hashmap)
-    ramMin: 30
+    ramMin: 30000
     coresMin: 1
 
 doc: |

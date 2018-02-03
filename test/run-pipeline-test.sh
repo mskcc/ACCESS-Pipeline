@@ -1,11 +1,42 @@
 #!/bin/bash
 
+
+
+job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+
+jobstore_base="/ifs/work/bergerm1/Innovation/sandbox/ian/JOBSTOREPATH/tmp/"
+
+mkdir -p ${jobstore_base}
+
+jobstore_path="${jobstore_base}/jobstore-${job_store_uuid}"
+
+output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian/outputs'))"`
+
+# create output directory
+mkdir -p ${output_directory}
+mkdir -p ${output_directory}/log
+mkdir -p ${output_directory}/tmp
+
+
 cwltoil \
     ../workflows/innovation_pipeline.cwl \
     inputs-pipeline-test.yaml \
     --batchSystem singleMachine \
-    --preserve-environment PATH PYTHONPATH
+    --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
+    --defaultDisk 10G \
+    --defaultMem 50G \
+    --outdir ${output_directory} \
+    --writeLogs	${output_directory}/log \
+    --logFile ${output_directory}/log/cwltoil.log \
+    --no-container \
+    --cleanWorkDir never \
+    --disableCaching \
+    --realTimeLogging \
+    --workDir ${output_directory}/tmp \
+    --jobStore file://${jobstore_path}
 
+
+#    --logDebug \
 
 # Additional options:
 #
@@ -15,13 +46,4 @@ cwltoil \
 #    --logDebug --cleanWorkDir never
 
 
-#    --jobStore file://${jobstore_path} \
-#    --defaultDisk 10G \
-#    --defaultMem 50G \
-#    --no-container \
-#    --disableCaching \
-#    --realTimeLogging \
 #    --maxLogFileSize 0 \
-#    --writeLogs	${output_directory}/log \
-#    --logFile ${output_directory}/log/cwltoil.log \
-#    --workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp \

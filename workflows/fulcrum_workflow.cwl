@@ -76,7 +76,7 @@ outputs:
 
 steps:
   innovation_extract_read_names:
-    run: ../tools/innovation-extract-reads/innovation-extract-read-names.cwl
+    run: ../tools/innovation-extract-read-names/innovation-extract-read-names.cwl
     in:
       input_bam: input_bam
     out:
