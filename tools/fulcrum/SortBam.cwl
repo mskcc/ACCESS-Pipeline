@@ -46,7 +46,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     # Requires large amount of memory
-    ramMin: 30
+    ramMin: 30000
     coresMin: 1
 
 doc: |
