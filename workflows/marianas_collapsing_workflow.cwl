@@ -67,7 +67,7 @@ outputs:
 
 steps:
   first_pass:
-    run: ./cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass/0.0.0/cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass.cwl
+    run: ../tools/marianas/DuplexUMIBamToCollapsedFastqFirstPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -89,7 +89,7 @@ steps:
       [output_file]
 
   second_pass:
-    run: ./cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass/0.0.0/cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass.cwl
+    run: ../tools/marianas/DuplexUMIBamToCollapsedFastqSecondPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -102,14 +102,14 @@ steps:
       [collapsed_fastq]
 
   gzip_fastq_1:
-    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq
     out:
       [output]
 
   gzip_fastq_2:
-    run: ./innovation-gzip-fastq/0.0.0/innovation-gzip-fastq.cwl
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: first_pass/collapsed_fastq
     out:

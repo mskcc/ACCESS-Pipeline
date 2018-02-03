@@ -1,0 +1,164 @@
+######################
+# Inputs for 5500-EM #
+# 2nd run with new lib inputs? #
+######################
+
+title_file: {class: File, path: '/home/johnsoni/Project_05500_EM-title-file--new-run.txt'}
+
+
+##########
+# Fastqs #
+##########
+
+fastq1: [
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-30ng_IGO_05500_EM_1/TD-grail-162-30ng_IGO_05500_EM_1_S1_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng-S_IGO_05500_EM_2/TD-grail-162-10ng-S_IGO_05500_EM_2_S2_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng_IGO_05500_EM_3/TD-grail-162-10ng_IGO_05500_EM_3_S3_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-30ng_IGO_05500_EM_4/TD-grail-116-30ng_IGO_05500_EM_4_S4_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng-S_IGO_05500_EM_5/TD-grail-116-10ng-S_IGO_05500_EM_5_S5_R1_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng_IGO_05500_EM_6/TD-grail-116-10ng_IGO_05500_EM_6_S6_R1_001.fastq.gz'
+  ]
+
+fastq2: [
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-30ng_IGO_05500_EM_1/TD-grail-162-30ng_IGO_05500_EM_1_S1_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng-S_IGO_05500_EM_2/TD-grail-162-10ng-S_IGO_05500_EM_2_S2_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng_IGO_05500_EM_3/TD-grail-162-10ng_IGO_05500_EM_3_S3_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-30ng_IGO_05500_EM_4/TD-grail-116-30ng_IGO_05500_EM_4_S4_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng-S_IGO_05500_EM_5/TD-grail-116-10ng-S_IGO_05500_EM_5_S5_R2_001.fastq.gz',
+  '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng_IGO_05500_EM_6/TD-grail-116-10ng_IGO_05500_EM_6_S6_R2_001.fastq.gz'
+  ]
+
+sample_sheet: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-30ng_IGO_05500_EM_1/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng-S_IGO_05500_EM_2/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-162-10ng_IGO_05500_EM_3/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-30ng_IGO_05500_EM_4/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng-S_IGO_05500_EM_5/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0133_AHNKVFBBXX/Project_05500_EM/Sample_TD-grail-116-10ng_IGO_05500_EM_6/SampleSheet.csv'}
+  ]
+
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+
+umi_length: '3'
+output_project_folder: '.'
+# todo - remove:
+outdir: '.'
+
+
+############
+# Module 1 #
+############
+
+add_rg_ID: [
+  TD-grail-162-30ng_IGO_05500_EM_1,
+  TD-grail-162-10ng-S_IGO_05500_EM_2,
+  TD-grail-162-10ng_IGO_05500_EM_3,
+  TD-grail-116-30ng_IGO_05500_EM_4,
+  TD-grail-116-10ng-S_IGO_05500_EM_5,
+  TD-grail-116-10ng_IGO_05500_EM_6
+]
+
+
+add_rg_PL: "Illumina"
+add_rg_CN: "InnovationLab"
+
+add_rg_LB: [
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage
+  ]
+
+# todo - should these come from SampleSheet.csv or the reverse complements in barcodeKey96.txt?
+add_rg_PU: [
+  CTGATCGT,
+  ACTCTCGA,
+  TGAGCTAG,
+  GAGACGAT,
+  CTTGTCGA,
+  TTCCAAGG
+]
+
+add_rg_SM: [
+  TD-grail-162-30ng_IGO_05500_EM_1,
+  TD-grail-162-10ng-S_IGO_05500_EM_2,
+  TD-grail-162-10ng_IGO_05500_EM_3,
+  TD-grail-116-30ng_IGO_05500_EM_4,
+  TD-grail-116-10ng-S_IGO_05500_EM_5,
+  TD-grail-116-10ng_IGO_05500_EM_6
+]
+
+
+# I7 Adapters (with barcodes)
+# 6: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTGATCGT ATATCTCGTATGCCGTCTTCTGCTTG,
+# 5: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC ACTCTCGA ATATCTCGTATGCCGTCTTCTGCTTG,
+# 4: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGAGCTAG ATATCTCGTATGCCGTCTTCTGCTTG,
+# 3: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GAGACGAT ATATCTCGTATGCCGTCTTCTGCTTG,
+# 2: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTTGTCGA ATATCTCGTATGCCGTCTTCTGCTTG,
+# 1: GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTCCAAGG ATATCTCGTATGCCGTCTTCTGCTTG
+
+# todo - check that these are right:
+adapter: [
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTGATCGTATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTCTCGAATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGAGCTAGATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACGAGACGATATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTTGTCGAATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTCCAAGGATATCTCGTATGCCGTCTTCTGCTTG'
+  ]
+
+# I5 Adapter
+# todo - always universal?
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+genome: "GRCh37"
+tmp_dir: /scratch
+
+
+###########
+# Fulcrum #
+###########
+
+tmp_dir: '/scratch'
+
+# SortBam
+sort_order: 'Queryname'
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+
+# FilterConsensusReads
+reference_fasta:
+  class: File
+  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+
+filter_min_reads: '1'
+filter_min_base_quality: '30'
+
+
+############
+# Marianas #
+############
+
+#marianas_mismatches: string
+#marianas_wobble: string
+
+
+#########
+# Waltz #
+#########
+
+coverage_threshold: '20'
+
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+bed_file: '/home/johnsoni/bedfiles/PanCancer_v2_0_probe_A.bed'
+
+min_mapping_quality: '20'
+waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+waltz_reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'

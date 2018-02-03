@@ -23,7 +23,7 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Jaeyoung Chun
+    foaf:name: Ian Johnson
     foaf:mbox: mailto:chunj@mskcc.org
 
 dct:contributor:
@@ -31,21 +31,17 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Christopher Harris
-    foaf:mbox: mailto:harrisc2@mskcc.org
-  - class: foaf:Person
-    foaf:name: Ronak H. Shah
-    foaf:mbox: mailto:shahr2@mskcc.org
-  - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
 cwlVersion: v1.0
 
 class: Workflow
+
 requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+
 
 inputs:
 
@@ -70,10 +66,11 @@ inputs:
 
   tmp_dir: string
 
+
 steps:
 
-    cmo-trimgalore:
-        run: ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
+    trimgalore:
+        run: ../tools/trimgalore/0.2.5.mod/trimgalore.cwl
         in:
           adapter: adapter
           adapter2: adapter2
@@ -81,8 +78,8 @@ steps:
           fastq2: fastq2
         out: [clfastq1,clfastq2,clstats1,clstats2]
 
-    cmo-bwa-mem:
-        run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
+    bwa_mem:
+        run: ../tools/bwa-mem/0.7.5a/bwa-mem.cwl
         in:
           fastq1: cmo-trimgalore/clfastq1
           fastq2: cmo-trimgalore/clfastq2
@@ -90,10 +87,10 @@ steps:
           output: bwa_output
         out: [bam]
 
-    cmo-picard.AddOrReplaceReadGroups:
-        run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+    picard.AddOrReplaceReadGroups:
+        run: ../tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
         in:
-          I: cmo-bwa-mem/bam
+          I: bwa_mem/bam
           O: add_rg_output
           LB: add_rg_LB
           PL: add_rg_PL
@@ -106,35 +103,36 @@ steps:
           TMP_DIR: tmp_dir
         out: [bam, bai]
 
-    cmo-picard.MarkDuplicates:
-        run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+    picard.MarkDuplicates:
+        run: ../tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
         in:
           I:
-            source: cmo-picard.AddOrReplaceReadGroups/bam
+            source: picard.AddOrReplaceReadGroups/bam
             valueFrom: ${ return [self]; }
           O: md_output
           M: md_metrics_output
           TMP_DIR: tmp_dir
         out: [bam,bai,mdmetrics]
 
+
 outputs:
 
   clstats1:
     type: File
-    outputSource: cmo-trimgalore/clstats1
+    outputSource: trimgalore/clstats1
 
   clstats2:
     type: File
-    outputSource: cmo-trimgalore/clstats2
+    outputSource: trimgalore/clstats2
 
   bam:
     type: File
-    outputSource: cmo-picard.MarkDuplicates/bam
+    outputSource: picard.MarkDuplicates/bam
 
   bai:
     type: File
-    outputSource: cmo-picard.MarkDuplicates/bai
+    outputSource: picard.MarkDuplicates/bai
 
   md_metrics:
     type: File
-    outputSource: cmo-picard.MarkDuplicates/mdmetrics
+    outputSource: picard.MarkDuplicates/mdmetrics
