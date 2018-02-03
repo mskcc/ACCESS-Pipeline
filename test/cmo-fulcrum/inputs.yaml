@@ -1,0 +1,30 @@
+tmp_dir: '/scratch'
+
+# extract_read_names
+
+# map_read_names_to_umis
+
+# AnnotateBamWithUmis
+input_bam:
+  class: File
+  path: /ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_sorted--subset-14-105258897-105259017_mapped_paired_sorted.bam
+
+# SortBam
+sort_order: 'Queryname'
+
+# SetMateInformation
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+
+# CallDuplexConsensusReads
+
+# FilterConsensusReads
+reference_fasta:
+  class: File
+  path: /ifs/work/bergerm1/pererad1/impact-GRCh37/Homo_sapiens_assembly19.fasta
+
+filter_min_reads: '1'
+filter_min_base_quality: '30'

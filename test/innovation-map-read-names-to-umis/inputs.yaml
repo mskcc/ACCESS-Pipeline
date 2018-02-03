@@ -1,0 +1,1 @@
+read_names: {class: File, path: '../../test-data/innovation-extract-read-names/ZS-msi-4506-pl-T01_IGO_05500_EF_41_readNames.bed'}

@@ -1,0 +1,3 @@
+tmp_dir: '/scratch'
+input_bam: {class: File, path: '../..//test-data/cmo-fulcrum.AnnotateBamWithUmis/ZS-msi-4506-pl-T01_IGO_05500_EF_41_fulcrumAnnotated.bam'}
+sort_order: 'Queryname'

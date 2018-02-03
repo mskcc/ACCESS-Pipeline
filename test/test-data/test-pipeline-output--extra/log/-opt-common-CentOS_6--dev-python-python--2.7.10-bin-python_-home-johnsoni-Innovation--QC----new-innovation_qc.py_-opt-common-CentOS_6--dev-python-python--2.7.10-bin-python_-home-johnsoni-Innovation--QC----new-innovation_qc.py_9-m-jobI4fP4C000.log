@@ -1,0 +1,126 @@
+---TOIL WORKER OUTPUT LOG---
+DEBUG:toil.worker:Next available file descriptor: 5
+INFO:toil:Running Toil version 3.8.0a1-00e1d79d29564886f5e43a9cd00e2ddec31e35c5-dirty.
+DEBUG:toil:Configuration: {'rescueJobsFrequency': 3600, 'logLevel': 'DEBUG', 'maxMemory': 9223372036854775807, 'jobStore': 'file:/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/variant/1.3.1/bin/tmp/jobstore-435234d0-fb1c-11e7-8adf-8cdcd4013cd4', 'defaultPreemptable': False, 'disableHotDeployment': False, 'maxPreemptableServiceJobs': 9223372036854775807, 'servicePollingInterval': 60, 'workDir': '/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/variant/1.3.1/bin/tmp', 'stats': True, 'disableCaching': True, 'sseKey': None, 'nodeOptions': None, 'environment': {}, 'minNodes': 0, 'cleanWorkDir': 'never', 'maxCores': 9223372036854775807, 'minPreemptableNodes': 0, 'maxPreemptableNodes': 0, 'maxDisk': 9223372036854775807, 'scaleInterval': 30, 'deadlockWait': 60, 'preemptableNodeType': None, 'nodeType': None, 'clusterStats': None, 'defaultCores': 1, 'parasolMaxBatches': 10000, 'cseKey': None, 'betaInertia': 1.2, 'maxNodes': 10, 'scale': 1, 'writeLogs': '/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/log', 'badWorker': 0.0, 'defaultDisk': 10737418240, 'mesosMasterAddress': 'localhost:5050', 'restart': False, 'useAsync': True, 'preemptableCompensation': 0.0, 'parasolCommand': 'parasol', 'workflowID': '2a179d14-aaaf-45bd-a9ae-86b4b71f53e0', 'alphaPacking': 0.8, 'maxServiceJobs': 9223372036854775807, 'readGlobalFileMutableByDefault': False, 'badWorkerFailInterval': 0.01, 'maxLogFileSize': 0, 'defaultMemory': 53687091200, 'preemptableNodeOptions': None, 'workflowAttemptNumber': 0, 'maxJobDuration': 9223372036854775807, 'clean': 'never', 'provisioner': None, 'batchSystem': 'lsf', 'retryCount': 0, 'writeLogsGzip': None}
+DEBUG:toil.worker:Parsed jobGraph
+DEBUG:toil.worker:Got a command to run: _toil Z/0/jobvGo3MK/g/tmp0Y9P3z.tmp /opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/toil-3.8.0a1-py2.7.egg toil.cwl.cwltoil False
+DEBUG:toil.job:Loading user module ModuleDescriptor(dirPath='/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/toil-3.8.0a1-py2.7.egg', name='toil.cwl.cwltoil', fromVirtualEnv=False).
+DEBUG:rdflib:RDFLib Version: 4.2.2
+DEBUG:toil.job:Getting CWLJob from module toil.cwl.cwltoil.
+DEBUG:toil.job:Getting IndirectDict from module toil.cwl.cwltoil.
+DEBUG:toil.job:Getting Promise from module toil.job.
+DEBUG:toil.jobStores.fileJobStore:Path to job store directory is '/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/variant/1.3.1/bin/tmp/jobstore-435234d0-fb1c-11e7-8adf-8cdcd4013cd4'.
+DEBUG:toil.job:Getting CommentedSeq from module ruamel.yaml.comments.
+DEBUG:toil.job:Getting Format from module ruamel.yaml.comments.
+DEBUG:toil.job:Getting LineCol from module ruamel.yaml.comments.
+DEBUG:toil.job:Getting CommentedMap from module ruamel.yaml.comments.
+DEBUG:toil.job:Getting FileID from module toil.fileStore.
+DEBUG:toil.job:Getting Config from module toil.common.
+DEBUG:toil.job:Getting defaultdict from module collections.
+DEBUG:toil.job:Getting list from module __builtin__.
+DEBUG:toil.job:Getting CommandLineTool from module cwltool.draft2tool.
+DEBUG:toil.job:Getting Names from module avro.schema.
+DEBUG:toil.job:Getting RecordSchema from module avro.schema.
+DEBUG:toil.job:Getting Field from module avro.schema.
+DEBUG:toil.job:Getting PrimitiveSchema from module avro.schema.
+DEBUG:toil.job:Getting PreservedScalarString from module ruamel.yaml.scalarstring.
+DEBUG:toil.job:Getting UnionSchema from module avro.schema.
+DEBUG:toil.job:Getting EnumSchema from module avro.schema.
+DEBUG:toil.job:Getting ArraySchema from module avro.schema.
+DEBUG:toil.job:Getting Comment from module ruamel.yaml.comments.
+DEBUG:toil.job:Getting CommentToken from module ruamel.yaml.tokens.
+DEBUG:toil.job:Getting FileMark from module ruamel.yaml.error.
+DEBUG:toil.job:Getting Builder from module cwltool.builder.
+DEBUG:toil.job:Getting StdFsAccess from module cwltool.stdfsaccess.
+DEBUG:toil.job:Getting ModuleDescriptor from module toil.resource.
+DEBUG:toil.job:Getting set from module __builtin__.
+[job innovation-qc.cwl] /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe$ /opt/common/CentOS_6-dev/python/python-2.7.10/bin/python \
+    /home/johnsoni/Innovation-QC--new/innovation_qc.py \
+    -fw \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg1cd897ce-87d1-4d0f-b052-5b6ffa229279/tmpiLFl57 \
+    -sw \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg8ef7bd2e-ed4e-403b-8492-1b8566b3c178/tmpcBN6gl \
+    -t \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg88283cac-659a-4db5-a405-6c64c4012ab0/Project_05500_EF-test-title-file.txt
+INFO:cwltool:[job innovation-qc.cwl] /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe$ /opt/common/CentOS_6-dev/python/python-2.7.10/bin/python \
+    /home/johnsoni/Innovation-QC--new/innovation_qc.py \
+    -fw \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg1cd897ce-87d1-4d0f-b052-5b6ffa229279/tmpiLFl57 \
+    -sw \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg8ef7bd2e-ed4e-403b-8492-1b8566b3c178/tmpcBN6gl \
+    -t \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg88283cac-659a-4db5-a405-6c64c4012ab0/Project_05500_EF-test-title-file.txt
+                              Sample FragmentSize TotalFrequency
+1 ZS-msi-4506-pl-T01-IGO-05500-EF-41            2           4058
+2 ZS-msi-4506-pl-T01-IGO-05500-EF-41          103              1
+3 ZS-msi-4506-pl-T01-IGO-05500-EF-41          102              1
+4 ZS-msi-4506-pl-T01-IGO-05500-EF-41          101              3
+5 ZS-msi-4506-pl-T01-IGO-05500-EF-41          100              2
+6 ZS-msi-4506-pl-T01-IGO-05500-EF-41           98              8
+  UniqueFrequency Barcode             Pool Collab_ID Patient_ID  Class
+1             201   bc405 Project_05500_EF         -          - Normal
+2               1   bc405 Project_05500_EF         -          - Normal
+3               1   bc405 Project_05500_EF         -          - Normal
+4               3   bc405 Project_05500_EF         -          - Normal
+5               1   bc405 Project_05500_EF         -          - Normal
+6               2   bc405 Project_05500_EF         -          - Normal
+  Sample_type Input_ng Library_yield Pool_input Bait_version Gender PatientName
+1           -        -             -          -            -      -           -
+2           -        -             -          -            -      -           -
+3           -        -             -          -            -      -           -
+4           -        -             -          -            -      -           -
+5           -        -             -          -            -      -           -
+6           -        -             -          -            -      -           -
+  MAccession Extracted_DNA_Yield
+1          -                   -
+2          -                   -
+3          -                   -
+4          -                   -
+5          -                   -
+6          -                   -
+                              Sample PeakTotal PeakTotalSize PeakUnique
+1 ZS-msi-4506-pl-T01-IGO-05500-EF-41      4058             2        201
+  PeakUniqueSize Barcode             Pool Collab_ID Patient_ID  Class
+1              2   bc405 Project_05500_EF         -          - Normal
+  Sample_type Input_ng Library_yield Pool_input Bait_version Gender PatientName
+1           -        -             -          -            -      -           -
+  MAccession Extracted_DNA_Yield
+1          -                   -
+null device 
+          1 
+Warning messages:
+1: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+2: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+3: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+4: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+5: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+6: Removed 24 rows containing missing values (geom_smooth). 
+7: Removed 1 rows containing non-finite values (stat_density). 
+8: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+9: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+10: In `levels<-`(`*tmp*`, value = if (nl == nL) as.character(labels) else paste0(labels,  :
+  duplicated levels in factors are deprecated
+Working Dir: /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe
+('Sample Group: ', ['ZS-msi-4506-pl-T01_IGO_05500_EF_41', 'ZS_msi_4506_pl_T01_IGO_05500_EF_41', 'ZS-msi-4506-pl-T01-IGO-05500-EF-41'])
+('Sample Group: ', ['ZS-msi-4506-pl-T01_IGO_05500_EF_41', 'ZS_msi_4506_pl_T01_IGO_05500_EF_41', 'ZS-msi-4506-pl-T01-IGO-05500-EF-41'])
+Group files: 
+['ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions']
+('Sample Group: ', ['ZS-msi-4506-pl-T01_IGO_05500_EF_41', 'ZS_msi_4506_pl_T01_IGO_05500_EF_41', 'ZS-msi-4506-pl-T01-IGO-05500-EF-41'])
+Group files: 
+['ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt', 'ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions']
+Running table module with args: -o results/tables-output  -sw /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe/results/standard-waltz-output -fw /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe/results/fulcrum-waltz-output
+Running plots module with cmd: /opt/common/CentOS_6-dev/R/R-3.3.1/bin/Rscript --vanilla /home/johnsoni/Innovation-QC--new/plot-modules/plotting-collapsed-bams.r -i results/tables-output -w /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpx9Rkpe/results/standard-waltz-output -o results/final-plots -t /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmp00egvD/stg88283cac-659a-4db5-a405-6c64c4012ab0/Project_05500_EF-test-title-file.txt
+Plots module return code: 0
+[job innovation-qc.cwl] completed success
+INFO:cwltool:[job innovation-qc.cwl] completed success
+DEBUG:toil.fileStore:LOG-TO-MASTER: Job Z/0/jobvGo3MK/g/tmp0Y9P3z.tmp used 6.98% (143.0 MB [149944320B] used, 2.0 GB [2147483648B] requested) at the end of its run.
+DEBUG:toil.worker:Stopping running chain of jobs: length of stack: 0, services: 0, checkpoint: False
+INFO:toil.worker:Worker log can be found at /ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/variant/1.3.1/bin/tmp/toil-2a179d14-aaaf-45bd-a9ae-86b4b71f53e0/tmp2FNJ5m. Set --cleanWorkDir to retain this log
+INFO:toil.worker:Finished running the chain of jobs on this node, we ran for a total of 63.191296 seconds

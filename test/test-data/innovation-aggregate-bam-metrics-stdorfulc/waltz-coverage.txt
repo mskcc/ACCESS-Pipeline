@@ -1,0 +1,2 @@
+Sample	TotalCoverage	UniqueCoverage
+ZS-msi-4506-pl-T01_IGO_05500_EF_41	1.47704511677	0.166902114832

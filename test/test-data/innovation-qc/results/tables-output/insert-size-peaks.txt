@@ -1,0 +1,2 @@
+PeakTotal	PeakTotalSize	PeakUnique	PeakUniqueSize	Sample
+4058.0	2.0	201.0	2.0	ZS-msi-4506-pl-T01_IGO_05500_EF_41

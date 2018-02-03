@@ -1,0 +1,50 @@
+{
+    "fulcrum_bams": [
+        {
+            "checksum": "sha1$c6b37da0ad5e31e067da5a6beef36aa403dd3044", 
+            "basename": "ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam", 
+            "location": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam", 
+            "path": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$bf41ebdb56c58c21d918a539e5b3bdf9c089810a", 
+                    "basename": "ZS-msi-4506-pl-T01_IGO_05500_EF_41.bai", 
+                    "location": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bai", 
+                    "path": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bai", 
+                    "class": "File", 
+                    "size": 52160
+                }
+            ], 
+            "class": "File", 
+            "size": 2292
+        }
+    ], 
+    "qc_report": {
+        "checksum": "sha1$8d3ad929649741024c2dae847b9c115c416e840f", 
+        "basename": "qc_results.Tue-Jan-16-2018_19-50-45.pdf", 
+        "location": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/qc_results.Tue-Jan-16-2018_19-50-45.pdf", 
+        "path": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/qc_results.Tue-Jan-16-2018_19-50-45.pdf", 
+        "class": "File", 
+        "size": 17369
+    }, 
+    "standard_bams": [
+        {
+            "checksum": "sha1$6cf977de322f6525c65885e1b54368e084507150", 
+            "basename": "ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam", 
+            "location": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41_2.bam", 
+            "path": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41_2.bam", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$19425ad748481eda7fb3a45c9455d5484baf8eb3", 
+                    "basename": "ZS-msi-4506-pl-T01_IGO_05500_EF_41.bai", 
+                    "location": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41_2.bai", 
+                    "path": "/ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/ZS-msi-4506-pl-T01_IGO_05500_EF_41_2.bai", 
+                    "class": "File", 
+                    "size": 52160
+                }
+            ], 
+            "class": "File", 
+            "size": 1423932
+        }
+    ]
+}

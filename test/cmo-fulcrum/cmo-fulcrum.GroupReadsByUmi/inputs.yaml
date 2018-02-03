@@ -1,0 +1,5 @@
+tmp_dir: '/scratch'
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+input_bam: {class: File, path: '../../test-data/cmo-fulcrum.SetMateInformation/ZS-msi-4506-pl-T01_IGO_05500_EF_41_fulcrumAnnotated_fulcrumSorted_fulcrumMateFixed.bam'}

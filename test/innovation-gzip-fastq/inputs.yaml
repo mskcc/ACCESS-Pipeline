@@ -1,0 +1,1 @@
+input_fastq: {class: File, path: '../../test-data/innovation-samtools-fastq/ZS-msi-4506-pl-T01_IGO_05500_EF_41_fulcrumAnnotated_fulcrumSorted_fulcrumMateFixed_fulcrumGrouped_fulcrumConsensus_fulcrumFiltered_postFulcrumSorted_postFulcrum_R2.fastq'}

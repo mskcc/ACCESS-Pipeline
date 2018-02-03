@@ -1,0 +1,30 @@
+#input_bam: File
+#reference_fasta: File
+#mismatches: string
+#wobble: string
+#output_dir: string
+#
+#pileup: File
+#
+#output_bam_filename:
+#  type: ['null', string]
+#  default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#  inputBinding:
+#    prefix: --output_bam_filename
+#    valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+
+
+input_bam: {class: File, path: '../test-data/test-pipeline-output--extra/standard_markDuplicates/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam'}
+
+reference_fasta:
+  class: File
+  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+
+mismatches: '1'
+wobble: '2'
+min_consensus_percent: '50'
+output_dir: '.'
+
+pileup: {class: File, path: '../test-data/cmo-waltz.PileupMetrics-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt'}
+
+# output_bam_filename:

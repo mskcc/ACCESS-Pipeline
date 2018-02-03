@@ -1,0 +1,45 @@
+inputs:
+  files_1:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    inputBinding:
+      position: 1
+
+  files_2:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    inputBinding:
+      position: 2
+
+outputs:
+  output_files:
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: '*'
+
+expression: '${
+  var flattened_files_1 = [].concat.apply([], inputs.files_1);
+  var flattened_files_2 = [].concat.apply([], inputs.files_2);
+
+  return { "output_files": flattened_files_1.concat(flattened_files_2) }
+}'
+
+
+
+files_1:
+- []
+- []
+- []
+
+files_2:
+- []
+- []
+- []

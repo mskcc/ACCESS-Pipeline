@@ -1,0 +1,17 @@
+waltz_input_files: [
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts'},
+
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt'},
+  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt'}
+]

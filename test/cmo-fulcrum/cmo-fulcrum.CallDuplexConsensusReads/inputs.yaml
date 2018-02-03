@@ -1,0 +1,2 @@
+tmp_dir: '/scratch'
+input_bam: {class: File, path: '../../test-data/cmo-fulcrum.GroupReadsByUmi/ZS-msi-4506-pl-T01_IGO_05500_EF_41_fulcrumAnnotated_fulcrumSorted_fulcrumMateFixed_fulcrumGrouped.bam'}

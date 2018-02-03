@@ -1,0 +1,2 @@
+Bam	ID	TotalReads	UnmappedReads	TotalMapped	UniqueMapped	DuplicateFraction	TotalOnTarget	UniqueOnTarget	TotalOnTargetFraction	UniqueOnTargetFraction
+ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam	ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam	6	0	6	6	0.0	6	6	1	1
