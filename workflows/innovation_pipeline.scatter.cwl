@@ -151,7 +151,7 @@ steps:
   #########################
 
   cmo_process_loop_umi_fastq:
-    run: ./cmo-marianas.ProcessLoopUMIFastq/0.0.0/cmo-marianas.ProcessLoopUMIFastq.cwl
+    run: ../tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
@@ -195,7 +195,7 @@ steps:
   #############################
 
   standard_waltz_count_reads:
-    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    run: ../tools/waltz/CountReads.cwl
     in:
       input_bam: module_1_innovation/bam
       coverage_threshold: coverage_threshold
@@ -208,7 +208,7 @@ steps:
     ]
 
   standard_waltz_pileup_metrics:
-    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    run: ../tools/waltz/PileupMetrics.cwl
     in:
       input_bam: module_1_innovation/bam
       min_mapping_quality: min_mapping_quality
@@ -223,7 +223,7 @@ steps:
     ]
 
   group_standard_waltz_files:
-    run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
       covered_regions: standard_waltz_count_reads/covered_regions
       fragment_sizes: standard_waltz_count_reads/fragment_sizes
@@ -288,7 +288,7 @@ steps:
   #################################
 
   fulcrum_waltz_count_reads:
-    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    run: ../tools/waltz/CountReads.cwl
     in:
       input_bam: module_1_post_fulcrum/bam
       coverage_threshold: coverage_threshold
@@ -301,7 +301,7 @@ steps:
     ]
 
   fulcrum_waltz_pileup_metrics:
-    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    run: ../tools/waltz/PileupMetrics.cwl
     in:
       input_bam: module_1_post_fulcrum/bam
       min_mapping_quality: min_mapping_quality
@@ -316,7 +316,7 @@ steps:
     ]
 
   group_fulcrum_waltz_files:
-    run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
       covered_regions: fulcrum_waltz_count_reads/covered_regions
       fragment_sizes: fulcrum_waltz_count_reads/fragment_sizes

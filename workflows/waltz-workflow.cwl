@@ -71,10 +71,11 @@ outputs:
       items: File
     outputSource: grouped_waltz_files/waltz_files
 
+
 steps:
 
   count_reads:
-    run: ./cmo-waltz.CountReads/0.0.0/cmo-waltz.CountReads.cwl
+    run: ../tools/waltz/CountReads.cwl
     in:
       input_bam: input_bam
       coverage_threshold: coverage_threshold
@@ -84,10 +85,10 @@ steps:
       covered_regions,
       fragment_sizes,
       read_counts
-      ]
+    ]
 
   pileup_metrics:
-    run: ./cmo-waltz.PileupMetrics/0.0.0/cmo-waltz.PileupMetrics.cwl
+    run: ../tools/waltz/PileupMetrics.cwl
     in:
       input_bam: input_bam
       min_mapping_quality: min_mapping_quality
@@ -99,10 +100,10 @@ steps:
       pileup_without_duplicates,
       intervals,
       intervals_without_duplicates
-      ]
+    ]
 
   grouped_waltz_files:
-    run: ./innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
       covered_regions: count_reads/covered_regions
       fragment_sizes: count_reads/fragment_sizes
@@ -112,4 +113,3 @@ steps:
       intervals: pileup_metrics/intervals
       intervals_without_duplicates: pileup_metrics/intervals_without_duplicates
     out: [waltz_files]
-

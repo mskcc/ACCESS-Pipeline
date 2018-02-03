@@ -1,20 +1,27 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.3.1"
+cwltoil \
+    ../workflows/innovation_pipeline.cwl \
+    inputs-pipeline-test.yaml \
+    --batchSystem singleMachine \
+    --preserve-environment PATH PYTHONPATH
 
-# This test pipeline gets run with
-# singleMachine (don't use lsf / bjobs)
-# and -d (debug output)
 
-roslin-runner.sh \
-    -v ${pipeline_name_version} \
-    -w innovation_pipeline.cwl \
-    -i inputs-pipeline-test.yaml \
-    -b singleMachine \
-    -d \
-    -o /ifs/work/bergerm1/Innovation/sandbox/ian/pipeline-test-2-2-2017
+# Additional options:
+#
+#    --batchSystem lsf --stats \
+#    --restart \
+#    --outDir .
+#    --logDebug --cleanWorkDir never
 
-# (Include for restarting failed job):
-#    -r \
-# --> translates to:
-# --logDebug --cleanWorkDir never
+
+#    --jobStore file://${jobstore_path} \
+#    --defaultDisk 10G \
+#    --defaultMem 50G \
+#    --no-container \
+#    --disableCaching \
+#    --realTimeLogging \
+#    --maxLogFileSize 0 \
+#    --writeLogs	${output_directory}/log \
+#    --logFile ${output_directory}/log/cwltoil.log \
+#    --workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp \

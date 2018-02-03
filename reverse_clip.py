@@ -1,3 +1,6 @@
+# Script to reverse engineer UMI-tagged fastqs from bams
+# ---
+
 import sys
 import gzip
 from itertools import izip
@@ -18,7 +21,7 @@ from itertools import izip
 
 
 # We take the UMIs from the read name, split them, and stick them on the beginnings of the R1 and R2 files,
-# following IDT UMI rules for adding support bases
+# following IDT loop UMI rules for adding support bases
 # todo - randomly using G for length 2 support bases - correct?
 #
 # Output R1:
