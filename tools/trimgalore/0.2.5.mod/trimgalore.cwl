@@ -48,7 +48,7 @@ requirements:
   expressionLib:
   - var getBaseName = function(inputFile) { return inputFile.basename; };
 - class: ResourceRequirement
-  ramMin: 10
+  ramMin: 4000
   coresMin: 2 
 
 

@@ -76,18 +76,18 @@ steps:
       out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
-    run: ./bwa_mem/0.7.5a/bwa_mem.cwl
+    run: ../tools/bwa-mem/0.7.5a/bwa-mem.cwl
     in:
-      fastq1: fastq1
-      fastq2: fastq2
+      fastq1: trimgalore/clfastq1
+      fastq2: trimgalore/clfastq2
       genome: genome
       output_suffix: output_suffix
     out: [bam]
 
   picard.AddOrReplaceReadGroups:
-    run: ./picard.AddOrReplaceReadGroups/1.96/picard.AddOrReplaceReadGroups.cwl
+    run: ../tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
     in:
-      I: cmo-bwa-mem/bam
+      I: bwa_mem/bam
       LB: add_rg_LB
       PL: add_rg_PL
       ID: add_rg_ID
@@ -99,8 +99,8 @@ steps:
       TMP_DIR: tmp_dir
     out: [bam, bai]
 
-  cmo-picard.MarkDuplicates:
-    run: ./picard.MarkDuplicates/1.96/picard.MarkDuplicates.cwl
+  picard.MarkDuplicates:
+    run: ../tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
     in:
       I:
         source: picard.AddOrReplaceReadGroups/bam
