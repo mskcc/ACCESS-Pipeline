@@ -46,7 +46,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10000
+    ramMin: 30000
     coresMin: 4
 
 doc: |
