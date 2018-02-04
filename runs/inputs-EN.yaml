@@ -156,7 +156,7 @@ filter_min_base_quality: '30'
 coverage_threshold: '20'
 
 gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
-bed_file: '/home/johnsoni/bedfiles/PanCancer_v2_0_probe_A.bed'
+bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
 
 min_mapping_quality: '20'
 waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'

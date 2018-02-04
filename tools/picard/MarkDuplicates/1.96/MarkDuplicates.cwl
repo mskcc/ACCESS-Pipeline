@@ -23,24 +23,22 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
 dct:contributor:
 - class: foaf:Organization
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_picard --generate_cwl_tool
-# Help: $ cmo_picard --help_arg2cwl
 
 cwlVersion: v1.0
 
 class: CommandLineTool
+
 baseCommand:
 - cmo_picard
 - --cmd
@@ -49,12 +47,13 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4000
+    ramMin: 30000
     coresMin: 2
 
 
 doc: |
   None
+
 
 inputs:
   MAX_FILE_HANDLES:
