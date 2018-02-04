@@ -46,7 +46,7 @@ arguments: ["-server", "-Xms8g", "-Xmx8g", "-cp"]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4000
+    ramMin: 30000
     coresMin: 1
 
 doc: Marianas UMI Clipping module
