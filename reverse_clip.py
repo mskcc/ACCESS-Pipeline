@@ -1,4 +1,4 @@
-# Script to reverse engineer UMI-tagged fastqs from bams
+# Script to add UMIs back into reads from paired fastqs
 # ---
 
 import sys

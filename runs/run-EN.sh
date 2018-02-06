@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-project="temp-results-EN_2_3"
+project="EN_2_4--bedfile-corrected"
 
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
