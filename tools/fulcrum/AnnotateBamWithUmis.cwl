@@ -40,13 +40,13 @@ class: CommandLineTool
 
 baseCommand: [cmo_fulcrum_annotate_bam_with_umis]
 
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+#arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     # Requires large amount of ram (loads all read names into a java hashmap)
-    ramMin: 30000
+    ramMin: 50000
     coresMin: 1
 
 doc: |
