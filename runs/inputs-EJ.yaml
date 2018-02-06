@@ -44,20 +44,12 @@ sample_sheet: [
 
 umi_length: '3'
 output_project_folder: '.'
+outdir: '.'
 
 
 ############
 # Module 1 #
 ############
-
-bwa_output: [
-  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5.bam,
-  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1.bam,
-  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6.bam,
-  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2.bam,
-  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3.bam,
-  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4.bam
-  ]
 
 add_rg_ID: [
   Sample_TDM1-td-cf-30min_IGO_05500_EJ_5,
@@ -98,34 +90,6 @@ add_rg_SM: [
   Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3,
   Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4
   ]
-
-add_rg_output: [
-  "Sample_TDM1-td-cf-30min_IGO_05500_EJ_5",
-  "Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1",
-  "Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6",
-  "Sample_TDM1-td-cf-15min_IGO_05500_EJ_2",
-  "Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3",
-  "Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4"
-  ]
-
-md_output: [
-  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5_md.bam,
-  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1_md.bam,
-  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6_md.bam,
-  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2_md.bam,
-  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3_md.bam,
-  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4_md.bam
-]
-
-md_metrics_output: [
-  Sample_TDM1-td-cf-30min_IGO_05500_EJ_5.metrics,
-  Sample_MSK-L-039-cf-15min_IGO_05500_EJ_1.metrics,
-  Sample_TD-Chapman-pool-30min_IGO_05500_EJ_6.metrics,
-  Sample_TDM1-td-cf-15min_IGO_05500_EJ_2.metrics,
-  Sample_TD-Chapman-pool-15min_IGO_05500_EJ_3.metrics,
-  Sample_MSK-L-039-cf--30min_IGO_05500_EJ_4.metrics
-  ]
-
 
 
 # I7 Adapters (showing the barcodes)
