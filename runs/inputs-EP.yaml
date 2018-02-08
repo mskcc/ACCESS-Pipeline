@@ -32,14 +32,14 @@ fastq2: [
 ]
 
 sample_sheet: [
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-R-15_IGO_05500_EP_4/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-R-60_IGO_05500_EP_8/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-UR-15_IGO_05500_EP_2/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-UR-60_IGO_05500_EP_6/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-R-15_IGO_05500_EP_3/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-R-60_IGO_05500_EP_7/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-UR-15_IGO_05500_EP_1/SampleSheet.csv'},
-  {class: File, '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-UR-60_IGO_05500_EP_5/SampleSheet.csv'}
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-R-15_IGO_05500_EP_4/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-R-60_IGO_05500_EP_8/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-UR-15_IGO_05500_EP_2/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_05309-G-20-UR-60_IGO_05500_EP_6/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-R-15_IGO_05500_EP_3/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-R-60_IGO_05500_EP_7/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-UR-15_IGO_05500_EP_1/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0134_BHNKYFBBXX/Project_05500_EP/Sample_PR_pt01_CF01-UR-60_IGO_05500_EP_5/SampleSheet.csv'}
 ]
 
 
