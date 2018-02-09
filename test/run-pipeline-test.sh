@@ -1,16 +1,26 @@
 #!/bin/bash
 
 
+# Set your test directory:
+project="pipeline_test-2_7"
 
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
-jobstore_base="/ifs/work/bergerm1/Innovation/sandbox/ian/JOBSTOREPATH/tmp/"
+jobstore_base="/ifs/work/bergerm1/Innovation/sandbox/ian/${project}/tmp/"
+
+# check if output directory already exists
+if [ -d ${jobstore_base} ]
+then
+    echo "The specified output directory already exists: ${jobstore_base}"
+    echo "Aborted."
+    exit 1
+fi
 
 mkdir -p ${jobstore_base}
 
 jobstore_path="${jobstore_base}/jobstore-${job_store_uuid}"
 
-output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian/outputs'))"`
+output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian/${project}'))"`
 
 # create output directory
 mkdir -p ${output_directory}
@@ -33,4 +43,6 @@ cwltoil \
     --disableCaching \
     --realTimeLogging \
     --workDir ${output_directory}/tmp \
-    --jobStore file://${jobstore_path}
+    --jobStore file://${jobstore_path} \
+    --logDebug \
+    --cleanWorkDir never

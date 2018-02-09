@@ -16,7 +16,7 @@ doap:release:
   doap:revision: 1.96
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -34,15 +34,17 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-
 cwlVersion: v1.0
 
 class: CommandLineTool
 
 baseCommand:
-- cmo_picard
-- --cmd
-- MarkDuplicates
+- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+
+arguments:
+- -Xmx16g
+- -jar
+- /opt/common/CentOS_6/picard/picard-tools-1.96//MarkDuplicates.jar
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -50,12 +52,65 @@ requirements:
     ramMin: 30000
     coresMin: 2
 
-
 doc: |
   None
 
-
 inputs:
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      separate: false
+
+  O:
+    type: ['null', string]
+    doc: The output file to right marked records to
+    default: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+    inputBinding:
+      prefix: O=
+      valueFrom: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+      separate: false
+
+  M:
+    type: ['null', string]
+    doc: File to write duplication metrics to Required.
+    default: $( inputs.I.basename.replace(".bam", ".metrics") )
+    inputBinding:
+      prefix: M=
+      valueFrom: $( inputs.I.basename.replace(".bam", ".metrics") )
+      separate: false
+
+  TMP_DIR:
+    type: ['null', string]
+    inputBinding:
+      prefix: TMP_DIR=
+      separate: false
+
+  VERBOSITY:
+    type: ['null', string]
+    inputBinding:
+      prefix: VERBOSITY=
+      separate: false
+
+  VALIDATION_STRINGENCY:
+    type: ['null', string]
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
+
+  COMPRESSION_LEVEL:
+    type: ['null', string]
+    inputBinding:
+      prefix: COMPRESSION_LEVEL=
+      separate: false
+
+  REFERENCE_SEQUENCE:
+    type: ['null', string]
+    inputBinding:
+      prefix: REFERENCE_SEQUENCE=
+      separate: false
+
   MAX_FILE_HANDLES:
     type: ['null', string]
     doc: Maximum number of file handles to keep open when spilling read ends to disk.
@@ -64,14 +119,16 @@ inputs:
       a Unix system. Default value - 8000. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --MAX_FILE_HANDLES
+      prefix: MAX_FILE_HANDLES=
+      separate: false
 
   CO:
     type: ['null', string]
     doc: Comment(s) to include in the output file's header. This option may be specified
       0 or more times.
     inputBinding:
-      prefix: --CO
+      prefix: CO=
+      separate: false
 
   READ_NAME_REGEX:
     type: ['null', string]
@@ -83,52 +140,32 @@ inputs:
       value - [a-zA-Z0-9]+ -[0-9] -([0-9]+) -([0-9]+) -([0-9]+).*. This option can
       be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --READ_NAME_REGEX
+      prefix: READ_NAME_REGEX=
+      separate: false
 
   MAX_SEQS:
     type: ['null', string]
     doc: This option is obsolete. ReadEnds will always be spilled to disk. Default
       value - 50000. This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --MAX_SEQS
-
-  I:
-    type:
-    - 'null'
-    - type: array
-      items: File
-      inputBinding:
-        prefix: --I
-
-  M:
-    type: ['null', string]
-    doc: File to write duplication metrics to Required.
-    default: $( inputs.I[0].basename.replace(".bam", ".metrics") )
-    inputBinding:
-      prefix: --M
-      valueFrom: $( inputs.I[0].basename.replace(".bam", ".metrics") )
-
-  O:
-    type: ['null', string]
-    doc: The output file to right marked records to
-    default: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
-    inputBinding:
-      prefix: --O
-      valueFrom: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
+      prefix: MAX_SEQS=
+      separate: false
 
   PG_COMMAND:
     type: ['null', string]
     doc: Value of CL tag of PG record to be created. If not supplied the command line
       will be detected automatically. Default value - null.
     inputBinding:
-      prefix: --PG_COMMAND
+      prefix: PG_COMMAND=
+      separate: false
 
   PG_NAME:
     type: ['null', string]
     doc: Value of PN tag of PG record to be created. Default value - MarkDuplicates.
       This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --PG_NAME
+      prefix: PG_NAME=
+      separate: false
 
   AS:
     type: ['null', string]
@@ -136,7 +173,8 @@ inputs:
       says otherwise. Default value - false. This option can be set to 'null' to clear
       the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --AS
+      prefix: AS=
+      separate: false
 
   SORTING_COLLECTION_SIZE_RATIO:
     type: ['null', string]
@@ -145,7 +183,8 @@ inputs:
       memory, try reducing this number. Default value - 0.25. This option can be set
       to 'null' to clear the default value.
     inputBinding:
-      prefix: --SORTING_COLLECTION_SIZE_RATIO
+      prefix: SORTING_COLLECTION_SIZE_RATIO=
+      separate: false
 
   PG:
     type: ['null', string]
@@ -154,7 +193,8 @@ inputs:
       to avoid collision with other program record IDs. Default value - MarkDuplicates.
       This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --PG
+      prefix: PG=
+      separate: false
 
   REMOVE_DUPLICATES:
     type: ['null', string]
@@ -162,65 +202,40 @@ inputs:
       with appropriate flags set. Default value - false. This option can be set to
       'null' to clear the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --REMOVE_DUPLICATES
+      prefix: REMOVE_DUPLICATES=
+      separate: false
 
   PG_VERSION:
     type: ['null', string]
     doc: Value of VN tag of PG record to be created. If not specified, the version
       will be detected automatically. Default value - null.
     inputBinding:
-      prefix: --PG_VERSION
+      prefix: PG_VERSION=
+      separate: false
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=true
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=true
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: true
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
-
-  VERBOSITY:
-    type: ['null', string]
-    inputBinding:
-      prefix: --VERBOSITY
-
-  VALIDATION_STRINGENCY:
-    type: ['null', string]
-    inputBinding:
-      prefix: --VALIDATION_STRINGENCY
-
-  COMPRESSION_LEVEL:
-    type: ['null', string]
-    inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: CREATE_INDEX=true
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
-
-  REFERENCE_SEQUENCE:
-    type: ['null', string]
-    inputBinding:
-      prefix: --REFERENCE_SEQUENCE
+      prefix: MAX_RECORDS_IN_RAM=
+      separate: false
 
   stderr:
     type: ['null', string]
@@ -234,13 +249,14 @@ inputs:
     inputBinding:
       prefix: --stdout
 
-
 outputs:
+
   bam:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $( inputs.I[0].basename.replace(".bam", "_MD.bam") )
+      glob: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+
   bai:
     type: File?
     outputBinding:
@@ -250,7 +266,8 @@ outputs:
             return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai";
           return null;
         }
+
   mdmetrics:
     type: File
     outputBinding:
-      glob: $( inputs.I[0].basename.replace(".bam", ".metrics") )
+      glob: $( inputs.I.basename.replace(".bam", ".metrics") )

@@ -7,7 +7,7 @@ tmp_dir: '/scratch'
 # AnnotateBamWithUmis
 input_bam:
   class: File
-  path: /ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_sorted--subset-14-105258897-105259017_mapped_paired_sorted.bam
+  path: /ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--new/test-fastqs--clipped/sample_sorted--subset-14-105258897-105259017_mapped_paired_sorted.bam
 
 # SortBam
 sort_order: 'Queryname'

@@ -34,13 +34,16 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [cmo_fulcrum_sort_bam]
-
-arguments: ["-server", "-jar"]
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- -jar
+- /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
+- --tmp-dir=/scratch
+- SortBam
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -53,26 +56,28 @@ doc: |
   None
 
 inputs:
-  tmp_dir:
-    type: string
-    inputBinding:
-      prefix: --tmp_dir
+#  tmp_dir:
+#    type: string
+#    inputBinding:
+#      prefix: --tmp_dir
 
   input_bam:
     type: File
     inputBinding:
-      prefix: --input_bam
+      prefix: --input
+      itemSeparator: '='
 
   sort_order:
     type: string
     inputBinding:
-      prefix: --sort_order
+      prefix: --sort-order
+      itemSeparator: '='
 
   output_bam_filename:
     type: ['null', string]
     default: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
     inputBinding:
-      prefix: --output_bam_filename
+      prefix: --output
       valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
 
 outputs:

@@ -100,21 +100,21 @@ WARNING:toil.fileStore:Detected that job (Z/0/jobvGo3MK/g/tmpJzHiGu.tmp) prematu
 DEBUG:toil.fileStore:Deleting the stale working directory.
 DEBUG:toil.fileStore:Running user-defined deferred functions.
 [job innovation-aggregate-bam-metrics.cwl] /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpcBN6gl$ innovation_aggregate_bam_metrics \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg5186af4f-5140-4948-80a1-9b6c30aca029/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgd790eaaa-2d69-40f8-ba69-c1559c3e82da/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg2b3b3b91-0d02-49a0-9b8c-b80c564f8017/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgaaf67230-8d5d-42ed-8fa7-f02ad8823c82/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgc36a07f1-f7af-40ca-8427-8fa2e01b435e/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgfef9031e-fed9-4ff3-9491-ebb00ebbc52d/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg043ab27f-6372-4ac7-9b64-b4d7ef7df00a/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg5186af4f-5140-4948-80a1-9b6c30aca029/sample.bam.fragment-sizes \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgd790eaaa-2d69-40f8-ba69-c1559c3e82da/sample.bam.read-counts \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg2b3b3b91-0d02-49a0-9b8c-b80c564f8017/sample.bam.covered-regions \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgaaf67230-8d5d-42ed-8fa7-f02ad8823c82/sample-pileup.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgc36a07f1-f7af-40ca-8427-8fa2e01b435e/sample-pileup-without-duplicates.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgfef9031e-fed9-4ff3-9491-ebb00ebbc52d/sample-intervals.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg043ab27f-6372-4ac7-9b64-b4d7ef7df00a/sample-intervals-without-duplicates.txt
 INFO:cwltool:[job innovation-aggregate-bam-metrics.cwl] /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpcBN6gl$ innovation_aggregate_bam_metrics \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg5186af4f-5140-4948-80a1-9b6c30aca029/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.fragment-sizes \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgd790eaaa-2d69-40f8-ba69-c1559c3e82da/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.read-counts \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg2b3b3b91-0d02-49a0-9b8c-b80c564f8017/ZS-msi-4506-pl-T01_IGO_05500_EF_41.bam.covered-regions \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgaaf67230-8d5d-42ed-8fa7-f02ad8823c82/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgc36a07f1-f7af-40ca-8427-8fa2e01b435e/ZS-msi-4506-pl-T01_IGO_05500_EF_41-pileup-without-duplicates.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgfef9031e-fed9-4ff3-9491-ebb00ebbc52d/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals.txt \
-    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg043ab27f-6372-4ac7-9b64-b4d7ef7df00a/ZS-msi-4506-pl-T01_IGO_05500_EF_41-intervals-without-duplicates.txt
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg5186af4f-5140-4948-80a1-9b6c30aca029/sample.bam.fragment-sizes \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgd790eaaa-2d69-40f8-ba69-c1559c3e82da/sample.bam.read-counts \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg2b3b3b91-0d02-49a0-9b8c-b80c564f8017/sample.bam.covered-regions \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgaaf67230-8d5d-42ed-8fa7-f02ad8823c82/sample-pileup.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgc36a07f1-f7af-40ca-8427-8fa2e01b435e/sample-pileup-without-duplicates.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stgfef9031e-fed9-4ff3-9491-ebb00ebbc52d/sample-intervals.txt \
+    /ifs/work/bergerm1/Innovation/sandbox/ian/outputs-scatter-1-12-2018--new/tmpgEW9g8/stg043ab27f-6372-4ac7-9b64-b4d7ef7df00a/sample-intervals-without-duplicates.txt
 ('Resource file: ', '/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/variant/1.3.1/bin/cwl/roslin_resources.json')
 2018-01-16 19:49:25,341 call_cmd INFO EXECUTING: cat ./*.read-counts > read-counts.txt
 (562509.0, 380834, 1.4770451167700362)

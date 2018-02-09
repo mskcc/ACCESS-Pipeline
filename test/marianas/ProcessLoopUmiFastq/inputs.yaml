@@ -1,0 +1,3 @@
+fastq1: {class: File, path: '../../test-data/start/sample_R1_001.fastq.gz'}
+umi_length: '3'
+output_project_folder: '.'

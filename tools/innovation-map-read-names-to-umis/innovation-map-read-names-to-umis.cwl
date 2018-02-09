@@ -51,7 +51,7 @@ inputs:
 baseCommand: [innovation_map_read_names_to_umis]
 
 arguments:
-  - $(inputs.read_names)
+  - $( inputs.read_names )
   - $( inputs.read_names.basename.replace("_readNames.bed", "_Duplex_UMI_for_readNames.fastq") )
 
 outputs:

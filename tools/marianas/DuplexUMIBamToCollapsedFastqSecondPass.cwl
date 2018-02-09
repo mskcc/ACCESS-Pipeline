@@ -34,21 +34,21 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [
-  '/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java',
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+
+arguments: [
   '-server',
   '-Xms8g',
   '-Xmx8g',
   '-cp',
-  '~/software/Marianas.jar',
+  '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-true-duplex-1-1.jar',
   'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass'
 ]
-
-#arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -86,25 +86,32 @@ inputs:
       position: 5
 
   reference_fasta:
-    type: File
+    type: string
     inputBinding:
       position: 6
 
+  reference_fasta_fai: string
+
+  first_pass_file:
+    type: File
+
   output_dir:
     type: ['null', string]
-    doc: Full Path to the output dir.
+    default: $( inputs.first_pass_file.dirname )
     inputBinding:
       position: 7
-
-#  output_bam_filename:
-#    type: ['null', string]
-#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-#    inputBinding:
-#      prefix: --output_bam_filename
-#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+      valueFrom: $( inputs.first_pass_file.dirname )
 
 outputs:
-  collapsed_fastq:
+
+  collapsed_fastq_1:
     type: File
     outputBinding:
-      glob: 'collapsed_R2_.fastq'
+      glob: $( 'collapsed_R1_.fastq' )
+      outputEval: $( return { "collapsed_fastq_1": '../../../**/*' } )
+
+  collapsed_fastq_2:
+    type: string
+    outputBinding:
+      glob: $( 'collapsed_R2_.fastq' )
+      outputEval: $( return { "collapsed_fastq_2": inputs.output_dir.location + '**/*' } )
