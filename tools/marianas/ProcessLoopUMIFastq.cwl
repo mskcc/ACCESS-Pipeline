@@ -34,14 +34,21 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-
 cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [cmo_process_loop_umi_fastq]
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-cp"]
+arguments:
+- -server
+- -Xms8g
+- -Xmx8g
+- -cp
+# todo: which Marianas for this step?
+- /home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar
+- org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -54,43 +61,35 @@ doc: Marianas UMI Clipping module
 inputs:
   fastq1:
     type:
-    - string
     - File
     inputBinding:
-      prefix: --fastq1
-
-  fastq2:
-    type:
-    - string
-    - File
-    inputBinding:
-      prefix: --fastq2
-
-  sample_sheet:
-    type: File
-    inputBinding:
-      prefix: --sample_sheet
+      position: 1
+    secondaryFiles:
+      - $( inputs.fastq1.path.replace('_R1_', '_R2_') )
+      - $( inputs.fastq1.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
 
   umi_length:
     type: string
     inputBinding:
-      prefix: --umi_length
+      position: 2
 
   output_project_folder:
     type: string
     inputBinding:
-      prefix: --output_project_folder
+      position: 3
 
 outputs:
+
+  # todo - we need the **/ because Marianas outputs to a folder name given by the parent folder of the fastq
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.fastq1.split('/').pop() }
+      glob: ${ return "**/" + inputs.fastq1.basename.split('/').pop() }
 
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: ${ return "**/" + inputs.fastq2.split('/').pop() }
+      glob: ${ return "**/" + inputs.fastq1.basename.split('/').pop().replace('_R1_', '_R2_') }
 
   composite_umi_frequencies:
     type: File

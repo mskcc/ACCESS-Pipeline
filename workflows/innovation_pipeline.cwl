@@ -46,10 +46,27 @@ requirements:
 inputs:
   title_file: File
 
-  fastq1: string[]
-  fastq2: string[]
+  fastq1:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - $( self.path.replace('_R1_', '_R2_') )
+      - $( self.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
+
+
+#  bams:
+#    type:
+#      type: array
+#      items: File
+#    secondaryFiles:
+#      - ^.bai
+
+
+  fastq2: File[]
   sample_sheet: File[]
 
+  # ProcessUMIFastq
   umi_length: string
   output_project_folder: string
   outdir: string
@@ -67,15 +84,28 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
 
+  # Fulcrum
   tmp_dir: string
   sort_order: string
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
-  reference_fasta: File
+
+  reference_fasta:
+    type: File
+    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+
+  call_duplex_min_reads: string
   filter_min_reads: string
   filter_min_base_quality: string
 
+  # Marianas
+  marianas__mismatches: string
+  marianas__wobble: string
+  marianas__min_consensus_percent: string
+  marianas_collapsing__outdir: string
+
+  # Waltz
   coverage_threshold: string
   gene_list: string
   bed_file: string
@@ -92,11 +122,29 @@ outputs:
       items: File
     outputSource: scatter_step/standard_bams
 
-  fulcrum_bams:
+  fulcrum_simplex_duplex_bams:
     type:
       type: array
       items: File
-    outputSource: scatter_step/fulcrum_bams
+    outputSource: scatter_step/fulcrum_simplex_duplex_bams
+
+  fulcrum_duplex_bams:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/fulcrum_duplex_bams
+
+  marianas_simplex_duplex_bams:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/marianas_simplex_duplex_bams
+
+  marianas_duplex_bams:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/marianas_duplex_bams
 
 #  standard_aggregated_waltz_output:
 #    type: Directory
@@ -106,9 +154,13 @@ outputs:
 #    type: Directory
 #    outputSource: fulcrum_aggregate_bam_metrics/output_dir
 
-  qc_report:
+  simplex_duplex_qc_report:
     type: File
-    outputSource: innovation_qc/qc_pdf
+    outputSource: simplex_duplex_innovation_qc/qc_pdf
+
+  duplex_qc_report:
+    type: File
+    outputSource: duplex_innovation_qc/qc_pdf
 
 steps:
 
@@ -142,8 +194,17 @@ steps:
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
       reference_fasta: reference_fasta
+      # CallDuplexConsensusReads
+      call_duplex_min_reads: call_duplex_min_reads
+      # FilterConsensusReads
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
+
+      # Marianas
+      marianas__mismatches: marianas__mismatches
+      marianas__wobble: marianas__wobble
+      marianas__min_consensus_percent: marianas__min_consensus_percent
+      marianas_collapsing__outdir: marianas_collapsing__outdir
 
       coverage_threshold: coverage_threshold
       gene_list: gene_list
@@ -158,12 +219,19 @@ steps:
     scatterMethod: dotproduct
 
     out: [
-      standard_bams,
-      fulcrum_bams,
       output_sample_sheet,
+
+      standard_bams,
+      fulcrum_simplex_duplex_bams,
+      fulcrum_duplex_bams,
+      marianas_simplex_duplex_bams,
+      marianas_duplex_bams,
+
       standard_waltz_files,
-#      marianas_waltz_files,
-      fulcrum_waltz_files
+      fulcrum_simplex_duplex_waltz_files,
+      fulcrum_duplex_waltz_files,
+      marianas_simplex_duplex_waltz_files,
+      marianas_duplex_waltz_files
     ]
 
 
@@ -174,10 +242,31 @@ steps:
     out:
       [waltz_files]
 
-  fulcrum_consolidate_bam_metrics:
+  fulcrum_simplex_duplex_consolidate_bam_metrics:
     run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
-      waltz_input_files: scatter_step/fulcrum_waltz_files
+      waltz_input_files: scatter_step/fulcrum_simplex_duplex_waltz_files
+    out:
+      [waltz_files]
+
+  fulcrum_duplex_consolidate_bam_metrics:
+    run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/fulcrum_duplex_waltz_files
+    out:
+      [waltz_files]
+
+  marianas_simplex_duplex_consolidate_bam_metrics:
+    run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/marianas_simplex_duplex_waltz_files
+    out:
+      [waltz_files]
+
+  marianas_duplex_consolidate_bam_metrics:
+    run: ../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    in:
+      waltz_input_files: scatter_step/marianas_duplex_waltz_files
     out:
       [waltz_files]
 
@@ -193,17 +282,31 @@ steps:
     out:
       [output_dir]
 
-#  marianas_aggregate_bam_metrics:
-#    run: ./innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl
-#    in:
-#      waltz_input_files: scatter_step/marianas_waltz_files
-#    out:
-#      [output_dir]
-
-  fulcrum_aggregate_bam_metrics:
+  fulcrum_simplex_duplex_aggregate_bam_metrics:
     run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
-      waltz_input_files: fulcrum_consolidate_bam_metrics/waltz_files
+      waltz_input_files: fulcrum_simplex_duplex_consolidate_bam_metrics/waltz_files
+    out:
+      [output_dir]
+
+  fulcrum_duplex_aggregate_bam_metrics:
+    run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_input_files: fulcrum_duplex_consolidate_bam_metrics/waltz_files
+    out:
+      [output_dir]
+
+  marianas_simplex_duplex_aggregate_bam_metrics:
+    run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/waltz_files
+    out:
+      [output_dir]
+
+  marianas_duplex_aggregate_bam_metrics:
+    run: ../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    in:
+      waltz_input_files: marianas_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
@@ -212,12 +315,22 @@ steps:
   # Innovation-QC #
   #################
 
-  innovation_qc:
+  simplex_duplex_innovation_qc:
     run: ../tools/innovation-qc/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
-#      marianas_waltz_metrics: marianas_aggregate_bam_metrics/output_dir
-      fulcrum_waltz_metrics: fulcrum_aggregate_bam_metrics/output_dir
+      marianas_waltz_metrics: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
+      fulcrum_waltz_metrics: fulcrum_simplex_duplex_aggregate_bam_metrics/output_dir
+      title_file: title_file
+    out:
+      [qc_pdf]
+
+  duplex_innovation_qc:
+    run: ../tools/innovation-qc/innovation-qc.cwl
+    in:
+      standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
+      marianas_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
+      fulcrum_waltz_metrics: fulcrum_duplex_aggregate_bam_metrics/output_dir
       title_file: title_file
     out:
       [qc_pdf]

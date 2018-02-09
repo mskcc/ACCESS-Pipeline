@@ -34,38 +34,46 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: Workflow
 
+requirements:
+  InlineJavascriptRequirement: {}
 
 inputs:
+
   input_bam: File
-  reference_fasta: File
+
+  reference_fasta: string
+  reference_fasta_fai: string
+
+  pileup: File
   mismatches: string
   wobble: string
   min_consensus_percent: string
   output_dir: string
 
-  pileup: File
-
-  output_bam_filename:
-    type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-    inputBinding:
-      prefix: --output_bam_filename
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+  # todo: use
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
+
   output_fastq_1:
     type: File
-    outputSource: gzip_fastq_1/output
+    outputSource: second_pass/collapsed_fastq_1
 
   output_fastq_2:
     type: File
-    outputSource: gzip_fastq_2/output
+    outputSource: second_pass/collapsed_fastq_2
 
 steps:
+
   first_pass:
     run: ../tools/marianas/DuplexUMIBamToCollapsedFastqFirstPass.cwl
     in:
@@ -74,16 +82,19 @@ steps:
       mismatches: mismatches
       wobble: wobble
       min_consensus_percent: min_consensus_percent
+
+      # todo: why doens't secondaryFiles work?
       reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+
       output_dir: output_dir
     out:
-      [collapsed_fastq, first_pass_output_file]
+      [first_pass_output_file, alt_allele_file, first_pass_output_dir]
 
   sort_by_mate_position:
     # todo - can use an existing sort cwl?
-    run: ./marianas-sort/marianas-sort.cwl
+    run: ../tools/marianas-sort/marianas-sort.cwl
     in:
-      input_file: first_pass/collapsed_fastq
       first_pass_file: first_pass/first_pass_output_file
     out:
       [output_file]
@@ -96,21 +107,26 @@ steps:
       mismatches: mismatches
       wobble: wobble
       min_consensus_percent: min_consensus_percent
+
       reference_fasta: reference_fasta
-      output_dir: output_dir
-    out:
-      [collapsed_fastq]
+      reference_fasta_fai: reference_fasta_fai
 
-  gzip_fastq_1:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: second_pass/collapsed_fastq
-    out:
-      [output]
+      first_pass_file: sort_by_mate_position/output_file
 
-  gzip_fastq_2:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: first_pass/collapsed_fastq
+#      first_pass_output_dir: first_pass/first_pass_output_dir
     out:
-      [output]
+      [collapsed_fastq_1, collapsed_fastq_2]
+
+#  gzip_fastq_2:
+#    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+#    in:
+#      input_fastq: second_pass/collapsed_fastq_2
+#    out:
+#      [output]
+
+#  gzip_fastq_1:
+#    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+#    in:
+#      input_fastq: second_pass/collapsed_fastq_1
+#    out:
+#      [output]

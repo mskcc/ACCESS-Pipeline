@@ -42,15 +42,18 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
 
-
 inputs:
+
   fastq1: File
   fastq2: File
 
   adapter: string
   adapter2: string
 
-  genome: string
+  reference_fasta: string
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+  reference_fasta_fai: File
+
 #  bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
@@ -62,7 +65,6 @@ inputs:
   add_rg_CN: string
   tmp_dir: string
   output_suffix: string
-
 
 steps:
 
@@ -80,14 +82,15 @@ steps:
     in:
       fastq1: trimgalore/clfastq1
       fastq2: trimgalore/clfastq2
-      genome: genome
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
       output_suffix: output_suffix
-    out: [bam]
+    out: [output_sam]
 
   picard.AddOrReplaceReadGroups:
     run: ../tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
     in:
-      I: bwa_mem/bam
+      I: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
       ID: add_rg_ID
@@ -102,9 +105,7 @@ steps:
   picard.MarkDuplicates:
     run: ../tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
     in:
-      I:
-        source: picard.AddOrReplaceReadGroups/bam
-        valueFrom: ${ return [self]; }
+      I: picard.AddOrReplaceReadGroups/bam
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
 

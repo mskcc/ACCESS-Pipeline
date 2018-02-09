@@ -39,9 +39,31 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- cmo_bwa_mem
-- --version
-- 0.7.5a
+- /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
+
+
+# todo: specify -t -PM from inputs (how to include ">" but put -PM before it?)
+
+# todo: "_R2_001_cl.fastq.gz" is fragile
+
+#arguments:
+#- valueFrom: /usr/local/bin/picard.jar
+#  position: 2
+#  prefix: -jar
+
+arguments:
+- mem
+- -PM
+- -t
+- $( inputs.t )
+- $( inputs.reference_fasta )
+- $( inputs.fastq1.path )
+- $( inputs.fastq2.path )
+- '>'
+- $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, inputs.output_suffix + '.sam') )
+
+# todo: Need to include:
+#- -R "@RG\tID:${sample}\tLB:Garbage\tSM:${sample}\tPL:Illumina\tPU:${barcode}\tCN:InnovationLab"
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -53,34 +75,32 @@ doc: |
   run bwa mem
 
 inputs:
-  genome:
-    type: string
-    inputBinding:
-      prefix: --genome
 
   fastq1:
     type:
     - string
     - File
-    inputBinding:
-      prefix: --fastq1
 
   fastq2:
     type:
     - string
     - File
-    inputBinding:
-      prefix: --fastq2
 
   output_suffix:
     type: string
 
-  output:
-    type: ['null', string]
-    default: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
-    inputBinding:
-      prefix: --output
-      valueFrom: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
+#  output:
+#    type: ['null', string]
+#    default: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
+#    inputBinding:
+#      prefix: --output
+#      valueFrom: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
+
+  reference_fasta: string
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+
+  reference_fasta_fai:
+    type: string
 
   sam:
     type: ['null', boolean]
@@ -130,8 +150,8 @@ inputs:
     type: ['null', boolean]
     default: true
     doc: mark shorter split hits as secondary (for Picard/GATK compatibility)
-    inputBinding:
-      prefix: -M
+#    inputBinding:
+#      prefix: -M
 
   L:
     type: ['null', string]
@@ -166,10 +186,8 @@ inputs:
   t:
     type: ['null', string]
     doc: INT number of threads [1]
-    inputBinding:
-      prefix: -t
-
     default: '5'
+
   w:
     type: ['null', string]
     doc: INT band width for banded alignment [100]
@@ -192,8 +210,8 @@ inputs:
     type: ['null', boolean]
     default: false
     doc: skip pairing; mate rescue performed unless -S also in use
-    inputBinding:
-      prefix: -P
+#    inputBinding:
+#      prefix: -P
 
   S:
     type: ['null', boolean]
@@ -222,8 +240,19 @@ inputs:
       prefix: -p
 
 
+#outputs:
+#
+#  output_sam:
+#    type: File
+#    outputBinding:
+#      glob: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
+
+
+stdout: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
+
 outputs:
-  bam:
+
+  output_sam:
     type: File
     outputBinding:
-      glob: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.bam' )
+      glob: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )

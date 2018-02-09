@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 1.0.0
 
 dct:creator:
@@ -41,14 +41,13 @@ class: CommandLineTool
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
-arguments: [
-  '-server',
-  '-Xms8g',
-  '-Xmx8g',
-  '-cp',
-  '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-true-duplex-1-1.jar',
-  'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass'
-]
+arguments:
+- valueFrom: ${ return '-server' }
+- valueFrom: ${ return '-Xms8g' }
+- valueFrom: ${ return '-Xmx8g' }
+- valueFrom: ${ return '-cp' }
+- valueFrom: ${ return '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar' }
+- valueFrom: ${ return 'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass' }
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -86,32 +85,34 @@ inputs:
       position: 5
 
   reference_fasta:
+    # todo: use File
     type: string
     inputBinding:
       position: 6
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
   reference_fasta_fai: string
 
-  first_pass_file:
-    type: File
-
   output_dir:
     type: ['null', string]
-    default: $( inputs.first_pass_file.dirname )
     inputBinding:
       position: 7
-      valueFrom: $( inputs.first_pass_file.dirname )
+
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
 
-  collapsed_fastq_1:
+  first_pass_output_file:
     type: File
     outputBinding:
-      glob: $( 'collapsed_R1_.fastq' )
-      outputEval: $( return { "collapsed_fastq_1": '../../../**/*' } )
+      glob: 'first-pass.txt'
 
-  collapsed_fastq_2:
-    type: string
+  alt_allele_file:
+    type: File
     outputBinding:
-      glob: $( 'collapsed_R2_.fastq' )
-      outputEval: $( return { "collapsed_fastq_2": inputs.output_dir.location + '**/*' } )
+      glob: 'first-pass-alt-alleles.txt'

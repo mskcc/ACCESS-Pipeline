@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: CommandLineTool
 
@@ -42,10 +42,17 @@ class: CommandLineTool
 #
 # $java -server -Xms4g -Xmx4g -cp ~/software/Waltz.jar org.mskcc.juber.waltz.countreads.CountReads $bamFile $coverageThreshold $geneList $bedFile
 
-baseCommand: [cmo_waltz_count_reads]
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
-# todo - remove!
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+arguments:
+# todo: why server?
+- -server
+- -Xms4g
+- -Xmx4g
+- -cp
+- /home/johnsoni/software/Waltz.jar
+- org.mskcc.juber.waltz.countreads.CountReads
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -61,23 +68,22 @@ inputs:
   input_bam:
     type: File
     inputBinding:
-      prefix: --input_bam
+      position: 1
 
   coverage_threshold:
     type: string
     inputBinding:
-      prefix: --coverage_threshold
+      position: 2
 
   gene_list:
     type: string
     inputBinding:
-      prefix: --gene_list
+      position: 3
 
   bed_file:
     type: string
     inputBinding:
-      prefix: --bed_file
-
+      position: 4
 
 # Example Waltz CountReads output files:
 #
@@ -86,14 +92,6 @@ inputs:
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.read-counts
 
 outputs:
-
-# todo - remove
-#  output_files:
-#    type:
-#      type: array
-#      items: File
-#    outputBinding:
-#      glob: '*'
 
   covered_regions:
     type: File

@@ -58,6 +58,9 @@ inputs:
   min_mapping_quality: string
   tag_family_size_counts_output: string
 
+  # CallDuplexConsensusReads
+  call_duplex_min_reads: string
+
   # FilterConsensusReads
   reference_fasta: File
   filter_min_reads: string
@@ -65,13 +68,22 @@ inputs:
 
 
 outputs:
-  output_fastq_1:
-    type: File
-    outputSource: gzip_1/output
 
-  output_fastq_2:
+  simplex_duplex_fastq_1:
     type: File
-    outputSource: gzip_2/output
+    outputSource: simplex_duplex_fulcrum_postprocessing/output_fastq_1
+
+  simplex_duplex_fastq_2:
+    type: File
+    outputSource: simplex_duplex_fulcrum_postprocessing/output_fastq_2
+
+  duplex_fastq_1:
+    type: File
+    outputSource: duplex_fulcrum_postprocessing/output_fastq_1
+
+  duplex_fastq_2:
+    type: File
+    outputSource: duplex_fulcrum_postprocessing/output_fastq_2
 
 
 steps:
@@ -131,6 +143,7 @@ steps:
     in:
       tmp_dir: tmp_dir
       input_bam: group_reads_by_umi/output_bam
+      call_duplex_min_reads: call_duplex_min_reads
     out:
       [output_bam]
 
@@ -145,30 +158,16 @@ steps:
     out:
       [output_bam]
 
-  sort_bam_queryname:
-    run: ../tools/innovation-sort-bam/innovation-sort-bam.cwl
+  simplex_duplex_fulcrum_postprocessing:
+    run: ./fulcrum_postprocessing.cwl
+    in:
+      input_bam: call_duplex_consensus_reads/output_bam
+    out:
+      [output_fastq_1, output_fastq_2]
+
+  duplex_fulcrum_postprocessing:
+    run: ./fulcrum_postprocessing.cwl
     in:
       input_bam: filter_consensus_reads/output_bam
     out:
-      [bam_sorted_queryname]
-
-  samtools_fastq:
-    run: ../tools/innovation-samtools-fastq/innovation-samtools-fastq.cwl
-    in:
-      input_bam: sort_bam_queryname/bam_sorted_queryname
-    out:
-      [output_read_1, output_read_2]
-
-  gzip_1:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: samtools_fastq/output_read_1
-    out:
-      [output]
-
-  gzip_2:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: samtools_fastq/output_read_2
-    out:
-      [output]
+      [output_fastq_1, output_fastq_2]

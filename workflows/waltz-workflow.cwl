@@ -35,7 +35,6 @@ requirements:
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
 
-
 inputs:
 
   input_bam:
@@ -70,7 +69,6 @@ outputs:
       type: array
       items: File
     outputSource: grouped_waltz_files/waltz_files
-
 
 steps:
 

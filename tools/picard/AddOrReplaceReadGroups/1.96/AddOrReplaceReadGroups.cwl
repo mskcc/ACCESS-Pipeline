@@ -37,10 +37,14 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
+
 baseCommand:
-- cmo_picard
-- --cmd
-- AddOrReplaceReadGroups
+- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+
+arguments:
+- -Xmx16g
+- -jar
+- /opt/common/CentOS_6/picard/picard-tools-1.96/AddOrReplaceReadGroups.jar
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -52,25 +56,6 @@ doc: |
   None
 
 inputs:
-  LB:
-    type: string
-
-    doc: Read Group Library Required.
-    inputBinding:
-      prefix: --LB
-
-  CN:
-    type: ['null', string]
-    doc: Read Group sequencing center name Default value - null.
-    inputBinding:
-      prefix: --CN
-
-  PU:
-    type: string
-
-    doc: Read Group platform unit (eg. run barcode) Required.
-    inputBinding:
-      prefix: --PU
 
   I:
     type:
@@ -79,100 +64,131 @@ inputs:
     - type: array
       items: string
     inputBinding:
-      prefix: --I
+      prefix: I=
+      separate: false
 
   O:
     type: ['null', string]
     doc: Output file (bam or sam).
-    default: $( inputs.I.basename.replace(".bam", "_RG.bam") )
+    default: $( inputs.I.basename.replace(".sam", "_RG.bam") )
     inputBinding:
-      prefix: --O
-      valueFrom: $( inputs.I.basename.replace(".bam", "_RG.bam") )
-
-  DS:
-    type: ['null', string]
-    doc: Read Group description Default value - null.
-    inputBinding:
-      prefix: --DS
+      prefix: O=
+      separate: false
+      valueFrom: $( inputs.I.basename.replace(".sam", "_RG.bam") )
 
   SO:
     type: ['null', string]
     doc: Optional sort order to output in. If not supplied OUTPUT is in the same order
       as INPUT. Default value - null. Possible values - {unsorted, queryname, coordinate}
     inputBinding:
-      prefix: --SO
+      prefix: SO=
+      separate: false
+
+  LB:
+    type: string
+    doc: Read Group Library Required.
+    inputBinding:
+      prefix: RGLB=
+      separate: false
+
+  CN:
+    type: ['null', string]
+    doc: Read Group sequencing center name Default value - null.
+    inputBinding:
+      prefix: RGCN=
+      separate: false
+
+  PU:
+    type: string
+    doc: Read Group platform unit (eg. run barcode) Required.
+    inputBinding:
+      prefix: RGPU=
+      separate: false
+
+  DS:
+    type: ['null', string]
+    doc: Read Group description Default value - null.
+    inputBinding:
+      prefix: DS=
+      separate: false
 
   SM:
     type: string
-
     doc: Read Group sample name Required.
     inputBinding:
-      prefix: --SM
+      prefix: RGSM=
+      separate: false
 
   ID:
     type: ['null', string]
     doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --ID
+      prefix: RGID=
+      separate: false
 
   PL:
     type: string
-
     doc: Read Group platform (e.g. illumina, solid) Required.
     inputBinding:
-      prefix: --PL
-
-  QUIET:
-    type: ['null', boolean]
-    default: false
-
-    inputBinding:
-      prefix: --QUIET
-
-  CREATE_MD5_FILE:
-    type: ['null', boolean]
-    default: false
-
-    inputBinding:
-      prefix: --CREATE_MD5_FILE
-
-  CREATE_INDEX:
-    type: ['null', boolean]
-    default: true
-
-    inputBinding:
-      prefix: --CREATE_INDEX
+      prefix: PL=
+      separate: false
 
   TMP_DIR:
     type: ['null', string]
     inputBinding:
-      prefix: --TMP_DIR
+      prefix: TMP_DIR=
+      separate: false
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
     inputBinding:
-      prefix: --VALIDATION_STRINGENCY
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
 
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      separate: false
+
+  CREATE_INDEX:
+    type: ['null', boolean]
+    default: true
+    inputBinding:
+      prefix: CREATE_INDEX=true
+
+  QUIET:
+    type: ['null', boolean]
+    default: false
+    inputBinding:
+      prefix: --QUIET=
+      separate: false
+
+  CREATE_MD5_FILE:
+    type: ['null', boolean]
+    default: false
+    inputBinding:
+      prefix: --CREATE_MD5_FILE=
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
+      prefix: MAX_RECORDS_IN_RAM=
+      separate: false
 
   REFERENCE_SEQUENCE:
     type: ['null', string]
     inputBinding:
-      prefix: --REFERENCE_SEQUENCE
+      prefix: REFERENCE_SEQUENCE=
+      separate: false
 
   stderr:
     type: ['null', string]
@@ -187,10 +203,11 @@ inputs:
       prefix: --stdout
 
 outputs:
+
   bam:
     type: File
     outputBinding:
-      glob: $( inputs.I.basename.replace(".bam", "_RG.bam") )
+      glob: $( inputs.I.basename.replace(".sam", "_RG.bam") )
 
   bai:
     type: File?
@@ -198,6 +215,6 @@ outputs:
       glob: |-
         ${
           if (inputs.O)
-            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai";
+            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.sam/,'') + ".bai";
           return null;
         }

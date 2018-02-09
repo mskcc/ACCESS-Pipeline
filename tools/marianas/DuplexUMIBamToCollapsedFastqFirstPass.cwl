@@ -34,17 +34,19 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: CommandLineTool
 
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+
+arguments:
 - -server
 - -Xms8g
 - -Xmx8g
 - -cp
-- ~/software/Marianas-true-duplex-1-1.jar
+- /home/johnsoni/Innovation-Pipeline-dev/software/Marianas-true-duplex-1-1.jar
 - org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
 requirements:
@@ -57,6 +59,7 @@ doc: |
   None
 
 inputs:
+
   input_bam:
     type: File
     inputBinding:
@@ -83,13 +86,15 @@ inputs:
       position: 5
 
   reference_fasta:
-    type: File
+    type: string
     inputBinding:
       position: 6
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+
+  reference_fasta_fai: string
 
   output_dir:
     type: ['null', string]
-    doc: Full Path to the output dir.
     inputBinding:
       position: 7
 
@@ -101,12 +106,18 @@ inputs:
 #      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
-  collapsed_fastq:
-    type: File
-    outputBinding:
-      glob: 'collapsed_R1_.fastq'
 
   first_pass_output_file:
     type: File
     outputBinding:
-      glob: 'first-pass.txt'
+      glob: ${ return "first-pass.txt" }
+
+  alt_allele_file:
+    type: File
+    outputBinding:
+      glob: ${ return 'first-pass-alt-alleles.txt' }
+
+  first_pass_output_dir:
+    type: Directory
+    outputBinding:
+      glob: '.'
