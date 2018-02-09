@@ -38,17 +38,15 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+baseCommand: ['/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java']
 
-arguments: [
-  '-server',
-  '-Xms8g',
-  '-Xmx8g',
-  '-cp',
-  '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-true-duplex-1-1.jar',
-  'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass'
-]
+arguments:
+- '-server'
+- '-Xms8g'
+- '-Xmx8g'
+- '-cp'
+- '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar'
+- 'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass'
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -60,10 +58,15 @@ doc: |
   None
 
 inputs:
+
   input_bam:
     type: File
     inputBinding:
       position: 1
+#    secondaryFiles: $( ['first-pass.mate-position-sorted.txt'] )
+
+  # todo:
+  first_pass_sorted: File
 
   pileup:
     type: File
@@ -89,29 +92,30 @@ inputs:
     type: string
     inputBinding:
       position: 6
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
   reference_fasta_fai: string
 
-  first_pass_file:
-    type: File
-
   output_dir:
     type: ['null', string]
-    default: $( inputs.first_pass_file.dirname )
     inputBinding:
       position: 7
-      valueFrom: $( inputs.first_pass_file.dirname )
+
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
 
   collapsed_fastq_1:
     type: File
     outputBinding:
-      glob: $( 'collapsed_R1_.fastq' )
-      outputEval: $( return { "collapsed_fastq_1": '../../../**/*' } )
+      glob: 'collapsed_R1_.fastq'
 
   collapsed_fastq_2:
-    type: string
+    type: File
     outputBinding:
-      glob: $( 'collapsed_R2_.fastq' )
-      outputEval: $( return { "collapsed_fastq_2": inputs.output_dir.location + '**/*' } )
+      glob: 'collapsed_R2_.fastq'

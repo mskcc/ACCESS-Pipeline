@@ -7,4 +7,8 @@ install:
   - pip install -r requirements.txt
 
 script:
+  # Run all tests
+  - find . -name *.sh -exec chmod 700 {} && {}\
+
+  - chmod 700 test/run-pipeline-test.sh
   - test/run-pipeline-test.sh

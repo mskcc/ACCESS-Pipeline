@@ -34,18 +34,22 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: "v1.0"
+cwlVersion: v1.0
 
 class: CommandLineTool
 
-# Example Waltz PileupMetrics usage:
-#
-# $java -server -Xms4g -Xmx4g -cp ~/software/Waltz.jar org.mskcc.juber.waltz.Waltz PileupMetrics 20 $bamFile $referenceFasta $bedFile
+baseCommand:
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
-baseCommand: [cmo_waltz_pileup_metrics]
-
-# todo - remove!
-arguments: ["-server", "-Xms8g", "-Xmx8g", "-jar"]
+arguments:
+# todo: why server?
+- -server
+- -Xms4g
+- -Xmx4g
+- -cp
+- /home/johnsoni/software/Waltz.jar
+- org.mskcc.juber.waltz.Waltz
+- PileupMetrics
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -58,32 +62,32 @@ doc: |
 
 inputs:
 
-  min_mapping_quality:
-    type: string
-    inputBinding:
-      prefix: --min_mapping_quality
-
   input_bam:
     type: File
     inputBinding:
-      prefix: --input_bam
+      position: 2
     secondaryFiles: [^.bai]
+
+  min_mapping_quality:
+    type: string
+    inputBinding:
+      position: 1
 
   reference_fasta:
     type: string
     inputBinding:
-      prefix: --reference_fasta
+      position: 3
+    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
-  reference_fasta_fai:
-    type: string
-    inputBinding:
-      prefix: --reference_fasta_fai
+#  reference_fasta_fai:
+#    type: string
+#    inputBinding:
+#      prefix: --reference_fasta_fai
 
   bed_file:
     type: string
     inputBinding:
-      prefix: --bed_file
-
+      position: 4
 
 # Example Waltz PileupMetrics output files:
 #
@@ -93,14 +97,6 @@ inputs:
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
 
 outputs:
-
-# todo - remove
-#  output_files:
-#    type:
-#      type: array
-#      items: File
-#    outputBinding:
-#      glob: '*'
 
   pileup:
     type: File

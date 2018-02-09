@@ -38,31 +38,93 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [cmo_trimgalore]
+baseCommand:
+- /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
+- /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+
+arguments:
+# todo - include as inputs
+#- --paired
+#- --gzip
+#- -q
+#- 1
+#- --suppress_warn
+#- --stringency
+#- 3
+#- -o
+#- .
+- $(inputs.fastq1)
+- $(inputs.fastq2)
 
 requirements:
 - class: InlineJavascriptRequirement
-  expressionLib:
-  - var getBaseName = function(inputFile) { return inputFile.basename; };
+
+#  expressionLib:
+#  - var getBaseName = function(inputFile) { return inputFile.basename; };
 
 - class: ResourceRequirement
   ramMin: 16000
-  coresMin: 2 
-
+  coresMin: 2
 
 doc: |
   None
 
 inputs:
-  version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default]
-    default: default
 
+  fastq1:
+    type: File
+
+  fastq2:
+    type: File
+
+  adapter:
+    type: ['null', string]
+    doc: Adapter sequence to be trimmed. If not specified explicitely, the first 13
+      bp of the Illumina adapter 'AGATCGGAAGAGC' will be used by default.
     inputBinding:
-      prefix: --version
+      prefix: -a
+
+  adapter2:
+    type: ['null', string]
+    doc: Optional adapter sequence to be trimmed off read 2 of paired-end files. This
+      option requires '--paired' to be specified as well.
+    inputBinding:
+      prefix: -a2
+
+  length:
+    type: ['null', string]
+    doc: Discard reads that became shorter than length INT because of either quality
+      or adapter trimming. A value of '0' effectively disables this behaviour. Default
+      - 20 bp. For paired-end files, both reads of a read-pair need to be longer than
+      <INT> bp to be printed out to validated paired-end files (see option --paired).
+      If only one read became too short there is the possibility of keeping such unpaired
+      single-end reads (see --retain_unpaired). Default pair-cutoff - 20 bp.
+    inputBinding:
+      prefix: -length
+    default: '25'
+
+  paired:
+    type: ['null', boolean]
+    default: true
+    doc: This option performs length trimming of quality/adapter/RRBS trimmed reads
+      for paired-end files. To pass the validation test, both sequences of a sequence
+      pair are required to have a certain minimum length which is governed by the
+      option --length (see above). If only one read passes this length threshold the
+      other read can be rescued (see option --retain_unpaired). Using this option
+      lets you discard too short read pairs without disturbing the sequence-by-sequence
+      order of FastQ files which is required by many aligners. Trim Galore! expects
+      paired-end files to be supplied in a pairwise fashion, e.g. file1_1.fq file1_2.fq
+      SRR2_1.fq.gz SRR2_2.fq.gz ... .
+    inputBinding:
+      prefix: --paired
+
+  gzip:
+    type: ['null', boolean]
+    default: false
+    doc: Compress the output file with gzip. If the input files are gzip-compressed
+      the output files will be automatically gzip compressed as well.
+    inputBinding:
+      prefix: --gzip
 
   quality:
     type: ['null', string]
@@ -73,9 +135,9 @@ inputs:
       compute partial sums from all indices to the end of the sequence; cut sequence
       at the index at which the sum is minimal). Default Phred score - 20.
     inputBinding:
-      prefix: --quality
-
+      prefix: -q
     default: '1'
+
   phred33:
     type: ['null', boolean]
     default: false
@@ -103,20 +165,6 @@ inputs:
     inputBinding:
       prefix: --fastqc
 
-  adapter:
-    type: ['null', string]
-    doc: Adapter sequence to be trimmed. If not specified explicitely, the first 13
-      bp of the Illumina adapter 'AGATCGGAAGAGC' will be used by default.
-    inputBinding:
-      prefix: --adapter
-
-  adapter2:
-    type: ['null', string]
-    doc: Optional adapter sequence to be trimmed off read 2 of paired-end files. This
-      option requires '--paired' to be specified as well.
-    inputBinding:
-      prefix: --adapter2
-
   stringency:
     type: ['null', string]
     doc: Overlap with adapter sequence required to trim a sequence. Defaults to a
@@ -127,26 +175,6 @@ inputs:
     inputBinding:
       prefix: --stringency
 
-  gzip:
-    type: ['null', boolean]
-    default: false
-    doc: Compress the output file with gzip. If the input files are gzip-compressed
-      the output files will be automatically gzip compressed as well.
-    inputBinding:
-      prefix: --gzip
-
-  length:
-    type: ['null', string]
-    doc: Discard reads that became shorter than length INT because of either quality
-      or adapter trimming. A value of '0' effectively disables this behaviour. Default
-      - 20 bp. For paired-end files, both reads of a read-pair need to be longer than
-      <INT> bp to be printed out to validated paired-end files (see option --paired).
-      If only one read became too short there is the possibility of keeping such unpaired
-      single-end reads (see --retain_unpaired). Default pair-cutoff - 20 bp.
-    inputBinding:
-      prefix: --length
-
-    default: '25'
   output_dir:
     type: ['null', string]
     doc: If specified all output will be written to this directory instead of the
@@ -207,21 +235,6 @@ inputs:
     inputBinding:
       prefix: --keep
 
-  paired:
-    type: ['null', boolean]
-    default: true
-    doc: This option performs length trimming of quality/adapter/RRBS trimmed reads
-      for paired-end files. To pass the validation test, both sequences of a sequence
-      pair are required to have a certain minimum length which is governed by the
-      option --length (see above). If only one read passes this length threshold the
-      other read can be rescued (see option --retain_unpaired). Using this option
-      lets you discard too short read pairs without disturbing the sequence-by-sequence
-      order of FastQ files which is required by many aligners. Trim Galore! expects
-      paired-end files to be supplied in a pairwise fashion, e.g. file1_1.fq file1_2.fq
-      SRR2_1.fq.gz SRR2_2.fq.gz ... .
-    inputBinding:
-      prefix: --paired
-
   trim1:
     type: ['null', boolean]
     default: false
@@ -260,18 +273,6 @@ inputs:
     inputBinding:
       prefix: --length_2
 
-  fastq1:
-    type: File
-
-
-    inputBinding:
-      position: 1
-
-  fastq2:
-    type: File
-    inputBinding:
-      position: 2
-
   stderr:
     type: ['null', string]
     doc: log stderr to file
@@ -286,31 +287,34 @@ inputs:
 
 
 outputs:
+
   clfastq1:
     type: File
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.fastq.gz");
+            return inputs.fastq1.basename.replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
+
   clfastq2:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.fastq.gz");
+            return inputs.fastq2.basename.replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
+
   clstats1:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.stats");
+            return inputs.fastq1.basename.replace(".fastq.gz", "_cl.stats");
           return null;
         }
 
@@ -320,6 +324,6 @@ outputs:
       glob: |-
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.stats");
+            return inputs.fastq2.basename.replace(".fastq.gz", "_cl.stats");
           return null;
         }
