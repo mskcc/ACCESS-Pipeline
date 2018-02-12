@@ -40,6 +40,8 @@ class: CommandLineTool
 
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+
+arguments:
 - -jar
 - /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
 - --tmp-dir=/scratch

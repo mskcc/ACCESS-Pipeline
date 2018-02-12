@@ -47,6 +47,8 @@ class: CommandLineTool
 
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+
+arguments:
 - -Xms8g
 - -Xmx45g
 - -jar

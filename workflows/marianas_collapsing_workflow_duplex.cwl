@@ -42,12 +42,10 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-
   input_bam: File
 
   reference_fasta: string
   reference_fasta_fai: string
-
   pileup: File
   mismatches: string
   wobble: string
@@ -66,11 +64,11 @@ outputs:
 
   output_fastq_1:
     type: File
-    outputSource: second_pass/collapsed_fastq_1
+    outputSource: gzip_fastq_1/output
 
   output_fastq_2:
     type: File
-    outputSource: second_pass/collapsed_fastq_2
+    outputSource: gzip_fastq_2/output
 
 steps:
 
@@ -83,7 +81,7 @@ steps:
       wobble: wobble
       min_consensus_percent: min_consensus_percent
 
-      # todo: why doens't secondaryFiles work?
+      # todo: why doesn't secondaryFiles work?
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
 
@@ -112,21 +110,19 @@ steps:
       reference_fasta_fai: reference_fasta_fai
 
       first_pass_file: sort_by_mate_position/output_file
-
-#      first_pass_output_dir: first_pass/first_pass_output_dir
     out:
       [collapsed_fastq_1, collapsed_fastq_2]
 
-#  gzip_fastq_2:
-#    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-#    in:
-#      input_fastq: second_pass/collapsed_fastq_2
-#    out:
-#      [output]
+  gzip_fastq_2:
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: second_pass/collapsed_fastq_2
+    out:
+      [output]
 
-#  gzip_fastq_1:
-#    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-#    in:
-#      input_fastq: second_pass/collapsed_fastq_1
-#    out:
-#      [output]
+  gzip_fastq_1:
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: second_pass/collapsed_fastq_1
+    out:
+      [output]
