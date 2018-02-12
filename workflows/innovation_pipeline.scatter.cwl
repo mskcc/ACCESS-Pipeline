@@ -81,9 +81,8 @@ inputs:
   min_mapping_quality: string
   tag_family_size_counts_output: string
 
-  reference_fasta:
-    type: File
-    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+  reference_fasta: string
+  reference_fasta_fai: string
 
   # CallDuplexConsensusReads
   call_duplex_min_reads: string
@@ -102,8 +101,6 @@ inputs:
   gene_list: string
   bed_file: string
   min_mapping_quality: string
-  waltz_reference_fasta: string
-  waltz_reference_fasta_fai: string
 
 
 outputs:
@@ -127,7 +124,7 @@ outputs:
   # I don't understand how these can be arrays,
   # if this workflow is called with just a single pair of fastqs...
   #
-  # answer: CWL scatter step outputs are implicitly turned into arrays of the specified type
+  # Answer: CWL scatter step outputs are implicitly turned into arrays of the specified type
   standard_bams:
     type: File
     outputSource: module_1_innovation/bam
@@ -213,8 +210,8 @@ steps:
       adapter: adapter
       adapter2: adapter2
 
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       genome: genome
       add_rg_LB: add_rg_LB
@@ -241,8 +238,8 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
     out:
       [pileup, waltz_output_files]
 
@@ -286,8 +283,8 @@ steps:
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
 
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
@@ -312,8 +309,8 @@ steps:
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
 
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
@@ -337,8 +334,8 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
     out:
       [pileup, waltz_output_files]
 
@@ -350,8 +347,8 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
     out:
       [pileup, waltz_output_files]
 
@@ -364,6 +361,7 @@ steps:
     in:
       input_bam: module_1_innovation/bam
       reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       pileup: waltz_standard/pileup
       mismatches: marianas__mismatches
@@ -388,8 +386,8 @@ steps:
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
 
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
@@ -405,6 +403,7 @@ steps:
     in:
       input_bam: module_1_innovation/bam
       reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       pileup: waltz_standard/pileup
       mismatches: marianas__mismatches
@@ -428,8 +427,8 @@ steps:
 #      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
 
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
 
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
@@ -454,8 +453,8 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
     out:
       [pileup, waltz_output_files]
 
@@ -467,7 +466,7 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      reference_fasta: waltz_reference_fasta
-      reference_fasta_fai: waltz_reference_fasta_fai
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
     out:
       [pileup, waltz_output_files]

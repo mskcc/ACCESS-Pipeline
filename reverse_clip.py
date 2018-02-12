@@ -60,6 +60,7 @@ def main():
             umi_1 = add_support_bases(umi_1)
             umi_2 = add_support_bases(umi_2)
 
+            # todo: check these barcode sequences
             output_r1.write(read_name + ' 1:N:0:TCGACAAG+CTTGTCGA' + '\n')
             output_r2.write(read_name + ' 2:N:0:TCGACAAG+CTTGTCGA' + '\n')
 
@@ -70,8 +71,9 @@ def main():
             output_r1.write(sequence_1 + '\n')
             output_r2.write(sequence_2 + '\n')
 
+            # todo: does this put reads on the correct strands?
             output_r1.write('+\n')
-            output_r2.write('+\n')
+            output_r2.write('-\n')
 
         elif i % 4 == 3:
             output_r1.write('A'*len(umi_1) + line_r1 + '\n')

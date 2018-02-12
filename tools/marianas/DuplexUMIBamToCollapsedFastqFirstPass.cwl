@@ -89,7 +89,6 @@ inputs:
     type: string
     inputBinding:
       position: 6
-#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
   reference_fasta_fai: string
 
@@ -97,13 +96,6 @@ inputs:
     type: ['null', string]
     inputBinding:
       position: 7
-
-#  output_bam_filename:
-#    type: ['null', string]
-#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-#    inputBinding:
-#      prefix: --output_bam_filename
-#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
 

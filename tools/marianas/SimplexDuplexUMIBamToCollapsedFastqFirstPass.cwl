@@ -42,12 +42,12 @@ baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
 arguments:
-- valueFrom: ${ return '-server' }
-- valueFrom: ${ return '-Xms8g' }
-- valueFrom: ${ return '-Xmx8g' }
-- valueFrom: ${ return '-cp' }
-- valueFrom: ${ return '/home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar' }
-- valueFrom: ${ return 'org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass' }
+- -server
+- -Xms8g
+- -Xmx8g
+- -cp
+- /home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar
+- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -59,6 +59,7 @@ doc: |
   None
 
 inputs:
+
   input_bam:
     type: File
     inputBinding:
@@ -85,11 +86,9 @@ inputs:
       position: 5
 
   reference_fasta:
-    # todo: use File
     type: string
     inputBinding:
       position: 6
-#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
   reference_fasta_fai: string
 
@@ -98,21 +97,19 @@ inputs:
     inputBinding:
       position: 7
 
-#  output_bam_filename:
-#    type: ['null', string]
-#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-#    inputBinding:
-#      prefix: --output_bam_filename
-#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-
 outputs:
 
   first_pass_output_file:
     type: File
     outputBinding:
-      glob: 'first-pass.txt'
+      glob: ${ return "first-pass.txt" }
 
   alt_allele_file:
     type: File
     outputBinding:
-      glob: 'first-pass-alt-alleles.txt'
+      glob: ${ return 'first-pass-alt-alleles.txt' }
+
+  first_pass_output_dir:
+    type: Directory
+    outputBinding:
+      glob: '.'

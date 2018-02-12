@@ -52,7 +52,7 @@ inputs:
 
   reference_fasta: string
 #    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
-  reference_fasta_fai: File
+  reference_fasta_fai: string
 
 #  bwa_output: string
   add_rg_LB: string
