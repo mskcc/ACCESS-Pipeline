@@ -91,9 +91,9 @@ inputs:
   min_mapping_quality: string
   tag_family_size_counts_output: string
 
-  reference_fasta:
-    type: File
-    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+  reference_fasta: string
+  reference_fasta_fai: string
+#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
   call_duplex_min_reads: string
   filter_min_reads: string
@@ -110,8 +110,6 @@ inputs:
   gene_list: string
   bed_file: string
   min_mapping_quality: string
-  waltz_reference_fasta: string
-  waltz_reference_fasta_fai: string
 
 
 outputs:
@@ -122,11 +120,19 @@ outputs:
       items: File
     outputSource: scatter_step/standard_bams
 
+  standard_waltz_files:
+    type: Directory
+    outputSource: standard_aggregate_bam_metrics/output_dir
+
   fulcrum_simplex_duplex_bams:
     type:
       type: array
       items: File
     outputSource: scatter_step/fulcrum_simplex_duplex_bams
+
+  fulcrum_simplex_duplex_waltz_files:
+    type: Directory
+    outputSource: fulcrum_simplex_duplex_aggregate_bam_metrics/output_dir
 
   fulcrum_duplex_bams:
     type:
@@ -134,17 +140,29 @@ outputs:
       items: File
     outputSource: scatter_step/fulcrum_duplex_bams
 
+  fulcrum_duplex_waltz_files:
+    type: Directory
+    outputSource: fulcrum_duplex_aggregate_bam_metrics/output_dir
+
   marianas_simplex_duplex_bams:
     type:
       type: array
       items: File
     outputSource: scatter_step/marianas_simplex_duplex_bams
 
+  marianas_simplex_duplex_waltz_files:
+    type: Directory
+    outputSource: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
+
   marianas_duplex_bams:
     type:
       type: array
       items: File
     outputSource: scatter_step/marianas_duplex_bams
+
+  marianas_duplex_waltz_files:
+    type: Directory
+    outputSource: marianas_duplex_aggregate_bam_metrics/output_dir
 
 #  standard_aggregated_waltz_output:
 #    type: Directory
@@ -194,6 +212,8 @@ steps:
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
       reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+
       # CallDuplexConsensusReads
       call_duplex_min_reads: call_duplex_min_reads
       # FilterConsensusReads
@@ -210,8 +230,6 @@ steps:
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: min_mapping_quality
-      waltz_reference_fasta: waltz_reference_fasta
-      waltz_reference_fasta_fai: waltz_reference_fasta_fai
 
     # I7 adapter is different for each sample, I5 is not
     scatter: [adapter, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]

@@ -1,6 +1,10 @@
-input_bam: {class: File, path: '../../test-data/picard/from_MD.bam'}
+#input_bam: {class: File, path: '../../test-data/picard/from_MD.bam'}
+#input_bam: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/05309-G-20-R-60_IGO_05500_EP_8_S36_standard_RG_MD.bam'}
+input_bam: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/05309-G-20-R-60_IGO_05500_EP_8_S36_standard_RG_MD-downsampled--downsampled_chr1.bam'}
 
-pileup: {class: File, path: '../../test-data/waltz/PileupMetrics-standard/sample-pileup.txt'}
+#pileup: {class: File, path: '../../test-data/waltz/PileupMetrics-standard/sample-pileup.txt'}
+#pileup: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/05309-G-20-R-60_IGO_05500_EP_8_S36_standard_RG_MD-downsampled-pileup-without-duplicates.txt'}
+pileup: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/05309-G-20-R-60_IGO_05500_EP_8_S36_standard_RG_MD-downsampled--downsampled_chr1-sorted-pileup.txt'}
 
 # todo: use Files, & secondaryFiles
 reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'

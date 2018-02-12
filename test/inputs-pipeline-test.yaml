@@ -1,6 +1,6 @@
 # todo - need to automate generation of all these inputs
 
-title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/Project_05500_EF-test-title-file.txt'}
+title_file: {class: File, path: 'test-data/start/test_title_file.txt'}
 
 ##########
 # Fastqs #
@@ -11,15 +11,15 @@ title_file: {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-
 
 # todo - should be Files
 fastq1: [
-  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/final-reverted-fastqs/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_R1_001.fastq.gz'}
+  {class: File, path: 'test-data/start/testsample_R1_001.fastq.gz'}
 ]
 
 fastq2: [
-  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/final-reverted-fastqs/ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_R2_001.fastq.gz'}
+  {class: File, path: 'test-data/start/testsample_R2_001.fastq.gz'}
 ]
 
 sample_sheet: [
-  {class: File, path: '/ifs/work/bergerm1/Innovation/sandbox/ian/test-fastqs--chr14/test-fastqs--reversed/SampleSheet.csv'}
+  {class: File, path: 'test-data/start/SampleSheet.csv'}
 ]
 
 ##########################
@@ -88,9 +88,8 @@ tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
 call_duplex_min_reads: '1 1 0'
 
 # FilterConsensusReads
-reference_fasta:
-  class: File
-  path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'
 
 filter_min_reads: '2 1 0'
 filter_min_base_quality: '30'
@@ -115,5 +114,3 @@ gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
 bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
 
 min_mapping_quality: '20'
-waltz_reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
-waltz_reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'

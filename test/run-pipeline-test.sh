@@ -2,7 +2,7 @@
 
 
 # Set your test directory:
-project="pipeline_test-2_7"
+project="pipeline_test-2_12"
 
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
@@ -44,5 +44,6 @@ cwltoil \
     --realTimeLogging \
     --workDir ${output_directory}/tmp \
     --jobStore file://${jobstore_path} \
-    --logDebug \
     --cleanWorkDir never
+
+#    --logDebug \

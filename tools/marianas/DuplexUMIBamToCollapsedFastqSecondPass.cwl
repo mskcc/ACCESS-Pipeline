@@ -51,8 +51,11 @@ arguments: [
 ]
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - $(inputs.first_pass_file)
+  - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
 
@@ -97,21 +100,19 @@ inputs:
 
   output_dir:
     type: ['null', string]
-    default: $( inputs.first_pass_file.dirname )
+    default: '.'
     inputBinding:
       position: 7
-      valueFrom: $( inputs.first_pass_file.dirname )
+      valueFrom: '.'
 
 outputs:
 
   collapsed_fastq_1:
     type: File
     outputBinding:
-      glob: $( 'collapsed_R1_.fastq' )
-      outputEval: $( return { "collapsed_fastq_1": '../../../**/*' } )
+      glob: ${ return 'collapsed_R1_.fastq' }
 
   collapsed_fastq_2:
-    type: string
+    type: File
     outputBinding:
-      glob: $( 'collapsed_R2_.fastq' )
-      outputEval: $( return { "collapsed_fastq_2": inputs.output_dir.location + '**/*' } )
+      glob: ${ return 'collapsed_R2_.fastq' }

@@ -38,29 +38,30 @@ cwlVersion: v1.0
 
 class: Workflow
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 inputs:
   input_bam: File
 
   reference_fasta: string
-#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
   reference_fasta_fai: string
-
+  pileup: File
   mismatches: string
   wobble: string
   min_consensus_percent: string
   output_dir: string
 
-  pileup: File
-
   # todo: use
-  output_bam_filename:
-    type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-    inputBinding:
-      prefix: --output_bam_filename
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#  output_bam_filename:
+#    type: ['null', string]
+#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
+#    inputBinding:
+#      prefix: --output_bam_filename
+#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
+
   output_fastq_1:
     type: File
     outputSource: gzip_fastq_1/output
@@ -80,12 +81,13 @@ steps:
       wobble: wobble
       min_consensus_percent: min_consensus_percent
 
+      # todo: why doesn't secondaryFiles work?
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
 
       output_dir: output_dir
     out:
-      [first_pass_output_file, alt_allele_file]
+      [first_pass_output_file, alt_allele_file, first_pass_output_dir]
 
   sort_by_mate_position:
     # todo - can use an existing sort cwl?
@@ -99,31 +101,28 @@ steps:
     run: ../tools/marianas/SimplexDuplexUMIBamToCollapsedFastqSecondPass.cwl
     in:
       input_bam: input_bam
-
-      first_pass_sorted: sort_by_mate_position/output_file
-
       pileup: pileup
       mismatches: mismatches
       wobble: wobble
       min_consensus_percent: min_consensus_percent
 
       reference_fasta: reference_fasta
-      referene_fasta_fai: reference_fasta_fai
+      reference_fasta_fai: reference_fasta_fai
 
-      output_dir: output_dir
+      first_pass_file: sort_by_mate_position/output_file
     out:
       [collapsed_fastq_1, collapsed_fastq_2]
-
-  gzip_fastq_1:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: second_pass/collapsed_fastq_1
-    out:
-      [output]
 
   gzip_fastq_2:
     run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_2
+    out:
+      [output]
+
+  gzip_fastq_1:
+    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: second_pass/collapsed_fastq_1
     out:
       [output]

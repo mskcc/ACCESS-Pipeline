@@ -40,6 +40,8 @@ class: CommandLineTool
 
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+
+arguments:
 - -jar
 - /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
 - --tmp-dir=/scratch
@@ -47,6 +49,8 @@ baseCommand:
 
 requirements:
   InlineJavascriptRequirement: {}
+  # Need this to allow for -M=1 1 1
+  ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 30000
     coresMin: 1
@@ -66,7 +70,7 @@ inputs:
       prefix: -i
 
   reference_fasta:
-    type: File
+    type: string
     inputBinding:
       prefix: -r
 
@@ -75,6 +79,7 @@ inputs:
     inputBinding:
       prefix: -M
       itemSeparator: '='
+      shellQuote: false
 
   min_base_quality:
     type: string
