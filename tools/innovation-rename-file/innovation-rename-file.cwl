@@ -12,11 +12,11 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: innovation-sort-bam
-  doap:revision: 1.0.0
+  doap:name: innovation-rename-file
+  doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -41,21 +41,23 @@ class: CommandLineTool
 requirements:
     - class: ShellCommandRequirement
 
+baseCommand: [mv]
+
 inputs:
-  input_bam:
+
+  input_file:
     type: File
+    inputBinding:
+      position: 1
 
-baseCommand: [samtools]
-
-arguments:
-  - sort
-  - -n
-  - $(inputs.input_bam)
-  - '>'
-  - $( inputs.input_bam.basename.replace(".bam", "_samtSRT.bam") )
+  new_name:
+    type: string
+    inputBinding:
+      position: 2
 
 outputs:
-  bam_sorted_queryname:
+
+  renamed_file:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_samtSRT.bam") )
+      glob: $( inputs.new_name )

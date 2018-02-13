@@ -65,7 +65,7 @@ inputs:
 
   O:
     type: ['null', string]
-    doc: The output file to right marked records to
+    doc: The output file to write marked records to
     default: $( inputs.I.basename.replace(".bam", "_MD.bam") )
     inputBinding:
       prefix: O=
