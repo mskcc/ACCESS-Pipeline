@@ -54,15 +54,6 @@ inputs:
       - $( self.path.replace('_R1_', '_R2_') )
       - $( self.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
 
-
-#  bams:
-#    type:
-#      type: array
-#      items: File
-#    secondaryFiles:
-#      - ^.bai
-
-
   fastq2: File[]
   sample_sheet: File[]
 
@@ -109,7 +100,7 @@ inputs:
   coverage_threshold: string
   gene_list: string
   bed_file: string
-  min_mapping_quality: string
+  waltz__min_mapping_quality: string
 
 
 outputs:
@@ -204,8 +195,6 @@ steps:
     run: ./innovation_pipeline.scatter.cwl
 
     in:
-      title_file: title_file
-
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
@@ -224,6 +213,7 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
 
+      # Fulcrum
       tmp_dir: tmp_dir
       sort_order: sort_order
       grouping_strategy: grouping_strategy
@@ -244,10 +234,11 @@ steps:
       marianas__min_consensus_percent: marianas__min_consensus_percent
       marianas_collapsing__outdir: marianas_collapsing__outdir
 
+      # Waltz
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      waltz__min_mapping_quality: waltz__min_mapping_quality
 
     # I7 adapter is different for each sample, I5 is not
     scatter: [adapter, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]

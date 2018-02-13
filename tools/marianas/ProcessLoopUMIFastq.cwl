@@ -47,12 +47,15 @@ arguments:
 - -Xmx8g
 - -cp
 # todo: which Marianas for this step?
-- /home/johnsoni/Innovation-Pipeline-dev/software/Marianas-standard.jar
+- /home/johnsoni/software/Marianas-standard.jar
 - org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - $(inputs.fastq1)
+  - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
 
