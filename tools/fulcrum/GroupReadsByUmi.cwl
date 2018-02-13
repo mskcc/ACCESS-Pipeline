@@ -85,13 +85,13 @@ inputs:
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcrumGrouped.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
     inputBinding:
       prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcrumGrouped.bam") )
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcrumGrouped.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )

@@ -117,6 +117,10 @@ outputs:
     type: File
     outputSource: process_loop_umi_fastq/output_sample_sheet
 
+  duplex_seq_metrics:
+    type: File
+    outputSource: fulcrum/duplex_seq_metrics
+
   ####################
   # Output Bams (x5) #
   ####################
@@ -189,10 +193,9 @@ steps:
     run: ../tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       fastq1: fastq1
-      fastq2: fastq2
-      sample_sheet: sample_sheet
+#      fastq2: fastq2
+#      sample_sheet: sample_sheet
       umi_length: umi_length
-      # todo - doesnt need two outdirs
       output_project_folder: output_project_folder
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
 
@@ -231,7 +234,7 @@ steps:
   #############################
 
   waltz_standard:
-    run: ./waltz-workflow.cwl
+    run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: module_1_innovation/bam
       coverage_threshold: coverage_threshold
@@ -248,7 +251,7 @@ steps:
   ###########################
 
   fulcrum:
-    run: ./fulcrum_workflow.cwl
+    run: ./fulcrum/fulcrum_workflow.cwl
     in:
       tmp_dir: tmp_dir
       input_bam: module_1_innovation/bam
@@ -268,7 +271,7 @@ steps:
       filter_min_base_quality: filter_min_base_quality
 
     out:
-      [simplex_duplex_fastq_1, simplex_duplex_fastq_2, duplex_fastq_1, duplex_fastq_2]
+      [simplex_duplex_fastq_1, simplex_duplex_fastq_2, duplex_fastq_1, duplex_fastq_2, duplex_seq_metrics]
 
   module_1_post_fulcrum_simplex_duplex:
     run: ./module-1.cwl
@@ -292,7 +295,7 @@ steps:
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
       output_suffix:
-        valueFrom: ${ return '_fulcrum_simplex_duplex' }
+        valueFrom: ${ return '_simplex_duplex' }
     out:
       [bam, bai, md_metrics, clstats1, clstats2]
 
@@ -318,7 +321,7 @@ steps:
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
       output_suffix:
-        valueFrom: ${ return '_fulcrum_duplex' }
+        valueFrom: ${ return '_duplex' }
     out:
       [bam, bai, md_metrics, clstats1, clstats2]
 
@@ -327,7 +330,7 @@ steps:
   #################################
 
   waltz_fulcrum_simplex_duplex:
-    run: ./waltz-workflow.cwl
+    run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: module_1_post_fulcrum_simplex_duplex/bam
       coverage_threshold: coverage_threshold
@@ -340,7 +343,7 @@ steps:
       [pileup, waltz_output_files]
 
   waltz_fulcrum_duplex:
-    run: ./waltz-workflow.cwl
+    run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: module_1_post_fulcrum_duplex/bam
       coverage_threshold: coverage_threshold
@@ -357,7 +360,7 @@ steps:
   ############################
 
   marianas_simplex_duplex:
-    run: ./marianas_collapsing_workflow_simplex_duplex.cwl
+    run: ./marianas/marianas_collapsing_workflow_simplex_duplex.cwl
     in:
       input_bam: module_1_innovation/bam
       reference_fasta: reference_fasta
@@ -399,7 +402,7 @@ steps:
       [bam, bai, md_metrics, clstats1, clstats2]
 
   marianas_duplex:
-    run: ./marianas_collapsing_workflow_duplex.cwl
+    run: ./marianas/marianas_collapsing_workflow_duplex.cwl
     in:
       input_bam: module_1_innovation/bam
       reference_fasta: reference_fasta
@@ -446,7 +449,7 @@ steps:
   ##################################
 
   waltz_marianas_simplex_duplex:
-    run: ./waltz-workflow.cwl
+    run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: module_1_post_marianas_simplex_duplex/bam
       coverage_threshold: coverage_threshold
@@ -459,7 +462,7 @@ steps:
       [pileup, waltz_output_files]
 
   waltz_marianas_duplex:
-    run: ./waltz-workflow.cwl
+    run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: module_1_post_marianas_duplex/bam
       coverage_threshold: coverage_threshold

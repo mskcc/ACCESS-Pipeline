@@ -66,7 +66,6 @@ inputs:
   filter_min_reads: string
   filter_min_base_quality: string
 
-
 outputs:
 
   simplex_duplex_fastq_1:
@@ -85,52 +84,52 @@ outputs:
     type: File
     outputSource: duplex_fulcrum_postprocessing/output_fastq_2
 
+  duplex_seq_metrics:
+    type: File
+    outputSource: collect_duplex_seq_metrics/metrics
 
 steps:
+
   innovation_extract_read_names:
-    run: ../tools/innovation-extract-read-names/innovation-extract-read-names.cwl
+    run: ../../tools/innovation-extract-read-names/innovation-extract-read-names.cwl
     in:
       input_bam: input_bam
     out:
       [read_names]
 
   innovation_map_read_names_to_umis:
-    run: ../tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
+    run: ../../tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
     in:
       read_names: innovation_extract_read_names/read_names
     out:
       [annotated_fastq]
 
   annotate_bam_with_umis:
-    run: ../tools/fulcrum/AnnotateBamWithUmis.cwl
+    run: ../../tools/fulcrum/AnnotateBamWithUmis.cwl
     in:
-#      tmp_dir: tmp_dir
       input_bam: input_bam
       annotated_fastq: innovation_map_read_names_to_umis/annotated_fastq
     out:
       [output_bam]
 
   sort_bam:
-    run: ../tools/fulcrum/SortBam.cwl
+    run: ../../tools/fulcrum/SortBam.cwl
     in:
-#        tmp_dir: tmp_dir
         input_bam: annotate_bam_with_umis/output_bam
         sort_order: sort_order
     out:
       [output_bam]
 
   set_mate_information:
-    run: ../tools/fulcrum/SetMateInformation.cwl
+    run: ../../tools/fulcrum/SetMateInformation.cwl
     in:
-#      tmp_dir: tmp_dir
       input_bam: sort_bam/output_bam
     out:
       [output_bam]
 
   group_reads_by_umi:
-    run: ../tools/fulcrum/GroupReadsByUmi.cwl
+    run: ../../tools/fulcrum/GroupReadsByUmi.cwl
     in:
-#      tmp_dir: tmp_dir
       strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
@@ -138,19 +137,24 @@ steps:
     out:
       [output_bam]
 
-  call_duplex_consensus_reads:
-    run: ../tools/fulcrum/CallDuplexConsensusReads.cwl
+  collect_duplex_seq_metrics:
+    run: ../../tools/fulcrum/CollectDuplexSeqMetrics.cwl
     in:
-#      tmp_dir: tmp_dir
+      input_bam: group_reads_by_umi/output_bam
+    out:
+      [metrics]
+
+  call_duplex_consensus_reads:
+    run: ../../tools/fulcrum/CallDuplexConsensusReads.cwl
+    in:
       input_bam: group_reads_by_umi/output_bam
       call_duplex_min_reads: call_duplex_min_reads
     out:
       [output_bam]
 
   filter_consensus_reads:
-    run: ../tools/fulcrum/FilterConsensusReads.cwl
+    run: ../../tools/fulcrum/FilterConsensusReads.cwl
     in:
-#      tmp_dir: tmp_dir
       input_bam: call_duplex_consensus_reads/output_bam
       reference_fasta: reference_fasta
       min_reads: filter_min_reads

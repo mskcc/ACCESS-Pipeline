@@ -1,45 +1,39 @@
 #!/bin/bash
 
 # Parse Inputs:
-project=$1
+project_name=$1
 workflow=$2
-inputs=$3
+inputs_file=$3
+output_location=$4
 
 # Create job-uuid
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
 # Set output directory
-jobstore_base="/ifs/work/bergerm1/Innovation/sandbox/ian/${project}/tmp/"
-
-# Check if output directory already exists
-if [ -d ${jobstore_base} ]
-then
-    echo "The specified output directory already exists: ${jobstore_base}"
-    echo "Aborted."
-    exit 1
-fi
-
-# Create output directory
-mkdir -p ${jobstore_base}
-
-# Set jobstore path
+output_directory="${output_location}/${project_name}"
+jobstore_base="${output_directory}/tmp/"
 jobstore_path="${jobstore_base}/jobstore-${job_store_uuid}"
 
-output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian/${project}'))"`
+# Check if output directory already exists
+if [ -d ${output_directory} ]
+then
+    echo "The specified output directory already exists: ${output_directory}"
+    exit 1
+fi
 
 # create output directory
 mkdir -p ${output_directory}
 mkdir -p ${output_directory}/log
 mkdir -p ${output_directory}/tmp
-
+mkdir -p ${jobstore_base}
 
 cwltoil \
     ${workflow} \
-    ${inputs} \
+    ${inputs_file} \
     --batchSystem singleMachine \
     --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
     --defaultDisk 10G \
-    --defaultMem 50G \
+    --defaultMem 10G \
     --outdir ${output_directory} \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \

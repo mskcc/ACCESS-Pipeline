@@ -64,16 +64,16 @@ outputs:
 
   output_fastq_1:
     type: File
-    outputSource: gzip_fastq_1/output
+    outputSource: rename_fastq_1/renamed_file
 
   output_fastq_2:
     type: File
-    outputSource: gzip_fastq_2/output
+    outputSource: rename_fastq_2/renamed_file
 
 steps:
 
   first_pass:
-    run: ../tools/marianas/DuplexUMIBamToCollapsedFastqFirstPass.cwl
+    run: ../../tools/marianas/SimplexDuplexUMIBamToCollapsedFastqFirstPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -91,14 +91,14 @@ steps:
 
   sort_by_mate_position:
     # todo - can use an existing sort cwl?
-    run: ../tools/marianas-sort/marianas-sort.cwl
+    run: ../../tools/marianas-sort/marianas-sort.cwl
     in:
       first_pass_file: first_pass/first_pass_output_file
     out:
       [output_file]
 
   second_pass:
-    run: ../tools/marianas/DuplexUMIBamToCollapsedFastqSecondPass.cwl
+    run: ../../tools/marianas/SimplexDuplexUMIBamToCollapsedFastqSecondPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -114,15 +114,35 @@ steps:
       [collapsed_fastq_1, collapsed_fastq_2]
 
   gzip_fastq_2:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_2
     out:
       [output]
 
   gzip_fastq_1:
-    run: ../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_1
     out:
       [output]
+
+  rename_fastq_1:
+    run: ../../tools/innovation-rename-file/innovation-rename-file.cwl
+    in:
+      input_file: gzip_fastq_1/output
+      new_name:
+        source: input_bam
+        valueFrom: $( self.basename.replace('.bam', '_R1_.fastq.gz') )
+    out:
+      [renamed_file]
+
+  rename_fastq_2:
+    run: ../../tools/innovation-rename-file/innovation-rename-file.cwl
+    in:
+      input_file: gzip_fastq_2/output
+      new_name:
+        source: input_bam
+        valueFrom: $( self.basename.replace('.bam', '_R2_.fastq.gz') )
+    out:
+      [renamed_file]

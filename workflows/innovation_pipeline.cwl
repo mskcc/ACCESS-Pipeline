@@ -124,6 +124,10 @@ outputs:
     type: Directory
     outputSource: standard_aggregate_bam_metrics/output_dir
 
+  ###########
+  # Fulcrum #
+  ###########
+
   fulcrum_simplex_duplex_bams:
     type:
       type: array
@@ -144,6 +148,16 @@ outputs:
     type: Directory
     outputSource: fulcrum_duplex_aggregate_bam_metrics/output_dir
 
+  duplex_seq_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: scatter_step/duplex_seq_metrics
+
+  ############
+  # Marianas #
+  ############
+
   marianas_simplex_duplex_bams:
     type:
       type: array
@@ -163,6 +177,10 @@ outputs:
   marianas_duplex_waltz_files:
     type: Directory
     outputSource: marianas_duplex_aggregate_bam_metrics/output_dir
+
+  ##############
+  # QC reports #
+  ##############
 
 #  standard_aggregated_waltz_output:
 #    type: Directory
@@ -240,8 +258,11 @@ steps:
       output_sample_sheet,
 
       standard_bams,
+
       fulcrum_simplex_duplex_bams,
       fulcrum_duplex_bams,
+      duplex_seq_metrics,
+
       marianas_simplex_duplex_bams,
       marianas_duplex_bams,
 

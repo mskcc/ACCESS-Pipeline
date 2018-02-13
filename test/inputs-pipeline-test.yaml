@@ -11,11 +11,11 @@ title_file: {class: File, path: 'test-data/start/test_title_file.txt'}
 
 # todo - should be Files
 fastq1: [
-  {class: File, path: 'test-data/start/testsample_R1_001.fastq.gz'}
+  {class: File, path: 'test-data/start/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_R1_001.fastq.gz'}
 ]
 
 fastq2: [
-  {class: File, path: 'test-data/start/testsample_R2_001.fastq.gz'}
+  {class: File, path: 'test-data/start/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_R2_001.fastq.gz'}
 ]
 
 sample_sheet: [

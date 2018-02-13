@@ -1,49 +1,19 @@
 #!/bin/bash
 
+# Usage:
+# ./run-pipeline-test /output/location
 
-# Set your test directory:
-project="pipeline_test-2_12"
+output_location=$1
 
-job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+# Create output dir
+DD=$(date +%d)
+MM=$(date +%m)
+project="pipeline_test_$MM-$DD"
+output_directory=`python -c "import os;print(os.path.abspath('${output_location}/${project}'))"`
 
-jobstore_base="/ifs/work/bergerm1/Innovation/sandbox/ian/${project}/tmp/"
-
-# check if output directory already exists
-if [ -d ${jobstore_base} ]
-then
-    echo "The specified output directory already exists: ${jobstore_base}"
-    echo "Aborted."
-    exit 1
-fi
-
-mkdir -p ${jobstore_base}
-
-jobstore_path="${jobstore_base}/jobstore-${job_store_uuid}"
-
-output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian/${project}'))"`
-
-# create output directory
-mkdir -p ${output_directory}
-mkdir -p ${output_directory}/log
-mkdir -p ${output_directory}/tmp
-
-
-cwltoil \
+# Run test pipeline
+./test-runner.sh \
+    ${project} \
     ../workflows/innovation_pipeline.cwl \
     inputs-pipeline-test.yaml \
-    --batchSystem singleMachine \
-    --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
-    --defaultDisk 10G \
-    --defaultMem 50G \
-    --outdir ${output_directory} \
-    --writeLogs	${output_directory}/log \
-    --logFile ${output_directory}/log/cwltoil.log \
-    --no-container \
-    --cleanWorkDir never \
-    --disableCaching \
-    --realTimeLogging \
-    --workDir ${output_directory}/tmp \
-    --jobStore file://${jobstore_path} \
-    --cleanWorkDir never
-
-#    --logDebug \
+    ${output_directory}
