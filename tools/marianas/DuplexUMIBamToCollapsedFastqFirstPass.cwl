@@ -46,7 +46,7 @@ arguments:
 - -Xms8g
 - -Xmx8g
 - -cp
-- /home/johnsoni/Innovation-Pipeline-dev/software/Marianas-true-duplex-1-1.jar
+- /home/johnsoni/software/Marianas-true-duplex-1-1.jar
 - org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
 requirements:

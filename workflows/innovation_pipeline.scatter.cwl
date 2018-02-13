@@ -100,7 +100,7 @@ inputs:
   coverage_threshold: string
   gene_list: string
   bed_file: string
-  min_mapping_quality: string
+  waltz__min_mapping_quality: string
 
 
 outputs:
@@ -193,8 +193,8 @@ steps:
     run: ../tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       fastq1: fastq1
-#      fastq2: fastq2
-#      sample_sheet: sample_sheet
+      fastq2: fastq2
+      sample_sheet: sample_sheet
       umi_length: umi_length
       output_project_folder: output_project_folder
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
@@ -240,7 +240,7 @@ steps:
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:
@@ -336,7 +336,7 @@ steps:
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:
@@ -349,7 +349,7 @@ steps:
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:
@@ -455,7 +455,7 @@ steps:
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:
@@ -468,7 +468,7 @@ steps:
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
-      min_mapping_quality: min_mapping_quality
+      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:

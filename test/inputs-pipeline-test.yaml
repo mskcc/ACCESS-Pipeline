@@ -68,7 +68,6 @@ adapter: [
 # I5 Adapter
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 genome: "hg19"
-tmp_dir: /scratch
 
 ###########
 # Fulcrum #
@@ -113,4 +112,4 @@ gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
 # ZS-msi test sample was using pan-cancer or pool-A bedfile?
 bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
 
-min_mapping_quality: '20'
+waltz__min_mapping_quality: '20'
