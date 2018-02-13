@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
+  doap:name: fulcrum.CollectDuplexSeqMetrics
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
+  doap:name: fulcrum.CollectDuplexSeqMetrics
   doap:revision: 1.0.0
 
 dct:creator:
@@ -38,29 +38,21 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# Example Usage:
-#
-# java -jar ${fgbio_jar} --tmp-dir=${scratch_dir} AnnotateBamWithUmis
-# -i ${input_bam}
-# -f ${output_folder}/Duplex_UMI_for_readNames.fastq
-# -o ${output_folder}/sample_with_UMI.bam
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
 - -Xms8g
-- -Xmx45g
+- -Xmx8g
 - -jar
 - /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
 - --tmp-dir=/scratch
-- AnnotateBamWithUmis
+- CollectDuplexSeqMetrics
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    # Requires large amount of ram (loads all read names into a java hashmap)
-    ramMin: 50000
+    ramMin: 10000
     coresMin: 1
 
 doc: |
@@ -77,20 +69,23 @@ inputs:
     inputBinding:
       prefix: -i
 
-  annotated_fastq:
-    type: File
+  u:
+    type: string
+    default: 'true'
     inputBinding:
-      prefix: -f
+      prefix: -u
+      valueFrom: ${ return 'true' }
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "") )
     inputBinding:
       prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "") )
 
 outputs:
-  output_bam:
+
+  metrics:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+      glob: '*.pdf'

@@ -77,13 +77,13 @@ inputs:
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )
     inputBinding:
       prefix: --output
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcrumSorted.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )

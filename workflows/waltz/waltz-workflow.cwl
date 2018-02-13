@@ -73,7 +73,7 @@ outputs:
 steps:
 
   count_reads:
-    run: ../tools/waltz/CountReads.cwl
+    run: ../../tools/waltz/CountReads.cwl
     in:
       input_bam: input_bam
       coverage_threshold: coverage_threshold
@@ -86,7 +86,7 @@ steps:
     ]
 
   pileup_metrics:
-    run: ../tools/waltz/PileupMetrics.cwl
+    run: ../../tools/waltz/PileupMetrics.cwl
     in:
       input_bam: input_bam
       min_mapping_quality: min_mapping_quality
@@ -101,7 +101,7 @@ steps:
     ]
 
   grouped_waltz_files:
-    run: ../tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../../tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
       covered_regions: count_reads/covered_regions
       fragment_sizes: count_reads/fragment_sizes
