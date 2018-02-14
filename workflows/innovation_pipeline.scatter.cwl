@@ -44,17 +44,10 @@ requirements:
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
 
-
 inputs:
 
   # Marianas UMI Clipping
-  # todo - should be files!
-  fastq1:
-    type: File
-    secondaryFiles:
-      - $( inputs.fastq1.path.replace('_R1_', '_R2_') )
-      - $( inputs.fastq1.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
-
+  fastq1: File
   fastq2: File
   sample_sheet: File
   umi_length: string
@@ -105,14 +98,7 @@ inputs:
 
 outputs:
 
-#  dir_out:
-#    type: Directory
-#    type: Directory
-#    outputBinding:
-#      glob: .
-
   # todo - should be an array?
-
   output_sample_sheet:
     type: File
     outputSource: process_loop_umi_fastq/output_sample_sheet

@@ -55,6 +55,8 @@ requirements:
   - class: InitialWorkDirRequirement
     listing:
       - $(inputs.fastq1)
+      - $(inputs.fastq2)
+      - $(inputs.sample_sheet)
   - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
@@ -63,13 +65,15 @@ doc: Marianas UMI Clipping module
 
 inputs:
   fastq1:
-    type:
-    - File
+    type: File
     inputBinding:
       position: 1
-    secondaryFiles:
-      - $( inputs.fastq1.path.replace('_R1_', '_R2_') )
-      - $( inputs.fastq1.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
+
+  fastq2:
+    type: File
+
+  sample_sheet:
+    type: File
 
   umi_length:
     type: string
