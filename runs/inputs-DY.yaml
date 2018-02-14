@@ -1,0 +1,184 @@
+######################
+# Inputs for 5500-EJ #
+######################
+
+title_file: {class: File, path: '/home/johnsoni/Project_05500_DY_title_file.txt'}
+
+##########
+# Fastqs #
+##########
+
+fastq1: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/MSK-L-017-bc_IGO_05500_DY_1_S1_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/MSK-L-017-cf_IGO_05500_DY_18_S20_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/MSK-L-035-bc_IGO_05500_DY_7_S9_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/MSK-L-035-cf_IGO_05500_DY_24_S29_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/MSK-L-039-bc_IGO_05500_DY_2_S5_R1_001.fastq.gz'}
+  ]
+
+fastq2: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/MSK-L-017-bc_IGO_05500_DY_1_S1_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/MSK-L-017-cf_IGO_05500_DY_18_S20_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/MSK-L-035-bc_IGO_05500_DY_7_S9_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/MSK-L-035-cf_IGO_05500_DY_24_S29_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/MSK-L-039-bc_IGO_05500_DY_2_S5_R2_001.fastq.gz'}
+  ]
+
+sample_sheet: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/SampleSheet.csv'}
+  ]
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+
+umi_length: '3'
+output_project_folder: '.'
+# todo - remove:
+outdir: '.'
+
+############
+# Module 1 #
+############
+
+add_rg_ID: [
+  Sample_MSK-L-007-bc_IGO_05500_DY_5,
+  Sample_MSK-L-007-cf_IGO_05500_DY_22,
+  Sample_MSK-L-009-bc_IGO_05500_DY_6,
+  Sample_MSK-L-009-cf_IGO_05500_DY_23,
+  Sample_MSK-L-017-bc_IGO_05500_DY_1,
+  Sample_MSK-L-017-cf_IGO_05500_DY_18,
+  Sample_MSK-L-035-bc_IGO_05500_DY_7,
+  Sample_MSK-L-035-cf_IGO_05500_DY_24,
+  Sample_MSK-L-039-bc_IGO_05500_DY_2
+]
+
+add_rg_PL: "Illumina"
+add_rg_CN: "InnovationLab"
+
+add_rg_LB: [
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage,
+  Garbage
+  ]
+
+# todo - should these come from SampleSheet.csv or the reverse complements in barcodeKey96.txt?
+add_rg_PU: [
+  CGTATTCG,
+  TCAGACGA,
+  TAGTTGCG,
+  GATAGGCT,
+  GTCGGTAA,
+  TAGTTGCG,
+  GAGATACG,
+  TGGTACAG,
+  GAATCCGA,
+]
+
+add_rg_SM: [
+  Sample_MSK-L-007-bc_IGO_05500_DY_5,
+  Sample_MSK-L-007-cf_IGO_05500_DY_22,
+  Sample_MSK-L-009-bc_IGO_05500_DY_6,
+  Sample_MSK-L-009-cf_IGO_05500_DY_23,
+  Sample_MSK-L-017-bc_IGO_05500_DY_1,
+  Sample_MSK-L-017-cf_IGO_05500_DY_18,
+  Sample_MSK-L-035-bc_IGO_05500_DY_7,
+  Sample_MSK-L-035-cf_IGO_05500_DY_24,
+  Sample_MSK-L-039-bc_IGO_05500_DY_2
+  ]
+
+
+# I7 Adapters (with barcodes)
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATTCG ATATCTCGTATGCCGTCTTCTGCTTG,
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCAGACGA ATATCTCGTATGCCGTCTTCTGCTTG,
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGTTGCG ATATCTCGTATGCCGTCTTCTGCTTG,
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GATAGGCT ATATCTCGTATGCCGTCTTCTGCTTG,
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTCGGTAA ATATCTCGTATGCCGTCTTCTGCTTG,
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TAGTTGCG ATATCTCGTATGCCGTCTTCTGCTTG
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GAGATACG ATATCTCGTATGCCGTCTTCTGCTTG
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TGGTACAG ATATCTCGTATGCCGTCTTCTGCTTG
+# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GAATCCGA ATATCTCGTATGCCGTCTTCTGCTTG
+
+# todo - check that these are right:
+adapter: [
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGTATTCGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCAGACGAATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTAGTTGCGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATAGGCTATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTCGGTAAATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTAGTTGCGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGAGATACGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGGTACAGATATCTCGTATGCCGTCTTCTGCTTG",
+  "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGAATCCGAATATCTCGTATGCCGTCTTCTGCTTG"
+  ]
+
+# I5 Adapter
+# todo - always universal?
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+genome: "GRCh37"
+
+###########
+# Fulcrum #
+###########
+
+tmp_dir: '/scratch'
+
+# SortBam
+sort_order: 'Queryname'
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+
+# CallDuplexConsensusReads
+call_duplex_min_reads: '1 1 0'
+
+# FilterConsensusReads
+reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'
+
+filter_min_reads: '2 1 0'
+filter_min_base_quality: '30'
+
+############
+# Marianas #
+############
+
+marianas__mismatches: '1'
+marianas__wobble: '3'
+marianas__min_consensus_percent: '90'
+marianas_collapsing__outdir: '.'
+
+#########
+# Waltz #
+#########
+
+coverage_threshold: '20'
+
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+
+waltz__min_mapping_quality: '20'
