@@ -28,19 +28,20 @@ mkdir -p ${output_directory}/tmp
 mkdir -p ${jobstore_base}
 
 toil-cwl-runner \
-    ${workflow} \
-    ${inputs_file} \
+    --outdir ${output_directory} \
+    --writeLogs	${output_directory}/log \
+    --logFile ${output_directory}/log/cwltoil.log \
     --batchSystem singleMachine \
     --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
     --defaultDisk 10G \
     --defaultMem 10G \
-    --outdir ${output_directory} \
-    --writeLogs	${output_directory}/log \
-    --logFile ${output_directory}/log/cwltoil.log \
     --no-container \
     --disableCaching \
     --realTimeLogging \
     --workDir ${output_directory}/tmp \
     --jobStore file://${jobstore_path} \
-    --logDebug \
-    --cleanWorkDir never
+    --cleanWorkDir never \
+    ${workflow} \
+    ${inputs_file}
+
+#    --logDebug \
