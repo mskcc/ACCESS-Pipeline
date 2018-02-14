@@ -27,7 +27,7 @@ mkdir -p ${output_directory}/log
 mkdir -p ${output_directory}/tmp
 mkdir -p ${jobstore_base}
 
-cwltoil \
+toil-cwl-runner \
     ${workflow} \
     ${inputs_file} \
     --batchSystem singleMachine \

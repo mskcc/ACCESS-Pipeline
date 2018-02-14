@@ -46,14 +46,7 @@ requirements:
 inputs:
   title_file: File
 
-  fastq1:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - $( self.path.replace('_R1_', '_R2_') )
-      - $( self.path.split('/').slice(0, -1).join('/') + '/SampleSheet.csv' )
-
+  fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
 
