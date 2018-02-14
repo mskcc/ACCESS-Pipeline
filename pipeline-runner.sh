@@ -6,6 +6,8 @@ workflow=$2
 inputs_file=$3
 output_location=$4
 
+echo "Are you sure you want to do this? (check singleMachine vs lsf parameter)"
+
 # Create job-uuid
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
@@ -31,7 +33,7 @@ toil-cwl-runner \
     --outdir ${output_directory} \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \
-    --batchSystem singleMachine \
+    --batchSystem lsf \
     --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
     --defaultDisk 10G \
     --defaultMem 10G \
