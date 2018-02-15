@@ -18,6 +18,8 @@ Usage:
 - HG19 Reference fasta + fai
 
 ```
+virtualenv ~/my-virtual-env
+source ~/my-virtual-env/bin/activate
 pip install toil'[cwl]'==3.14.0
 toil-cwl-runner workflows/innovation_pipelne.cwl runs/inputs_pipeline_test.yaml
 ```
