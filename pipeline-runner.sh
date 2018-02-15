@@ -43,6 +43,7 @@ toil-cwl-runner \
     --workDir ${output_directory}/tmp \
     --jobStore file://${jobstore_path} \
     --cleanWorkDir never \
+    --stats \
     ${workflow} \
     ${inputs_file}
 
