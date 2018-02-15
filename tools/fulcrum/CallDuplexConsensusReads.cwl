@@ -43,7 +43,7 @@ baseCommand:
 
 arguments:
 - -jar
-- /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
+- /home/johnsoni/software/fulcrum/fgbio-0.5.0.jar
 - --tmp-dir=/scratch
 - CallDuplexConsensusReads
 
