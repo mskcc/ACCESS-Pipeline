@@ -38,13 +38,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# Example Usage:
-#
-# java -jar ${fgbio_jar} --tmp-dir=${scratch_dir} AnnotateBamWithUmis
-# -i ${input_bam}
-# -f ${output_folder}/Duplex_UMI_for_readNames.fastq
-# -o ${output_folder}/sample_with_UMI.bam
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
@@ -52,7 +45,7 @@ arguments:
 - -Xms8g
 - -Xmx45g
 - -jar
-- /home/johnsoni/software/fulcrum/fgbio-0.4.0.jar
+- /home/johnsoni/software/fulcrum/fgbio-0.5.0.jar
 - --tmp-dir=/scratch
 - AnnotateBamWithUmis
 
