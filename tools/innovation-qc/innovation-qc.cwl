@@ -55,6 +55,11 @@ inputs:
     inputBinding:
       prefix: -sw
 
+  marianas_waltz_metrics:
+    type: Directory
+    inputBinding:
+      prefix: -mw
+
   fulcrum_waltz_metrics:
     type: Directory
     inputBinding:
