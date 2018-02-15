@@ -1,0 +1,4 @@
+threads: '4'
+input_bam: {class: File, path: '../test-data/picard/from_MD.bam'}
+reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+targets: {class: File, path: '../test-data/start/pan-cancer-panel.sorted.bed'}

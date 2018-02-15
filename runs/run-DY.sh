@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-# Create output dir
 DD=$(date +%d)
 MM=$(date +%m)
 project="DY_$MM-$DD"
