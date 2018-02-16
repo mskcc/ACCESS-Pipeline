@@ -86,35 +86,35 @@ outputs:
 steps:
 
   standard_consolidate_bam_metrics:
-    run: ../../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: standard_waltz_files
     out:
       [waltz_files]
 
   fulcrum_simplex_duplex_consolidate_bam_metrics:
-    run: ../../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: fulcrum_simplex_duplex_waltz_files
     out:
       [waltz_files]
 
   fulcrum_duplex_consolidate_bam_metrics:
-    run: ../../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: fulcrum_duplex_waltz_files
     out:
       [waltz_files]
 
   marianas_simplex_duplex_consolidate_bam_metrics:
-    run: ../../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: marianas_simplex_duplex_waltz_files
     out:
       [waltz_files]
 
   marianas_duplex_consolidate_bam_metrics:
-    run: ../../tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
     in:
       waltz_input_files: marianas_duplex_waltz_files
     out:
@@ -126,35 +126,35 @@ steps:
   ################################################
 
   standard_aggregate_bam_metrics:
-    run: ../../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: standard_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   fulcrum_simplex_duplex_aggregate_bam_metrics:
-    run: ../../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: fulcrum_simplex_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   fulcrum_duplex_aggregate_bam_metrics:
-    run: ../../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: fulcrum_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   marianas_simplex_duplex_aggregate_bam_metrics:
-    run: ../../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   marianas_duplex_aggregate_bam_metrics:
-    run: ../../tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl-tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
     in:
       waltz_input_files: marianas_duplex_consolidate_bam_metrics/waltz_files
     out:
@@ -166,7 +166,7 @@ steps:
   #################
 
   simplex_duplex_innovation_qc:
-    run: ../../tools/innovation-qc/innovation-qc.cwl
+    run: ../../cwl-tools/innovation-qc/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       marianas_waltz_metrics: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
@@ -176,7 +176,7 @@ steps:
       [qc_pdf]
 
   duplex_innovation_qc:
-    run: ../../tools/innovation-qc/innovation-qc.cwl
+    run: ../../cwl-tools/innovation-qc/innovation-qc.cwl
     in:
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       marianas_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir

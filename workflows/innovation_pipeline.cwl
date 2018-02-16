@@ -190,40 +190,42 @@ steps:
     run: ./innovation_pipeline.scatter.cwl
 
     in:
+      tmp_dir: tmp_dir
+
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
+
+      # Marianas ProcessUMIFastq
       umi_length: umi_length
       output_project_folder: output_project_folder
       outdir: outdir
+
       adapter: adapter
       adapter2: adapter2
 
       genome: genome
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
 
-      # Fulcrum
-      tmp_dir: tmp_dir
+      # Fulcrum Collapsing
       sort_order: sort_order
       grouping_strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       # CallDuplexConsensusReads
       call_duplex_min_reads: call_duplex_min_reads
       # FilterConsensusReads
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
 
-      # Marianas
+      # Marianas Collapsing
       marianas__mismatches: marianas__mismatches
       marianas__wobble: marianas__wobble
       marianas__min_consensus_percent: marianas__min_consensus_percent
@@ -235,7 +237,7 @@ steps:
       bed_file: bed_file
       waltz__min_mapping_quality: waltz__min_mapping_quality
 
-    # I7 adapter is different for each sample, I5 is not - todo: yes it is
+    # I7 adapter is different for each sample, I5 is not - todo: but it should be
     scatter: [adapter, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
 
     scatterMethod: dotproduct
@@ -269,3 +271,5 @@ steps:
       marianas_duplex_waltz_files: scatter_step/marianas_duplex_waltz_files
 
     out: [simplex_duplex_qc_pdf, duplex_qc_pdf]
+
+  

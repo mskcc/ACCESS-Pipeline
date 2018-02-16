@@ -176,7 +176,7 @@ steps:
   #########################
 
   process_loop_umi_fastq:
-    run: ../tools/marianas/ProcessLoopUMIFastq.cwl
+    run: ../cwl-tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
