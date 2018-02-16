@@ -33,8 +33,8 @@ toil-cwl-runner \
     --outdir ${output_directory} \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \
-    --batchSystem lsf \
-    --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
+    --batchSystem singleMachine \
+    --preserve-environment PATH PYTHONPATH \
     --defaultDisk 10G \
     --defaultMem 10G \
     --no-container \
