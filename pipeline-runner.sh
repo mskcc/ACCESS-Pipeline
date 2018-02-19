@@ -5,6 +5,7 @@ project_name=$1
 workflow=$2
 inputs_file=$3
 output_location=$4
+batch_system=$5
 
 echo "Are you sure you want to do this? (check singleMachine vs lsf parameter)"
 
@@ -33,7 +34,7 @@ toil-cwl-runner \
     --outdir ${output_directory} \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \
-    --batchSystem singleMachine \
+    --batchSystem ${batch_system} \
     --preserve-environment PATH PYTHONPATH \
     --defaultDisk 10G \
     --defaultMem 10G \

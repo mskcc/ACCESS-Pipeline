@@ -11,4 +11,5 @@ output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1
     ${project} \
     ../workflows/innovation_pipeline.cwl \
     inputs-pipeline-test.yaml \
-    ${output_directory}
+    ${output_directory} \
+    singleMachine
