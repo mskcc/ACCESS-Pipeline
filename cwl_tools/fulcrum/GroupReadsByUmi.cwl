@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
+  doap:name: cmo-fulcrum.GroupReadsByUmi
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
+  doap:name: cmo-fulcrum.GroupReadsByUmi
   doap:revision: 1.0.0
 
 dct:creator:
@@ -39,15 +39,13 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
-- -server
-- -Xms8g
-- -Xmx8g
-- -cp
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/Marianas-standard.jar
-- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
+- -jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+- --tmp-dir=/scratch
+- GroupReadsByUmi
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -63,53 +61,37 @@ inputs:
   input_bam:
     type: File
     inputBinding:
-      position: 1
+      prefix: -i
 
-  pileup:
-    type: File
-    inputBinding:
-      position: 2
+#  tmp_dir:
+#    type: string
+#    inputBinding:
+#      prefix: --tmp_dir
 
-  mismatches:
+  strategy:
     type: string
     inputBinding:
-      position: 3
+      prefix: -s
 
-  wobble:
+  min_mapping_quality:
     type: string
     inputBinding:
-      position: 4
+      prefix: -m
 
-  min_consensus_percent:
+  tag_family_size_counts_output:
     type: string
     inputBinding:
-      position: 5
+      prefix: -f
 
-  reference_fasta:
-    type: string
-    inputBinding:
-      position: 6
-
-  reference_fasta_fai: string
-
-  output_dir:
+  output_bam_filename:
     type: ['null', string]
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
     inputBinding:
-      position: 7
+      prefix: -o
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
 
 outputs:
-
-  first_pass_output_file:
+  output_bam:
     type: File
     outputBinding:
-      glob: ${ return "first-pass.txt" }
-
-  alt_allele_file:
-    type: File
-    outputBinding:
-      glob: ${ return 'first-pass-alt-alleles.txt' }
-
-  first_pass_output_dir:
-    type: Directory
-    outputBinding:
-      glob: '.'
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )

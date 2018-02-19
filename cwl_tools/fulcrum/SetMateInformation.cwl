@@ -12,18 +12,18 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: gatk.IndelRealignment
-  doap:revision: 0.0.0
+  doap:name: cmo-fulcrum.SetMateInformation
+  doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 0.0.0
+  doap:name: cmo-fulcrum.SetMateInformation
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Ian Johjnson
+    foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
 dct:contributor:
@@ -42,65 +42,40 @@ baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
-- -Xmx20g
-- -Djava.io.tmpdir=/scratch
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/GenomeAnalysisTK.jar
-- -T
-- IndelRealigner
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+- --tmp-dir=/scratch
+- SetMateInformation
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20000
-    coresMin: 8
+    ramMin: 30000
+    coresMin: 1
 
 doc: |
   None
 
 inputs:
+#  tmp_dir:
+#    type: string
+#    inputBinding:
+#      prefix: --tmp_dir
 
   input_bam:
     type: File
     inputBinding:
-      prefix: -I
-    secondaryFiles:
-    - ^.bai
-
-  reference_fasta:
-    type: string
-    inputBinding:
-      prefix: -R
-
-  # todo: =bedfile?
-  target_intervals:
-    type: File
-    inputBinding:
-      prefix: -targetIntervals
-
-  # todo: use correct default syntax
-  baq:
-    type: ['null', string]
-    default: 'RECALCULATE'
-    inputBinding:
-      prefix: -baq
-      valueFrom: 'RECALCULATE'
-
-  known:
-    type: File
-    inputBinding:
-      prefix: -known
+      prefix: -i
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_gatkIR.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )
     inputBinding:
       prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_gatkIR.bam") )
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )
 
 outputs:
-
-  bam:
+  output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_gatkIR.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )

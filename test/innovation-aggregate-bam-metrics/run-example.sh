@@ -1,9 +1,14 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.3.1"
 
-roslin-runner.sh \
-    -v ${pipeline_name_version} \
-    -w innovation-aggregate-bam-metrics/0.0.0/innovation-aggregate-bam-metrics.cwl \
-    -i inputs.yaml \
-    -b lsf
+DD=$(date +%d)
+MM=$(date +%m)
+project="test_innovation-aggregate-bam-metrics_$MM-$DD"
+output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian'))"`
+
+# Run test pipeline
+../../pipeline-tester.sh \
+    ${project} \
+    ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl \
+    inputs.yaml \
+    ${output_directory}

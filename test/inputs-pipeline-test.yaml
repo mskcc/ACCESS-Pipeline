@@ -119,6 +119,6 @@ coverage_threshold: '20'
 
 gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
 # ZS-msi test sample was using pan-cancer or pool-A bedfile?
-bed_file: 'test-data/start/pan-cancer-panel.bed'
+bed_file: {class: File, path: 'test-data/start/pan-cancer-panel.bed'}
 
 waltz__min_mapping_quality: '20'

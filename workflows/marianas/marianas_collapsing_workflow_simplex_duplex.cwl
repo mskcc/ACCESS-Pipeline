@@ -73,7 +73,7 @@ outputs:
 steps:
 
   first_pass:
-    run: ../../cwl-tools/marianas/SimplexDuplexUMIBamToCollapsedFastqFirstPass.cwl
+    run: ../../cwl_tools/marianas/SimplexDuplexUMIBamToCollapsedFastqFirstPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -91,14 +91,14 @@ steps:
 
   sort_by_mate_position:
     # todo - can use an existing sort cwl?
-    run: ../../cwl-tools/marianas-sort/marianas-sort.cwl
+    run: ../../cwl_tools/marianas-sort/marianas-sort.cwl
     in:
       first_pass_file: first_pass/first_pass_output_file
     out:
       [output_file]
 
   second_pass:
-    run: ../../cwl-tools/marianas/SimplexDuplexUMIBamToCollapsedFastqSecondPass.cwl
+    run: ../../cwl_tools/marianas/SimplexDuplexUMIBamToCollapsedFastqSecondPass.cwl
     in:
       input_bam: input_bam
       pileup: pileup
@@ -114,21 +114,21 @@ steps:
       [collapsed_fastq_1, collapsed_fastq_2]
 
   gzip_fastq_2:
-    run: ../../cwl-tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_2
     out:
       [output]
 
   gzip_fastq_1:
-    run: ../../cwl-tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_1
     out:
       [output]
 
   rename_fastq_1:
-    run: ../../cwl-tools/innovation-rename-file/innovation-rename-file.cwl
+    run: ../../cwl_tools/innovation-rename-file/innovation-rename-file.cwl
     in:
       input_file: gzip_fastq_1/output
       new_name:
@@ -138,7 +138,7 @@ steps:
       [renamed_file]
 
   rename_fastq_2:
-    run: ../../cwl-tools/innovation-rename-file/innovation-rename-file.cwl
+    run: ../../cwl_tools/innovation-rename-file/innovation-rename-file.cwl
     in:
       input_file: gzip_fastq_2/output
       new_name:

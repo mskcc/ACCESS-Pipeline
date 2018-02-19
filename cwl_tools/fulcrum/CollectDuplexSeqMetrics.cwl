@@ -45,7 +45,7 @@ arguments:
 - -Xms8g
 - -Xmx8g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/fgbio-0.5.0.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
 - --tmp-dir=/scratch
 - CollectDuplexSeqMetrics
 

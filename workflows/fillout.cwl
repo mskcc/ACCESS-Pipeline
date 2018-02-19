@@ -28,11 +28,26 @@ cmo_vardict
 
 # Convert Vardict vcf to maf:
 jobID=`cat job.txt | cut -d"<" -f2 | cut -d">" -f1`
-bsub -R “rusage[mem=30]” -M 26 -We 0:59 -w ${jobID} -oo vcf2maf.log   cmo_vcf2maf --input-vcf vardict.vcf --output-maf vardict_retainSTATUS.maf  --tumor-id ${tumorName} --normal-id $normalName --vcf-tumor-id ${tumorName} --vcf-normal-id ${normalName}
+bsub -R “rusage[mem=30]” -M 26 -We 0:59 -w ${jobID}
+-oo vcf2maf.log
+cmo_vcf2maf
+--input-vcf vardict.vcf
+--output-maf vardict_retainSTATUS.maf
+--tumor-id ${tumorName}
+--normal-id $normalName
+--vcf-tumor-id ${tumorName}
+--vcf-normal-id ${normalName}
 
 
 # Generate the fillout (this should utilize bsub to avoid overloading the headnode).  Format will be 'long':
-bsub cmo_fillout -m $maf -o ${maf}.fillout -g GRCh37 -f 1 -v default -b $bamList
+bsub
+cmo_fillout
+-m $maf
+-o ${maf}.fillout
+-g GRCh37
+-f 1
+-v default
+-b $bamList
 
 
 # Use R for transforming this table:
