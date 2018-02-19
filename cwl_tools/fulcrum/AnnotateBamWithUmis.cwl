@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.FilterConsensusReads
+  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.FilterConsensusReads
+  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
   doap:revision: 1.0.0
 
 dct:creator:
@@ -42,17 +42,18 @@ baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
+- -Xms8g
+- -Xmx45g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/fgbio-0.5.0.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
 - --tmp-dir=/scratch
-- FilterConsensusReads
+- AnnotateBamWithUmis
 
 requirements:
   InlineJavascriptRequirement: {}
-  # Need this to allow for -M=1 1 1
-  ShellCommandRequirement: {}
   ResourceRequirement:
-    ramMin: 30000
+    # Requires large amount of ram (loads all read names into a java hashmap)
+    ramMin: 50000
     coresMin: 1
 
 doc: |
@@ -69,33 +70,20 @@ inputs:
     inputBinding:
       prefix: -i
 
-  reference_fasta:
-    type: string
+  annotated_fastq:
+    type: File
     inputBinding:
-      prefix: -r
-
-  min_reads:
-    type: string
-    inputBinding:
-      prefix: -M
-      itemSeparator: '='
-      shellQuote: false
-
-  min_base_quality:
-    type: string
-    inputBinding:
-      prefix: -N
-      itemSeparator: '='
+      prefix: -f
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
     inputBinding:
       prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )

@@ -94,7 +94,7 @@ inputs:
   # Waltz
   coverage_threshold: string
   gene_list: string
-  bed_file: string
+  bed_file: File
   waltz__min_mapping_quality: string
 
 

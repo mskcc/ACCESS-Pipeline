@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.GroupReadsByUmi
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.GroupReadsByUmi
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
   doap:revision: 1.0.0
 
 dct:creator:
@@ -39,17 +39,22 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
 arguments:
-- -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/fgbio-0.5.0.jar
-- --tmp-dir=/scratch
-- GroupReadsByUmi
+- -server
+- -Xms8g
+- -Xmx8g
+- -cp
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - $(inputs.first_pass_file)
+  - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
 
@@ -57,41 +62,56 @@ doc: |
   None
 
 inputs:
-
   input_bam:
     type: File
     inputBinding:
-      prefix: -i
+      position: 1
 
-#  tmp_dir:
-#    type: string
-#    inputBinding:
-#      prefix: --tmp_dir
+  pileup:
+    type: File
+    inputBinding:
+      position: 2
 
-  strategy:
+  mismatches:
     type: string
     inputBinding:
-      prefix: -s
+      position: 3
 
-  min_mapping_quality:
+  wobble:
     type: string
     inputBinding:
-      prefix: -m
+      position: 4
 
-  tag_family_size_counts_output:
+  min_consensus_percent:
     type: string
     inputBinding:
-      prefix: -f
+      position: 5
 
-  output_bam_filename:
+  reference_fasta:
+    type: string
+    inputBinding:
+      position: 6
+
+  reference_fasta_fai: string
+
+  first_pass_file:
+    type: File
+
+  output_dir:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
+    default: '.'
     inputBinding:
-      prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
+      position: 7
+      valueFrom: '.'
 
 outputs:
-  output_bam:
+
+  collapsed_fastq_1:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcGRBU.bam") )
+      glob: ${ return 'collapsed_R1_.fastq' }
+
+  collapsed_fastq_2:
+    type: File
+    outputBinding:
+      glob: ${ return 'collapsed_R2_.fastq' }

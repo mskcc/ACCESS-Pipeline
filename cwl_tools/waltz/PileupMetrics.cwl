@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-waltz.CountReads
+  doap:name: cmo-waltz.PileupMetrics
   doap:revision: 0.0.0
 - class: doap:Version
-  doap:name: cmo-waltz.CountReads
+  doap:name: cmo-waltz.PileupMetrics
   doap:revision: 0.0.0
 
 dct:creator:
@@ -38,10 +38,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# Example Waltz CountReads usage
-#
-# $java -server -Xms4g -Xmx4g -cp ~/software/Waltz.jar org.mskcc.juber.waltz.countreads.CountReads $bamFile $coverageThreshold $geneList $bedFile
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
@@ -51,8 +47,9 @@ arguments:
 - -Xms4g
 - -Xmx4g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/Waltz-2.0.jar
-- org.mskcc.juber.waltz.countreads.CountReads
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/Waltz-2.0.jar
+- org.mskcc.juber.waltz.Waltz
+- PileupMetrics
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -68,42 +65,55 @@ inputs:
   input_bam:
     type: File
     inputBinding:
-      position: 1
+      position: 2
+    secondaryFiles: [^.bai]
 
-  coverage_threshold:
+  min_mapping_quality:
     type: string
     inputBinding:
-      position: 2
+      position: 1
 
-  gene_list:
+  reference_fasta:
     type: string
     inputBinding:
       position: 3
+    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+
+#  reference_fasta_fai:
+#    type: string
+#    inputBinding:
+#      prefix: --reference_fasta_fai
 
   bed_file:
-    type: string
+    type: File
     inputBinding:
       position: 4
 
-# Example Waltz CountReads output files:
+# Example Waltz PileupMetrics output files:
 #
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.fragment-sizes
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.read-counts
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup.txt
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup-without-duplicates.txt
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals.txt
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
 
 outputs:
 
-  covered_regions:
+  pileup:
     type: File
     outputBinding:
-      glob: '*.covered-regions'
+      glob: '*-pileup.txt'
 
-  fragment_sizes:
+  pileup_without_duplicates:
     type: File
     outputBinding:
-      glob: '*.fragment-sizes'
+      glob: '*-pileup-without-duplicates.txt'
 
-  read_counts:
+  intervals:
     type: File
     outputBinding:
-      glob: '*.read-counts'
+      glob: '*-intervals.txt'
+
+  intervals_without_duplicates:
+    type: File
+    outputBinding:
+      glob: '*-intervals-without-duplicates.txt'

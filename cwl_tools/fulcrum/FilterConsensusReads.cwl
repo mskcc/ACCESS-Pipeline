@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-fulcrum.FilterConsensusReads
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cmo-fulcrum.FilterConsensusReads
   doap:revision: 1.0.0
 
 dct:creator:
@@ -39,22 +39,19 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
-- -server
-- -Xms8g
-- -Xmx8g
-- -cp
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/Marianas-true-duplex-1-1.jar
-- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass
+- -jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+- --tmp-dir=/scratch
+- FilterConsensusReads
 
 requirements:
-  - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - $(inputs.first_pass_file)
-  - class: ResourceRequirement
+  InlineJavascriptRequirement: {}
+  # Need this to allow for -M=1 1 1
+  ShellCommandRequirement: {}
+  ResourceRequirement:
     ramMin: 30000
     coresMin: 1
 
@@ -62,56 +59,43 @@ doc: |
   None
 
 inputs:
+#  tmp_dir:
+#    type: string
+#    inputBinding:
+#      prefix: --tmp_dir
+
   input_bam:
     type: File
     inputBinding:
-      position: 1
-
-  pileup:
-    type: File
-    inputBinding:
-      position: 2
-
-  mismatches:
-    type: string
-    inputBinding:
-      position: 3
-
-  wobble:
-    type: string
-    inputBinding:
-      position: 4
-
-  min_consensus_percent:
-    type: string
-    inputBinding:
-      position: 5
+      prefix: -i
 
   reference_fasta:
     type: string
     inputBinding:
-      position: 6
+      prefix: -r
 
-  reference_fasta_fai: string
-
-  first_pass_file:
-    type: File
-
-  output_dir:
-    type: ['null', string]
-    default: '.'
+  min_reads:
+    type: string
     inputBinding:
-      position: 7
-      valueFrom: '.'
+      prefix: -M
+      itemSeparator: '='
+      shellQuote: false
+
+  min_base_quality:
+    type: string
+    inputBinding:
+      prefix: -N
+      itemSeparator: '='
+
+  output_bam_filename:
+    type: ['null', string]
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )
+    inputBinding:
+      prefix: -o
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )
 
 outputs:
-
-  collapsed_fastq_1:
+  output_bam:
     type: File
     outputBinding:
-      glob: ${ return 'collapsed_R1_.fastq' }
-
-  collapsed_fastq_2:
-    type: File
-    outputBinding:
-      glob: ${ return 'collapsed_R2_.fastq' }
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcFCR.bam") )

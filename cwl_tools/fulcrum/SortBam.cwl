@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.SetMateInformation
+  doap:name: cmo-fulcrum.SortBam
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.SetMateInformation
+  doap:name: cmo-fulcrum.SortBam
   doap:revision: 1.0.0
 
 dct:creator:
@@ -43,13 +43,14 @@ baseCommand:
 
 arguments:
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/fgbio-0.5.0.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
 - --tmp-dir=/scratch
-- SetMateInformation
+- SortBam
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
+    # Requires large amount of memory
     ramMin: 30000
     coresMin: 1
 
@@ -65,17 +66,24 @@ inputs:
   input_bam:
     type: File
     inputBinding:
-      prefix: -i
+      prefix: --input
+      itemSeparator: '='
+
+  sort_order:
+    type: string
+    inputBinding:
+      prefix: --sort-order
+      itemSeparator: '='
 
   output_bam_filename:
     type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )
+    default: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )
     inputBinding:
-      prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )
+      prefix: --output
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )
 
 outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcSMI.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcSB.bam") )

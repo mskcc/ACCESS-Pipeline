@@ -92,7 +92,7 @@ inputs:
   # Waltz
   coverage_threshold: string
   gene_list: string
-  bed_file: string
+  bed_file: File
   waltz__min_mapping_quality: string
 
 
@@ -176,7 +176,7 @@ steps:
   #########################
 
   process_loop_umi_fastq:
-    run: ../cwl-tools/marianas/ProcessLoopUMIFastq.cwl
+    run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2

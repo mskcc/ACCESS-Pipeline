@@ -1,4 +1,4 @@
-#!/usr/bin/env cwl-runner
+#!/usr/bin/env/cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: innovation-umi-trimming
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqSecondPass
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -46,72 +46,74 @@ arguments:
 - -Xms8g
 - -Xmx8g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/Marianas-standard.jar
-- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqSecondPass
+# todo: which Marianas for this step?
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+- org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
-      - $(inputs.first_pass_file)
+      - $(inputs.fastq1)
+      - $(inputs.fastq2)
+      - $(inputs.sample_sheet)
   - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
 
-doc: |
-  None
+doc: Marianas UMI Clipping module
 
 inputs:
-  input_bam:
+  fastq1:
     type: File
     inputBinding:
       position: 1
 
-  pileup:
+  fastq2:
     type: File
+
+  sample_sheet:
+    type: File
+
+  umi_length:
+    type: string
     inputBinding:
       position: 2
 
-  mismatches:
+  output_project_folder:
     type: string
     inputBinding:
       position: 3
 
-  wobble:
-    type: string
-    inputBinding:
-      position: 4
-
-  min_consensus_percent:
-    type: string
-    inputBinding:
-      position: 5
-
-  reference_fasta:
-    type: string
-    inputBinding:
-      position: 6
-
-  reference_fasta_fai: string
-
-  first_pass_file:
-    type: File
-
-  output_dir:
-    type: ['null', string]
-    default: '.'
-    inputBinding:
-      position: 7
-      valueFrom: '.'
-
 outputs:
 
-  collapsed_fastq_1:
+  # todo - we need the **/ because Marianas outputs to a folder name given by the parent folder of the fastq
+  processed_fastq_1:
     type: File
     outputBinding:
-      glob: ${ return 'collapsed_R1_.fastq' }
+      glob: ${ return "**/" + inputs.fastq1.basename.split('/').pop() }
 
-  collapsed_fastq_2:
+  processed_fastq_2:
     type: File
     outputBinding:
-      glob: ${ return 'collapsed_R2_.fastq' }
+      glob: ${ return "**/" + inputs.fastq1.basename.split('/').pop().replace('_R1_', '_R2_') }
+
+  composite_umi_frequencies:
+    type: File
+    outputBinding:
+      glob: ${ return "**/composite-umi-frequencies.txt" }
+
+  info:
+    type: File
+    outputBinding:
+      glob: ${ return "**/info.txt" }
+
+  output_sample_sheet:
+    type: File
+    outputBinding:
+      glob: ${ return "**/SampleSheet.csv" }
+
+  umi_frequencies:
+    type: File
+    outputBinding:
+      glob: ${ return "**/umi-frequencies.txt" }

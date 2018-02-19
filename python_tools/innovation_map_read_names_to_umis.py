@@ -1,9 +1,11 @@
-__author__ = 'pererad1'
+#!/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python
 
-import csv, sys
+import csv
+import sys
 
 
 csv.field_size_limit(sys.maxsize)
+
 
 # Input file:
 #

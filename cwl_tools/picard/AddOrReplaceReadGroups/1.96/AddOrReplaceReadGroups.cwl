@@ -44,7 +44,7 @@ baseCommand:
 arguments:
 - -Xmx16g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/AddOrReplaceReadGroups-1.96.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
 
 requirements:
   InlineJavascriptRequirement: {}

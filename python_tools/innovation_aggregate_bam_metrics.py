@@ -1,14 +1,18 @@
+#!/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python
+
+
 import os
 import sys
 import ntpath
+import subprocess
 from shutil import copyfile
 
-import cmo
 
 
 INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
 EPSILON = 10e-6
 
+##############################################################################
 # Example Waltz CountReads output files:
 #
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
@@ -21,6 +25,8 @@ EPSILON = 10e-6
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup-without-duplicates.txt
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals.txt
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
+##############################################################################
+
 
 # todo - use Pandas instead of looping through files
 
@@ -47,8 +53,13 @@ def process_read_counts_files():
 
     Concatenate .read-counts files for each Bam into one file
     """
-    cmd = 'cat ' + '.' + '/*.read-counts > read-counts.txt'
-    cmo.util.call_cmd(cmd, shell=True)
+
+    print(os.getcwd())
+    print(os.listdir('.'))
+
+    cmd = 'cat ' + './*.read-counts > read-counts.txt'
+    return_code = subprocess.check_call(cmd, shell=True)
+    print("process_read_counts_files() Return code: {}".format(return_code))
 
     read_counts = open('read-counts.txt')
     temp = open('t', 'w')
