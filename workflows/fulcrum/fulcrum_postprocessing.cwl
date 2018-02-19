@@ -59,28 +59,28 @@ outputs:
 steps:
 
   sort_bam_queryname:
-    run: ../../cwl-tools/innovation-sort-bam/innovation-sort-bam.cwl
+    run: ../../cwl_tools/innovation-sort-bam/innovation-sort-bam.cwl
     in:
       input_bam: input_bam
     out:
       [bam_sorted_queryname]
 
   samtools_fastq:
-    run: ../../cwl-tools/innovation-samtools-fastq/innovation-samtools-fastq.cwl
+    run: ../../cwl_tools/innovation-samtools-fastq/innovation-samtools-fastq.cwl
     in:
       input_bam: sort_bam_queryname/bam_sorted_queryname
     out:
       [output_read_1, output_read_2]
 
   gzip_1:
-    run: ../../cwl-tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: samtools_fastq/output_read_1
     out:
       [output]
 
   gzip_2:
-    run: ../../cwl-tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: samtools_fastq/output_read_2
     out:

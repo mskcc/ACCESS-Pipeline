@@ -91,21 +91,21 @@ outputs:
 steps:
 
   innovation_extract_read_names:
-    run: ../../cwl-tools/innovation-extract-read-names/innovation-extract-read-names.cwl
+    run: ../../cwl_tools/innovation-extract-read-names/innovation-extract-read-names.cwl
     in:
       input_bam: input_bam
     out:
       [read_names]
 
   innovation_map_read_names_to_umis:
-    run: ../../cwl-tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
+    run: ../../cwl_tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
     in:
       read_names: innovation_extract_read_names/read_names
     out:
       [annotated_fastq]
 
   annotate_bam_with_umis:
-    run: ../../cwl-tools/fulcrum/AnnotateBamWithUmis.cwl
+    run: ../../cwl_tools/fulcrum/AnnotateBamWithUmis.cwl
     in:
       input_bam: input_bam
       annotated_fastq: innovation_map_read_names_to_umis/annotated_fastq
@@ -113,7 +113,7 @@ steps:
       [output_bam]
 
   sort_bam:
-    run: ../../cwl-tools/fulcrum/SortBam.cwl
+    run: ../../cwl_tools/fulcrum/SortBam.cwl
     in:
         input_bam: annotate_bam_with_umis/output_bam
         sort_order: sort_order
@@ -121,14 +121,14 @@ steps:
       [output_bam]
 
   set_mate_information:
-    run: ../../cwl-tools/fulcrum/SetMateInformation.cwl
+    run: ../../cwl_tools/fulcrum/SetMateInformation.cwl
     in:
       input_bam: sort_bam/output_bam
     out:
       [output_bam]
 
   group_reads_by_umi:
-    run: ../../cwl-tools/fulcrum/GroupReadsByUmi.cwl
+    run: ../../cwl_tools/fulcrum/GroupReadsByUmi.cwl
     in:
       strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
@@ -138,14 +138,14 @@ steps:
       [output_bam]
 
   collect_duplex_seq_metrics:
-    run: ../../cwl-tools/fulcrum/CollectDuplexSeqMetrics.cwl
+    run: ../../cwl_tools/fulcrum/CollectDuplexSeqMetrics.cwl
     in:
       input_bam: group_reads_by_umi/output_bam
     out:
       [metrics]
 
   call_duplex_consensus_reads:
-    run: ../../cwl-tools/fulcrum/CallDuplexConsensusReads.cwl
+    run: ../../cwl_tools/fulcrum/CallDuplexConsensusReads.cwl
     in:
       input_bam: group_reads_by_umi/output_bam
       call_duplex_min_reads: call_duplex_min_reads
@@ -153,7 +153,7 @@ steps:
       [output_bam]
 
   filter_consensus_reads:
-    run: ../../cwl-tools/fulcrum/FilterConsensusReads.cwl
+    run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
     in:
       input_bam: call_duplex_consensus_reads/output_bam
       reference_fasta: reference_fasta

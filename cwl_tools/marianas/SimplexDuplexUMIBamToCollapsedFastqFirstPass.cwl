@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.AnnotateBamWithUMIs
+  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
   doap:revision: 1.0.0
 
 dct:creator:
@@ -39,51 +39,77 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
 arguments:
+- -server
 - -Xms8g
-- -Xmx45g
-- -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/fgbio-0.5.0.jar
-- --tmp-dir=/scratch
-- AnnotateBamWithUmis
+- -Xmx8g
+- -cp
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    # Requires large amount of ram (loads all read names into a java hashmap)
-    ramMin: 50000
+    ramMin: 30000
     coresMin: 1
 
 doc: |
   None
 
 inputs:
-#  tmp_dir:
-#    type: string
-#    inputBinding:
-#      prefix: --tmp_dir
 
   input_bam:
     type: File
     inputBinding:
-      prefix: -i
+      position: 1
 
-  annotated_fastq:
+  pileup:
     type: File
     inputBinding:
-      prefix: -f
+      position: 2
 
-  output_bam_filename:
-    type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+  mismatches:
+    type: string
     inputBinding:
-      prefix: -o
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+      position: 3
+
+  wobble:
+    type: string
+    inputBinding:
+      position: 4
+
+  min_consensus_percent:
+    type: string
+    inputBinding:
+      position: 5
+
+  reference_fasta:
+    type: string
+    inputBinding:
+      position: 6
+
+  reference_fasta_fai: string
+
+  output_dir:
+    type: ['null', string]
+    inputBinding:
+      position: 7
 
 outputs:
-  output_bam:
+
+  first_pass_output_file:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_fulcABWU.bam") )
+      glob: ${ return "first-pass.txt" }
+
+  alt_allele_file:
+    type: File
+    outputBinding:
+      glob: ${ return 'first-pass-alt-alleles.txt' }
+
+  first_pass_output_dir:
+    type: Directory
+    outputBinding:
+      glob: '.'

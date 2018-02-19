@@ -44,7 +44,7 @@ baseCommand:
 arguments:
 - -Xmx16g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/MarkDuplicates-1.96.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/MarkDuplicates-1.96.jar
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -258,9 +258,14 @@ outputs:
       glob: $( inputs.I.basename.replace(".bam", "_MD.bam") )
 
   bai:
-    type: File
+    type: File?
     outputBinding:
-      glob: ${ return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai"; }
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai";
+          return null;
+        }
 
   mdmetrics:
     type: File

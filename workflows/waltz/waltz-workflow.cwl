@@ -48,7 +48,7 @@ inputs:
     type: string
 
   bed_file:
-    type: string
+    type: File
 
   min_mapping_quality:
     type: string
@@ -73,7 +73,7 @@ outputs:
 steps:
 
   count_reads:
-    run: ../../cwl-tools/waltz/CountReads.cwl
+    run: ../../cwl_tools/waltz/CountReads.cwl
     in:
       input_bam: input_bam
       coverage_threshold: coverage_threshold
@@ -86,7 +86,7 @@ steps:
     ]
 
   pileup_metrics:
-    run: ../../cwl-tools/waltz/PileupMetrics.cwl
+    run: ../../cwl_tools/waltz/PileupMetrics.cwl
     in:
       input_bam: input_bam
       min_mapping_quality: min_mapping_quality
@@ -101,7 +101,7 @@ steps:
     ]
 
   grouped_waltz_files:
-    run: ../../cwl-tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../../cwl_tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
     in:
       covered_regions: count_reads/covered_regions
       fragment_sizes: count_reads/fragment_sizes

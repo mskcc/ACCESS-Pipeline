@@ -179,6 +179,6 @@ marianas_collapsing__outdir: '.'
 coverage_threshold: '20'
 
 gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
-bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+bed_file: {class: File, path: '/home/johnsoni/resources/pan-cancer-panel.bed'}
 
 waltz__min_mapping_quality: '20'

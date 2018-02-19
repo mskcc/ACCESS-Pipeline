@@ -12,11 +12,11 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
-  doap:revision: 0.5.0
+  doap:name: cmo-waltz.CountReads
+  doap:revision: 0.0.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
-  doap:revision: 1.0.0
+  doap:name: cmo-waltz.CountReads
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -38,21 +38,26 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
+# Example Waltz CountReads usage
+#
+# $java -server -Xms4g -Xmx4g -cp ~/software/Waltz.jar org.mskcc.juber.waltz.countreads.CountReads $bamFile $coverageThreshold $geneList $bedFile
+
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
 arguments:
+# todo: why server?
 - -server
-- -Xms8g
-- -Xmx8g
+- -Xms4g
+- -Xmx4g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor-tools/Marianas-true-duplex-1-1.jar
-- org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/Waltz-2.0.jar
+- org.mskcc.juber.waltz.countreads.CountReads
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30000
+    ramMin: 8000
     coresMin: 1
 
 doc: |
@@ -65,51 +70,40 @@ inputs:
     inputBinding:
       position: 1
 
-  pileup:
-    type: File
+  coverage_threshold:
+    type: string
     inputBinding:
       position: 2
 
-  mismatches:
+  gene_list:
     type: string
     inputBinding:
       position: 3
 
-  wobble:
-    type: string
+  bed_file:
+    type: File
     inputBinding:
       position: 4
 
-  min_consensus_percent:
-    type: string
-    inputBinding:
-      position: 5
-
-  reference_fasta:
-    type: string
-    inputBinding:
-      position: 6
-
-  reference_fasta_fai: string
-
-  output_dir:
-    type: ['null', string]
-    inputBinding:
-      position: 7
+# Example Waltz CountReads output files:
+#
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.fragment-sizes
+# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.read-counts
 
 outputs:
 
-  first_pass_output_file:
+  covered_regions:
     type: File
     outputBinding:
-      glob: ${ return "first-pass.txt" }
+      glob: '*.covered-regions'
 
-  alt_allele_file:
+  fragment_sizes:
     type: File
     outputBinding:
-      glob: ${ return 'first-pass-alt-alleles.txt' }
+      glob: '*.fragment-sizes'
 
-  first_pass_output_dir:
-    type: Directory
+  read_counts:
+    type: File
     outputBinding:
-      glob: '.'
+      glob: '*.read-counts'
