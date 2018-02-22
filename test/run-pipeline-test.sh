@@ -1,19 +1,15 @@
 #!/bin/bash
 
-# Usage:
-# ./run-pipeline-test /output/location
 
-output_location=$1
-
-# Create output dir
 DD=$(date +%d)
 MM=$(date +%m)
 project="pipeline_test_$MM-$DD"
-output_directory=`python -c "import os;print(os.path.abspath('${output_location}/${project}'))"`
+output_directory=`python -c "import os;print(os.path.abspath('/ifs/work/bergerm1/Innovation/sandbox/ian'))"`
 
 # Run test pipeline
-../../pipeline-runner.sh \
+../pipeline-runner.sh \
     ${project} \
     ../workflows/innovation_pipeline.cwl \
     inputs-pipeline-test.yaml \
-    ${output_directory}
+    ${output_directory} \
+    singleMachine

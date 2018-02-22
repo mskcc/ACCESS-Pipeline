@@ -1,17 +1,17 @@
 waltz_input_files: [
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample.bam.covered-regions'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample.bam.fragment-sizes'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample.bam.read-counts'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample.bam.covered-regions'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample.bam.fragment-sizes'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample.bam.read-counts'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.covered-regions'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.fragment-sizes'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.read-counts'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.covered-regions'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.fragment-sizes'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.read-counts'},
 
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample-intervals.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample-intervals-without-duplicates.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample-pileup.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-fulcrum/sample-pileup-without-duplicates.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample-intervals.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample-intervals-without-duplicates.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample-pileup.txt'},
-  {class: File, path: '../../test-data/cmo-waltz.CountReads-standard/sample-pileup-without-duplicates.txt'}
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-intervals.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-intervals-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-pileup.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-pileup-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-intervals.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-intervals-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-pileup.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-pileup-without-duplicates.txt'}
 ]
