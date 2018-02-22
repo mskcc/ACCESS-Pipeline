@@ -68,7 +68,7 @@ inputs:
 steps:
 
   trimgalore:
-      run: ../tools/trimgalore/0.2.5.mod/trimgalore.cwl
+      run: ../cwl_tools/trimgalore/0.2.5.mod/trimgalore.cwl
       in:
         adapter: adapter
         adapter2: adapter2
@@ -77,7 +77,7 @@ steps:
       out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
-    run: ../tools/bwa-mem/0.7.5a/bwa-mem.cwl
+    run: ../cwl_tools/bwa-mem/0.7.5a/bwa-mem.cwl
     in:
       fastq1: trimgalore/clfastq1
       fastq2: trimgalore/clfastq2
@@ -87,7 +87,7 @@ steps:
     out: [output_sam]
 
   picard.AddOrReplaceReadGroups:
-    run: ../tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
+    run: ../cwl_tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
     in:
       I: bwa_mem/output_sam
       LB: add_rg_LB
@@ -102,7 +102,7 @@ steps:
     out: [bam, bai]
 
   picard.MarkDuplicates:
-    run: ../tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
+    run: ../cwl_tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
     in:
       I: picard.AddOrReplaceReadGroups/bam
       TMP_DIR: tmp_dir

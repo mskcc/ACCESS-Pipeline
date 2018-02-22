@@ -5,6 +5,7 @@ project_name=$1
 workflow=$2
 inputs_file=$3
 output_location=$4
+batch_system=$5
 
 echo "Are you sure you want to do this? (check singleMachine vs lsf parameter)"
 
@@ -33,8 +34,8 @@ toil-cwl-runner \
     --outdir ${output_directory} \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \
-    --batchSystem lsf \
-    --preserve-environment PATH PYTHONPATH CMO_RESOURCE_CONFIG \
+    --batchSystem ${batch_system} \
+    --preserve-environment PATH PYTHONPATH \
     --defaultDisk 10G \
     --defaultMem 10G \
     --no-container \
@@ -44,6 +45,8 @@ toil-cwl-runner \
     --jobStore file://${jobstore_path} \
     --cleanWorkDir never \
     ${workflow} \
-    ${inputs_file}
+    ${inputs_file} \
+    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
 
 #    --logDebug \
+#    --stats \
