@@ -61,7 +61,9 @@ inputs:
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: string
-  fix_mate_information__create_index: string
+  fix_mate_information__create_index: boolean
+
+  bed_file: File
 
   output_suffix: string
 
@@ -108,17 +110,27 @@ steps:
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
 
+  abra:
+    run: ../cwl_tools/abra/2.14/abra.cwl
+    in:
+      threads:
+        valueFrom: ${ return '5' }
+      input_bam: picard.MarkDuplicates/bam
+      reference_fasta: reference_fasta
+      targets: bed_file
+    out:
+      [bam]
+
   picard.FixMateInformation:
-    run: ../tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+    run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
     in:
       TMP_DIR: tmp_dir
-
-      I: picard.MarkDuplicates/bam
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-    out: [bam, bai]
+      input_bam: abra/bam
+      SO: fix_mate_information__sort_order
+      VALIDATION_STRINGENCY: fix_mate_information__validation_stringency
+      COMPRESSION_LEVEL: fix_mate_information__compression_level
+      CREATE_INDEX: fix_mate_information__create_index
+    out: [bam] #, bai]
 
 outputs:
 

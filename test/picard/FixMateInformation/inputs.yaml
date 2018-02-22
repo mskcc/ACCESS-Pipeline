@@ -1,0 +1,7 @@
+input_bam: {class: File, path: '../../test-data/abra/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_abraIR.bam'}
+bed_file: {class: File, path: '../../test-data/start/pan-cancer-panel.sorted.bed'}
+
+fix_mate_information__sort_order: 'coordinate'
+fix_mate_information__validation_stringency: 'LENIENT'
+fix_mate_information__compression_level: '0'
+fix_mate_information__create_index: true

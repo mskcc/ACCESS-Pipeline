@@ -37,6 +37,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -47,6 +48,7 @@ requirements:
 inputs:
 
   tmp_dir: string
+  bed_file: File
 
   # Marianas UMI Clipping
   fastq1: File
@@ -69,7 +71,7 @@ inputs:
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: string
-  fix_mate_information__create_index: string
+  fix_mate_information__create_index: boolean
 
   # Fulcrum
   sort_order: string
@@ -91,7 +93,6 @@ inputs:
   # Waltz
   coverage_threshold: string
   gene_list: string
-  bed_file: File
   waltz__min_mapping_quality: string
 
 
@@ -212,6 +213,8 @@ steps:
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
 
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_standard' }
     out:
@@ -285,6 +288,8 @@ steps:
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
 
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_simplex_duplex' }
     out:
@@ -313,6 +318,8 @@ steps:
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
 
       output_suffix:
         valueFrom: ${ return '_duplex' }
@@ -393,6 +400,8 @@ steps:
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
 
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_marianas_simplex_duplex' }
     out:
@@ -438,6 +447,8 @@ steps:
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
 
       output_suffix:
         valueFrom: ${ return '_marianas_duplex' }

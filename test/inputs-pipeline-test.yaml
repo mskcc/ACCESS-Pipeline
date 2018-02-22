@@ -2,6 +2,10 @@
 
 title_file: {class: File, path: 'test-data/start/test_title_file.txt'}
 
+# ZS-msi test sample was using pan-cancer or pool-A bedfile?
+# Note: abra requires bed file to be coordinate sorted (and grouped by contig)
+bed_file: {class: File, path: 'test-data/start/pan-cancer-panel.sorted.bed'}
+
 ##########
 # Fastqs #
 ##########
@@ -74,8 +78,8 @@ add_rg_SM: [
 ######################
 
 fix_mate_information__sort_order: 'coordinate'
-fix_mate_information__validation_stringency: LENIENT
-fix_mate_information__compression_level: 0
+fix_mate_information__validation_stringency: 'LENIENT'
+fix_mate_information__compression_level: '0'
 fix_mate_information__create_index: true
 
 ###########
@@ -116,9 +120,5 @@ marianas_collapsing__outdir: '.'
 #########
 
 coverage_threshold: '20'
-
 gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
-# ZS-msi test sample was using pan-cancer or pool-A bedfile?
-bed_file: {class: File, path: 'test-data/start/pan-cancer-panel.bed'}
-
 waltz__min_mapping_quality: '20'
