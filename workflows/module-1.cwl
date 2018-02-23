@@ -43,27 +43,28 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+  tmp_dir: string
 
   fastq1: File
   fastq2: File
-
   adapter: string
   adapter2: string
-
   reference_fasta: string
-#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
   reference_fasta_fai: string
-
-#  bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
-
   add_rg_ID: string
   add_rg_PU: string
-
   add_rg_SM: string
   add_rg_CN: string
-  tmp_dir: string
+
+  fix_mate_information__sort_order: string
+  fix_mate_information__validation_stringency: string
+  fix_mate_information__compression_level: string
+  fix_mate_information__create_index: boolean
+
+  bed_file: File
+
   output_suffix: string
 
 steps:
@@ -108,6 +109,28 @@ steps:
       I: picard.AddOrReplaceReadGroups/bam
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
+
+  abra:
+    run: ../cwl_tools/abra/2.14/abra.cwl
+    in:
+      threads:
+        valueFrom: ${ return '5' }
+      input_bam: picard.MarkDuplicates/bam
+      reference_fasta: reference_fasta
+      targets: bed_file
+    out:
+      [bam]
+
+  picard.FixMateInformation:
+    run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+    in:
+      TMP_DIR: tmp_dir
+      input_bam: abra/bam
+      SO: fix_mate_information__sort_order
+      VALIDATION_STRINGENCY: fix_mate_information__validation_stringency
+      COMPRESSION_LEVEL: fix_mate_information__compression_level
+      CREATE_INDEX: fix_mate_information__create_index
+    out: [bam] #, bai]
 
 outputs:
 

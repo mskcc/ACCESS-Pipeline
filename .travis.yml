@@ -9,7 +9,6 @@ install:
 
 script:
   # Run all tests
-  - find . -name *.sh -exec chmod 700 {} && {}\
-
-  - chmod 700 test/run-pipeline-test.sh
-  - test/run-pipeline-test.sh
+  - for each in ./test/**/*.sh ; chmod 700 $each ; done
+  - chmod 700 ./run_tests.sh
+  - ./run_tests.sh /tmp
