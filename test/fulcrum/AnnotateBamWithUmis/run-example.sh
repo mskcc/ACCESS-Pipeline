@@ -2,7 +2,6 @@
 
 
 output_dir=$1
-output_dir='/ifs/work/bergerm1/Innovation/sandbox/ian'
 
 DD=$(date +%d)
 MM=$(date +%m)
