@@ -10,11 +10,13 @@ for dir in `find ./test -type d` ; do
 
   # Skip directory with test data
   if [[ $dir = *"test-data"* ]]; then
+    echo "Skipping ${dir}"
     continue
   fi
 
   # Todo: Skipping untested directories
   if [[ $dir = *"__totest"* ]]; then
+    echo "Skipping ${dir}"
     continue
   fi
 
@@ -24,5 +26,6 @@ for dir in `find ./test -type d` ; do
     bash $script ;
   done ;
 
+  printf "\n\n\n"
   cd - ;
 done
