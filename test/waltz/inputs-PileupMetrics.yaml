@@ -1,4 +1,4 @@
-input_bam: {class: File, path: '../test-data/picard/from_MD.bam'}
-bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'
+input_bam: {class: File, path: '../test-data/standard_markDuplicates/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam'}
+bed_file: {class: File, path: '../test-data/start/pan-cancer-panel.sorted.bed'}
 min_mapping_quality: '20'
 reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'

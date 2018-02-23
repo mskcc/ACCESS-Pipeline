@@ -1,17 +1,17 @@
 waltz_input_files: [
-  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.covered-regions'},
-  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.fragment-sizes'},
-  {class: File, path: '../test-data/waltz/CountReads-fulcrum/sample.bam.read-counts'},
-  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.covered-regions'},
-  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.fragment-sizes'},
-  {class: File, path: '../test-data/waltz/CountReads-standard/sample.bam.read-counts'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD.bam.covered-regions'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD.bam.fragment-sizes'},
+  {class: File, path: '../test-data/waltz/CountReads-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD.bam.read-counts'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam.covered-regions'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam.fragment-sizes'},
+  {class: File, path: '../test-data/waltz/CountReads-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam.read-counts'},
 
-  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-intervals.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-intervals-without-duplicates.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-pileup.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/sample-pileup-without-duplicates.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-intervals.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-intervals-without-duplicates.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-pileup.txt'},
-  {class: File, path: '../test-data/waltz/PileupMetrics-standard/sample-pileup-without-duplicates.txt'}
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD-intervals.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD-intervals-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD-pileup.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-fulcrum/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD_fulcABWU_fulcSB_fulcSMI_fulcGRBU_fulcCDCR_fulcFCR_samtSRT_postFulcrum_duplex_RG_MD-pileup-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD-intervals.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD-intervals-without-duplicates.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD-pileup.txt'},
+  {class: File, path: '../test-data/waltz/PileupMetrics-standard/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD-pileup-without-duplicates.txt'}
 ]

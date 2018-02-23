@@ -1,5 +1,4 @@
-input_bam: {class: File, path: '../test-data/picard/from_MD.bam'}
+input_bam: {class: File, path: '../test-data/standard_markDuplicates/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam'}
+bed_file: {class: File, path: '../test-data/start/pan-cancer-panel.sorted.bed'}
 coverage_threshold: '20'
-
 gene_list: '/home/johnsoni/resources/gene-list/juber-hg19-gene-list.bed'
-bed_file: '/home/johnsoni/resources/pan-cancer-panel.bed'

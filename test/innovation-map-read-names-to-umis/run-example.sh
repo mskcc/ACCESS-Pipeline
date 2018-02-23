@@ -1,9 +1,19 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.3.1"
+# Usage:
 
-roslin-runner.sh \
-    -v ${pipeline_name_version} \
-    -w innovation-map-read-names-to-umis/0.0.0/innovation-map-read-names-to-umis.cwl \
-    -i inputs.yaml \
-    -b lsf
+output_dir=$1
+output_dir='/ifs/work/bergerm1/Innovation/sandbox/ian'
+
+DD=$(date +%d)
+MM=$(date +%m)
+project="test_innovation-map-read-names-to-umis_$MM-$DD"
+output_directory=`python -c "import os;print(os.path.abspath('${output_dir}'))"`
+
+# Run test pipeline
+../../pipeline-runner.sh \
+    ${project} \
+    ../../cwl_tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl \
+    inputs.yaml \
+    ${output_directory} \
+    singleMachine

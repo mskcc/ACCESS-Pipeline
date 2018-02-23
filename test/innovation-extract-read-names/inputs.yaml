@@ -1,1 +1,1 @@
-input_bam: {class: File, path: '../../test-data/test-pipeline-output--extra/standard_markDuplicates/sample.bam'}
+input_bam: {class: File, path: '../test-data/standard_markDuplicates/Sample_ZS-msi-4506-pl-T01_IGO_05500_EF_41_standard_RG_MD.bam'}

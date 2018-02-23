@@ -1,9 +1,19 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.3.1"
+# Usage:
 
-roslin-runner.sh \
-    -v ${pipeline_name_version} \
-    -w innovation-extract-read-names/0.0.0/innovation-extract-read-names.cwl \
-    -i inputs.yaml \
-    -b lsf
+output_dir=$1
+output_dir='/ifs/work/bergerm1/Innovation/sandbox/ian'
+
+DD=$(date +%d)
+MM=$(date +%m)
+project="test_innovation-extract-read-names_$MM-$DD"
+output_directory=`python -c "import os;print(os.path.abspath('${output_dir}'))"`
+
+# Run test pipeline
+../../pipeline-runner.sh \
+    ${project} \
+    ../../cwl_tools/innovation-extract-read-names/innovation-extract-read-names.cwl \
+    inputs.yaml \
+    ${output_directory} \
+    singleMachine
