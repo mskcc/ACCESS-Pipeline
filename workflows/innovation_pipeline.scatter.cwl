@@ -37,6 +37,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -45,6 +46,9 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
+
+  tmp_dir: string
+  bed_file: File
 
   # Marianas UMI Clipping
   fastq1: File
@@ -58,28 +62,25 @@ inputs:
   adapter: string
   adapter2: string
   genome: string
-#  bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
   add_rg_ID: string
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
-  tmp_dir: string
+  fix_mate_information__sort_order: string
+  fix_mate_information__validation_stringency: string
+  fix_mate_information__compression_level: string
+  fix_mate_information__create_index: boolean
 
   # Fulcrum
-  tmp_dir: string
   sort_order: string
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
-
   reference_fasta: string
   reference_fasta_fai: string
-
-  # CallDuplexConsensusReads
   call_duplex_min_reads: string
-  # FilterConsensusReads
   filter_min_reads: string
   filter_min_base_quality: string
 
@@ -92,7 +93,6 @@ inputs:
   # Waltz
   coverage_threshold: string
   gene_list: string
-  bed_file: File
   waltz__min_mapping_quality: string
 
 
@@ -193,15 +193,13 @@ steps:
   module_1_innovation:
     run: ./module-1.cwl
     in:
+      tmp_dir: tmp_dir
       fastq1: process_loop_umi_fastq/processed_fastq_1
       fastq2: process_loop_umi_fastq/processed_fastq_2
-
       adapter: adapter
       adapter2: adapter2
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       genome: genome
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
@@ -209,7 +207,14 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
+
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_standard' }
     out:
@@ -262,24 +267,29 @@ steps:
   module_1_post_fulcrum_simplex_duplex:
     run: ./module-1.cwl
     in:
+      tmp_dir: tmp_dir
       # todo - adapter trimming again?
       fastq1: fulcrum/simplex_duplex_fastq_1
       fastq2: fulcrum/simplex_duplex_fastq_2
       adapter: adapter
       adapter2: adapter2
       genome: genome
-#      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
+
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_simplex_duplex' }
     out:
@@ -288,24 +298,29 @@ steps:
   module_1_post_fulcrum_duplex:
     run: ./module-1.cwl
     in:
+      tmp_dir: tmp_dir
       # todo - adapter trimming again?
       fastq1: fulcrum/duplex_fastq_1
       fastq2: fulcrum/duplex_fastq_2
       adapter: adapter
       adapter2: adapter2
       genome: genome
-#      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
+
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_duplex' }
     out:
@@ -364,24 +379,29 @@ steps:
   module_1_post_marianas_simplex_duplex:
     run: ./module-1.cwl
     in:
+      tmp_dir: tmp_dir
       # todo - adapter trimming again?
       fastq1: marianas_simplex_duplex/output_fastq_1
       fastq2: marianas_simplex_duplex/output_fastq_2
       adapter: adapter
       adapter2: adapter2
       genome: genome
-#      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
+
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_marianas_simplex_duplex' }
     out:
@@ -407,24 +427,29 @@ steps:
   module_1_post_marianas_duplex:
     run: ./module-1.cwl
     in:
+      tmp_dir: tmp_dir
       # todo - adapter trimming again?
       fastq1: marianas_duplex/output_fastq_1
       fastq2: marianas_duplex/output_fastq_2
       adapter: adapter
       adapter2: adapter2
       genome: genome
-#      bwa_output: bwa_output
       add_rg_LB: add_rg_LB
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
+
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+
+      bed_file: bed_file
+
       output_suffix:
         valueFrom: ${ return '_marianas_duplex' }
     out:

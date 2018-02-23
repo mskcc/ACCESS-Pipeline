@@ -1,13 +1,12 @@
 #!/bin/bash
 
+
 # Parse Inputs:
 project_name=$1
 workflow=$2
 inputs_file=$3
 output_location=$4
 batch_system=$5
-
-echo "Are you sure you want to do this? (check singleMachine vs lsf parameter)"
 
 # Create job-uuid
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`

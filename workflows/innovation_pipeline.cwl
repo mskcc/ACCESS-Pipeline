@@ -57,30 +57,36 @@ inputs:
   output_project_folder: string
   outdir: string
 
+  # Trimgalore
   adapter: string[]
   adapter2: string
+
+  # BWA
   genome: string
+
+  # Arrg
   add_rg_PL: string
   add_rg_CN: string
-  tmp_dir: string
-
-#  bwa_output: string[]
   add_rg_LB: string[]
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
 
+  # FX
+  fix_mate_information__sort_order: string
+  fix_mate_information__validation_stringency: string
+  fix_mate_information__compression_level: string
+  fix_mate_information__create_index: boolean
+
   # Fulcrum
   tmp_dir: string
+  reference_fasta: string
+  reference_fasta_fai: string
+
   sort_order: string
   grouping_strategy: string
   min_mapping_quality: string
   tag_family_size_counts_output: string
-
-  reference_fasta: string
-  reference_fasta_fai: string
-#    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
-
   call_duplex_min_reads: string
   filter_min_reads: string
   filter_min_base_quality: string
@@ -201,9 +207,9 @@ steps:
       output_project_folder: output_project_folder
       outdir: outdir
 
+      # Module 1
       adapter: adapter
       adapter2: adapter2
-
       genome: genome
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
@@ -211,6 +217,11 @@ steps:
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
+      # FX
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
 
       # Fulcrum Collapsing
       sort_order: sort_order
