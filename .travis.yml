@@ -11,4 +11,4 @@ script:
   # Run all tests
   - for each in ./test/**/*.sh ; chmod 700 $each ; done
   - chmod 700 ./run_tests.sh
-  - ./run_tests.sh
+  - ./run_tests.sh /tmp

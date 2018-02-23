@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 
+output_dir=$1
+
 for dir in `find ./test -type d` ; do
   echo "Running tests from ${dir}"
 
@@ -23,7 +25,7 @@ for dir in `find ./test -type d` ; do
   cd $dir ;
 
   for script in *.sh; do
-    bash $script ;
+    bash $script ${output_dir} ;
   done ;
 
   printf "\n\n\n"
