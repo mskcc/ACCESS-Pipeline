@@ -68,7 +68,7 @@ inputs:
     - ^.bai
 
   reference_fasta:
-    type: string
+    type: File
     inputBinding:
       prefix: -R
 
