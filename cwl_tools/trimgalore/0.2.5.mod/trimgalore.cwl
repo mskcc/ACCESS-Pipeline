@@ -16,7 +16,7 @@ doap:release:
   doap:revision: 0.2.5.mod
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -43,17 +43,21 @@ baseCommand:
 - /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
 - /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
 
+#/opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
+#/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+
 arguments:
-# todo - include as inputs
-#- --paired
-#- --gzip
-#- -q
-#- 1
-#- --suppress_warn
-#- --stringency
-#- 3
-#- -o
-#- .
+# todo - use inputs
+- --paired
+- --gzip
+- -q
+- 1
+- --suppress_warn
+- --stringency
+- 3
+- -length 25
+- -o
+- .
 - $(inputs.fastq1)
 - $(inputs.fastq2)
 
@@ -139,33 +143,6 @@ inputs:
       prefix: -q
     default: '1'
 
-  phred33:
-    type: ['null', boolean]
-    default: false
-    doc: Instructs Cutadapt to use ASCII+33 quality scores as Phred scores (Sanger/Illumina
-      1.9+ encoding) for quality trimming. Default - ON.
-    inputBinding:
-      prefix: --phred33
-
-  phred64:
-    type: ['null', boolean]
-    default: false
-    doc: Instructs Cutadapt to use ASCII+64 quality scores as Phred scores (Illumina
-      1.5 encoding) for quality trimming.
-    inputBinding:
-      prefix: --phred64
-
-  fastqc:
-    type: ['null', boolean]
-    default: false
-    doc: Run FastQC in the default mode on the FastQ file once trimming is complete.--fastqc_args
-      "<ARGS>" Passes extra arguments to FastQC. If more than one argument is to be
-      passed to FastQC they must be in the form "arg1 arg2 etc.". An example would
-      be - --fastqc_args "--nogroup --outdir /home/". Passing extra arguments will
-      automatically invoke FastQC, so --fastqc does not have to be specified separately.
-    inputBinding:
-      prefix: --fastqc
-
   stringency:
     type: ['null', string]
     doc: Overlap with adapter sequence required to trim a sequence. Defaults to a
@@ -183,13 +160,6 @@ inputs:
     inputBinding:
       prefix: --output_dir
 
-  no_report_file:
-    type: ['null', boolean]
-    default: false
-    doc: If specified no report file will be generated.
-    inputBinding:
-      prefix: --no_report_file
-
   suppress_warn:
     type: ['null', boolean]
     default: true
@@ -197,95 +167,6 @@ inputs:
       options (MspI digested material) -
     inputBinding:
       prefix: --suppress_warn
-
-  rrbs:
-    type: ['null', boolean]
-    default: false
-    doc: Specifies that the input file was an MspI digested RRBS sample (recognition
-      site - CCGG). Sequences which were adapter-trimmed will have a further 2 bp
-      removed from their 3' end. This is to avoid that the filled-in C close to the
-      second MspI site in a sequence is used for methylation calls. Sequences which
-      were merely trimmed because of poor quality will not be shortened further.
-    inputBinding:
-      prefix: --rrbs
-
-  non_directional:
-    type: ['null', boolean]
-    default: false
-    doc: Selecting this option for non-directional RRBS libraries will screen quality-trimmed
-      sequences for 'CAA' or 'CGA' at the start of the read and, if found, removes
-      the first two basepairs. Like with the option '--rrbs' this avoids using cytosine
-      positions that were filled-in during the end-repair step. '--non_directional'
-      requires '--rrbs' to be specified as well.
-    inputBinding:
-      prefix: --non_directional
-
-  keep:
-    type: ['null', boolean]
-    default: false
-    doc: Keep the quality trimmed intermediate file. Default - off, which means the
-      temporary file is being deleted after adapter trimming. Only has an effect for
-      RRBS samples since other FastQ files are not trimmed for poor qualities separately.Note
-      for RRBS using MseI -If your DNA material was digested with MseI (recognition
-      motif - TTAA) instead of MspI it is NOT necessaryto specify --rrbs or --non_directional
-      since virtually all reads should start with the sequence'TAA', and this holds
-      true for both directional and non-directional libraries. As the end-repair of
-      'TAA'restricted sites does not involve any cytosines it does not need to be
-      treated especially. Instead, simplyrun Trim Galore! in the standard (i.e. non-RRBS)
-      mode.Paired-end specific options -
-    inputBinding:
-      prefix: --keep
-
-  trim1:
-    type: ['null', boolean]
-    default: false
-    doc: Trims 1 bp off every read from its 3' end. This may be needed for FastQ files
-      that are to be aligned as paired-end data with Bowtie. This is because Bowtie
-      (1) regards alignments like this - R1 ---------------------------> or this -
-      -----------------------> R1 R2 <--------------------------- <-----------------
-      R2 as invalid (whenever a start/end coordinate is contained within the other
-      read).
-    inputBinding:
-      prefix: --trim1
-
-  retain_unpaired:
-    type: ['null', boolean]
-    default: false
-    doc: If only one of the two paired-end reads became too short, the longer read
-      will be written to either '.unpaired_1.fq' or '.unpaired_2.fq' output files.
-      The length cutoff for unpaired single-end reads is governed by the parameters
-      -r1/--length_1 and -r2/--length_2. Default - OFF.
-    inputBinding:
-      prefix: --retain_unpaired
-
-  length_1:
-    type: ['null', string]
-    doc: Unpaired single-end read length cutoff needed for read 1 to be written to
-      '.unpaired_1.fq' output file. These reads may be mapped in single-end mode.
-      Default - 35 bp.
-    inputBinding:
-      prefix: --length_1
-
-  length_2:
-    type: ['null', string]
-    doc: Unpaired single-end read length cutoff needed for read 2 to be written to
-      '.unpaired_2.fq' output file. These reads may be mapped in single-end mode.
-      Default - 35 bp.Last modified on 18 Oct 2012.
-    inputBinding:
-      prefix: --length_2
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
 
 outputs:
 

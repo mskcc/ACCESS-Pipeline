@@ -13,10 +13,10 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: innovation_pipeline.scatter
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -168,17 +168,9 @@ outputs:
   # QC reports #
   ##############
 
-#  standard_aggregated_waltz_output:
-#    type: Directory
-#    outputSource: standard_aggregate_bam_metrics/output_dir
-#
-#  fulcrum_aggregated_waltz_output:
-#    type: Directory
-#    outputSource: fulcrum_aggregate_bam_metrics/output_dir
-
-  simplex_duplex_qc_report:
-    type: File
-    outputSource: collapsed_qc_step/simplex_duplex_qc_pdf
+#  simplex_duplex_qc_report:
+#    type: File
+#    outputSource: collapsed_qc_step/simplex_duplex_qc_pdf
 
   duplex_qc_report:
     type: File
@@ -270,6 +262,6 @@ steps:
       marianas_simplex_duplex_waltz_files: scatter_step/marianas_simplex_duplex_waltz_files
       marianas_duplex_waltz_files: scatter_step/marianas_duplex_waltz_files
 
-    out: [simplex_duplex_qc_pdf, duplex_qc_pdf]
+    out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
 
   

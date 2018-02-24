@@ -13,10 +13,10 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: innovation-sort-bam
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization

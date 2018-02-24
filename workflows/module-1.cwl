@@ -13,10 +13,10 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: module-1
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -66,6 +66,28 @@ inputs:
   tmp_dir: string
   output_suffix: string
 
+outputs:
+
+  clstats1:
+    type: File
+    outputSource: trimgalore/clstats1
+
+  clstats2:
+    type: File
+    outputSource: trimgalore/clstats2
+
+  bam:
+    type: File
+    outputSource: picard.FixMateInformation/bam
+
+  bai:
+    type: File
+    outputSource: picard.FixMateInformation/bai
+
+  md_metrics:
+    type: File
+    outputSource: picard.MarkDuplicates/mdmetrics
+
 steps:
 
   trimgalore:
@@ -109,24 +131,24 @@ steps:
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
 
-outputs:
+  abra:
+    run: ../cwl_tools/abra/2.07/abra.cwl
+    in:
+      threads:
+        valueFrom: ${ return '5' }
+      input_bam: picard.MarkDuplicates/bam
+      reference_fasta: reference_fasta
+      targets: bed_file
+    out:
+      [bam]
 
-  clstats1:
-    type: File
-    outputSource: trimgalore/clstats1
-
-  clstats2:
-    type: File
-    outputSource: trimgalore/clstats2
-
-  bam:
-    type: File
-    outputSource: picard.MarkDuplicates/bam
-
-  bai:
-    type: File
-    outputSource: picard.MarkDuplicates/bai
-
-  md_metrics:
-    type: File
-    outputSource: picard.MarkDuplicates/mdmetrics
+  picard.FixMateInformation:
+    run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+    in:
+      TMP_DIR: tmp_dir
+      input_bam: abra/bam
+      SO: fix_mate_information__sort_order
+      VALIDATION_STRINGENCY: fix_mate_information__validation_stringency
+      COMPRESSION_LEVEL: fix_mate_information__compression_level
+      CREATE_INDEX: fix_mate_information__create_index
+    out: [bam, bai]
