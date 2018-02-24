@@ -13,17 +13,17 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: abra
-  doap:revision: 2.07
+  doap:revision: 2.14
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Ian Johjnson
+    foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
 dct:contributor:
@@ -42,11 +42,13 @@ baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
+# todo: correct mem reqs?
 - -Xmx20g
 - -Djava.io.tmpdir=/scratch
 - -jar
-# todo: correct version?
 - /opt/common/CentOS_6-dev/abra/2.07/abra2-2.07.jar
+# todo: correct version?
+#- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra2-2.14.jar
 
 requirements:
   InlineJavascriptRequirement: {}
