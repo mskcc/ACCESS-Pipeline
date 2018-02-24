@@ -135,4 +135,3 @@ outputs:
     type: File
     outputBinding:
       glob: $( inputs.input_bam.basename.replace(".bam", "_FX.bai") )
-
