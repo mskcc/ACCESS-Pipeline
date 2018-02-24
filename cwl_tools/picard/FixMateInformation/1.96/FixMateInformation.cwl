@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.MarkDuplicates
-  doap:revision: 1.96
+  doap:name: cmo-picard.FixMateInformation
+  doap:revision: 2.17.10
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 0.0.0
@@ -38,78 +38,71 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-# -Xmx4g
-# Todo:
-# -jar /home/patelju1/software/picard-2.8.1.jar
-# MarkDuplicates
-# I=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt.bam
-# O=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD.bam
-# Todo:
-# ASSUME_SORTED=true
-# Todo:
-# METRICS_FILE=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD.metrics
+# /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+# -Xmx24g
+# -jar /opt/common/CentOS_6/picard/picard-tools-1.96//FixMateInformation.jar
+# I=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR.bam
+# O=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX.bam
+# SO=coordinate
 # TMP_DIR=/ifs/work/scratch/
 # COMPRESSION_LEVEL=0
 # CREATE_INDEX=true
 # VALIDATION_STRINGENCY=LENIENT
-# Todo:
-# DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES
 
 baseCommand:
-#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+#- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
-- -Xmx4g
+- -Xmx24g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/MarkDuplicates-1.96.jar
+- /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+# todo: what's the difference between FixMateInformation.jar and picard-1.96.jar?
+# - /home/johnsoni/Innovation-Pipeline/vendor_tools/picard_2.17.10.jar
+# DMP version (access denied):
+# - /ifs/work/zeng/dmp/resources/picard-tools-1.96/FixMateInformation.jar
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30000
-    coresMin: 2
+    ramMin: 30
+    coresMin: 5
 
 doc: |
   None
 
 inputs:
 
-  I:
-    type: File
+  input_bam:
+    type:
+    - 'null'
+    - File
     inputBinding:
       prefix: I=
       separate: false
 
   O:
     type: ['null', string]
-    doc: The output file to write marked records to
-    default: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+    doc: The output file to write to. If no output file is supplied, the input file
+      is overwritten. Default value - null.
+    default: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
     inputBinding:
       prefix: O=
-      valueFrom: $( inputs.I.basename.replace(".bam", "_MD.bam") )
       separate: false
+      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
 
-  M:
+  SO:
     type: ['null', string]
-    doc: File to write duplication metrics to Required.
-    default: $( inputs.I.basename.replace(".bam", ".metrics") )
+    doc: Optional sort order if the OUTPUT file should be sorted differently than
+      the INPUT file. Possible values - {unsorted, queryname, coordinate}
     inputBinding:
-      prefix: M=
-      valueFrom: $( inputs.I.basename.replace(".bam", ".metrics") )
+      prefix: SO=
       separate: false
 
   TMP_DIR:
     type: ['null', string]
     inputBinding:
       prefix: TMP_DIR=
-      separate: false
-
-  VALIDATION_STRINGENCY:
-    type: ['null', string]
-    inputBinding:
-      prefix: VALIDATION_STRINGENCY=
       separate: false
 
   COMPRESSION_LEVEL:
@@ -124,25 +117,22 @@ inputs:
     inputBinding:
       prefix: CREATE_INDEX=true
 
+  VALIDATION_STRINGENCY:
+    type: ['null', string]
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
+
 outputs:
 
   bam:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $( inputs.I.basename.replace(".bam", "_MD.bam") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
 
   bai:
-    type: File?
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.O)
-            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai";
-          return null;
-        }
-
-  mdmetrics:
     type: File
     outputBinding:
-      glob: $( inputs.I.basename.replace(".bam", ".metrics") )
+      glob: $( inputs.input_bam.basename.replace(".bam", "_FX.bai") )
+

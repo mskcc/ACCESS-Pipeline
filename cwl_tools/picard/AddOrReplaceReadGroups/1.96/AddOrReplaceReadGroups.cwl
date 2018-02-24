@@ -16,7 +16,7 @@ doap:release:
   doap:revision: 1.96
 - class: doap:Version
   doap:name: cwl-wrapper
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -38,11 +38,28 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
+# /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+# -Xmx4g
+# -jar /opt/common/CentOS_6/picard/picard-tools-1.96//AddOrReplaceReadGroups.jar
+# I=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln.sam
+# O=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt.bam
+# SO=coordinate
+# RGID=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000
+# RGLB=0
+# RGPL=Illumina
+# RGPU=bc209
+# RGSM=MSK-L-009-bc-IGO-05500-DY-6
+# RGCN=MSKCC
+# TMP_DIR=/ifs/work/scratch/
+# COMPRESSION_LEVEL=0
+# CREATE_INDEX=true
+# VALIDATION_STRINGENCY=LENIENT
+
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
-- -Xmx16g
+- -Xmx4g
 - -jar
 - /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
 
@@ -84,6 +101,14 @@ inputs:
       prefix: SO=
       separate: false
 
+  ID:
+    type: ['null', string]
+    doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
+      the default value.
+    inputBinding:
+      prefix: RGID=
+      separate: false
+
   LB:
     type: string
     doc: Read Group Library Required.
@@ -105,13 +130,6 @@ inputs:
       prefix: RGPU=
       separate: false
 
-  DS:
-    type: ['null', string]
-    doc: Read Group description Default value - null.
-    inputBinding:
-      prefix: DS=
-      separate: false
-
   SM:
     type: string
     doc: Read Group sample name Required.
@@ -119,31 +137,17 @@ inputs:
       prefix: RGSM=
       separate: false
 
-  ID:
-    type: ['null', string]
-    doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
-      the default value.
-    inputBinding:
-      prefix: RGID=
-      separate: false
-
   PL:
     type: string
     doc: Read Group platform (e.g. illumina, solid) Required.
     inputBinding:
-      prefix: PL=
+      prefix: RGPL=
       separate: false
 
   TMP_DIR:
     type: ['null', string]
     inputBinding:
       prefix: TMP_DIR=
-      separate: false
-
-  VERBOSITY:
-    type: ['null', string]
-    inputBinding:
-      prefix: VERBOSITY=
       separate: false
 
   VALIDATION_STRINGENCY:
@@ -163,44 +167,6 @@ inputs:
     default: true
     inputBinding:
       prefix: CREATE_INDEX=true
-
-  QUIET:
-    type: ['null', boolean]
-    default: false
-    inputBinding:
-      prefix: --QUIET=
-      separate: false
-
-  CREATE_MD5_FILE:
-    type: ['null', boolean]
-    default: false
-    inputBinding:
-      prefix: --CREATE_MD5_FILE=
-      separate: false
-
-  MAX_RECORDS_IN_RAM:
-    type: ['null', string]
-    inputBinding:
-      prefix: MAX_RECORDS_IN_RAM=
-      separate: false
-
-  REFERENCE_SEQUENCE:
-    type: ['null', string]
-    inputBinding:
-      prefix: REFERENCE_SEQUENCE=
-      separate: false
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
 
 outputs:
 

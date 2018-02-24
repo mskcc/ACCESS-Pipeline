@@ -16,7 +16,7 @@ doap:release:
   doap:revision: 0.5.0
 - class: doap:Version
   doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
-  doap:revision: 1.0.0
+  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization
