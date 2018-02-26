@@ -75,17 +75,13 @@ doc: |
 inputs:
 
   I:
-    type:
-    - 'null'
-    - File
-    - type: array
-      items: string
+    type: File?
     inputBinding:
       prefix: I=
       separate: false
 
   O:
-    type: ['null', string]
+    type: string?
     doc: Output file (bam or sam).
     default: $( inputs.I.basename.replace(".sam", "_RG.bam") )
     inputBinding:
@@ -94,7 +90,7 @@ inputs:
       valueFrom: $( inputs.I.basename.replace(".sam", "_RG.bam") )
 
   SO:
-    type: ['null', string]
+    type: string?
     doc: Optional sort order to output in. If not supplied OUTPUT is in the same order
       as INPUT. Default value - null. Possible values - {unsorted, queryname, coordinate}
     inputBinding:
@@ -102,7 +98,7 @@ inputs:
       separate: false
 
   ID:
-    type: ['null', string]
+    type: string?
     doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
       the default value.
     inputBinding:
@@ -117,7 +113,7 @@ inputs:
       separate: false
 
   CN:
-    type: ['null', string]
+    type: string?
     doc: Read Group sequencing center name Default value - null.
     inputBinding:
       prefix: RGCN=
@@ -145,25 +141,27 @@ inputs:
       separate: false
 
   TMP_DIR:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: TMP_DIR=
       separate: false
 
   VALIDATION_STRINGENCY:
-    type: ['null', string]
+    type: string?
+    default: ${ return 'LENIENT' }
     inputBinding:
       prefix: VALIDATION_STRINGENCY=
+      valueFrom: ${ return 'LENIENT' }
       separate: false
 
   COMPRESSION_LEVEL:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: COMPRESSION_LEVEL=
       separate: false
 
   CREATE_INDEX:
-    type: ['null', boolean]
+    type: boolean
     default: true
     inputBinding:
       prefix: CREATE_INDEX=true

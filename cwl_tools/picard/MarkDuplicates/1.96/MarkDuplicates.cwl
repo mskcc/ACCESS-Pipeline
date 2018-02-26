@@ -124,6 +124,21 @@ inputs:
     inputBinding:
       prefix: CREATE_INDEX=true
 
+# todo: need to updat picard for this?:
+#  DUPLICATE_SCORING_STRATEGY:
+#    type: string?
+#    default: ${ return 'SUM_OF_BASE_QUALITIES' }
+#    inputBinding:
+#      prefix: DUPLICATE_SCORING_STRATEGY=
+#      separate: false
+#      valueFrom: ${ return 'SUM_OF_BASE_QUALITIES' }
+
+  ASSUME_SORTED:
+    type: boolean?
+    default: true
+    inputBinding:
+      prefix: ASSUME_SORTED=true
+
 outputs:
 
   bam:

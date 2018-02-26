@@ -65,6 +65,7 @@ inputs:
     type: string
     inputBinding:
       prefix: --threads
+      # todo: same as -t?
 
   input_bam:
     type: File
@@ -82,6 +83,7 @@ inputs:
     type: File
     inputBinding:
       prefix: --targets
+      # todo: same as -tr
 
   output_bam_filename:
     type: ['null', string]
@@ -89,6 +91,16 @@ inputs:
     inputBinding:
       prefix: -o
       valueFrom: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
+
+  kmers:
+    type: string?
+    inputBinding:
+      prefix: -k
+
+  p:
+    type: string?
+    inputBinding:
+      prefix: -p
 
 outputs:
 

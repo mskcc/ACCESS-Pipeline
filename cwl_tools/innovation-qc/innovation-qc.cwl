@@ -44,10 +44,7 @@ requirements:
     ramMin: 4000
     coresMin: 1
 
-# todo
-baseCommand:
-- /opt/common/CentOS_6-dev/python/python-2.7.10/bin/python
-- /home/johnsoni/Innovation-QC/innovation_qc.py
+baseCommand: innovation_qc_with_groups.py
 
 inputs:
   standard_waltz_metrics:
@@ -56,12 +53,12 @@ inputs:
       prefix: -sw
 
   marianas_waltz_metrics:
-    type: Directory
+    type: Directory?
     inputBinding:
       prefix: -mw
 
   fulcrum_waltz_metrics:
-    type: Directory
+    type: Directory?
     inputBinding:
       prefix: -fw
 
@@ -72,6 +69,6 @@ inputs:
 
 outputs:
   qc_pdf:
-    type: File
+    type: File[]
     outputBinding:
-      glob: ${ return 'results/plots-output/*.pdf' }
+      glob: ${ return '**/**/**/*.pdf' }

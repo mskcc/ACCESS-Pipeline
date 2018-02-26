@@ -51,22 +51,17 @@ arguments:
 - --paired
 - --gzip
 - -q
-- 1
+- '1'
 - --suppress_warn
 - --stringency
-- 3
-- -length 25
-- -o
-- .
+- '3'
+- --length
+- '25'
 - $(inputs.fastq1)
 - $(inputs.fastq2)
 
 requirements:
 - class: InlineJavascriptRequirement
-
-#  expressionLib:
-#  - var getBaseName = function(inputFile) { return inputFile.basename; };
-
 - class: ResourceRequirement
   ramMin: 16000
   coresMin: 2

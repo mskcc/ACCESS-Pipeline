@@ -56,7 +56,6 @@ inputs:
   sample_sheet: File
   umi_length: string
   output_project_folder: string
-  outdir: string
 
   # Module 1
   adapter: string
@@ -68,6 +67,8 @@ inputs:
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
+  abra__kmers: string
+  abra__p: string
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: string
@@ -208,6 +209,9 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
 
+      abra__kmers: abra__kmers
+      abra__p: abra__p
+
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
@@ -283,6 +287,9 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
 
+      abra__kmers: abra__kmers
+      abra__p: abra__p
+
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
@@ -313,6 +320,9 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
+
+      abra__kmers: abra__kmers
+      abra__p: abra__p
 
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
@@ -395,6 +405,9 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
 
+      abra__kmers: abra__kmers
+      abra__p: abra__p
+
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
@@ -442,6 +455,9 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
+
+      abra__kmers: abra__kmers
+      abra__p: abra__p
 
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
