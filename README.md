@@ -32,8 +32,6 @@ pip install toil'[cwl]'==3.14.0
 
 # Run the test pipeline
 toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
-```
-or
-```
-test/run_pipeline_test.sh
+<or>
+test/run-pipeline-test.sh <output_dir>
 ```
