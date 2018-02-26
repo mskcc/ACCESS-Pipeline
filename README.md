@@ -18,9 +18,19 @@ Usage:
 - HG19 Reference fasta + fai
 
 ```
+# Set up a Virtual Environment
 virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
+
+# Clone the QC module
+git clone https://github.com/mskcc/Innovation-QC.git
+cd Innovation-QC
+python setup.py install
+
+# Install Toil CWL-runner
 pip install toil'[cwl]'==3.14.0
+
+# Run the test pipeline
 toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 or
