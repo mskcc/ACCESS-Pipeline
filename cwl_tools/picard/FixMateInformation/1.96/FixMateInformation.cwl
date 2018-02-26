@@ -38,17 +38,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-# -Xmx24g
-# -jar /opt/common/CentOS_6/picard/picard-tools-1.96//FixMateInformation.jar
-# I=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR.bam
-# O=MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX.bam
-# SO=coordinate
-# TMP_DIR=/ifs/work/scratch/
-# COMPRESSION_LEVEL=0
-# CREATE_INDEX=true
-# VALIDATION_STRINGENCY=LENIENT
-
 baseCommand:
 #- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 - /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java

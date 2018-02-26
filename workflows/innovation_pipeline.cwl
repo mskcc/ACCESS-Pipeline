@@ -55,15 +55,12 @@ inputs:
   # ProcessUMIFastq
   umi_length: string
   output_project_folder: string
-  outdir: string
 
   # Trimgalore
   adapter: string[]
-  adapter2: string
-
+  adapter2: string[]
   # BWA
   genome: string
-
   # Arrg
   add_rg_PL: string
   add_rg_CN: string
@@ -71,7 +68,9 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-
+  # Abra
+  abra__kmers: string
+  abra__p: string
   # FX
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
@@ -179,7 +178,7 @@ outputs:
 #    outputSource: collapsed_qc_step/simplex_duplex_qc_pdf
 
   duplex_qc_report:
-    type: File
+    type: File[]
     outputSource: collapsed_qc_step/duplex_qc_pdf
 
 steps:
@@ -197,7 +196,6 @@ steps:
       # Marianas ProcessUMIFastq
       umi_length: umi_length
       output_project_folder: output_project_folder
-      outdir: outdir
 
       # Module 1
       adapter: adapter
@@ -209,6 +207,9 @@ steps:
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
+      # Abra
+      abra__kmers: abra__kmers
+      abra__p: abra__p
       # FX
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
@@ -240,8 +241,7 @@ steps:
       bed_file: bed_file
       waltz__min_mapping_quality: waltz__min_mapping_quality
 
-    # I7 adapter is different for each sample, I5 is not - todo: but it should be
-    scatter: [adapter, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    scatter: [adapter, adapter2, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
 
     scatterMethod: dotproduct
 

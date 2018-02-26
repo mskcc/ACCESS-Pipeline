@@ -47,9 +47,12 @@ baseCommand:
 
 arguments:
 - mem
-- -PM
 - -t
 - $( inputs.t )
+- -PM
+- -R
+- '@RG	ID:$(inputs.ID) LB:$(inputs.LB)  SM:$(inputs.SM)  PL:$(inputs.PL) PU:$(inputs.PU)  CN:$(inputs.CN)'
+
 - $( inputs.reference_fasta )
 - $( inputs.fastq1.path )
 - $( inputs.fastq2.path )
@@ -96,8 +99,32 @@ inputs:
   t:
     type: ['null', string]
     doc: INT number of threads [1]
-    # todo: should be 4 as per IMPACT logs
-    default: '5'
+    default: '4'
+
+  R:
+    type: ['null', string]
+    doc: STR read group header line such as '@RG\tID -foo\tSM -bar' [null]
+    inputBinding:
+      prefix: -R
+
+  ID:
+    type: string?
+
+  LB:
+    type: string?
+
+  SM:
+    type: string?
+
+  PL:
+    type: string?
+
+  PU:
+    type: string?
+
+  CN:
+    type: string?
+
 
 stdout: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
 

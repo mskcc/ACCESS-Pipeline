@@ -76,11 +76,11 @@ inputs:
 outputs:
 
   simplex_duplex_qc_pdf:
-    type: File
+    type: File[]
     outputSource: simplex_duplex_innovation_qc/qc_pdf
 
   duplex_qc_pdf:
-    type: File
+    type: File[]
     outputSource: duplex_innovation_qc/qc_pdf
 
 steps:

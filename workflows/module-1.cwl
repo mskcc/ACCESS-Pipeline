@@ -58,6 +58,9 @@ inputs:
   add_rg_SM: string
   add_rg_CN: string
 
+  abra__kmers: string
+  abra__p: string
+
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: string
@@ -107,6 +110,14 @@ steps:
       fastq2: trimgalore/clfastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+
+      ID: add_rg_ID
+      LB: add_rg_LB
+      SM: add_rg_SM
+      PL: add_rg_PL
+      PU: add_rg_PU
+      CN: add_rg_CN
+
       output_suffix: output_suffix
     out: [output_sam]
 
@@ -140,6 +151,8 @@ steps:
       input_bam: picard.MarkDuplicates/bam
       reference_fasta: reference_fasta
       targets: bed_file
+      abra__kmers: abra__kmers
+      abra__p: abra__p
     out:
       [bam]
 
