@@ -38,6 +38,7 @@ toil-cwl-runner \
     --defaultDisk 10G \
     --defaultMem 10G \
     --no-container \
+    --linkImports \
     --disableCaching \
     --realTimeLogging \
     --workDir ${output_directory}/tmp \

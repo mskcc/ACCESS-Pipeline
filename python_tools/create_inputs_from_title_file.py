@@ -2,132 +2,103 @@ import os
 import sys
 import yaml
 from glob import glob
+import numpy as np
 import pandas as pd
 
 
+# Path to the title file
 title_file_path = sys.argv[1]
+
+# Path to directory with fastq files
 data_dir = sys.argv[2]
 
-title_file = pd.read_csv(title_file_path, sep='\t')
 
-fastq1 = [y for x in os.walk(data_dir) for y in glob(os.path.join(x[0], '*_R1_001.fastq.gz'))]
-fastq1 = [{'class': 'File', 'path': x} for x in fastq1]
-
-fastq2 = [y for x in os.walk(data_dir) for y in glob(os.path.join(x[0], '*_R2_001.fastq.gz'))]
-fastq2 = [{'class': 'File', 'path': x} for x in fastq2]
-
-sample_sheet = [y for x in os.walk(data_dir) for y in glob(os.path.join(x[0], 'SampleSheet.csv'))]
-sample_sheet = [{'class': 'File', 'path': x} for x in sample_sheet]
-
-out = open('inputs.yaml', 'wb')
-
-# GATCGGAAGAGCACACGTCTGAACTCCAGTCAC + bc_1 + ATATCTCGTATGCCGTCTTCTGCTTG
-adapter = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
-adapter += title_file['barcode_index_1'].astype(str)
-adapter += 'ATATCTCGTATGCCGTCTTCTGCTTG'
-
-# AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
-adapter2 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
-adapter2 += title_file['barcode_index_2'].astype(str)
-adapter2 += 'AGATCTCGGTGGTCGCCGTATCATT'
-
-out_dict = {
-    'fastq1': fastq1,
-    'fastq2': fastq2,
-    'sample_sheet': sample_sheet,
-
-    'adapter': adapter.tolist(),
-    'adapter2': adapter2.tolist(),
-
-    # Todo: what's the difference between ID & SM?
-    'add_rg_ID': title_file['Sample_ID'].tolist(),
-    'add_rg_SM': title_file['Sample_ID'].tolist(),
-    'add_rg_LB': title_file['Lane'].tolist(),
-
-    # Todo: should use one or two barcodes if they are different?
-    'add_rg_PU': title_file['barcode_index_1'].tolist(),
-}
+def find_files(file_regex):
+    '''
+    Recursively find files in folder with given search string
+    '''
+    files = [file for folder in os.walk(data_dir) for file in glob(os.path.join(folder[0], file_regex))]
+    return files
 
 
+def load_fastqs():
+    fastq1 = find_files('*_R1_001.fastq.gz')
+    fastq1 = [{'class': 'File', 'path': path} for path in fastq1]
+    fastq2 = find_files('*_R2_001.fastq.gz')
+    fastq2 = [{'class': 'File', 'path': path} for path in fastq2]
+    sample_sheet = find_files('SampleSheet.csv')
+    sample_sheet = [{'class': 'File', 'path': path} for path in sample_sheet]
 
-other_params = {
-    'title_file': {'class': 'File', 'path': title_file_path},
-    'bed_file': {'class': 'File', 'path': '../resources/pan-cancer-panel.sorted.bed'},
+    return fastq1, fastq2, sample_sheet
 
-    'reference_fasta': '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta',
-    'reference_fasta_fai': '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai',
 
-    ##########################
-    # Process Loop UMI Fastq #
-    ##########################
+def get_pos(sample_name):
+    '''
+    Sort our title_file to match order of samples in data_directory
+    '''
+    found_boolv = [1 if sample_name.replace('-', '_') in fastq['path'].replace('-', '_') else 0 for fastq in fastq1]
+    idx = np.argmax(found_boolv)
+    return idx
 
-    'umi_length': '3',
-    'output_project_folder': '.',
 
-    ##############
-    # TrimGalore #
-    ##############
+def write_inputs_file(title_file):
+    # Start writing our inputs.yaml file
+    out = open('inputs.yaml', 'wb')
 
-    'genome': 'GRCh37',
+    # Adapter sequences need to be tailored to include each sample barcode
+    # GATCGGAAGAGCACACGTCTGAACTCCAGTCAC + bc_1 + ATATCTCGTATGCCGTCTTCTGCTTG
+    adapter = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+    adapter += title_file['barcode_index_1'].astype(str)
+    adapter += 'ATATCTCGTATGCCGTCTTCTGCTTG'
 
-    ###########################
-    # AddOrReplcaceReadGroups #
-    ###########################
+    # AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
+    adapter2 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
+    adapter2 += title_file['barcode_index_2'].astype(str)
+    adapter2 += 'AGATCTCGGTGGTCGCCGTATCATT'
 
-    'add_rg_PL': 'Illumina',
-    # Todo: Should say: add_rg_CN: "InnovationLab"?
-    'add_rg_CN': 'BergerLab_MSKCC',
+    out_dict = {
+        'fastq1': fastq1,
+        'fastq2': fastq2,
+        'sample_sheet': sample_sheet,
 
-    ######################
-    # FixMateInformation #
-    ######################
+        'adapter': adapter.tolist(),
+        'adapter2': adapter2.tolist(),
 
-    'fix_mate_information__sort_order': 'coordinate',
-    'fix_mate_information__validation_stringency': 'LENIENT',
-    'fix_mate_information__compression_level': '0',
-    'fix_mate_information__create_index': 'true',
+        # Todo: what's the difference between ID & SM?
+        'add_rg_ID': title_file['Sample_ID'].tolist(),
+        'add_rg_SM': title_file['Sample_ID'].tolist(),
+        'add_rg_LB': title_file['Lane'].tolist(),
 
-    ########
-    # Abra #
-    ########
+        # Todo: should use one or two barcodes if they are different?
+        'add_rg_PU': title_file['barcode_index_1'].tolist(),
+    }
 
-    'abra__kmers': '43 53 63 83 93',
+    # Load and write our default run parameters
+    with open('../resources/run_params.yaml', 'r') as stream:
+        other_params = yaml.load(stream)
 
-    ###########
-    # Fulcrum #
-    ###########
+    out.write(yaml.dump(other_params))
+    out.write(yaml.dump(out_dict))
+    out.close()
 
-    'tmp_dir': '/scratch',
-    # SortBam
-    'sort_order': 'Queryname',
-    # GroupReadsByUMI
-    'grouping_strategy': 'paired',
-    'min_mapping_quality': '20',
-    'tag_family_size_counts_output': 'Grouped-mapQ20-histogram',
-    # CallDuplexConsensusReads
-    'call_duplex_min_reads': '1 1 0',
-    # FilterConsensusReads
-    'filter_min_reads': '2 1 0',
-    'filter_min_base_quality': '30',
 
-    ############
-    # Marianas #
-    ############
+########
+# Main #
+########
 
-    'marianas__mismatches': '1',
-    'marianas__wobble': '3',
-    'marianas__min_consensus_percent': '90',
-    'marianas_collapsing__outdir': '.',
+if __name__ == '__main__':
+    title_file = pd.read_csv(title_file_path, sep='\t')
 
-    #########
-    # Waltz #
-    #########
+    fastq1, fastq2, sample_sheet = load_fastqs()
 
-    'coverage_threshold': '20',
-    'gene_list': '../resources/juber-hg19-gene-list.bed',
-    'waltz__min_mapping_quality': '20',
-}
+    # Check the title file matches input fastqs
+    assert len(fastq1) == len(fastq2)
+    assert len(sample_sheet) == len(fastq1)
+    assert title_file.shape[0] == len(fastq1)
 
-out.write(yaml.dump(other_params))
-out.write(yaml.dump(out_dict))
-out.close()
+    # Apply the sort
+    title_file['Sort'] = title_file['Sample_ID'].apply(get_pos)
+    title_file = title_file.sort_values('Sort')
+    title_file.drop('Sort', axis=1)
+
+    write_inputs_file(title_file)

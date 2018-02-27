@@ -1,0 +1,410 @@
+######################
+# Inputs for 5500-DY #
+######################
+
+title_file: {class: File, path: '/home/johnsoni/Project_05500_DY_title_file-lane1.txt'}
+
+bed_file: {class: File, path: 'test-data/start/pan-cancer-panel.sorted.bed'}
+
+reference_fasta: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta'
+reference_fasta_fai: '/ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai'
+
+##########
+# Fastqs #
+##########
+
+fastq1: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-cf_IGO_05500_DY_25/MSK-L-046-cf_IGO_05500_DY_25_S28_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_BCN01_IGO_05500_DY_15/PR_pt27_BCN01_IGO_05500_DY_15_S13_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_CF01_IGO_05500_DY_32/PR_pt27_CF01_IGO_05500_DY_32_S35_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-cf_IGO_05500_DY_19/MSK-L-039-cf_IGO_05500_DY_19_S21_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_BCN01_IGO_05500_DY_16/PR_pt28_BCN01_IGO_05500_DY_16_S14_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_CF01_IGO_05500_DY_29/PR_pt15_CF01_IGO_05500_DY_29_S24_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt30_CF02_IGO_05500_DY_35/PR_pt30_CF02_IGO_05500_DY_35_S30_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_BCN01_IGO_05500_DY_12/PR_pt15_BCN01_IGO_05500_DY_12_S10_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_CF01_IGO_05500_DY_33/PR_pt28_CF01_IGO_05500_DY_33_S34_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_CF01_IGO_05500_DY_28/PR_pt12_CF01_IGO_05500_DY_28_S25_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-bc_IGO_05500_DY_3/MSK-L-047-bc_IGO_05500_DY_3_S4_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_CF01_IGO_05500_DY_31/PR_pt25_CF01_IGO_05500_DY_31_S33_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_BCN01_IGO_05500_DY_14/PR_pt25_BCN01_IGO_05500_DY_14_S17_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/PR_pt09_BCN01_IGO_05500_DY_10_S11_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/PR_pt31_BCN01_IGO_05500_DY_13_S15_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-bc_IGO_05500_DY_8/MSK-L-046-bc_IGO_05500_DY_8_S7_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/PR_pt31_CF01_IGO_05500_DY_30_S32_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/MSK-L-051-cf_IGO_05500_DY_21_S19_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/MSK-L-035-cf_IGO_05500_DY_24_S29_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/MSK-L-035-bc_IGO_05500_DY_7_S9_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-bc_IGO_05500_DY_4/MSK-L-051-bc_IGO_05500_DY_4_S6_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/MSK-L-017-bc_IGO_05500_DY_1_S1_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/PR_pt09_CF01_IGO_05500_DY_27_S27_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/MSK-L-054-bc_IGO_05500_DY_9_S8_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/PR_pt12_BCN01_IGO_05500_DY_11_S12_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/MSK-L-054-cf_IGO_05500_DY_26_S26_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_BCN01_IGO_05500_DY_17/PR_pt29_BCN01_IGO_05500_DY_17_S16_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/MSK-L-039-bc_IGO_05500_DY_2_S5_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/MSK-L-017-cf_IGO_05500_DY_18_S20_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-cf_IGO_05500_DY_20/MSK-L-047-cf_IGO_05500_DY_20_S18_R1_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_CF01_IGO_05500_DY_34/PR_pt29_CF01_IGO_05500_DY_34_S31_R1_001.fastq.gz'}
+  ]
+
+fastq2: [
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-cf_IGO_05500_DY_25/MSK-L-046-cf_IGO_05500_DY_25_S28_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_BCN01_IGO_05500_DY_15/PR_pt27_BCN01_IGO_05500_DY_15_S13_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_CF01_IGO_05500_DY_32/PR_pt27_CF01_IGO_05500_DY_32_S35_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-cf_IGO_05500_DY_19/MSK-L-039-cf_IGO_05500_DY_19_S21_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_BCN01_IGO_05500_DY_16/PR_pt28_BCN01_IGO_05500_DY_16_S14_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_CF01_IGO_05500_DY_29/PR_pt15_CF01_IGO_05500_DY_29_S24_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt30_CF02_IGO_05500_DY_35/PR_pt30_CF02_IGO_05500_DY_35_S30_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_BCN01_IGO_05500_DY_12/PR_pt15_BCN01_IGO_05500_DY_12_S10_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_CF01_IGO_05500_DY_33/PR_pt28_CF01_IGO_05500_DY_33_S34_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_CF01_IGO_05500_DY_28/PR_pt12_CF01_IGO_05500_DY_28_S25_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-bc_IGO_05500_DY_3/MSK-L-047-bc_IGO_05500_DY_3_S4_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_CF01_IGO_05500_DY_31/PR_pt25_CF01_IGO_05500_DY_31_S33_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_BCN01_IGO_05500_DY_14/PR_pt25_BCN01_IGO_05500_DY_14_S17_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/PR_pt09_BCN01_IGO_05500_DY_10_S11_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/PR_pt31_BCN01_IGO_05500_DY_13_S15_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-bc_IGO_05500_DY_8/MSK-L-046-bc_IGO_05500_DY_8_S7_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/PR_pt31_CF01_IGO_05500_DY_30_S32_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/MSK-L-051-cf_IGO_05500_DY_21_S19_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/MSK-L-035-cf_IGO_05500_DY_24_S29_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/MSK-L-035-bc_IGO_05500_DY_7_S9_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-bc_IGO_05500_DY_4/MSK-L-051-bc_IGO_05500_DY_4_S6_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/MSK-L-017-bc_IGO_05500_DY_1_S1_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/PR_pt09_CF01_IGO_05500_DY_27_S27_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/MSK-L-054-bc_IGO_05500_DY_9_S8_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/PR_pt12_BCN01_IGO_05500_DY_11_S12_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/MSK-L-054-cf_IGO_05500_DY_26_S26_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_BCN01_IGO_05500_DY_17/PR_pt29_BCN01_IGO_05500_DY_17_S16_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/MSK-L-039-bc_IGO_05500_DY_2_S5_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/MSK-L-017-cf_IGO_05500_DY_18_S20_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-cf_IGO_05500_DY_20/MSK-L-047-cf_IGO_05500_DY_20_S18_R2_001.fastq.gz'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_CF01_IGO_05500_DY_34/PR_pt29_CF01_IGO_05500_DY_34_S31_R2_001.fastq.gz'}
+  ]
+
+sample_sheet: [
+  {class: File, path: '}/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-cf_IGO_05500_DY_25/SampleSheet.csv'},
+  {class: File, path: '}/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_BCN01_IGO_05500_DY_15/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt27_CF01_IGO_05500_DY_32/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-cf_IGO_05500_DY_19/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_BCN01_IGO_05500_DY_16/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_CF01_IGO_05500_DY_29/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt30_CF02_IGO_05500_DY_35/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt15_BCN01_IGO_05500_DY_12/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt28_CF01_IGO_05500_DY_33/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_CF01_IGO_05500_DY_28/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-bc_IGO_05500_DY_3/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_CF01_IGO_05500_DY_31/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt25_BCN01_IGO_05500_DY_14/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-046-bc_IGO_05500_DY_8/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-cf_IGO_05500_DY_24/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-035-bc_IGO_05500_DY_7/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-bc_IGO_05500_DY_4/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-bc_IGO_05500_DY_1/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_BCN01_IGO_05500_DY_17/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-039-bc_IGO_05500_DY_2/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-017-cf_IGO_05500_DY_18/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-047-cf_IGO_05500_DY_20/SampleSheet.csv'},
+  {class: File, path: '/ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt29_CF01_IGO_05500_DY_34/SampleSheet.csv'}
+  ]
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+
+umi_length: '3'
+output_project_folder: '.'
+
+
+##############
+# TrimGalore #
+##############
+
+genome: "GRCh37"
+
+# I7 Adapters (with barcodes inside)
+adapter: [
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTACCGAC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGGATTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGCAACTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGAATACG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGTCTGA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATCTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATCTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGGCATTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGAATACG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCCTCATG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTGTACCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGTCTGA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTCAGTCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGCCTATC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTCAGTCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCCTCATG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGCCTATC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGCAACTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTACACCT ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGCCTATC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTACACCT ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGTCTGA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAAGGTAC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGTCTGA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGCCTATC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCCTCATG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTACACCT ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATCTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCTAGGAG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGGCATTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATCTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTGTACCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGTATCTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGAATACG ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTCAGTCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTACCGAC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TTACCGAC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CAAGGTAC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGGCATTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC AGCCTATC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGGATTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTACACCT ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC TCGGATTC ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGCAACTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CGCAACTA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC CTGTACCA ATATCTCGTATGCCGTCTTCTGCTTG',
+  'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC GTACACCT ATATCTCGTATGCCGTCTTCTGCTTG'
+]
+
+# I5 Adapter
+adapter2: [
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GTCGGTAA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAATCCGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAGTTGCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CGTATTCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TCAGACGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAGATACG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAGATACG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAATGCCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CGTATTCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CATGAGGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGGTACAG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TCAGACGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGACTGAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GATAGGCT AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGACTGAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CATGAGGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GATAGGCT AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAGTTGCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT AGGTGTAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GATAGGCT AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT AGGTGTAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TCAGACGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GTACCTTG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TCAGACGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GATAGGCT AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CATGAGGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT AGGTGTAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAGATACG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CTCCTAGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAATGCCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAGATACG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGGTACAG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAGATACG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT CGTATTCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGACTGAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GTCGGTAA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GTCGGTAA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GTACCTTG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAATGCCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GATAGGCT AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAATCCGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT AGGTGTAC AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT GAATCCGA AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAGTTGCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TAGTTGCG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT TGGTACAG AGATCTCGGTGGTCGCCGTATCATT',
+  'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT AGGTGTAC AGATCTCGGTGGTCGCCGTATCATT'
+]
+
+
+
+##########################
+# AddOrReplaceReadGroups #
+##########################
+
+add_rg_ID: [
+  MSK-L-007-bc_IGO_05500_DY_5,
+  MSK-L-007-cf_IGO_05500_DY_22,
+  MSK-L-009-bc_IGO_05500_DY_6,
+  MSK-L-009-cf_IGO_05500_DY_23,
+  MSK-L-017-bc_IGO_05500_DY_1,
+  MSK-L-017-cf_IGO_05500_DY_18,
+  MSK-L-035-bc_IGO_05500_DY_7,
+  MSK-L-035-cf_IGO_05500_DY_24,
+  MSK-L-039-bc_IGO_05500_DY_2
+]
+
+add_rg_LB: [
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0,
+  lane_0
+  ]
+
+# todo - should these come from SampleSheet.csv or the reverse complements in barcodeKey96.txt?
+add_rg_PU: [
+  CGTATTCG,
+  TCAGACGA,
+  TAGTTGCG,
+  GATAGGCT,
+  GTCGGTAA,
+  TAGTTGCG,
+  GAGATACG,
+  TGGTACAG,
+  GAATCCGA,
+]
+
+add_rg_SM: [
+  MSK-L-007-bc_IGO_05500_DY_5,
+  MSK-L-007-cf_IGO_05500_DY_22,
+  MSK-L-009-bc_IGO_05500_DY_6,
+  MSK-L-009-cf_IGO_05500_DY_23,
+  MSK-L-017-bc_IGO_05500_DY_1,
+  MSK-L-017-cf_IGO_05500_DY_18,
+  MSK-L-035-bc_IGO_05500_DY_7,
+  MSK-L-035-cf_IGO_05500_DY_24,
+  MSK-L-039-bc_IGO_05500_DY_2
+  ]
+
+
+add_rg_PL: "Illumina"
+
+# Todo: Should say: add_rg_CN: "InnovationLab"?
+add_rg_CN: "BergerLab_MSKCC"
+
+######################
+# FixMateInformation #
+######################
+
+fix_mate_information__sort_order: 'coordinate'
+fix_mate_information__validation_stringency: 'LENIENT'
+fix_mate_information__compression_level: '0'
+fix_mate_information__create_index: true
+
+
+########
+# Abra #
+########
+
+abra__kmers: '43 53 63 83 93'
+
+#abra__p: [
+#  MSK-L-007-bc_IGO_05500_DY_5,
+#  MSK-L-007-cf_IGO_05500_DY_22,
+#  MSK-L-009-bc_IGO_05500_DY_6,
+#  MSK-L-009-cf_IGO_05500_DY_23,
+#  MSK-L-017-bc_IGO_05500_DY_1,
+#  MSK-L-017-cf_IGO_05500_DY_18,
+#  MSK-L-035-bc_IGO_05500_DY_7,
+#  MSK-L-035-cf_IGO_05500_DY_24,
+#  MSK-L-039-bc_IGO_05500_DY_2
+#]
+
+
+###########
+# Fulcrum #
+###########
+
+tmp_dir: '/scratch'
+
+# SortBam
+sort_order: 'Queryname'
+
+# GroupReadsByUMI
+grouping_strategy: 'paired'
+min_mapping_quality: '20'
+tag_family_size_counts_output: 'Grouped-mapQ20-histogram'
+
+# CallDuplexConsensusReads
+call_duplex_min_reads: '1 1 0'
+
+# FilterConsensusReads
+filter_min_reads: '2 1 0'
+filter_min_base_quality: '30'
+
+
+############
+# Marianas #
+############
+
+marianas__mismatches: '1'
+marianas__wobble: '3'
+marianas__min_consensus_percent: '90'
+marianas_collapsing__outdir: '.'
+
+
+#########
+# Waltz #
+#########
+
+coverage_threshold: '20'
+gene_list: '/home/patelju1/resources/gene-list/juber-hg19-gene-list.bed'
+waltz__min_mapping_quality: '20'
