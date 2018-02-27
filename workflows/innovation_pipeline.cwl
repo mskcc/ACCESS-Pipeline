@@ -70,7 +70,7 @@ inputs:
   add_rg_SM: string[]
   # Abra
   abra__kmers: string
-  abra__p: string
+#  abra__p: string[]
   # FX
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
@@ -209,7 +209,7 @@ steps:
       add_rg_SM: add_rg_SM
       # Abra
       abra__kmers: abra__kmers
-      abra__p: abra__p
+#      abra__p: abra__p
       # FX
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency

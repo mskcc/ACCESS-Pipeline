@@ -33,6 +33,6 @@ for dir in `find ./test -type d` ; do
     bash $script ${output_dir} ;
   done ;
 
-  printf "\n\n\n"
+  printf "\n\n\n Test Finished \n\n\n"
   cd - ;
 done
