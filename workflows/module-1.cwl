@@ -59,7 +59,7 @@ inputs:
   add_rg_CN: string
 
   abra__kmers: string
-  abra__p: string
+#  abra__p: string
 
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
@@ -152,7 +152,7 @@ steps:
       reference_fasta: reference_fasta
       targets: bed_file
       abra__kmers: abra__kmers
-      abra__p: abra__p
+      abra__p: add_rg_SM
     out:
       [bam]
 
