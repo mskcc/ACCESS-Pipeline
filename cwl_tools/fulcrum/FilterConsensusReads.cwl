@@ -59,10 +59,6 @@ doc: |
   None
 
 inputs:
-#  tmp_dir:
-#    type: string
-#    inputBinding:
-#      prefix: --tmp_dir
 
   input_bam:
     type: File
@@ -82,7 +78,7 @@ inputs:
       shellQuote: false
 
   min_base_quality:
-    type: string
+    type: int
     inputBinding:
       prefix: -N
       itemSeparator: '='

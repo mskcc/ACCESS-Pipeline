@@ -60,10 +60,6 @@ doc: |
   None
 
 inputs:
-#  tmp_dir:
-#    type: string
-#    inputBinding:
-#      prefix: --tmp_dir
 
   input_bam:
     type: File

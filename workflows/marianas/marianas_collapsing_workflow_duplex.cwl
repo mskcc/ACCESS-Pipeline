@@ -47,9 +47,9 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
   pileup: File
-  mismatches: string
-  wobble: string
-  min_consensus_percent: string
+  mismatches: int
+  wobble: int
+  min_consensus_percent: int
   output_dir: string
 
   # todo: use

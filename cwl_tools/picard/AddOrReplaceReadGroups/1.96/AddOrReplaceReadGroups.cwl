@@ -106,7 +106,7 @@ inputs:
       separate: false
 
   LB:
-    type: string
+    type: int
     doc: Read Group Library Required.
     inputBinding:
       prefix: RGLB=

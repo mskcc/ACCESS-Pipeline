@@ -71,17 +71,17 @@ inputs:
       position: 2
 
   mismatches:
-    type: string
+    type: int
     inputBinding:
       position: 3
 
   wobble:
-    type: string
+    type: int
     inputBinding:
       position: 4
 
   min_consensus_percent:
-    type: string
+    type: int
     inputBinding:
       position: 5
 

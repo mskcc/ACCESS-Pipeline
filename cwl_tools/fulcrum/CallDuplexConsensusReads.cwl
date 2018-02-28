@@ -57,10 +57,6 @@ doc: |
   None
 
 inputs:
-#  tmp_dir:
-#    type: string      # todo - directory?
-#    inputBinding:
-#      prefix: --tmp_dir
 
   input_bam:
     type: File

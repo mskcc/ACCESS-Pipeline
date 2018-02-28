@@ -55,7 +55,7 @@ inputs:
 
   # GroupReads
   grouping_strategy: string
-  min_mapping_quality: string
+  min_mapping_quality: int
   tag_family_size_counts_output: string
 
   # CallDuplexConsensusReads
@@ -64,7 +64,7 @@ inputs:
   # FilterConsensusReads
   reference_fasta: string
   filter_min_reads: string
-  filter_min_base_quality: string
+  filter_min_base_quality: int
 
 outputs:
 

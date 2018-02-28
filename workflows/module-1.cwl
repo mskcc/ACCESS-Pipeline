@@ -51,7 +51,7 @@ inputs:
   adapter2: string
   reference_fasta: string
   reference_fasta_fai: string
-  add_rg_LB: string
+  add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
   add_rg_PU: string
@@ -63,7 +63,7 @@ inputs:
 
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: string
+  fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
 
   bed_file: File

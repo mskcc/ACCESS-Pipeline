@@ -41,7 +41,7 @@ inputs:
     type: File
 
   coverage_threshold:
-    type: string
+    type: int
 
   # todo - use Files!
   gene_list:
@@ -51,7 +51,7 @@ inputs:
     type: File
 
   min_mapping_quality:
-    type: string
+    type: int
 
   reference_fasta:
     type: string
