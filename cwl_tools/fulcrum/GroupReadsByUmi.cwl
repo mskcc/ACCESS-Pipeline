@@ -63,18 +63,13 @@ inputs:
     inputBinding:
       prefix: -i
 
-#  tmp_dir:
-#    type: string
-#    inputBinding:
-#      prefix: --tmp_dir
-
   strategy:
     type: string
     inputBinding:
       prefix: -s
 
   min_mapping_quality:
-    type: string
+    type: int
     inputBinding:
       prefix: -m
 

@@ -76,7 +76,7 @@ inputs:
     type: File
 
   umi_length:
-    type: string
+    type: int
     inputBinding:
       position: 2
 

@@ -111,7 +111,7 @@ inputs:
     type: string?
 
   LB:
-    type: string?
+    type: int?
 
   SM:
     type: string?

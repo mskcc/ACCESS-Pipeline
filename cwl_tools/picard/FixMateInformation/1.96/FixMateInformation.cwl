@@ -95,7 +95,7 @@ inputs:
       separate: false
 
   COMPRESSION_LEVEL:
-    type: ['null', string]
+    type: ['null', int]
     inputBinding:
       prefix: COMPRESSION_LEVEL=
       separate: false

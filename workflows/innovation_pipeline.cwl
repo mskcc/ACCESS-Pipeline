@@ -53,7 +53,7 @@ inputs:
   sample_sheet: File[]
 
   # ProcessUMIFastq
-  umi_length: string
+  umi_length: int
   output_project_folder: string
 
   # Trimgalore
@@ -64,7 +64,7 @@ inputs:
   # Arrg
   add_rg_PL: string
   add_rg_CN: string
-  add_rg_LB: string[]
+  add_rg_LB: int[]
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
@@ -74,7 +74,7 @@ inputs:
   # FX
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: string
+  fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
 
   # Fulcrum
@@ -84,23 +84,23 @@ inputs:
 
   sort_order: string
   grouping_strategy: string
-  min_mapping_quality: string
+  min_mapping_quality: int
   tag_family_size_counts_output: string
   call_duplex_min_reads: string
   filter_min_reads: string
-  filter_min_base_quality: string
+  filter_min_base_quality: int
 
   # Marianas
-  marianas__mismatches: string
-  marianas__wobble: string
-  marianas__min_consensus_percent: string
+  marianas__mismatches: int
+  marianas__wobble: int
+  marianas__min_consensus_percent: int
   marianas_collapsing__outdir: string
 
   # Waltz
-  coverage_threshold: string
+  coverage_threshold: int
   gene_list: string
   bed_file: File
-  waltz__min_mapping_quality: string
+  waltz__min_mapping_quality: int
 
 
 outputs:

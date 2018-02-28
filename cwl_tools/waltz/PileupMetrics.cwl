@@ -69,7 +69,7 @@ inputs:
     secondaryFiles: [^.bai]
 
   min_mapping_quality:
-    type: string
+    type: int
     inputBinding:
       position: 1
 

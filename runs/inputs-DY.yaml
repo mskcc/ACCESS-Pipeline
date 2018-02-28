@@ -3,30 +3,30 @@ add_rg_CN: InnovationLab
 add_rg_PL: Illumina
 bed_file: {class: File, path: ../resources/pan-cancer-panel.sorted.bed}
 call_duplex_min_reads: 1 1 0
-coverage_threshold: '20'
-filter_min_base_quality: '30'
+coverage_threshold: 20
+filter_min_base_quality: 30
 filter_min_reads: 2 1 0
-fix_mate_information__compression_level: '0'
-fix_mate_information__create_index: 'true'
+fix_mate_information__compression_level: 0
+fix_mate_information__create_index: true
 fix_mate_information__sort_order: coordinate
 fix_mate_information__validation_stringency: LENIENT
 gene_list: ../resources/juber-hg19-gene-list.bed
 genome: GRCh37
 grouping_strategy: paired
-marianas__min_consensus_percent: '90'
-marianas__mismatches: '1'
-marianas__wobble: '3'
+marianas__min_consensus_percent: 90
+marianas__mismatches: 1
+marianas__wobble: 3
 marianas_collapsing__outdir: .
-min_mapping_quality: '20'
+min_mapping_quality: 20
 output_project_folder: .
 reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
 reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
 sort_order: Queryname
 tag_family_size_counts_output: Grouped-mapQ20-histogram
-title_file: {class: File, path: /home/johnsoni/Project_05500_DY_title_file.txt}
+title_file: {class: File, path: title_file_path}
 tmp_dir: /scratch
-umi_length: '3'
-waltz__min_mapping_quality: '20'
+umi_length: 3
+waltz__min_mapping_quality: 20
 adapter: [GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTACCGACATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGAATACGATATCTCGTATGCCGTCTTCTGCTTG,
   GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTACCGACATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCCTCATGATATCTCGTATGCCGTCTTCTGCTTG,
   GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGCCTATCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCAACTAATATCTCGTATGCCGTCTTCTGCTTG,

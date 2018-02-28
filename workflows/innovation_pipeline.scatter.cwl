@@ -54,14 +54,14 @@ inputs:
   fastq1: File
   fastq2: File
   sample_sheet: File
-  umi_length: string
+  umi_length: int
   output_project_folder: string
 
   # Module 1
   adapter: string
   adapter2: string
   genome: string
-  add_rg_LB: string
+  add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
   add_rg_PU: string
@@ -71,30 +71,30 @@ inputs:
 #  abra__p: string
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: string
+  fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
 
   # Fulcrum
   sort_order: string
   grouping_strategy: string
-  min_mapping_quality: string
+  min_mapping_quality: int
   tag_family_size_counts_output: string
   reference_fasta: string
   reference_fasta_fai: string
   call_duplex_min_reads: string
   filter_min_reads: string
-  filter_min_base_quality: string
+  filter_min_base_quality: int
 
   # Marianas
-  marianas__mismatches: string
-  marianas__wobble: string
-  marianas__min_consensus_percent: string
+  marianas__mismatches: int
+  marianas__wobble: int
+  marianas__min_consensus_percent: int
   marianas_collapsing__outdir: string
 
   # Waltz
-  coverage_threshold: string
+  coverage_threshold: int
   gene_list: string
-  waltz__min_mapping_quality: string
+  waltz__min_mapping_quality: int
 
 
 outputs:

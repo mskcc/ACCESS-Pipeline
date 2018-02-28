@@ -71,7 +71,7 @@ inputs:
       position: 1
 
   coverage_threshold:
-    type: string
+    type: int
     inputBinding:
       position: 2
 
