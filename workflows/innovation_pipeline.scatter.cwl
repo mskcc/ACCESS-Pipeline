@@ -67,12 +67,20 @@ inputs:
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
+
+  # Module 2
   abra__kmers: string
-#  abra__p: string
+  abra__mad: int
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
+  bqsr__nct: int
+  bqsr__knownSites_dbSNP: File
+  bqsr__knownSites_millis: File
+  bqsr__rf: string
+  print_reads__nct: int
+  print_reads__EOQ: boolean
 
   # Fulcrum
   sort_order: string
@@ -187,7 +195,7 @@ steps:
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
 
   ####################
-  # Adapted module 1 #
+  # Adapted Module 1 #
   ####################
 
   # todo - do we want adapter trimming here or not?
@@ -208,21 +216,38 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
+      bed_file: bed_file
+      output_suffix:
+        valueFrom: ${ return '_standard' }
+    out:
+      [bam, bai, md_metrics]
 
+  ####################
+  # Adapted Module 2 #
+  ####################
+
+  module_2:
+    run: ./module-2.cwl
+    in:
+      tmp_dir: tmp_dir
+      input_bam: module_1_innovation/bam
+      reference_fasta: reference_fasta
+      add_rg_SM: add_rg_SM
       abra__kmers: abra__kmers
-#      abra__p: abra__p
-
+      abra__mad: abra__mad
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
-
-      bed_file: bed_file
-
-      output_suffix:
-        valueFrom: ${ return '_standard' }
+      bqsr__rf: bqsr__rf
+      bqsr__nct: bqsr__nct
+      bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
+      bqsr__knownSites_millis: bqsr__knownSites_millis
+      print_reads__nct: print_reads__nct
+      print_reads__EOQ: print_reads__EOQ
     out:
-      [bam, bai, md_metrics] # clstats1, clstats2,
+      [outbam, outbai, covint_list, covint_bed]
+
 
   #############################
   # Waltz Run (Standard Bams) #
@@ -231,7 +256,7 @@ steps:
   waltz_standard:
     run: ./waltz/waltz-workflow.cwl
     in:
-      input_bam: module_1_innovation/bam
+      input_bam: module_2/outbam
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
@@ -249,92 +274,55 @@ steps:
     run: ./fulcrum/fulcrum_workflow.cwl
     in:
       tmp_dir: tmp_dir
-      input_bam: module_1_innovation/bam
+      input_bam: module_2/outbam
       sort_order: sort_order
-
-      # Fulcrum group reads
       grouping_strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
-
-      # Fulcrum call duplex consensus reads
       call_duplex_min_reads: call_duplex_min_reads
-
-      # Fulcrum filter reads
       reference_fasta: reference_fasta
       filter_min_reads: filter_min_reads
       filter_min_base_quality: filter_min_base_quality
-
     out:
       [simplex_duplex_fastq_1, simplex_duplex_fastq_2, duplex_fastq_1, duplex_fastq_2, duplex_seq_metrics]
 
   module_1_post_fulcrum_simplex_duplex:
-    run: ./module-1.cwl
+    run: ./module-1.abbrev.cwl
     in:
       tmp_dir: tmp_dir
-      # todo - adapter trimming again?
       fastq1: fulcrum/simplex_duplex_fastq_1
       fastq2: fulcrum/simplex_duplex_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
-      abra__kmers: abra__kmers
-#      abra__p: abra__p
-
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-
-      bed_file: bed_file
-
       output_suffix:
-        valueFrom: ${ return '_simplex_duplex' }
+        valueFrom: ${ return '_fulcrumSimplexDuplex' }
     out:
-      [bam, bai, md_metrics, clstats1, clstats2]
+      [bam, bai]
 
   module_1_post_fulcrum_duplex:
-    run: ./module-1.cwl
+    run: ./module-1.abbrev.cwl
     in:
       tmp_dir: tmp_dir
-      # todo - adapter trimming again?
       fastq1: fulcrum/duplex_fastq_1
       fastq2: fulcrum/duplex_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
-      abra__kmers: abra__kmers
-#      abra__p: abra__p
-
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-
-      bed_file: bed_file
-
       output_suffix:
-        valueFrom: ${ return '_duplex' }
+        valueFrom: ${ return '_fulcrumDuplex' }
     out:
-      [bam, bai, md_metrics, clstats1, clstats2]
+      [bam, bai]
 
   #################################
   # Waltz Run (Fulcrum Collapsed) #
@@ -373,103 +361,68 @@ steps:
   marianas_simplex_duplex:
     run: ./marianas/marianas_collapsing_workflow_simplex_duplex.cwl
     in:
-      input_bam: module_1_innovation/bam
+      input_bam: module_2/outbam
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       pileup: waltz_standard/pileup
       mismatches: marianas__mismatches
       wobble: marianas__wobble
       min_consensus_percent: marianas__min_consensus_percent
-
       output_dir: marianas_collapsing__outdir
     out:
      [output_fastq_1, output_fastq_2]
 
   module_1_post_marianas_simplex_duplex:
-    run: ./module-1.cwl
+    run: ./module-1.abbrev.cwl
     in:
       tmp_dir: tmp_dir
-      # todo - adapter trimming again?
       fastq1: marianas_simplex_duplex/output_fastq_1
       fastq2: marianas_simplex_duplex/output_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
-      abra__kmers: abra__kmers
-#      abra__p: abra__p
-
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-
-      bed_file: bed_file
-
       output_suffix:
-        valueFrom: ${ return '_marianas_simplex_duplex' }
+        valueFrom: ${ return '_marianasSimplexDuplex' }
     out:
-      [bam, bai, md_metrics, clstats1, clstats2]
+      [bam, bai]
 
   marianas_duplex:
     run: ./marianas/marianas_collapsing_workflow_duplex.cwl
     in:
-      input_bam: module_1_innovation/bam
+      input_bam: module_2/outbam
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       pileup: waltz_standard/pileup
       mismatches: marianas__mismatches
       wobble: marianas__wobble
       min_consensus_percent: marianas__min_consensus_percent
-
       output_dir: marianas_collapsing__outdir
-
     out:
      [output_fastq_1, output_fastq_2]
 
   module_1_post_marianas_duplex:
-    run: ./module-1.cwl
+    run: ./module-1.abbrev.cwl
     in:
       tmp_dir: tmp_dir
-      # todo - adapter trimming again?
       fastq1: marianas_duplex/output_fastq_1
       fastq2: marianas_duplex/output_fastq_2
-      adapter: adapter
-      adapter2: adapter2
-      genome: genome
-      add_rg_LB: add_rg_LB
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
-      abra__kmers: abra__kmers
-#      abra__p: abra__p
-
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-
-      bed_file: bed_file
-
       output_suffix:
-        valueFrom: ${ return '_marianas_duplex' }
+        valueFrom: ${ return '_marianasDuplex' }
     out:
-      [bam, bai, md_metrics, clstats1, clstats2]
+      [bam, bai]
 
   ##################################
   # Waltz Run (Marianas Collapsed) #

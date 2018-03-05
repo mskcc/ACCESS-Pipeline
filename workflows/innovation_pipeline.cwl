@@ -68,20 +68,28 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
+
   # Abra
   abra__kmers: string
-#  abra__p: string[]
+  abra__mad: int
   # FX
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
+  # BQSR
+  bqsr__nct: int
+  bqsr__knownSites_dbSNP: File
+  bqsr__knownSites_millis: File
+  bqsr__rf: string
+  # PrintReads
+  print_reads__nct: int
+  print_reads__EOQ: boolean
 
   # Fulcrum
   tmp_dir: string
   reference_fasta: string
   reference_fasta_fai: string
-
   sort_order: string
   grouping_strategy: string
   min_mapping_quality: int
@@ -101,7 +109,6 @@ inputs:
   gene_list: string
   bed_file: File
   waltz__min_mapping_quality: int
-
 
 outputs:
 
@@ -209,12 +216,20 @@ steps:
       add_rg_SM: add_rg_SM
       # Abra
       abra__kmers: abra__kmers
-#      abra__p: abra__p
+      abra__mad: abra__mad
       # FX
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
+      # BQSR
+      bqsr__nct: bqsr__nct
+      bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
+      bqsr__knownSites_millis: bqsr__knownSites_millis
+      bqsr__rf: bqsr__rf
+      # PrintReads
+      print_reads__nct: print_reads__nct
+      print_reads__EOQ: print_reads__EOQ
 
       # Fulcrum Collapsing
       sort_order: sort_order
@@ -264,7 +279,6 @@ steps:
 
   collapsed_qc_step:
     run: ./QC/qc_workflow.cwl
-
     in:
       title_file: title_file
       standard_waltz_files: scatter_step/standard_waltz_files
@@ -272,7 +286,5 @@ steps:
       fulcrum_duplex_waltz_files: scatter_step/fulcrum_duplex_waltz_files
       marianas_simplex_duplex_waltz_files: scatter_step/marianas_simplex_duplex_waltz_files
       marianas_duplex_waltz_files: scatter_step/marianas_duplex_waltz_files
-
     out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
-
   
