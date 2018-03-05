@@ -39,6 +39,7 @@ inputs:
 
   input_bam:
     type: File
+    secondaryFiles: [^.bai]
 
   coverage_threshold:
     type: int
