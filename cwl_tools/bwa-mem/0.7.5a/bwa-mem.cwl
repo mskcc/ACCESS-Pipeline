@@ -57,7 +57,8 @@ arguments:
 - $( inputs.fastq1.path )
 - $( inputs.fastq2.path )
 - '>'
-- $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, inputs.output_suffix + '.sam') )
+# Todo: confirm this is getting the right name
+- $( inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, inputs.output_suffix + '.sam') )
 
 # todo: Need to include (use from IMPACT LOGS though!):
 #- -R "@RG\tID:${sample}\tLB:Garbage\tSM:${sample}\tPL:Illumina\tPU:${barcode}\tCN:InnovationLab"
@@ -126,11 +127,11 @@ inputs:
     type: string?
 
 
-stdout: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
+stdout: $( inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
 
 outputs:
 
   output_sam:
     type: File
     outputBinding:
-      glob: $( inputs.fastq1.basename.replace(/_R1_.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
+      glob: $( inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, '') + inputs.output_suffix + '.sam' )
