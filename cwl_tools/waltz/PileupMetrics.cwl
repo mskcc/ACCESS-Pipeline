@@ -64,9 +64,9 @@ inputs:
 
   input_bam:
     type: File
+    secondaryFiles: [^.bai]
     inputBinding:
       position: 2
-    secondaryFiles: [^.bai]
 
   min_mapping_quality:
     type: int
@@ -79,22 +79,10 @@ inputs:
       position: 3
     secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
 
-#  reference_fasta_fai:
-#    type: string
-#    inputBinding:
-#      prefix: --reference_fasta_fai
-
   bed_file:
     type: File
     inputBinding:
       position: 4
-
-# Example Waltz PileupMetrics output files:
-#
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup.txt
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup-without-duplicates.txt
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals.txt
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
 
 outputs:
 
