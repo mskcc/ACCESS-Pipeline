@@ -1,0 +1,266 @@
+title_file: {class: File, path: /home/johnsoni/Proj_05500_ES_sample_title_file.csv}
+
+abra__kmers: 43 53 63 83 93
+add_rg_CN: InnovationLab
+add_rg_PL: Illumina
+bed_file: {class: File, path: ../resources/pan-cancer-panel.sorted.bed}
+bqsr__knownSites_dbSNP: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+bqsr__knownSites_millis: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
+bqsr__nct: 3
+bqsr__rf: BadCigar
+call_duplex_min_reads: 1 1 0
+coverage_threshold: 20
+filter_min_base_quality: 30
+filter_min_reads: 2 1 0
+fix_mate_information__compression_level: 0
+fix_mate_information__create_index: true
+fix_mate_information__sort_order: coordinate
+fix_mate_information__validation_stringency: LENIENT
+gene_list: /home/johnsoni/Innovation-Pipeline/resources/juber-hg19-gene-list.bed
+genome: GRCh37
+grouping_strategy: paired
+marianas__min_consensus_percent: 90
+marianas__mismatches: 1
+marianas__wobble: 3
+marianas_collapsing__outdir: .
+min_mapping_quality: 20
+output_project_folder: .
+print_reads__EOQ: true
+print_reads__nct: 8
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+sort_order: Queryname
+tag_family_size_counts_output: Grouped-mapQ20-histogram
+tmp_dir: /scratch
+umi_length: 3
+waltz__min_mapping_quality: 20
+adapter: [GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGACAAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATCTTGCATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTAGCTCAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACATTAGCCGATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCGTCTCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATCGATATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCTTGGAAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGGATAGCATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGAGAGTATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGTTCCGTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACACGATCAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCATGCGATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACACGATCAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGAGAGTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTAGCTCAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCGTCTCATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGACAAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCTTGGAAATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCATGCGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGTTCCGTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGAGTCCAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCTACTCTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATCTTGCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGGATAGCATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTAGCGTAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTCTGGATATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGATCGTCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCTCAGTTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACATTAGCCGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATCGATATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGAGAGTATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTAGCTCAATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACACGATCAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGTTCCGTATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATCTTGCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATCGATATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGGATAGCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCGTCTCATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCATGCGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGACAAGATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACATTAGCCGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCTTGGAAATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACTATGGCACATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCAACGAAATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTCCTAAGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACAACAGCGAATATCTCGTATGCCGTCTTCTGCTTG,
+  GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGGATTCATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGTGCTTATATCTCGTATGCCGTCTTCTGCTTG]
+adapter2: [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTTGTCGAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCAAGATCAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTGAGCTAGAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGGCTAATAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGAGACGATAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTATCGATCGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTTCCAAGGAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCTATCCTAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACTCTCGAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACGGAACAAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTGATCGTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGCATGATAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTGATCGTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACTCTCGAAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTGAGCTAGAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGAGACGATAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTTGTCGAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTTCCAAGGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGCATGATAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACGGAACAAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTGGACTCTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGAGTAGCAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCAAGATCAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCTATCCTAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTACGCTACAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTATCCAGAGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGACGATCTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAACTGAGCAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGGCTAATAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTATCGATCGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACTCTCGAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTGAGCTAGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTGATCGTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTACGGAACAAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCAAGATCAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTATCGATCGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGCTATCCTAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGAGACGATAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGCATGATAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTTGTCGAAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGGCTAATAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTTCCAAGGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGTGCCATAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTTCGTTGGAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCTTAGGACAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTCGCTGTTAGATCTCGGTGGTCGCCGTATCATT,
+  AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTGAATCCGAAGATCTCGGTGGTCGCCGTATCATT, AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAAGCACTGAGATCTCGGTGGTCGCCGTATCATT]
+add_rg_ID: [BL-tdm1-005-pl-T02-10ng, BL-tdm1-005-pl-T02-30ng, BL-tdm1-012-pl-T02-10ng,
+  BL-tdm1-012-pl-T02-30ng, BL-tdm1-020-pl-T02-10ng, BL-tdm1-020-pl-T02-30ng, BL-tdm1-037-pl-T01-10ng,
+  BL-tdm1-037-pl-T01-30ng, BL-tdm1-041-pl-T01-10ng, BL-tdm1-041-pl-T01-30ng, BL-tdm1-041-pl-T02-10ng,
+  BL-tdm1-041-pl-T02-30ng, Borecl-Norm-015-cf01, Borecl-Norm-020-cf01, Borecl-Norm-021-cf01,
+  Borecl-Norm-022-cf01, Borecl-Norm-023-cf01, Borecl-Norm-026-cf01, BT-parpi-07-pl-T03,
+  BT-parpi-07-pl-T11, DH-ntrk-001-002-pl-T03, DH-ntrk-001-002-pl-T05, DH-ntrk-001-pl-T22,
+  DH-ntrk-001-pl-T25, DH-ntrk-002-pl-T18, DH-ntrk-012-pl-T10, DH-ntrk-012-pl-T11,
+  DH-ntrk-012-pl-T18, DH-ntrk-101-018-pl-T02, DH-ntrk-101-018-pl-T06, DS-fast-005-pl-T02,
+  DS-fast-035-pl-T02, DS-fast-037-pl-T02, DS-fast-041-pl-T02, DS-fast-042-pl-T01,
+  DS-fast-061-pl-T02, DS-fast-066-pl-T01, DS-fast-086-pl-T02, DS-fast-092-pl-T02,
+  DS-fast-114-pl-T02, DS-fast-119-pl-T02, DS-fast-90-pl-T02, HD780-1in100-ref-10ng,
+  HD780-1in100-ref-30ng, HD780-1in1000-ref-10ng, HD780-1in1000-ref-30ng, HD780-5in100-ref-10ng,
+  HD780-5in100-ref-30ng]
+add_rg_LB: [3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 5, 5, 5, 5, 5, 5, 6, 6, 7, 7, 6, 6,
+  7, 7, 7, 7, 6, 6, 1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 8, 8, 8, 8, 8, 8]
+add_rg_PU: [TCGACAAG, GATCTTGC, CTAGCTCA, ATTAGCCG, ATCGTCTC, CGATCGAT, CCTTGGAA,
+  AGGATAGC, TCGAGAGT, TGTTCCGT, ACGATCAG, ATCATGCG, ACGATCAG, TCGAGAGT, CTAGCTCA,
+  ATCGTCTC, TCGACAAG, CCTTGGAA, ATCATGCG, TGTTCCGT, AGAGTCCA, GCTACTCT, GATCTTGC,
+  AGGATAGC, GTAGCGTA, CTCTGGAT, AGATCGTC, GCTCAGTT, ATTAGCCG, CGATCGAT, TCGAGAGT,
+  CTAGCTCA, ACGATCAG, TGTTCCGT, GATCTTGC, CGATCGAT, AGGATAGC, ATCGTCTC, ATCATGCG,
+  TCGACAAG, ATTAGCCG, CCTTGGAA, TATGGCAC, CCAACGAA, GTCCTAAG, AACAGCGA, TCGGATTC,
+  CAGTGCTT]
+add_rg_SM: [BL-tdm1-005-pl-T02-10ng, BL-tdm1-005-pl-T02-30ng, BL-tdm1-012-pl-T02-10ng,
+  BL-tdm1-012-pl-T02-30ng, BL-tdm1-020-pl-T02-10ng, BL-tdm1-020-pl-T02-30ng, BL-tdm1-037-pl-T01-10ng,
+  BL-tdm1-037-pl-T01-30ng, BL-tdm1-041-pl-T01-10ng, BL-tdm1-041-pl-T01-30ng, BL-tdm1-041-pl-T02-10ng,
+  BL-tdm1-041-pl-T02-30ng, Borecl-Norm-015-cf01, Borecl-Norm-020-cf01, Borecl-Norm-021-cf01,
+  Borecl-Norm-022-cf01, Borecl-Norm-023-cf01, Borecl-Norm-026-cf01, BT-parpi-07-pl-T03,
+  BT-parpi-07-pl-T11, DH-ntrk-001-002-pl-T03, DH-ntrk-001-002-pl-T05, DH-ntrk-001-pl-T22,
+  DH-ntrk-001-pl-T25, DH-ntrk-002-pl-T18, DH-ntrk-012-pl-T10, DH-ntrk-012-pl-T11,
+  DH-ntrk-012-pl-T18, DH-ntrk-101-018-pl-T02, DH-ntrk-101-018-pl-T06, DS-fast-005-pl-T02,
+  DS-fast-035-pl-T02, DS-fast-037-pl-T02, DS-fast-041-pl-T02, DS-fast-042-pl-T01,
+  DS-fast-061-pl-T02, DS-fast-066-pl-T01, DS-fast-086-pl-T02, DS-fast-092-pl-T02,
+  DS-fast-114-pl-T02, DS-fast-119-pl-T02, DS-fast-90-pl-T02, HD780-1in100-ref-10ng,
+  HD780-1in100-ref-30ng, HD780-1in1000-ref-10ng, HD780-1in1000-ref-30ng, HD780-5in100-ref-10ng,
+  HD780-5in100-ref-30ng]
+fastq1:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-10ng_IGO_05500_ES_17/BL-tdm1-005-pl-T02-10ng_IGO_05500_ES_17_S17_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-30ng_IGO_05500_ES_23/BL-tdm1-005-pl-T02-30ng_IGO_05500_ES_23_S23_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-10ng_IGO_05500_ES_15/BL-tdm1-012-pl-T02-10ng_IGO_05500_ES_15_S15_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-30ng_IGO_05500_ES_21/BL-tdm1-012-pl-T02-30ng_IGO_05500_ES_21_S21_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-10ng_IGO_05500_ES_16/BL-tdm1-020-pl-T02-10ng_IGO_05500_ES_16_S16_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-30ng_IGO_05500_ES_22/BL-tdm1-020-pl-T02-30ng_IGO_05500_ES_22_S22_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-10ng_IGO_05500_ES_18/BL-tdm1-037-pl-T01-10ng_IGO_05500_ES_18_S18_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-30ng_IGO_05500_ES_24/BL-tdm1-037-pl-T01-30ng_IGO_05500_ES_24_S24_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-10ng_IGO_05500_ES_14/BL-tdm1-041-pl-T01-10ng_IGO_05500_ES_14_S14_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-30ng_IGO_05500_ES_20/BL-tdm1-041-pl-T01-30ng_IGO_05500_ES_20_S20_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-10ng_IGO_05500_ES_13/BL-tdm1-041-pl-T02-10ng_IGO_05500_ES_13_S13_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-30ng_IGO_05500_ES_19/BL-tdm1-041-pl-T02-30ng_IGO_05500_ES_19_S19_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-015-cf01_IGO_05500_ES_25/Borecl-Norm-015-cf01_IGO_05500_ES_25_S25_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-020-cf01_IGO_05500_ES_26/Borecl-Norm-020-cf01_IGO_05500_ES_26_S26_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-021-cf01_IGO_05500_ES_27/Borecl-Norm-021-cf01_IGO_05500_ES_27_S27_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-022-cf01_IGO_05500_ES_28/Borecl-Norm-022-cf01_IGO_05500_ES_28_S28_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-023-cf01_IGO_05500_ES_29/Borecl-Norm-023-cf01_IGO_05500_ES_29_S29_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-026-cf01_IGO_05500_ES_30/Borecl-Norm-026-cf01_IGO_05500_ES_30_S30_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T03_IGO_05500_ES_31/BT-parpi-07-pl-T03_IGO_05500_ES_31_S31_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T11_IGO_05500_ES_32/BT-parpi-07-pl-T11_IGO_05500_ES_32_S32_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T03_IGO_05500_ES_38/DH-ntrk-001-002-pl-T03_IGO_05500_ES_38_S38_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T05_IGO_05500_ES_39/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T22_IGO_05500_ES_35/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T25_IGO_05500_ES_36/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-002-pl-T18_IGO_05500_ES_37/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T10_IGO_05500_ES_40/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T11_IGO_05500_ES_41/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T18_IGO_05500_ES_42/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T02_IGO_05500_ES_33/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T06_IGO_05500_ES_34/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-005-pl-T02_IGO_05500_ES_2/DS-fast-005-pl-T02_IGO_05500_ES_2_S2_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-035-pl-T02_IGO_05500_ES_3/DS-fast-035-pl-T02_IGO_05500_ES_3_S3_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-037-pl-T02_IGO_05500_ES_1/DS-fast-037-pl-T02_IGO_05500_ES_1_S1_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-041-pl-T02_IGO_05500_ES_8/DS-fast-041-pl-T02_IGO_05500_ES_8_S8_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-042-pl-T01_IGO_05500_ES_11/DS-fast-042-pl-T01_IGO_05500_ES_11_S11_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-061-pl-T02_IGO_05500_ES_10/DS-fast-061-pl-T02_IGO_05500_ES_10_S10_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-066-pl-T01_IGO_05500_ES_12/DS-fast-066-pl-T01_IGO_05500_ES_12_S12_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-086-pl-T02_IGO_05500_ES_4/DS-fast-086-pl-T02_IGO_05500_ES_4_S4_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-092-pl-T02_IGO_05500_ES_7/DS-fast-092-pl-T02_IGO_05500_ES_7_S7_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-114-pl-T02_IGO_05500_ES_5/DS-fast-114-pl-T02_IGO_05500_ES_5_S5_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-119-pl-T02_IGO_05500_ES_9/DS-fast-119-pl-T02_IGO_05500_ES_9_S9_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-90-pl-T02_IGO_05500_ES_6/DS-fast-90-pl-T02_IGO_05500_ES_6_S6_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-10ng_IGO_05500_ES_44/HD780-1in100-ref-10ng_IGO_05500_ES_44_S44_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-30ng_IGO_05500_ES_47/HD780-1in100-ref-30ng_IGO_05500_ES_47_S47_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-10ng_IGO_05500_ES_43/HD780-1in1000-ref-10ng_IGO_05500_ES_43_S43_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-30ng_IGO_05500_ES_46/HD780-1in1000-ref-30ng_IGO_05500_ES_46_S46_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-10ng_IGO_05500_ES_45/HD780-5in100-ref-10ng_IGO_05500_ES_45_S45_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-30ng_IGO_05500_ES_48/HD780-5in100-ref-30ng_IGO_05500_ES_48_S48_R1_001.fastq.gz}
+fastq2:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-10ng_IGO_05500_ES_17/BL-tdm1-005-pl-T02-10ng_IGO_05500_ES_17_S17_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-30ng_IGO_05500_ES_23/BL-tdm1-005-pl-T02-30ng_IGO_05500_ES_23_S23_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-10ng_IGO_05500_ES_15/BL-tdm1-012-pl-T02-10ng_IGO_05500_ES_15_S15_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-30ng_IGO_05500_ES_21/BL-tdm1-012-pl-T02-30ng_IGO_05500_ES_21_S21_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-10ng_IGO_05500_ES_16/BL-tdm1-020-pl-T02-10ng_IGO_05500_ES_16_S16_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-30ng_IGO_05500_ES_22/BL-tdm1-020-pl-T02-30ng_IGO_05500_ES_22_S22_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-10ng_IGO_05500_ES_18/BL-tdm1-037-pl-T01-10ng_IGO_05500_ES_18_S18_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-30ng_IGO_05500_ES_24/BL-tdm1-037-pl-T01-30ng_IGO_05500_ES_24_S24_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-10ng_IGO_05500_ES_14/BL-tdm1-041-pl-T01-10ng_IGO_05500_ES_14_S14_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-30ng_IGO_05500_ES_20/BL-tdm1-041-pl-T01-30ng_IGO_05500_ES_20_S20_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-10ng_IGO_05500_ES_13/BL-tdm1-041-pl-T02-10ng_IGO_05500_ES_13_S13_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-30ng_IGO_05500_ES_19/BL-tdm1-041-pl-T02-30ng_IGO_05500_ES_19_S19_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-015-cf01_IGO_05500_ES_25/Borecl-Norm-015-cf01_IGO_05500_ES_25_S25_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-020-cf01_IGO_05500_ES_26/Borecl-Norm-020-cf01_IGO_05500_ES_26_S26_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-021-cf01_IGO_05500_ES_27/Borecl-Norm-021-cf01_IGO_05500_ES_27_S27_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-022-cf01_IGO_05500_ES_28/Borecl-Norm-022-cf01_IGO_05500_ES_28_S28_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-023-cf01_IGO_05500_ES_29/Borecl-Norm-023-cf01_IGO_05500_ES_29_S29_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-026-cf01_IGO_05500_ES_30/Borecl-Norm-026-cf01_IGO_05500_ES_30_S30_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T03_IGO_05500_ES_31/BT-parpi-07-pl-T03_IGO_05500_ES_31_S31_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T11_IGO_05500_ES_32/BT-parpi-07-pl-T11_IGO_05500_ES_32_S32_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T03_IGO_05500_ES_38/DH-ntrk-001-002-pl-T03_IGO_05500_ES_38_S38_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T05_IGO_05500_ES_39/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T22_IGO_05500_ES_35/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T25_IGO_05500_ES_36/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-002-pl-T18_IGO_05500_ES_37/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T10_IGO_05500_ES_40/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T11_IGO_05500_ES_41/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T18_IGO_05500_ES_42/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T02_IGO_05500_ES_33/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T06_IGO_05500_ES_34/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-005-pl-T02_IGO_05500_ES_2/DS-fast-005-pl-T02_IGO_05500_ES_2_S2_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-035-pl-T02_IGO_05500_ES_3/DS-fast-035-pl-T02_IGO_05500_ES_3_S3_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-037-pl-T02_IGO_05500_ES_1/DS-fast-037-pl-T02_IGO_05500_ES_1_S1_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-041-pl-T02_IGO_05500_ES_8/DS-fast-041-pl-T02_IGO_05500_ES_8_S8_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-042-pl-T01_IGO_05500_ES_11/DS-fast-042-pl-T01_IGO_05500_ES_11_S11_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-061-pl-T02_IGO_05500_ES_10/DS-fast-061-pl-T02_IGO_05500_ES_10_S10_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-066-pl-T01_IGO_05500_ES_12/DS-fast-066-pl-T01_IGO_05500_ES_12_S12_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-086-pl-T02_IGO_05500_ES_4/DS-fast-086-pl-T02_IGO_05500_ES_4_S4_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-092-pl-T02_IGO_05500_ES_7/DS-fast-092-pl-T02_IGO_05500_ES_7_S7_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-114-pl-T02_IGO_05500_ES_5/DS-fast-114-pl-T02_IGO_05500_ES_5_S5_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-119-pl-T02_IGO_05500_ES_9/DS-fast-119-pl-T02_IGO_05500_ES_9_S9_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-90-pl-T02_IGO_05500_ES_6/DS-fast-90-pl-T02_IGO_05500_ES_6_S6_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-10ng_IGO_05500_ES_44/HD780-1in100-ref-10ng_IGO_05500_ES_44_S44_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-30ng_IGO_05500_ES_47/HD780-1in100-ref-30ng_IGO_05500_ES_47_S47_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-10ng_IGO_05500_ES_43/HD780-1in1000-ref-10ng_IGO_05500_ES_43_S43_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-30ng_IGO_05500_ES_46/HD780-1in1000-ref-30ng_IGO_05500_ES_46_S46_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-10ng_IGO_05500_ES_45/HD780-5in100-ref-10ng_IGO_05500_ES_45_S45_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-30ng_IGO_05500_ES_48/HD780-5in100-ref-30ng_IGO_05500_ES_48_S48_R2_001.fastq.gz}
+sample_sheet:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-10ng_IGO_05500_ES_17/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-005-pl-T02-30ng_IGO_05500_ES_23/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-10ng_IGO_05500_ES_15/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-012-pl-T02-30ng_IGO_05500_ES_21/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-10ng_IGO_05500_ES_16/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-020-pl-T02-30ng_IGO_05500_ES_22/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-10ng_IGO_05500_ES_18/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-037-pl-T01-30ng_IGO_05500_ES_24/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-10ng_IGO_05500_ES_14/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T01-30ng_IGO_05500_ES_20/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-10ng_IGO_05500_ES_13/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BL-tdm1-041-pl-T02-30ng_IGO_05500_ES_19/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-015-cf01_IGO_05500_ES_25/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-020-cf01_IGO_05500_ES_26/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-021-cf01_IGO_05500_ES_27/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-022-cf01_IGO_05500_ES_28/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-023-cf01_IGO_05500_ES_29/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_Borecl-Norm-026-cf01_IGO_05500_ES_30/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T03_IGO_05500_ES_31/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_BT-parpi-07-pl-T11_IGO_05500_ES_32/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T03_IGO_05500_ES_38/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-002-pl-T05_IGO_05500_ES_39/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T22_IGO_05500_ES_35/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-001-pl-T25_IGO_05500_ES_36/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-002-pl-T18_IGO_05500_ES_37/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T10_IGO_05500_ES_40/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T11_IGO_05500_ES_41/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-012-pl-T18_IGO_05500_ES_42/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T02_IGO_05500_ES_33/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DH-ntrk-101-018-pl-T06_IGO_05500_ES_34/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-005-pl-T02_IGO_05500_ES_2/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-035-pl-T02_IGO_05500_ES_3/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-037-pl-T02_IGO_05500_ES_1/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-041-pl-T02_IGO_05500_ES_8/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-042-pl-T01_IGO_05500_ES_11/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-061-pl-T02_IGO_05500_ES_10/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-066-pl-T01_IGO_05500_ES_12/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-086-pl-T02_IGO_05500_ES_4/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-092-pl-T02_IGO_05500_ES_7/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-114-pl-T02_IGO_05500_ES_5/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-119-pl-T02_IGO_05500_ES_9/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_DS-fast-90-pl-T02_IGO_05500_ES_6/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-10ng_IGO_05500_ES_44/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in100-ref-30ng_IGO_05500_ES_47/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-10ng_IGO_05500_ES_43/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-1in1000-ref-30ng_IGO_05500_ES_46/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-10ng_IGO_05500_ES_45/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0149_AHT3N3BBXX/Project_05500_ES/Sample_HD780-5in100-ref-30ng_IGO_05500_ES_48/SampleSheet.csv}
