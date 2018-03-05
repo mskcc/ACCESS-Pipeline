@@ -124,7 +124,7 @@ inputs:
     inputBinding:
       prefix: CREATE_INDEX=true
 
-# todo: need to updat picard for this?:
+# todo: need to update picard for this?:
 #  DUPLICATE_SCORING_STRATEGY:
 #    type: string?
 #    default: ${ return 'SUM_OF_BASE_QUALITIES' }
