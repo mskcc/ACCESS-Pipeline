@@ -38,10 +38,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-# Example Waltz CountReads usage
-#
-# $java -server -Xms4g -Xmx4g -cp ~/software/Waltz.jar org.mskcc.juber.waltz.countreads.CountReads $bamFile $coverageThreshold $geneList $bedFile
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
@@ -84,12 +80,6 @@ inputs:
     type: File
     inputBinding:
       position: 4
-
-# Example Waltz CountReads output files:
-#
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.fragment-sizes
-# MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.read-counts
 
 outputs:
 
