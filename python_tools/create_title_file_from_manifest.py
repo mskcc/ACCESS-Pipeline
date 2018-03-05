@@ -1,29 +1,12 @@
 import sys
-import warnings
-import subprocess
-import numpy as np
 import pandas as pd
 
 
-warnings.filterwarnings('ignore')
-pd.options.display.max_columns = 999
+manifest_file_path = sys.argv[1]
+title_file_output_filename = sys.argv[2]
 
-manifest = pd.read_csv('./Project_05500_DY_title_file.txt', sep='\t')
-manifest['CMO_SAMPLE_ID'] = manifest['CMO_SAMPLE_ID'].str.replace('Normal', 'Pan_Cancer')
-
-# Get the correct order of the fastq files from the IGO output directory
-fastq_output_dir = sys.argv[1]
-ordered_fastqs = subprocess.Popen('find {} | grep R1_001.fastq.gz'.format(fastq_output_dir))
-
-# Sort samples from manifest as per sorting in IGO output directory
-def get_pos(x):
-    x_rep = x.replace('-', '_')
-    idx = np.argmax([1 if x_rep in y.replace('-', '_') else 0 for y in ordered_fastqs])
-    return idx
-
-# Apply the sort
-manifest['Sort'] = manifest['CMO_SAMPLE_ID'].apply(get_pos)
-manifest = manifest.sort_values('Sort')
+manifest = pd.read_excel(manifest_file_path, sep='\t')
+# manifest['CMO_SAMPLE_ID'] = manifest['CMO_SAMPLE_ID'].str.replace('Normal', 'Pan_Cancer')
 
 # Split barcode sequences if both are present in single column
 manifest['BARCODE_INDEX_1'] = manifest['BARCODE_INDEX'].str.split('-').apply(lambda x: x[0])
@@ -82,4 +65,4 @@ title_file['Lane'] = title_file['Pool'].str.split('_').apply(lambda x: x[1][-1])
 title_file['Barcode'] = title_file['Barcode'].str.split('-').apply(lambda x: x[0])
 
 # Write title file
-title_file.to_csv('/Users/johnsoni/Desktop/Project_05500_DY_title_file.txt', sep='\t', index=False)
+title_file.to_csv(title_file_output_filename, sep='\t', index=False)

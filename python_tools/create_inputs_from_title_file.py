@@ -12,6 +12,10 @@ title_file_path = sys.argv[1]
 # Path to directory with fastq files
 data_dir = sys.argv[2]
 
+# Path to run_params.yaml
+dir = os.path.dirname(__file__)
+run_params_path = os.path.join(dir, '../resources/run_params.yaml')
+
 
 def find_files(file_regex):
     '''
@@ -32,15 +36,6 @@ def load_fastqs():
     return fastq1, fastq2, sample_sheet
 
 
-def get_pos(sample_name):
-    '''
-    Sort our title_file to match order of samples in data_directory
-    '''
-    found_boolv = [1 if sample_name.replace('-', '_') in fastq['path'].replace('-', '_') else 0 for fastq in fastq1]
-    idx = np.argmax(found_boolv)
-    return idx
-
-
 def write_inputs_file(title_file):
     # Start writing our inputs.yaml file
     out = open('inputs.yaml', 'wb')
@@ -48,12 +43,12 @@ def write_inputs_file(title_file):
     # Adapter sequences need to be tailored to include each sample barcode
     # GATCGGAAGAGCACACGTCTGAACTCCAGTCAC + bc_1 + ATATCTCGTATGCCGTCTTCTGCTTG
     adapter = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
-    adapter += title_file['barcode_index_1'].astype(str)
+    adapter += title_file['Barcode_Index_1'].astype(str)
     adapter += 'ATATCTCGTATGCCGTCTTCTGCTTG'
 
     # AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
     adapter2 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
-    adapter2 += title_file['barcode_index_2'].astype(str)
+    adapter2 += title_file['Barcode_Index_2'].astype(str)
     adapter2 += 'AGATCTCGGTGGTCGCCGTATCATT'
 
     out_dict = {
@@ -70,11 +65,11 @@ def write_inputs_file(title_file):
         'add_rg_LB': title_file['Lane'].tolist(),
 
         # Todo: should use one or two barcodes if they are different?
-        'add_rg_PU': title_file['barcode_index_1'].tolist(),
+        'add_rg_PU': title_file['Barcode_Index_1'].tolist(),
     }
 
     # Load and write our default run parameters
-    with open('../resources/run_params.yaml', 'r') as stream:
+    with open(run_params_path, 'r') as stream:
         other_params = yaml.load(stream)
 
     out.write(yaml.dump(other_params))
@@ -86,19 +81,29 @@ def write_inputs_file(title_file):
 # Main #
 ########
 
+def contained_in(value, string):
+    '''
+    returns 1 if value contained in string, 0 otherwise
+    '''
+    return value.replace('_', '-') in string['path'].replace('_', '-')
+
+def get_pos(title_file, filename):
+    boolv = title_file['Sample_ID'].apply(contained_in, string=filename)
+    pos = np.argmax(boolv)
+    return pos
+
 if __name__ == '__main__':
     title_file = pd.read_csv(title_file_path, sep='\t')
-
     fastq1, fastq2, sample_sheet = load_fastqs()
+
+    # Sort based on title_file ordering
+    fastq1 = sorted(fastq1, key=lambda x: get_pos(title_file, x))
+    fastq2 = sorted(fastq2, key=lambda x: get_pos(title_file, x))
+    sample_sheet = sorted(sample_sheet, key=lambda x: get_pos(title_file, x))
 
     # Check the title file matches input fastqs
     assert len(fastq1) == len(fastq2)
     assert len(sample_sheet) == len(fastq1)
     assert title_file.shape[0] == len(fastq1)
-
-    # Apply the sort
-    title_file['Sort'] = title_file['Sample_ID'].apply(get_pos)
-    title_file = title_file.sort_values('Sort')
-    title_file.drop('Sort', axis=1)
 
     write_inputs_file(title_file)
