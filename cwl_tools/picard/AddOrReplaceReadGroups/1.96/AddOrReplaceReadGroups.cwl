@@ -170,15 +170,13 @@ outputs:
 
   bam:
     type: File
+    secondaryFiles: [^.bai]
     outputBinding:
       glob: $( inputs.I.basename.replace(".sam", "_RG.bam") )
 
   bai:
-    type: File?
+    type: File
     outputBinding:
-      glob: |-
-        ${
-          if (inputs.O)
-            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.sam/,'') + ".bai";
-          return null;
-        }
+      glob: ${ return '*.bai' }
+#      glob: $( inputs.I.basename.replace(".sam", "_RG.bai") )
+#      glob: ${ return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.sam/,'') + ".bai"; }
