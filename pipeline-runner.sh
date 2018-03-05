@@ -7,9 +7,8 @@ workflow=$2
 inputs_file=$3
 output_location=$4
 batch_system=$5
+job_store_uuid=$6
 
-# Create job-uuid
-job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 
 # Set output directory
 output_directory="${output_location}/${project_name}"
