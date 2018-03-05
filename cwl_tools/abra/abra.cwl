@@ -38,6 +38,18 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
+#cmd =
+# args.JAVA + " -Xmx60g -jar " + args.ABRA +
+#" --in " + inBamList +
+#" --out " + outBamList +
+#" --ref " + args.ref +
+#" --targets " + args.targetRegion +
+#" --threads "  + args.threads +
+# todo: what is the value for this parameter supposed to be?
+#" --mad " + str(args.dp) +
+#" --kmer " + kmers +
+#" --working " + tmpdir
+
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
@@ -46,12 +58,15 @@ arguments:
 - -Xmx20g
 - -Djava.io.tmpdir=/scratch
 - -jar
-- /opt/common/CentOS_6-dev/abra/2.07/abra2-2.07.jar
-# todo: correct version?
+# todo: issue with upgrade to 2.14? 2.07 seemed to have issue.
+# See notes/PrintReads_filtering_issue.sh
+#- /opt/common/CentOS_6-dev/abra/2.07/abra2-2.07.jar
 #- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra2-2.14.jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
 
 requirements:
   InlineJavascriptRequirement: {}
+  ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 20000
     coresMin: 8
@@ -61,18 +76,17 @@ doc: |
 
 inputs:
 
-  threads:
-    type: string
-    inputBinding:
-      prefix: --threads
-      # todo: same as -t?
-
   input_bam:
     type: File
     inputBinding:
       prefix: --in
     secondaryFiles:
     - ^.bai
+
+  working_directory:
+    type: string
+    inputBinding:
+      prefix: --working
 
   reference_fasta:
     type: string
@@ -83,24 +97,31 @@ inputs:
     type: File
     inputBinding:
       prefix: --targets
-      # todo: same as -tr
+      # todo: same as -tr?
+
+  threads:
+    type: int
+    inputBinding:
+      prefix: --threads
+      # todo: same as -t?
+
+  kmer:
+    type: string
+    inputBinding:
+      prefix: --kmer
+      shellQuote: false
+
+  mad:
+    type: int
+    inputBinding:
+      prefix: --mad
 
   output_bam_filename:
     type: ['null', string]
     default: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
     inputBinding:
-      prefix: -o
+      prefix: --out
       valueFrom: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
-
-  kmers:
-    type: string?
-    inputBinding:
-      prefix: -k
-
-  p:
-    type: string?
-    inputBinding:
-      prefix: -p
 
 outputs:
 
