@@ -43,11 +43,10 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   tmp_dir: string
   fastq1: File
   fastq2: File
-  adapter: string
-  adapter2: string
   reference_fasta: string
   reference_fasta_fai: string
   add_rg_LB: int
@@ -56,57 +55,33 @@ inputs:
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
-  bed_file: File
   output_suffix: string
 
 outputs:
 
-  clstats1:
-    type: File
-    outputSource: trimgalore/clstats1
-
-  clstats2:
-    type: File
-    outputSource: trimgalore/clstats2
-
   bam:
     type: File
-    outputSource: picard.MarkDuplicates/bam
+    outputSource: picard.AddOrReplaceReadGroups/bam
 
   bai:
     type: File
-    outputSource: picard.MarkDuplicates/bai
-
-  md_metrics:
-    type: File
-    outputSource: picard.MarkDuplicates/mdmetrics
+    outputSource: picard.AddOrReplaceReadGroups/bai
 
 steps:
-
-  trimgalore:
-      run: ../cwl_tools/trimgalore/0.2.5.mod/trimgalore.cwl
-      in:
-        adapter: adapter
-        adapter2: adapter2
-        fastq1: fastq1
-        fastq2: fastq2
-      out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
     run: ../cwl_tools/bwa-mem/0.7.5a/bwa-mem.cwl
     in:
-      fastq1: trimgalore/clfastq1
-      fastq2: trimgalore/clfastq2
+      fastq1: fastq1
+      fastq2: fastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       ID: add_rg_ID
       LB: add_rg_LB
       SM: add_rg_SM
       PL: add_rg_PL
       PU: add_rg_PU
       CN: add_rg_CN
-
       output_suffix: output_suffix
     out: [output_sam]
 
@@ -124,10 +99,3 @@ steps:
         default: "coordinate"
       TMP_DIR: tmp_dir
     out: [bam, bai]
-
-  picard.MarkDuplicates:
-    run: ../cwl_tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
-    in:
-      I: picard.AddOrReplaceReadGroups/bam
-      TMP_DIR: tmp_dir
-    out: [bam, bai, mdmetrics]
