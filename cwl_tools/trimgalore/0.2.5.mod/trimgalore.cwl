@@ -39,12 +39,9 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-# todo: move consolidate trim_galore and all dependencies
+# todo: consolidate trim_galore and all dependencies
 - /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
 - /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
-
-#/opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
-#/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
 
 arguments:
 # todo - use inputs
