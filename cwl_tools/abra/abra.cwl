@@ -45,7 +45,8 @@ class: CommandLineTool
 #" --ref " + args.ref +
 #" --targets " + args.targetRegion +
 #" --threads "  + args.threads +
-# todo: what is the value for this parameter supposed to be?
+# todo: confirm that 1000 for this parameter is ok for deep sequencing data
+# todo: It might be too low...
 #" --mad " + str(args.dp) +
 #" --kmer " + kmers +
 #" --working " + tmpdir
@@ -76,13 +77,18 @@ doc: |
 
 inputs:
 
-  input_bam:
-    type: File
+  input_bams:
+    type:
+      type: array
+      items: File
     inputBinding:
       prefix: --in
+      itemSeparator: ','
     secondaryFiles:
     - ^.bai
 
+  # Todo: Can Abra auto-delete this dir?
+  # Or do we really need another intermediate Python step...?
   working_directory:
     type: string
     inputBinding:
@@ -116,16 +122,18 @@ inputs:
     inputBinding:
       prefix: --mad
 
-  output_bam_filename:
-    type: ['null', string]
-    default: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
+  out:
+    type:
+      type: array
+      items: string
+    doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
+      itemSeparator: ','
       prefix: --out
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
 
 outputs:
 
-  bam:
-    type: File
+  bams:
+    type: File[]
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_abraIR.bam") )
+      glob: '*_abraIR.bam'

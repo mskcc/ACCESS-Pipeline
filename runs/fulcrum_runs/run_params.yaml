@@ -1,0 +1,30 @@
+###########
+# Fulcrum #
+###########
+tmp_dir: /scratch
+# SortBam
+sort_order: Queryname
+# GroupReadsByUMI
+grouping_strategy: paired
+min_mapping_quality: 20
+tag_family_size_counts_output: Grouped-mapQ20-histogram
+
+
+# The following parameters allow us to obtain
+# 3 different versions of our collapsed bam:
+#
+# 1 with Simplex + Duplex + Singleton reads
+# 1 with Simplex + Duplex reads
+# 1 with Duplex reads.
+
+# CallDuplexConsensusReads
+call_duplex__min_reads: 1 1 0
+
+# FilterConsensusReads: Simplex + Duplex + Singletons
+filter__min_base_quality__simplex_duplex_singletons: 30
+
+# FilterConsensusReads: Simplex + Duplex
+filter__min_reads__simplex_duplex: 2 1 0
+
+# FilterConsensusReads: Duplex
+filter__min_reads__duplex: 2 1 1

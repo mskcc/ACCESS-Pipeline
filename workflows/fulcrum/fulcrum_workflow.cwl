@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-3
+  doap:name: fulcrum-workflow
   doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -50,6 +50,9 @@ inputs:
   tmp_dir: string
   input_bam: File
 
+  reference_fasta: string
+  reference_fasta_fai: string
+
   # SortBam
   sort_order: string
 
@@ -61,28 +64,35 @@ inputs:
   # CallDuplexConsensusReads
   call_duplex_min_reads: string
 
-  # FilterConsensusReads
-  reference_fasta: string
-  filter_min_reads: string
+  # FilterConsensusReads: Simplex + Duplex + Singletons
   filter_min_base_quality: int
+
+  # FilterConsensusReads: Simplex + Duplex
+  filter_min_reads__simplex_duplex: string
+
+  # FilterConsensusReads: Duplex
+  filter_min_reads__duplex: string
+
+  add_rg_LB: int
+  add_rg_PL: string
+  add_rg_ID: string
+  add_rg_PU: string
+  add_rg_SM: string
+  add_rg_CN: string
 
 outputs:
 
-  simplex_duplex_fastq_1:
+  simplex_duplex_singleton:
     type: File
-    outputSource: simplex_duplex_fulcrum_postprocessing/output_fastq_1
+    outputSource: fulcrum_postprocessing__simplex_duplex_singleton/bam
 
-  simplex_duplex_fastq_2:
+  simplex_duplex:
     type: File
-    outputSource: simplex_duplex_fulcrum_postprocessing/output_fastq_2
+    outputSource: fulcrum_postprocessing__simplex_duplex/bam
 
-  duplex_fastq_1:
+  duplex:
     type: File
-    outputSource: duplex_fulcrum_postprocessing/output_fastq_1
-
-  duplex_fastq_2:
-    type: File
-    outputSource: duplex_fulcrum_postprocessing/output_fastq_2
+    outputSource: fulcrum_postprocessing__duplex/bam
 
   duplex_seq_metrics:
     type: File
@@ -144,6 +154,11 @@ steps:
     out:
       [metrics]
 
+  #####################################
+  # Actual Collapsing Steps           #
+  # Here we generate 3 different bams #
+  #####################################
+
   call_duplex_consensus_reads:
     run: ../../cwl_tools/fulcrum/CallDuplexConsensusReads.cwl
     in:
@@ -152,26 +167,97 @@ steps:
     out:
       [output_bam]
 
-  filter_consensus_reads:
+  # To obtain Simplex + Duplex + Singleton bam,
+  # with Base Quality > 30
+  filter_consensus_reads__simplex_duplex_singleton:
     run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
     in:
       input_bam: call_duplex_consensus_reads/output_bam
       reference_fasta: reference_fasta
-      min_reads: filter_min_reads
+      min_reads: call_duplex_min_reads
       min_base_quality: filter_min_base_quality
     out:
       [output_bam]
 
-  simplex_duplex_fulcrum_postprocessing:
-    run: ./fulcrum_postprocessing.cwl
+  # To obtain Simplex + Duplex bam
+  filter_consensus_reads__simplex_duplex:
+    run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
     in:
-      input_bam: call_duplex_consensus_reads/output_bam
+      input_bam: filter_consensus_reads__simplex_duplex_singleton/output_bam
+      reference_fasta: reference_fasta
+      min_reads: filter_min_reads__simplex_duplex
+      min_base_quality: filter_min_base_quality
     out:
-      [output_fastq_1, output_fastq_2]
+      [output_bam]
 
-  duplex_fulcrum_postprocessing:
+  # To obtain Duplex bam
+  filter_consensus_reads__duplex:
+    run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
+    in:
+      input_bam: filter_consensus_reads__simplex_duplex/output_bam
+      reference_fasta: reference_fasta
+      min_reads: filter_min_reads__duplex
+      min_base_quality: filter_min_base_quality
+    out:
+      [output_bam]
+
+  ##########################
+  # Fulcrum Postprocessing #
+  ##########################
+
+  fulcrum_postprocessing__simplex_duplex_singleton:
     run: ./fulcrum_postprocessing.cwl
     in:
-      input_bam: filter_consensus_reads/output_bam
+      input_bam: filter_consensus_reads__simplex_duplex_singleton/output_bam
+
+      tmp_dir: tmp_dir
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      output_suffix:
+        valueFrom: ${ return '_fulcrumSimplexDuplexSingleton' }
     out:
-      [output_fastq_1, output_fastq_2]
+      [bam]
+
+  fulcrum_postprocessing__simplex_duplex:
+    run: ./fulcrum_postprocessing.cwl
+    in:
+      input_bam: filter_consensus_reads__simplex_duplex/output_bam
+
+      tmp_dir: tmp_dir
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      output_suffix:
+        valueFrom: ${ return '_fulcrumSimplexDuplex' }
+    out:
+      [bam]
+
+  fulcrum_postprocessing__duplex:
+    run: ./fulcrum_postprocessing.cwl
+    in:
+      input_bam: filter_consensus_reads__duplex/output_bam
+
+      tmp_dir: tmp_dir
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      output_suffix:
+        valueFrom: ${ return '_fulcrumDuplex' }
+    out:
+      [bam]

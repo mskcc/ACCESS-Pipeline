@@ -1,25 +1,43 @@
 import sys
+import xlrd
 import pandas as pd
+import warnings
+
+warnings.filterwarnings('ignore')
 
 
 manifest_file_path = sys.argv[1]
 title_file_output_filename = sys.argv[2]
 
-manifest = pd.read_excel(manifest_file_path, sep='\t')
+# Read Manifest as either csv or Excel file
+try:
+    manifest = pd.read_csv(manifest_file_path, sep='\t')
+except xlrd.biffh.XLRDError:
+    manifest = pd.read_excel(manifest_file_path, sep='\t')
+
 # manifest['CMO_SAMPLE_ID'] = manifest['CMO_SAMPLE_ID'].str.replace('Normal', 'Pan_Cancer')
 
 # Split barcode sequences if both are present in single column
-manifest['BARCODE_INDEX_1'] = manifest['BARCODE_INDEX'].str.split('-').apply(lambda x: x[0])
-manifest['BARCODE_INDEX_2'] = manifest['BARCODE_INDEX'].str.split('-').apply(lambda x: x[1])
 
+print(manifest['BARCODE_INDEX'])
+
+manifest['BARCODE_INDEX_1'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[0])
+manifest['BARCODE_INDEX_2'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[1])
+
+# todo: look at script that creates title file from manifest
+# check that you are using the correct columns from manifest
 relevant_manifest_columns = [
     #     'BARCODE_INDEX',
     'BARCODE_ID',
+    'BARCODE_INDEX_1',
+    'BARCODE_INDEX_2',
+
     'CAPTURE_NAME',
     #     'CMO_SAMPLE_ID',
     'INVESTIGATOR_SAMPLE_ID',
     #     'CMO_PATIENT_ID',
     'INVESTIGATOR_PATIENT_ID',
+
     'SAMPLE_CLASS',
     'SAMPLE_TYPE',
     'LIBRARY_INPUT[ng]',
@@ -31,6 +49,8 @@ relevant_manifest_columns = [
 
 title_file_columns = [
     'Barcode',
+    'Barcode_Index_1',
+    'Barcode_Index_2',
     'Pool',
     'Sample_ID',
     'Patient_ID',

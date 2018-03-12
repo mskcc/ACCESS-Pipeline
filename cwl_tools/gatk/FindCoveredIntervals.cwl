@@ -41,6 +41,7 @@ class: CommandLineTool
 # todo: is this the version we use in Impact for this step? if so then use it
 #baseCommand: /ifs/work/zeng/dmp/resources/GenomeAnalysisTK-2.6-5-gba531bd/GenomeAnalysisTK.jar
 # /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
@@ -63,28 +64,55 @@ doc: |
 
 inputs:
 
-  input_file:
-    type: File
-    inputBinding:
-      prefix: --input_file
+  bams:
+    type:
+      type: array
+      items: File
+      inputBinding:
+        prefix: --input_file
+        # Todo: use baseCommand for everything currently in arguments
+        # If we don't put a high number here this argument for some reason goes in as a java arg
+        position: 100
     doc: Input file containing sequence data (SAM or BAM)
-
-#  intervals:
-#    type:
-#    - 'null'
-#    - type: array
-#      items: string
-#      inputBinding:
-#        prefix: --intervals
-#    doc: One or more genomic intervals over which to operate
-#    inputBinding:
-# todo: How does this function if there was no prefix included?
-#      prefix:
 
   reference_sequence:
     type: string
     inputBinding:
       prefix: --reference_sequence
+
+
+# another todo: find a way to get this step to run faster during testing
+# possibly can use "intervals" parameter with just chr14? How to programatically use this vs whole genome?
+  intervals:
+    type:
+    - 'null'
+    - type: array
+      items: string
+      inputBinding:
+        prefix: --intervals
+        position: 101
+    doc: One or more genomic intervals over which to operate
+
+# Todo: Include
+#  min_base_quality:
+#    type: int
+#    inputBinding:
+#      prefix: --
+
+#  min_maping_quality:
+#    type: int
+#    inputBinding:
+#      prefix: --
+
+#  coverage_threshold:
+#    type: int
+#    inputBinding:
+#      prefix: --
+
+#  read_filter:
+#    type: string
+#    inputBinding:
+#      prefix: --
 
   out:
     type: string
