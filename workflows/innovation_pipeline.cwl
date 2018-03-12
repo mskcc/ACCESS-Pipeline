@@ -47,21 +47,20 @@ requirements:
 inputs:
 
   title_file: File
-
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
 
-  # ProcessUMIFastq
+  reference_fasta: string
+  reference_fasta_fai: string
+
+  # Marianas Clipping
   umi_length: int
   output_project_folder: string
 
-  # Trimgalore
+  # Module 1
   adapter: string[]
   adapter2: string[]
-  # BWA
-  genome: string
-  # Arrg
   add_rg_PL: string
   add_rg_CN: string
   add_rg_LB: int[]
@@ -69,34 +68,39 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
 
-  # Abra
+  # Module 2
+  fci__minbq: int
+  fci__minmq: int
+  fci__cov: int
+  fci__rf: string[]
   abra__kmers: string
+  abra__scratch: string
   abra__mad: int
-  # FX
+
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
-  # BQSR
+
   bqsr__nct: int
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
   bqsr__rf: string
-  # PrintReads
+
   print_reads__nct: int
   print_reads__EOQ: boolean
+  print_reads__baq: string
 
   # Fulcrum
   tmp_dir: string
-  reference_fasta: string
-  reference_fasta_fai: string
-  sort_order: string
-  grouping_strategy: string
-  min_mapping_quality: int
-  tag_family_size_counts_output: string
-  call_duplex_min_reads: string
-  filter_min_reads: string
-  filter_min_base_quality: int
+  fulcrum__sort_order: string
+  fulcrum__grouping_strategy: string
+  fulcrum__min_mapping_quality: int
+  fulcrum__tag_family_size_counts_output: string
+  fulcrum__call_duplex_min_reads: string
+  fulcrum__filter_min_base_quality: int
+  fulcrum__filter_min_reads__simplex_duplex: string
+  fulcrum__filter_min_reads__duplex: string
 
   # Marianas
   marianas__mismatches: int
@@ -116,11 +120,7 @@ outputs:
     type:
       type: array
       items: File
-    outputSource: scatter_step/standard_bams
-
-#  standard_waltz_files:
-#    type: Directory
-#    outputSource: standard_aggregate_bam_metrics/output_dir
+    outputSource: flatten_array_bams/output_bams
 
   ###########
   # Fulcrum #
@@ -130,27 +130,19 @@ outputs:
     type:
       type: array
       items: File
-    outputSource: scatter_step/fulcrum_simplex_duplex_bams
-
-#  fulcrum_simplex_duplex_waltz_files:
-#    type: Directory
-#    outputSource: fulcrum_simplex_duplex_aggregate_bam_metrics/output_dir
+    outputSource: umi_collapsing/fulcrum_simplex_duplex_bams
 
   fulcrum_duplex_bams:
     type:
       type: array
       items: File
-    outputSource: scatter_step/fulcrum_duplex_bams
-
-#  fulcrum_duplex_waltz_files:
-#    type: Directory
-#    outputSource: fulcrum_duplex_aggregate_bam_metrics/output_dir
+    outputSource: umi_collapsing/fulcrum_duplex_bams
 
   duplex_seq_metrics:
     type:
       type: array
       items: File
-    outputSource: scatter_step/duplex_seq_metrics
+    outputSource: umi_collapsing/duplex_seq_metrics
 
   ############
   # Marianas #
@@ -160,29 +152,17 @@ outputs:
     type:
       type: array
       items: File
-    outputSource: scatter_step/marianas_simplex_duplex_bams
-
-#  marianas_simplex_duplex_waltz_files:
-#    type: Directory
-#    outputSource: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
+    outputSource: umi_collapsing/marianas_simplex_duplex_bams
 
   marianas_duplex_bams:
     type:
       type: array
       items: File
-    outputSource: scatter_step/marianas_duplex_bams
-
-#  marianas_duplex_waltz_files:
-#    type: Directory
-#    outputSource: marianas_duplex_aggregate_bam_metrics/output_dir
+    outputSource: umi_collapsing/marianas_duplex_bams
 
   ##############
   # QC reports #
   ##############
-
-#  simplex_duplex_qc_report:
-#    type: File
-#    outputSource: collapsed_qc_step/simplex_duplex_qc_pdf
 
   duplex_qc_report:
     type: File[]
@@ -190,101 +170,243 @@ outputs:
 
 steps:
 
-  scatter_step:
-    run: ./innovation_pipeline.scatter.cwl
+  #########################
+  # Marianas UMI Clipping #
+  #########################
 
+  umi_clipping:
+    run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
     in:
-      tmp_dir: tmp_dir
-
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
-
-      # Marianas ProcessUMIFastq
       umi_length: umi_length
       output_project_folder: output_project_folder
+    out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
+    scatter: [fastq1, fastq2, sample_sheet]
+    scatterMethod: dotproduct
 
-      # Module 1
+  ####################
+  # Adapted Module 1 #
+  ####################
+
+  # todo - do we want adapter trimming here or not?
+  module_1_innovation:
+    run: ./module-1.cwl
+    in:
+      tmp_dir: tmp_dir
+      fastq1: umi_clipping/processed_fastq_1
+      fastq2: umi_clipping/processed_fastq_2
       adapter: adapter
       adapter2: adapter2
-      genome: genome
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      add_rg_LB: add_rg_LB
+      add_rg_PL: add_rg_PL
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
+      add_rg_SM: add_rg_SM
+      add_rg_CN: add_rg_CN
+      bed_file: bed_file
+      output_suffix:
+        valueFrom: ${ return '_standard' }
+    out: [bam, bai, md_metrics]
+    scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    scatterMethod: dotproduct
+
+  ############################
+  # Group Bams by Patient ID #
+  ############################
+
+  group_bams_by_patient:
+    run: ../cwl_tools/innovation-group-bams/innovation-group-bams.cwl
+    in:
+      bams: module_1_innovation/bam
+      patient_ids: add_rg_SM
+    out:
+      [grouped_bams]
+
+  ####################
+  # Adapted Module 2 #
+  ####################
+
+  module_2:
+    run: ./module-2.cwl
+    in:
+      tmp_dir: tmp_dir
+      bams: group_bams_by_patient/grouped_bams
+
+      reference_fasta: reference_fasta
+      add_rg_SM: add_rg_SM
+
+      fci__minbq: fci__minbq
+      fci__minmq: fci__minmq
+      fci__cov: fci__cov
+      fci__rf: fci__rf
+      abra__kmers: abra__kmers
+      abra__scratch: abra__scratch
+      abra__mad: abra__mad
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+      bqsr__nct: bqsr__nct
+      bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
+      bqsr__knownSites_millis: bqsr__knownSites_millis
+      bqsr__rf: bqsr__rf
+      print_reads__nct: print_reads__nct
+      print_reads__EOQ: print_reads__EOQ
+      print_reads__baq: print_reads__baq
+
+    out: [standard_bams, standard_bais, covint_list, covint_bed]
+    scatter: [bams]
+    scatterMethod: dotproduct
+
+  flatten_array_bams:
+    run: ../cwl_tools/innovation-flatten-array-bam/innovation-flatten-array-bam.cwl
+    in:
+      bams: module_2/standard_bams
+    out: [output_bams]
+
+  #############################
+  # Waltz Run (Standard Bams) #
+  #############################
+
+  waltz_standard:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      input_bam: flatten_array_bams/output_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: [input_bam]
+    scatterMethod: dotproduct
+
+  ##################
+  # UMI Collapsing #
+  ##################
+
+  umi_collapsing:
+    run: ./module-2.5.cwl
+    in:
+      bam: flatten_array_bams/output_bams
+      title_file: title_file
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+
+      # Arrg
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      # Abra
-      abra__kmers: abra__kmers
-      abra__mad: abra__mad
-      # FX
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-      # BQSR
-      bqsr__nct: bqsr__nct
-      bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
-      bqsr__knownSites_millis: bqsr__knownSites_millis
-      bqsr__rf: bqsr__rf
-      # PrintReads
-      print_reads__nct: print_reads__nct
-      print_reads__EOQ: print_reads__EOQ
 
-      # Fulcrum Collapsing
-      sort_order: sort_order
-      grouping_strategy: grouping_strategy
-      min_mapping_quality: min_mapping_quality
-      tag_family_size_counts_output: tag_family_size_counts_output
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-      # CallDuplexConsensusReads
-      call_duplex_min_reads: call_duplex_min_reads
-      # FilterConsensusReads
-      filter_min_reads: filter_min_reads
-      filter_min_base_quality: filter_min_base_quality
+      # Fulcrum
+      tmp_dir: tmp_dir
+      fulcrum__sort_order: fulcrum__sort_order
+      fulcrum__grouping_strategy: fulcrum__grouping_strategy
+      fulcrum__min_mapping_quality: fulcrum__min_mapping_quality
+      fulcrum__tag_family_size_counts_output: fulcrum__tag_family_size_counts_output
+      fulcrum__call_duplex_min_reads: fulcrum__call_duplex_min_reads
+      fulcrum__filter_min_base_quality: fulcrum__filter_min_base_quality
+      fulcrum__filter_min_reads__simplex_duplex: fulcrum__filter_min_reads__simplex_duplex
+      fulcrum__filter_min_reads__duplex: fulcrum__filter_min_reads__duplex
 
-      # Marianas Collapsing
+      # Marianas
       marianas__mismatches: marianas__mismatches
       marianas__wobble: marianas__wobble
       marianas__min_consensus_percent: marianas__min_consensus_percent
       marianas_collapsing__outdir: marianas_collapsing__outdir
 
-      # Waltz
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-      waltz__min_mapping_quality: waltz__min_mapping_quality
-
-    scatter: [adapter, adapter2, fastq1, fastq2, sample_sheet, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
-
-    scatterMethod: dotproduct
+      standard_pileup: waltz_standard/pileup
 
     out: [
-      output_sample_sheet,
-
-      standard_bams,
       fulcrum_simplex_duplex_bams,
       fulcrum_duplex_bams,
       duplex_seq_metrics,
       marianas_simplex_duplex_bams,
-      marianas_duplex_bams,
+      marianas_duplex_bams]
 
-      standard_waltz_files,
-      fulcrum_simplex_duplex_waltz_files,
-      fulcrum_duplex_waltz_files,
-      marianas_simplex_duplex_waltz_files,
-      marianas_duplex_waltz_files
-    ]
+    scatter: [bam, standard_pileup, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    scatterMethod: dotproduct
+
+  ##############################
+  # Waltz Run (Collapsed Bams) #
+  ##############################
+
+  waltz_fulcrum_simplex_duplex:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      input_bam: umi_collapsing/fulcrum_simplex_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_fulcrum_duplex:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      input_bam: umi_collapsing/fulcrum_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_marianas_simplex_duplex:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      input_bam: umi_collapsing/marianas_simplex_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_marianas_duplex:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      input_bam: umi_collapsing/marianas_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  #################
+  # Innovation-QC #
+  #################
 
   collapsed_qc_step:
     run: ./QC/qc_workflow.cwl
     in:
       title_file: title_file
-      standard_waltz_files: scatter_step/standard_waltz_files
-      fulcrum_simplex_duplex_waltz_files: scatter_step/fulcrum_simplex_duplex_waltz_files
-      fulcrum_duplex_waltz_files: scatter_step/fulcrum_duplex_waltz_files
-      marianas_simplex_duplex_waltz_files: scatter_step/marianas_simplex_duplex_waltz_files
-      marianas_duplex_waltz_files: scatter_step/marianas_duplex_waltz_files
+      standard_waltz_files: waltz_standard/waltz_output_files
+      fulcrum_simplex_duplex_waltz_files: waltz_fulcrum_simplex_duplex/waltz_output_files
+      fulcrum_duplex_waltz_files: waltz_fulcrum_duplex/waltz_output_files
+      marianas_simplex_duplex_waltz_files: waltz_marianas_simplex_duplex/waltz_output_files
+      marianas_duplex_waltz_files: waltz_marianas_duplex/waltz_output_files
     out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
   

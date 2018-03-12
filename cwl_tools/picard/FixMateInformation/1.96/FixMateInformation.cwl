@@ -70,7 +70,7 @@ inputs:
       prefix: I=
       separate: false
 
-  O:
+  output_filename:
     type: ['null', string]
     doc: The output file to write to. If no output file is supplied, the input file
       is overwritten. Default value - null.
@@ -80,7 +80,7 @@ inputs:
       separate: false
       valueFrom: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
 
-  SO:
+  sort_order:
     type: ['null', string]
     doc: Optional sort order if the OUTPUT file should be sorted differently than
       the INPUT file. Possible values - {unsorted, queryname, coordinate}
@@ -88,25 +88,25 @@ inputs:
       prefix: SO=
       separate: false
 
-  TMP_DIR:
+  tmp_dir:
     type: ['null', string]
     inputBinding:
       prefix: TMP_DIR=
       separate: false
 
-  COMPRESSION_LEVEL:
+  compression_level:
     type: ['null', int]
     inputBinding:
       prefix: COMPRESSION_LEVEL=
       separate: false
 
-  CREATE_INDEX:
+  create_index:
     type: ['null', boolean]
     default: true
     inputBinding:
       prefix: CREATE_INDEX=true
 
-  VALIDATION_STRINGENCY:
+  validation_stringency:
     type: ['null', string]
     inputBinding:
       prefix: VALIDATION_STRINGENCY=

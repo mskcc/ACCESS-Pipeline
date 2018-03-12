@@ -99,14 +99,12 @@ steps:
       fastq2: trimgalore/clfastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       ID: add_rg_ID
       LB: add_rg_LB
       SM: add_rg_SM
       PL: add_rg_PL
       PU: add_rg_PU
       CN: add_rg_CN
-
       output_suffix: output_suffix
     out: [output_sam]
 

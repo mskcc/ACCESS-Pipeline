@@ -26,6 +26,10 @@ def find_files(file_regex):
 
 
 def load_fastqs():
+    '''
+    Todo: need to support multiple R1 / R2 fastqs per patient?
+    :return:
+    '''
     fastq1 = find_files('*_R1_001.fastq.gz')
     fastq1 = [{'class': 'File', 'path': path} for path in fastq1]
     fastq2 = find_files('*_R2_001.fastq.gz')
@@ -51,6 +55,12 @@ def write_inputs_file(title_file):
     adapter2 += title_file['Barcode_Index_2'].astype(str)
     adapter2 += 'AGATCTCGGTGGTCGCCGTATCATT'
 
+    # Note: I put a lot of thought into whether to use a
+    # Record type instead of parallel lists here,
+    # but ended up not seeing the benefit because certain
+    # later steps still require some of the original fields from
+    # the record type after the fastqs have been converted to bams.
+    # Todo: If there is a way to output a record type then this would be a cleaner option.
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
@@ -74,6 +84,9 @@ def write_inputs_file(title_file):
 
     out.write(yaml.dump(other_params))
     out.write(yaml.dump(out_dict))
+
+    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
+    out.write(yaml.dump(title_file_obj))
     out.close()
 
 

@@ -43,69 +43,66 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   tmp_dir: string
-  input_bam: File
   reference_fasta: string
-  add_rg_SM: string
-  abra__mad: int
+
+  bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
+
+  add_rg_SM: string[]
+
+  fci__minbq: int
+  fci__minmq: int
+  fci__cov: int
+  fci__rf: string[]
+
   abra__kmers: string
+  abra__scratch: string
+  abra__mad: int
+
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
-  bqsr__rf: string
+
   bqsr__nct: int
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+
+  bqsr__knownSites_dbSNP:
+    type: File
+    secondaryFiles:
+      - .idx
+
+  bqsr__knownSites_millis:
+    type: File
+    secondaryFiles:
+      - .idx
+
+  bqsr__rf: string
+
   print_reads__nct: int
   print_reads__EOQ: boolean
-
-#  bams:
-#      type:
-#          type: array
-#          items: File
-#      secondaryFiles:
-#          - ^.bai
-# todo: use our reference_fasta instead
-#  genome: string
-#  hapmap:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  dbsnp:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  indels_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  snps_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  rf: string[]
-#  covariates: string[]
-#  abra_scratch: string
-
-# todo: doesn't seem to actually be used in FCI
-#  group: string
+  print_reads__baq: string
 
 outputs:
 
-  outbam:
-    type: File
+  standard_bams:
+    type: File[]
     secondaryFiles:
       - ^.bai
-    outputSource: gatk.PrintReads/out_bam
+    outputSource: parallel_printreads/bams
 
-  outbai:
-    type: File
-    outputSource: gatk.PrintReads/out_bai
+  standard_bais:
+    type: File[]
+    outputSource: parallel_printreads/bais
 
   covint_list:
     type: File
-    outputSource: gatk.FindCoveredIntervals/fci_list
+    outputSource: find_covered_intervals/fci_list
 
   covint_bed:
     type: File
@@ -113,17 +110,14 @@ outputs:
 
 steps:
 
-  gatk.FindCoveredIntervals:
+  find_covered_intervals:
     run: ../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
-      input_file: input_bam
-# todo: what are our groups?
-      group:
-        valueFrom: ${ return 'todo' }
+      bams: bams
+      group: add_rg_SM
       reference_sequence: reference_fasta
-# todo: documentation for 3.3.0 of this tool? can't determine what this parameter does
-#      intervals:
-#        valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
+      intervals:
+        valueFrom: ${ return ["14"];}
       out:
         valueFrom: ${ return inputs.group + ".fci.list"; }
     out: [fci_list]
@@ -131,7 +125,7 @@ steps:
   list2bed:
     run: ../cwl_tools/innovation-list2bed/list2bed.cwl
     in:
-      input_file: gatk.FindCoveredIntervals/fci_list
+      input_file: find_covered_intervals/fci_list
       output_filename:
         valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
     out: [output_file]
@@ -139,58 +133,139 @@ steps:
   abra:
     run: ../cwl_tools/abra/abra.cwl
     in:
-      working_directory: tmp_dir
-      threads:
-        valueFrom: ${ return 5 }
-      input_bam: input_bam
-      reference_fasta: reference_fasta
+      input_bams: bams
       targets: list2bed/output_file
+      working_directory: abra__scratch
+      reference_fasta: reference_fasta
       kmer: abra__kmers
       mad: abra__mad
+      threads:
+        valueFrom: ${ return 5 }
+      out:
+        valueFrom: |
+          ${ return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_abraIR.bam"); }); }
     out:
-      [bam]
+      [bams]
 
-  picard.FixMateInformation:
-    run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+  parallel_fixmate:
     in:
-      TMP_DIR: tmp_dir
-      input_bam: abra/bam
-      SO: fix_mate_information__sort_order
-      VALIDATION_STRINGENCY: fix_mate_information__validation_stringency
-      COMPRESSION_LEVEL: fix_mate_information__compression_level
-      CREATE_INDEX: fix_mate_information__create_index
-    out: [bam, bai]
+      bam: abra/bams
+      tmp_dir: tmp_dir
+      sort_order: fix_mate_information__sort_order
+      create_index: fix_mate_information__create_index
+      compression_level: fix_mate_information__compression_level
+      validation_stringency: fix_mate_information__validation_stringency
+    out: [bams]
+    scatter: [bam]
+    scatterMethod: dotproduct
 
-# todo: is this supposed to run over all bams @ once?
-  gatk.BaseRecalibrator:
-    run: ../cwl_tools/gatk/BaseQualityScoreRecalibration.cwl
+    run:
+      class: Workflow
+      inputs:
+        bam: File
+        tmp_dir: string
+        sort_order: string
+        create_index: boolean
+        compression_level: int
+        validation_stringency: string
+      outputs:
+        bams:
+          type: File
+          outputSource: picard_fixmate_information/bam
+      steps:
+        picard_fixmate_information:
+          run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+          in:
+            input_bam: bam
+            tmp_dir: tmp_dir
+            sort_order: sort_order
+            create_index: create_index
+            compression_level: compression_level
+            validation_stringency: validation_stringency
+          out: [bam]
+
+  parallel_bqsr:
     in:
-      input_bam: picard.FixMateInformation/bam
+      bam: parallel_fixmate/bams
       reference_fasta: reference_fasta
       rf: bqsr__rf
       nct: bqsr__nct
       known_sites_1: bqsr__knownSites_dbSNP
       known_sites_2: bqsr__knownSites_millis
-      out:
-        default: "recal.matrix"
     out: [recal_matrix]
+    scatter: bam
+    scatterMethod: dotproduct
 
-  gatk.PrintReads:
-    run: ../cwl_tools/gatk/PrintReads.cwl
+    run:
+      class: Workflow
+      inputs:
+        bam: File
+        reference_fasta: string
+        rf: string
+        nct: int
+        known_sites_1: File
+        known_sites_2: File
+      outputs:
+        recal_matrix:
+          type: File
+          outputSource: bqsr/recal_matrix
+      steps:
+        bqsr:
+          run: ../cwl_tools/gatk/BaseQualityScoreRecalibration.cwl
+          in:
+            input_bam: bam
+            reference_fasta: reference_fasta
+            rf: rf
+            nct: nct
+            known_sites_1: known_sites_1
+            known_sites_2: known_sites_2
+            out:
+              default: "recal.matrix"
+          out: [recal_matrix]
+
+  parallel_printreads:
     in:
+      input_file: parallel_fixmate/bams
+      BQSR: parallel_bqsr/recal_matrix
       nct: print_reads__nct
       EOQ: print_reads__EOQ
+      baq: print_reads__baq
       reference_sequence: reference_fasta
-      BQSR: gatk.BaseRecalibrator/recal_matrix
-      input_file: picard.FixMateInformation/bam
-#      num_cpu_threads_per_data_thread:
-#        default: '5'
-#      read_filter:
-#        valueFrom: ${ return ["BadCigar"]; }
-#      emit_original_quals:
-#        valueFrom: ${ return true; }
-      baq:
-        valueFrom: ${ return ['RECALCULATE'];}
       out:
         valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_PR.bam"); }
-    out: [out_bam, out_bai]
+    out: [bams, bais]
+    scatter: [input_file, BQSR]
+    scatterMethod: dotproduct
+
+    run:
+      class: Workflow
+
+      inputs:
+        input_file: File
+        BQSR: File
+        nct: int
+        EOQ: boolean
+        reference_sequence: string
+        baq: string
+      outputs:
+        bams:
+          type: File
+          secondaryFiles:
+            - ^.bai
+          outputSource: gatk_print_reads/out_bams
+        bais:
+          type: File
+          outputSource: gatk_print_reads/out_bais
+      steps:
+        gatk_print_reads:
+          run: ../cwl_tools/gatk/PrintReads.cwl
+          in:
+            input_file: input_file
+            BQSR: BQSR
+            nct: nct
+            EOQ: EOQ
+            baq: baq
+            reference_sequence: reference_sequence
+            out:
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_PR.bam"); }
+          out: [out_bams, out_bais]

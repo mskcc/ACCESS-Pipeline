@@ -111,6 +111,7 @@ inputs:
   baq:
     type:
     - 'null'
+    - string
     - type: array
       items: string
     doc: Type of BAQ calculation to apply in the engine (OFF| CALCULATE_AS_NECESSARY|
@@ -138,7 +139,7 @@ inputs:
       prefix: -EOQ
 
 outputs:
-  out_bam:
+  out_bams:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
@@ -149,7 +150,7 @@ outputs:
           return null;
         }
 
-  out_bai:
+  out_bais:
     type: File?
     outputBinding:
       glob: |
