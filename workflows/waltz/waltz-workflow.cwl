@@ -44,9 +44,8 @@ inputs:
   coverage_threshold:
     type: int
 
-  # todo - use Files!
   gene_list:
-    type: string
+    type: File
 
   bed_file:
     type: File
@@ -102,7 +101,7 @@ steps:
     ]
 
   grouped_waltz_files:
-    run: ../../cwl_tools/innovation-group-waltz-files/innovation-group-waltz-files.cwl
+    run: ../../cwl_tools/expression_tools/group_waltz_files.cwl
     in:
       covered_regions: count_reads/covered_regions
       fragment_sizes: count_reads/fragment_sizes

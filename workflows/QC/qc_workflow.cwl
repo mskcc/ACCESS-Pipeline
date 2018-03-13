@@ -86,35 +86,35 @@ outputs:
 steps:
 
   standard_consolidate_bam_metrics:
-    run: ../../cwl_tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
       waltz_input_files: standard_waltz_files
     out:
       [waltz_files]
 
   fulcrum_simplex_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
       waltz_input_files: fulcrum_simplex_duplex_waltz_files
     out:
       [waltz_files]
 
   fulcrum_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
       waltz_input_files: fulcrum_duplex_waltz_files
     out:
       [waltz_files]
 
   marianas_simplex_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
       waltz_input_files: marianas_simplex_duplex_waltz_files
     out:
       [waltz_files]
 
   marianas_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/innovation-consolidate-bam-metrics/innovation-consolidate-bam-metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
       waltz_input_files: marianas_duplex_waltz_files
     out:
@@ -126,35 +126,35 @@ steps:
   ################################################
 
   standard_aggregate_bam_metrics:
-    run: ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: standard_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   fulcrum_simplex_duplex_aggregate_bam_metrics:
-    run: ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: fulcrum_simplex_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   fulcrum_duplex_aggregate_bam_metrics:
-    run: ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: fulcrum_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   marianas_simplex_duplex_aggregate_bam_metrics:
-    run: ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/waltz_files
     out:
       [output_dir]
 
   marianas_duplex_aggregate_bam_metrics:
-    run: ../../cwl_tools/innovation-aggregate-bam-metrics/innovation-aggregate-bam-metrics.cwl
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: marianas_duplex_consolidate_bam_metrics/waltz_files
     out:

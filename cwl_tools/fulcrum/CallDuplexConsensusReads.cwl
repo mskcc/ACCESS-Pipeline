@@ -15,7 +15,7 @@ doap:release:
   doap:name: cmo-fulcrum.CallDuplexConsensusReads
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: cmo-fulcrum.CallDuplexConsensusReads
+  doap:name: cwl-wrapper
   doap:revision: 0.0.0
 
 dct:creator:

@@ -13,9 +13,9 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: innovation-qc
-  doap:revision: 0.5.0
+  doap:revision: 0.0.0
 - class: doap:Version
-  doap:name: innovation-qc
+  doap:name: cwl-wrapper
   doap:revision: 0.0.0
 
 dct:creator:
@@ -71,4 +71,5 @@ outputs:
   qc_pdf:
     type: File[]
     outputBinding:
+      # todo: find pdfs explicitly
       glob: ${ return '**/**/**/*.pdf' }

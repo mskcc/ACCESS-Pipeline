@@ -73,7 +73,7 @@ steps:
       [bam_sorted_queryname]
 
   samtools_fastq:
-    run: ../../cwl_tools/innovation-samtools-fastq/innovation-samtools-fastq.cwl
+    run: ../../cwl_tools/samtools/fastq.cwl
     in:
       input_bam: sort_bam_queryname/bam_sorted_queryname
     out:

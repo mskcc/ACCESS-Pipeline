@@ -59,7 +59,7 @@ inputs:
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
-  fci__rf: string[]
+  fci__rf: string
 
   abra__kmers: string
   abra__scratch: string
@@ -71,18 +71,15 @@ inputs:
   fix_mate_information__create_index: boolean
 
   bqsr__nct: int
-
+  bqsr__rf: string
   bqsr__knownSites_dbSNP:
     type: File
     secondaryFiles:
       - .idx
-
   bqsr__knownSites_millis:
     type: File
     secondaryFiles:
       - .idx
-
-  bqsr__rf: string
 
   print_reads__nct: int
   print_reads__EOQ: boolean
@@ -116,6 +113,10 @@ steps:
       bams: bams
       group: add_rg_SM
       reference_sequence: reference_fasta
+      min_base_quality: fci__minbq
+      min_mapping_quality: fci__minmq
+      coverage_threshold: fci__cov
+      read_filters: fci__rf
       intervals:
         valueFrom: ${ return ["14"];}
       out:
@@ -123,7 +124,7 @@ steps:
     out: [fci_list]
 
   list2bed:
-    run: ../cwl_tools/innovation-list2bed/list2bed.cwl
+    run: ../cwl_tools/python/list2bed.cwl
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
@@ -174,7 +175,7 @@ steps:
           outputSource: picard_fixmate_information/bam
       steps:
         picard_fixmate_information:
-          run: ../cwl_tools/picard/FixMateInformation/1.96/FixMateInformation.cwl
+          run: ../cwl_tools/picard/FixMateInformation.cwl
           in:
             input_bam: bam
             tmp_dir: tmp_dir

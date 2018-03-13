@@ -36,14 +36,15 @@ dct:contributor:
 
 cwlVersion: v1.0
 
+# Todo: consider making Duplex and Simplex a single workflow
 class: Workflow
 
 requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-  input_bam: File
 
+  input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
   pileup: File
@@ -51,14 +52,6 @@ inputs:
   wobble: int
   min_consensus_percent: int
   output_dir: string
-
-  # todo: use
-#  output_bam_filename:
-#    type: ['null', string]
-#    default: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
-#    inputBinding:
-#      prefix: --output_bam_filename
-#      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_marianasProcessUmiBam.bam") )
 
 outputs:
 

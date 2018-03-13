@@ -6,13 +6,13 @@ import numpy as np
 import pandas as pd
 
 
-# Path to the title file
+# Usage:
+#
+# python create_inputs_from_title_file.py <path to title file> <path to directory with fastqs & samplesheets>
 title_file_path = sys.argv[1]
-
-# Path to directory with fastq files
 data_dir = sys.argv[2]
 
-# Path to run_params.yaml
+# Read in run_params.yaml
 dir = os.path.dirname(__file__)
 run_params_path = os.path.join(dir, '../resources/run_params.yaml')
 
