@@ -70,7 +70,7 @@ outputs:
 steps:
 
   bwa_mem:
-    run: ../cwl_tools/bwa-mem/0.7.5a/bwa-mem.cwl
+    run: ../cwl_tools/bwa-mem/bwa-mem.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
@@ -86,16 +86,24 @@ steps:
     out: [output_sam]
 
   picard.AddOrReplaceReadGroups:
-    run: ../cwl_tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
+    run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
-      I: bwa_mem/output_sam
+      input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
       ID: add_rg_ID
       PU: add_rg_PU
       SM: add_rg_SM
       CN: add_rg_CN
-      SO:
-        default: "coordinate"
-      TMP_DIR: tmp_dir
+
+      sort_order:
+        default: 'coordinate'
+      validation_stringency:
+        default: 'LENIENT'
+      compression_level:
+        default: 0
+      create_index:
+        default: true
+
+      tmp_dir: tmp_dir
     out: [bam, bai]

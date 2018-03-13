@@ -14,9 +14,6 @@ doap:release:
 - class: doap:Version
   doap:name: innovation-rename-file
   doap:revision: 0.0.0
-- class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 0.0.0
 
 dct:creator:
 - class: foaf:Organization

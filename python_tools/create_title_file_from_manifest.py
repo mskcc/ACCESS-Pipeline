@@ -6,6 +6,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+# Usage:
+#
+# python create_title_file_from_manifest.py <path to manifest> <output_title_file_name>
 manifest_file_path = sys.argv[1]
 title_file_output_filename = sys.argv[2]
 
@@ -15,17 +18,15 @@ try:
 except xlrd.biffh.XLRDError:
     manifest = pd.read_excel(manifest_file_path, sep='\t')
 
+#
 # manifest['CMO_SAMPLE_ID'] = manifest['CMO_SAMPLE_ID'].str.replace('Normal', 'Pan_Cancer')
 
 # Split barcode sequences if both are present in single column
-
-print(manifest['BARCODE_INDEX'])
-
 manifest['BARCODE_INDEX_1'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[0])
 manifest['BARCODE_INDEX_2'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[1])
 
-# todo: look at script that creates title file from manifest
-# check that you are using the correct columns from manifest
+# The following relevant columns will be used in the pipeline,
+# and printed in the QC report
 relevant_manifest_columns = [
     #     'BARCODE_INDEX',
     'BARCODE_ID',
@@ -47,6 +48,26 @@ relevant_manifest_columns = [
     'SEX'
 ]
 
+# They^ will be given the following new names
+
+# Note: adapted from make-title-file-from-manifest.sh:
+#
+# Barcode
+# Pool
+# Sample_ID
+# Collab_ID
+# Patient_ID
+# Class
+# Sample_type
+# Input_ng
+# Library_yield
+# Pool_input
+# Bait_version
+# Gender
+# PatientName
+# MAccession
+# Extracted_DNA_Yield
+
 title_file_columns = [
     'Barcode',
     'Barcode_Index_1',
@@ -63,6 +84,7 @@ title_file_columns = [
     'Gender'
 ]
 
+# Todo: what to do when following columns aren't included in manifest?
 missing_columns = [
     'Collab_ID',
     'PatientName',
@@ -79,6 +101,7 @@ for col in missing_columns:
     title_file[col] = '-'
 
 # Get Lane # from Pool column
+# We use this new column to group the QC results by lane
 title_file['Lane'] = title_file['Pool'].str.split('_').apply(lambda x: x[1][-1])
 
 # Correct Barcode Column

@@ -50,12 +50,20 @@ inputs:
   adapter2: string
   reference_fasta: string
   reference_fasta_fai: string
+
   add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
+
+  md__assume_sorted: boolean
+  md__compression_level: int
+  md__create_index: boolean
+  md__validation_stringency: string
+  md__duplicate_scoring_strategy: string
+
   bed_file: File
   output_suffix: string
 
@@ -84,7 +92,7 @@ outputs:
 steps:
 
   trimgalore:
-      run: ../cwl_tools/trimgalore/0.2.5.mod/trimgalore.cwl
+      run: ../cwl_tools/trimgalore/trimgalore.cwl
       in:
         adapter: adapter
         adapter2: adapter2
@@ -93,7 +101,7 @@ steps:
       out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
-    run: ../cwl_tools/bwa-mem/0.7.5a/bwa-mem.cwl
+    run: ../cwl_tools/bwa-mem/bwa-mem.cwl
     in:
       fastq1: trimgalore/clfastq1
       fastq2: trimgalore/clfastq2
@@ -109,23 +117,36 @@ steps:
     out: [output_sam]
 
   picard.AddOrReplaceReadGroups:
-    run: ../cwl_tools/picard/AddOrReplaceReadGroups/1.96/AddOrReplaceReadGroups.cwl
+    run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
-      I: bwa_mem/output_sam
+      input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
       ID: add_rg_ID
       PU: add_rg_PU
       SM: add_rg_SM
       CN: add_rg_CN
-      SO:
-        default: "coordinate"
-      TMP_DIR: tmp_dir
+
+      sort_order:
+        default: 'coordinate'
+      validation_stringency:
+        default: 'LENIENT'
+      compression_level:
+        default: 0
+      create_index:
+        default: true
+
+      tmp_dir: tmp_dir
     out: [bam, bai]
 
   picard.MarkDuplicates:
-    run: ../cwl_tools/picard/MarkDuplicates/1.96/MarkDuplicates.cwl
+    run: ../cwl_tools/picard/MarkDuplicates.cwl
     in:
-      I: picard.AddOrReplaceReadGroups/bam
-      TMP_DIR: tmp_dir
+      input_bam: picard.AddOrReplaceReadGroups/bam
+      tmp_dir: tmp_dir
+      assume_sorted: md__assume_sorted
+      compression_level: md__compression_level
+      create_index: md__create_index
+      validation_stringency: md__validation_stringency
+      duplicate_scoring_strategy: md__duplicate_scoring_strategy
     out: [bam, bai, mdmetrics]

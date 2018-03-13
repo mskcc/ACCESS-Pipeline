@@ -1,4 +1,6 @@
 #!/usr/bin/env cwl-runner
+#
+# Note: this file is not used in current pipeline
 
 $namespaces:
   dct: http://purl.org/dc/terms/

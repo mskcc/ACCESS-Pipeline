@@ -12,6 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
+# todo: need to version Samtools
   doap:name: innovation-sort-bam
   doap:revision: 0.0.0
 - class: doap:Version

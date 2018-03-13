@@ -15,7 +15,7 @@ doap:release:
   doap:name: fulcrum.CollectDuplexSeqMetrics
   doap:revision: 0.5.0
 - class: doap:Version
-  doap:name: fulcrum.CollectDuplexSeqMetrics
+  doap:name: cwl-wrapper
   doap:revision: 0.0.0
 
 dct:creator:

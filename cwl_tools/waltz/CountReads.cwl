@@ -72,7 +72,7 @@ inputs:
       position: 2
 
   gene_list:
-    type: string
+    type: File
     inputBinding:
       position: 3
 

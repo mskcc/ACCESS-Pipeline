@@ -101,14 +101,14 @@ outputs:
 steps:
 
   innovation_extract_read_names:
-    run: ../../cwl_tools/innovation-extract-read-names/innovation-extract-read-names.cwl
+    run: ../../cwl_tools/python/extract_read_names.cwl
     in:
       input_bam: input_bam
     out:
       [read_names]
 
   innovation_map_read_names_to_umis:
-    run: ../../cwl_tools/innovation-map-read-names-to-umis/innovation-map-read-names-to-umis.cwl
+    run: ../../cwl_tools/python/map_read_names_to_umis.cwl
     in:
       read_names: innovation_extract_read_names/read_names
     out:

@@ -68,11 +68,17 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
 
+  md__assume_sorted: boolean
+  md__compression_level: int
+  md__create_index: boolean
+  md__validation_stringency: string
+  md__duplicate_scoring_strategy: string
+
   # Module 2
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
-  fci__rf: string[]
+  fci__rf: string
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
@@ -110,7 +116,7 @@ inputs:
 
   # Waltz
   coverage_threshold: int
-  gene_list: string
+  gene_list: File
   bed_file: File
   waltz__min_mapping_quality: int
 
@@ -190,7 +196,6 @@ steps:
   # Adapted Module 1 #
   ####################
 
-  # todo - do we want adapter trimming here or not?
   module_1_innovation:
     run: ./module-1.cwl
     in:
@@ -201,12 +206,20 @@ steps:
       adapter2: adapter2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
+
+      md__assume_sorted: md__assume_sorted
+      md__compression_level: md__compression_level
+      md__create_index: md__create_index
+      md__validation_stringency: md__validation_stringency
+      md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
+
       bed_file: bed_file
       output_suffix:
         valueFrom: ${ return '_standard' }
@@ -219,7 +232,7 @@ steps:
   ############################
 
   group_bams_by_patient:
-    run: ../cwl_tools/innovation-group-bams/innovation-group-bams.cwl
+    run: ../cwl_tools/expression_tools/group_bams.cwl
     in:
       bams: module_1_innovation/bam
       patient_ids: add_rg_SM
@@ -262,8 +275,12 @@ steps:
     scatter: [bams]
     scatterMethod: dotproduct
 
+  ################################
+  # Return to flat array of bams #
+  ################################
+
   flatten_array_bams:
-    run: ../cwl_tools/innovation-flatten-array-bam/innovation-flatten-array-bam.cwl
+    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
     in:
       bams: module_2/standard_bams
     out: [output_bams]

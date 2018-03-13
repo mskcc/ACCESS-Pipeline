@@ -40,7 +40,6 @@ class: CommandLineTool
 
 # todo: is this the version we use in Impact for this step? if so then use it
 #baseCommand: /ifs/work/zeng/dmp/resources/GenomeAnalysisTK-2.6-5-gba531bd/GenomeAnalysisTK.jar
-# /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
 
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
@@ -49,14 +48,17 @@ arguments:
 - -Xmx20g
 - -Djava.io.tmpdir=/scratch
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar
+# Todo: consolidate?
+- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+#- /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar
 - -T
 - FindCoveredIntervals
 
 requirements:
   InlineJavascriptRequirement: {}
+  ShellCommandRequirement: {}
   ResourceRequirement:
-    ramMin: 15000
+    ramMin: 22000
     coresMin: 1
 
 doc: |
@@ -64,14 +66,15 @@ doc: |
 
 inputs:
 
+# todo: cleaner way to provide inputs after arguments
+# https://www.biostars.org/p/303637/
+
   bams:
     type:
       type: array
       items: File
       inputBinding:
         prefix: --input_file
-        # Todo: use baseCommand for everything currently in arguments
-        # If we don't put a high number here this argument for some reason goes in as a java arg
         position: 100
     doc: Input file containing sequence data (SAM or BAM)
 
@@ -80,9 +83,7 @@ inputs:
     inputBinding:
       prefix: --reference_sequence
 
-
-# another todo: find a way to get this step to run faster during testing
-# possibly can use "intervals" parameter with just chr14? How to programatically use this vs whole genome?
+# todo: How to programatically use "intervals" parameter only during testing?
   intervals:
     type:
     - 'null'
@@ -90,35 +91,40 @@ inputs:
       items: string
       inputBinding:
         prefix: --intervals
-        position: 101
-    doc: One or more genomic intervals over which to operate
+        position: 100
 
-# Todo: Include
-#  min_base_quality:
-#    type: int
-#    inputBinding:
-#      prefix: --
+  min_base_quality:
+    type: int
+    inputBinding:
+      prefix: --minBaseQuality
+      position: 100
 
-#  min_maping_quality:
-#    type: int
-#    inputBinding:
-#      prefix: --
+  min_mapping_quality:
+    type: int
+    inputBinding:
+      prefix: --minMappingQuality
+      position: 100
 
-#  coverage_threshold:
-#    type: int
-#    inputBinding:
-#      prefix: --
+  coverage_threshold:
+    type: int
+    inputBinding:
+      prefix: --coverage_threshold
+      position: 100
 
-#  read_filter:
-#    type: string
-#    inputBinding:
-#      prefix: --
+  read_filters:
+    type: string
+    inputBinding:
+      prefix: --read_filter
+      shellQuote: false
+      position: 100
+      # todo: there should be a better way to specify multiple arguments with same prefix
+      # https://www.biostars.org/p/303633/
 
   out:
     type: string
-    doc: An output file created by the walker. Will overwrite contents if file exists.
     inputBinding:
       prefix: --out
+      position: 100
 
 outputs:
 

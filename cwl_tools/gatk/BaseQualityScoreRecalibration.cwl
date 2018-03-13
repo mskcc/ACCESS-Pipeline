@@ -38,35 +38,22 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-#/opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-#-Xmx30g
-#-Djava.io.tmpdir=/ifs/work/scratch/
-#-jar /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
-#-T BaseRecalibrator
-#-I MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX.bam
-#-R /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
-#-knownSites /ifs/e63data/bergerm1/Resources/DMP/pubdata/dbSNP/VERSIONS/dbsnp_v137/dbsnp_137.b37.vcf
-#-knownSites /ifs/e63data/bergerm1/Resources/DMP/pubdata/mills-and-1000g/VERSIONS/v20131014/Mills_and_1000G_gold_standard.indels.b37.vcf
-#-rf BadCigar
-#-o MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_recalReport.grp
-#-nct 3
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
-- -Xmx20g
+- -Xmx30g
 - -Djava.io.tmpdir=/scratch
 - -jar
+# todo: check 3.3 vs 3.5 for version
 - /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar
 - -T
 - BaseRecalibrator
-#- -plots
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20000
+    ramMin: 32000
     coresMin: 8
 
 doc: |

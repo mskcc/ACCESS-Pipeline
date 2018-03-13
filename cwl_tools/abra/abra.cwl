@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: abra
-  doap:revision: 2.14
+  doap:revision: 0.92
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 0.0.0
@@ -38,38 +38,25 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-#cmd =
-# args.JAVA + " -Xmx60g -jar " + args.ABRA +
-#" --in " + inBamList +
-#" --out " + outBamList +
-#" --ref " + args.ref +
-#" --targets " + args.targetRegion +
-#" --threads "  + args.threads +
-# todo: confirm that 1000 for this parameter is ok for deep sequencing data
-# todo: It might be too low...
-#" --mad " + str(args.dp) +
-#" --kmer " + kmers +
-#" --working " + tmpdir
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
 arguments:
-# todo: correct mem reqs?
-- -Xmx20g
+- -Xmx60g
 - -Djava.io.tmpdir=/scratch
 - -jar
+- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+
 # todo: issue with upgrade to 2.14? 2.07 seemed to have issue.
 # See notes/PrintReads_filtering_issue.sh
 #- /opt/common/CentOS_6-dev/abra/2.07/abra2-2.07.jar
 #- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra2-2.14.jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
 
 requirements:
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
   ResourceRequirement:
-    ramMin: 20000
+    ramMin: 62000
     coresMin: 8
 
 doc: |
@@ -87,8 +74,6 @@ inputs:
     secondaryFiles:
     - ^.bai
 
-  # Todo: Can Abra auto-delete this dir?
-  # Or do we really need another intermediate Python step...?
   working_directory:
     type: string
     inputBinding:
@@ -103,13 +88,11 @@ inputs:
     type: File
     inputBinding:
       prefix: --targets
-      # todo: same as -tr?
 
   threads:
     type: int
     inputBinding:
       prefix: --threads
-      # todo: same as -t?
 
   kmer:
     type: string
@@ -126,7 +109,6 @@ inputs:
     type:
       type: array
       items: string
-    doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
       itemSeparator: ','
       prefix: --out
