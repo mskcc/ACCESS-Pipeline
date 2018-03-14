@@ -1,0 +1,115 @@
+##############################################
+# Default Parameters for Innovation-Pipeline #
+##############################################
+tmp_dir: /scratch
+
+bed_file: {class: File, path: ../resources/pan-cancer-panel.sorted.bed}
+# Todo: Consolidate, use File types
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+umi_length: 3
+output_project_folder: .
+
+
+#**********#
+# MODULE 1 #
+#**********#
+
+###########################
+# AddOrReplcaceReadGroups #
+###########################
+add_rg_PL: Illumina
+add_rg_CN: BergerLab_MSKCC
+
+##################
+# MarkDuplicates #
+##################
+md__create_index: true
+md__assume_sorted: true
+md__compression_level: 0
+md__validation_stringency: LENIENT
+md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
+
+
+#**********#
+# MODULE 2 #
+#**********#
+
+########################
+# FindCoveredIntervals #
+########################
+fci__minbq: 20
+fci__minmq: 20
+fci__cov: 20
+# todo: find a better way
+fci__rf: 'FailsVendorQualityCheck -rf BadMate -rf UnmappedRead -rf BadCigar'
+
+########
+# Abra #
+########
+abra__kmers: 43 53 63 83 93
+# Todo: Can Abra auto-delete this dir?
+# Or do we really need another intermediate Python step...?
+abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch__test
+# todo: confirm that 1000 for this parameter is ok for deep sequencing data. It might be too low...
+abra__mad: 1000
+
+######################
+# FixMateInformation #
+######################
+fix_mate_information__sort_order: coordinate
+fix_mate_information__validation_stringency: LENIENT
+fix_mate_information__compression_level: 0
+fix_mate_information__create_index: true
+
+####################
+# BaseRecalibrator #
+####################
+bqsr__nct: 3
+bqsr__rf: BadCigar
+# Todo: Consolidate
+bqsr__knownSites_dbSNP: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+bqsr__knownSites_millis: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
+
+##############
+# PrintReads #
+##############
+print_reads__nct: 8
+print_reads__EOQ: true
+print_reads__baq: RECALCULATE
+
+
+#************#
+# Module 2.5 #
+#************#
+
+###########
+# Fulcrum #
+###########
+fulcrum__sort_order: Queryname
+fulcrum__grouping_strategy: paired
+fulcrum__min_mapping_quality: 20
+fulcrum__tag_family_size_counts_output: Grouped-mapQ20-histogram
+fulcrum__call_duplex_min_reads: 1 1 0
+fulcrum__filter_min_base_quality: 30
+fulcrum__filter_min_reads__simplex_duplex: 2 1 0
+fulcrum__filter_min_reads__duplex: 2 1 1
+
+############
+# Marianas #
+############
+marianas__mismatches: 1
+marianas__wobble: 3
+marianas__min_consensus_percent: 90
+marianas_collapsing__outdir: .
+
+#########
+# Waltz #
+#########
+coverage_threshold: 20
+gene_list: {class: File, path: ../resources/juber-hg19-gene-list.bed}
+waltz__min_mapping_quality: 20

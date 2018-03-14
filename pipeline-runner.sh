@@ -15,6 +15,9 @@ output_directory="${output_location}/${project_name}"
 jobstore_base="${output_directory}/tmp/"
 jobstore_path="${jobstore_base}/jobstore-${job_store_uuid}"
 
+# todo: Create "cleanup" step @ end of pipeline
+printf "\n\n \033[31m Make sure you deleted the Abra scratch dir \n\n\ \033[m " > /dev/stderr
+
 # Check if output directory already exists
 if [ -d ${output_directory} ]
 then
