@@ -1,3 +1,4 @@
+import os
 import uuid
 import argparse
 import subprocess
@@ -28,7 +29,11 @@ def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, wo
     lsf_proj_name = "{}:{}".format(project_name, job_store_uuid)
     job_desc = lsf_proj_name
 
-    job_command = "../pipeline-runner.sh {} {} {} {} {} {}".format(
+    cwd = os.path.dirname(__file__)
+    pipeline_runner_script = os.path.join(cwd, '../pipeline-runner.sh')
+
+    job_command = "{} {} {} {} {} {} {}".format(
+        pipeline_runner_script,
         project_name,
         workflow,
         inputs_file,
