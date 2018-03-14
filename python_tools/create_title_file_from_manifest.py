@@ -15,7 +15,7 @@ title_file_output_filename = sys.argv[2]
 # Read Manifest as either csv or Excel file
 try:
     manifest = pd.read_csv(manifest_file_path, sep='\t')
-except xlrd.biffh.XLRDError:
+except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
     manifest = pd.read_excel(manifest_file_path, sep='\t')
 
 #

@@ -85,6 +85,7 @@ def write_inputs_file(title_file):
     out.write(yaml.dump(other_params))
     out.write(yaml.dump(out_dict))
 
+    # Include title_file in inputs.yaml
     title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
     out.write(yaml.dump(title_file_obj))
     out.close()
