@@ -1,0 +1,51 @@
+Traceback (most recent call last):
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/toil-cwl-runner", line 9, in <module>
+    load_entry_point('toil==3.12.0', 'console_scripts', 'toil-cwl-runner')()
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/pkg_resources/__init__.py", line 568, in load_entry_point
+    return get_distribution(dist).load_entry_point(group, name)
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2720, in load_entry_point
+    return ep.load()
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2379, in load
+    self.require(*args, **kwargs)
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/pkg_resources/__init__.py", line 2396, in require
+    items = working_set.resolve(reqs, env, installer)
+  File "/opt/common/CentOS_6-dev/python/python-2.7.10/lib/python2.7/site-packages/pkg_resources/__init__.py", line 849, in resolve
+    raise DistributionNotFound(req, requirers)
+pkg_resources.DistributionNotFound: The 'galaxy-lib==17.9.3' distribution was not found and is required by the application
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@w01>
+Subject: Job 17900679: <DY_03-16> in cluster <solar> Done
+
+Job <DY_03-16> was submitted from host <luna> by user <johnsoni> in cluster <solar>.
+Job was executed on host(s) <w01>, in queue <control>, as user <johnsoni> in cluster <solar>.
+</home/johnsoni> was used as the home directory.
+</home/johnsoni/Innovation-Pipeline/runs/DY/.> was used as the working directory.
+Started at Fri Mar 16 12:55:23 2018
+Results reported on Fri Mar 16 12:55:29 2018
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../pipeline-runner.sh DY_03-16 ../../workflows/innovation_pipeline.cwl inputs.yaml /ifs/work/bergerm1/Innovation/sandbox/ian lsf d06fb814-293a-11e8-95da-645106ef9e4c
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1.09 sec.
+    Total Requested Memory :                     1.00 GB
+    Delta Memory :                               -
+    Run time :                                   6 sec.
+    Turnaround time :                            7 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <stderr.log> for stderr output of this job.
+

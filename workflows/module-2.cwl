@@ -54,7 +54,7 @@ inputs:
     secondaryFiles:
       - ^.bai
 
-  add_rg_SM: string[]
+  patient_id: string
 
   fci__minbq: int
   fci__minmq: int
@@ -111,16 +111,17 @@ steps:
     run: ../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
       bams: bams
-      group: add_rg_SM
+      patient_id: patient_id
       reference_sequence: reference_fasta
       min_base_quality: fci__minbq
       min_mapping_quality: fci__minmq
       coverage_threshold: fci__cov
       read_filters: fci__rf
-      intervals:
-        valueFrom: ${ return ["14"];}
+      # Todo: only needed during testing (to run faster)
+#      intervals:
+#        valueFrom: ${ return ["14"];}
       out:
-        valueFrom: ${ return inputs.group + ".fci.list"; }
+        valueFrom: ${ return inputs.patient_id + ".fci.list"; }
     out: [fci_list]
 
   list2bed:
@@ -136,7 +137,12 @@ steps:
     in:
       input_bams: bams
       targets: list2bed/output_file
-      working_directory: abra__scratch
+
+      abra_scratch: abra__scratch
+      patient_id: patient_id
+      working_directory:
+        valueFrom: ${ return inputs.abra_scratch + '__' + inputs.patient_id }
+
       reference_fasta: reference_fasta
       kmer: abra__kmers
       mad: abra__mad

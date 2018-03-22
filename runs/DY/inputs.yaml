@@ -1,49 +1,3 @@
-abra__kmers: 43 53 63 83 93
-abra__mad: 1000
-abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch
-add_rg_CN: BergerLab_MSKCC
-add_rg_PL: Illumina
-bed_file: {class: File, path: ../resources/pan-cancer-panel.sorted.bed}
-bqsr__knownSites_dbSNP: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
-bqsr__knownSites_millis: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
-bqsr__nct: 3
-bqsr__rf: BadCigar
-coverage_threshold: 20
-fci__cov: 20
-fci__minbq: 20
-fci__minmq: 20
-fci__rf: FailsVendorQualityCheck -rf BadMate -rf UnmappedRead -rf BadCigar
-fix_mate_information__compression_level: 0
-fix_mate_information__create_index: true
-fix_mate_information__sort_order: coordinate
-fix_mate_information__validation_stringency: LENIENT
-fulcrum__call_duplex_min_reads: 1 1 0
-fulcrum__filter_min_base_quality: 30
-fulcrum__filter_min_reads__duplex: 2 1 1
-fulcrum__filter_min_reads__simplex_duplex: 2 1 0
-fulcrum__grouping_strategy: paired
-fulcrum__min_mapping_quality: 20
-fulcrum__sort_order: Queryname
-fulcrum__tag_family_size_counts_output: Grouped-mapQ20-histogram
-gene_list: {class: File, path: ../resources/juber-hg19-gene-list.bed}
-marianas__min_consensus_percent: 90
-marianas__mismatches: 1
-marianas__wobble: 3
-marianas_collapsing__outdir: .
-md__assume_sorted: true
-md__compression_level: 0
-md__create_index: true
-md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
-md__validation_stringency: LENIENT
-output_project_folder: .
-print_reads__EOQ: true
-print_reads__baq: RECALCULATE
-print_reads__nct: 8
-reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
-reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
-tmp_dir: /scratch
-umi_length: 3
-waltz__min_mapping_quality: 20
 adapter: [GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGAATACGATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGTCTGAATATCTCGTATGCCGTCTTCTGCTTG,
   GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCAACTAATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGCCTATCATATCTCGTATGCCGTCTTCTGCTTG,
   GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTACCGACATATCTCGTATGCCGTCTTCTGCTTG, GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGCAACTAATATCTCGTATGCCGTCTTCTGCTTG,
@@ -121,19 +75,7 @@ add_rg_SM: [MSK-L-007-bc, MSK-L-007-cf, MSK-L-009-bc, MSK-L-009-cf, MSK-L-017-bc
   PR_pt28_BCN01, PR_pt28_CF01, PR_pt29_BCN01, PR_pt29_CF01, PR_pt30_CF02, PR_pt31_BCN01,
   PR_pt31_CF01]
 fastq1:
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R1_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R1_001.fastq.gz}
@@ -151,6 +93,18 @@ fastq1:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/MSK-L-051-cf_IGO_05500_DY_21_S19_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/MSK-L-054-bc_IGO_05500_DY_9_S8_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/MSK-L-054-cf_IGO_05500_DY_26_S26_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R1_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/PR_pt09_BCN01_IGO_05500_DY_10_S11_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/PR_pt09_CF01_IGO_05500_DY_27_S27_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/PR_pt12_BCN01_IGO_05500_DY_11_S12_R1_001.fastq.gz}
@@ -169,19 +123,7 @@ fastq1:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/PR_pt31_BCN01_IGO_05500_DY_13_S15_R1_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/PR_pt31_CF01_IGO_05500_DY_30_S32_R1_001.fastq.gz}
 fastq2:
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R2_001.fastq.gz}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/MSK-L-009-bc_IGO_05500_DY_6_S3_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/MSK-L-009-cf_IGO_05500_DY_23_S22_R2_001.fastq.gz}
@@ -199,6 +141,18 @@ fastq2:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/MSK-L-051-cf_IGO_05500_DY_21_S19_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/MSK-L-054-bc_IGO_05500_DY_9_S8_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/MSK-L-054-cf_IGO_05500_DY_26_S26_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/Pan_Cancer_F1_IGO_05500_DY_42_S42_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/Pan_Cancer_F10_IGO_05500_DY_38_S41_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/Pan_Cancer_F3_IGO_05500_DY_36_S47_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/Pan_Cancer_F4_IGO_05500_DY_43_S45_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/Pan_Cancer_F6_IGO_05500_DY_37_S38_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/Pan_Cancer_F8_IGO_05500_DY_44_S44_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/Pan_Cancer_M1_IGO_05500_DY_45_S43_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/Pan_Cancer_M2_IGO_05500_DY_39_S40_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/Pan_Cancer_M6_IGO_05500_DY_46_S46_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/Pan_Cancer_M7_IGO_05500_DY_40_S37_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/Pan_Cancer_M8_IGO_05500_DY_47_S39_R2_001.fastq.gz}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/Pan_Cancer_M9_IGO_05500_DY_41_S36_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/PR_pt09_BCN01_IGO_05500_DY_10_S11_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/PR_pt09_CF01_IGO_05500_DY_27_S27_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/PR_pt12_BCN01_IGO_05500_DY_11_S12_R2_001.fastq.gz}
@@ -216,20 +170,15 @@ fastq2:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt30_CF02_IGO_05500_DY_35/PR_pt30_CF02_IGO_05500_DY_35_S30_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/PR_pt31_BCN01_IGO_05500_DY_13_S15_R2_001.fastq.gz}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/PR_pt31_CF01_IGO_05500_DY_30_S32_R2_001.fastq.gz}
+patient_id: [MSK-L-007, MSK-L-007, MSK-L-009, MSK-L-009, MSK-L-017, MSK-L-017, MSK-L-035,
+  MSK-L-035, MSK-L-039, MSK-L-039, MSK-L-046, MSK-L-046, MSK-L-047, MSK-L-047, MSK-L-051,
+  MSK-L-051, MSK-L-054, MSK-L-054, Pan_Cancer_F1, Pan_Cancer_F10, Pan_Cancer_F3, Pan_Cancer_F4,
+  Pan_Cancer_F6, Pan_Cancer_F8, Pan_Cancer_M1, Pan_Cancer_M2, Pan_Cancer_M6, Pan_Cancer_M7,
+  Pan_Cancer_M8, Pan_Cancer_M9, PR_pt09, PR_pt09, PR_pt12, PR_pt12, PR_pt15, PR_pt15,
+  PR_pt25, PR_pt25, PR_pt27, PR_pt27, PR_pt28, PR_pt28, PR_pt29, PR_pt29, PR_pt30,
+  PR_pt31, PR_pt31]
 sample_sheet:
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/SampleSheet.csv}
-- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-bc_IGO_05500_DY_6/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-009-cf_IGO_05500_DY_23/SampleSheet.csv}
@@ -247,6 +196,18 @@ sample_sheet:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-051-cf_IGO_05500_DY_21/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-bc_IGO_05500_DY_9/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-054-cf_IGO_05500_DY_26/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F1_IGO_05500_DY_42/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F10_IGO_05500_DY_38/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F3_IGO_05500_DY_36/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F4_IGO_05500_DY_43/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F6_IGO_05500_DY_37/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_F8_IGO_05500_DY_44/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M1_IGO_05500_DY_45/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M2_IGO_05500_DY_39/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M6_IGO_05500_DY_46/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M7_IGO_05500_DY_40/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M8_IGO_05500_DY_47/SampleSheet.csv}
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_Pan_Cancer_M9_IGO_05500_DY_41/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_BCN01_IGO_05500_DY_10/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt09_CF01_IGO_05500_DY_27/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt12_BCN01_IGO_05500_DY_11/SampleSheet.csv}
@@ -264,4 +225,125 @@ sample_sheet:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt30_CF02_IGO_05500_DY_35/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_BCN01_IGO_05500_DY_13/SampleSheet.csv}
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_PR_pt31_CF01_IGO_05500_DY_30/SampleSheet.csv}
+##############################################
+# Default Parameters for Innovation-Pipeline #
+##############################################
+tmp_dir: /scratch
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+umi_length: 3
+output_project_folder: .
+
+
+#**********#
+# MODULE 1 #
+#**********#
+
+##########################
+# AddOrReplaceReadGroups #
+##########################
+add_rg_PL: Illumina
+add_rg_CN: BergerLab_MSKCC
+
+##################
+# MarkDuplicates #
+##################
+md__create_index: true
+md__assume_sorted: true
+md__compression_level: 0
+md__validation_stringency: LENIENT
+md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
+
+
+#**********#
+# MODULE 2 #
+#**********#
+
+########################
+# FindCoveredIntervals #
+########################
+fci__minbq: 20
+fci__minmq: 20
+fci__cov: 20
+# todo: find a better way
+fci__rf: FailsVendorQualityCheck -rf BadMate -rf UnmappedRead -rf BadCigar
+########
+# Abra #
+########
+abra__kmers: 43 53 63 83 93
+# Todo: Can Abra auto-delete this dir?
+# Or do we really need another intermediate Python step...?
+abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch
+# todo: confirm that 1000 for this parameter is ok for deep sequencing data. It might be too low...
+abra__mad: 1000
+
+######################
+# FixMateInformation #
+######################
+fix_mate_information__sort_order: coordinate
+fix_mate_information__validation_stringency: LENIENT
+fix_mate_information__compression_level: 0
+fix_mate_information__create_index: true
+
+####################
+# BaseRecalibrator #
+####################
+bqsr__nct: 3
+bqsr__rf: BadCigar
+
+##############
+# PrintReads #
+##############
+print_reads__nct: 8
+print_reads__EOQ: true
+print_reads__baq: RECALCULATE
+
+
+#************#
+# Module 2.5 #
+#************#
+
+###########
+# Fulcrum #
+###########
+fulcrum__sort_order: Queryname
+fulcrum__grouping_strategy: paired
+fulcrum__min_mapping_quality: 20
+fulcrum__tag_family_size_counts_output: Grouped-mapQ20-histogram
+fulcrum__call_duplex_min_reads: 1 1 0
+fulcrum__filter_min_base_quality: 30
+fulcrum__filter_min_reads__simplex_duplex: 2 1 0
+fulcrum__filter_min_reads__duplex: 2 1 1
+
+############
+# Marianas #
+############
+marianas__mismatches: 1
+marianas__wobble: 3
+marianas__min_consensus_percent: 90
+marianas_collapsing__outdir: .
+
+#########
+# Waltz #
+#########
+coverage_threshold: 20
+waltz__min_mapping_quality: 20
+#############################################
+# Files required to run Innovation Pipeline #
+#############################################
+
+# Used in multiple steps
+bed_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/pan-cancer-panel.sorted.bed}
+# Todo: Consolidate, use File types
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+
+# BaseRecalibrator
+# Todo: Consolidate, use DMP versions
+bqsr__knownSites_dbSNP: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+bqsr__knownSites_millis: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
+# Waltz
+gene_list: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/juber-hg19-gene-list.bed}
 title_file: {class: File, path: ./DY_title_file.txt}
