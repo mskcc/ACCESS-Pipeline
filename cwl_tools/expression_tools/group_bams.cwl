@@ -53,6 +53,11 @@ outputs:
         items: File
         secondaryFiles: ['^.bai']
 
+  grouped_patient_ids:
+    type:
+      type: array
+      items: string
+
 expression: |
   ${
     var found;
@@ -74,7 +79,7 @@ expression: |
       for (var j = 0; j < grouped_bams.length; j++) {
 
         // If the current Bam's patient ID matches this group's patient ID
-        if (matching_patient_ids[j].match(current_patient_id) > -1) {
+        if (matching_patient_ids[j] === current_patient_id) {
 
           // Add it to this group
           grouped_bams[j].push(inputs.bams[i]);
@@ -95,5 +100,8 @@ expression: |
       }
     }
 
-    return {"grouped_bams": grouped_bams};
+    return {
+      "grouped_bams": grouped_bams,
+      "grouped_patient_ids": matching_patient_ids
+    };
   }
