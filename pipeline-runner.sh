@@ -45,10 +45,9 @@ toil-cwl-runner \
     --realTimeLogging \
     --workDir ${output_directory}/tmp \
     --jobStore file://${jobstore_path} \
+    --cleanWorkDir onSuccess \
     --logDebug \
+    --stats \
     ${workflow} \
     ${inputs_file} \
     2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
-
-#    --stats \
-#    --cleanWorkDir never \
