@@ -3,11 +3,6 @@
 ##############################################
 tmp_dir: /scratch
 
-bed_file: {class: File, path: ../resources/pan-cancer-panel.sorted.bed}
-# Todo: Consolidate, use File types
-reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
-reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
-
 ##########################
 # Process Loop UMI Fastq #
 ##########################
@@ -19,9 +14,9 @@ output_project_folder: .
 # MODULE 1 #
 #**********#
 
-###########################
-# AddOrReplcaceReadGroups #
-###########################
+##########################
+# AddOrReplaceReadGroups #
+##########################
 add_rg_PL: Illumina
 add_rg_CN: BergerLab_MSKCC
 
@@ -71,9 +66,6 @@ fix_mate_information__create_index: true
 ####################
 bqsr__nct: 3
 bqsr__rf: BadCigar
-# Todo: Consolidate
-bqsr__knownSites_dbSNP: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
-bqsr__knownSites_millis: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
 
 ##############
 # PrintReads #
@@ -111,5 +103,4 @@ marianas_collapsing__outdir: .
 # Waltz #
 #########
 coverage_threshold: 20
-gene_list: {class: File, path: ../resources/juber-hg19-gene-list.bed}
 waltz__min_mapping_quality: 20

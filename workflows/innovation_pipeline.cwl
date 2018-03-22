@@ -38,6 +38,28 @@ cwlVersion: v1.0
 
 class: Workflow
 
+doc: |
+  This is the top-level workflow that includes all sub-workflow modules:
+
+  Module 0:
+    UMI Clipping
+
+  Module 1:
+    Trimming
+    Mapping
+    Replacing Read Groups
+    Marking Duplicates
+
+  Module 2:
+    Indel Realignment
+    Fix Mate Information
+    Base Quality Score Recalibration
+
+  Module 2.5 (So-named to fit with Roslin names):
+    UMI Family Collapsing with Marianas
+    UMI Family Collapsing with Fulcrum
+
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -50,6 +72,7 @@ inputs:
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
+  patient_id: string[]
 
   reference_fasta: string
   reference_fasta_fai: string
@@ -235,9 +258,9 @@ steps:
     run: ../cwl_tools/expression_tools/group_bams.cwl
     in:
       bams: module_1_innovation/bam
-      patient_ids: add_rg_SM
+      patient_ids: patient_id
     out:
-      [grouped_bams]
+      [grouped_bams, grouped_patient_ids]
 
   ####################
   # Adapted Module 2 #
@@ -247,10 +270,10 @@ steps:
     run: ./module-2.cwl
     in:
       tmp_dir: tmp_dir
-      bams: group_bams_by_patient/grouped_bams
-
       reference_fasta: reference_fasta
-      add_rg_SM: add_rg_SM
+
+      bams: group_bams_by_patient/grouped_bams
+      patient_id: group_bams_by_patient/grouped_patient_ids
 
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
@@ -272,7 +295,7 @@ steps:
       print_reads__baq: print_reads__baq
 
     out: [standard_bams, standard_bais, covint_list, covint_bed]
-    scatter: [bams]
+    scatter: [bams, patient_id]
     scatterMethod: dotproduct
 
   ################################
@@ -426,4 +449,4 @@ steps:
       marianas_simplex_duplex_waltz_files: waltz_marianas_simplex_duplex/waltz_output_files
       marianas_duplex_waltz_files: waltz_marianas_duplex/waltz_output_files
     out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
-  
+

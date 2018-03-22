@@ -74,6 +74,12 @@ inputs:
     secondaryFiles:
     - ^.bai
 
+  # Todo: see if these can be referenced in outer workflow instead
+  abra_scratch:
+    type: string
+  patient_id:
+    type: string
+
   working_directory:
     type: string
     inputBinding:
