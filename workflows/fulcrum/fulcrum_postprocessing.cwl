@@ -66,7 +66,7 @@ outputs:
 steps:
 
   sort_bam_queryname:
-    run: ../../cwl_tools/innovation-sort-bam/innovation-sort-bam.cwl
+    run: ../../cwl_tools/samtools/sort-by-queryname.cwl
     in:
       input_bam: input_bam
     out:

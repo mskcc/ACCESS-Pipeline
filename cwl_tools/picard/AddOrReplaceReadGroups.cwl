@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.AddOrReplaceReadGroups
+  doap:name: picard
   doap:revision: 1.96
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -66,65 +66,56 @@ inputs:
   O:
     type: string?
     doc: Output file (bam or sam).
-    default: $( inputs.input_bam.basename.replace(".sam", "_RG.bam") )
+    default: $(inputs.input_bam.basename.replace(".sam", "_srt.bam"))
     inputBinding:
       prefix: O=
       separate: false
-      valueFrom: $( inputs.input_bam.basename.replace(".sam", "_RG.bam") )
+      valueFrom: $(inputs.input_bam.basename.replace(".sam", "_srt.bam"))
 
   sort_order:
-    type: string?
-    doc: Optional sort order to output in. If not supplied OUTPUT is in the same order
-      as INPUT. Default value - null. Possible values - {unsorted, queryname, coordinate}
+    type: string
     inputBinding:
       prefix: SO=
       separate: false
 
   ID:
-    type: string?
-    doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
-      the default value.
+    type: string
     inputBinding:
       prefix: RGID=
       separate: false
 
   LB:
     type: int
-    doc: Read Group Library Required.
     inputBinding:
       prefix: RGLB=
       separate: false
 
   CN:
-    type: string?
-    doc: Read Group sequencing center name Default value - null.
+    type: string
     inputBinding:
       prefix: RGCN=
       separate: false
 
   PU:
     type: string
-    doc: Read Group platform unit (eg. run barcode) Required.
     inputBinding:
       prefix: RGPU=
       separate: false
 
   SM:
     type: string
-    doc: Read Group sample name Required.
     inputBinding:
       prefix: RGSM=
       separate: false
 
   PL:
     type: string
-    doc: Read Group platform (e.g. illumina, solid) Required.
     inputBinding:
       prefix: RGPL=
       separate: false
 
   tmp_dir:
-    type: string?
+    type: string
     inputBinding:
       prefix: TMP_DIR=
       separate: false
@@ -153,11 +144,9 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".sam", "_RG.bam") )
+      glob: $(inputs.input_bam.basename.replace(".sam", "_srt.bam"))
 
   bai:
     type: File
     outputBinding:
-      glob: ${ return '*.bai' }
-#      glob: $( inputs.I.basename.replace(".sam", "_RG.bai") )
-#      glob: ${ return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.sam/,'') + ".bai"; }
+      glob: ${return '*.bai'}

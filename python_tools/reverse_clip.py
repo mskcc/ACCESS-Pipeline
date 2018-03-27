@@ -39,7 +39,8 @@ from itertools import izip
 
 def main():
     input_r1 = str(sys.argv[1])
-    input_r2 = str(input_r1.replace('_R1', '_R2'))
+    input_r2 = str(sys.argv[2])
+    # input_r2 = str(input_r1.replace('_R1', '_R2'))
 
     new_r1_name = input_r1.replace('.fastq.gz', '') + '_clipping-reversed.fastq'
     new_r2_name = input_r2.replace('.fastq.gz', '') + '_clipping-reversed.fastq'

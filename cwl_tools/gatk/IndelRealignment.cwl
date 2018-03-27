@@ -74,13 +74,13 @@ inputs:
     inputBinding:
       prefix: -R
 
-  # todo: =bedfile?
+  # Todo: Use our bedfile instead?
   target_intervals:
     type: File
     inputBinding:
       prefix: -targetIntervals
 
-  # todo: use correct default syntax
+  # Todo: use correct default syntax
   baq:
     type: ['null', string]
     default: 'RECALCULATE'

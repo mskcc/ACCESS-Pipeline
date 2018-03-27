@@ -244,8 +244,9 @@ steps:
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
 
       bed_file: bed_file
+      # Todo: This could be easier to find
       output_suffix:
-        valueFrom: ${ return '_standard' }
+        valueFrom: ${ return '_aln' }
     out: [bam, bai, md_metrics]
     scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
@@ -370,7 +371,8 @@ steps:
       fulcrum_duplex_bams,
       duplex_seq_metrics,
       marianas_simplex_duplex_bams,
-      marianas_duplex_bams]
+      marianas_duplex_bams
+    ]
 
     scatter: [bam, standard_pileup, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
@@ -449,4 +451,3 @@ steps:
       marianas_simplex_duplex_waltz_files: waltz_marianas_simplex_duplex/waltz_output_files
       marianas_duplex_waltz_files: waltz_marianas_duplex/waltz_output_files
     out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
-

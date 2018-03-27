@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.CallDuplexConsensusReads
-  doap:revision: 0.5.0
+  doap:name: fulcrum
+  doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 0.0.0

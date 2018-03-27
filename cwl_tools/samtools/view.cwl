@@ -5,26 +5,20 @@ class: CommandLineTool
 requirements:
     - class: ShellCommandRequirement
 
-baseCommand: samtools
+baseCommand:
+- /opt/common/CentOS_6-dev/bin/current/samtools
 
 arguments:
   - view
-
-  - $(inputs.h)
+  - -b
+  - ${ if (inputs.paired_only) { return '-f 1' } }
+  - ${ if (inputs.mapped_only) { return '-F 4' } }
+  - -h
+  - $(inputs.bam)
   - $(inputs.region)
-
-  - $(inputs.b)
-
-  - $(inputs.F)
-  - $(inputs.filter_mask)
-
-  - $(inputs.f)
-  - $(inputs.filter_mask_2)
-
-  - $(inputs.input_bam)
-
   - '>'
-  - $( inputs.input_bam.basename + ".sorted" )
+  # Unix does not like colons in filenames
+  - $( inputs.bam.basename.replace('.bam', '') + inputs.region.replace(':', '-') + '_mapped_paired.bam' )
 
 inputs:
 
@@ -33,9 +27,18 @@ inputs:
     inputBinding:
       position: 1
 
+  region:
+    type: string
+
+  mapped_only:
+    type: boolean
+
+  paired_only:
+    type: boolean
+
 outputs:
 
-  bam:
+  output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename + ".sorted" )
+      glob: $( inputs.bam.basename.replace('.bam', '') + inputs.region.replace(':', '-') + '_mapped_paired.bam' )

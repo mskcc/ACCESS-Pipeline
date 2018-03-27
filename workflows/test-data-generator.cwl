@@ -2,112 +2,237 @@ cwlVersion: v1.0
 
 class: Workflow
 
-inputs:
-  fastq_1: File
-  fastq_2: File
-  sample_sheet: File
+doc: |
+  This workflow is useful for creating pairs of smaller fastqs that
+  come from paired input fastqs.
+  They can be subsetted to a specific region in the genome,
+  and may also be optionally filtered to only paired and mapped reads.
 
-  add_rg_LB: string
-  add_rg_PL: string
-  add_rg_ID: string
-  add_rg_PU: string
-  add_rg_SM: string
-  add_rg_CN: string
+requirements:
+  MultipleInputFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
+
+inputs:
+  fastq_1: File[]
+  fastq_2: File[]
+  sample_sheet: File[]
+
+  umi_length: int
+  output_project_folder: string
+
+  reference_fasta: string
+  reference_fasta_fai: string
+
+  # Module 1
   tmp_dir: string
+  adapter: string[]
+  adapter2: string[]
+  add_rg_PL: string
+  add_rg_CN: string
+  add_rg_LB: int[]
+  add_rg_ID: string[]
+  add_rg_PU: string[]
+  add_rg_SM: string[]
+
+  md__assume_sorted: boolean
+  md__compression_level: int
+  md__create_index: boolean
+  md__validation_stringency: string
+  md__duplicate_scoring_strategy: string
 
   # bed file with regions to extract from
   subset_region: string
+  paired_only: boolean
+  mapped_only: boolean
 
 outputs:
+  test_fastq_1:
+    type: File[]
+    outputSource: scatter/test_fastq_1
 
-  test_fastq_1: gzip/fastq_1
-  test_fastq_2: gzip/fastq_2
+  test_fastq_2:
+    type: File[]
+    outputSource: scatter/test_fastq_2
 
 steps:
 
-  process_loop_umi_fastq:
-    run: ../tools/marianas/ProcessLoopUMIFastq.cwl
+  # Todo: Is there a way to have scatter as a top level key instead of this subworkflow?
+  scatter:
+    scatter: [
+      fastq_1,
+      fastq_2,
+      sample_sheet,
+      add_rg_LB,
+      add_rg_ID,
+      add_rg_PU,
+      add_rg_SM,
+      adapter,
+      adapter2
+    ]
+    scatterMethod: dotproduct
 
     in:
       fastq_1: fastq_1
       fastq_2: fastq_2
       sample_sheet: sample_sheet
-
-    out: [clipped_fastq_1, clipped_fastq_2]
-
-  module_1:
-    run: ./module-1.cwl
-
-    in:
-      fastq1: process_loop_umi_fastq/clipped_fastq_1
-      fastq2: process_loop_umi_fastq/clipped_fastq_2
-
+      umi_length: umi_length
+      output_project_folder: output_project_folder
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      tmp_dir: tmp_dir
       adapter: adapter
       adapter2: adapter2
-
-      reference_fasta: string
-      reference_fasta_fai: string
-
-      add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
-
+      add_rg_CN: add_rg_CN
+      add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
-
       add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      tmp_dir: tmp_dir
-      output_suffix: output_suffix
+      md__assume_sorted: md__assume_sorted
+      md__compression_level: md__compression_level
+      md__create_index: md__create_index
+      md__validation_stringency: md__validation_stringency
+      md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
+      subset_region: subset_region
+      paired_only: paired_only
+      mapped_only: mapped_only
 
-    out: [bam]
+    out: [test_fastq_1, test_fastq_2]
 
-  sort_bam:
-    run: ../tools/samtools/sort-by-coordinate.cwl
-    in: module_1/bam
-    out: [bam]
+    run:
+      class: Workflow
+      inputs:
+        fastq_1: File
+        fastq_2: File
+        sample_sheet: File
+        umi_length: int
+        output_project_folder: string
+        reference_fasta: string
+        reference_fasta_fai: string
+        tmp_dir: string
+        adapter: string
+        adapter2: string
+        add_rg_PL: string
+        add_rg_CN: string
+        add_rg_LB: int
+        add_rg_ID: string
+        add_rg_PU: string
+        add_rg_SM: string
+        md__assume_sorted: boolean
+        md__compression_level: int
+        md__create_index: boolean
+        md__validation_stringency: string
+        md__duplicate_scoring_strategy: string
+        subset_region: string
+        paired_only: boolean
+        mapped_only: boolean
 
-  index_bam:
-    run: ../tools/samtools/index.cwl
-    in: sort_bam/bam
-    out: [bam]
+      outputs:
+        test_fastq_1:
+          type: File
+          outputSource: gzip_1/output
 
-  extract_bed_region_mapped_paired:
-    run: ../tools/samtools/view.cwl
-    in:
-      bam: index_bam/bam
-      region: subset_region
+        test_fastq_2:
+          type: File
+          outputSource: gzip_2/output
 
-      mapped: true
-      paired: true
-    out:
-      [bam]
+      steps:
 
-  sort_queryname:
-    run: ../tools/samtools/sort-by-queryname.cwl
-    in:
-      bam: extract_bed_region_mapped_paired/bam
-    out: [bam]
+        umi_clipping:
+          run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
+          in:
+            fastq1: fastq_1
+            fastq2: fastq_2
+            sample_sheet: sample_sheet
+            umi_length: umi_length
+            output_project_folder: output_project_folder
+          out: [processed_fastq_1, processed_fastq_2]
 
-  convert_to_fastq:
-    run: ../tools/samtools/fastq.cwl
-    in:
-      bam: sort_queryname/bam
-      fastq_1_name:
-        valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R1.fastq')
-      fastq_2_name:
-        valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R2.fastq')
-    out: [fastq_1, fastq_2]
+        module_1:
+          run: ./module-1.cwl
+          in:
+            tmp_dir: tmp_dir
+            fastq1: umi_clipping/processed_fastq_1
+            fastq2: umi_clipping/processed_fastq_2
+            adapter: adapter
+            adapter2: adapter2
+            reference_fasta: reference_fasta
+            reference_fasta_fai: reference_fasta_fai
 
-  reverse_umis:
-    run: ../tools/reverse-clip.cwl
-    in:
-      fastq_1: convert_to_fastq/fastq_1
-      fastq_2: convert_to_fastq/fastq_2
-    out: [fastq_1, fastq_2]
+            add_rg_LB: add_rg_LB
+            add_rg_PL: add_rg_PL
+            add_rg_ID: add_rg_ID
+            add_rg_PU: add_rg_PU
+            add_rg_SM: add_rg_SM
+            add_rg_CN: add_rg_CN
 
-  gzip:
-    run: ../tools/innovation-gzip-fastq.cwl
-    in:
-      fastq_1: reverse_umis/fastq_1
-      fastq_2: reverse_umis/fastq_2
-    out: [fastq_1, fastq_2]
+            md__assume_sorted: md__assume_sorted
+            md__compression_level: md__compression_level
+            md__create_index: md__create_index
+            md__validation_stringency: md__validation_stringency
+            md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
+
+            output_suffix:
+              valueFrom: ${ return '_standard' }
+          out: [bam, bai, md_metrics]
+
+        sort_bam:
+          run: ../cwl_tools/samtools/sort-by-coordinate.cwl
+          in:
+            bam: module_1/bam
+          out: [output_bam]
+
+        index_bam:
+          run: ../cwl_tools/samtools/index.cwl
+          in:
+            input: sort_bam/output_bam
+          out: [bam_with_bai]
+
+        extract_region:
+          run: ../cwl_tools/samtools/view.cwl
+          in:
+            bam: index_bam/bam_with_bai
+            region: subset_region
+            mapped_only: mapped_only
+            paired_only: paired_only
+          out:
+            [output_bam]
+
+        sort_queryname:
+          run: ../cwl_tools/samtools/sort-by-queryname.cwl
+          in:
+            bam: extract_region/output_bam
+          out: [output_bam]
+
+        convert_to_fastq:
+          run: ../cwl_tools/samtools/fastq.cwl
+          in:
+            input_bam: sort_queryname/output_bam
+            fastq_1_name:
+              valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R1.fastq')
+            fastq_2_name:
+              valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R2.fastq')
+          out: [output_read_1, output_read_2]
+
+        reverse_umis:
+          run: ../cwl_tools/python/reverse_clip.cwl
+          in:
+            fastq_1: convert_to_fastq/output_read_1
+            fastq_2: convert_to_fastq/output_read_2
+          out: [reversed_fastq_1, reversed_fastq_2]
+
+        gzip_1:
+          run: ../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+          in:
+            input_fastq: reverse_umis/reversed_fastq_1
+          out:
+            [output]
+
+        gzip_2:
+          run: ../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+          in:
+            input_fastq: reverse_umis/reversed_fastq_2
+          out:
+            [output]

@@ -45,8 +45,7 @@ arguments:
 - -Xmx30g
 - -Djava.io.tmpdir=/scratch
 - -jar
-# todo: check 3.3 vs 3.5 for version
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar
+- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
 - -T
 - BaseRecalibrator
 

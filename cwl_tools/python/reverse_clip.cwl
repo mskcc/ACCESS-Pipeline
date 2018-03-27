@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: waltz
+  doap:name: reverse_clip
   doap:revision: 0.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -34,66 +34,38 @@ dct:contributor:
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
 
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-
-arguments:
-# todo: why server?
-- -server
-- -Xms4g
-- -Xmx4g
-- -cp
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/Waltz-2.0.jar
-- org.mskcc.juber.waltz.countreads.CountReads
+baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/reverse_clip.py
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 5000
     coresMin: 1
-
-doc: |
-  None
 
 inputs:
 
-  input_bam:
+  fastq_1:
     type: File
     inputBinding:
       position: 1
 
-  coverage_threshold:
-    type: int
+  fastq_2:
+    type: File
     inputBinding:
       position: 2
 
-  gene_list:
-    type: File
-    inputBinding:
-      position: 3
-
-  bed_file:
-    type: File
-    inputBinding:
-      position: 4
-
 outputs:
 
-  covered_regions:
+  reversed_fastq_1:
     type: File
     outputBinding:
-      glob: '*.covered-regions'
+      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )
 
-  fragment_sizes:
+  reversed_fastq_2:
     type: File
     outputBinding:
-      glob: '*.fragment-sizes'
-
-  read_counts:
-    type: File
-    outputBinding:
-      glob: '*.read-counts'
+      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )

@@ -12,10 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
+  doap:name: marianas
   doap:revision: 0.0.0
 - class: doap:Version
-  doap:name: cmo-marianas.DuplexUMIBamToCollapsedFastqFirstPass
+  doap:name: marianas
   doap:revision: 0.0.0
 
 dct:creator:

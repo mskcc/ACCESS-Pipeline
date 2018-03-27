@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+##
+# This script is used to run workflows from the command line.
+# It does not submit jobs to worker nodes, as opposed to pipeline-submit, which uses bsub
+##
+
 # Parse Inputs:
 project_name=$1
 workflow=$2
@@ -49,5 +54,8 @@ toil-cwl-runner \
     --logDebug \
     --stats \
     ${workflow} \
-    ${inputs_file} \
-    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
+    ${inputs_file}
+
+#    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
+
+# --js-console

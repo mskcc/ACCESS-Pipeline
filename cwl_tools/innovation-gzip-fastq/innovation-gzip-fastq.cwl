@@ -7,18 +7,18 @@ class: CommandLineTool
 requirements:
   - class: InlineJavascriptRequirement
 
+baseCommand: [gzip, -c]
+
+stdout: $(inputs.input_fastq.basename + '.gz')
+
 inputs:
-  - id: input_fastq
+  input_fastq:
     type: File
     inputBinding:
       position: 0
 
 outputs:
-  - id: output
+  output:
     type: File
     outputBinding:
       glob: $(inputs.input_fastq.basename + '.gz')
-
-baseCommand: [gzip, -c]
-
-stdout: $(inputs.input_fastq.basename + '.gz')

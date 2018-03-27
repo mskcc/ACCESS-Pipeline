@@ -1,29 +1,64 @@
+#!/usr/bin/env cwl-runner
+
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  doap: http://usefulinc.com/ns/doap#
+
+$schemas:
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
+
+doap:release:
+- class: doap:Version
+  doap:name: samtools
+  doap:revision: 1.3.1
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 0.0.0
+
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
+
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Ian Johnson
+    foaf:mbox: mailto:johnsoni@mskcc.org
+
 cwlVersion: v1.0
 
 class: CommandLineTool
 
 requirements:
-    - class: ShellCommandRequirement
+  - class: ShellCommandRequirement
 
-baseCommand: samtools
+inputs:
+  input_bam:
+    type: File
 
+baseCommand:
+- /opt/common/CentOS_6-dev/bin/current/samtools
+
+# Todo: Combine with sort-by-coordinate
+# How to optionally include "-n" before the ">"?
 arguments:
   - sort
   - -n
   - $(inputs.input_bam)
   - '>'
-  - $( inputs.input_bam.basename + ".sorted" )
-
-outputs:
-
-inputs:
-  bam:
-    type: File
-    inputBinding:
-      position: 1
+  - $(inputs.input_bam.basename.replace(".bam", "_samtSRT.bam"))
 
 outputs:
   bam_sorted_queryname:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename + ".sorted" )
+      glob: $(inputs.input_bam.basename.replace(".bam", "_samtSRT.bam"))
