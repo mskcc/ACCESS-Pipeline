@@ -5,24 +5,23 @@ class: CommandLineTool
 requirements:
     - class: ShellCommandRequirement
 
-baseCommand: samtools
+baseCommand:
+- /opt/common/CentOS_6-dev/bin/current/samtools
 
 arguments:
   - sort
-  - $(inputs.input_bam)
+  - $(inputs.bam)
   - '>'
-  - $( inputs.input_bam.basename + ".sorted" )
+  - $( inputs.bam.basename + ".sorted" )
 
 inputs:
 
   bam:
     type: File
-    inputBinding:
-      position: 1
 
 outputs:
 
-  bam_sorted_queryname:
+  output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename + ".sorted" )
+      glob: $( inputs.bam.basename + ".sorted" )

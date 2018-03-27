@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fulcrum.GroupReadsByUmi
+  doap:name: fulcrum
   doap:revision: 0.5.0
 - class: doap:Version
   doap:name: cwl-wrapper

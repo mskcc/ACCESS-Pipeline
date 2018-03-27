@@ -15,7 +15,9 @@ from constants import \
     FILE_RESOURCES_PATH
 
 
-##
+##################################
+# Pipeline Kickoff Step #2
+#
 # This module is used to create a yaml file that will be supplied to the pipeline run.
 # This yaml file will include three main types of ingredient:
 #
@@ -23,18 +25,37 @@ from constants import \
 #   2. Paths to resources required during the run (e.g. reference fasta, bed files etc.)
 #   3. Values for parameters for the individual tools (e.g. min coverage values, mapq thresholds etc.)
 #
-#
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
+#
+# Todo: Create check for SampleSheet against indices in Manifest, for BOTH indices, (or for single for now)
+# # compare barcodes from title file and $barcodeKeyFile
+# expectedBarcode = `grep - w $index $barcodeKeyFile | cut - f
+# 2
+# `
+# actualBarcode = `grep - w $sampleID
+# title_file.txt | cut - f
+# 1
+# `
+# echo - e
+# "$expectedBarcode and $actualBarcode"
+#
+# if ["$expectedBarcode" == ""] | | ["$actualBarcode" == ""]
+#     then
+# echo - e
+# "empty barcode."
+# echo - e
+# "ABORTING"
 
-##
-# Static adapter sequences that surround the barcodes,
+
+# Static adapter sequences that surround the barcodes
 # Used by the Trimgalore step in the pipeline
 #
 # Note: These adapters may vary based on the machine and library prep
 # Todo: need to confirm these:
 # See notes/adapters for full descriptions across all cases
+#
 ADAPTER_1_PART_1 = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
 ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
 ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'

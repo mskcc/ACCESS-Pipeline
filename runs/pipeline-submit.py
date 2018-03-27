@@ -4,10 +4,25 @@ import argparse
 import subprocess
 
 
+##
+# This is a script to submit the leader toil-cwl-runner job to
+# one of the worker nodes instead of the head node.
+# It gets called from scripts such as run-example.sh, or run-DY.sh
+
+##
+# Todo: This script relies on bsub
+# We would like it to work across batch systems.
+# Use pipeline-runner.sh to use other batch systems,
+# which runs the leader job on the head node.
+
 
 def bsub(bsubline):
-    "execute lsf bsub"
+    '''
+    Execute lsf bsub
 
+    :param bsubline:
+    :return:
+    '''
     process = subprocess.Popen(bsubline, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output = process.stdout.readline()
 
@@ -19,8 +34,17 @@ def bsub(bsubline):
 
 
 def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, workflow, batch_system):
-    "submit roslin-runner to the w node"
+    '''
+    Submit roslin-runner to the w node
 
+    :param job_store_uuid:
+    :param project_name:
+    :param output_location:
+    :param inputs_file:
+    :param workflow:
+    :param batch_system:
+    :return:
+    '''
     mem = 1
     cpu = 1
     leader_node = "w01"

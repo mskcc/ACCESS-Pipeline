@@ -8,11 +8,9 @@ import subprocess
 from shutil import copyfile
 
 
-
-INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
-EPSILON = 10e-6
-
-##############################################################################
+######################################################
+# Aggregate Metrics across Bams from multiple samples
+#
 # Example Waltz CountReads output files:
 #
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam.covered-regions
@@ -25,8 +23,10 @@ EPSILON = 10e-6
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-pileup-without-duplicates.txt
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals.txt
 # MSK-L-007-bc-IGO-05500-DY-5_bc217_5500-DY-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-intervals-without-duplicates.txt
-##############################################################################
 
+
+INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
+EPSILON = 10e-6
 
 # todo - use Pandas instead of looping through files
 
@@ -331,4 +331,4 @@ if __name__ == '__main__':
     create_temp_6_file()
     create_intervals_coverage_sum_file()
     create_sample_per_interval_coverage_files()
-    make_normalized_coverage_files()
+    # make_normalized_coverage_files()

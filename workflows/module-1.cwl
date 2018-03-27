@@ -64,7 +64,6 @@ inputs:
   md__validation_stringency: string
   md__duplicate_scoring_strategy: string
 
-  bed_file: File
   output_suffix: string
 
 outputs:

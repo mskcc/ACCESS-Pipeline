@@ -38,9 +38,6 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-# todo: is this the version we use in Impact for this step? if so then use it
-#baseCommand: /ifs/work/zeng/dmp/resources/GenomeAnalysisTK-2.6-5-gba531bd/GenomeAnalysisTK.jar
-
 baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 
@@ -50,7 +47,6 @@ arguments:
 - -jar
 # Todo: consolidate?
 - /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
-#- /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar
 - -T
 - FindCoveredIntervals
 
@@ -68,7 +64,6 @@ inputs:
 
 # todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
-
   bams:
     type:
       type: array

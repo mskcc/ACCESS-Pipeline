@@ -12,9 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-# todo: need to version Samtools
-  doap:name: innovation-sort-bam
-  doap:revision: 0.0.0
+  doap:name: samtools
+  doap:revision: 1.3.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 0.0.0
@@ -40,23 +39,27 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-    - class: ShellCommandRequirement
+- class: InitialWorkDirRequirement
+  listing:
+  - entry: $(inputs['input'])
+    entryname: indexed.bam
 
-inputs:
-  input_bam:
-    type: File
-
-baseCommand: [samtools]
+baseCommand:
+- /opt/common/CentOS_6-dev/bin/current/samtools
 
 arguments:
-  - sort
-  - -n
-  - $(inputs.input_bam)
-  - '>'
-  - $( inputs.input_bam.basename.replace(".bam", "_samtSRT.bam") )
+- index
+- indexed.bam
+
+inputs:
+  input:
+    type: File
 
 outputs:
-  bam_sorted_queryname:
+
+  bam_with_bai:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_samtSRT.bam") )
+      glob: indexed.bam
+    secondaryFiles:
+    - .bai

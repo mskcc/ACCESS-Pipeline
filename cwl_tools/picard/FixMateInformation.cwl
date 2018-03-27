@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.FixMateInformation
-  doap:revision: 2.17.10
+  doap:name: picard
+  doap:revision: 1.96
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 0.0.0
@@ -39,7 +39,6 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-#- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
 - /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
@@ -47,10 +46,6 @@ arguments:
 - -jar
 # todo: consolidate?
 - /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
-# todo: what's the difference between FixMateInformation.jar and picard-1.96.jar?
-# - /home/johnsoni/Innovation-Pipeline/vendor_tools/picard_2.17.10.jar
-# DMP version (access denied):
-# - /ifs/work/zeng/dmp/resources/picard-tools-1.96/FixMateInformation.jar
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -73,18 +68,14 @@ inputs:
 
   output_filename:
     type: ['null', string]
-    doc: The output file to write to. If no output file is supplied, the input file
-      is overwritten. Default value - null.
-    default: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
+    default: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
     inputBinding:
       prefix: O=
       separate: false
-      valueFrom: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
+      valueFrom: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
 
   sort_order:
     type: ['null', string]
-    doc: Optional sort order if the OUTPUT file should be sorted differently than
-      the INPUT file. Possible values - {unsorted, queryname, coordinate}
     inputBinding:
       prefix: SO=
       separate: false
@@ -119,9 +110,9 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_FX.bam") )
+      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
 
   bai:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace(".bam", "_FX.bai") )
+      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bai"))

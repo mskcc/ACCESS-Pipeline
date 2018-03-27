@@ -14,6 +14,7 @@ RELEVANT_MANIFEST_COLUMNS = [
     'BARCODE_INDEX_1',
     'BARCODE_INDEX_2',
     'CAPTURE_NAME',
+    # Todo: switch to CMO_SAMPLE_ID & CMO_PATIENT_ID
     #     'CMO_SAMPLE_ID',
     'INVESTIGATOR_SAMPLE_ID',
     #     'CMO_PATIENT_ID',
@@ -26,6 +27,10 @@ RELEVANT_MANIFEST_COLUMNS = [
     'CAPTURE_BAIT_SET',
     'SEX'
 ]
+
+# Todo: triple check these:
+# printf "Barcode\tPool\tSample_ID\tCollab_ID\tPatient_ID\tClass\tSample_type\tInput_ng\tLibrary_yield\tPool_input\tBait_version\tGender\tPatientName\tMAccession\tExtracted_DNA_Yield\n" > $titleFile
+# awk 'BEGIN{FS=OFS="\t"}{if($1=="CMO_SAMPLE_ID" || $1=="CMO-SAMPLE-ID") next; sex=$11; if(sex!="Male" && sex!="Female") {sex="-"} print $12, $17, $1, $3, $2, $6, $8, $14, $15, $16, $19, sex, "-", "-", "-"}' $1 >> $titleFile
 
 # They^ will be given the following new names
 
@@ -63,7 +68,7 @@ TITLE_FILE_COLUMNS = [
     'Gender'
 ]
 
-# Todo: Why aren't these in the manifest?
+# Todo: Why aren't these in the manifest? Use dashes where used in jubers sh
 MISSING_COLUMNS = [
     'Collab_ID',
     'PatientName',
@@ -83,6 +88,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     # manifest['CMO_SAMPLE_ID'] = manifest['CMO_SAMPLE_ID'].str.replace('Normal', 'Pan_Cancer')
 
     # Split barcode sequences if both are present in single column
+    # Todo: one column, split at runtiime to generate the two adapter sequences
     manifest['BARCODE_INDEX_1'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[0])
     manifest['BARCODE_INDEX_2'] = manifest['BARCODE_INDEX'].astype(str).str.split('-').apply(lambda x: x[1])
 
