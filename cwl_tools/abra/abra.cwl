@@ -47,14 +47,8 @@ arguments:
 - -jar
 - /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
 
-# todo: issue with upgrade to 2.14? 2.07 seemed to have issue.
-# See notes/PrintReads_filtering_issue.sh
-#- /opt/common/CentOS_6-dev/abra/2.07/abra2-2.07.jar
-#- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra2-2.14.jar
-
 requirements:
   InlineJavascriptRequirement: {}
-  ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 62000
     coresMin: 8
@@ -104,7 +98,6 @@ inputs:
     type: string
     inputBinding:
       prefix: --kmer
-      shellQuote: false
 
   mad:
     type: int
@@ -124,4 +117,5 @@ outputs:
   bams:
     type: File[]
     outputBinding:
-      glob: '*_abraIR.bam'
+      # Todo: Only specify in one place.
+      glob: '*_IR.bam'

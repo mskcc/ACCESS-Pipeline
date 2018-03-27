@@ -46,7 +46,7 @@ fci__rf: 'FailsVendorQualityCheck -rf BadMate -rf UnmappedRead -rf BadCigar'
 ########
 # Abra #
 ########
-abra__kmers: 43 53 63 83 93
+abra__kmers: 43,53,63,83,93
 # Todo: Can Abra auto-delete this dir?
 # Or do we really need another intermediate Python step...?
 abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch
