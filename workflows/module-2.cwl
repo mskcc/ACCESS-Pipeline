@@ -150,7 +150,7 @@ steps:
         valueFrom: ${ return 5 }
       out:
         valueFrom: |
-          ${ return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_abraIR.bam"); }); }
+          ${ return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_IR.bam"); }); }
     out:
       [bams]
 
@@ -238,8 +238,9 @@ steps:
       EOQ: print_reads__EOQ
       baq: print_reads__baq
       reference_sequence: reference_fasta
-      out:
-        valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_PR.bam"); }
+# Todo: remove if not needed
+#      out:
+#        valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_BR.bam"); }
     out: [bams, bais]
     scatter: [input_file, BQSR]
     scatterMethod: dotproduct
@@ -274,5 +275,5 @@ steps:
             baq: baq
             reference_sequence: reference_sequence
             out:
-              valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_PR.bam"); }
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_BR.bam"); } # Todo: _BR instead of _PR
           out: [out_bams, out_bais]
