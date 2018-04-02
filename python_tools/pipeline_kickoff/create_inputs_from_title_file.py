@@ -1,18 +1,12 @@
-import os
 import re
 import sys
 import argparse
 import numpy as np
 import pandas as pd
-from glob import glob
 import ruamel.yaml
 
 # Paths to the default run arguments for testing or runs
-from constants import \
-    ROOT_DIR, \
-    RUN_PARAMS_TEST_PATH, \
-    RUN_PARAMS_PATH, \
-    FILE_RESOURCES_PATH
+from constants import *
 
 
 ##################################
@@ -28,25 +22,6 @@ from constants import \
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
-#
-# Todo: Create check for SampleSheet against indices in Manifest, for BOTH indices, (or for single for now)
-# # compare barcodes from title file and $barcodeKeyFile
-# expectedBarcode = `grep - w $index $barcodeKeyFile | cut - f
-# 2
-# `
-# actualBarcode = `grep - w $sampleID
-# title_file.txt | cut - f
-# 1
-# `
-# echo - e
-# "$expectedBarcode and $actualBarcode"
-#
-# if ["$expectedBarcode" == ""] | | ["$actualBarcode" == ""]
-#     then
-# echo - e
-# "empty barcode."
-# echo - e
-# "ABORTING"
 
 
 # Static adapter sequences that surround the barcodes
@@ -55,7 +30,6 @@ from constants import \
 # Note: These adapters may vary based on the machine and library prep
 # Todo: need to confirm these:
 # See notes/adapters for full descriptions across all cases
-#
 ADAPTER_1_PART_1 = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
 ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
 ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
@@ -64,30 +38,45 @@ ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
-
-def find_files(file_regex, data_dir):
-    '''
-    Recursively find files in `data_dir` with the given `file_regex`
-    '''
-    files = [file for folder in os.walk(data_dir) for file in glob(os.path.join(folder[0], file_regex))]
-    return files
+# Strings to target when looking for Illumina run files
+FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
+FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
+SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 
 def load_fastqs(data_dir):
     '''
+    Recursively find files in `data_dir` with the given `file_regex`
+
     Todo: need to support multiple R1 / R2 fastqs per patient?
     Or maybe not b/c "The last segment is always 001":
-
     https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq2_guide_15051736_v2.pdf
     Page 19
 
-    :return:
+    Note:
+    os.walk yields a 3-list (dirpath, dirnames, filenames)
     '''
-    fastq1 = find_files('*_R1_001.fastq.gz', data_dir)
+    # Gather Sample Sub-directories
+    folders = [(dirpath, dirnames, filenames) for (dirpath, dirnames, filenames) in os.walk(data_dir)]
+
+    # Filter to those that contain a read 1, read 2, and sample sheet
+    folders_2 = filter(lambda folder: any([FASTQ_1_FILE_SEARCH in x for x in folder[2]]), folders)
+    folders_3 = filter(lambda folder: any([FASTQ_2_FILE_SEARCH in x for x in folder[2]]), folders_2)
+    folders_4 = filter(lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]), folders_3)
+
+    # Issue a warning
+    if not len(folders) != len(folders_4):
+        print 'Warning, some samples do not have a Read 1, Read 2, or sample sheet'
+
+    # Take just the files
+    files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
+
+    # Separate into three lists
+    fastq1 = filter(lambda x: FASTQ_1_FILE_SEARCH in x, files_flattened)
     fastq1 = [{'class': 'File', 'path': path} for path in fastq1]
-    fastq2 = find_files('*_R2_001.fastq.gz', data_dir)
+    fastq2 = filter(lambda x: FASTQ_2_FILE_SEARCH in x, files_flattened)
     fastq2 = [{'class': 'File', 'path': path} for path in fastq2]
-    sample_sheet = find_files('SampleSheet.csv', data_dir)
+    sample_sheet = filter(lambda x: SAMPLE_SHEET_FILE_SEARCH in x, files_flattened)
     sample_sheet = [{'class': 'File', 'path': path} for path in sample_sheet]
 
     return fastq1, fastq2, sample_sheet
@@ -100,19 +89,43 @@ def get_adapter_sequences(title_file):
     AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
 
     These will be used during the Trimgalore adapter trimming step
+    :param title_file:
+    :return:
+    '''
+    # First, check that there are no duplicate barcodes
+    barcodes_check(title_file)
+
+    # Split barcode sequences for dual indexing
+    # Todo: support single-indexing as well
+    barcodes_one = title_file[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[0])
+    barcodes_two = title_file[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[1])
+
+    adapter = ADAPTER_1_PART_1
+    adapter += barcodes_one
+    adapter += ADAPTER_1_PART_2
+
+    adapter2 = ADAPTER_2_PART_1
+    adapter2 += barcodes_two
+    adapter2 += ADAPTER_2_PART_2
+
+    return adapter, adapter2
+
+
+def barcodes_check(title_file):
+    '''
+    Check that no two samples IN THE SAME LANE have the same barcode 1 or barcode 2
 
     :param title_file:
     :return:
     '''
-    adapter = ADAPTER_1_PART_1
-    adapter += title_file['Barcode_Index_1'].astype(str)
-    adapter += ADAPTER_1_PART_2
+    for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
+        lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
-    adapter2 = ADAPTER_2_PART_1
-    adapter2 += title_file['Barcode_Index_2'].astype(str)
-    adapter2 += ADAPTER_2_PART_2
+        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[0]).duplicated()) > 0:
+            raise Exception('Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
 
-    return adapter, adapter2
+        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[1]).duplicated()) > 0:
+            raise Exception('Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
 def contained_in(sample_id, fastq_object):
@@ -175,14 +188,17 @@ def get_pos(title_file, fastq_object):
     :param filename:
     :return:
     '''
-    boolv = title_file['Sample_ID'].apply(contained_in, fastq_object=fastq_object)
+    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, fastq_object=fastq_object)
+
+    if np.sum(boolv) > 1:
+        raise Exception('More than one fastq found for patient, exiting.')
 
     # If there are no matches, try to match with the fuzzy method:
     if np.sum(boolv) < 1:
-        err_string = "Warning, matching patient ID for file {} not found in title file. Using fuzzy match method."
+        err_string = 'Warning, matching patient ID for file {} not found in title file. Using fuzzy match method.'
         print >> sys.stderr, err_string.format(fastq_object)
-        print >> sys.stderr, "Please check cross check the order of the fastqs in the final inputs.yaml file."
-        boolv = title_file['Sample_ID'].apply(contained_in_fuzzy, fastq_object=fastq_object)
+        print >> sys.stderr, 'Please double check the order of the fastqs in the final inputs.yaml file.'
+        boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in_fuzzy, fastq_object=fastq_object)
 
     pos = np.argmax(boolv)
     return pos
@@ -206,9 +222,29 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
     return fastq1, fastq2, sample_sheet
 
 
-def include_fastqs_params(fh, data_dir, title_file):
+def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     '''
-    Write fastq1, fastq2, read groups and sample_sheet file references to yaml inputs file.
+
+    :param title_file:
+    :param fastq1:
+    :param title_file_path:
+    :return:
+    '''
+    boolv = np.array([any([sample in x['path'] for x in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
+    samples_not_found = title_file.loc[~boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+
+    print 'Warning: The following samples were not found and will be removed from the title file.'
+    print 'Please perform a manual check on inputs.yaml before running the pipeline.'
+    print samples_not_found
+
+    title_file = title_file.loc[boolv, :]
+    title_file.to_csv(title_file_path, sep='\t', index=False)
+    return title_file
+
+
+def include_fastqs_params(fh, data_dir, title_file, title_file_path):
+    '''
+    Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
 
     :param fh:
     :param data_dir:
@@ -217,7 +253,13 @@ def include_fastqs_params(fh, data_dir, title_file):
     '''
     fastq1, fastq2, sample_sheet = load_fastqs(data_dir)
     fastq1, fastq2, sample_sheet = sort_fastqs(fastq1, fastq2, sample_sheet, title_file)
-    perform_checks(fastq1, fastq2, sample_sheet, title_file)
+    perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
+    title_file = remove_missing_samples_from_title_file(title_file, fastq1, title_file_path)
+
+    # Include title_file in inputs.yaml
+    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
+    fh.write(ruamel.yaml.dump(title_file_obj))
+
 
     adapter, adapter2 = get_adapter_sequences(title_file)
 
@@ -237,13 +279,13 @@ def include_fastqs_params(fh, data_dir, title_file):
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
         # or abbreviate it (might be the way they do it in Roslin)
-        'add_rg_ID': title_file['Sample_ID'].tolist(),
-        'add_rg_SM': title_file['Sample_ID'].tolist(),
-        'add_rg_LB': title_file['Lane'].tolist(),
+        'add_rg_ID': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_SM': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_LB': title_file[TITLE_FILE__LANE_COLUMN].tolist(),
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
-        'add_rg_PU': title_file['Barcode_Index_1'].tolist(),
-        'patient_id': title_file['Patient_ID'].tolist()
+        'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
+        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()
     }
 
     fh.write(ruamel.yaml.dump(out_dict))
@@ -277,7 +319,7 @@ def include_run_params(fh, run_params_path):
     fh.write(ruamel.yaml.round_trip_dump(other_params))
 
 
-def perform_checks(fastq1, fastq2, sample_sheet, title_file):
+def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     '''
     Check whether the title file matches input fastqs
 
@@ -290,9 +332,24 @@ def perform_checks(fastq1, fastq2, sample_sheet, title_file):
     :param title_file:
     :return:
     '''
-    assert len(fastq1) == len(fastq2)
-    assert len(sample_sheet) == len(fastq2)
-    assert title_file.shape[0] == len(fastq2)
+    try:
+        assert len(fastq1) == len(fastq2)
+    except AssertionError as e:
+        print 'Warning: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
+        print 'fastq1: {}'.format(len(fastq1))
+        print 'fastq2: {}'.format(len(fastq2))
+    try:
+        assert len(sample_sheet) == len(fastq1)
+    except AssertionError as e:
+        print 'Warning: Different number of sample sheets & read 1 fastqs: {}'.format(repr(e))
+        print 'fastq1: {}'.format(len(fastq1))
+        print 'sample_sheets: {}'.format(len(sample_sheet))
+    try:
+        assert title_file.shape[0] == len(fastq1)
+    except AssertionError as e:
+        print 'Warning: Different number of fastqs and samples in title file: {}'.format(repr(e))
+        print 'fastq1: {}'.format(len(fastq1))
+        print 'title file length: {}'.format(title_file.shape[0])
 
 
 def write_inputs_file(data_dir, title_file, title_file_path, run_params_path, file_resources_path):
@@ -307,14 +364,9 @@ def write_inputs_file(data_dir, title_file, title_file_path, run_params_path, fi
     :return:
     '''
     fh = open('inputs.yaml', 'wb')
-
-    include_fastqs_params(fh, data_dir, title_file)
+    include_fastqs_params(fh, data_dir, title_file, title_file_path)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, file_resources_path)
-
-    # Include title_file in inputs.yaml
-    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
-    fh.write(ruamel.yaml.dump(title_file_obj))
     fh.close()
 
 
@@ -342,6 +394,23 @@ def parse_arguments():
     return parser.parse_args()
 
 
+def sanity_check(title_file):
+    '''
+    Make sure samples are unique, and barcodes are unique within each lane
+
+    :param title_file:
+    :return:
+    '''
+    if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
+        raise Exception('Duplicate sample names. Exiting.')
+
+    for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
+        lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
+
+        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
+            raise Exception('Duplicate barcode IDs. Exiting.')
+
+
 ########
 # Main #
 ########
@@ -355,8 +424,10 @@ def main():
     else:
         run_params_path = RUN_PARAMS_PATH
 
-    # Read title file and load fastqs paths from data directory
+    # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
+    # Perform some sanity checks on the title file
+    sanity_check(title_file)
 
     # Create the inputs file for the run
     write_inputs_file(args.data_dir, title_file, args.title_file_path, run_params_path, FILE_RESOURCES_PATH)
