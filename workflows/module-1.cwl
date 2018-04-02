@@ -64,8 +64,6 @@ inputs:
   md__validation_stringency: string
   md__duplicate_scoring_strategy: string
 
-  output_suffix: string
-
 outputs:
 
   clstats1:
@@ -91,13 +89,13 @@ outputs:
 steps:
 
   trimgalore:
-      run: ../cwl_tools/trimgalore/trimgalore.cwl
-      in:
-        adapter: adapter
-        adapter2: adapter2
-        fastq1: fastq1
-        fastq2: fastq2
-      out: [clfastq1, clfastq2, clstats1, clstats2]
+    run: ../cwl_tools/trimgalore/trimgalore.cwl
+    in:
+      adapter: adapter
+      adapter2: adapter2
+      fastq1: fastq1
+      fastq2: fastq2
+    out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
     run: ../cwl_tools/bwa-mem/bwa-mem.cwl
@@ -112,7 +110,6 @@ steps:
       PL: add_rg_PL
       PU: add_rg_PU
       CN: add_rg_CN
-      output_suffix: output_suffix
     out: [output_sam]
 
   picard.AddOrReplaceReadGroups:

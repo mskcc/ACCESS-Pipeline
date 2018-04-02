@@ -118,10 +118,10 @@ steps:
       coverage_threshold: fci__cov
       read_filters: fci__rf
       # Todo: only needed during testing (to run faster)
-#      intervals:
-#        valueFrom: ${ return ["14"];}
+      intervals:
+        valueFrom: ${ return ["14"];}
       out:
-        valueFrom: ${ return inputs.patient_id + ".fci.list"; }
+        valueFrom: ${return inputs.patient_id + ".fci.list"}
     out: [fci_list]
 
   list2bed:
@@ -129,7 +129,7 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
+        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed")}
     out: [output_file]
 
   abra:
@@ -137,20 +137,19 @@ steps:
     in:
       input_bams: bams
       targets: list2bed/output_file
-
-      abra_scratch: abra__scratch
+      scratch_dir: abra__scratch
       patient_id: patient_id
-      working_directory:
-        valueFrom: ${ return inputs.abra_scratch + '__' + inputs.patient_id }
-
       reference_fasta: reference_fasta
       kmer: abra__kmers
       mad: abra__mad
       threads:
         valueFrom: ${ return 5 }
+      # Todo: Find a cleaner way
+      working_directory:
+        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999); }
       out:
         valueFrom: |
-          ${ return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_IR.bam"); }); }
+          ${return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_IR.bam")})}
     out:
       [bams]
 
@@ -238,16 +237,12 @@ steps:
       EOQ: print_reads__EOQ
       baq: print_reads__baq
       reference_sequence: reference_fasta
-# Todo: remove if not needed
-#      out:
-#        valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_BR.bam"); }
     out: [bams, bais]
     scatter: [input_file, BQSR]
     scatterMethod: dotproduct
 
     run:
       class: Workflow
-
       inputs:
         input_file: File
         BQSR: File
@@ -275,5 +270,5 @@ steps:
             baq: baq
             reference_sequence: reference_sequence
             out:
-              valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_BR.bam"); } # Todo: _BR instead of _PR
+              valueFrom: ${return inputs.input_file.basename.replace(".bam", "_BR.bam")}
           out: [out_bams, out_bais]
