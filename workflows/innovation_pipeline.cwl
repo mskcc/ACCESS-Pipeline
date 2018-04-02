@@ -74,6 +74,9 @@ inputs:
   sample_sheet: File[]
   patient_id: string[]
 
+  # Todo: Open a ticket
+  # bwa cannot read simlink for the fasta.fai file,
+  # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
 
@@ -149,7 +152,7 @@ outputs:
     type:
       type: array
       items: File
-    outputSource: flatten_array_bams/output_bams
+    outputSource: standard_bam_generation/standard_bams
 
   ###########
   # Fulcrum #
@@ -199,83 +202,37 @@ outputs:
 
 steps:
 
-  #########################
-  # Marianas UMI Clipping #
-  #########################
-
-  umi_clipping:
-    run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
+  standard_bam_generation:
+    run: ./standard_pipeline.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
+      # Process Loop Umi Fastq
       umi_length: umi_length
       output_project_folder: output_project_folder
-    out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
-    scatter: [fastq1, fastq2, sample_sheet]
-    scatterMethod: dotproduct
-
-  ####################
-  # Adapted Module 1 #
-  ####################
-
-  module_1_innovation:
-    run: ./module-1.cwl
-    in:
+      # Module 1
       tmp_dir: tmp_dir
-      fastq1: umi_clipping/processed_fastq_1
-      fastq2: umi_clipping/processed_fastq_2
       adapter: adapter
       adapter2: adapter2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
+      md__create_index: md__create_index
       md__assume_sorted: md__assume_sorted
       md__compression_level: md__compression_level
-      md__create_index: md__create_index
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-
       bed_file: bed_file
-      # Todo: This could be easier to find
-      output_suffix:
-        valueFrom: ${ return '_aln' }
-    out: [bam, bai, md_metrics]
-    scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
-    scatterMethod: dotproduct
-
-  ############################
-  # Group Bams by Patient ID #
-  ############################
-
-  group_bams_by_patient:
-    run: ../cwl_tools/expression_tools/group_bams.cwl
-    in:
-      bams: module_1_innovation/bam
+      # Group bams by patient
       patient_ids: patient_id
-    out:
-      [grouped_bams, grouped_patient_ids]
-
-  ####################
-  # Adapted Module 2 #
-  ####################
-
-  module_2:
-    run: ./module-2.cwl
-    in:
-      tmp_dir: tmp_dir
+      # Module 2
       reference_fasta: reference_fasta
-
-      bams: group_bams_by_patient/grouped_bams
-      patient_id: group_bams_by_patient/grouped_patient_ids
-
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -284,9 +241,9 @@ steps:
       abra__scratch: abra__scratch
       abra__mad: abra__mad
       fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       bqsr__nct: bqsr__nct
       bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
       bqsr__knownSites_millis: bqsr__knownSites_millis
@@ -294,20 +251,7 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-
-    out: [standard_bams, standard_bais, covint_list, covint_bed]
-    scatter: [bams, patient_id]
-    scatterMethod: dotproduct
-
-  ################################
-  # Return to flat array of bams #
-  ################################
-
-  flatten_array_bams:
-    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
-    in:
-      bams: module_2/standard_bams
-    out: [output_bams]
+    out: [standard_bams]
 
   #############################
   # Waltz Run (Standard Bams) #
@@ -316,7 +260,7 @@ steps:
   waltz_standard:
     run: ./waltz/waltz-workflow.cwl
     in:
-      input_bam: flatten_array_bams/output_bams
+      input_bam: standard_bam_generation/standard_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
@@ -334,11 +278,10 @@ steps:
   umi_collapsing:
     run: ./module-2.5.cwl
     in:
-      bam: flatten_array_bams/output_bams
+      bam: standard_bam_generation/standard_bams
       title_file: title_file
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       # Arrg
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
@@ -346,7 +289,6 @@ steps:
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-
       # Fulcrum
       tmp_dir: tmp_dir
       fulcrum__sort_order: fulcrum__sort_order
@@ -357,15 +299,12 @@ steps:
       fulcrum__filter_min_base_quality: fulcrum__filter_min_base_quality
       fulcrum__filter_min_reads__simplex_duplex: fulcrum__filter_min_reads__simplex_duplex
       fulcrum__filter_min_reads__duplex: fulcrum__filter_min_reads__duplex
-
       # Marianas
       marianas__mismatches: marianas__mismatches
       marianas__wobble: marianas__wobble
       marianas__min_consensus_percent: marianas__min_consensus_percent
       marianas_collapsing__outdir: marianas_collapsing__outdir
-
       standard_pileup: waltz_standard/pileup
-
     out: [
       fulcrum_simplex_duplex_bams,
       fulcrum_duplex_bams,

@@ -118,7 +118,7 @@ steps:
         add_rg_CN: string
         add_rg_LB: int
         add_rg_ID: string
-        add_rg_PU: string
+        add_rg_PU: stringw
         add_rg_SM: string
         md__assume_sorted: boolean
         md__compression_level: int
@@ -203,17 +203,17 @@ steps:
         sort_queryname:
           run: ../cwl_tools/samtools/sort-by-queryname.cwl
           in:
-            bam: extract_region/output_bam
-          out: [output_bam]
+            input_bam: extract_region/output_bam
+          out: [bam_sorted_queryname]
 
         convert_to_fastq:
           run: ../cwl_tools/samtools/fastq.cwl
           in:
-            input_bam: sort_queryname/output_bam
+            input_bam: sort_queryname/bam_sorted_queryname
             fastq_1_name:
-              valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R1.fastq')
+              valueFrom: ${return self.inputs.bam.basename.replace('.bam', '_R1.fastq')}
             fastq_2_name:
-              valueFrom: ${ return self.inputs.bam.basename.replace('.bam', '_R2.fastq')
+              valueFrom: ${return self.inputs.bam.basename.replace('.bam', '_R2.fastq')}
           out: [output_read_1, output_read_2]
 
         reverse_umis:

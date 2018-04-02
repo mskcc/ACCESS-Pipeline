@@ -40,24 +40,12 @@ inputs:
   input_bam:
     type: File
     secondaryFiles: [^.bai]
-
-  coverage_threshold:
-    type: int
-
-  gene_list:
-    type: File
-
-  bed_file:
-    type: File
-
-  min_mapping_quality:
-    type: int
-
-  reference_fasta:
-    type: string
-
-  reference_fasta_fai:
-    type: string
+  coverage_threshold: int
+  gene_list: File
+  bed_file: File
+  min_mapping_quality: int
+  reference_fasta: string
+  reference_fasta_fai: string
 
 outputs:
   pileup:
