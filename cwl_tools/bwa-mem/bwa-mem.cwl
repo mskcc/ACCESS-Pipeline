@@ -55,71 +55,48 @@ arguments:
 - $(inputs.fastq1.path)
 - $(inputs.fastq2.path)
 - '>'
-- $(inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, inputs.output_suffix + '_cl_aln.sam'))
+- $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 # todo: LB should be lane number?
-# Example from Impact:
+# Example -R usage from Impact:
 #-R '@RG     ID:MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000     LB:0    SM:MSK-L-009-bc-IGO-05500-DY-6  PL:Illumina     PU:bc209        CN:BergerLab_MSKCC'
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
+  - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
     ramMin: 30000
     coresMin: 4
 
-doc: |
-  run bwa mem
-
 inputs:
 
-  fastq1:
-    type: File
-
-  fastq2:
-    type: File
-
-  reference_fasta:
-    type: string
-
-  reference_fasta_fai:
-    type: string
+  fastq1: File
+  fastq2: File
+  reference_fasta: string
+  reference_fasta_fai: string
 
   sam:
     type: ['null', boolean]
     default: false
     inputBinding:
       prefix: --sam
-
   t:
     type: ['null', string]
     default: '4'
 
-  ID:
-    type: string
+  ID: string
+  LB: int
+  SM: string
+  PL: string
+  PU: string
+  CN: string
 
-  LB:
-    type: int
-
-  SM:
-    type: string
-
-  PL:
-    type: string
-
-  PU:
-    type: string
-
-  CN:
-    type: string
-
-  output_suffix:
-    type: string
-
-stdout: $(inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, inputs.output_suffix + '_cl_aln.sam'))
+# Todo: Understand the difference between stdout & > usage in this file
+# Compare logs with Impact
+stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:
 
   output_sam:
     type: File
     outputBinding:
-      glob: $(inputs.fastq1.basename.replace(/_R1.*.fastq.gz/, inputs.output_suffix + '_cl_aln.sam'))
+      glob: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
