@@ -37,6 +37,11 @@ MANIFEST__CAPTURE_INPUT_COLUMN = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN = 'SEX'
 
+##
+# Use barcode index column as well,
+# for adapter sequences. Todo use SampleSheet
+MANIFEST__BARCODE_INDEX_COLUMN = 'BARCODE_INDEX'
+
 
 ##
 # Title File columns
@@ -54,6 +59,11 @@ TITLE_FILE__BAIT_VERSION_COLUMN = 'Bait_version'
 TITLE_FILE__GENDER_COLUMN = 'Gender'
 
 ##
+# Use barcode index column as well,
+# for adapter sequences. Todo use SampleSheet
+TITLE_FILE__BARCODE_INDEX_COLUMN = 'Barcode_index'
+
+##
 # Map MANIFEST --> TITLE_FILE
 # Use OrderedDict to keep ordering for keys() and values()
 columns_map = OrderedDict({
@@ -69,11 +79,8 @@ columns_map = OrderedDict({
     MANIFEST__CAPTURE_INPUT_COLUMN : TITLE_FILE__POOL_INPUT_COLUMN,
     MANIFEST__CAPTURE_BAIT_SET_COLUMN : TITLE_FILE__BAIT_VERSION_COLUMN,
     MANIFEST__SEX_COLUMN : TITLE_FILE__GENDER_COLUMN,
+    MANIFEST__BARCODE_INDEX_COLUMN : TITLE_FILE__BARCODE_INDEX_COLUMN,
 })
 
-##
-# Use barcode inde column as well,
-# for adapter sequences
-MANIFEST__BARCODE_INDEX_COLUMN = 'BARCODE_INDEX'
 # Todo: ok to have 'Lane' colunn?
 TITLE_FILE__LANE_COLUMN = 'Lane'

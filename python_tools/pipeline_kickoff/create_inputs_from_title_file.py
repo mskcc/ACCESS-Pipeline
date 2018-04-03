@@ -57,7 +57,7 @@ def load_fastqs(data_dir):
     os.walk yields a 3-list (dirpath, dirnames, filenames)
     '''
     # Gather Sample Sub-directories
-    folders = [(dirpath, dirnames, filenames) for (dirpath, dirnames, filenames) in os.walk(data_dir)]
+    folders = list(os.walk(data_dir))
 
     # Filter to those that contain a read 1, read 2, and sample sheet
     folders_2 = filter(lambda folder: any([FASTQ_1_FILE_SEARCH in x for x in folder[2]]), folders)
@@ -65,7 +65,7 @@ def load_fastqs(data_dir):
     folders_4 = filter(lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]), folders_3)
 
     # Issue a warning
-    if not len(folders) != len(folders_4):
+    if not len(folders) == len(folders_4):
         print 'Warning, some samples do not have a Read 1, Read 2, or sample sheet'
 
     # Take just the files
@@ -97,8 +97,8 @@ def get_adapter_sequences(title_file):
 
     # Split barcode sequences for dual indexing
     # Todo: support single-indexing as well
-    barcodes_one = title_file[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[0])
-    barcodes_two = title_file[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[1])
+    barcodes_one = extract_barcode_1(title_file)
+    barcodes_two = extract_barcode_2(title_file)
 
     adapter = ADAPTER_1_PART_1
     adapter += barcodes_one
@@ -111,6 +111,28 @@ def get_adapter_sequences(title_file):
     return adapter, adapter2
 
 
+def extract_barcode_1(title_file):
+    '''
+    Split barcode index and return entry before '-'
+    Todo: should come from SampleSheet, but sheeet only includes one barcode index
+
+    :param title_file:
+    :return:
+    '''
+    return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[0])
+
+
+def extract_barcode_2(title_file):
+    '''
+    Split barcode index and return entry after '-'
+    Todo: should come from SampleSheet, but sheeet only includes one barcode index
+
+    :param title_file:
+    :return:
+    '''
+    return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[1])
+
+
 def barcodes_check(title_file):
     '''
     Check that no two samples IN THE SAME LANE have the same barcode 1 or barcode 2
@@ -121,10 +143,10 @@ def barcodes_check(title_file):
     for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
-        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[0]).duplicated()) > 0:
+        if np.sum(extract_barcode_1(lane_subset).duplicated()) > 0:
             raise Exception('Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
 
-        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].astype(str).str.split('-').apply(lambda x: x[1]).duplicated()) > 0:
+        if np.sum(extract_barcode_2(lane_subset).duplicated()) > 0:
             raise Exception('Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
@@ -224,6 +246,8 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
 
 def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     '''
+    If samples IDs from title file aren't found in data directory,
+    issue a warning and remove them from the title file
 
     :param title_file:
     :param fastq1:
