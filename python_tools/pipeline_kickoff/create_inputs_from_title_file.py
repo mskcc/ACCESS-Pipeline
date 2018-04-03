@@ -12,6 +12,13 @@ from constants import *
 ##################################
 # Pipeline Kickoff Step #2
 #
+# Usage Example:
+#
+# python \
+#   ../../python_tools/pipeline_kickoff/create_inputs_from_title_file.py \
+#   -i ./DY_title_file.txt \
+#   -d /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY
+#
 # This module is used to create a yaml file that will be supplied to the pipeline run.
 # This yaml file will include three main types of ingredient:
 #
@@ -43,6 +50,9 @@ FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
 FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
+# Delimiter for printing logs
+DELIMITER = '\n' + '*' * 20 + '\n\n'
+
 
 def load_fastqs(data_dir):
     '''
@@ -66,6 +76,7 @@ def load_fastqs(data_dir):
 
     # Issue a warning
     if not len(folders) == len(folders_4):
+        # Todo: Inform user which are missing
         print 'Warning, some samples do not have a Read 1, Read 2, or sample sheet'
 
     # Take just the files
@@ -144,10 +155,10 @@ def barcodes_check(title_file):
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
         if np.sum(extract_barcode_1(lane_subset).duplicated()) > 0:
-            raise Exception('Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
+            raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
 
         if np.sum(extract_barcode_2(lane_subset).duplicated()) > 0:
-            raise Exception('Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
+            raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
 def contained_in(sample_id, fastq_object):
@@ -217,7 +228,7 @@ def get_pos(title_file, fastq_object):
 
     # If there are no matches, try to match with the fuzzy method:
     if np.sum(boolv) < 1:
-        err_string = 'Warning, matching patient ID for file {} not found in title file. Using fuzzy match method.'
+        err_string = DELIMITER + 'Warning, matching patient ID for file {} not found in title file. Using fuzzy match method.'
         print >> sys.stderr, err_string.format(fastq_object)
         print >> sys.stderr, 'Please double check the order of the fastqs in the final inputs.yaml file.'
         boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in_fuzzy, fastq_object=fastq_object)
@@ -257,9 +268,10 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     boolv = np.array([any([sample in x['path'] for x in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
     samples_not_found = title_file.loc[~boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
-    print 'Warning: The following samples were not found and will be removed from the title file.'
-    print 'Please perform a manual check on inputs.yaml before running the pipeline.'
-    print samples_not_found
+    if samples_not_found.shape[0] > 0:
+        print DELIMITER + 'Warning: The following samples were not found and will be removed from the title file.'
+        print 'Please perform a manual check on inputs.yaml before running the pipeline.'
+        print samples_not_found
 
     title_file = title_file.loc[boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
@@ -359,19 +371,19 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     try:
         assert len(fastq1) == len(fastq2)
     except AssertionError as e:
-        print 'Warning: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
+        print DELIMITER + 'Warning: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'fastq2: {}'.format(len(fastq2))
     try:
         assert len(sample_sheet) == len(fastq1)
     except AssertionError as e:
-        print 'Warning: Different number of sample sheets & read 1 fastqs: {}'.format(repr(e))
+        print DELIMITER + 'Warning: Different number of sample sheets & read 1 fastqs: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'sample_sheets: {}'.format(len(sample_sheet))
     try:
         assert title_file.shape[0] == len(fastq1)
     except AssertionError as e:
-        print 'Warning: Different number of fastqs and samples in title file: {}'.format(repr(e))
+        print DELIMITER + 'Warning: Different number of fastqs and samples in title file: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'title file length: {}'.format(title_file.shape[0])
 
@@ -426,13 +438,13 @@ def sanity_check(title_file):
     :return:
     '''
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
-        raise Exception('Duplicate sample names. Exiting.')
+        raise Exception(DELIMITER + 'Duplicate sample names. Exiting.')
 
     for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
-            raise Exception('Duplicate barcode IDs. Exiting.')
+            raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
 
 
 ########
