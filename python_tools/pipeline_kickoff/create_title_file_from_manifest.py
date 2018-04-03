@@ -11,6 +11,13 @@ from constants import *
 # This module is used to create a title file with the information needed for a pipeline run
 # It is derived from the manually-curated sample manifest
 #
+# Usage example:
+#
+# python
+#   ../../python_tools/pipeline_kickoff/create_title_file_from_manifest.py \
+#   -i ./manifest.xlsx \
+#   -o ./DY_title_file.txt
+
 
 # Todo: Start filling these out in manifest?
 # These are normally not found in the manifest, and will be supplied as dashes
