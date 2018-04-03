@@ -13,10 +13,19 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 
 Note 2: Paths to the tools that are used by the cwl files will need to be manually updated (relative paths aren't an option in `basecommand`)
 
+
+### Set up a Virtual Environment
 ```
-# Set up a Virtual Environment
 virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
+```
+
+### Set up PATH and PYTHONPATH (put in .profile or .zshrc if using zshell)
+```
+export PATH=~/my-virtual-env/bin:$PATH
+export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
+```
+Note: You may receive errors related to packages being sourced from other locations on the system (e.g. if you have another installation of python or python modules somewhere else, which is likely the case). Make sure that the output from Toil does not reference any of these alternate installations, and only refers to the packages that you installed in `~/my-virtual-env`.
 
 # Clone the QC module
 git clone https://github.com/mskcc/Innovation-QC.git
