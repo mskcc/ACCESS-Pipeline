@@ -40,8 +40,7 @@ pip install toil'[cwl]'==3.14.0
 # Install pybedtools
 pip install pybedtools
 ```
-
-### (or use pip install -r requirements.txt to install these deps^)
+(or use pip install -r requirements.txt to install these deps^)
 
 ### Update the paths to the tools called in each .cwl CommandLineTool
 
