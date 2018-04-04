@@ -43,7 +43,7 @@ baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/list2bed.py
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20000
+    ramMin: 5000
     coresMin: 1
 
 inputs:
