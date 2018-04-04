@@ -16,6 +16,10 @@ ROOT_DIR = os.path.abspath(os.path.join(PARENT_DIR, os.pardir))
 RUN_PARAMS_PATH = os.path.join(ROOT_DIR, 'resources/run_params.yaml')
 RUN_PARAMS_TEST_PATH = os.path.join(ROOT_DIR, 'resources/run_params__test.yaml')
 FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/run_files.yaml')
+LOCAL_FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/run_files__local.yaml')
+RESOURCE_OVERRIDES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/resource_overrides.cwl')
+COLLAPSING_PARAMETERS_FILE_PATH = os.path.join(ROOT_DIR, 'resources/run_params__collapsing.yaml')
+COLLAPSING_FILES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/run_files__collapsing.yaml')
 
 
 ############################################
@@ -45,7 +49,7 @@ MANIFEST__BARCODE_INDEX_COLUMN = 'BARCODE_INDEX'
 
 ##
 # Title File columns
-TITLE_FILE__BARCODE_ID_COLUMN = 'Barcode_ID'
+TITLE_FILE__BARCODE_ID_COLUMN = 'Barcode'
 TITLE_FILE__POOL_COLUMN = 'Pool'
 TITLE_FILE__SAMPLE_ID_COLUMN = 'Sample_ID'
 TITLE_FILE__COLLAB_ID_COLUMN = 'Collab_ID'
