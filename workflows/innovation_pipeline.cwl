@@ -105,6 +105,8 @@ inputs:
   fci__minmq: int
   fci__cov: int
   fci__rf: string
+  fci__intervals: string[]
+
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
@@ -230,13 +232,14 @@ steps:
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
       bed_file: bed_file
       # Group bams by patient
-      patient_ids: patient_id
+      patient_id: patient_id
       # Module 2
       reference_fasta: reference_fasta
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
       fci__rf: fci__rf
+      fci__intervals: fci__intervals
       abra__kmers: abra__kmers
       abra__scratch: abra__scratch
       abra__mad: abra__mad

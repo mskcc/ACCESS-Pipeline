@@ -60,6 +60,7 @@ inputs:
   fci__minmq: int
   fci__cov: int
   fci__rf: string
+  fci__intervals: string[]
 
   abra__kmers: string
   abra__scratch: string
@@ -117,9 +118,7 @@ steps:
       min_mapping_quality: fci__minmq
       coverage_threshold: fci__cov
       read_filters: fci__rf
-      # Todo: only needed during testing (to run faster)
-      intervals:
-        valueFrom: ${ return ["14"];}
+      intervals: fci__intervals
       out:
         valueFrom: ${return inputs.patient_id + ".fci.list"}
     out: [fci_list]
