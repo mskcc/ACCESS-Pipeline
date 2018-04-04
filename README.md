@@ -20,7 +20,7 @@ virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
 ```
 
-### 2. Set up PATH and PYTHONPATH (put in .profile or .zshrc if using zshell)
+### 2. Set up PATH and PYTHONPATH (put in ~/.profile or ~/.zshrc)
 ```
 export PATH=~/my-virtual-env/bin:$PATH
 export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
