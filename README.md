@@ -34,13 +34,10 @@ cd Innovation-QC
 python setup.py install
 ```
 
-### 4. Install Toil CWL-runner
+### 4. Install Dependencies
 ```
-pip install toil'[cwl]'==3.14.0
-# Install pybedtools
-pip install pybedtools
+pip install -r requirements.txt 
 ```
-(or use pip install -r requirements.txt to install these deps^)
 
 ### 5. Update the paths to the tools called in each .cwl CommandLineTool
 
