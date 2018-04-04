@@ -51,7 +51,7 @@ FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 # Delimiter for printing logs
-DELIMITER = '\n' + '*' * 20 + '\n\n'
+DELIMITER = '\n' + '*' * 20 + '\n'
 
 
 def load_fastqs(data_dir):
@@ -292,11 +292,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
     title_file = remove_missing_samples_from_title_file(title_file, fastq1, title_file_path)
 
-    # Include title_file in inputs.yaml
-    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
-    fh.write(ruamel.yaml.dump(title_file_obj))
-
-
     adapter, adapter2 = get_adapter_sequences(title_file)
 
     # Note: I put some thought into whether to use a
@@ -327,6 +322,20 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     fh.write(ruamel.yaml.dump(out_dict))
 
 
+def substitute_project_root(file_resources):
+    '''
+    # Substitute in the ROOT_PATH variable based on our current installation directory
+
+    :return:
+    '''
+    for key in file_resources.keys():
+        if 'path' in file_resources[key]:
+            new_value = file_resources[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
+            file_resources[key]['path'] = new_value
+
+    return file_resources
+
+
 def include_file_resources(fh, file_resources_path):
     '''
     Write the paths to our resource files into the inputs yaml file.
@@ -338,21 +347,34 @@ def include_file_resources(fh, file_resources_path):
     with open(file_resources_path, 'r') as stream:
         file_resources = ruamel.yaml.round_trip_load(stream)
 
-    # Substitute in the ROOT_PATH variable based on our current installation directory
-    for key in file_resources.keys():
-        if 'path' in file_resources[key]:
-            new_value = file_resources[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            file_resources[key]['path'] = new_value
+    file_resources = substitute_project_root(file_resources)
 
     fh.write(ruamel.yaml.round_trip_dump(file_resources))
 
 
 def include_run_params(fh, run_params_path):
-    # Load and write our default run parameters
+    '''
+    Load and write our default run parameters
+
+    :param fh: File handle for pipeline yaml inputs
+    :param run_params_path: Path to run params file (for either testing or production)
+    '''
     with open(run_params_path, 'r') as stream:
         other_params = ruamel.yaml.round_trip_load(stream)
 
     fh.write(ruamel.yaml.round_trip_dump(other_params))
+
+
+def include_resource_overrides(fh):
+    '''
+    Load and write our ResourceRequirement overrides for testing
+
+    :param fh: File handle for pipeline yaml inputs
+    '''
+    with open(RESOURCE_OVERRIDES_FILE_PATH, 'r') as stream:
+        resource_overrides = ruamel.yaml.round_trip_load(stream)
+
+    fh.write(ruamel.yaml.round_trip_dump(resource_overrides))
 
 
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
@@ -388,9 +410,33 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
         print 'title file length: {}'.format(title_file.shape[0])
 
 
-def write_inputs_file(data_dir, title_file, title_file_path, run_params_path, file_resources_path):
+def include_collapsing_params(fh, title_file_path):
     '''
-    Start writing our inputs.yaml file
+    Load and write our Collapsing & QC parameters
+
+    :param fh: File handle for pipeline yaml inputs
+    '''
+    with open(COLLAPSING_PARAMETERS_FILE_PATH, 'r') as stream:
+        collapsing_parameters = ruamel.yaml.round_trip_load(stream)
+
+    fh.write(ruamel.yaml.round_trip_dump(collapsing_parameters))
+
+    with open(COLLAPSING_FILES_FILE_PATH, 'r') as stream:
+        file_resources = ruamel.yaml.round_trip_load(stream)
+
+    file_resources = substitute_project_root(file_resources)
+
+    fh.write(ruamel.yaml.round_trip_dump(file_resources))
+
+    # Include title_file in inputs.yaml
+    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
+    fh.write(ruamel.yaml.dump(title_file_obj))
+
+
+
+def write_inputs_file(args, title_file):
+    '''
+    Main function to write our inputs.yaml file
 
     :param data_dir:
     :param title_file:
@@ -399,10 +445,32 @@ def write_inputs_file(data_dir, title_file, title_file_path, run_params_path, fi
     :param file_resources_path:
     :return:
     '''
+
+    # Use either the test run parameters, or parameters for a real run
+    if args.use_test_params:
+        run_params_path = RUN_PARAMS_TEST_PATH
+    else:
+        run_params_path = RUN_PARAMS_PATH
+
+    # Use either local paths to our DB files and reference files, or files on Luna
+    if args.use_local_file_resources:
+        file_resources_path = LOCAL_FILE_RESOURCES_PATH
+    else:
+        file_resources_path = FILE_RESOURCES_PATH
+
     fh = open('inputs.yaml', 'wb')
-    include_fastqs_params(fh, data_dir, title_file, title_file_path)
+    include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, file_resources_path)
+
+    # Optionally include parameters for collapsing & QC steps
+    if args.run_collapsing:
+        include_collapsing_params(fh, args.title_file_path)
+
+    # Optionally override ResourceRequirements with smaller values when testing
+    if args.include_resource_overrides:
+        include_resource_overrides(fh)
+
     fh.close()
 
 
@@ -424,6 +492,27 @@ def parse_arguments():
         "-t",
         "--use_test_params",
         help="Whether to run with test params or production params",
+        required=False,
+        action="store_true"
+    )
+    parser.add_argument(
+        "-l",
+        "--use_local_file_resources",
+        help="Whether to run with paths to local resource files (dbSNP, indels_1000G etc) or Luna paths",
+        required=False,
+        action="store_true"
+    )
+    parser.add_argument(
+        "-c",
+        "--run_collapsing",
+        help="Whether to only generate inputs necessary for standard bams, or to run full pipeline with collapsing.",
+        required=False,
+        action="store_true"
+    )
+    parser.add_argument(
+        "-o",
+        "--include_resource_overrides",
+        help="Whether to override ResourceRequirements with smaller values, to run tests locally or in Travis CI",
         required=False,
         action="store_true"
     )
@@ -454,19 +543,13 @@ def sanity_check(title_file):
 def main():
     args = parse_arguments()
 
-    # Use either the test run parameters, or parameters for a real run
-    if args.use_test_params:
-        run_params_path = RUN_PARAMS_TEST_PATH
-    else:
-        run_params_path = RUN_PARAMS_PATH
-
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
     # Perform some sanity checks on the title file
     sanity_check(title_file)
 
     # Create the inputs file for the run
-    write_inputs_file(args.data_dir, title_file, args.title_file_path, run_params_path, FILE_RESOURCES_PATH)
+    write_inputs_file(args, title_file)
 
 
 if __name__ == '__main__':
