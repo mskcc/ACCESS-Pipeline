@@ -1,39 +1,5 @@
 #!/usr/bin/env cwl-runner
 
-$namespaces:
-  dct: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  doap: http://usefulinc.com/ns/doap#
-
-$schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
-
-doap:release:
-- class: doap:Version
-  doap:name: innovation_pipeline.scatter
-  doap:revision: 0.0.0
-- class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 0.0.0
-
-dct:creator:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
-dct:contributor:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -75,9 +41,9 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
+  md__create_index: boolean
   md__assume_sorted: boolean
   md__compression_level: int
-  md__create_index: boolean
   md__validation_stringency: string
   md__duplicate_scoring_strategy: string
   # Module 2
@@ -85,13 +51,14 @@ inputs:
   fci__minmq: int
   fci__cov: int
   fci__rf: string
+  fci__intervals: string[]
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
   fix_mate_information__sort_order: string
-  fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
+  fix_mate_information__compression_level: int
+  fix_mate_information__validation_stringency: string
   bqsr__nct: int
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
@@ -141,14 +108,14 @@ steps:
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
+      add_rg_PL: add_rg_PL
+      md__create_index: md__create_index
       md__assume_sorted: md__assume_sorted
       md__compression_level: md__compression_level
-      md__create_index: md__create_index
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
     out: [bam, bai, md_metrics]
@@ -163,7 +130,7 @@ steps:
     run: ../cwl_tools/expression_tools/group_bams.cwl
     in:
       bams: module_1_innovation/bam
-      patient_ids: patient_ids
+      patient_ids: patient_id
     out:
       [grouped_bams, grouped_patient_ids]
 
@@ -182,6 +149,7 @@ steps:
       fci__cov: fci__cov
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
+      fci__intervals: fci__intervals
       abra__mad: abra__mad
       abra__kmers: abra__kmers
       abra__scratch: abra__scratch
