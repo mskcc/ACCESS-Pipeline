@@ -51,7 +51,7 @@ outputs:
       items:
         type: array
         items: File
-        secondaryFiles: ['^.bai']
+#      secondaryFiles: ['^.bai']
 
   grouped_patient_ids:
     type:
