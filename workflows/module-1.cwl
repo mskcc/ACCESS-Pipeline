@@ -122,7 +122,7 @@ steps:
       PU: add_rg_PU
       SM: add_rg_SM
       CN: add_rg_CN
-
+      # Todo: Move to inputs.yaml
       sort_order:
         default: 'coordinate'
       validation_stringency:
@@ -131,7 +131,6 @@ steps:
         default: 0
       create_index:
         default: true
-
       tmp_dir: tmp_dir
     out: [bam, bai]
 

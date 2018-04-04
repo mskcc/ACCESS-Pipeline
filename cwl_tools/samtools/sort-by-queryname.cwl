@@ -41,10 +41,6 @@ class: CommandLineTool
 requirements:
   - class: ShellCommandRequirement
 
-inputs:
-  input_bam:
-    type: File
-
 baseCommand:
 - /opt/common/CentOS_6-dev/bin/current/samtools
 
@@ -56,6 +52,10 @@ arguments:
   - $(inputs.input_bam)
   - '>'
   - $(inputs.input_bam.basename.replace(".bam", "_samtSRT.bam"))
+
+inputs:
+  input_bam:
+    type: File
 
 outputs:
   bam_sorted_queryname:
