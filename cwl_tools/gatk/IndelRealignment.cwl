@@ -70,7 +70,7 @@ inputs:
     - ^.bai
 
   reference_fasta:
-    type: File
+    type: string
     inputBinding:
       prefix: -R
 
