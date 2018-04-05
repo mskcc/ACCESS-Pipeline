@@ -39,12 +39,14 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+- $(inputs.java)
 
 arguments:
 - -Xmx4g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+#- /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+- $(inputs.arrg)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -56,6 +58,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  arrg: string
 
   input_bam:
     type: File?

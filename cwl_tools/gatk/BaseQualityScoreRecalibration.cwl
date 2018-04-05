@@ -39,13 +39,15 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+- $(inputs.java)
 
 arguments:
 - -Xmx30g
 - -Djava.io.tmpdir=/scratch
 - -jar
-- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+#- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+- $(inputs.gatk)
 - -T
 - BaseRecalibrator
 
@@ -59,6 +61,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  gatk: string
 
   input_bam:
     type: File

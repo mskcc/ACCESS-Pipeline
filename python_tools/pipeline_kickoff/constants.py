@@ -16,17 +16,18 @@ ROOT_DIR = os.path.abspath(os.path.join(PARENT_DIR, os.pardir))
 RUN_PARAMS_PATH = os.path.join(ROOT_DIR, 'resources/run_params.yaml')
 RUN_PARAMS_TEST_PATH = os.path.join(ROOT_DIR, 'resources/run_params__test.yaml')
 FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/run_files.yaml')
-LOCAL_FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/run_files__local.yaml')
+LOCAL_FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/local/run_files__local.yaml')
 RESOURCE_OVERRIDES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/resource_overrides.cwl')
 COLLAPSING_PARAMETERS_FILE_PATH = os.path.join(ROOT_DIR, 'resources/run_params__collapsing.yaml')
 COLLAPSING_FILES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/run_files__collapsing.yaml')
+TOOL_RESOURCES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/tool_resources.yaml')
+TOOL_RESOURCES_LOCAL_FILE_PATH = os.path.join(ROOT_DIR, 'resources/local/tool_resources__local.yaml')
 
 
 ############################################
 # Manifest & Title File Column Definitions #
 ############################################
 
-##
 # Manifest Columns
 MANIFEST__BARCODE_ID_COLUMN = 'BARCODE_ID'
 MANIFEST__CAPTURE_NAME_COLUMN = 'CAPTURE_NAME'
@@ -41,13 +42,11 @@ MANIFEST__CAPTURE_INPUT_COLUMN = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN = 'SEX'
 
-##
 # Use barcode index column as well,
 # for adapter sequences. Todo use SampleSheet
 MANIFEST__BARCODE_INDEX_COLUMN = 'BARCODE_INDEX'
 
 
-##
 # Title File columns
 TITLE_FILE__BARCODE_ID_COLUMN = 'Barcode'
 TITLE_FILE__POOL_COLUMN = 'Pool'
@@ -62,12 +61,10 @@ TITLE_FILE__POOL_INPUT_COLUMN = 'Pool_input'
 TITLE_FILE__BAIT_VERSION_COLUMN = 'Bait_version'
 TITLE_FILE__GENDER_COLUMN = 'Gender'
 
-##
 # Use barcode index column as well,
 # for adapter sequences. Todo use SampleSheet
 TITLE_FILE__BARCODE_INDEX_COLUMN = 'Barcode_index'
 
-##
 # Map MANIFEST --> TITLE_FILE
 # Use OrderedDict to keep ordering for keys() and values()
 columns_map = OrderedDict({

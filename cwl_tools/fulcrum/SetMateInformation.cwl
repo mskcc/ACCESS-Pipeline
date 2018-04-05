@@ -39,11 +39,13 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+#- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- $(inputs.java)
 
 arguments:
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+#- /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+- $(inputs.fulcrum)
 - --tmp-dir=/scratch
 - SetMateInformation
 
@@ -57,6 +59,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  fulcrum: string
 
   input_bam:
     type: File
