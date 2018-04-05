@@ -94,7 +94,7 @@ steps:
       [output]
 
   post_collapsing_realignment:
-    run: ../../workflows/module-1.abbrev.cwl
+    run: ../../workflows/module-1_abbrev.cwl
     in:
       tmp_dir: tmp_dir
       fastq1: gzip_1/output

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-
 ##
 # This script is used to run workflows from the command line.
 # It does not submit jobs to worker nodes, as opposed to pipeline-submit, which uses bsub
-##
+
 
 # Parse Inputs:
 project_name=$1
@@ -36,26 +35,37 @@ mkdir -p ${output_directory}/log
 mkdir -p ${output_directory}/tmp
 mkdir -p ${jobstore_base}
 
-toil-cwl-runner \
+cmd="toil-cwl-runner \
     --outdir ${output_directory} \
-    --writeLogs	${output_directory}/log \
-    --logFile ${output_directory}/log/cwltoil.log \
     --batchSystem ${batch_system} \
     --preserve-environment PATH PYTHONPATH \
     --defaultDisk 10G \
     --defaultMem 10G \
     --no-container \
-    --linkImports \
     --disableCaching \
-    --realTimeLogging \
+    --writeLogs	${output_directory}/log \
+    --logFile ${output_directory}/log/cwltoil.log \
     --workDir ${output_directory}/tmp \
     --jobStore file://${jobstore_path} \
     --cleanWorkDir onSuccess \
+    --maxLogFileSize 20000000 \
     --logDebug \
-    --stats \
     ${workflow} \
-    ${inputs_file}
+    ${inputs_file}"
 
+printf "Running Toil with command:"
+printf "${cmd}\n\n\n"
+
+eval $cmd
+
+
+
+# Arguments to research:
+#    --realTimeLogging \
+#    --rotateLogging \
+# todo: in 3.15 this argument no longer works...?
+#    --linkImports \
+#    --stats \
 #    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
 
 # --js-console
