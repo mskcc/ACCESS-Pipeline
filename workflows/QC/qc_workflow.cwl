@@ -41,37 +41,33 @@ requirements:
 inputs:
 
   title_file: File
+  bed_file: File
+  gene_list: File
+  coverage_threshold: int
+  waltz__min_mapping_quality: int
+  reference_fasta: string
+  reference_fasta_fai: string
 
-  standard_waltz_files:
+  standard_bams:
     type:
       type: array
-      items:
-        type: array
-        items: File
-  fulcrum_simplex_duplex_waltz_files:
+      items: File
+  fulcrum_simplex_duplex_bams:
     type:
       type: array
-      items:
-        type: array
-        items: File
-  fulcrum_duplex_waltz_files:
+      items: File
+  fulcrum_duplex_bams:
     type:
       type: array
-      items:
-        type: array
-        items: File
-  marianas_simplex_duplex_waltz_files:
+      items: File
+  marianas_simplex_duplex_bams:
     type:
       type: array
-      items:
-        type: array
-        items: File
-  marianas_duplex_waltz_files:
+      items: File
+  marianas_duplex_bams:
     type:
       type: array
-      items:
-        type: array
-        items: File
+      items: File
 
 outputs:
 
@@ -85,45 +81,123 @@ outputs:
 
 steps:
 
+  ##############
+  # Waltz Runs #
+  ##############
+
+  # Todo: this currently gets run 2x
+  waltz_standard:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      input_bam: standard_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: [input_bam]
+    scatterMethod: dotproduct
+
+  waltz_fulcrum_simplex_duplex:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      input_bam: fulcrum_simplex_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_fulcrum_duplex:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      input_bam: fulcrum_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_marianas_simplex_duplex:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      input_bam: marianas_simplex_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_marianas_duplex:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      input_bam: marianas_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  ############################
+  # Group waltz output files #
+  ############################
+
   standard_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
-      waltz_input_files: standard_waltz_files
+      waltz_input_files: waltz_standard/waltz_output_files
     out:
       [waltz_files]
 
   fulcrum_simplex_duplex_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
-      waltz_input_files: fulcrum_simplex_duplex_waltz_files
+      waltz_input_files: waltz_fulcrum_simplex_duplex/waltz_output_files
     out:
       [waltz_files]
 
   fulcrum_duplex_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
-      waltz_input_files: fulcrum_duplex_waltz_files
+      waltz_input_files: waltz_fulcrum_duplex/waltz_output_files
     out:
       [waltz_files]
 
   marianas_simplex_duplex_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
-      waltz_input_files: marianas_simplex_duplex_waltz_files
+      waltz_input_files: waltz_marianas_simplex_duplex/waltz_output_files
     out:
       [waltz_files]
 
   marianas_duplex_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
     in:
-      waltz_input_files: marianas_duplex_waltz_files
+      waltz_input_files: waltz_marianas_duplex/waltz_output_files
     out:
       [waltz_files]
 
-
-  ################################################
-  # Aggregate Bam Metrics (standard and fulcrum) #
-  ################################################
+  ###############################################################
+  # Aggregate Bam Metrics across samples (standard and fulcrum) #
+  ###############################################################
 
   standard_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
@@ -160,7 +234,6 @@ steps:
     out:
       [output_dir]
 
-
   #################
   # Innovation-QC #
   #################
@@ -168,19 +241,19 @@ steps:
   simplex_duplex_innovation_qc:
     run: ../../cwl_tools/innovation-qc/innovation-qc.cwl
     in:
+      title_file: title_file
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       marianas_waltz_metrics: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_simplex_duplex_aggregate_bam_metrics/output_dir
-      title_file: title_file
     out:
       [qc_pdf]
 
   duplex_innovation_qc:
     run: ../../cwl_tools/innovation-qc/innovation-qc.cwl
     in:
+      title_file: title_file
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
       marianas_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
       fulcrum_waltz_metrics: fulcrum_duplex_aggregate_bam_metrics/output_dir
-      title_file: title_file
     out:
       [qc_pdf]

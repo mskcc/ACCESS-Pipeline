@@ -75,7 +75,7 @@ inputs:
   patient_id: string[]
 
   # Todo: Open a ticket
-  # bwa cannot read simlink for the fasta.fai file,
+  # bwa cannot read symlink for the fasta.fai file?
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
@@ -143,9 +143,9 @@ inputs:
   marianas_collapsing__outdir: string
 
   # Waltz
-  coverage_threshold: int
-  gene_list: File
   bed_file: File
+  gene_list: File
+  coverage_threshold: int
   waltz__min_mapping_quality: int
 
 outputs:
@@ -256,17 +256,14 @@ steps:
       print_reads__baq: print_reads__baq
     out: [standard_bams]
 
-  #############################
-  # Waltz Run (Standard Bams) #
-  #############################
-
+  # Todo: this currently gets run 2x
   waltz_standard:
     run: ./waltz/waltz-workflow.cwl
     in:
       input_bam: standard_bam_generation/standard_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
       bed_file: bed_file
+      gene_list: gene_list
+      coverage_threshold: coverage_threshold
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -279,21 +276,19 @@ steps:
   ##################
 
   umi_collapsing:
-    run: ./module-2.5.cwl
+    run: ./module-2_5.cwl
     in:
+      tmp_dir: tmp_dir
       bam: standard_bam_generation/standard_bams
       title_file: title_file
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      # Arrg
       add_rg_PL: add_rg_PL
       add_rg_CN: add_rg_CN
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      # Fulcrum
-      tmp_dir: tmp_dir
       fulcrum__sort_order: fulcrum__sort_order
       fulcrum__grouping_strategy: fulcrum__grouping_strategy
       fulcrum__min_mapping_quality: fulcrum__min_mapping_quality
@@ -302,11 +297,10 @@ steps:
       fulcrum__filter_min_base_quality: fulcrum__filter_min_base_quality
       fulcrum__filter_min_reads__simplex_duplex: fulcrum__filter_min_reads__simplex_duplex
       fulcrum__filter_min_reads__duplex: fulcrum__filter_min_reads__duplex
-      # Marianas
-      marianas__mismatches: marianas__mismatches
       marianas__wobble: marianas__wobble
-      marianas__min_consensus_percent: marianas__min_consensus_percent
+      marianas__mismatches: marianas__mismatches
       marianas_collapsing__outdir: marianas_collapsing__outdir
+      marianas__min_consensus_percent: marianas__min_consensus_percent
       standard_pileup: waltz_standard/pileup
     out: [
       fulcrum_simplex_duplex_bams,
@@ -315,81 +309,27 @@ steps:
       marianas_simplex_duplex_bams,
       marianas_duplex_bams
     ]
-
     scatter: [bam, standard_pileup, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
 
-  ##############################
-  # Waltz Run (Collapsed Bams) #
-  ##############################
-
-  waltz_fulcrum_simplex_duplex:
-    run: ./waltz/waltz-workflow.cwl
-    in:
-      input_bam: umi_collapsing/fulcrum_simplex_duplex_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-      min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: input_bam
-    scatterMethod: dotproduct
-
-  waltz_fulcrum_duplex:
-    run: ./waltz/waltz-workflow.cwl
-    in:
-      input_bam: umi_collapsing/fulcrum_duplex_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-      min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: input_bam
-    scatterMethod: dotproduct
-
-  waltz_marianas_simplex_duplex:
-    run: ./waltz/waltz-workflow.cwl
-    in:
-      input_bam: umi_collapsing/marianas_simplex_duplex_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-      min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: input_bam
-    scatterMethod: dotproduct
-
-  waltz_marianas_duplex:
-    run: ./waltz/waltz-workflow.cwl
-    in:
-      input_bam: umi_collapsing/marianas_duplex_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
-      bed_file: bed_file
-      min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: input_bam
-    scatterMethod: dotproduct
-
-  #################
-  # Innovation-QC #
-  #################
+  #########################
+  # QC (Each set of Bams) #
+  #########################
 
   collapsed_qc_step:
     run: ./QC/qc_workflow.cwl
     in:
       title_file: title_file
-      standard_waltz_files: waltz_standard/waltz_output_files
-      fulcrum_simplex_duplex_waltz_files: waltz_fulcrum_simplex_duplex/waltz_output_files
-      fulcrum_duplex_waltz_files: waltz_fulcrum_duplex/waltz_output_files
-      marianas_simplex_duplex_waltz_files: waltz_marianas_simplex_duplex/waltz_output_files
-      marianas_duplex_waltz_files: waltz_marianas_duplex/waltz_output_files
+      bed_file: bed_file
+      gene_list: gene_list
+      coverage_threshold: coverage_threshold
+      waltz__min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+
+      standard_bams: standard_bam_generation/standard_bams
+      fulcrum_simplex_duplex_bams: umi_collapsing/fulcrum_simplex_duplex_bams
+      fulcrum_duplex_bams: umi_collapsing/fulcrum_duplex_bams
+      marianas_simplex_duplex_bams: umi_collapsing/marianas_simplex_duplex_bams
+      marianas_duplex_bams: umi_collapsing/marianas_duplex_bams
     out: [duplex_qc_pdf] #simplex_duplex_qc_pdf,
