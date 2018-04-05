@@ -161,7 +161,7 @@ steps:
      [output_fastq_1, output_fastq_2]
 
   module_1_post_marianas_simplex_duplex:
-    run: ./module-1.abbrev.cwl
+    run: ./module-1_abbrev.cwl
     in:
       tmp_dir: tmp_dir
       fastq1: marianas_simplex_duplex/output_fastq_1
@@ -194,7 +194,7 @@ steps:
      [output_fastq_1, output_fastq_2]
 
   module_1_post_marianas_duplex:
-    run: ./module-1.abbrev.cwl
+    run: ./module-1_abbrev.cwl
     in:
       tmp_dir: tmp_dir
       fastq1: marianas_duplex/output_fastq_1

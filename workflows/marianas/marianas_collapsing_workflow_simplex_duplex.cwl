@@ -70,14 +70,12 @@ steps:
     in:
       input_bam: input_bam
       pileup: pileup
-      mismatches: mismatches
       wobble: wobble
+      mismatches: mismatches
       min_consensus_percent: min_consensus_percent
-
       # todo: why doesn't secondaryFiles work?
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       output_dir: output_dir
     out:
       [first_pass_output_file, alt_allele_file, first_pass_output_dir]
@@ -95,13 +93,11 @@ steps:
     in:
       input_bam: input_bam
       pileup: pileup
-      mismatches: mismatches
       wobble: wobble
+      mismatches: mismatches
       min_consensus_percent: min_consensus_percent
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       first_pass_file: sort_by_mate_position/output_file
     out:
       [collapsed_fastq_1, collapsed_fastq_2]
