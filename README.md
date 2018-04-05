@@ -20,7 +20,7 @@ virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
 ```
 
-### 2. Set up PATH and PYTHONPATH (put in .profile or .zshrc if using zshell)
+### 2. Set up PATH and PYTHONPATH (put in ~/.profile or ~/.zshrc)
 ```
 export PATH=~/my-virtual-env/bin:$PATH
 export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
@@ -34,13 +34,10 @@ cd Innovation-QC
 python setup.py install
 ```
 
-### 4. Install Toil CWL-runner
+### 4. Install Dependencies
 ```
-pip install toil'[cwl]'==3.14.0
-# Install pybedtools
-pip install pybedtools
+pip install -r requirements.txt 
 ```
-(or use pip install -r requirements.txt to install these deps^)
 
 ### 5. Update the paths to the tools called in each .cwl CommandLineTool
 
