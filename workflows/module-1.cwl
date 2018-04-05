@@ -46,11 +46,19 @@ inputs:
   tmp_dir: string
   fastq1: File
   fastq2: File
-  adapter: string
-  adapter2: string
+
+  java: string
+  perl: string
+  trimgalore_path: string
+  bwa_path: string
+  arrg_path: string
+  picard_path: string
+
   reference_fasta: string
   reference_fasta_fai: string
 
+  adapter: string
+  adapter2: string
   add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
@@ -91,6 +99,9 @@ steps:
   trimgalore:
     run: ../cwl_tools/trimgalore/trimgalore.cwl
     in:
+      perl: perl
+      trimgalore: trimgalore_path
+
       adapter: adapter
       adapter2: adapter2
       fastq1: fastq1
@@ -100,6 +111,8 @@ steps:
   bwa_mem:
     run: ../cwl_tools/bwa-mem/bwa-mem.cwl
     in:
+      bwa: bwa_path
+
       fastq1: trimgalore/clfastq1
       fastq2: trimgalore/clfastq2
       reference_fasta: reference_fasta
@@ -115,6 +128,9 @@ steps:
   picard.AddOrReplaceReadGroups:
     run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
+      java: java
+      arrg: arrg_path
+
       input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
@@ -137,6 +153,9 @@ steps:
   picard.MarkDuplicates:
     run: ../cwl_tools/picard/MarkDuplicates.cwl
     in:
+      java: java
+      picard: picard_path
+
       input_bam: picard.AddOrReplaceReadGroups/bam
       tmp_dir: tmp_dir
       assume_sorted: md__assume_sorted

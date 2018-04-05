@@ -39,14 +39,16 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+#- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- $(inputs.java)
 
 arguments:
 - -Xmx4g
 - -Djava.io.tmpdir=/ifs/work/scratch/
 - -jar
 # Todo: consolidate?
-- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+- $(inputs.gatk)
+#- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
 #- /home/johnsoni/Innovation-Pipeline/vendor_tools/GenomeAnalysisTK.jar # v3.5
 - -T
 - PrintReads
@@ -61,6 +63,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  gatk: string
 
   out:
     type:

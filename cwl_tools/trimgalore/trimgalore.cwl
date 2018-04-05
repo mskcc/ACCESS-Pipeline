@@ -40,8 +40,10 @@ class: CommandLineTool
 
 baseCommand:
 # todo: consolidate trim_galore and all dependencies
-- /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
-- /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+#- /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
+#- /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+- $(inputs.perl)
+- $(inputs.trimgalore)
 
 arguments:
 # todo - use inputs
@@ -67,6 +69,11 @@ doc: |
   None
 
 inputs:
+  perl:
+    type: string
+
+  trimgalore:
+    type: string
 
   fastq1:
     type: File
@@ -129,19 +136,19 @@ outputs:
   clfastq1:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq1.basename.replace(".fastq.gz", "_cl.fastq.gz")}
+      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.fastq.gz')}
 
   clfastq2:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq2.basename.replace(".fastq.gz", "_cl.fastq.gz")}
+      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.fastq.gz')}
 
   clstats1:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq1.basename.replace(".fastq.gz", "_cl.stats")}
+      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.stats')}
 
   clstats2:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq2.basename.replace(".fastq.gz", "_cl.stats")}
+      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.stats')}

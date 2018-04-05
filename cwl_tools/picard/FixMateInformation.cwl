@@ -39,13 +39,15 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+- $(inputs.java)
 
 arguments:
 - -Xmx24g
 - -jar
 # todo: consolidate?
-- /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+#- /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+- $(inputs.fix_mate_information)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -57,6 +59,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  fix_mate_information: string
 
   input_bam:
     type:
