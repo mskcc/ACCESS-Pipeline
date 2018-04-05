@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mskcc/Innovation-Pipeline.svg?branch=master)](https://travis-ci.org/mskcc/Innovation-Pipeline)
 
-Usage:
+# Getting Started
 
 Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. 
   - Abra
