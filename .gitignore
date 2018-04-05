@@ -2,3 +2,4 @@
 test
 notes
 .DS_Store
+*.pyc
