@@ -14,7 +14,6 @@ baseCommand:
 arguments:
 - shellQuote: false
 # todo: need this on separate lines
-# todo: need this to not be fulcrum-specific (just remove "_postFulcrum" in the filename)
   valueFrom: fastq -1 $( inputs.input_bam.basename.replace(".bam", "_R1.fastq") ) -2 $( inputs.input_bam.basename.replace(".bam", "_R2.fastq") ) $(inputs.input_bam.path)
 
 inputs:

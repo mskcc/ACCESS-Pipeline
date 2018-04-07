@@ -5,10 +5,26 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
+# Todo: Reported bug in 0.7.5a which introduces randomness related to number of threads used:
+# https://www.biostars.org/p/90390/
 - /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
 
-# todo: cleaner way to provide inputs after arguments
+# Todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
+# Answer: This can be done with:
+#argument:
+#  - valueFrom: "./example/example-files"
+#    position: 2
+#    separate: false
+#    prefix: "-Djava.io.tmpdir="
+#
+#  - valueFrom: "/usr/local/bin/GenomeAnalysisTK.jar"
+#    position: 3
+#    prefix: "-jar"
+#
+#  - valueFrom: "HaplotypeCaller"
+#    position: 4
+#    prefix: "-T"
 
 arguments:
 - mem

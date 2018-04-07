@@ -15,6 +15,8 @@ import subprocess
 # Use pipeline-runner.sh to use other batch systems,
 # which runs the leader job on the head node.
 
+# Todo: Move to project root
+
 
 def bsub(bsubline):
     '''

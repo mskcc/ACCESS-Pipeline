@@ -6,9 +6,18 @@ import shutil
 import argparse
 import pybedtools
 
+# Notes:
+# There are two original versions of this file
+# 1. /opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py (used in CMO wrapper)
+# 2. From Impact pipeline
+#
+# They are very comparable, but this file is adapted from the former
+
 
 def ListToBed(inFile, outFile, sort):
 
+    # Todo: Poor variable naming
+    # outFileSort is not actually sorted if the sort parameter is false
     outFileSort = outFile + ".srt"
     outHandle = open(outFileSort, "w")
 

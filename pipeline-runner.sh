@@ -60,9 +60,11 @@ eval $cmd
 
 
 
-# Arguments to research:
+# Other potentially useful args:
+#    --logDebug \
 #    --realTimeLogging \
 #    --rotateLogging \
+#
 # todo: in 3.15 this argument no longer works...?
 #    --linkImports \
 #    --stats \
