@@ -26,6 +26,7 @@ inputs:
 
 outputs:
 
+  # Todo: Don't rely on same file suffix being typed into two different files
   reversed_fastq_1:
     type: File
     outputBinding:

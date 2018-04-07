@@ -37,7 +37,6 @@ inputs:
       inputBinding:
         prefix: --input_file
         position: 100
-    doc: Input file containing sequence data (SAM or BAM)
 
   reference_sequence:
     type: string
