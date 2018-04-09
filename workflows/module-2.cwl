@@ -94,7 +94,7 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed")}
+        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
     out: [output_file]
 
   abra:
