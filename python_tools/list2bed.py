@@ -15,16 +15,14 @@ import pybedtools
 
 
 def ListToBed(inFile, outFile, sort):
+    tmp_name = 'listToBed.temp'
+    tmp = open(tmp_name, "w")
 
-    # Todo: Poor variable naming
-    # outFileSort is not actually sorted if the sort parameter is false
-    outFileSort = outFile + ".srt"
-    outHandle = open(outFileSort, "w")
-
+    # Todo: Leftover from coying. Investigate:
     if os.stat(inFile).st_size == 0:
-        outHandle.write("1\t963754\t963902\n")
+        tmp.write("1\t963754\t963902\n")
     else:
-        with open(inFile,'r') as filecontent:
+        with open(inFile, 'r') as filecontent:
             for line in filecontent:
                 data = line.rstrip('\n').split(":")
                 chr = data[0]
@@ -33,17 +31,17 @@ def ListToBed(inFile, outFile, sort):
                 else:
                     st = data[1]
                     en = int(data[1]) + 1
-                outHandle.write(str(chr) + "\t" + str(st) + "\t" + str(en) + "\n")
+                tmp.write(str(chr) + "\t" + str(st) + "\t" + str(en) + "\n")
+    tmp.close()
 
-    outHandle.close()
     if sort:
         print >>sys.stderr, "Sorting..."
-        bedtool = pybedtools.BedTool(outFileSort)
+        bedtool = pybedtools.BedTool(tmp_name)
         stbedtool = bedtool.sort()
         mbedtool = stbedtool.merge(d=50)
-        c = mbedtool.saveas(outFile)
+        mbedtool.saveas(outFile)
     else:
-        shutil.move(outFileSort, outFile)
+        shutil.move(tmp_name, outFile)
 
     return outFile
 
@@ -53,7 +51,6 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input_file", help="picard interval list", required=True)
     parser.add_argument("-o", "--output_file", help="output bed file", required=True)
     parser.add_argument("-s", "--sort", help="sort bed file output", action='store_true')
-
     args = parser.parse_args()
     print args
 
