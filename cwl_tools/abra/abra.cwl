@@ -5,7 +5,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
+- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
 - -Xmx60g
