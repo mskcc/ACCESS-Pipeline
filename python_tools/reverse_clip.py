@@ -60,6 +60,7 @@ def main():
     output_r1 = open(new_r1_name, 'w')
     output_r2 = open(new_r2_name, 'w')
 
+    # Iterate through the Read 1 and Read 2 fastqs @ the same time
     for i, tuple in enumerate(izip(open(input_r1), open(input_r2))):
         line_r1 = tuple[0].strip()
         line_r2 = tuple[1].strip()
