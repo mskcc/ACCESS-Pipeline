@@ -30,5 +30,3 @@ fulcrum_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/fgbi
 agbm_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/innovation_aggregate_bam_metrics.py
 list2bed_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/list2bed.py
 map_read_names_to_umis_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/innovation_map_read_names_to_umis.py
-
-# Todo: Find absolute path for samtools on Luna

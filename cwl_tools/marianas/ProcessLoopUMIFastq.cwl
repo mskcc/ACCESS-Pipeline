@@ -33,23 +33,25 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Ian Johnson
     foaf:mbox: mailto:johnsoni@mskcc.org
+#!/usr/bin/env/cwl-runner
 
 cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-#- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-- $(inputs.java_8)
+#baseCommand:
+##- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+#  valueFrom: ${return inputs.java_8}
 
 arguments:
+- $(inputs.java_8)
 - -server
 - -Xms8g
 - -Xmx8g
 - -cp
 # todo: which Marianas for this step?
 #- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
-- $(inputs.marianas_standard)
+- $(inputs.marianas_standard_path)
 - org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
 requirements:
@@ -66,11 +68,8 @@ requirements:
 doc: Marianas UMI Clipping module
 
 inputs:
-  java_8:
-    type: string
-
-  marianas_standard_path:
-    type: string
+  java_8: string
+  marianas_standard_path: string
 
   fastq1:
     type: File

@@ -97,10 +97,8 @@ steps:
     in:
       java_8: java_8
       marianas_standard_path: marianas_standard_path
-
       fastq1: fastq1
       fastq2: fastq2
-      sample_sheet: sample_sheet
       umi_length: umi_length
       output_project_folder: output_project_folder
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
