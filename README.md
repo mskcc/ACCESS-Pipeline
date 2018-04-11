@@ -64,8 +64,15 @@ This step is currently necessary until the follwing PR is merged:
 https://github.com/mskcc/Innovation-Pipeline/pull/2
 
 ### 6. Run the test pipeline
+To run with the CWL reference implementation:
+```
+cwltool workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+```
+To run with Toil batch system runner:
 ```
 toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
-<or>
+```
+or use:
+```
 test/run-pipeline-test.sh <output_dir>
 ```
