@@ -28,6 +28,7 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 
 
 ### 1. Set up a Virtual Environment
+(Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline)
 ```
 virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
@@ -39,6 +40,12 @@ export PATH=~/my-virtual-env/bin:$PATH
 export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
 ```
 Note: You may receive errors related to packages being sourced from other locations on the system (e.g. if you have another installation of python or python modules somewhere else, which is likely the case). Make sure that the output from Toil does not reference any of these alternate installations, and only refers to the packages that you installed in `~/my-virtual-env`.
+
+### 3. Install the python tools
+(Make sure your virtualenv is active)
+```
+(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix /Users/johnsoni/Desktop/virtualenv/msk
+```
 
 ### 3. Clone the QC module
 ```
