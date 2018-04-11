@@ -22,13 +22,15 @@ inputs:
   java_8: string
   marianas_standard_path: string
   trimgalore_path: string
+  fastqc_path: string
+  cutadapt_path: string
   bwa_path: string
   arrg_path: string
   picard_path: string
   gatk_path: string
   abra_path: string
   fx_path: string
-
+  # Reused parameters
   tmp_dir: string
   fastq1: File[]
   fastq2: File[]
@@ -39,7 +41,6 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
   # Marianas Clipping
   umi_length: int
   output_project_folder: string
@@ -99,6 +100,7 @@ steps:
       marianas_standard_path: marianas_standard_path
       fastq1: fastq1
       fastq2: fastq2
+      sample_sheet: sample_sheet
       umi_length: umi_length
       output_project_folder: output_project_folder
     out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
@@ -112,13 +114,15 @@ steps:
   module_1:
     run: ./module-1.cwl
     in:
-      java: java_7
+      java_7: java_7
+      java_8: java_8
       perl: perl_5
       trimgalore_path: trimgalore_path
+      fastqc_path: fastqc_path
+      cutadapt_path: cutadapt_path
       bwa_path: bwa_path
       arrg_path: arrg_path
       picard_path: picard_path
-
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
@@ -165,7 +169,6 @@ steps:
       gatk_path: gatk_path
       abra_path: abra_path
       fx_path: fx_path
-
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams

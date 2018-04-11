@@ -8,6 +8,7 @@ baseCommand:
 - /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
 arguments:
+- $(inputs.java)
 - -server
 - -Xms8g
 - -Xmx8g

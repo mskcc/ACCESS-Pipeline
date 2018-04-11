@@ -1,7 +1,7 @@
-######################################################
-# Default Testing Parameters for Innovation-Pipeline #
-######################################################
-tmp_dir: /scratch
+##############################################
+# Default Parameters for Innovation-Pipeline #
+##############################################
+tmp_dir: /tmp
 
 ##########################
 # Process Loop UMI Fastq #
@@ -50,7 +50,8 @@ fci__intervals: ["14"]
 ########
 abra__kmers: 43,53,63,83,93
 # Todo: Can Abra auto-delete this dir?
-abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch__test
+# Or do we really need another intermediate Python step...?
+abra__scratch: /tmp/abra_scratch
 # todo: confirm that 1000 for this parameter is ok for deep sequencing data. It might be too low...
 abra__mad: 1000
 

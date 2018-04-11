@@ -71,10 +71,7 @@ inputs:
   PU: string
   CN: string
 
-<<<<<<< HEAD
 # Todo: Understand the difference between stdout & > usage in this file
-=======
->>>>>>> master
 stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:

@@ -14,7 +14,7 @@ inputs:
   read_names:
     type: File
 
-baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/innovation_map_read_names_to_umis.py
+baseCommand: [map_read_names_to_umis]
 
 arguments:
   - $( inputs.read_names )

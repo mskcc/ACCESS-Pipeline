@@ -4,20 +4,11 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-#baseCommand:
-#<<<<<<< HEAD
-##- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
-#- $(inputs.java)
-#=======
-#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-#>>>>>>> master
-
 arguments:
 - $(inputs.java)
 - -Xmx60g
 - -Djava.io.tmpdir=/scratch
 - -jar
-#- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
 - $(inputs.abra)
 
 requirements:
