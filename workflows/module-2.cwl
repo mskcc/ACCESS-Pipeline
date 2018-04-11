@@ -1,39 +1,5 @@
 #!/usr/bin/env cwl-runner
 
-$namespaces:
-  dct: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  doap: http://usefulinc.com/ns/doap#
-
-$schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
-
-doap:release:
-- class: doap:Version
-  doap:name: module-2
-  doap:revision: 0.0.0
-- class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 0.0.0
-
-dct:creator:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
-dct:contributor:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -64,8 +30,8 @@ inputs:
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
-  fci__rf: string
-  fci__intervals: string[]
+  fci__rf: string[]
+  fci__intervals: string[]?
 
   abra__kmers: string
   abra__scratch: string
@@ -136,7 +102,7 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed")}
+        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
     out: [output_file]
 
   abra:
@@ -153,7 +119,7 @@ steps:
       kmer: abra__kmers
       mad: abra__mad
       threads:
-        valueFrom: ${ return 5 }
+        valueFrom: ${ return 12 }
       # Todo: Find a cleaner way
       working_directory:
         valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}

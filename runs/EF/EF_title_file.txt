@@ -1,71 +1,71 @@
-Library_yield	Barcode_ID	Input_ng	Patient_ID	Gender	Collab_ID	Pool	Bait_version	Sample_type	Sample_ID	Pool_input	Class	PatientName	MAccession	Extracted_DNA_Yield	Lane
-1464.0	bc411-bc411	50	BL-nsclc-006		BL-nsclc-006-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-006-bc-N01	200	Normal	-	-	-	5
-1272.0	bc412-bc412	50	BL-nsclc-007		BL-nsclc-007-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-bc-N01	200	Normal	-	-	-	5
-654.0	bc441-bc441	10	BL-nsclc-007		BL-nsclc-007-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-pl-T01	200	Tumor	-	-	-	5
-996.0	bc422-bc422	50	BL-nsclc-009		BL-nsclc-009-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-009-bc-N01	200	Normal	-	-	-	5
-660.0	bc442-bc442	10	BL-nsclc-009		BL-nsclc-009-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-009-pl-T01	200	Tumor	-	-	-	5
-882.0	bc423-bc423	50	BL-tdm1-004	M	BL-tdm1-004-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-bc-N01	200	Normal	-	-	-	6
-531.0	bc443-bc443	10	BL-tdm1-004	M	BL-tdm1-004-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-pl-T01	200	Tumor	-	-	-	6
-762.0	bc444-bc444	10	BL-tdm1-004	M	BL-tdm1-004-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-pl-T02	200	Tumor	-	-	-	6
-942.0	bc424-bc424	50	BL-tdm1-009	M	BL-tdm1-009-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-bc-N01	200	Normal	-	-	-	6
-672.0	bc445-bc445	10	BL-tdm1-009	M	BL-tdm1-009-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-pl-T01	200	Tumor	-	-	-	6
-510.0	bc446-bc446	10	BL-tdm1-009	M	BL-tdm1-009-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-pl-T02	200	Tumor	-	-	-	6
-1080.0	bc425-bc425	50	BL-tdm1-025	F	BL-tdm1-025-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-bc-N01	200	Normal	-	-	-	6
-1050.0	bc447-bc447	10	BL-tdm1-025	F	BL-tdm1-025-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-pl-T01	200	Tumor	-	-	-	6
-1314.0	bc448-bc448	10	BL-tdm1-025	F	BL-tdm1-025-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-pl-T02	200	Tumor	-	-	-	6
-810.0	bc439-bc439	10	DH-ntrk-003	F	DH-ntrk-003-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	DH-ntrk-003-pl-T01	200	Tumor	-	-	-	5
-2136.0	bc407-bc407	50	DS-fast-011	M	DS-fast-011-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-011-bc-N01	200	Normal	-	-	-	2
-2232.0	bc401-bc401	10	DS-fast-011	M	DS-fast-011-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-011-pl-T01	200	Tumor	-	-	-	2
-1956.0	bc408-bc408	50	DS-fast-034	M	DS-fast-034-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-034-bc-N01	200	Normal	-	-	-	2
-2076.0	bc402-bc402	10	DS-fast-034	M	DS-fast-034-pl-T02	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-034-pl-T02	200	Tumor	-	-	-	2
-2172.0	bc409-bc409	50	DS-fast-038	M	DS-fast-038-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-038-bc-N01	200	Normal	-	-	-	2
-2118.0	bc403-bc403	10	DS-fast-038	M	DS-fast-038-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-038-pl-T01	200	Tumor	-	-	-	2
-2340.0	bc410-bc410	50	DS-fast-042	F	DS-fast-042-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-042-bc-N01	200	Normal	-	-	-	2
-2028.0	bc404-bc404	10	DS-fast-042	F	DS-fast-042-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-042-pl-T01	200	Tumor	-	-	-	2
-2004.0	bc411-bc411	50	DS-fast-047	M	DS-fast-047-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-047-bc-N01	200	Normal	-	-	-	2
-2556.0	bc405-bc405	10	DS-fast-047	M	DS-fast-047-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-047-pl-T01	200	Tumor	-	-	-	2
-2244.0	bc412-bc412	10	DS-fast-066	M	DS-fast-066-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-066-bc-N01	200	Normal	-	-	-	2
-2214.0	bc406-bc406	50	DS-fast-066	M	DS-fast-066-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-066-pl-T01	200	Tumor	-	-	-	2
-834.0	bc401-bc401	50	DS-fast-091	M	DS-fast-091-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-091-bc-N01	200	Normal	-	-	-	3
-1392.0	bc407-bc407	10	DS-fast-091	M	DS-fast-091-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-091-pl-T02	200	Tumor	-	-	-	3
-2184.0	bc402-bc402	50	DS-fast-110	M	DS-fast-110-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-110-bc-N01	200	Normal	-	-	-	3
-1146.0	bc408-bc408	10	DS-fast-110	M	DS-fast-110-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-110-pl-T02	200	Tumor	-	-	-	3
-2322.0	bc403-bc403	50	DS-fast-131		DS-fast-131-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-131-bc-N01	200	Normal	-	-	-	3
-2370.0	bc409-bc409	10	DS-fast-131		DS-fast-131-pl-T01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-131-pl-T01	200	Tumor	-	-	-	3
-1110.0	bc404-bc404	50	DS-fast-135		DS-fast-135-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-135-bc-N01	200	Normal	-	-	-	3
-1896.0	bc410-bc410	10	DS-fast-135		DS-fast-135-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-135-pl-T02	200	Tumor	-	-	-	3
-2028.0	bc405-bc405	50	DS-fast-144	M	DS-fast-144-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-144-bc-N01	200	Normal	-	-	-	3
-1554.0	bc411-bc411	10	DS-fast-144	M	DS-fast-144-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-144-pl-T02	200	Tumor	-	-	-	3
-2310.0	bc406-bc406	50	DS-fast-147	M	DS-fast-147-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-147-bc-N01	200	Normal	-	-	-	3
-1608.0	bc412-bc412	10	DS-fast-147	M	DS-fast-147-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-147-pl-T02	200	Tumor	-	-	-	3
-1092.0	bc437-bc437	10	ML-fgfr-15	F	ML-fgfr-15-pl-T07	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	ML-fgfr-15-pl-T07	200	Tumor	-	-	-	5
-972.0	bc438-bc438	10	ML-fgfr-16	F	ML-fgfr-16-pl-T03	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	ML-fgfr-16-pl-T03	200	Tumor	-	-	-	5
-522.0	bc406-bc406	5	MW-crc-27	M	MW-crc-27-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	MW-crc-27-pl-T01	200	Tumor	-	-	-	4
-1662.0	bc407-bc407	50	PR-brca-002	F	PR-brca-002-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-002-bc-N01	200	Normal	-	-	-	1
-1524.0	bc401-bc401	20	PR-brca-002	F	PR-brca-002-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-002-pl-T01	200	Tumor	-	-	-	1
-1530.0	bc408-bc408	50	PR-brca-003	F	PR-brca-003-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-003-bc-N01	200	Normal	-	-	-	1
-2268.0	bc402-bc402	20	PR-brca-003	F	PR-brca-003-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-003-pl-T01	200	Tumor	-	-	-	1
-2160.0	bc403-bc403	10	PR-brca-004	F	PR-brca-004-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-004-pl-T01	200	Tumor	-	-	-	1
-1008.0	bc409-bc409	50	PR-brca-004	F	PR-brca-004-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-004-wb-N01	200	Normal	-	-	-	1
-1632.0	bc410-bc410	50	PR-brca-005	F	PR-brca-005-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-005-bc-N01	200	Normal	-	-	-	1
-1506.0	bc404-bc404	10	PR-brca-005	F	PR-brca-005-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-005-pl-T01	200	Tumor	-	-	-	1
-1782.0	bc405-bc405	20	PR-brca-013	F	PR-brca-013-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-013-pl-T01	200	Tumor	-	-	-	1
-768.0	bc411-bc411	50	PR-brca-013	F	PR-brca-013-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-013-wb-N01	200	Normal	-	-	-	1
-1980.0	bc406-bc406	20	PR-brca-014	F	PR-brca-014-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-014-pl-T01	200	Tumor	-	-	-	1
-774.0	bc412-bc412	50	PR-brca-014	F	PR-brca-014-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-014-wb-N01	200	Normal	-	-	-	1
-1632.0	bc403-bc403	10	TD-cfpool-10ng-15uM		TD-cfpool-10ng-15uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-15uM	200	Tumor	-	-	-	7
-1554.0	bc404-bc404	10	TD-cfpool-10ng-30uM		TD-cfpool-10ng-30uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-30uM	200	Tumor	-	-	-	7
-1704.0	bc401-bc401	10	TD-cfpool-10ng-3uM		TD-cfpool-10ng-3uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-3uM	200	Tumor	-	-	-	7
-1680.0	bc402-bc402	10	TD-cfpool-10ng-7uM		TD-cfpool-10ng-7uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-7uM	200	Tumor	-	-	-	7
-2280.0	bc407-bc407	30	TD-cfpool-30ng-15uM		TD-cfpool-30ng-15uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-15uM	200	Tumor	-	-	-	8
-2112.0	bc408-bc408	30	TD-cfpool-30ng-30uM		TD-cfpool-30ng-30uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-30uM	200	Tumor	-	-	-	8
-2478.0	bc406-bc406	30	TD-cfpool-30ng-7uM		TD-cfpool-30ng-7uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-7uM	200	Tumor	-	-	-	8
-1770.0	bc407-bc407	50	ZS-msi-4498	M	ZS-msi-4498-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-bc-N01	200	Normal	-	-	-	4
-1230.0	bc401-bc401	10	ZS-msi-4498	M	ZS-msi-4498-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-pl-T01	200	Tumor	-	-	-	4
-1584.0	bc408-bc408	50	ZS-msi-4499	F	ZS-msi-4499-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4499-bc-N01	200	Normal	-	-	-	4
-1824.0	bc402-bc402	10	ZS-msi-4499	F	ZS-msi-4499-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4499-pl-T01	200	Tumor	-	-	-	4
-1422.0	bc409-bc409	50	ZS-msi-4500	M	ZS-msi-4500-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4500-bc-N01	200	Normal	-	-	-	4
-1278.0	bc403-bc403	10	ZS-msi-4500	M	ZS-msi-4500-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4500-pl-T01	200	Tumor	-	-	-	4
-918.0	bc410-bc410	50	ZS-msi-4501	M	ZS-msi-4501-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4501-bc-N01	200	Normal	-	-	-	4
-1182.0	bc404-bc404	10	ZS-msi-4501	M	ZS-msi-4501-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4501-pl-T01	200	Tumor	-	-	-	4
-1092.0	bc405-bc405	10	ZS-msi-4506	F	ZS-msi-4506-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4506-pl-T01	200	Tumor	-	-	-	4
+Barcode_index	Library_yield	Barcode	Input_ng	Patient_ID	Gender	Collab_ID	Pool	Bait_version	Sample_type	Sample_ID	Pool_input	Class	PatientName	MAccession	Extracted_DNA_Yield	Lane
+GATCTTGC-GCAAGATC	1464.0	bc411-bc411	50	BL-nsclc-006		BL-nsclc-006-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-006-bc-N01	200	Normal	-	-	-	5
+AGGATAGC-GCTATCCT	1272.0	bc412-bc412	50	BL-nsclc-007		BL-nsclc-007-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-bc-N01	200	Normal	-	-	-	5
+CGAACAAC-GTTGTTCG	654.0	bc441-bc441	10	BL-nsclc-007		BL-nsclc-007-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-pl-T01	200	Tumor	-	-	-	5
+AACAGCGA-TCGCTGTT	996.0	bc422-bc422	50	BL-nsclc-009		BL-nsclc-009-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-009-bc-N01	200	Normal	-	-	-	5
+AACAACCG-CGGTTGTT	660.0	bc442-bc442	10	BL-nsclc-009		BL-nsclc-009-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-009-pl-T01	200	Tumor	-	-	-	5
+CCAACGAA-TTCGTTGG	882.0	bc423-bc423	50	BL-tdm1-004	M	BL-tdm1-004-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-bc-N01	200	Normal	-	-	-	6
+ACCTCAGT-ACTGAGGT	531.0	bc443-bc443	10	BL-tdm1-004	M	BL-tdm1-004-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-pl-T01	200	Tumor	-	-	-	6
+CGTCTTCA-TGAAGACG	762.0	bc444-bc444	10	BL-tdm1-004	M	BL-tdm1-004-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-004-pl-T02	200	Tumor	-	-	-	6
+CAGTGCTT-AAGCACTG	942.0	bc424-bc424	50	BL-tdm1-009	M	BL-tdm1-009-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-bc-N01	200	Normal	-	-	-	6
+TGCGTAAC-GTTACGCA	672.0	bc445-bc445	10	BL-tdm1-009	M	BL-tdm1-009-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-pl-T01	200	Tumor	-	-	-	6
+AACACGCT-AGCGTGTT	510.0	bc446-bc446	10	BL-tdm1-009	M	BL-tdm1-009-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-009-pl-T02	200	Tumor	-	-	-	6
+GATCAAGG-CCTTGATC	1080.0	bc425-bc425	50	BL-tdm1-025	F	BL-tdm1-025-bc-N01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-bc-N01	200	Normal	-	-	-	6
+ACTCGATC-GATCGAGT	1050.0	bc447-bc447	10	BL-tdm1-025	F	BL-tdm1-025-pl-T01	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-pl-T01	200	Tumor	-	-	-	6
+TGAGCTGT-ACAGCTCA	1314.0	bc448-bc448	10	BL-tdm1-025	F	BL-tdm1-025-pl-T02	Pool-05500_EF-Tube6_1	PanCancel panel V2.0	Blood	BL-tdm1-025-pl-T02	200	Tumor	-	-	-	6
+GAAGTGCT-AGCACTTC	810.0	bc439-bc439	10	DH-ntrk-003	F	DH-ntrk-003-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	DH-ntrk-003-pl-T01	200	Tumor	-	-	-	5
+ATCATGCG-CGCATGAT	2136.0	bc407-bc407	50	DS-fast-011	M	DS-fast-011-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-011-bc-N01	200	Normal	-	-	-	2
+ACGATCAG-CTGATCGT	2232.0	bc401-bc401	10	DS-fast-011	M	DS-fast-011-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-011-pl-T01	200	Tumor	-	-	-	2
+TGTTCCGT-ACGGAACA	1956.0	bc408-bc408	50	DS-fast-034	M	DS-fast-034-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-034-bc-N01	200	Normal	-	-	-	2
+TCGAGAGT-ACTCTCGA	2076.0	bc402-bc402	10	DS-fast-034	M	DS-fast-034-pl-T02	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-034-pl-T02	200	Tumor	-	-	-	2
+ATTAGCCG-CGGCTAAT	2172.0	bc409-bc409	50	DS-fast-038	M	DS-fast-038-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-038-bc-N01	200	Normal	-	-	-	2
+CTAGCTCA-TGAGCTAG	2118.0	bc403-bc403	10	DS-fast-038	M	DS-fast-038-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-038-pl-T01	200	Tumor	-	-	-	2
+CGATCGAT-ATCGATCG	2340.0	bc410-bc410	50	DS-fast-042	F	DS-fast-042-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-042-bc-N01	200	Normal	-	-	-	2
+ATCGTCTC-GAGACGAT	2028.0	bc404-bc404	10	DS-fast-042	F	DS-fast-042-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-042-pl-T01	200	Tumor	-	-	-	2
+GATCTTGC-GCAAGATC	2004.0	bc411-bc411	50	DS-fast-047	M	DS-fast-047-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-047-bc-N01	200	Normal	-	-	-	2
+TCGACAAG-CTTGTCGA	2556.0	bc405-bc405	10	DS-fast-047	M	DS-fast-047-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-047-pl-T01	200	Tumor	-	-	-	2
+AGGATAGC-GCTATCCT	2244.0	bc412-bc412	10	DS-fast-066	M	DS-fast-066-bc-N01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-066-bc-N01	200	Normal	-	-	-	2
+CCTTGGAA-TTCCAAGG	2214.0	bc406-bc406	50	DS-fast-066	M	DS-fast-066-pl-T01	Pool-05500_EF-Tube2_1	PanCancel panel V2.0	Blood	DS-fast-066-pl-T01	200	Tumor	-	-	-	2
+ACGATCAG-CTGATCGT	834.0	bc401-bc401	50	DS-fast-091	M	DS-fast-091-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-091-bc-N01	200	Normal	-	-	-	3
+ATCATGCG-CGCATGAT	1392.0	bc407-bc407	10	DS-fast-091	M	DS-fast-091-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-091-pl-T02	200	Tumor	-	-	-	3
+TCGAGAGT-ACTCTCGA	2184.0	bc402-bc402	50	DS-fast-110	M	DS-fast-110-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-110-bc-N01	200	Normal	-	-	-	3
+TGTTCCGT-ACGGAACA	1146.0	bc408-bc408	10	DS-fast-110	M	DS-fast-110-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-110-pl-T02	200	Tumor	-	-	-	3
+CTAGCTCA-TGAGCTAG	2322.0	bc403-bc403	50	DS-fast-131		DS-fast-131-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-131-bc-N01	200	Normal	-	-	-	3
+ATTAGCCG-CGGCTAAT	2370.0	bc409-bc409	10	DS-fast-131		DS-fast-131-pl-T01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-131-pl-T01	200	Tumor	-	-	-	3
+ATCGTCTC-GAGACGAT	1110.0	bc404-bc404	50	DS-fast-135		DS-fast-135-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-135-bc-N01	200	Normal	-	-	-	3
+CGATCGAT-ATCGATCG	1896.0	bc410-bc410	10	DS-fast-135		DS-fast-135-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-135-pl-T02	200	Tumor	-	-	-	3
+TCGACAAG-CTTGTCGA	2028.0	bc405-bc405	50	DS-fast-144	M	DS-fast-144-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-144-bc-N01	200	Normal	-	-	-	3
+GATCTTGC-GCAAGATC	1554.0	bc411-bc411	10	DS-fast-144	M	DS-fast-144-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-144-pl-T02	200	Tumor	-	-	-	3
+CCTTGGAA-TTCCAAGG	2310.0	bc406-bc406	50	DS-fast-147	M	DS-fast-147-bc-N01	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-147-bc-N01	200	Normal	-	-	-	3
+AGGATAGC-GCTATCCT	1608.0	bc412-bc412	10	DS-fast-147	M	DS-fast-147-pl-T02	Pool-05500_EF-Tube3_1	PanCancel panel V2.0	Blood	DS-fast-147-pl-T02	200	Tumor	-	-	-	3
+CAGTCACA-TGTGACTG	1092.0	bc437-bc437	10	ML-fgfr-15	F	ML-fgfr-15-pl-T07	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	ML-fgfr-15-pl-T07	200	Tumor	-	-	-	5
+TCGATGAC-GTCATCGA	972.0	bc438-bc438	10	ML-fgfr-16	F	ML-fgfr-16-pl-T03	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	ML-fgfr-16-pl-T03	200	Tumor	-	-	-	5
+CCTTGGAA-TTCCAAGG	522.0	bc406-bc406	5	MW-crc-27	M	MW-crc-27-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	MW-crc-27-pl-T01	200	Tumor	-	-	-	4
+ATCATGCG-CGCATGAT	1662.0	bc407-bc407	50	PR-brca-002	F	PR-brca-002-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-002-bc-N01	200	Normal	-	-	-	1
+ACGATCAG-CTGATCGT	1524.0	bc401-bc401	20	PR-brca-002	F	PR-brca-002-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-002-pl-T01	200	Tumor	-	-	-	1
+TGTTCCGT-ACGGAACA	1530.0	bc408-bc408	50	PR-brca-003	F	PR-brca-003-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-003-bc-N01	200	Normal	-	-	-	1
+TCGAGAGT-ACTCTCGA	2268.0	bc402-bc402	20	PR-brca-003	F	PR-brca-003-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-003-pl-T01	200	Tumor	-	-	-	1
+CTAGCTCA-TGAGCTAG	2160.0	bc403-bc403	10	PR-brca-004	F	PR-brca-004-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-004-pl-T01	200	Tumor	-	-	-	1
+ATTAGCCG-CGGCTAAT	1008.0	bc409-bc409	50	PR-brca-004	F	PR-brca-004-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-004-wb-N01	200	Normal	-	-	-	1
+CGATCGAT-ATCGATCG	1632.0	bc410-bc410	50	PR-brca-005	F	PR-brca-005-bc-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-005-bc-N01	200	Normal	-	-	-	1
+ATCGTCTC-GAGACGAT	1506.0	bc404-bc404	10	PR-brca-005	F	PR-brca-005-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-005-pl-T01	200	Tumor	-	-	-	1
+TCGACAAG-CTTGTCGA	1782.0	bc405-bc405	20	PR-brca-013	F	PR-brca-013-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-013-pl-T01	200	Tumor	-	-	-	1
+GATCTTGC-GCAAGATC	768.0	bc411-bc411	50	PR-brca-013	F	PR-brca-013-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-013-wb-N01	200	Normal	-	-	-	1
+CCTTGGAA-TTCCAAGG	1980.0	bc406-bc406	20	PR-brca-014	F	PR-brca-014-pl-T01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-014-pl-T01	200	Tumor	-	-	-	1
+AGGATAGC-GCTATCCT	774.0	bc412-bc412	50	PR-brca-014	F	PR-brca-014-wb-N01	Pool-05500_EF-Tube1_1	PanCancel panel V2.0	Blood	PR-brca-014-wb-N01	200	Normal	-	-	-	1
+CTAGCTCA-TGAGCTAG	1632.0	bc403-bc403	10	TD-cfpool-10ng-15uM		TD-cfpool-10ng-15uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-15uM	200	Tumor	-	-	-	7
+ATCGTCTC-GAGACGAT	1554.0	bc404-bc404	10	TD-cfpool-10ng-30uM		TD-cfpool-10ng-30uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-30uM	200	Tumor	-	-	-	7
+ACGATCAG-CTGATCGT	1704.0	bc401-bc401	10	TD-cfpool-10ng-3uM		TD-cfpool-10ng-3uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-3uM	200	Tumor	-	-	-	7
+TCGAGAGT-ACTCTCGA	1680.0	bc402-bc402	10	TD-cfpool-10ng-7uM		TD-cfpool-10ng-7uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-7uM	200	Tumor	-	-	-	7
+ATCATGCG-CGCATGAT	2280.0	bc407-bc407	30	TD-cfpool-30ng-15uM		TD-cfpool-30ng-15uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-15uM	200	Tumor	-	-	-	8
+TGTTCCGT-ACGGAACA	2112.0	bc408-bc408	30	TD-cfpool-30ng-30uM		TD-cfpool-30ng-30uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-30uM	200	Tumor	-	-	-	8
+CCTTGGAA-TTCCAAGG	2478.0	bc406-bc406	30	TD-cfpool-30ng-7uM		TD-cfpool-30ng-7uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-7uM	200	Tumor	-	-	-	8
+ATCATGCG-CGCATGAT	1770.0	bc407-bc407	50	ZS-msi-4498	M	ZS-msi-4498-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-bc-N01	200	Normal	-	-	-	4
+ACGATCAG-CTGATCGT	1230.0	bc401-bc401	10	ZS-msi-4498	M	ZS-msi-4498-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-pl-T01	200	Tumor	-	-	-	4
+TGTTCCGT-ACGGAACA	1584.0	bc408-bc408	50	ZS-msi-4499	F	ZS-msi-4499-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4499-bc-N01	200	Normal	-	-	-	4
+TCGAGAGT-ACTCTCGA	1824.0	bc402-bc402	10	ZS-msi-4499	F	ZS-msi-4499-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4499-pl-T01	200	Tumor	-	-	-	4
+ATTAGCCG-CGGCTAAT	1422.0	bc409-bc409	50	ZS-msi-4500	M	ZS-msi-4500-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4500-bc-N01	200	Normal	-	-	-	4
+CTAGCTCA-TGAGCTAG	1278.0	bc403-bc403	10	ZS-msi-4500	M	ZS-msi-4500-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4500-pl-T01	200	Tumor	-	-	-	4
+CGATCGAT-ATCGATCG	918.0	bc410-bc410	50	ZS-msi-4501	M	ZS-msi-4501-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4501-bc-N01	200	Normal	-	-	-	4
+ATCGTCTC-GAGACGAT	1182.0	bc404-bc404	10	ZS-msi-4501	M	ZS-msi-4501-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4501-pl-T01	200	Tumor	-	-	-	4
+TCGACAAG-CTTGTCGA	1092.0	bc405-bc405	10	ZS-msi-4506	F	ZS-msi-4506-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4506-pl-T01	200	Tumor	-	-	-	4

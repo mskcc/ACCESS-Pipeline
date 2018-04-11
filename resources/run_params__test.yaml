@@ -41,7 +41,7 @@ fci__minbq: 20
 fci__minmq: 20
 fci__cov: 20
 # todo: find a better way
-fci__rf: 'FailsVendorQualityCheck -rf BadMate -rf UnmappedRead -rf BadCigar'
+fci__rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 # We include this parameter during testing to make this step faster
 fci__intervals: ["14"]
 

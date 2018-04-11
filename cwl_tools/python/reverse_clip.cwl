@@ -26,12 +26,13 @@ inputs:
 
 outputs:
 
+  # Todo: Don't rely on same file suffix being typed into two different files
   reversed_fastq_1:
     type: File
     outputBinding:
-      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )
+      glob: $( inputs.fastq_1.basename.replace(".fastq", "_clipping-reversed.fastq") )
 
   reversed_fastq_2:
     type: File
     outputBinding:
-      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )
+      glob: $( inputs.fastq_1.basename.replace(".fastq", "_clipping-reversed.fastq") )

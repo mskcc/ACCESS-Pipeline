@@ -5,8 +5,9 @@ output_dir=$1
 
 D=$(date +%d)
 m=$(date +%m)
+H=$(date +%H)
 M=$(date +%M)
-project="DY_${m}-${D}_${M}"
+project="DY_${m}-${D}_${H}-${M}"
 output_directory=`python -c "import os;print(os.path.abspath('${output_dir}'))"`
 
 python ../pipeline-submit.py \

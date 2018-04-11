@@ -1,50 +1,33 @@
 #!/usr/bin/env cwl-runner
 
-$namespaces:
-  dct: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  doap: http://usefulinc.com/ns/doap#
-
-$schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
-
-doap:release:
-- class: doap:Version
-  doap:name: bwa-mem
-  doap:revision: 0.7.5a
-- class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 0.0.0
-
-dct:creator:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
-dct:contributor:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Ian Johnson
-    foaf:mbox: mailto:johnsoni@mskcc.org
-
 cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
+#baseCommand:
+## Todo: Reported bug in 0.7.5a which introduces randomness related to number of threads used:
+## https://www.biostars.org/p/90390/
 #- /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
-- $(inputs.bwa)
 
-# Todo: Find a cleaner way to provide inputs after arguments
+# Todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
+# Answer: This can be done with:
+#argument:
+#  - valueFrom: "./example/example-files"
+#    position: 2
+#    separate: false
+#    prefix: "-Djava.io.tmpdir="
+#
+#  - valueFrom: "/usr/local/bin/GenomeAnalysisTK.jar"
+#    position: 3
+#    prefix: "-jar"
+#
+#  - valueFrom: "HaplotypeCaller"
+#    position: 4
+#    prefix: "-T"
+
 arguments:
+- $(inputs.bwa)
 - mem
 - -t
 - $(inputs.t)
@@ -54,8 +37,6 @@ arguments:
 - $(inputs.reference_fasta)
 - $(inputs.fastq1.path)
 - $(inputs.fastq2.path)
-- '>'
-- $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 # Example -R usage from Impact Pipeline:
 #-R '@RG     ID:MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000     LB:0    SM:MSK-L-009-bc-IGO-05500-DY-6  PL:Illumina     PU:bc209        CN:BergerLab_MSKCC'
@@ -90,7 +71,10 @@ inputs:
   PU: string
   CN: string
 
+<<<<<<< HEAD
 # Todo: Understand the difference between stdout & > usage in this file
+=======
+>>>>>>> master
 stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:
