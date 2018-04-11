@@ -4,11 +4,24 @@
 
 # Getting Started
 
-Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. 
+Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these dependencies must be explicitly installed.  
   - Abra
   - BWA
+```
+> brew install homebrew/science/bwa/versions/0.7.12
+> brew install homebrew/science/bwa
+```
   - Samtools
   - Trimgalore
+  - Java 7
+  - Java 8
+  - Python
+  - Perl
+```
+> curl -L https://install.perlbrew.pl | bash
+> perlbrew install perl-5.20.2 (might need to try with --notest if install fails)
+> source ~/perl5/perlbrew/etc/bashrc
+ ```
 - HG19 Reference fasta + fai
 
 Note 2: Paths to the tools that are used by the cwl files will need to be manually updated (relative paths aren't an option in `basecommand`)
