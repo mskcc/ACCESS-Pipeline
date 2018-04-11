@@ -18,7 +18,6 @@ arguments:
 
 requirements:
   InlineJavascriptRequirement: {}
-  ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 22000
     coresMin: 1
@@ -72,13 +71,14 @@ inputs:
       position: 100
 
   read_filters:
-    type: string
-    inputBinding:
-      prefix: --read_filter
-      shellQuote: false
-      position: 100
-      # todo: there should be a better way to specify multiple arguments with same prefix
-      # https://www.biostars.org/p/303633/
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: --read_filter
+        position: 100
+        # todo: there should be a better way to specify multiple arguments with same prefix
+        # https://www.biostars.org/p/303633/
 
   out:
     type: string

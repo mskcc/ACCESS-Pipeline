@@ -25,7 +25,7 @@ inputs:
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
-  fci__rf: string
+  fci__rf: string[]
   fci__intervals: string[]?
 
   abra__kmers: string
