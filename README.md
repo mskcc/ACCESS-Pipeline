@@ -41,25 +41,27 @@ export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
 ```
 Note: You may receive errors related to packages being sourced from other locations on the system (e.g. if you have another installation of python or python modules somewhere else, which is likely the case). Make sure that the output from Toil does not reference any of these alternate installations, and only refers to the packages that you installed in `~/my-virtual-env`.
 
-### 3. Install the python tools
+### 3. Install Dependencies
+```
+pip install -r requirements.txt 
+```
+
+### 4. Install the python tools
 (Make sure your virtualenv is active)
 ```
 (my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix /Users/johnsoni/Desktop/virtualenv/msk
 ```
 
-### 3. Clone the QC module
+### 5. Clone the QC module (Optional: used if running qc metrics)
 ```
 git clone https://github.com/mskcc/Innovation-QC.git
 cd Innovation-QC
 python setup.py install
 ```
 
-### 4. Install Dependencies
-```
-pip install -r requirements.txt 
-```
-
 ### 5. Update the paths to the tools called in each .cwl CommandLineTool
+This step is currently necessary until the follwing PR is merged:
+https://github.com/mskcc/Innovation-Pipeline/pull/2
 
 ### 6. Run the test pipeline
 ```
