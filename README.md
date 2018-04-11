@@ -49,7 +49,7 @@ pip install -r requirements.txt
 ### 4. Install the python tools
 (Make sure your virtualenv is active)
 ```
-(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix /Users/johnsoni/Desktop/virtualenv/msk
+(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix ~/my-virtual-env
 ```
 
 ### 5. Clone the QC module (Optional: used if running qc metrics)
