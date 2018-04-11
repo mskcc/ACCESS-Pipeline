@@ -19,12 +19,11 @@ inputs:
   fastq_2: File[]
   sample_sheet: File[]
 
-  umi_length: int
-  output_project_folder: string
-
   reference_fasta: string
   reference_fasta_fai: string
 
+  umi_length: int
+  output_project_folder: string
   # Module 1
   tmp_dir: string
   adapter: string[]
