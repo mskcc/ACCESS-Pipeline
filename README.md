@@ -1,21 +1,19 @@
 ### Innovation Pipeline
 
-[![Build Status](https://travis-ci.org/mskcc/Innovation-Pipeline.svg?branch=master)](https://travis-ci.org/mskcc/Innovation-Pipeline)
-
 # Getting Started
 
-Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these dependencies must be explicitly installed.  
-  - Abra
-  - BWA
-```
-> brew install homebrew/science/bwa/versions/0.7.12
-> brew install homebrew/science/bwa
-```
+Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. Some of these dependencies have been aggregated in the `/vendor_tools` folder, but for now these additional dependencies must be explicitly installed:
   - Samtools
   - Trimgalore
   - Java 7
   - Java 8
   - Python
+  - BWA
+```
+If on mac, can be installed with homebrew:
+> brew install homebrew/science/bwa/versions/0.7.12
+> brew install homebrew/science/bwa
+```
   - Perl
 ```
 > curl -L https://install.perlbrew.pl | bash
@@ -26,6 +24,8 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 
 Note 2: Paths to the tools that are used by the cwl files will need to be manually updated (relative paths aren't an option in `basecommand`)
 
+
+# Setup
 
 ### 1. Set up a Virtual Environment
 (Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline)
