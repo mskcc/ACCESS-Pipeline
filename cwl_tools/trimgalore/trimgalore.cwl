@@ -4,14 +4,9 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-# todo: consolidate trim_galore and all dependencies
-#- /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
-#- /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+arguments:
 - $(inputs.perl)
 - $(inputs.trimgalore)
-
-arguments:
 # todo - use inputs
 - --paired
 - --gzip
@@ -22,6 +17,10 @@ arguments:
 - '3'
 - --length
 - '25'
+- --path_to_cutadapt
+- $(inputs.cutadapt_path)
+- --path_to_fastqc
+- $(inputs.fastqc_path)
 - $(inputs.fastq1)
 - $(inputs.fastq2)
 
@@ -35,39 +34,41 @@ doc: |
   None
 
 inputs:
-  perl:
+  perl: string
+  trimgalore: string
+
+  fastqc_path:
     type: string
 
-  trimgalore:
+  cutadapt_path:
     type: string
 
-  fastq1:
-    type: File
-
-  fastq2:
-    type: File
+  fastq1: File
+  fastq2: File
 
   adapter:
     type: ['null', string]
-    inputBinding:
-      prefix: -a
+#    inputBinding:
+#      prefix: -a
+#      position: 4
 
   adapter2:
     type: ['null', string]
-    inputBinding:
-      prefix: -a2
+#    inputBinding:
+#      prefix: -a2
+#      position: 5
 
   length:
     type: ['null', string]
-    inputBinding:
-      prefix: -length
-    default: '25'
+#    inputBinding:
+#      prefix: -length
+#    default: '25'
 
   paired:
     type: ['null', boolean]
-    default: true
-    inputBinding:
-      prefix: --paired
+#    default: true
+#    inputBinding:
+#      prefix: --paired
 
   gzip:
     type: ['null', boolean]
@@ -77,9 +78,9 @@ inputs:
 
   quality:
     type: ['null', string]
-    inputBinding:
-      prefix: -q
-    default: '1'
+#    inputBinding:
+#      prefix: -q
+#    default: '1'
 
   stringency:
     type: ['null', string]
@@ -93,9 +94,9 @@ inputs:
 
   suppress_warn:
     type: ['null', boolean]
-    default: true
-    inputBinding:
-      prefix: --suppress_warn
+#    default: true
+#    inputBinding:
+#      prefix: --suppress_warn
 
 outputs:
 

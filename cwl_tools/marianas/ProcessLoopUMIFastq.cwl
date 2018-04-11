@@ -4,10 +4,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-#baseCommand:
-##- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-#  valueFrom: ${return inputs.java_8}
-
 arguments:
 - $(inputs.java_8)
 - -server
@@ -15,7 +11,6 @@ arguments:
 - -Xmx8g
 - -cp
 # todo: which Marianas for this step?
-#- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
 - $(inputs.marianas_standard_path)
 - org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
@@ -66,7 +61,7 @@ outputs:
     type: File
     outputBinding:
       glob: ${ return "**/" + inputs.fastq1.basename.split('/').pop() }
-      # Todo: Try:
+      # Todo: might be cleaner:
 #      glob: ${ return "**/" + inputs.fastq1.basename }
 
   processed_fastq_2:

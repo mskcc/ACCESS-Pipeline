@@ -16,12 +16,11 @@
 #      ramMin: 5000
 #      coresMin: 1
 
-overrides:
-  echo.cwl:
+cwltool:overrides:
+  ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl:
     requirements:
-      EnvVarRequirement:
-        envDef:
-          MESSAGE: override_value
+      ResourceRequirement:
+        RamMin: 5000
 
 
 #  file:///Users/johnsoni/Desktop/code/Innovation-Pipeline/cwl_tools/bwa-mem/bwa-mem.cwl:

@@ -10,7 +10,7 @@ requirements:
     ramMin: 4000
     coresMin: 1
 
-baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/innovation_aggregate_bam_metrics.py
+baseCommand: [aggregate_bam_metrics]
 
 inputs:
   waltz_input_files:

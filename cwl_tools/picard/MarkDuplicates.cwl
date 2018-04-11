@@ -4,14 +4,10 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-#- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-- $(inputs.java)
-
 arguments:
+- $(inputs.java)
 - -Xmx4g
 - -jar
-#- /home/johnsoni/Innovation-Pipeline/vendor_tools/picard-2.8.1.jar
 - $(inputs.picard)
 - MarkDuplicates
 

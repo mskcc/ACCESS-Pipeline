@@ -4,15 +4,11 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-#- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-- $(inputs.java)
-
 arguments:
+- $(inputs.java)
 - -Xmx30g
-- -Djava.io.tmpdir=/scratch
+- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
-#- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
 - $(inputs.gatk)
 - -T
 - BaseRecalibrator
@@ -27,6 +23,7 @@ doc: |
   None
 
 inputs:
+  tmp_dir: string
   java: string
   gatk: string
 

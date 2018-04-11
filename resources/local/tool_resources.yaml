@@ -6,27 +6,36 @@ perl_5: /Users/johnsoni/perl5/perlbrew/perls/perl-5.20.2/bin/perl
 java_7: /Library/Java/JavaVirtualMachines/zulu1.7.0_171.jdk/Contents/Home/bin/java
 java_8: /Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/bin/java
 
-# PLUF
-marianas_standard_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+# ProcessLoopUMIFastq
+marianas_standard_path: $PIPELINE_ROOT/vendor_tools/Marianas-standard.jar
 
-# Module 1
-trimgalore_path: /Users/johnsoni/Desktop/tools/Trim_Galore_v0.2.5/trim_galore
-bwa_path: /Users/johnsoni/Desktop/tools/bwa-0.7.17/bwa
-arrg_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+# Trimgalore
+trimgalore_path: $PIPELINE_ROOT/vendor_tools/Trim_Galore_v0.2.5/trim_galore
+fastqc_path: $PIPELINE_ROOT/vendor_tools/FastQC_v0.10.1/fastqc
+#cutadapt_path: $PIPELINE_ROOT/vendor_tools/cutadapt-1.1/bin/cutadapt
+cutadapt_path: /Users/johnsoni/Desktop/virtualenv/cwltool_test/bin/cutadapt
+
+# BWA
+bwa_path: $PIPELINE_ROOT/vendor_tools/bwa-0.7.5a/bwa
+
+# Arrg
+arrg_path: $PIPELINE_ROOT/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+
 # For MD:
-picard_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/picard-2.8.1.jar
+picard_path: $PIPELINE_ROOT/vendor_tools/picard-2.8.1.jar
 
 # Module 2
-gatk_path: /Users/johnsoni/Desktop/tools/GenomeAnalysisTK.jar
-abra_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
-fx_path: /Users/johnsoni/Desktop/tools/FixMateInformation.jar
+gatk_path: $PIPELINE_ROOT/vendor_tools/GenomeAnalysisTK.jar
+#abra_path: $PIPELINE_ROOT/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+abra_path: $PIPELINE_ROOT/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies--MacSierra.jar
+fx_path: $PIPELINE_ROOT/vendor_tools/FixMateInformation.jar
 
 # Module 2.5
-marianas_duplex_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/Marianas-true-duplex-1-1.jar
-fulcrum_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+marianas_duplex_path: $PIPELINE_ROOT/vendor_tools/Marianas-true-duplex-1-1.jar
+fulcrum_path: $PIPELINE_ROOT/vendor_tools/fgbio-0.5.0.jar
 
 # Python tools
 # Todo: Use setup.py instead
-agbm_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/innovation_aggregate_bam_metrics.py
-list2bed_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/list2bed.py
-map_read_names_to_umis_path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/python_tools/innovation_map_read_names_to_umis.py
+agbm_path: $PIPELINE_ROOT/python_tools/innovation_aggregate_bam_metrics.py
+list2bed_path: $PIPELINE_ROOT/python_tools/list2bed.py
+map_read_names_to_umis_path: $PIPELINE_ROOT/python_tools/innovation_map_read_names_to_umis.py
