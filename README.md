@@ -41,18 +41,13 @@ export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
 ```
 Note: You may receive errors related to packages being sourced from other locations on the system (e.g. if you have another installation of python or python modules somewhere else, which is likely the case). Make sure that the output from Toil does not reference any of these alternate installations, and only refers to the packages that you installed in `~/my-virtual-env`.
 
-### 3. Install Dependencies
-```
-pip install -r requirements.txt 
-```
-
 ### 4. Install the python tools
 (Make sure your virtualenv is active)
 ```
 (my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix ~/my-virtual-env
 ```
 
-### 5. Clone the QC module (Optional: used if running qc metrics)
+### 5. Clone the QC module (Currently requires manual path manipulation in cwl file)
 ```
 git clone https://github.com/mskcc/Innovation-QC.git
 cd Innovation-QC
