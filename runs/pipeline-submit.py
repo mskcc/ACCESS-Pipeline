@@ -78,8 +78,8 @@ def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, wo
         "-J", project_name,
         "-Jd", job_desc,
         "-cwd", '.',
-        "-oo", "stdout.log",
-        "-eo", "stderr.log",
+        "-oo", project_name + "_stdout.log",
+        "-eo", project_name + "_stderr.log",
         job_command
     ]
 

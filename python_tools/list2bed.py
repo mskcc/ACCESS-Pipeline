@@ -11,14 +11,14 @@ import pybedtools
 # 1. /opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py (used in CMO wrapper)
 # 2. From Impact pipeline
 #
-# They are very comparable, but this file is adapted from the former
+# They are very comparable, but this file is adapted from the first
 
 
 def ListToBed(inFile, outFile, sort):
     tmp_name = 'listToBed.temp'
     tmp = open(tmp_name, "w")
 
-    # Todo: Leftover from coying. Investigate:
+    # Todo: Leftover from copying. Investigate:
     if os.stat(inFile).st_size == 0:
         tmp.write("1\t963754\t963902\n")
     else:

@@ -1,6 +1,5 @@
 Barcode_index	Library_yield	Barcode	Input_ng	Patient_ID	Gender	Collab_ID	Pool	Bait_version	Sample_type	Sample_ID	Pool_input	Class	PatientName	MAccession	Extracted_DNA_Yield	Lane
 GATCTTGC-GCAAGATC	1464.0	bc411-bc411	50	BL-nsclc-006		BL-nsclc-006-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-006-bc-N01	200	Normal	-	-	-	5
-CTTCCTTC-GAAGGAAG	453.0	bc440-bc440	10	BL-nsclc-006		BL-nsclc-006-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-006-pl-T01	200	Tumor	-	-	-	5
 AGGATAGC-GCTATCCT	1272.0	bc412-bc412	50	BL-nsclc-007		BL-nsclc-007-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-bc-N01	200	Normal	-	-	-	5
 CGAACAAC-GTTGTTCG	654.0	bc441-bc441	10	BL-nsclc-007		BL-nsclc-007-pl-T01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-007-pl-T01	200	Tumor	-	-	-	5
 AACAGCGA-TCGCTGTT	996.0	bc422-bc422	50	BL-nsclc-009		BL-nsclc-009-bc-N01	Pool-05500_EF-Tube5_1	PanCancel panel V2.0	Blood	BL-nsclc-009-bc-N01	200	Normal	-	-	-	5
@@ -60,7 +59,6 @@ ACGATCAG-CTGATCGT	1704.0	bc401-bc401	10	TD-cfpool-10ng-3uM		TD-cfpool-10ng-3uM	P
 TCGAGAGT-ACTCTCGA	1680.0	bc402-bc402	10	TD-cfpool-10ng-7uM		TD-cfpool-10ng-7uM	Pool-05500_EF-Tube7_1	PanCancel panel V2.0	Blood	TD-cfpool-10ng-7uM	200	Tumor	-	-	-	7
 ATCATGCG-CGCATGAT	2280.0	bc407-bc407	30	TD-cfpool-30ng-15uM		TD-cfpool-30ng-15uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-15uM	200	Tumor	-	-	-	8
 TGTTCCGT-ACGGAACA	2112.0	bc408-bc408	30	TD-cfpool-30ng-30uM		TD-cfpool-30ng-30uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-30uM	200	Tumor	-	-	-	8
-TCGACAAG-CTTGTCGA	2208.0	bc405-bc405	30	TD-cfpool-30ng-3uM		TD-cfpool-30ng-3uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-3uM	200	Tumor	-	-	-	8
 CCTTGGAA-TTCCAAGG	2478.0	bc406-bc406	30	TD-cfpool-30ng-7uM		TD-cfpool-30ng-7uM	Pool-05500_EF-Tube8_1	PanCancel panel V2.0	Blood	TD-cfpool-30ng-7uM	200	Tumor	-	-	-	8
 ATCATGCG-CGCATGAT	1770.0	bc407-bc407	50	ZS-msi-4498	M	ZS-msi-4498-bc-N01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-bc-N01	200	Normal	-	-	-	4
 ACGATCAG-CTGATCGT	1230.0	bc401-bc401	10	ZS-msi-4498	M	ZS-msi-4498-pl-T01	Pool-05500_EF-Tube4_1	PanCancel panel V2.0	Blood	ZS-msi-4498-pl-T01	200	Tumor	-	-	-	4
