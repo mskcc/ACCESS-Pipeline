@@ -36,8 +36,6 @@ arguments:
 - $(inputs.reference_fasta)
 - $(inputs.fastq1.path)
 - $(inputs.fastq2.path)
-- '>'
-- $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 # todo: LB should be lane number?
 # Example -R usage from Impact:
@@ -72,8 +70,6 @@ inputs:
   PU: string
   CN: string
 
-# Todo: Understand the difference between stdout & > usage in this file
-# Compare logs with Impact
 stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:
