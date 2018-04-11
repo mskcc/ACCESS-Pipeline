@@ -160,20 +160,17 @@ steps:
             adapter2: adapter2
             reference_fasta: reference_fasta
             reference_fasta_fai: reference_fasta_fai
-
             add_rg_LB: add_rg_LB
             add_rg_PL: add_rg_PL
             add_rg_ID: add_rg_ID
             add_rg_PU: add_rg_PU
             add_rg_SM: add_rg_SM
             add_rg_CN: add_rg_CN
-
             md__assume_sorted: md__assume_sorted
             md__compression_level: md__compression_level
             md__create_index: md__create_index
             md__validation_stringency: md__validation_stringency
             md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-
             output_suffix:
               valueFrom: ${ return '_standard' }
           out: [bam, bai, md_metrics]

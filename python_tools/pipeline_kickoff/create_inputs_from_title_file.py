@@ -78,7 +78,7 @@ def load_fastqs(data_dir):
     # Issue a warning
     if not len(folders) == len(folders_4):
         # Todo: Inform user which are missing
-        print 'Warning, some samples do not have a Read 1, Read 2, or sample sheet'
+        print DELIMITER + 'Error, some samples do not have a Read 1, Read 2, or sample sheet'
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -229,7 +229,7 @@ def get_pos(title_file, fastq_object):
 
     # If there are no matches, try to match with the fuzzy method:
     if np.sum(boolv) < 1:
-        err_string = DELIMITER + 'Warning, matching patient ID for file {} not found in title file. Using fuzzy match method.'
+        err_string = DELIMITER + 'Error, matching patient ID for file {} not found in title file. Using fuzzy match method.'
         print >> sys.stderr, err_string.format(fastq_object)
         print >> sys.stderr, 'Please double check the order of the fastqs in the final inputs.yaml file.'
         boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in_fuzzy, fastq_object=fastq_object)
@@ -270,7 +270,7 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     samples_not_found = title_file.loc[~boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
-        print DELIMITER + 'Warning: The following samples were not found and will be removed from the title file.'
+        print DELIMITER + 'Error: The following samples were not found and will be removed from the title file.'
         print 'Please perform a manual check on inputs.yaml before running the pipeline.'
         print samples_not_found
 
@@ -405,19 +405,19 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     try:
         assert len(fastq1) == len(fastq2)
     except AssertionError as e:
-        print DELIMITER + 'Warning: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
+        print DELIMITER + 'Error: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'fastq2: {}'.format(len(fastq2))
     try:
         assert len(sample_sheet) == len(fastq1)
     except AssertionError as e:
-        print DELIMITER + 'Warning: Different number of sample sheets & read 1 fastqs: {}'.format(repr(e))
+        print DELIMITER + 'Error: Different number of sample sheet files & read 1 fastqs: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'sample_sheets: {}'.format(len(sample_sheet))
     try:
         assert title_file.shape[0] == len(fastq1)
     except AssertionError as e:
-        print DELIMITER + 'Warning: Different number of fastqs and samples in title file: {}'.format(repr(e))
+        print DELIMITER + 'Error: Different number of fastqs files and samples in title file: {}'.format(repr(e))
         print 'fastq1: {}'.format(len(fastq1))
         print 'title file length: {}'.format(title_file.shape[0])
 
