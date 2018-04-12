@@ -59,7 +59,7 @@ This step is currently necessary until the follwing PR is merged:
 https://github.com/mskcc/Innovation-Pipeline/pull/2
 
 ### 6. Run the test pipeline
-To run with the CWL reference implementation:
+To run with the CWL reference implementation (fastest runtime):
 ```
 cwltool workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
