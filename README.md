@@ -30,43 +30,45 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 ### 1. Set up a Virtual Environment
 Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
-~/Innovation-Pipeline$ pip install virtualenvwrapper
-~/Innovation-Pipeline$ mkvirtualenv my-virtual-env
-~/Innovation-Pipeline$ workon my-virtual-env
-(my-virtual-env) ~/Innovation-Pipeline$ add2virtualenv ~/.virtualenvs/my-virtual-env
+$ pip install virtualenvwrapper
+$ source virtualenvwrapper.sh
+$ mkvirtualenv innovation_pipeline
+$ workon innovation_pipeline
+(innovation_pipeline) $ add2virtualenv ~/.virtualenvs/innovation_pipeline
 ```
 
-### 2. Install the python tools
+### 2. Copy the repository and Install the python tools
 (Make sure your virtualenv is active)
+(We hope to allow this repo to be cloned from Github once test data storage is confirmed)
 ```
-(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install
+(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
-### 3. Set the root directory of the project
+### 3. Set the root directory of the project (Skip to step 6 if you have an existing inputs.yaml and just want to run it)
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 4. Create a run title file from a sample manifest (Skip to 6 if using existing inputs.yaml)
+### 4. Create a run title file from a sample manifest
 ```
-~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xlsx -o title_file.txt
+(innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
 
 ### 5. Create an inputs file from the title file
 ```
-~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -l -o
+(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -l -o
 ```
 
 ### 6. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-~/Innovation-Pipeline$ cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
+(innovation_pipeline) ~/Innovation-Pipeline$ cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
-~/Innovation-Pipeline$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(innovation_pipeline) ~/Innovation-Pipeline$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 or use:
 ```
-~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
+(innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
