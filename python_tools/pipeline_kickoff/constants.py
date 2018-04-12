@@ -3,10 +3,15 @@ from collections import OrderedDict
 
 
 # Define a constant for the root directory of this project
+<<<<<<< Updated upstream
 # Todo: there has to be a better way to reliably reference the project root
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.abspath(os.path.join(THIS_DIR, os.pardir))
 ROOT_DIR = os.path.abspath(os.path.join(PARENT_DIR, os.pardir))
+=======
+# Todo: Find better way to set project root while still using setup.py
+ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
+>>>>>>> Stashed changes
 
 # Use root directory constant to reference further files:
 
