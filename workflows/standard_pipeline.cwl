@@ -22,8 +22,8 @@ inputs:
   java_8: string
   marianas_standard_path: string
   trimgalore_path: string
-  fastqc_path: string
-  cutadapt_path: string
+  fastqc_path: string?
+  cutadapt_path: string?
   bwa_path: string
   arrg_path: string
   picard_path: string
