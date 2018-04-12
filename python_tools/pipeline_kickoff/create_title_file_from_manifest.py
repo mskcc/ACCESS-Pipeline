@@ -58,8 +58,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
 ########
 # Main #
 ########
-
-if __name__ == "__main__":
+def main():
     # Usage:
     # python create_title_file_from_manifest.py <path to manifest> <output_title_file_name>
     parser = argparse.ArgumentParser()
@@ -68,3 +67,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     create_title_file(args.manifest_file_path, args.output_filename)
+
+
+if __name__ == "__main__":
+    main()
