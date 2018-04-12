@@ -28,13 +28,10 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 # Setup
 
 ### 1. Set up a Virtual Environment
-Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline
+Make virtualenv with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
-$ pip install virtualenvwrapper
-$ source virtualenvwrapper.sh
-$ mkvirtualenv innovation_pipeline
-$ workon innovation_pipeline
-(innovation_pipeline) $ add2virtualenv ~/.virtualenvs/innovation_pipeline
+$ virtualenv ~/innovation_pipeline
+$ source ~/innovation_pipeline/bin/activate
 ```
 
 ### 2. Copy the repository and Install the python tools
@@ -56,7 +53,7 @@ ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 
 ### 5. Create an inputs file from the title file
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -l -o
+(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t
 ```
 
 ### 6. Run the test pipeline
