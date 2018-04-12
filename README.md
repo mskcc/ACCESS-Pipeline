@@ -31,9 +31,9 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
 ~/Innovation-Pipeline$ pip install virtualenvwrapper
-~/Innovation-Pipeline$ mkvirtualenv ~/my-virtual-env
-~/Innovation-Pipeline$ workon ~/my-virtual-env
-(my-virtual-env) ~/Innovation-Pipeline$ add2virtualenv ~/my-virtual-env
+~/Innovation-Pipeline$ mkvirtualenv my-virtual-env
+~/Innovation-Pipeline$ workon my-virtual-env
+(my-virtual-env) ~/Innovation-Pipeline$ add2virtualenv ~/.virtualenvs/my-virtual-env
 ```
 
 ### 2. Install the python tools
@@ -68,5 +68,5 @@ To run with Toil batch system runner:
 ```
 or use:
 ```
-~/Innovation-Pipeline$ test/run-pipeline-test.sh <output_dir>
+~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
