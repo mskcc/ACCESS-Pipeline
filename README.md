@@ -58,7 +58,7 @@ ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
 ### 6. Run the test pipeline
-To run with the CWL reference implementation (fastest runtime):
+To run with the CWL reference implementation (faster for testing purposes):
 ```
 ~/Innovation-Pipeline$ cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
 ```
