@@ -59,7 +59,7 @@ ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ### 6. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
+(innovation_pipeline) ~/Innovation-Pipeline$ cwltool ../workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
@@ -69,3 +69,4 @@ or use:
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
+Have a look inside `run-pipeline-test.sh` to see some useful arguments for Toil & cwltool
