@@ -50,7 +50,7 @@ python setup.py install
 ### 4. Run the test pipeline
 To run with the CWL reference implementation (fastest runtime):
 ```
-cwltool workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
