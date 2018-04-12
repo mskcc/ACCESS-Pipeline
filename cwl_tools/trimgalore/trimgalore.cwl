@@ -7,22 +7,6 @@ class: CommandLineTool
 arguments:
 - $(inputs.perl)
 - $(inputs.trimgalore)
-## todo - use inputs
-#- --paired
-#- --gzip
-#- -q
-#- '1'
-#- --suppress_warn
-#- --stringency
-#- '3'
-#- --length
-#- '25'
-#- --path_to_cutadapt
-#- $(inputs.cutadapt_path)
-#- --path_to_fastqc
-#- $(inputs.fastqc_path)
-#- $(inputs.fastq1)
-#- $(inputs.fastq2)
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -37,11 +21,8 @@ inputs:
   perl: string
   trimgalore: string
 
-  fastqc_path:
-    type: string
-
-  cutadapt_path:
-    type: string
+  fastqc_path: string?
+  cutadapt_path: string?
 
   fastq1:
     type: File
@@ -63,7 +44,7 @@ inputs:
     inputBinding:
       prefix: -a2
 
-  # Todo: make these explicit inputs
+  # Todo: use inputs instead of defaults
   length:
     type: ['null', string]
     default: '25'
