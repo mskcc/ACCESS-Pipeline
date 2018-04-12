@@ -75,6 +75,9 @@ outputs:
   collapsed_fastq_1:
     type: File
     outputBinding:
+      # Todo: This filename will become ..._cl_aln_srt_MD_IR_FX_BR__aln_srt.bam
+      # Because the bwa step does not expect an extra underscore at the end
+      # Would be nice if Marianas allowed specification of the output filename as an input paramter
       glob: ${ return 'collapsed_R1_.fastq' }
 
   collapsed_fastq_2:

@@ -4,13 +4,11 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-
 arguments:
+- $(inputs.java)
 - -Xmx4g
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/picard-2.8.1.jar
+- $(inputs.picard)
 - MarkDuplicates
 
 requirements:
@@ -23,6 +21,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  picard: string
 
   input_bam:
     type: File

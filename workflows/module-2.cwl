@@ -7,12 +7,18 @@ class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
+  java_8: string
+  picard_path: string
+  gatk_path: string
+  abra_path: string
+  fx_path: string
 
   tmp_dir: string
   reference_fasta: string
-
+  patient_id: string
   bams:
     type:
       type: array
@@ -20,23 +26,18 @@ inputs:
     secondaryFiles:
       - ^.bai
 
-  patient_id: string
-
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
   fci__rf: string[]
   fci__intervals: string[]?
-
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
-
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
-
   bqsr__nct: int
   bqsr__rf: string
   bqsr__knownSites_dbSNP:
@@ -47,7 +48,6 @@ inputs:
     type: File
     secondaryFiles:
       - .idx
-
   print_reads__nct: int
   print_reads__EOQ: boolean
   print_reads__baq: string
@@ -77,6 +77,9 @@ steps:
   find_covered_intervals:
     run: ../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
+      java: java_8
+      gatk: gatk_path
+      tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
       reference_sequence: reference_fasta
@@ -100,6 +103,8 @@ steps:
   abra:
     run: ../cwl_tools/abra/abra.cwl
     in:
+      java: java_8
+      abra: abra_path
       input_bams: bams
       targets: list2bed/output_file
       scratch_dir: abra__scratch
@@ -111,15 +116,17 @@ steps:
         valueFrom: ${ return 12 }
       # Todo: Find a cleaner way
       working_directory:
-        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999); }
+        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
       out:
         valueFrom: |
-          ${return inputs.input_bams.map(function(b){ return b.basename.replace(".bam", "_IR.bam")})}
+          ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}
     out:
       [bams]
 
   parallel_fixmate:
     in:
+      java: java_8
+      fix_mate_information: fx_path
       bam: abra/bams
       tmp_dir: tmp_dir
       sort_order: fix_mate_information__sort_order
@@ -133,6 +140,8 @@ steps:
     run:
       class: Workflow
       inputs:
+        java: string
+        fix_mate_information: string
         bam: File
         tmp_dir: string
         sort_order: string
@@ -147,6 +156,9 @@ steps:
         picard_fixmate_information:
           run: ../cwl_tools/picard/FixMateInformation.cwl
           in:
+            java: java
+            fix_mate_information: fix_mate_information
+
             input_bam: bam
             tmp_dir: tmp_dir
             sort_order: sort_order
@@ -157,6 +169,9 @@ steps:
 
   parallel_bqsr:
     in:
+      tmp_dir: tmp_dir
+      java: java_8
+      gatk: gatk_path
       bam: parallel_fixmate/bams
       reference_fasta: reference_fasta
       rf: bqsr__rf
@@ -170,6 +185,9 @@ steps:
     run:
       class: Workflow
       inputs:
+        java: string
+        gatk: string
+        tmp_dir: string
         bam: File
         reference_fasta: string
         rf: string
@@ -184,6 +202,9 @@ steps:
         bqsr:
           run: ../cwl_tools/gatk/BaseQualityScoreRecalibration.cwl
           in:
+            tmp_dir: tmp_dir
+            java: java
+            gatk: gatk
             input_bam: bam
             reference_fasta: reference_fasta
             rf: rf
@@ -196,6 +217,9 @@ steps:
 
   parallel_printreads:
     in:
+      tmp_dir: tmp_dir
+      java: java_8
+      gatk: gatk_path
       input_file: parallel_fixmate/bams
       BQSR: parallel_bqsr/recal_matrix
       nct: print_reads__nct
@@ -209,6 +233,9 @@ steps:
     run:
       class: Workflow
       inputs:
+        tmp_dir: string
+        java: string
+        gatk: string
         input_file: File
         BQSR: File
         nct: int
@@ -228,6 +255,9 @@ steps:
         gatk_print_reads:
           run: ../cwl_tools/gatk/PrintReads.cwl
           in:
+            tmp_dir: tmp_dir
+            java: java
+            gatk: gatk
             input_file: input_file
             BQSR: BQSR
             nct: nct

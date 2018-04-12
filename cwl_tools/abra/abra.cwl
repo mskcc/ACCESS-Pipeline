@@ -4,14 +4,12 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-
 arguments:
+- $(inputs.java)
 - -Xmx60g
 - -Djava.io.tmpdir=/scratch
 - -jar
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+- $(inputs.abra)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -23,6 +21,8 @@ doc: |
   None
 
 inputs:
+  java: string
+  abra: string
 
   input_bams:
     type:

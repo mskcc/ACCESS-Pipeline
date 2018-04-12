@@ -4,15 +4,12 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
-
 arguments:
+- $(inputs.java)
 - -Xmx20g
-- -Djava.io.tmpdir=/scratch
+- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
-# Todo: consolidate?
-- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+- $(inputs.gatk)
 - -T
 - FindCoveredIntervals
 
@@ -26,6 +23,9 @@ doc: |
   None
 
 inputs:
+  tmp_dir: string
+  java: string
+  gatk: string
 
 # todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/

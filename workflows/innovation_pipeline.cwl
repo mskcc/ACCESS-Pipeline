@@ -25,7 +25,6 @@ doc: |
     UMI Family Collapsing with Marianas
     UMI Family Collapsing with Fulcrum
 
-
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

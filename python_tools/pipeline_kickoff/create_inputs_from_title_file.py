@@ -20,6 +20,7 @@ from constants import *
 #   -d /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY
 #
 # This module is used to create a yaml file that will be supplied to the pipeline run.
+# Some input parameters may take on multiple values based on what system we are running on (e.g. compute cluster or Local)
 # This yaml file will include three main types of ingredient:
 #
 #   1. Paths to fastq files and sample sheets
@@ -322,18 +323,25 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     fh.write(ruamel.yaml.dump(out_dict))
 
 
-def substitute_project_root(file_resources):
+def substitute_project_root(yaml_file):
     '''
-    # Substitute in the ROOT_PATH variable based on our current installation directory
+    Substitute in the ROOT_PATH variable based on our current installation directory
 
     :return:
     '''
-    for key in file_resources.keys():
-        if 'path' in file_resources[key]:
-            new_value = file_resources[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            file_resources[key]['path'] = new_value
+    for key in yaml_file.keys():
+        # If we are dealing with a File object
+        if 'path' in yaml_file[key]:
+            new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
+            yaml_file[key]['path'] = new_value
 
-    return file_resources
+        # If we are dealing with a string
+        # Todo: should be replaced with File
+        if type(yaml_file[key]) == str:
+            new_value = yaml_file[key].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
+            yaml_file[key] = new_value
+
+    return yaml_file
 
 
 def include_file_resources(fh, file_resources_path):
@@ -348,7 +356,6 @@ def include_file_resources(fh, file_resources_path):
         file_resources = ruamel.yaml.round_trip_load(stream)
 
     file_resources = substitute_project_root(file_resources)
-
     fh.write(ruamel.yaml.round_trip_dump(file_resources))
 
 
@@ -375,6 +382,19 @@ def include_resource_overrides(fh):
         resource_overrides = ruamel.yaml.round_trip_load(stream)
 
     fh.write(ruamel.yaml.round_trip_dump(resource_overrides))
+
+
+def include_tool_resources(fh, tool_resources_file_path):
+    '''
+    Load and write our ResourceRequirement overrides for testing
+
+    :param fh: File handle for pipeline yaml inputs
+    '''
+    with open(tool_resources_file_path, 'r') as stream:
+        tool_resources = ruamel.yaml.round_trip_load(stream)
+        tool_resources = substitute_project_root(tool_resources)
+
+    fh.write(ruamel.yaml.round_trip_dump(tool_resources))
 
 
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
@@ -436,7 +456,8 @@ def include_collapsing_params(fh, title_file_path):
 
 def write_inputs_file(args, title_file):
     '''
-    Main function to write our inputs.yaml file
+    Main function to write our inputs.yaml file.
+    Contains most of the logic related to which inputs to use based on the type of run
 
     :param data_dir:
     :param title_file:
@@ -446,22 +467,32 @@ def write_inputs_file(args, title_file):
     :return:
     '''
 
-    # Use either the test run parameters, or parameters for a real run
-    if args.use_test_params:
+    # Decide on which of the three following sets of Run Parameters to use:
+    # 1. Local Test run parameters
+    # 2. Luna test run parameters
+    # 3. Luna parameters for a real run
+    if args.use_test_params and args.use_local_file_resources:
+        run_params_path = LOCAL_RUN_PARAMS_TEST_PATH
+    elif args.use_test_params:
         run_params_path = RUN_PARAMS_TEST_PATH
     else:
         run_params_path = RUN_PARAMS_PATH
 
-    # Use either local paths to our DB files and reference files, or files on Luna
+    # Decide which of the following two sets of Resource File & Tool paths to use:
+    # 1. Local Resource Files & Local Tool paths
+    # 2. Luna Resource File & Luna Tool paths
     if args.use_local_file_resources:
         file_resources_path = LOCAL_FILE_RESOURCES_PATH
+        tool_resources_file_path = LOCAL_TOOL_RESOURCES_FILE_PATH
     else:
         file_resources_path = FILE_RESOURCES_PATH
+        tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
 
     fh = open('inputs.yaml', 'wb')
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, file_resources_path)
+    include_tool_resources(fh, tool_resources_file_path)
 
     # Optionally include parameters for collapsing & QC steps
     if args.run_collapsing:
@@ -475,6 +506,9 @@ def write_inputs_file(args, title_file):
 
 
 def parse_arguments():
+    #######################
+    # Required Arguments: #
+    #######################
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i",
@@ -488,6 +522,10 @@ def parse_arguments():
         help="Directory with fastqs and samplesheets",
         required=True
     )
+
+    #######################
+    # Optional Arguments: #
+    #######################
     parser.add_argument(
         "-t",
         "--use_test_params",
@@ -509,6 +547,8 @@ def parse_arguments():
         required=False,
         action="store_true"
     )
+    # Todo: Argument is unimplememnted
+    # https://github.com/BD2KGenomics/toil/issues/2167
     parser.add_argument(
         "-o",
         "--include_resource_overrides",
@@ -541,13 +581,12 @@ def sanity_check(title_file):
 ########
 
 def main():
+    # Parse arguments
     args = parse_arguments()
-
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
     # Perform some sanity checks on the title file
     sanity_check(title_file)
-
     # Create the inputs file for the run
     write_inputs_file(args, title_file)
 
