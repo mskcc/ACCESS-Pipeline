@@ -28,10 +28,12 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 # Setup
 
 ### 1. Set up a Virtual Environment
-(Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline)
+Replace "my-virtual-env" with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
-virtualenv ~/my-virtual-env
-source ~/my-virtual-env/bin/activate
+~/Innovation-Pipeline$ pip install virtualenvwrapper
+~/Innovation-Pipeline$ mkvirtualenv ~/my-virtual-env
+~/Innovation-Pipeline$ workon ~/my-virtual-env
+(my-virtual-env) ~/Innovation-Pipeline$ add2virtualenv ~/my-virtual-env
 ```
 
 ### 2. Install the python tools
@@ -40,23 +42,31 @@ source ~/my-virtual-env/bin/activate
 (my-virtual-env) ~/Innovation-Pipeline$ python setup.py install
 ```
 
-### 3. (Optional) Clone the QC module (Currently requires manual path manipulation in cwl file)
+### 3. Set the root directory of the project
 ```
-git clone https://github.com/mskcc/Innovation-QC.git
-cd Innovation-QC
-python setup.py install
+ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 4. Run the test pipeline
+### 4. Create a run title file from a sample manifest (Skip to 6 if using existing inputs.yaml)
+```
+~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xlsx -o title_file.txt
+```
+
+### 5. Create an inputs file from the title file
+```
+~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -l -o
+```
+
+### 6. Run the test pipeline
 To run with the CWL reference implementation (fastest runtime):
 ```
-cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
+~/Innovation-Pipeline$ cwltool --outdir ~/outputs --verbose ../workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
-toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+~/Innovation-Pipeline$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 or use:
 ```
-test/run-pipeline-test.sh <output_dir>
+~/Innovation-Pipeline$ test/run-pipeline-test.sh <output_dir>
 ```
