@@ -37,7 +37,7 @@ source ~/my-virtual-env/bin/activate
 ### 2. Install the python tools
 (Make sure your virtualenv is active)
 ```
-(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix ~/my-virtual-env
+(my-virtual-env) ~/Innovation-Pipeline$ python setup.py install
 ```
 
 ### 3. (Optional) Clone the QC module (Currently requires manual path manipulation in cwl file)
