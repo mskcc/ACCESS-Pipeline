@@ -34,31 +34,20 @@ virtualenv ~/my-virtual-env
 source ~/my-virtual-env/bin/activate
 ```
 
-### 2. Set up PATH and PYTHONPATH (put in ~/.profile or ~/.zshrc)
-```
-export PATH=~/my-virtual-env/bin:$PATH
-export PYTHONPATH=~/my-virtual-env/lib/python2.7/site-packages:$PYTHONPATH
-```
-Note: You may receive errors related to packages being sourced from other locations on the system (e.g. if you have another installation of python or python modules somewhere else, which is likely the case). Make sure that the output from Toil does not reference any of these alternate installations, and only refers to the packages that you installed in `~/my-virtual-env`.
-
-### 4. Install the python tools
+### 2. Install the python tools
 (Make sure your virtualenv is active)
 ```
 (my-virtual-env) ~/Innovation-Pipeline$ python setup.py install --prefix ~/my-virtual-env
 ```
 
-### 5. Clone the QC module (Currently requires manual path manipulation in cwl file)
+### 3. (Optional) Clone the QC module (Currently requires manual path manipulation in cwl file)
 ```
 git clone https://github.com/mskcc/Innovation-QC.git
 cd Innovation-QC
 python setup.py install
 ```
 
-### 5. Update the paths to the tools called in each .cwl CommandLineTool
-This step is currently necessary until the follwing PR is merged:
-https://github.com/mskcc/Innovation-Pipeline/pull/2
-
-### 6. Run the test pipeline
+### 4. Run the test pipeline
 To run with the CWL reference implementation (fastest runtime):
 ```
 cwltool workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
