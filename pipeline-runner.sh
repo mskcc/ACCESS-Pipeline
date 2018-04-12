@@ -64,10 +64,9 @@ eval $cmd
 #    --logDebug \
 #    --realTimeLogging \
 #    --rotateLogging \
+# --js-console
 #
 # todo: in 3.15 this argument no longer works...?
 #    --linkImports \
 #    --stats \
 #    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
-
-# --js-console

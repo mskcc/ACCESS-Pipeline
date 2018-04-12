@@ -4,10 +4,10 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-# Todo: Reported bug in 0.7.5a which introduces randomness related to number of threads used:
-# https://www.biostars.org/p/90390/
-- /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
+#baseCommand:
+## Todo: Reported bug in 0.7.5a which introduces randomness related to number of threads used:
+## https://www.biostars.org/p/90390/
+#- /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
 
 # Todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
@@ -27,6 +27,7 @@ baseCommand:
 #    prefix: "-T"
 
 arguments:
+- $(inputs.bwa)
 - mem
 - -t
 - $(inputs.t)
@@ -36,12 +37,10 @@ arguments:
 - $(inputs.reference_fasta)
 - $(inputs.fastq1.path)
 - $(inputs.fastq2.path)
-- '>'
-- $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
-# todo: LB should be lane number?
-# Example -R usage from Impact:
+# Example -R usage from Impact Pipeline:
 #-R '@RG     ID:MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000     LB:0    SM:MSK-L-009-bc-IGO-05500-DY-6  PL:Illumina     PU:bc209        CN:BergerLab_MSKCC'
+# Todo: LB == lane number?
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -50,20 +49,20 @@ requirements:
     coresMin: 4
 
 inputs:
+  bwa: string
 
   fastq1: File
   fastq2: File
   reference_fasta: string
   reference_fasta_fai: string
-
+  t:
+    type: ['null', string]
+    default: '4'
   sam:
     type: ['null', boolean]
     default: false
     inputBinding:
       prefix: --sam
-  t:
-    type: ['null', string]
-    default: '4'
 
   ID: string
   LB: int
@@ -73,7 +72,6 @@ inputs:
   CN: string
 
 # Todo: Understand the difference between stdout & > usage in this file
-# Compare logs with Impact
 stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:

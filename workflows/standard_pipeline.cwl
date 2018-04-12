@@ -16,9 +16,22 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-
+  # Paths to tools
+  perl_5: string
+  java_7: string
+  java_8: string
+  marianas_standard_path: string
+  trimgalore_path: string
+  fastqc_path: string
+  cutadapt_path: string
+  bwa_path: string
+  arrg_path: string
+  picard_path: string
+  gatk_path: string
+  abra_path: string
+  fx_path: string
+  # Reused parameters
   tmp_dir: string
-
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
@@ -28,7 +41,6 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
   # Marianas Clipping
   umi_length: int
   output_project_folder: string
@@ -50,7 +62,7 @@ inputs:
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
-  fci__rf: string
+  fci__rf: string[]
   fci__intervals: string[]?
   abra__kmers: string
   abra__scratch: string
@@ -84,6 +96,8 @@ steps:
   umi_clipping:
     run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
     in:
+      java_8: java_8
+      marianas_standard_path: marianas_standard_path
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
@@ -97,9 +111,18 @@ steps:
   # Adapted Module 1 #
   ####################
 
-  module_1_innovation:
+  module_1:
     run: ./module-1.cwl
     in:
+      java_7: java_7
+      java_8: java_8
+      perl: perl_5
+      trimgalore_path: trimgalore_path
+      fastqc_path: fastqc_path
+      cutadapt_path: cutadapt_path
+      bwa_path: bwa_path
+      arrg_path: arrg_path
+      picard_path: picard_path
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
@@ -129,7 +152,7 @@ steps:
   group_bams_by_patient:
     run: ../cwl_tools/expression_tools/group_bams.cwl
     in:
-      bams: module_1_innovation/bam
+      bams: module_1/bam
       patient_ids: patient_id
     out:
       [grouped_bams, grouped_patient_ids]
@@ -141,6 +164,11 @@ steps:
   module_2:
     run: ./module-2.cwl
     in:
+      java_8: java_8
+      picard_path: picard_path
+      gatk_path: gatk_path
+      abra_path: abra_path
+      fx_path: fx_path
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams

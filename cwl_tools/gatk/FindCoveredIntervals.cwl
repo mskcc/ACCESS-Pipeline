@@ -4,21 +4,17 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
-
 arguments:
+- $(inputs.java)
 - -Xmx20g
-- -Djava.io.tmpdir=/scratch
+- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
-# Todo: consolidate?
-- /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+- $(inputs.gatk)
 - -T
 - FindCoveredIntervals
 
 requirements:
   InlineJavascriptRequirement: {}
-  ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 22000
     coresMin: 1
@@ -27,6 +23,9 @@ doc: |
   None
 
 inputs:
+  tmp_dir: string
+  java: string
+  gatk: string
 
 # todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
@@ -72,13 +71,14 @@ inputs:
       position: 100
 
   read_filters:
-    type: string
-    inputBinding:
-      prefix: --read_filter
-      shellQuote: false
-      position: 100
-      # todo: there should be a better way to specify multiple arguments with same prefix
-      # https://www.biostars.org/p/303633/
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: --read_filter
+        position: 100
+        # todo: there should be a better way to specify multiple arguments with same prefix
+        # https://www.biostars.org/p/303633/
 
   out:
     type: string

@@ -4,7 +4,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/list2bed.py
+baseCommand: [list2bed]
 
 requirements:
   InlineJavascriptRequirement: {}

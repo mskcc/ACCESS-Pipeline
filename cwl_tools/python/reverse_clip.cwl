@@ -4,7 +4,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: /home/johnsoni/Innovation-Pipeline/python_tools/reverse_clip.py
+baseCommand: [reverse_clip]
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -30,9 +30,9 @@ outputs:
   reversed_fastq_1:
     type: File
     outputBinding:
-      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )
+      glob: $( inputs.fastq_1.basename.replace(".fastq", "_clipping-reversed.fastq") )
 
   reversed_fastq_2:
     type: File
     outputBinding:
-      glob: $( inputs.fastq_1.basename.replace(".fastq.gz", "_clipping-reversed.fastq") )
+      glob: $( inputs.fastq_1.basename.replace(".fastq", "_clipping-reversed.fastq") )

@@ -13,6 +13,9 @@ requirements:
 
 
 inputs:
+  java: string
+  fulcrum: string
+
   tmp_dir: string
   input_bam: File
 
@@ -83,6 +86,9 @@ steps:
   annotate_bam_with_umis:
     run: ../../cwl_tools/fulcrum/AnnotateBamWithUmis.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: input_bam
       annotated_fastq: innovation_map_read_names_to_umis/annotated_fastq
     out:
@@ -91,6 +97,9 @@ steps:
   sort_bam:
     run: ../../cwl_tools/fulcrum/SortBam.cwl
     in:
+        java: java
+        fulcrum: fulcrum
+
         input_bam: annotate_bam_with_umis/output_bam
         sort_order: sort_order
     out:
@@ -99,6 +108,9 @@ steps:
   set_mate_information:
     run: ../../cwl_tools/fulcrum/SetMateInformation.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: sort_bam/output_bam
     out:
       [output_bam]
@@ -106,6 +118,9 @@ steps:
   group_reads_by_umi:
     run: ../../cwl_tools/fulcrum/GroupReadsByUmi.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       strategy: grouping_strategy
       min_mapping_quality: min_mapping_quality
       tag_family_size_counts_output: tag_family_size_counts_output
@@ -116,6 +131,9 @@ steps:
   collect_duplex_seq_metrics:
     run: ../../cwl_tools/fulcrum/CollectDuplexSeqMetrics.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: group_reads_by_umi/output_bam
     out:
       [metrics]
@@ -128,6 +146,9 @@ steps:
   call_duplex_consensus_reads:
     run: ../../cwl_tools/fulcrum/CallDuplexConsensusReads.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: group_reads_by_umi/output_bam
       call_duplex_min_reads: call_duplex_min_reads
     out:
@@ -138,6 +159,9 @@ steps:
   filter_consensus_reads__simplex_duplex_singleton:
     run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: call_duplex_consensus_reads/output_bam
       reference_fasta: reference_fasta
       min_reads: call_duplex_min_reads
@@ -160,6 +184,9 @@ steps:
   filter_consensus_reads__duplex:
     run: ../../cwl_tools/fulcrum/FilterConsensusReads.cwl
     in:
+      java: java
+      fulcrum: fulcrum
+
       input_bam: filter_consensus_reads__simplex_duplex/output_bam
       reference_fasta: reference_fasta
       min_reads: filter_min_reads__duplex

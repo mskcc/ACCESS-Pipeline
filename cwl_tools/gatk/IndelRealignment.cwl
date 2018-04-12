@@ -6,10 +6,8 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_25/bin/java
-
 arguments:
+- $(inputs.java)
 - -Xmx20g
 - -Djava.io.tmpdir=/scratch
 - -jar
