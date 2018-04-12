@@ -16,7 +16,6 @@ setup(
         'xlrd==1.1.0',
         'numpy==1.14.2',
         'pybedtools',
-        # 'ruamel.yaml'
     ],
     # setup_requires=[
     #     # Setuptools 18.0 properly handles Cython extensions.
