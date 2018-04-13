@@ -1,0 +1,2 @@
+Barcode_index	Library_yield	Barcode	Input_ng	Patient_ID	Gender	Collab_ID	Pool	Bait_version	Sample_type	Sample_ID	Pool_input	Class	PatientName	MAccession	Extracted_DNA_Yield	Lane
+TCGACAAG-CTTGTCGA	798	bc405	10	ZS-msi-4506	F	ZS-msi-4506-pl	Pool-05500_ES-Tube3_1	panpanel V2.1 pool A:B 50:1	cfDNA	ZS-msi-4506-pl-T01	500	Tumor	-	-	-	3

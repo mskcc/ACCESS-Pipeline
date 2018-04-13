@@ -245,6 +245,7 @@ steps:
 
   parallel_printreads:
     in:
+      run_tools: run_tools
       java:
         valueFrom: ${return inputs.run_tools.java_8}
       gatk:

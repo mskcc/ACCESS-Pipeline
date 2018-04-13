@@ -8,21 +8,21 @@ run_tools:
   java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
   # PLUF
-  marianas_standard_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+  marianas_standard_path: /home/johnsoni/vendor_tools/Marianas-standard.jar
 
   # Module 1
   trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
   bwa_path: /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
-  arrg_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
-  picard_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/picard-2.8.1.jar
+  arrg_path: /home/johnsoni/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /home/johnsoni/vendor_tools/picard-2.8.1.jar
 
   # Module 2
   gatk_path: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
-  abra_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+  abra_path: /home/johnsoni/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
   fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
 
   # Module 2.5
-  marianas_duplex_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-true-duplex-1-1.jar
-  fulcrum_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
+  marianas_duplex_path: /home/johnsoni/vendor_tools/Marianas-true-duplex-1-1.jar
+  fulcrum_path: /home/johnsoni/vendor_tools/fgbio-0.5.0.jar
 
 # Todo: Find absolute path for samtools on Luna

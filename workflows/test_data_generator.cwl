@@ -174,9 +174,9 @@ steps:
             run_tools:
               source: run_tools
             java_8:
-              valueFrom: ${ return inputs.run_tools.java_8 }
+              valueFrom: ${return inputs.run_tools.java_8}
             marianas_standard_path:
-              valueFrom: ${ return inputs.run_tools.marianas_standard_path }
+              valueFrom: ${return inputs.run_tools.marianas_standard_path}
             fastq1: fastq_1
             fastq2: fastq_2
             sample_sheet: sample_sheet
