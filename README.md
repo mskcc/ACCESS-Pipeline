@@ -41,17 +41,17 @@ $ source ~/innovation_pipeline/bin/activate
 (innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
-### 3. Set the root directory of the project (Skip to step 6 if you have an existing inputs.yaml and just want to run it)
+### 3. Update the paths to the tool resources in `/resources/production`
+
+### 4. Set the root directory of the project
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 4. Create a run title file from a sample manifest
+### 5. Create a run title file from a sample manifest (example manifest exists in /test/test_data)
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
-
-### 5. Update the paths to the tool resources in `/resources/production`
 
 ### 6. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
