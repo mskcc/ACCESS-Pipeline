@@ -30,7 +30,9 @@ setup(
             'aggregate_bam_metrics = python_tools.aggregate_bam_metrics:main',
             'list2bed = python_tools.list2bed:main',
             'map_read_names_to_umis = python_tools.map_read_names_to_umis:main',
-            'reverse_clip = python_tools.reverse_clip:main'
+            'reverse_clip = python_tools.reverse_clip:main',
+            'pipeline_submit = python_tools.pipeline_submit:main',
+            'pipeline_runner = python_tools.pipeline_runner:main'
         ]
     },
     zip_safe=False
