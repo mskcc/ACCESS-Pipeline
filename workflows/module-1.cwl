@@ -10,10 +10,6 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
-  tmp_dir: string
-  fastq1: File
-  fastq2: File
-
   run_tools:
     type:
       type: record
@@ -26,6 +22,10 @@ inputs:
         bwa_path: string
         arrg_path: string
         picard_path: string
+
+  tmp_dir: string
+  fastq1: File
+  fastq2: File
 
   reference_fasta: string
   reference_fasta_fai: string

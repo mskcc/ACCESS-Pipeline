@@ -28,15 +28,16 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  tmp_dir: string
-  reference_fasta: string
-  patient_id: string
   bams:
     type:
       type: array
       items: File
     secondaryFiles:
       - ^.bai
+
+  tmp_dir: string
+  reference_fasta: string
+  patient_id: string
 
   fci__minbq: int
   fci__minmq: int
