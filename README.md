@@ -51,12 +51,15 @@ ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
 
-### 5. Create an inputs file from the title file
+### 5. Update the paths to the tool resources in `/resources/production`
+
+### 6. Create an inputs file from the title file
+This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t
 ```
 
-### 6. Run the test pipeline
+### 7. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ cwltool ../workflows/standard_pipeline.cwl inputs.yaml
