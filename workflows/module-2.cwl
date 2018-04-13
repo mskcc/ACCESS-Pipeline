@@ -10,11 +10,23 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
-  java_8: string
-  picard_path: string
-  gatk_path: string
-  abra_path: string
-  fx_path: string
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_standard_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
+        gatk_path: string
+        abra_path: string
+        fx_path: string
+        fastqc_path: string?
+        cutadapt_path: string?
 
   tmp_dir: string
   reference_fasta: string
@@ -77,8 +89,12 @@ steps:
   find_covered_intervals:
     run: ../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
-      java: java_8
-      gatk: gatk_path
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      gatk:
+        valueFrom: ${return inputs.run_tools.gatk_path}
+
       tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
@@ -103,8 +119,12 @@ steps:
   abra:
     run: ../cwl_tools/abra/abra.cwl
     in:
-      java: java_8
-      abra: abra_path
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      abra:
+        valueFrom: ${return inputs.run_tools.abra_path}
+
       input_bams: bams
       targets: list2bed/output_file
       scratch_dir: abra__scratch
@@ -125,8 +145,12 @@ steps:
 
   parallel_fixmate:
     in:
-      java: java_8
-      fix_mate_information: fx_path
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      fix_mate_information:
+        valueFrom: ${return inputs.run_tools.fx_path}
+
       bam: abra/bams
       tmp_dir: tmp_dir
       sort_order: fix_mate_information__sort_order
@@ -158,7 +182,6 @@ steps:
           in:
             java: java
             fix_mate_information: fix_mate_information
-
             input_bam: bam
             tmp_dir: tmp_dir
             sort_order: sort_order
@@ -169,9 +192,13 @@ steps:
 
   parallel_bqsr:
     in:
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      gatk:
+        valueFrom: ${return inputs.run_tools.gatk_path}
+
       tmp_dir: tmp_dir
-      java: java_8
-      gatk: gatk_path
       bam: parallel_fixmate/bams
       reference_fasta: reference_fasta
       rf: bqsr__rf
@@ -217,9 +244,12 @@ steps:
 
   parallel_printreads:
     in:
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      gatk:
+        valueFrom: ${return inputs.run_tools.gatk_path}
+
       tmp_dir: tmp_dir
-      java: java_8
-      gatk: gatk_path
       input_file: parallel_fixmate/bams
       BQSR: parallel_bqsr/recal_matrix
       nct: print_reads__nct

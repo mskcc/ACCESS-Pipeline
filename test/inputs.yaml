@@ -53,7 +53,6 @@ md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
 fci__minbq: 20
 fci__minmq: 20
 fci__cov: 20
-# todo: find a better way
 fci__rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 # We include this parameter during testing to make this step faster
 fci__intervals: ['14']
@@ -126,11 +125,5 @@ fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
 # Module 2.5
 marianas_duplex_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-true-duplex-1-1.jar
 fulcrum_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/fgbio-0.5.0.jar
-
-# Python tools
-# Todo: Use setup.py instead
-agbm_path: /home/johnsoni/Innovation-Pipeline/python_tools/innovation_aggregate_bam_metrics.py
-list2bed_path: /home/johnsoni/Innovation-Pipeline/python_tools/list2bed.py
-map_read_names_to_umis_path: /home/johnsoni/Innovation-Pipeline/python_tools/innovation_map_read_names_to_umis.py
 
 # Todo: Find absolute path for samtools on Luna

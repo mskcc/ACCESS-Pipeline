@@ -1,3 +1,31 @@
+############################
+# Tool Resource File Paths #
+############################
+
+run_tools:
+  perl_5: /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
+  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+  java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+  # PLUF
+  marianas_standard_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+  # Module 1
+  trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+  bwa_path: /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
+  arrg_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+  # For MD:
+  picard_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/picard-2.8.1.jar
+  # Module 2
+  gatk_path: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+  fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+
+
+
+
+##########
+# Fastqs #
+##########
+
 fastq_1:
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz }
 - {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R1_001.fastq.gz }

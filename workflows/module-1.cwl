@@ -7,20 +7,25 @@ class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   tmp_dir: string
   fastq1: File
   fastq2: File
-  java_7: string
-  java_8: string
-  perl: string
-  trimgalore_path: string
-  fastqc_path: string?
-  cutadapt_path: string?
-  bwa_path: string
-  arrg_path: string
-  picard_path: string
+
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_standard_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
 
   reference_fasta: string
   reference_fasta_fai: string
@@ -65,10 +70,11 @@ steps:
   trimgalore:
     run: ../cwl_tools/trimgalore/trimgalore.cwl
     in:
-      perl: perl
-      trimgalore: trimgalore_path
-      fastqc_path: fastqc_path
-      cutadapt_path: cutadapt_path
+      run_tools: run_tools
+      perl:
+        valueFrom: ${return inputs.run_tools.perl_5}
+      trimgalore:
+        valueFrom: ${return inputs.run_tools.trimgalore_path}
       adapter: adapter
       adapter2: adapter2
       fastq1: fastq1
@@ -78,7 +84,9 @@ steps:
   bwa_mem:
     run: ../cwl_tools/bwa-mem/bwa-mem.cwl
     in:
-      bwa: bwa_path
+      run_tools: run_tools
+      bwa:
+        valueFrom: ${return inputs.run_tools.bwa_path}
       fastq1: trimgalore/clfastq1
       fastq2: trimgalore/clfastq2
       reference_fasta: reference_fasta
@@ -94,8 +102,11 @@ steps:
   picard.AddOrReplaceReadGroups:
     run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
-      java: java_7
-      arrg: arrg_path
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_7}
+      arrg:
+        valueFrom: ${return inputs.run_tools.arrg_path}
       input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
@@ -118,8 +129,11 @@ steps:
   picard.MarkDuplicates:
     run: ../cwl_tools/picard/MarkDuplicates.cwl
     in:
-      java: java_8
-      picard: picard_path
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_8}
+      picard:
+        valueFrom: ${return inputs.run_tools.picard_path}
       input_bam: picard.AddOrReplaceReadGroups/bam
       tmp_dir: tmp_dir
       assume_sorted: md__assume_sorted

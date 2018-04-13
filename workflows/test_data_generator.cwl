@@ -12,9 +12,24 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
   InlineJavascriptRequirement: {}
 
 inputs:
+
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_standard_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
+
   fastq_1: File[]
   fastq_2: File[]
   sample_sheet: File[]
@@ -73,6 +88,7 @@ steps:
     scatterMethod: dotproduct
 
     in:
+      run_tools: run_tools
       fastq_1: fastq_1
       fastq_2: fastq_2
       sample_sheet: sample_sheet
@@ -103,6 +119,19 @@ steps:
     run:
       class: Workflow
       inputs:
+        run_tools:
+          type:
+            type: record
+            fields:
+              perl_5: string
+              java_7: string
+              java_8: string
+              marianas_standard_path: string
+              trimgalore_path: string
+              bwa_path: string
+              arrg_path: string
+              picard_path: string
+
         fastq_1: File
         fastq_2: File
         sample_sheet: File
@@ -142,6 +171,12 @@ steps:
         umi_clipping:
           run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
           in:
+            run_tools:
+              source: run_tools
+            java_8:
+              valueFrom: ${ return inputs.run_tools.java_8 }
+            marianas_standard_path:
+              valueFrom: ${ return inputs.run_tools.marianas_standard_path }
             fastq1: fastq_1
             fastq2: fastq_2
             sample_sheet: sample_sheet
@@ -152,6 +187,7 @@ steps:
         module_1:
           run: ./module-1.cwl
           in:
+            run_tools: run_tools
             tmp_dir: tmp_dir
             fastq1: umi_clipping/processed_fastq_1
             fastq2: umi_clipping/processed_fastq_2

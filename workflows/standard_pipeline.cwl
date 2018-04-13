@@ -16,21 +16,24 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-  # Paths to tools
-  perl_5: string
-  java_7: string
-  java_8: string
-  marianas_standard_path: string
-  trimgalore_path: string
-  fastqc_path: string?
-  cutadapt_path: string?
-  bwa_path: string
-  arrg_path: string
-  picard_path: string
-  gatk_path: string
-  abra_path: string
-  fx_path: string
-  # Reused parameters
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_standard_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
+        gatk_path: string
+        abra_path: string
+        fx_path: string
+        fastqc_path: string?
+        cutadapt_path: string?
+
   tmp_dir: string
   fastq1: File[]
   fastq2: File[]
@@ -41,6 +44,7 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
+
   # Marianas Clipping
   umi_length: int
   output_project_folder: string
@@ -96,8 +100,12 @@ steps:
   umi_clipping:
     run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
     in:
-      java_8: java_8
-      marianas_standard_path: marianas_standard_path
+      run_tools: run_tools
+      java_8:
+        valueFrom: ${return inputs.run_tools.java_8}
+      marianas_standard_path:
+        valueFrom: ${return inputs.run_tools.marianas_standard_path}
+
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
@@ -114,15 +122,7 @@ steps:
   module_1:
     run: ./module-1.cwl
     in:
-      java_7: java_7
-      java_8: java_8
-      perl: perl_5
-      trimgalore_path: trimgalore_path
-      fastqc_path: fastqc_path
-      cutadapt_path: cutadapt_path
-      bwa_path: bwa_path
-      arrg_path: arrg_path
-      picard_path: picard_path
+      run_tools: run_tools
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
@@ -164,11 +164,7 @@ steps:
   module_2:
     run: ./module-2.cwl
     in:
-      java_8: java_8
-      picard_path: picard_path
-      gatk_path: gatk_path
-      abra_path: abra_path
-      fx_path: fx_path
+      run_tools: run_tools
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams
