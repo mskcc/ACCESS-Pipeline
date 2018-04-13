@@ -4,3 +4,4 @@ runs
 notes
 .DS_Store
 *.pyc
+*.log
