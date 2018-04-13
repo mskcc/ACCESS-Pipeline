@@ -1,0 +1,2 @@
+Barcode	Pool	Sample_ID	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Gender	PatientName	MAccession	Extracted_DNA_Yield	Lane
+bc405	Project_Name	Sample_test_14-105258897-105259017	F	Sample_test_14-105258897-105259017	Tumor	-	-	-	-	IMPACT410	-	-	-	-	1

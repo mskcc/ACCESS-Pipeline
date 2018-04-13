@@ -1,0 +1,66 @@
+fastq_1:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R1_001.fastq.gz }
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R1_001.fastq.gz }
+
+fastq_2:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/MSK-L-007-bc_IGO_05500_DY_5_S2_R2_001.fastq.gz }
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/MSK-L-007-cf_IGO_05500_DY_22_S23_R2_001.fastq.gz }
+
+sample_sheet:
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-bc_IGO_05500_DY_5/SampleSheet.csv }
+- {class: File, path: /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY/Sample_MSK-L-007-cf_IGO_05500_DY_22/SampleSheet.csv }
+
+
+tmp_dir: /scratch
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+
+subset_region: 14:105258897-105259017
+paired_only: true
+mapped_only: true
+
+adapter:
+- GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGAATACGATATCTCGTATGCCGTCTTCTGCTTG
+- GATCGGAAGAGCACACGTCTGAACTCCAGTCACTCGTCTGAATATCTCGTATGCCGTCTTCTGCTTG
+
+adapter2:
+- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTCGTATTCGAGATCTCGGTGGTCGCCGTATCATT
+- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTTCAGACGAAGATCTCGGTGGTCGCCGTATCATT
+
+add_rg_LB:
+- 1
+- 4
+
+add_rg_ID:
+- MSK-L-007-bc_IGO_05500_DY_5
+- MSK-L-007-bc_IGO_05500_DY_22
+
+add_rg_PU:
+- CGAATACG
+- TCGTCTGA
+
+add_rg_SM:
+- MSK-L-007-bc_IGO_05500_DY_5
+- MSK-L-007-bc_IGO_05500_DY_22
+
+
+##########################
+# Process Loop UMI Fastq #
+##########################
+umi_length: 3
+output_project_folder: .
+
+###########################
+# AddOrReplcaceReadGroups #
+###########################
+add_rg_PL: Illumina
+add_rg_CN: BergerLab_MSKCC
+
+##################
+# MarkDuplicates #
+##################
+md__create_index: true
+md__assume_sorted: true
+md__compression_level: 0
+md__validation_stringency: LENIENT
+md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
