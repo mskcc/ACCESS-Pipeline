@@ -72,4 +72,4 @@ or use:
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
-Have a look inside `run-pipeline-test.sh` to see some useful arguments for Toil & cwltool
+Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
