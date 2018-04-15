@@ -30,15 +30,17 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
-$ virtualenv ~/innovation_pipeline
-$ source ~/innovation_pipeline/bin/activate
+~$ virtualenv ~/innovation_pipeline
+~$ source ~/innovation_pipeline/bin/activate
 ```
 
-### 2. Copy the repository and Install the python tools
+### 2. Copy the latest release of the pipeline and Install the python tools
 (Make sure your virtualenv is active)
 (We hope to allow this repo to be cloned from Github once test data storage is confirmed)
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
+(innovation_pipeline) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
+(innovation_pipeline) ~$ cd Innovation-Pipeline-0.0.3
+(innovation_pipeline) ~/Innovation-Pipeline-0.0.3$ python setup.py install
 ```
 
 ### 3. Update the paths to the tool resources in `/resources/production`
