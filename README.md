@@ -21,8 +21,7 @@ If on mac, can be installed with homebrew:
 > source ~/perl5/perlbrew/etc/bashrc
  ```
 - HG19 Reference fasta + fai
-
-Note 2: Paths to the tools that are used by the cwl files will need to be manually updated (relative paths aren't an option in `basecommand`)
+- dbSNP & Millis_100G vcf + .vcf.idx files
 
 
 # Setup
