@@ -107,7 +107,6 @@ inputs:
   marianas__min_mapping_quality: int
   marianas__min_base_quality: int
   marianas__min_consensus_percent: int
-  marianas_collapsing__outdir: string
 
   # Waltz
   bed_file: File
