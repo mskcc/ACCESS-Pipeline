@@ -301,6 +301,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # later steps still require some of the original fields from
     # the record type after the fastqs have been converted to bams.
     # Todo: If there is a way to output a record type then this would be a cleaner option.
+    # But according to #Mr-c:
+    # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
+    # Alas the inputs object isn't in scope inside outputs in CWL v1.0
+    # One approach is to keep everything in matched arrays"
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
@@ -317,7 +321,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
         'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
-        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()
+        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist(),
+        'class_list': title_file[TITLE_FILE__CLASS_COLUMN].tolist(),
     }
 
     fh.write(ruamel.yaml.dump(out_dict))
