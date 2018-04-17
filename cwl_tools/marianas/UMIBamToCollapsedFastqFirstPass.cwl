@@ -4,15 +4,13 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-
 arguments:
+- $(inputs.java_8)
 - -server
 - -Xms8g
 - -Xmx8g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+- $(inputs.marianas_path)
 - org.mskcc.marianas.umi.duplex.DuplexUMIBamToCollapsedFastqFirstPass
 
 requirements:
@@ -26,6 +24,9 @@ doc: |
 
 inputs:
 
+  java_8: string
+  marianas_path: string
+
   input_bam:
     type: File
     inputBinding:
@@ -36,44 +37,56 @@ inputs:
     inputBinding:
       position: 2
 
-  mismatches:
+  min_mapping_quality:
     type: int
     inputBinding:
       position: 3
 
-  wobble:
+  min_base_quality:
     type: int
     inputBinding:
       position: 4
 
-  min_consensus_percent:
+  mismatches:
     type: int
     inputBinding:
       position: 5
 
+  wobble:
+    type: int
+    inputBinding:
+      position: 6
+
+  min_consensus_percent:
+    type: int
+    inputBinding:
+      position: 7
+
   reference_fasta:
     type: string
     inputBinding:
-      position: 6
+      position: 8
 
   reference_fasta_fai: string
 
   output_dir:
     type: ['null', string]
+    default: '.'
     inputBinding:
-      position: 7
+      position: 9
+      valueFrom: '.'
 
 outputs:
 
   first_pass_output_file:
     type: File
     outputBinding:
-      glob: ${ return "first-pass.txt" }
+      glob: ${return 'first-pass.txt'}
 
   alt_allele_file:
     type: File
     outputBinding:
-      glob: ${ return 'first-pass-alt-alleles.txt' }
+      glob: ${return 'first-pass-alt-alleles.txt'}
 
   first_pass_output_dir:
     type: Directory
