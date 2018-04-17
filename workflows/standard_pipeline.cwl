@@ -23,7 +23,7 @@ inputs:
         perl_5: string
         java_7: string
         java_8: string
-        marianas_standard_path: string
+        marianas_path: string
         trimgalore_path: string
         bwa_path: string
         arrg_path: string
@@ -103,8 +103,8 @@ steps:
       run_tools: run_tools
       java_8:
         valueFrom: ${return inputs.run_tools.java_8}
-      marianas_standard_path:
-        valueFrom: ${return inputs.run_tools.marianas_standard_path}
+      marianas_path:
+        valueFrom: ${return inputs.run_tools.marianas_path}
 
       fastq1: fastq1
       fastq2: fastq2
