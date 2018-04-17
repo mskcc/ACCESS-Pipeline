@@ -21,8 +21,7 @@ If on mac, can be installed with homebrew:
 > source ~/perl5/perlbrew/etc/bashrc
  ```
 - HG19 Reference fasta + fai
-
-Note 2: Paths to the tools that are used by the cwl files will need to be manually updated (relative paths aren't an option in `basecommand`)
+- dbSNP & Millis_100G vcf + .vcf.idx files
 
 
 # Setup
@@ -30,28 +29,30 @@ Note 2: Paths to the tools that are used by the cwl files will need to be manual
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project, e.g. innovation-pipeline
 ```
-$ virtualenv ~/innovation_pipeline
-$ source ~/innovation_pipeline/bin/activate
+~$ virtualenv ~/innovation_pipeline
+~$ source ~/innovation_pipeline/bin/activate
 ```
 
-### 2. Copy the repository and Install the python tools
+### 2. Copy the latest release of the pipeline and Install the python tools
 (Make sure your virtualenv is active)
 (We hope to allow this repo to be cloned from Github once test data storage is confirmed)
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
+(innovation_pipeline) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
+(innovation_pipeline) ~$ cd Innovation-Pipeline-0.0.3
+(innovation_pipeline) ~/Innovation-Pipeline-0.0.3$ python setup.py install
 ```
 
-### 3. Set the root directory of the project (Skip to step 6 if you have an existing inputs.yaml and just want to run it)
+### 3. Update the paths to the tool resources in `/resources/production`
+
+### 4. Set the root directory of the project
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 4. Create a run title file from a sample manifest
+### 5. Create a run title file from a sample manifest (example manifest exists in /test/test_data)
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
-
-### 5. Update the paths to the tool resources in `/resources/production`
 
 ### 6. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
@@ -72,4 +73,4 @@ or use:
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
-Have a look inside `run-pipeline-test.sh` to see some useful arguments for Toil & cwltool
+Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
