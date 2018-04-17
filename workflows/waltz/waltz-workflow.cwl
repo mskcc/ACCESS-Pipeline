@@ -11,6 +11,25 @@ requirements:
 
 inputs:
 
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
+        gatk_path: string
+        abra_path: string
+        fx_path: string
+        fastqc_path: string?
+        cutadapt_path: string?
+        waltz_path: string
+
   input_bam:
     type: File
     secondaryFiles: [^.bai]
@@ -37,6 +56,12 @@ steps:
   count_reads:
     run: ../../cwl_tools/waltz/CountReads.cwl
     in:
+      run_tools: run_tools
+      java_8:
+        valueFrom: ${return inputs.run_tools.java_8}
+      waltz_path:
+        valueFrom: ${return inputs.run_tools.waltz_path}
+
       input_bam: input_bam
       coverage_threshold: coverage_threshold
       gene_list: gene_list
@@ -50,6 +75,12 @@ steps:
   pileup_metrics:
     run: ../../cwl_tools/waltz/PileupMetrics.cwl
     in:
+      run_tools: run_tools
+      java_8:
+        valueFrom: ${return inputs.run_tools.java_8}
+      waltz_path:
+        valueFrom: ${return inputs.run_tools.waltz_path}
+
       input_bam: input_bam
       min_mapping_quality: min_mapping_quality
       reference_fasta: reference_fasta
