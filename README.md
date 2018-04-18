@@ -45,28 +45,28 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 ### 3. Update the paths to the tool resources in `/resources/production`
 
 ### 4. Include the path to BWA as the first entry in your path:
-This is not ideal, but remains the only solution for now unless we move to Docker containers
+Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
 ```
 path="/usr/bin/bwa:$PATH"
 ```
 
-### 4. Set the root directory of the project
+### 5. Set the root directory of the project
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 5. Create a run title file from a sample manifest (example manifest exists in /test/test_data)
+### 6. Create a run title file from a sample manifest (example manifest exists in /test/test_data)
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
 
-### 6. Create an inputs file from the title file
+### 7. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t
 ```
 
-### 7. Run the test pipeline
+### 8. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ cwltool ../workflows/standard_pipeline.cwl inputs.yaml
