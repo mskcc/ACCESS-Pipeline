@@ -37,7 +37,11 @@ outputs:
       items: string
 
 
-# Todo: This tool currenly relies on us only ever having ONE normal per patient
+# Todo: Currently, this tool does not handle the following situations:
+#
+# 1. Tumor sample with no Normal (these samples will not proceed)
+# 2. Any sample with multiple normals (the first pileup will be chosen for both)
+#
 expression: |
   ${
     var pileups = inputs.pileups;

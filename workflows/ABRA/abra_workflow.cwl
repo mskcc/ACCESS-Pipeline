@@ -121,7 +121,7 @@ steps:
       kmer: abra__kmers
       mad: abra__mad
       threads:
-        valueFrom: ${ return 12 }
+        valueFrom: ${return 12}
       # Todo: Find a cleaner way
       working_directory:
         valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}

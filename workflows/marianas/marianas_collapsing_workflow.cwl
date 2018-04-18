@@ -104,9 +104,9 @@ steps:
     in:
       run_tools: run_tools
       java_8:
-        valueFrom: ${ return inputs.run_tools.java_8 }
+        valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
-        valueFrom: ${ return inputs.run_tools.marianas_path }
+        valueFrom: ${return inputs.run_tools.marianas_path}
       input_bam: input_bam
       pileup: pileup
       first_pass_file: sort_by_mate_position/output_file
@@ -171,5 +171,5 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
       output_suffix:
-        valueFrom: ${return '_collapsed_'}
+        valueFrom: ${return '_MC_'}
     out: [bam, bai]

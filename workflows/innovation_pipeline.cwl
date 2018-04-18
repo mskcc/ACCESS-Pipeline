@@ -271,6 +271,7 @@ steps:
 
   ############################
   # Group Bams by Patient ID #
+  # and run Abra a 2nd time  #
   ############################
 
   group_bams_by_patient:
@@ -332,3 +333,5 @@ steps:
     out: [simplex_duplex_bam, duplex_bam]
     scatter: [collapsed_bam]
     scatterMethod: dotproduct
+
+

@@ -14,6 +14,7 @@ requirements:
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
   run_tools:

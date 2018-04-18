@@ -27,6 +27,12 @@ from constants import *
 #   2. Paths to resources required during the run (e.g. reference fasta, bed files etc.)
 #   3. Values for parameters for the individual tools (e.g. min coverage values, mapq thresholds etc.)
 #
+# The requirements for running this module include:
+#
+#   1. Read 1 fastq, Read 2 fastq, and SampleSheet.csv are found in the same directory
+#   2. The Sample_ID from the title_file matches with at least some part of the path to the Read 1 fastq file
+#
+#
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
@@ -273,6 +279,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
         print DELIMITER + 'Error: The following samples were not found and will be removed from the title file.'
         print 'Please perform a manual check on inputs.yaml before running the pipeline.'
         print samples_not_found
+        # Todo: Don't remove sample from title file, just raise error
+        # raise Exception()
 
     title_file = title_file.loc[boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
