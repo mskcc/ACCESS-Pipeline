@@ -4,7 +4,7 @@ Reads 1 and 2 (with UMIs) from
 Pan_Cancer_M2_IGO_05500_DY_39_S40_R1_001.fastq.gz
 Pan_Cancer_M2_IGO_05500_DY_39_S40_R2_001.fastq.gz
 
-# Duplex 2-2 fragments
+### Duplex 2-2 fragments
 
 Simplex Read, 2 reads on one strand
 ```
