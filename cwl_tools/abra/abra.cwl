@@ -17,8 +17,15 @@ requirements:
     ramMin: 62000
     coresMin: 8
 
-doc: |
-  None
+# Todo: It would be nice to have this
+# but unfortunately PATH is not a defined
+# variable in the CWL parsing environment.
+# For now we rely on including BWA at the beginning
+# of our PATH before starting the run
+#
+#  EnvVarRequirement:
+#    envDef:
+#      PATH: $(inputs.bwa + ':' + PATH)
 
 inputs:
   java: string

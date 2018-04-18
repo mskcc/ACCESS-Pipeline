@@ -50,7 +50,6 @@ requirements:
 
 inputs:
   bwa: string
-
   fastq1: File
   fastq2: File
   reference_fasta: string
@@ -71,7 +70,6 @@ inputs:
   PU: string
   CN: string
 
-# Todo: Understand the difference between stdout & > usage in this file
 stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
 
 outputs:

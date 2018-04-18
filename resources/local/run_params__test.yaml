@@ -23,6 +23,7 @@ add_rg_CN: BergerLab_MSKCC
 ##################
 # MarkDuplicates #
 ##################
+# Todo: Use record types to group each set of parameters
 md__create_index: true
 md__assume_sorted: true
 md__compression_level: 0

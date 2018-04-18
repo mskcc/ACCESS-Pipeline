@@ -4,16 +4,14 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-
 arguments:
+- $(inputs.java_8)
 # todo: why server?
 - -server
 - -Xms4g
 - -Xmx4g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/Waltz-2.0.jar
+- $(inputs.waltz_path)
 - org.mskcc.juber.waltz.countreads.CountReads
 
 requirements:
