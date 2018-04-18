@@ -27,6 +27,12 @@ from constants import *
 #   2. Paths to resources required during the run (e.g. reference fasta, bed files etc.)
 #   3. Values for parameters for the individual tools (e.g. min coverage values, mapq thresholds etc.)
 #
+# The requirements for running this module include:
+#
+#   1. Read 1 fastq, Read 2 fastq, and SampleSheet.csv are found in the same directory
+#   2. The Sample_ID from the title_file matches with at least some part of the path to the Read 1 fastq file
+#
+#
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
@@ -273,6 +279,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
         print DELIMITER + 'Error: The following samples were not found and will be removed from the title file.'
         print 'Please perform a manual check on inputs.yaml before running the pipeline.'
         print samples_not_found
+        # Todo: Don't remove sample from title file, just raise error
+        # raise Exception()
 
     title_file = title_file.loc[boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
@@ -301,6 +309,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # later steps still require some of the original fields from
     # the record type after the fastqs have been converted to bams.
     # Todo: If there is a way to output a record type then this would be a cleaner option.
+    # But according to #Mr-c:
+    # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
+    # Alas the inputs object isn't in scope inside outputs in CWL v1.0
+    # One approach is to keep everything in matched arrays"
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
@@ -317,7 +329,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
         'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
-        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()
+        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist(),
+        'class_list': title_file[TITLE_FILE__CLASS_COLUMN].tolist(),
     }
 
     fh.write(ruamel.yaml.dump(out_dict))

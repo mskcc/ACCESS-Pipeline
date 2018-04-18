@@ -7,7 +7,7 @@ run_tools:
   java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
   java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
   # PLUF
-  marianas_standard_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
+  marianas_path: /home/johnsoni/Innovation-Pipeline/vendor_tools/Marianas-standard.jar
   # Module 1
   trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
   bwa_path: /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
