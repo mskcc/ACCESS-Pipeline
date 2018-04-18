@@ -44,6 +44,12 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 
 ### 3. Update the paths to the tool resources in `/resources/production`
 
+### 4. Include the path to BWA as the first entry in your path:
+This is not ideal, but remains the only solution for now unless we move to Docker containers
+```
+path="/usr/bin/bwa:$PATH"
+```
+
 ### 4. Set the root directory of the project
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
