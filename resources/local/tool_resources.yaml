@@ -8,7 +8,7 @@ run_tools:
   java_8: /Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/bin/java
 
   # ProcessLoopUMIFastq
-  marianas_standard_path: /Users/johnsoni/Desktop/vendor_tools/Marianas-standard.jar
+  marianas_path: /Users/johnsoni/Desktop/vendor_tools/Marianas-standard.jar
 
   # Module 1
   trimgalore_path: /Users/johnsoni/Desktop/vendor_tools/Trim_Galore_v0.2.5/trim_galore

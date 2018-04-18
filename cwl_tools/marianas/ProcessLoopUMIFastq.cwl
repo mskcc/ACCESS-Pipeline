@@ -11,7 +11,7 @@ arguments:
 - -Xmx8g
 - -cp
 # todo: which Marianas for this step?
-- $(inputs.marianas_standard_path)
+- $(inputs.marianas_path)
 - org.mskcc.marianas.umi.duplex.fastqprocessing.ProcessLoopUMIFastq
 
 requirements:
@@ -25,11 +25,9 @@ requirements:
     ramMin: 30000
     coresMin: 1
 
-doc: Marianas UMI Clipping module
-
 inputs:
   java_8: string
-  marianas_standard_path: string
+  marianas_path: string
 
   fastq1:
     type: File

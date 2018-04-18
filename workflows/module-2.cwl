@@ -17,7 +17,7 @@ inputs:
         perl_5: string
         java_7: string
         java_8: string
-        marianas_standard_path: string
+        marianas_path: string
         trimgalore_path: string
         bwa_path: string
         arrg_path: string
@@ -51,6 +51,7 @@ inputs:
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
+
   bqsr__nct: int
   bqsr__rf: string
   bqsr__knownSites_dbSNP:
@@ -71,231 +72,58 @@ outputs:
     type: File[]
     secondaryFiles:
       - ^.bai
-    outputSource: parallel_printreads/bams
+    outputSource: BQSR_workflow/bqsr_bams
 
   standard_bais:
     type: File[]
-    outputSource: parallel_printreads/bais
+    outputSource: BQSR_workflow/bqsr_bais
 
   covint_list:
     type: File
-    outputSource: find_covered_intervals/fci_list
+    outputSource: ABRA_workflow/covint_list
 
   covint_bed:
     type: File
-    outputSource: list2bed/output_file
+    outputSource: ABRA_workflow/covint_bed
 
 steps:
 
-  find_covered_intervals:
-    run: ../cwl_tools/gatk/FindCoveredIntervals.cwl
+  ABRA_workflow:
+    run: ABRA/abra_workflow.cwl
     in:
       run_tools: run_tools
-      java:
-        valueFrom: ${return inputs.run_tools.java_8}
-      gatk:
-        valueFrom: ${return inputs.run_tools.gatk_path}
-
-      tmp_dir: tmp_dir
       bams: bams
-      patient_id: patient_id
-      reference_sequence: reference_fasta
-      min_base_quality: fci__minbq
-      min_mapping_quality: fci__minmq
-      coverage_threshold: fci__cov
-      read_filters: fci__rf
-      intervals: fci__intervals
-      out:
-        valueFrom: ${return inputs.patient_id + ".fci.list"}
-    out: [fci_list]
-
-  list2bed:
-    run: ../cwl_tools/python/list2bed.cwl
-    in:
-      input_file: find_covered_intervals/fci_list
-      output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
-    out: [output_file]
-
-  abra:
-    run: ../cwl_tools/abra/abra.cwl
-    in:
-      run_tools: run_tools
-      java:
-        valueFrom: ${return inputs.run_tools.java_8}
-      abra:
-        valueFrom: ${return inputs.run_tools.abra_path}
-
-      input_bams: bams
-      targets: list2bed/output_file
-      scratch_dir: abra__scratch
-      patient_id: patient_id
+      tmp_dir: tmp_dir
       reference_fasta: reference_fasta
-      kmer: abra__kmers
-      mad: abra__mad
-      threads:
-        valueFrom: ${ return 12 }
-      # Todo: Find a cleaner way
-      working_directory:
-        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
-      out:
-        valueFrom: |
-          ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}
-    out:
-      [bams]
+      patient_id: patient_id
 
-  parallel_fixmate:
+      fci__minbq: fci__minbq
+      fci__minmq: fci__minmq
+      fci__cov: fci__cov
+      fci__rf: fci__rf
+      fci__intervals: fci__intervals
+      abra__kmers: abra__kmers
+      abra__scratch: abra__scratch
+      abra__mad: abra__mad
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+    out: [ir_bams, covint_list, covint_bed]
+
+  BQSR_workflow:
+    run: BQSR/bqsr_workflow.cwl
     in:
       run_tools: run_tools
-      java:
-        valueFrom: ${return inputs.run_tools.java_8}
-      fix_mate_information:
-        valueFrom: ${return inputs.run_tools.fx_path}
-
-      bam: abra/bams
+      bams: ABRA_workflow/ir_bams
       tmp_dir: tmp_dir
-      sort_order: fix_mate_information__sort_order
-      create_index: fix_mate_information__create_index
-      compression_level: fix_mate_information__compression_level
-      validation_stringency: fix_mate_information__validation_stringency
-    out: [bams]
-    scatter: [bam]
-    scatterMethod: dotproduct
-
-    run:
-      class: Workflow
-      inputs:
-        java: string
-        fix_mate_information: string
-        bam: File
-        tmp_dir: string
-        sort_order: string
-        create_index: boolean
-        compression_level: int
-        validation_stringency: string
-      outputs:
-        bams:
-          type: File
-          outputSource: picard_fixmate_information/bam
-      steps:
-        picard_fixmate_information:
-          run: ../cwl_tools/picard/FixMateInformation.cwl
-          in:
-            java: java
-            fix_mate_information: fix_mate_information
-            input_bam: bam
-            tmp_dir: tmp_dir
-            sort_order: sort_order
-            create_index: create_index
-            compression_level: compression_level
-            validation_stringency: validation_stringency
-          out: [bam]
-
-  parallel_bqsr:
-    in:
-      run_tools: run_tools
-      java:
-        valueFrom: ${return inputs.run_tools.java_8}
-      gatk:
-        valueFrom: ${return inputs.run_tools.gatk_path}
-
-      tmp_dir: tmp_dir
-      bam: parallel_fixmate/bams
       reference_fasta: reference_fasta
-      rf: bqsr__rf
-      nct: bqsr__nct
-      known_sites_1: bqsr__knownSites_dbSNP
-      known_sites_2: bqsr__knownSites_millis
-    out: [recal_matrix]
-    scatter: bam
-    scatterMethod: dotproduct
 
-    run:
-      class: Workflow
-      inputs:
-        java: string
-        gatk: string
-        tmp_dir: string
-        bam: File
-        reference_fasta: string
-        rf: string
-        nct: int
-        known_sites_1: File
-        known_sites_2: File
-      outputs:
-        recal_matrix:
-          type: File
-          outputSource: bqsr/recal_matrix
-      steps:
-        bqsr:
-          run: ../cwl_tools/gatk/BaseQualityScoreRecalibration.cwl
-          in:
-            tmp_dir: tmp_dir
-            java: java
-            gatk: gatk
-            input_bam: bam
-            reference_fasta: reference_fasta
-            rf: rf
-            nct: nct
-            known_sites_1: known_sites_1
-            known_sites_2: known_sites_2
-            out:
-              default: "recal.matrix"
-          out: [recal_matrix]
-
-  parallel_printreads:
-    in:
-      run_tools: run_tools
-      java:
-        valueFrom: ${return inputs.run_tools.java_8}
-      gatk:
-        valueFrom: ${return inputs.run_tools.gatk_path}
-
-      tmp_dir: tmp_dir
-      input_file: parallel_fixmate/bams
-      BQSR: parallel_bqsr/recal_matrix
-      nct: print_reads__nct
-      EOQ: print_reads__EOQ
-      baq: print_reads__baq
-      reference_sequence: reference_fasta
-    out: [bams, bais]
-    scatter: [input_file, BQSR]
-    scatterMethod: dotproduct
-
-    run:
-      class: Workflow
-      inputs:
-        tmp_dir: string
-        java: string
-        gatk: string
-        input_file: File
-        BQSR: File
-        nct: int
-        EOQ: boolean
-        reference_sequence: string
-        baq: string
-      outputs:
-        bams:
-          type: File
-          secondaryFiles:
-            - ^.bai
-          outputSource: gatk_print_reads/out_bams
-        bais:
-          type: File
-          outputSource: gatk_print_reads/out_bais
-      steps:
-        gatk_print_reads:
-          run: ../cwl_tools/gatk/PrintReads.cwl
-          in:
-            tmp_dir: tmp_dir
-            java: java
-            gatk: gatk
-            input_file: input_file
-            BQSR: BQSR
-            nct: nct
-            EOQ: EOQ
-            baq: baq
-            reference_sequence: reference_sequence
-            out:
-              valueFrom: ${return inputs.input_file.basename.replace(".bam", "_BR.bam")}
-          out: [out_bams, out_bais]
+      bqsr__nct: bqsr__nct
+      bqsr__rf: bqsr__rf
+      bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
+      bqsr__knownSites_millis: bqsr__knownSites_millis
+      print_reads__nct: print_reads__nct
+      print_reads__EOQ: print_reads__EOQ
+      print_reads__baq: print_reads__baq
+    out: [bqsr_bams, bqsr_bais]

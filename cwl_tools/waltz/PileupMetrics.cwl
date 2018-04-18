@@ -4,16 +4,14 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand:
-- /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
-
 arguments:
+- $(inputs.java_8)
 # todo: why server?
 - -server
 - -Xms4g
 - -Xmx4g
 - -cp
-- /home/johnsoni/Innovation-Pipeline/vendor_tools/Waltz-2.0.jar
+- $(inputs.waltz_path)
 - org.mskcc.juber.waltz.Waltz
 - PileupMetrics
 
@@ -27,6 +25,8 @@ doc: |
   None
 
 inputs:
+  java_8: string
+  waltz_path: string
 
   input_bam:
     type: File
@@ -43,7 +43,7 @@ inputs:
     type: string
     inputBinding:
       position: 3
-    secondaryFiles: $( inputs.reference_fasta.path + '.fai' )
+    secondaryFiles: $(inputs.reference_fasta.path + '.fai')
 
   bed_file:
     type: File

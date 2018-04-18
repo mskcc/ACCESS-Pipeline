@@ -10,6 +10,26 @@ requirements:
 
 inputs:
 
+  run_tools:
+    type:
+      type: record
+      fields:
+        perl_5: string
+        java_7: string
+        java_8: string
+        marianas_path: string
+        trimgalore_path: string
+        bwa_path: string
+        arrg_path: string
+        picard_path: string
+        gatk_path: string
+        abra_path: string
+        fx_path: string
+        fastqc_path: string?
+        cutadapt_path: string?
+
+  patient_id: string[]
+
   tmp_dir: string
   fastq1: File
   fastq2: File
@@ -27,17 +47,21 @@ outputs:
 
   bam:
     type: File
-    outputSource: picard.AddOrReplaceReadGroups/bam
+    outputSource: add_or_replace_read_groups/bam
 
   bai:
     type: File
-    outputSource: picard.AddOrReplaceReadGroups/bai
+    outputSource: add_or_replace_read_groups/bai
 
 steps:
 
   bwa_mem:
-    run: ../cwl_tools/bwa-mem/bwa-mem.cwl
+    run: ../../cwl_tools/bwa-mem/bwa-mem.cwl
     in:
+      run_tools: run_tools
+      bwa:
+        valueFrom: ${return inputs.run_tools.bwa_path}
+
       fastq1: fastq1
       fastq2: fastq2
       reference_fasta: reference_fasta
@@ -51,9 +75,15 @@ steps:
       output_suffix: output_suffix
     out: [output_sam]
 
-  picard.AddOrReplaceReadGroups:
-    run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
+  add_or_replace_read_groups:
+    run: ../../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
+      run_tools: run_tools
+      java:
+        valueFrom: ${return inputs.run_tools.java_7}
+      arrg:
+        valueFrom: ${return inputs.run_tools.arrg_path}
+
       input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL

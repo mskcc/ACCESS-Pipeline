@@ -70,7 +70,7 @@ outputs:
 steps:
 
   innovation_extract_read_names:
-    run: ../../cwl_tools/python/extract_read_names.cwl
+    run: ../../cwl_tools/samtools/extract_read_names.cwl
     in:
       input_bam: input_bam
     out:

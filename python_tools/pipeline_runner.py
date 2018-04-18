@@ -74,7 +74,6 @@ def create_directories(args):
     # Check if output directory already exists
     if os.path.exists(output_directory):
         print "The specified output directory already exists: {}".format(output_directory)
-        raise Exception
 
     # todo: Create "cleanup" step @ end of pipeline
     print >>sys.stderr, "\n\n \033[31m Make sure you deleted the Abra scratch dir \n\n\ \033[m "

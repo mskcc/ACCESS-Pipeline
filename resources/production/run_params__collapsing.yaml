@@ -18,10 +18,11 @@ fulcrum__filter_min_reads__duplex: 2 1 1
 ############
 # Marianas #
 ############
+marianas__min_mapping_quality: 1
+marianas__min_base_quality: 30
 marianas__mismatches: 1
 marianas__wobble: 3
 marianas__min_consensus_percent: 90
-marianas_collapsing__outdir: .
 
 #########
 # Waltz #

@@ -17,7 +17,7 @@ inputs:
         perl_5: string
         java_7: string
         java_8: string
-        marianas_standard_path: string
+        marianas_path: string
         trimgalore_path: string
         bwa_path: string
         arrg_path: string

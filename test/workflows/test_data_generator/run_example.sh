@@ -10,7 +10,7 @@ M=$(date +%M)
 project="tdg_${m}-${D}_${H}-${M}"
 output_directory=`python -c "import os;print(os.path.abspath('${output_dir}'))"`
 
-python ../../../runs/pipeline-submit.py \
+pipeline_submit \
     --project_name=${project} \
     --workflow=../../../workflows/test_data_generator.cwl \
     --inputs_file=inputs.yaml \
