@@ -114,6 +114,9 @@ inputs:
   coverage_threshold: int
   waltz__min_mapping_quality: int
 
+  # FindCoveredIntervals2
+  fci_2__basq_fix: boolean?
+
 outputs:
 
   standard_bams:
@@ -296,6 +299,7 @@ steps:
       fci__rf: fci__rf
       fci__cov: fci__cov
       fci__intervals: fci__intervals
+      fci__basq_fix: fci_2__basq_fix
       abra__mad: abra__mad
       abra__kmers: abra__kmers
       abra__scratch: abra__scratch

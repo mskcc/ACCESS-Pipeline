@@ -44,6 +44,7 @@ inputs:
   fci__cov: int
   fci__rf: string[]
   fci__intervals: string[]?
+  fci__basq_fix: boolean?
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
@@ -92,6 +93,7 @@ steps:
       coverage_threshold: fci__cov
       read_filters: fci__rf
       intervals: fci__intervals
+      ignore_misencoded_base_qualities: fci__basq_fix
       out:
         valueFrom: ${return inputs.patient_id + ".fci.list"}
     out: [fci_list]
