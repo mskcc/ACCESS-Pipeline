@@ -1,7 +1,3 @@
-####
 # Files used in collapsing steps
-
 bed_file: {class: File, path: $PIPELINE_ROOT/resources/pan-cancer-panel.sorted.bed}
-
-# Waltz
 gene_list: {class: File, path: $PIPELINE_ROOT/resources/juber-hg19-gene-list.bed}

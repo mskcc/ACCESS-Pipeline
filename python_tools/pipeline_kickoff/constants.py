@@ -22,8 +22,9 @@ RESOURCE_OVERRIDES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/local/resource_
 # Luna Resource Paths
 RUN_PARAMS_PATH = os.path.join(ROOT_DIR, 'resources/production/run_params.yaml')
 FILE_RESOURCES_PATH = os.path.join(ROOT_DIR, 'resources/production/run_files.yaml')
+FILE_RESOURCES_TEST_PATH = os.path.join(ROOT_DIR, 'resources/test/run_files__test.yaml')
 TOOL_RESOURCES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/production/tool_resources.yaml')
-RUN_PARAMS_TEST_PATH = os.path.join(ROOT_DIR, 'resources/production/run_params__test.yaml')
+RUN_PARAMS_TEST_PATH = os.path.join(ROOT_DIR, 'resources/test/run_params__test.yaml')
 COLLAPSING_PARAMETERS_FILE_PATH = os.path.join(ROOT_DIR, 'resources/production/run_params__collapsing.yaml')
 COLLAPSING_FILES_FILE_PATH = os.path.join(ROOT_DIR, 'resources/production/run_files__collapsing.yaml')
 

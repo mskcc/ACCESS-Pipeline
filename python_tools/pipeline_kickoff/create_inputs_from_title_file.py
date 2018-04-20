@@ -32,7 +32,6 @@ from constants import *
 #   1. Read 1 fastq, Read 2 fastq, and SampleSheet.csv are found in the same directory
 #   2. The Sample_ID from the title_file matches with at least some part of the path to the Read 1 fastq file
 #
-#
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
@@ -309,7 +308,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # later steps still require some of the original fields from
     # the record type after the fastqs have been converted to bams.
     # Todo: If there is a way to output a record type then this would be a cleaner option.
-    # But according to #Mr-c:
+    # But according to @Mr-c:
     # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
     # Alas the inputs object isn't in scope inside outputs in CWL v1.0
     # One approach is to keep everything in matched arrays"
@@ -483,7 +482,7 @@ def write_inputs_file(args, title_file):
     # Decide on which of the three following sets of Run Parameters to use:
     # 1. Local Test run parameters
     # 2. Luna test run parameters
-    # 3. Luna parameters for a real run
+    # 3. Luna production parameters
     if args.use_test_params and args.use_local_file_resources:
         run_params_path = LOCAL_RUN_PARAMS_TEST_PATH
     elif args.use_test_params:
@@ -493,10 +492,14 @@ def write_inputs_file(args, title_file):
 
     # Decide which of the following two sets of Resource File & Tool paths to use:
     # 1. Local Resource Files & Local Tool paths
-    # 2. Luna Resource File & Luna Tool paths
+    # 2. Test Resources & Tools
+    # 3. Luna Resources & Tools
     if args.use_local_file_resources:
         file_resources_path = LOCAL_FILE_RESOURCES_PATH
         tool_resources_file_path = LOCAL_TOOL_RESOURCES_FILE_PATH
+    elif args.use_test_params:
+        file_resources_path = FILE_RESOURCES_TEST_PATH
+        tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
     else:
         file_resources_path = FILE_RESOURCES_PATH
         tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
@@ -519,9 +522,7 @@ def write_inputs_file(args, title_file):
 
 
 def parse_arguments():
-    #######################
-    # Required Arguments: #
-    #######################
+    # Required Arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i",
@@ -536,9 +537,7 @@ def parse_arguments():
         required=True
     )
 
-    #######################
-    # Optional Arguments: #
-    #######################
+    # Optional Arguments
     parser.add_argument(
         "-t",
         "--use_test_params",
