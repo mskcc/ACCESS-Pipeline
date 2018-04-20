@@ -9,11 +9,6 @@ tmp_dir: /tmp
 umi_length: 3
 output_project_folder: .
 
-
-#**********#
-# MODULE 1 #
-#**********#
-
 ##########################
 # AddOrReplaceReadGroups #
 ##########################
@@ -29,11 +24,6 @@ md__compression_level: 0
 md__validation_stringency: LENIENT
 md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
 
-
-#**********#
-# MODULE 2 #
-#**********#
-
 ########################
 # FindCoveredIntervals #
 ########################
@@ -42,7 +32,7 @@ fci__minmq: 20
 fci__cov: 20
 fci__rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 # We include this parameter during testing to make this step faster
-fci__intervals: ["14"]
+fci__intervals: ['chr14']
 
 ########
 # Abra #

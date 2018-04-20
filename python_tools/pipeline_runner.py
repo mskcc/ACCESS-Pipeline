@@ -1,15 +1,44 @@
 import os
-import sys
-import uuid
 import argparse
 import subprocess
 
 
+###################################################################
 # This script is used to run workflows from the command line.
-# It does not submit jobs to worker nodes, as opposed to pipeline_submit, which uses bsub
-def parse_arguments():
+# It does not submit jobs to worker nodes,
+# as opposed to pipeline_submit,
+# which uses bsub
+#
+# Optional, potentially useful Toil arguments:
+#    --realTimeLogging \
+#    --rotateLogging \
+#    --js-console
+# Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
+#    --linkImports \
+#    --stats \
+#
+# Warning message to give to user:
+#       2>&1 | awk '/Using the single machine batch system/ { system(
+#       "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr"
+#       ) } { print $0 }'
 
-    parser = argparse.ArgumentParser(description='submit')
+
+BASE_TOIL_RUNNER = 'toil-cwl-runner'
+
+DEFAULT_TOIL_ARGS = [
+    '--preserve-environment PATH PYTHONPATH',
+    '--defaultDisk 10G',
+    '--defaultMem 10G',
+    '--no-container',
+    '--disableCaching',
+    '--cleanWorkDir onSuccess',
+    '--maxLogFileSize 20000000',
+    '--logDebug',
+]
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='submit toil job')
 
     parser.add_argument(
         "--project_name",
@@ -75,9 +104,6 @@ def create_directories(args):
     if os.path.exists(output_directory):
         print "The specified output directory already exists: {}".format(output_directory)
 
-    # todo: Create "cleanup" step @ end of pipeline
-    print >>sys.stderr, "\n\n \033[31m Make sure you deleted the Abra scratch dir \n\n\ \033[m "
-
     print "Output Dir: " + output_directory
     print "Jobstore Base: " + jobstore_base
 
@@ -91,29 +117,20 @@ def create_directories(args):
 
 def run_toil(args, output_directory, jobstore_path, logdir):
 
-    cmd = ' '.join([
-        'toil-cwl-runner',
+    cmd = ' '.join(DEFAULT_TOIL_ARGS)
+
+    cmd += ' '.join([
         '--outdir', output_directory,
         '--batchSystem', args.batch_system,
-        '--preserve-environment PATH PYTHONPATH',
-        '--defaultDisk 10G',
-        '--defaultMem 10G',
-        '--no-container',
-        '--disableCaching',
         '--writeLogs', logdir,
         '--logFile', logdir + '/cwltoil.log',
         '--workDir', output_directory,
         '--jobStore file://' + jobstore_path,
-        '--cleanWorkDir onSuccess',
-        '--maxLogFileSize 20000000',
-        '--logDebug',
         args.workflow,
         args.inputs_file
     ])
 
-    print "Running Toil with command:"
-    print cmd
-
+    print "Running Toil with command: {}".format(cmd)
     subprocess.check_call(cmd, shell=True)
 
 
@@ -121,15 +138,3 @@ def main():
     args = parse_arguments()
     output_directory, jobstore_path, logdir = create_directories(args)
     run_toil(args, output_directory, jobstore_path, logdir)
-
-
-# Other potentially useful args:
-#    --logDebug \
-#    --realTimeLogging \
-#    --rotateLogging \
-# --js-console
-#
-# todo: in 3.15 this argument no longer works...?
-#    --linkImports \
-#    --stats \
-#    2>&1 | awk '/Using the single machine batch system/ { system( "printf \"\n\n \033[31m WARNING: You are running on the head node \n\n\ \033[m \" > /dev/stderr" ) } { print $0 }'
