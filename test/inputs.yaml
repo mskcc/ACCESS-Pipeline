@@ -22,11 +22,6 @@ tmp_dir: /tmp
 umi_length: 3
 output_project_folder: .
 
-
-#**********#
-# MODULE 1 #
-#**********#
-
 ##########################
 # AddOrReplaceReadGroups #
 ##########################
@@ -41,11 +36,6 @@ md__assume_sorted: true
 md__compression_level: 0
 md__validation_stringency: LENIENT
 md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
-
-
-#**********#
-# MODULE 2 #
-#**********#
 
 ########################
 # FindCoveredIntervals #
