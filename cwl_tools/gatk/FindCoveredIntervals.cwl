@@ -80,6 +80,13 @@ inputs:
         # todo: there should be a better way to specify multiple arguments with same prefix
         # https://www.biostars.org/p/303633/
 
+  ignore_misencoded_base_qualities:
+    type: boolean?
+    default: false
+    inputBinding:
+      prefix: --allow_potentially_misencoded_quality_scores
+      position: 100
+
   out:
     type: string
     inputBinding:
