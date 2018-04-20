@@ -12,7 +12,7 @@ arguments:
   - sort
   - $(inputs.bam)
   - '>'
-  - $( inputs.bam.basename + ".sorted" )
+  - $(inputs.bam.basename + '_sorted')
 
 inputs:
 
@@ -24,4 +24,4 @@ outputs:
   output_bam:
     type: File
     outputBinding:
-      glob: $( inputs.bam.basename + ".sorted" )
+      glob: $(inputs.bam.basename + '_sorted')

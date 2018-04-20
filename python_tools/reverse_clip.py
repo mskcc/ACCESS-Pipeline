@@ -1,7 +1,7 @@
 #!python
 
+import os
 import sys
-import gzip
 from itertools import izip
 
 
@@ -55,8 +55,9 @@ def main():
     new_r1_name = input_r1.replace('.fastq', '_clipping-reversed.fastq')
     new_r2_name = input_r2.replace('.fastq', '_clipping-reversed.fastq')
 
-    output_r1 = open(new_r1_name, 'w')
-    output_r2 = open(new_r2_name, 'w')
+    # Use basename to make sure we write to current directory
+    output_r1 = open(os.path.basename(new_r1_name), 'w')
+    output_r2 = open(os.path.basename(new_r2_name), 'w')
 
     # Iterate through the Read 1 and Read 2 fastqs @ the same time
     for i, tuple in enumerate(izip(open(input_r1), open(input_r2))):
