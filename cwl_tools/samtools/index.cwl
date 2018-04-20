@@ -7,25 +7,27 @@ class: CommandLineTool
 requirements:
 - class: InitialWorkDirRequirement
   listing:
-  - entry: $(inputs['input'])
-    entryname: indexed.bam
+  - entry: $(inputs.input)
+    entryname: $(inputs.input.basename)
 
 baseCommand:
 - /opt/common/CentOS_6-dev/bin/current/samtools
 
 arguments:
 - index
-- indexed.bam
 
 inputs:
+
   input:
     type: File
+    inputBinding:
+      position: 1
 
 outputs:
 
   bam_with_bai:
     type: File
     outputBinding:
-      glob: indexed.bam
+      glob: $(inputs.input.basename)
     secondaryFiles:
     - .bai
