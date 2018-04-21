@@ -58,7 +58,6 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-
   md__assume_sorted: boolean
   md__compression_level: int
   md__create_index: boolean
@@ -71,21 +70,17 @@ inputs:
   fci__cov: int
   fci__rf: string[]
   fci__intervals: string[]?
-
   abra__kmers: string
   abra__scratch: string
   abra__mad: int
-
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
-
   bqsr__nct: int
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
   bqsr__rf: string
-
   print_reads__nct: int
   print_reads__EOQ: boolean
   print_reads__baq: string
@@ -172,7 +167,6 @@ steps:
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-
       # Group bams by patient
       patient_id: patient_id
       # Module 2
@@ -213,6 +207,11 @@ steps:
     scatter: [input_bam]
     scatterMethod: dotproduct
 
+  ##############################
+  # Match Normal pileups to    #
+  # each Tumor and Normal bam  #
+  ##############################
+
   group_pileups:
     run: ../cwl_tools/expression_tools/group_pileups.cwl
     in:
@@ -235,10 +234,8 @@ steps:
       min_mapping_quality: marianas__min_mapping_quality
       min_base_quality: marianas__min_base_quality
       min_consensus_percent: marianas__min_consensus_percent
-
-      # Group bams by patient
+      # Todo: not needed:
       patient_id: patient_id
-
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -291,7 +288,6 @@ steps:
       run_tools: run_tools
       reference_fasta: reference_fasta
       tmp_dir: tmp_dir
-
       bams: group_bams_by_patient/grouped_bams
       patient_id: group_bams_by_patient/grouped_patient_ids
       fci__minbq: fci__minbq
