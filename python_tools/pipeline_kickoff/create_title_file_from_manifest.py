@@ -34,6 +34,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
         manifest = pd.read_csv(manifest_file_path, sep='\t')
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         manifest = pd.read_excel(manifest_file_path, sep='\t')
+    manifest = manifest.dropna(axis=0, how='all')
 
     # Sometimes we require some additional fixing of our columns.
     # Uncomment next line to apply change to MANIFEST__CMO_SAMPLE_ID_COLUMN.
@@ -49,6 +50,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
 
     # Get Lane # from Pool column
     # We use this new column to group the QC results by lane
+    # Todo: have a lane column manually entered
     title_file.loc[:,TITLE_FILE__LANE_COLUMN] = title_file.loc[:,TITLE_FILE__POOL_COLUMN].str.split('_').apply(lambda x: x[1][-1]).copy()
 
     # Write title file
