@@ -37,6 +37,9 @@ from constants import *
 # always be the case.
 
 
+# The name of the resulting yaml file that will be supplied to the pipeline
+FINAL_FILE_NAME = 'inputs.yaml'
+
 # Static adapter sequences that surround the barcodes
 # Used by the Trimgalore step in the pipeline
 #
@@ -234,7 +237,7 @@ def get_pos(title_file, fastq_object):
 
     # If there are no matches, try to match with the fuzzy method:
     if np.sum(boolv) < 1:
-        err_string = DELIMITER + 'Error, matching patient ID for file {} not found in title file. Using fuzzy match method.'
+        err_string = DELIMITER + 'Error, matching sample ID for file {} not found in title file. Using fuzzy match method.'
         print >> sys.stderr, err_string.format(fastq_object)
         print >> sys.stderr, 'Please double check the order of the fastqs in the final inputs.yaml file.'
         boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in_fuzzy, fastq_object=fastq_object)
@@ -266,24 +269,43 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     If samples IDs from title file aren't found in data directory,
     issue a warning and remove them from the title file
 
+    # Todo: Should we instead raise an error and not continue?
+
     :param title_file:
     :param fastq1:
     :param title_file_path:
     :return:
     '''
-    boolv = np.array([any([sample in x['path'] for x in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
-    samples_not_found = title_file.loc[~boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
-        print DELIMITER + 'Error: The following samples were not found and will be removed from the title file.'
-        print 'Please perform a manual check on inputs.yaml before running the pipeline.'
-        print samples_not_found
-        # Todo: Don't remove sample from title file, just raise error
-        # raise Exception()
+        print DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet.' \
+                          'These samples will be removed from the title file so that the remaining samples can be run.'
 
-    title_file = title_file.loc[boolv, :]
+        print 'Please perform a manual check on the inputs file before running the pipeline.'
+        print samples_not_found
+
+    title_file = title_file.loc[found_boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
     return title_file
+
+
+def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
+    '''
+    Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
+
+    :param fastq1:
+    :param fastq2:
+    :param sample_sheet:
+    :param title_file:
+    :return:
+    '''
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
+
+    return fastq1, fastq2, sample_sheet
 
 
 def include_fastqs_params(fh, data_dir, title_file, title_file_path):
@@ -295,11 +317,18 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     :param title_file:
     :return:
     '''
+    # Load and sort our data files
     fastq1, fastq2, sample_sheet = load_fastqs(data_dir)
-    fastq1, fastq2, sample_sheet = sort_fastqs(fastq1, fastq2, sample_sheet, title_file)
-    perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
+    # Get rid of data files that don't have an entry in the title_file
+    fastq1, fastq2, sample_sheet = remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file)
+    # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(title_file, fastq1, title_file_path)
+    # Sort everything based on the ordering in the sample sheet
+    fastq1, fastq2, sample_sheet = sort_fastqs(fastq1, fastq2, sample_sheet, title_file)
 
+    # Check that we have the same number of everything
+    perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
+    # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
 
     # Note: I put some thought into whether to use a
@@ -307,7 +336,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # but ended up not seeing the benefit because certain
     # later steps still require some of the original fields from
     # the record type after the fastqs have been converted to bams.
-    # Todo: If there is a way to output a record type then this would be a cleaner option.
+    # Todo: If there is a way to output a record type then this^ would be a cleaner option.
     # But according to @Mr-c:
     # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
     # Alas the inputs object isn't in scope inside outputs in CWL v1.0
@@ -465,7 +494,6 @@ def include_collapsing_params(fh, title_file_path):
     fh.write(ruamel.yaml.dump(title_file_obj))
 
 
-
 def write_inputs_file(args, title_file):
     '''
     Main function to write our inputs.yaml file.
@@ -504,7 +532,9 @@ def write_inputs_file(args, title_file):
         file_resources_path = FILE_RESOURCES_PATH
         tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
 
-    fh = open('inputs.yaml', 'wb')
+    # Actually start writing the inputs file
+    fh = open(FINAL_FILE_NAME, 'wb')
+
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, file_resources_path)
@@ -519,6 +549,37 @@ def write_inputs_file(args, title_file):
         include_resource_overrides(fh)
 
     fh.close()
+
+
+def check_final_file():
+    '''
+    Check that lengths of these fields in the final file are equal:
+
+    :return:
+    '''
+    with open(FINAL_FILE_NAME, 'r') as stream:
+        final_file = ruamel.yaml.round_trip_load(stream)
+
+    fields_per_sample = [
+        'adapter',
+        'adapter2',
+        'add_rg_ID',
+        'add_rg_LB',
+        'add_rg_PU',
+        'add_rg_SM',
+        'class_list',
+        'patient_id',
+        'fastq1',
+        'fastq2',
+        'sample_sheet',
+    ]
+
+    try:
+        for field in fields_per_sample:
+            assert len(final_file[field]) == len(final_file['fastq1'])
+    except AssertionError:
+        print DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample)
+        print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
 
 
 def parse_arguments():
@@ -548,7 +609,7 @@ def parse_arguments():
     parser.add_argument(
         "-l",
         "--use_local_file_resources",
-        help="Whether to run with paths to local resource files (dbSNP, indels_1000G etc) or Luna paths",
+        help="Whether to run with paths to local resource files (dbSNP, indels_1000G etc), or Luna paths",
         required=False,
         action="store_true"
     )
@@ -564,7 +625,7 @@ def parse_arguments():
     parser.add_argument(
         "-o",
         "--include_resource_overrides",
-        help="Whether to override ResourceRequirements with smaller values, to run tests locally or in Travis CI",
+        help="Whether to override ResourceRequirements with smaller values (to run tests in constrained environment)",
         required=False,
         action="store_true"
     )
@@ -601,6 +662,8 @@ def main():
     sanity_check(title_file)
     # Create the inputs file for the run
     write_inputs_file(args, title_file)
+    # Perform some checks on the final yaml file that will be supplied to the pipeline
+    check_final_file()
 
 
 if __name__ == '__main__':
