@@ -47,7 +47,7 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 ### 4. Include the path to BWA as the first entry in your path:
 Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
 ```
-path="/usr/bin/bwa:$PATH"
+PATH="/usr/bin/bwa:$PATH"
 ```
 
 ### 5. Set the root directory of the project
