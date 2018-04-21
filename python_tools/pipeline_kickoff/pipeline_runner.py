@@ -117,9 +117,7 @@ def create_directories(args):
 
 def run_toil(args, output_directory, jobstore_path, logdir):
 
-    cmd = ' '.join(DEFAULT_TOIL_ARGS)
-
-    cmd += ' '.join([
+    cmd = ' '.join([BASE_TOIL_RUNNER] + DEFAULT_TOIL_ARGS + [
         '--outdir', output_directory,
         '--batchSystem', args.batch_system,
         '--writeLogs', logdir,
