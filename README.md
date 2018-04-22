@@ -80,3 +80,6 @@ or use:
 (innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
 Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
+
+# Issues
+Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
