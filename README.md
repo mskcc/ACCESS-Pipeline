@@ -2,7 +2,7 @@
 
 # Getting Started
 
-Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. Some of these dependencies have been aggregated in the `/vendor_tools` folder, but for now these additional dependencies must be explicitly installed:
+Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these additional dependencies must be explicitly installed:
   - Samtools
   - Trimgalore
   - Java 7
