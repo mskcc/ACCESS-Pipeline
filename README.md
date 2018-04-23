@@ -2,7 +2,7 @@
 
 # Getting Started
 
-Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. Some of these dependencies have been aggregated in the `/vendor_tools` folder, but for now these additional dependencies must be explicitly installed:
+Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these additional dependencies must be explicitly installed:
   - Samtools
   - Trimgalore
   - Java 7
@@ -80,3 +80,6 @@ or use:
 (innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
 ```
 Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
+
+# Issues
+Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
