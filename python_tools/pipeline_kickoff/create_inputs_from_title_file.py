@@ -367,6 +367,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
 def substitute_project_root(yaml_file):
     '''
     Substitute in the ROOT_PATH variable based on our current installation directory
+    The purpose of this method is to support referencing resources in the resources folder
+    This may be unnecessary now that we manually set the RESOURCES_ROOT variable in constants.py
 
     :return:
     '''
@@ -560,6 +562,7 @@ def check_final_file():
     with open(FINAL_FILE_NAME, 'r') as stream:
         final_file = ruamel.yaml.round_trip_load(stream)
 
+    # Todo: Use CONSTANTS
     fields_per_sample = [
         'adapter',
         'adapter2',

@@ -17,6 +17,13 @@ from constants import *
 #   ../../python_tools/pipeline_kickoff/create_title_file_from_manifest.py \
 #   -i ./manifest.xlsx \
 #   -o ./DY_title_file.txt
+#
+# Note: The following requirements will be imposed on the input manifest file:
+#
+# 1. The "SAMPLE_CLASS" column must contain entries specified as either "Tumor" or "Normal"
+# 2. The "CMO_SAMPLE_ID" column must contain entries that match at least partially with the fastq file paths
+# 3. The "CMO_PATIENT_ID" column must match between Tumor and Normal samples
+# 4. There must be at least one Normal for Sample for each Tumor sample
 
 
 # Todo: Start filling these out in manifest?
