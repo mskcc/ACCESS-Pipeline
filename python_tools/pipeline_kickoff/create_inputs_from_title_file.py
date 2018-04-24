@@ -75,8 +75,8 @@ def load_fastqs(data_dir):
     Note:
     os.walk yields a 3-list (dirpath, dirnames, filenames)
     '''
-    # Gather Sample Sub-directories
-    folders = list(os.walk(data_dir))
+    # Gather Sample Sub-directories (but leave out the parent dir)
+    folders = list(os.walk(data_dir))[1:]
 
     # Filter to those that contain a read 1, read 2, and sample sheet
     folders_2 = filter(lambda folder: any([FASTQ_1_FILE_SEARCH in x for x in folder[2]]), folders)
@@ -86,7 +86,7 @@ def load_fastqs(data_dir):
     # Issue a warning
     if not len(folders) == len(folders_4):
         # Todo: Inform user which are missing
-        print DELIMITER + 'Error, some samples do not have a Read 1, Read 2, or sample sheet'
+        print DELIMITER + 'Error, some samples may not have a Read 1, Read 2, or sample sheet. Please manually check inputs.yaml'
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
