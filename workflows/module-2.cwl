@@ -55,11 +55,11 @@ inputs:
   bqsr__nct: int
   bqsr__rf: string
   bqsr__knownSites_dbSNP:
-    type: File
+    type: File?
     secondaryFiles:
       - .idx
   bqsr__knownSites_millis:
-    type: File
+    type: File?
     secondaryFiles:
       - .idx
   print_reads__nct: int

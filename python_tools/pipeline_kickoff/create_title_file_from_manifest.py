@@ -9,14 +9,17 @@ from constants import *
 # Pipeline Kickoff Step #1
 #
 # This module is used to create a title file with the information needed for a pipeline run
-# It is derived from the manually-curated sample manifest
+# It is derived from the manually-curated sample manifest.
+#
+# The reason that we have this step, is in part because our Manifest is manually-generated,
+# and we need to validate all of the fields and make sure that we have a file that can be
+# relilably used to create the pipeline input parameters (in the create_inputs_from_title_file step)
 #
 # Usage example:
 #
-# python
-#   ../../python_tools/pipeline_kickoff/create_title_file_from_manifest.py \
+# create_title_file_from_manifest \
 #   -i ./manifest.xlsx \
-#   -o ./DY_title_file.txt
+#   -o ./title_file.txt
 
 
 # Todo: Start filling these out in manifest?
@@ -61,13 +64,11 @@ def create_title_file(manifest_file_path, title_file_output_filename):
 # Main #
 ########
 def main():
-    # Usage:
-    # python create_title_file_from_manifest.py <path to manifest> <output_title_file_name>
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--manifest_file_path", help="Sample Manifest File (see runs/DY/manifest.xlsx)", required=True)
-    parser.add_argument("-o", "--output_filename", help="Desired output title location and name", required=True)
-
+    parser.add_argument("-i", "--manifest_file_path", help="Sample Manifest File (see test_manifest.xlsx in test/test_data)", required=True)
+    parser.add_argument("-o", "--output_filename", help="Desired output title file location and name", required=True)
     args = parser.parse_args()
+
     create_title_file(args.manifest_file_path, args.output_filename)
 
 

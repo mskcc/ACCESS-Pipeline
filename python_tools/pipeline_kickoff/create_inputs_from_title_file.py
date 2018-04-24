@@ -14,10 +14,11 @@ from constants import *
 #
 # Usage Example:
 #
-# python \
-#   ../../python_tools/pipeline_kickoff/create_inputs_from_title_file.py \
+# create_inputs_from_title_file \
 #   -i ./DY_title_file.txt \
-#   -d /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY
+#   -d .../Project_05500_DY \
+#   -t \
+#   -c
 #
 # This module is used to create a yaml file that will be supplied to the pipeline run.
 # Some input parameters may take on multiple values based on what system we are running on (e.g. compute cluster or Local)

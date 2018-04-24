@@ -7,7 +7,7 @@ D=$(date +%d)
 m=$(date +%m)
 H=$(date +%H)
 M=$(date +%M)
-project="collapsing_test_${m}-${D}_${H}-${M}"
+project="test_${m}-${D}_${H}-${M}"
 output_directory=`python -c "import os;print(os.path.abspath('${output_dir}'))"`
 job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 

@@ -16,6 +16,7 @@ import subprocess
 # Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
 #    --linkImports \
 #    --stats \
+#    --debugWorker \
 #
 # Warning message to give to user:
 #       2>&1 | awk '/Using the single machine batch system/ { system(
