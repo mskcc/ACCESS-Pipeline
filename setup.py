@@ -8,7 +8,7 @@ setup(
     url='http://github.com/mskcc/Innovation-Pipeline',
     author='Ian Johnson',
     author_email='johnsoni@mskcc.org',
-    licence='MIT',
+    license='MIT',
     install_requires=[
         'argparse',
         'toil[cwl]==3.15.0',

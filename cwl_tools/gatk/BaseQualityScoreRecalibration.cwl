@@ -50,12 +50,12 @@ inputs:
       prefix: -rf
 
   known_sites_1:
-    type: ['null', File]
+    type: File?
     inputBinding:
       prefix: -knownSites
 
   known_sites_2:
-    type: ['null', File]
+    type: File?
     inputBinding:
       prefix: -knownSites
 

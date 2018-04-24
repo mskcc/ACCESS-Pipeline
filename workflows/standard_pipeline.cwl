@@ -77,8 +77,8 @@ inputs:
   fix_mate_information__compression_level: int
   fix_mate_information__validation_stringency: string
   bqsr__nct: int
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+  bqsr__knownSites_dbSNP: File?
+  bqsr__knownSites_millis: File?
   bqsr__rf: string
   print_reads__nct: int
   print_reads__EOQ: boolean

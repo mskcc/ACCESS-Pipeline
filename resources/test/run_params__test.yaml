@@ -32,7 +32,7 @@ fci__minmq: 20
 fci__cov: 20
 fci__rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 # We include this parameter during testing to make this step faster
-fci__intervals: ['chr14']
+fci__intervals: ['14']
 
 ########
 # Abra #
