@@ -41,6 +41,7 @@ outputs:
 #
 # 1. Tumor sample with no Normal (these samples will not proceed)
 # 2. Any sample with multiple normals (the first pileup will be chosen for both)
+# 3. A sample whose filename does not match the associated patient_id (will not be processed)
 #
 expression: |
   ${
