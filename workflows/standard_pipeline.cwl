@@ -142,7 +142,7 @@ steps:
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [bam, bai, md_metrics]
+    out: [bam, bai] #, md_metrics]
     scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
 
