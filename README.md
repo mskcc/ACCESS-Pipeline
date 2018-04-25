@@ -3,26 +3,25 @@
 # Getting Started
 
 Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these additional dependencies must be explicitly installed:
-  - Samtools
-  - Trimgalore
-  - Java 7
-  - Java 8
-  - Python
-  - BWA
-```
-If on mac, can be installed with homebrew:
-> brew install homebrew/science/bwa/versions/0.7.12
-> brew install homebrew/science/bwa
-```
-  - Perl
-```
-> curl -L https://install.perlbrew.pl | bash
-> perlbrew install perl-5.20.2 (might need to try with --notest if install fails)
-> source ~/perl5/perlbrew/etc/bashrc
- ```
+
+| tool | version |
+| --- | --- |
+| Trimgalore | v0.2.5 |
+| Java 7 | jdk1.7.0_75 |
+| Java 8 | jdk1.8.0_31 |
+| Python | 2.7.10 | 
+| Perl | 5.20.2 |
+| BWA (must exist in PATH) | 0.7.15-r1140 |
+| bedtools (must exist in PATH) | v2.26.0 |
+| Marianas | 1.5 |
+| Picard | picard-2.8.1.jar | 
+| Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
+| Picard FixMateInformation | FixMateInformation.jar (1.96) |
+| GATK | 3.3.0 |
+| Abra | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
+
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
-
 
 # Setup
 
