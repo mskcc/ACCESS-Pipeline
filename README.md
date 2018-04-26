@@ -39,7 +39,14 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 (innovation_pipeline) ~$ cd Innovation-Pipeline
 ```
 
-### 3. Update the paths to the tool resources in `/resources`
+### 3. Update the paths to the tool resources and run files
+There are several combinations of resource files to edit, to support differnt environments and run types 
+The minimal changes that will have to be made include:
+```
+/resources/run_files/test.yaml
+/resources/run_files/test__collapsing.yaml
+/resources/run_tools/luna.yaml
+```
 
 ### 4. Include the paths to BWA and Bedtools as the first entries in your path:
 Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
