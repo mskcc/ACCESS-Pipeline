@@ -40,8 +40,7 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 ```
 
 ### 3. Update the paths to the tool resources and run files
-There are several combinations of resource files to edit, to support differnt environments and run types 
-The minimal changes that will have to be made include:
+There are several combinations of resource files to edit, to support different environments and run types. The minimal changes that will have to be made include:
 ```
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
