@@ -18,15 +18,20 @@ inputs:
     inputBinding:
       prefix: -sw
 
-  marianas_waltz_metrics:
+  marianas_unfiltered_waltz_metrics:
     type: Directory?
     inputBinding:
-      prefix: -mw
+      prefix: -mu
 
-  fulcrum_waltz_metrics:
+  marianas_simplex_duplex_waltz_metrics:
     type: Directory?
     inputBinding:
-      prefix: -fw
+      prefix: -ms
+
+  marianas_duplex_waltz_metrics:
+    type: Directory?
+    inputBinding:
+      prefix: -md
 
   title_file:
     type: File

@@ -2,18 +2,6 @@
 # Parameters for Collapsing (module 2.5) & QC steps #
 #####################################################
 
-###########
-# Fulcrum #
-###########
-fulcrum__sort_order: Queryname
-fulcrum__grouping_strategy: paired
-fulcrum__min_mapping_quality: 20
-fulcrum__tag_family_size_counts_output: Grouped-mapQ20-histogram
-fulcrum__call_duplex_min_reads: 1 1 0
-fulcrum__filter_min_base_quality: 30
-fulcrum__filter_min_reads__simplex_duplex: 2 1 0
-fulcrum__filter_min_reads__duplex: 2 1 1
-
 ############
 # Marianas #
 ############

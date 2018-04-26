@@ -7,7 +7,7 @@ run_tools:
   java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
   java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
 
-  # PLUF
+  # PLUF & Collapsing
   marianas_path: /home/johnsoni/vendor_tools/Marianas-1.5.jar
 
   # Module 1
@@ -22,6 +22,3 @@ run_tools:
   fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
 
   waltz_path: /home/johnsoni/vendor_tools/Waltz-2.0.jar
-
-
-# Todo: Find absolute path for samtools on Luna

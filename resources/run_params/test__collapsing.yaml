@@ -1,0 +1,26 @@
+##########################################################
+# TEST Parameters for Collapsing (module 2.5) & QC steps #
+##########################################################
+
+############
+# Marianas #
+############
+marianas__min_mapping_quality: 1
+marianas__min_base_quality: 30
+marianas__mismatches: 1
+marianas__wobble: 3
+marianas__min_consensus_percent: 90
+
+#########
+# Waltz #
+#########
+# This parameter is lowered for tesing purposes
+# Todo: QC module should be able to handle zero coverage bams?
+coverage_threshold: 1
+waltz__min_mapping_quality: 20
+
+########################
+# 2nd Realignment step
+# In this step we want to lower base qualities
+# that were changed during collapsing
+fci_2__basq_fix: true
