@@ -17,7 +17,8 @@ setup(
         'numpy==1.14.2',
         'pybedtools',
     ],
-    packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools'],
+    packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.QC'],
+    package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
         'console_scripts': [
             # Pipeline Kickoff
@@ -30,7 +31,16 @@ setup(
             'list2bed = python_tools.workflow_tools.list2bed:main',
             'map_read_names_to_umis = python_tools.workflow_tools.map_read_names_to_umis:main',
             'reverse_clip = python_tools.workflow_tools.reverse_clip:main',
+            # QC
+            'qc = python_tools.workflow_tools.QC.qc:main',
+            'qc_wrapper = python_tools.workflow_tools.QC.qc_wrapper:main',
         ]
     },
+    scripts=[
+        # 'innovation_qc.py',
+        # 'innovation_qc_with_groups.py',
+        'python_tools/workflow_tools/QC/plotting-collapsed-bams.r'
+    ],
+    include_package_data = True,
     zip_safe=False
 )
