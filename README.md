@@ -66,9 +66,9 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 ```
 
 ### 8. Create an inputs file from the title file
-This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
+This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t
+(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -c
 ```
 
 ### 9. Run the test pipeline
