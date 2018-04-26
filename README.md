@@ -50,11 +50,13 @@ PATH="/usr/bin/bwa:$PATH"
 ```
 
 ### 5. Set the root directory of the project
+(found in `/python_tools/pipeline_kickoff/constants.py`)
 ```
 ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 ```
 
-### 6. Create a run title file from a sample manifest (example manifest exists in /test/test_data)
+### 6. Create a run title file from a sample manifest 
+(example manifest exists in /test/test_data)
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
