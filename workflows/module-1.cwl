@@ -45,13 +45,13 @@ inputs:
 
 outputs:
 
-#  clstats1:
-#    type: File
-#    outputSource: trimgalore/clstats1
-#
-#  clstats2:
-#    type: File
-#    outputSource: trimgalore/clstats2
+  clstats1:
+    type: File
+    outputSource: trimgalore/clstats1
+
+  clstats2:
+    type: File
+    outputSource: trimgalore/clstats2
 
   bam:
     type: File
@@ -67,19 +67,19 @@ outputs:
 
 steps:
 
-#  trimgalore:
-#    run: ../cwl_tools/trimgalore/trimgalore.cwl
-#    in:
-#      run_tools: run_tools
-#      perl:
-#        valueFrom: $(inputs.run_tools.perl_5)
-#      trimgalore:
-#        valueFrom: $(inputs.run_tools.trimgalore_path)
-#      adapter: adapter
-#      adapter2: adapter2
-#      fastq1: fastq1
-#      fastq2: fastq2
-#    out: [clfastq1, clfastq2, clstats1, clstats2]
+  trimgalore:
+    run: ../cwl_tools/trimgalore/trimgalore.cwl
+    in:
+      run_tools: run_tools
+      perl:
+        valueFrom: $(inputs.run_tools.perl_5)
+      trimgalore:
+        valueFrom: $(inputs.run_tools.trimgalore_path)
+      adapter: adapter
+      adapter2: adapter2
+      fastq1: fastq1
+      fastq2: fastq2
+    out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
     run: ../cwl_tools/bwa-mem/bwa-mem.cwl
