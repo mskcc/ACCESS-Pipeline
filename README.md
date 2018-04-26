@@ -41,7 +41,7 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 (innovation_pipeline) ~/Innovation-Pipeline-0.0.3$ python setup.py install
 ```
 
-### 3. Update the paths to the tool resources in `/resources/production`
+### 3. Update the paths to the tool resources in `/resources`
 
 ### 4. Include the path to BWA as the first entry in your path:
 Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
