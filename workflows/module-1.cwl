@@ -72,9 +72,9 @@ steps:
     in:
       run_tools: run_tools
       perl:
-        valueFrom: ${return inputs.run_tools.perl_5}
+        valueFrom: $(inputs.run_tools.perl_5)
       trimgalore:
-        valueFrom: ${return inputs.run_tools.trimgalore_path}
+        valueFrom: $(inputs.run_tools.trimgalore_path)
       adapter: adapter
       adapter2: adapter2
       fastq1: fastq1
@@ -86,9 +86,9 @@ steps:
     in:
       run_tools: run_tools
       bwa:
-        valueFrom: ${return inputs.run_tools.bwa_path}
-      fastq1: trimgalore/clfastq1
-      fastq2: trimgalore/clfastq2
+        valueFrom: $(inputs.run_tools.bwa_path)
+      fastq1: fastq1
+      fastq2: fastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       ID: add_rg_ID
@@ -104,9 +104,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_7}
+        valueFrom: $(inputs.run_tools.java_7)
       arrg:
-        valueFrom: ${return inputs.run_tools.arrg_path}
+        valueFrom: $(inputs.run_tools.arrg_path)
       input_bam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
@@ -131,9 +131,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       picard:
-        valueFrom: ${return inputs.run_tools.picard_path}
+        valueFrom: $(inputs.run_tools.picard_path)
       input_bam: picard.AddOrReplaceReadGroups/bam
       tmp_dir: tmp_dir
       assume_sorted: md__assume_sorted

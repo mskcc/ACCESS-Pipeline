@@ -4,7 +4,8 @@ import subprocess
 
 
 ###################################################################
-# This script is used to run workflows from the command line.
+# This script is used to run workflows from the command line using toil-cwl-runner.
+#
 # It does not submit jobs to worker nodes,
 # as opposed to pipeline_submit,
 # which uses bsub
@@ -32,7 +33,7 @@ DEFAULT_TOIL_ARGS = [
     '--no-container',
     '--disableCaching',
     '--cleanWorkDir onSuccess',
-    '--maxLogFileSize 20000000',
+    # '--maxLogFileSize 20000000',
     '--logDebug',
 ]
 

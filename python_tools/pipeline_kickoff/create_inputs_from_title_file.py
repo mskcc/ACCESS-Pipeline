@@ -36,6 +36,8 @@ from constants import *
 # Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
 # sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
 # always be the case.
+#
+# Todo: This file is too large
 
 
 # The name of the resulting yaml file that will be supplied to the pipeline
@@ -79,7 +81,7 @@ def load_fastqs(data_dir):
     os.walk yields a 3-list (dirpath, dirnames, filenames)
     '''
     # Gather Sample Sub-directories (but leave out the parent dir)
-    folders = list(os.walk(data_dir))[1:]
+    folders = list(os.walk(data_dir))
 
     # Filter to those that contain a read 1, read 2, and sample sheet
     folders_2 = filter(lambda folder: any([FASTQ_1_FILE_SEARCH in x for x in folder[2]]), folders)
@@ -88,8 +90,8 @@ def load_fastqs(data_dir):
 
     # Issue a warning
     if not len(folders) == len(folders_4):
-        # Todo: Inform user which are missing
-        print DELIMITER + 'Error, some samples may not have a Read 1, Read 2, or sample sheet. Please manually check inputs.yaml'
+        # Todo: Inform user which samples might be missing
+        print DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. Please manually check inputs.yaml'
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -340,6 +342,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # later steps still require some of the original fields from
     # the record type after the fastqs have been converted to bams.
     # Todo: If there is a way to output a record type then this^ would be a cleaner option.
+    #
     # But according to @Mr-c:
     # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
     # Alas the inputs object isn't in scope inside outputs in CWL v1.0
@@ -476,27 +479,31 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
         print 'title file length: {}'.format(title_file.shape[0])
 
 
-def include_collapsing_params(fh, title_file_path):
+def include_collapsing_params(fh, test=False):
     '''
     Load and write our Collapsing & QC parameters
 
     :param fh: File handle for pipeline yaml inputs
+    :param test: Whether to include test or production collapsing params
     '''
-    with open(COLLAPSING_PARAMETERS_FILE_PATH, 'r') as stream:
+    if test:
+        collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
+        collapsing_files = RUN_FILES_TEST_COLLAPSING
+    else:
+        collapsing_parameters = RUN_PARAMS_COLLAPSING
+        collapsing_files = RUN_FILES_COLLAPSING
+
+    with open(collapsing_parameters, 'r') as stream:
         collapsing_parameters = ruamel.yaml.round_trip_load(stream)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(collapsing_parameters))
 
-    with open(COLLAPSING_FILES_FILE_PATH, 'r') as stream:
+    with open(collapsing_files, 'r') as stream:
         file_resources = ruamel.yaml.round_trip_load(stream)
 
     file_resources = substitute_project_root(file_resources)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-    # Include title_file in inputs.yaml
-    title_file_obj = {'title_file': {'class': 'File', 'path': title_file_path}}
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.dump(title_file_obj))
 
 
 def write_inputs_file(args, title_file):
@@ -506,55 +513,36 @@ def write_inputs_file(args, title_file):
 
     :param data_dir:
     :param title_file:
-    :param title_file_path:
-    :param run_params_path:
-    :param file_resources_path:
     :return:
     '''
-
-    # Decide on which of the three following sets of Run Parameters to use:
-    # 1. Local Test run parameters
-    # 2. Luna test run parameters
-    # 3. Luna production parameters
-    if args.use_test_params and args.use_local_file_resources:
-        run_params_path = LOCAL_RUN_PARAMS_TEST_PATH
-    elif args.use_test_params:
-        run_params_path = RUN_PARAMS_TEST_PATH
+    if args.test:
+        run_params_path = RUN_PARAMS_TEST
+        run_files_path = RUN_FILES_TEST
     else:
-        run_params_path = RUN_PARAMS_PATH
+        run_params_path = RUN_PARAMS
+        run_files_path = RUN_FILES
 
-    # Decide which of the following two sets of Resource File & Tool paths to use:
-    # 1. Local Resource Files & Local Tool paths
-    # 2. Test Resources & Tools
-    # 3. Luna Resources & Tools
-    if args.use_local_file_resources:
-        file_resources_path = LOCAL_FILE_RESOURCES_PATH
-        tool_resources_file_path = LOCAL_TOOL_RESOURCES_FILE_PATH
-    elif args.use_test_params:
-        file_resources_path = FILE_RESOURCES_TEST_PATH
-        tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
-    else:
-        file_resources_path = FILE_RESOURCES_PATH
-        tool_resources_file_path = TOOL_RESOURCES_FILE_PATH
+    # Todo: Implement choice for tool paths
+    tool_resources_file_path = TOOL_RESOURCES_LUNA
 
     # Actually start writing the inputs file
     fh = open(FINAL_FILE_NAME, 'wb')
 
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
-    include_file_resources(fh, file_resources_path)
+    include_file_resources(fh, run_files_path)
     include_tool_resources(fh, tool_resources_file_path)
 
-    # Optionally include parameters for collapsing & QC steps
-    if args.run_collapsing:
-        include_collapsing_params(fh, args.title_file_path)
+    if args.collapsing:
+        include_collapsing_params(fh, args.test)
 
     # Optionally override ResourceRequirements with smaller values when testing
     if args.include_resource_overrides:
         include_resource_overrides(fh)
 
-    # Write things such as the git commit hash, and tag to inputs.yaml
-    include_version_info(fh)
+    # Include title_file in inputs.yaml
+    title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
+    fh.write(ruamel.yaml.dump(title_file_obj))
 
     fh.close()
 
@@ -595,6 +583,9 @@ def check_final_file():
         print DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample)
         print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
 
+    # TODO: Check that every patient_id can be found in every fastq1 and fastq2
+    # That is how we pair the Tumors and Normals
+
 
 def parse_arguments():
     # Required Arguments
@@ -615,21 +606,14 @@ def parse_arguments():
     # Optional Arguments
     parser.add_argument(
         "-t",
-        "--use_test_params",
+        "--test",
         help="Whether to run with test params or production params",
         required=False,
         action="store_true"
     )
     parser.add_argument(
-        "-l",
-        "--use_local_file_resources",
-        help="Whether to run with paths to local resource files (dbSNP, indels_1000G etc), or Luna paths",
-        required=False,
-        action="store_true"
-    )
-    parser.add_argument(
         "-c",
-        "--run_collapsing",
+        "--collapsing",
         help="Whether to only generate inputs necessary for standard bams, or to run full pipeline with collapsing.",
         required=False,
         action="store_true"

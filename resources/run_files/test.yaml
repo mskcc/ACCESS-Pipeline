@@ -3,8 +3,12 @@
 #############################################
 
 # Used in multiple steps
-reference_fasta: $PIPELINE_ROOT/test/test_data/chr14/Homo_sapiens_assembly19-14-105258897-105259017.fasta
-reference_fasta_fai: $PIPELINE_ROOT/test/test_data/chr14/Homo_sapiens_assembly19-14-105258897-105259017.fasta.fai
+# Todo: implement smaller reference fasta for testing
+#reference_fasta: $PIPELINE_ROOT/test/test_data/chr14/Homo_sapiens_assembly19-14-105258897-105259017.fasta
+#reference_fasta_fai: $PIPELINE_ROOT/test/test_data/chr14/Homo_sapiens_assembly19-14-105258897-105259017.fasta.fai
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+
 
 # BaseRecalibrator
 # Todo: Consolidate
