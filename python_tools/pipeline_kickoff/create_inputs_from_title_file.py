@@ -1,9 +1,10 @@
 import re
 import sys
 import argparse
+import subprocess
+import ruamel.yaml
 import numpy as np
 import pandas as pd
-import ruamel.yaml
 
 # Paths to the default run arguments for testing or runs
 from constants import *
@@ -63,6 +64,8 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 # Delimiter for printing logs
 DELIMITER = '\n' + '*' * 20 + '\n'
+# Delimiter for inputs file sections
+INPUTS_FILE_DELIMITER = '\n' + '#' * 30 + '\n'
 
 
 def load_fastqs(data_dir):
@@ -402,7 +405,7 @@ def include_file_resources(fh, file_resources_path):
         file_resources = ruamel.yaml.round_trip_load(stream)
 
     file_resources = substitute_project_root(file_resources)
-    fh.write(ruamel.yaml.round_trip_dump(file_resources))
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
 
 
 def include_run_params(fh, run_params_path):
@@ -415,7 +418,7 @@ def include_run_params(fh, run_params_path):
     with open(run_params_path, 'r') as stream:
         other_params = ruamel.yaml.round_trip_load(stream)
 
-    fh.write(ruamel.yaml.round_trip_dump(other_params))
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
 
 
 def include_resource_overrides(fh):
@@ -427,7 +430,7 @@ def include_resource_overrides(fh):
     with open(RESOURCE_OVERRIDES_FILE_PATH, 'r') as stream:
         resource_overrides = ruamel.yaml.round_trip_load(stream)
 
-    fh.write(ruamel.yaml.round_trip_dump(resource_overrides))
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(resource_overrides))
 
 
 def include_tool_resources(fh, tool_resources_file_path):
@@ -440,7 +443,7 @@ def include_tool_resources(fh, tool_resources_file_path):
         tool_resources = ruamel.yaml.round_trip_load(stream)
         tool_resources = substitute_project_root(tool_resources)
 
-    fh.write(ruamel.yaml.round_trip_dump(tool_resources))
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(tool_resources))
 
 
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
@@ -493,15 +496,14 @@ def include_collapsing_params(fh, test=False):
     with open(collapsing_parameters, 'r') as stream:
         collapsing_parameters = ruamel.yaml.round_trip_load(stream)
 
-    fh.write(ruamel.yaml.round_trip_dump(collapsing_parameters))
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(collapsing_parameters))
 
     with open(collapsing_files, 'r') as stream:
         file_resources = ruamel.yaml.round_trip_load(stream)
 
     file_resources = substitute_project_root(file_resources)
 
-    fh.write(ruamel.yaml.round_trip_dump(file_resources))
-
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
 
 def write_inputs_file(args, title_file):
     '''
@@ -542,6 +544,11 @@ def write_inputs_file(args, title_file):
     fh.write(ruamel.yaml.dump(title_file_obj))
 
     fh.close()
+
+
+def include_version_info(fh):
+    label = subprocess.check_output(["git", "describe"]).strip()
+    fh.write(INPUTS_FILE_DELIMITER + label)
 
 
 def check_final_file():
