@@ -12,6 +12,9 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
+
+  tmp_dir: string
+
   run_tools:
     type:
       type: record
@@ -85,17 +88,6 @@ inputs:
   print_reads__EOQ: boolean
   print_reads__baq: string
 
-  # Fulcrum
-  tmp_dir: string
-  fulcrum__sort_order: string
-  fulcrum__grouping_strategy: string
-  fulcrum__min_mapping_quality: int
-  fulcrum__tag_family_size_counts_output: string
-  fulcrum__call_duplex_min_reads: string
-  fulcrum__filter_min_base_quality: int
-  fulcrum__filter_min_reads__simplex_duplex: string
-  fulcrum__filter_min_reads__duplex: string
-
   # Marianas
   marianas__mismatches: int
   marianas__wobble: int
@@ -137,6 +129,12 @@ outputs:
       type: array
       items: File
     outputSource: separate_bams/duplex_bam
+
+  qc_pdf:
+    type:
+      type: array
+      items: File
+    outputSource: qc_workflow/qc_pdf
 
 steps:
 
@@ -334,4 +332,24 @@ steps:
     scatter: [collapsed_bam]
     scatterMethod: dotproduct
 
+  ######
+  # QC #
+  ######
 
+  qc_workflow:
+    run: ./QC/qc_workflow.cwl
+    in:
+      run_tools: run_tools
+      title_file: title_file
+      bed_file: bed_file
+      gene_list: gene_list
+      coverage_threshold: coverage_threshold
+      waltz__min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+      standard_bams: standard_bam_generation/standard_bams
+      marianas_unfiltered_bams: umi_collapsing/collapsed_bams
+      marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
+      marianas_duplex_bams: separate_bams/duplex_bam
+    out:
+      [qc_pdf]

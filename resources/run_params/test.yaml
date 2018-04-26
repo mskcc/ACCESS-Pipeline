@@ -1,6 +1,6 @@
-##############################################
-# Default Parameters for Innovation-Pipeline #
-##############################################
+######################################################
+# Default Testing Parameters for Innovation-Pipeline #
+######################################################
 tmp_dir: /tmp
 
 ##########################
@@ -8,11 +8,6 @@ tmp_dir: /tmp
 ##########################
 umi_length: 3
 output_project_folder: .
-
-
-#**********#
-# MODULE 1 #
-#**********#
 
 ##########################
 # AddOrReplaceReadGroups #
@@ -23,17 +18,11 @@ add_rg_CN: BergerLab_MSKCC
 ##################
 # MarkDuplicates #
 ##################
-# Todo: Use record types to group each set of parameters
 md__create_index: true
 md__assume_sorted: true
 md__compression_level: 0
 md__validation_stringency: LENIENT
 md__duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
-
-
-#**********#
-# MODULE 2 #
-#**********#
 
 ########################
 # FindCoveredIntervals #
@@ -43,15 +32,14 @@ fci__minmq: 20
 fci__cov: 20
 fci__rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 # We include this parameter during testing to make this step faster
-fci__intervals: ["14"]
+fci__intervals: ['14']
 
 ########
 # Abra #
 ########
 abra__kmers: 43,53,63,83,93
 # Todo: Can Abra auto-delete this dir?
-# Or do we really need another intermediate Python step...?
-abra__scratch: /tmp/abra_scratch
+abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/abra_scratch__test
 # todo: confirm that 1000 for this parameter is ok for deep sequencing data. It might be too low...
 abra__mad: 1000
 
