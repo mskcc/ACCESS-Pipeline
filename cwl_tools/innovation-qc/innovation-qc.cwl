@@ -10,7 +10,7 @@ requirements:
     ramMin: 4000
     coresMin: 1
 
-baseCommand: innovation_qc_with_groups.py
+baseCommand: qc_wrapper
 
 inputs:
   standard_waltz_metrics:
