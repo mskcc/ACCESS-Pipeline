@@ -23,7 +23,7 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
 
-# Setup
+# Installation
 
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project, e.g. innovation-pipeline
@@ -65,30 +65,34 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 (innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
-### 7. Create a run title file from a sample manifest 
-(example manifest exists in /test/test_data)
+# Running the test pipeline
+
+I usually run the pipelines from a separate directory, with ample storage space. Even though the pipelines outputs directory can be specified for the runs, even the log files can be quite large (up to ~50GB if running in debug mode).
+
+### 1. Create a run title file from a sample manifest 
+(example manifests exist in /test/test_data/...)
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i Innovation_Pipeline/test/test_data/umi-T_N/manifest.xls -o ./title_file.txt
 ```
 
-### 8. Create an inputs file from the title file
+### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t -c
+(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
 ```
 
-### 9. Run the test pipeline
+### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ cwltool workflows/standard_pipeline.cwl inputs.yaml
+(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(innovation_pipeline) ~/PIPELINE_RUNS$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 or use:
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ test/run-pipeline-test.sh ~/output_dir
+(innovation_pipeline) ~/PIPELINE_RUNS$ test/run-pipeline-test.sh ~/output_dir
 ```
 Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
 
