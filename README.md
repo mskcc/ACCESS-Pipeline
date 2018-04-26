@@ -37,37 +37,42 @@ Make virtualenv with the name of your virtual environment for this project, e.g.
 (We hope to allow this repo to be cloned from Github once test data storage is confirmed)
 ```
 (innovation_pipeline) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
-(innovation_pipeline) ~$ cd Innovation-Pipeline-0.0.3
-(innovation_pipeline) ~/Innovation-Pipeline-0.0.3$ python setup.py install
+(innovation_pipeline) ~$ cd Innovation-Pipeline
 ```
 
 ### 3. Update the paths to the tool resources in `/resources`
 
-### 4. Include the path to BWA as the first entry in your path:
+### 4. Include the paths to BWA and Bedtools as the first entries in your path:
 Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
 ```
 PATH="/usr/bin/bwa:$PATH"
+PATH="/usr/bin/bedtools:$PATH"
 ```
 
 ### 5. Set the root directory of the project
 (found in `/python_tools/pipeline_kickoff/constants.py`)
 ```
-ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
+ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 ```
 
-### 6. Create a run title file from a sample manifest 
+### 6. Install the python tools
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
+```
+
+### 7. Create a run title file from a sample manifest 
 (example manifest exists in /test/test_data)
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_title_file_from_manifest -i ./manifest.xls -o title_file.txt
 ```
 
-### 7. Create an inputs file from the title file
+### 8. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test params) and paths to run files from step 5.
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d test-data/start -t
 ```
 
-### 8. Run the test pipeline
+### 9. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ cwltool workflows/standard_pipeline.cwl inputs.yaml
