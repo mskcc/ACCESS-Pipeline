@@ -103,8 +103,8 @@ Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & 
 The same steps for testing can be used for a real run. 
 
 Note that there are several requirements when running on your own data:
-1. The fields that are found in the sample manifest are matched exactly (see examples in test/test_data)
-2. The sample ID's in the manifest but be *exactly* matched somewhere in the fastq file names fom the `-d` data folder
+1. The fields that are found in the sample manifest should matched with the examples in `test/test_data`
+2. The sample ID's in the manifest but be matched somewhere in the fastq file names fom the `-d` data folder
 3. The `SAMPLE_CLASS` column of the manifest but consist of the values either "Tumor" or "Normal"
 4. Each "Tumor" sample must have at least one associated "Normal" sample
 5. Each sample folder in the `-d` data folder must have three files that match the following:
@@ -113,10 +113,17 @@ Note that there are several requirements when running on your own data:
 '_R2_001.fastq.gz'
 'SampleSheet.csv'
 ```
+### Steps
+Note that we use `pipeline_submit` here to submit our jobs to the cluster (`lsf` has been tested, other options include `gridEngine`, `mesos`, `htcondor`, and `slurm`)
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./DY_manifest.xlsx -o ./DY_title_file.txt
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./DY_title_file.txt -d ~/data/DY_data -t -c
-(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl
+(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit \
+>   --project_name EJ_4-27_yes_MD \
+>   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
+>   --inputs_file ./inputs.yaml \
+>   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
+>   --batch_system lsf
 ```
 
 # Issues
