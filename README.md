@@ -104,7 +104,7 @@ The same steps for testing can be used for a real run.
 
 Note that there are several requirements when running on your own data:
 1. The fields that are found in the sample manifest should matched with the examples in `test/test_data`
-2. The sample ID's in the manifest but be matched somewhere in the fastq file names fom the `-d` data folder
+2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the `-d` data folder
 3. The `SAMPLE_CLASS` column of the manifest must consist of the values either "Tumor" or "Normal"
 4. Each "Tumor" sample must have at least one associated "Normal" sample
 5. Each sample folder in the `-d` data folder must have three files that match the following:
