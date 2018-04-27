@@ -87,17 +87,37 @@ This step will create a file `inputs.yaml`, and pull in the run parameters (-t f
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool workflows/standard_pipeline.cwl inputs.yaml
+(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool ~/Innovation-Pipeline/workflows/standard_pipeline.cwl inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ toil-cwl-runner workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(innovation_pipeline) ~/PIPELINE_RUNS$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 or use:
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ test/run-pipeline-test.sh ~/output_dir
 ```
 Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
+
+# Running a real run
+The same steps for testing can be used for a real run. 
+
+Note that there are several requirements when running on your own data:
+1. The fields that are found in the sample manifest are matched exactly (see examples in test/test_data)
+2. The sample ID's in the manifest but be *exactly* matched somewhere in the fastq file names fom the `-d` data folder
+3. The `SAMPLE_CLASS` column of the manifest but consist of the values either "Tumor" or "Normal"
+4. Each "Tumor" sample must have at least one associated "Normal" sample
+5. Each sample folder in the `-d` data folder must have three files that match the following:
+```
+'_R1_001.fastq.gz'
+'_R2_001.fastq.gz'
+'SampleSheet.csv'
+```
+```
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./DY_manifest.xlsx -o ./DY_title_file.txt
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./DY_title_file.txt -d ~/data/DY_data -t -c
+(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl
+```
 
 # Issues
 Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
