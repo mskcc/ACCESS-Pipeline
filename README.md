@@ -113,7 +113,7 @@ Note that there are several requirements when running on your own data:
 '_R2_001.fastq.gz'
 'SampleSheet.csv'
 ```
-### Steps
+### Example:
 Note that we use `pipeline_submit` here to submit our jobs to the cluster (`lsf` has been tested, other options include `gridEngine`, `mesos`, `htcondor`, and `slurm`)
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./DY_manifest.xlsx -o ./DY_title_file.txt
