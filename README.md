@@ -6,19 +6,20 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 
 | tool | version |
 | --- | --- |
-| Trimgalore | v0.2.5 |
+| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 |
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python | 2.7.10 | 
 | Perl | 5.20.2 |
-| BWA (must exist in PATH) | 0.7.15-r1140 |
-| bedtools (must exist in PATH) | v2.26.0 |
-| Marianas | 1.5 |
-| Picard | picard-2.8.1.jar | 
+| [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
+| [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
+| [Marianas](https://github.com/juberpatel/Marianas) | 1.5 |
+| [Waltz](https://github.com/juberpatel/Waltz) | 2.0 |
+| [Picard](https://github.com/broadinstitute/picard) | picard-2.8.1.jar | 
 | Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
 | Picard FixMateInformation | FixMateInformation.jar (1.96) |
-| GATK | 3.3.0 |
-| Abra | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
+| [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 |
+| [Abra](https://github.com/mozack/abra/) | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
