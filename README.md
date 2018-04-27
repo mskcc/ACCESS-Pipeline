@@ -45,6 +45,8 @@ There are several combinations of resource files to edit, to support different e
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
 /resources/run_tools/luna.yaml
+/resources/run_params/test.yaml
+/resources/run_params/test__collapsing.yaml
 ```
 
 ### 4. Include the paths to BWA and Bedtools as the first entries in your path:
