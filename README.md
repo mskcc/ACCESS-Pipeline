@@ -114,16 +114,32 @@ Note that there are several requirements when running on your own data:
 'SampleSheet.csv'
 ```
 ### Example:
-Note that we use `pipeline_submit` here to submit our jobs to the cluster (`lsf` has been tested, other options include `gridEngine`, `mesos`, `htcondor`, and `slurm`)
+Note that we use `pipeline_submit` here to submit our jobs to the cluster.
+
+Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`. 
+
+Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options.
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./DY_manifest.xlsx -o ./DY_title_file.txt
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./DY_title_file.txt -d ~/data/DY_data -t -c
+```
+```
 (innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit \
->   --project_name EJ_4-27_yes_MD \
+>   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
 >   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
 >   --batch_system lsf
+```
+or for other job schedulers:
+```
+pipeline_runner \
+>   --project_name EJ_4-27_MarkDuplicatesTest \
+>   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
+>   --inputs_file ./inputs.yaml \
+>   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
+>   --batch_system gridEngine \
+>   --job_store_uuid some_random_uuid
 ```
 
 # Issues
