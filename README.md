@@ -114,14 +114,14 @@ Note that there are several requirements when running on your own data:
 'SampleSheet.csv'
 ```
 ### Example:
-Note that we use `pipeline_submit` here to submit our jobs to the cluster.
+Note that we use `pipeline_submit` here to submit both the leader job as well as the worker jobs to the cluster.
 
 Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`. 
 
-Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options.
+Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options. This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./DY_manifest.xlsx -o ./DY_title_file.txt
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./DY_title_file.txt -d ~/data/DY_data -t -c
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./EJ_manifest.xlsx -o ./EJ_title_file.txt
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -t -c
 ```
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit \
@@ -133,7 +133,7 @@ Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor
 ```
 or for other job schedulers:
 ```
-pipeline_runner \
+(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_runner \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
