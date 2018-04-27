@@ -81,7 +81,7 @@ I usually run the pipelines from a separate directory, with ample storage space.
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
+(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
 ```
 
 ### 3. Run the test pipeline
