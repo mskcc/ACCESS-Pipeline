@@ -130,62 +130,63 @@ steps:
   ############################
 
   standard_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      waltz_input_files: waltz_standard/waltz_output_files
+      files: waltz_standard/waltz_output_files
     out:
-      [waltz_files]
+      [directory]
 
   marianas_unfiltered_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      waltz_input_files: waltz_marianas_unfiltered/waltz_output_files
+      files: waltz_marianas_unfiltered/waltz_output_files
     out:
-      [waltz_files]
+      [directory]
 
   marianas_simplex_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      waltz_input_files: waltz_marianas_simplex_duplex/waltz_output_files
+      files: waltz_marianas_simplex_duplex/waltz_output_files
     out:
-      [waltz_files]
+      [directory]
 
   marianas_duplex_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_bam_metrics.cwl
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      waltz_input_files: waltz_marianas_duplex/waltz_output_files
+      files: waltz_marianas_duplex/waltz_output_files
     out:
-      [waltz_files]
+      [directory]
 
-  ###############################################################
-  # Aggregate Bam Metrics across samples (standard and fulcrum) #
-  ###############################################################
+  ########################################
+  # Aggregate Bam Metrics across samples #
+  # for each collapsing method           #
+  ########################################
 
   standard_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: standard_consolidate_bam_metrics/waltz_files
+      waltz_input_files: standard_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
   marianas_unfiltered_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: marianas_unfiltered_consolidate_bam_metrics/waltz_files
+      waltz_input_files: marianas_unfiltered_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
   marianas_simplex_duplex_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/waltz_files
+      waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
   marianas_duplex_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: marianas_duplex_consolidate_bam_metrics/waltz_files
+      waltz_input_files: marianas_duplex_consolidate_bam_metrics/directory
     out:
       [output_dir]
 

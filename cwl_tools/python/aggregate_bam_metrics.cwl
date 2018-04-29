@@ -14,9 +14,7 @@ baseCommand: [aggregate_bam_metrics]
 
 inputs:
   waltz_input_files:
-    type:
-      type: array
-      items: File
+    type: Directory
     inputBinding:
       position: 1
 
