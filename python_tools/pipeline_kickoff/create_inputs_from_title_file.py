@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 # Paths to the default run arguments for testing or runs
-from constants import *
+from ..constants import *
 
 
 ##################################
@@ -69,7 +69,7 @@ INPUTS_FILE_DELIMITER = '\n' + '#' * 30 + '\n'
 
 
 def load_fastqs(data_dir):
-    '''
+    """
     Recursively find files in `data_dir` with the given `file_regex`
 
     Todo: need to support multiple R1 / R2 fastqs per patient?
@@ -79,7 +79,7 @@ def load_fastqs(data_dir):
 
     Note:
     os.walk yields a 3-list (dirpath, dirnames, filenames)
-    '''
+    """
     # Gather Sample Sub-directories (but leave out the parent dir)
     folders = list(os.walk(data_dir))
 
@@ -108,7 +108,7 @@ def load_fastqs(data_dir):
 
 
 def get_adapter_sequences(title_file):
-    '''
+    """
     Adapter sequences need to be tailored to include each sample barcode from the title file
     GATCGGAAGAGCACACGTCTGAACTCCAGTCAC + bc_1 + ATATCTCGTATGCCGTCTTCTGCTTG
     AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
@@ -116,7 +116,7 @@ def get_adapter_sequences(title_file):
     These will be used during the Trimgalore adapter trimming step
     :param title_file:
     :return:
-    '''
+    """
     # First, check that there are no duplicate barcodes
     barcodes_check(title_file)
 
@@ -137,34 +137,25 @@ def get_adapter_sequences(title_file):
 
 
 def extract_barcode_1(title_file):
-    '''
+    """
     Split barcode index and return entry before '-'
     Todo: should come from SampleSheet, but sheeet only includes one barcode index
-
-    :param title_file:
-    :return:
-    '''
+    """
     return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[0])
 
 
 def extract_barcode_2(title_file):
-    '''
+    """
     Split barcode index and return entry after '-'
     Todo: should come from SampleSheet, but sheeet only includes one barcode index
-
-    :param title_file:
-    :return:
-    '''
+    """
     return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[1])
 
 
 def barcodes_check(title_file):
-    '''
+    """
     Check that no two samples IN THE SAME LANE have the same barcode 1 or barcode 2
-
-    :param title_file:
-    :return:
-    '''
+    """
     for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
@@ -176,10 +167,10 @@ def barcodes_check(title_file):
 
 
 def contained_in(sample_id, fastq_object):
-    '''
+    """
     Helper method to sort list of fastqs.
     Returns True if `value` contained in `string`, False otherwise
-    '''
+    """
     found = sample_id.replace('_', '-') in fastq_object['path'].replace('_', '-')
     if found:
         return 1
@@ -187,82 +178,32 @@ def contained_in(sample_id, fastq_object):
         return 0
 
 
-def contained_in_fuzzy(sample_id, fastq_object):
-    '''
-    This method will split the sample ID from the title file, and the fastq filename,
-    and find the number of tokens that match between the two. This is used as a backup for when
-    the sample name from the title file cannot be matched in any fastq filenames.
-
-    Example:
-
-    Tokens from Sample ID:
-    ['PR', 'pt31', 'CF01']
-
-    Will be matched with tokens from fastq file path:
-    ['', 'ifs', 'archive', 'BIC', 'share', 'bergerm1', 'JAX',
-    '0101', 'BHL5KNBBXX', 'Project', '05500', 'DY', 'Sample',
-    'Pan', 'Cancer', 'M6', 'IGO', '05500', 'DY', '46', 'SampleSheet.csv']
-
-    Todo: While this is a neat convience method, we don't have room for errors caused by the following situation:
-
-    This is the correct sample name:
-    Sample_Pan_Cancer_F4_IGO_05500_DY_42
-
-    This is not the correct sample name:
-    Sample_Pan_Cancer_F4_IGO_05500_DY_43_OTHER_THINGS_not_related_to_samplename_but_happen_to_match
-
-    But it happens to match our filename better...
-    Sample_Pan_Cancer_F4_IGO_05500_DY_42_with_some_OTHER_THINGS_that_happen_to_match.fastq.gz
-
-    :param value:
-    :param string:
-    :return:
-    '''
-    sample_id_split = re.split('[-_]', sample_id)
-    fastq_path_split = re.split('[-_/]', fastq_object['path'])
-
-    new_set = set(sample_id_split) & set(fastq_path_split)
-    num_overlapping_tokens = len(list(new_set))
-    return num_overlapping_tokens
-
-
 def get_pos(title_file, fastq_object):
-    '''
+    """
     Return position of `filename` in 'Sample_ID' column of title_file
     Used for sorting purposes
-
-    :param title_file:
-    :param filename:
-    :return:
-    '''
+    """
     boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, fastq_object=fastq_object)
 
     if np.sum(boolv) > 1:
         raise Exception('More than one fastq found for patient, exiting.')
 
-    # If there are no matches, try to match with the fuzzy method:
+    # If there are no matches, throw error
     if np.sum(boolv) < 1:
-        err_string = DELIMITER + 'Error, matching sample ID for file {} not found in title file. Using fuzzy match method.'
+        err_string = DELIMITER + 'Error, matching sample ID for file {} not found in title file'
         print >> sys.stderr, err_string.format(fastq_object)
-        print >> sys.stderr, 'Please double check the order of the fastqs in the final inputs.yaml file.'
-        boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in_fuzzy, fastq_object=fastq_object)
+        raise Exception('Please double check the order of the fastqs in the final inputs.yaml file')
 
     pos = np.argmax(boolv)
     return pos
 
 
 def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
-    '''
+    """
     Helper method to sort fastq paths based on title_file ordering.
     Lists of inputs in our yaml file need to be ordered the same order as each other.
     An alternate method might involve using Record types as a cleaner solution.
-
-    :param fastq1:
-    :param fastq2:
-    :param sample_sheet:
-    :param title_file:
-    :return:
-    '''
+    """
     fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f))
     fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f))
     sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s))
@@ -270,17 +211,12 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
 
 
 def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
-    '''
+    """
     If samples IDs from title file aren't found in data directory,
     issue a warning and remove them from the title file
 
     # Todo: Should we instead raise an error and not continue?
-
-    :param title_file:
-    :param fastq1:
-    :param title_file_path:
-    :return:
-    '''
+    """
     found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
     samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
@@ -297,15 +233,9 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
 
 def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
-    '''
+    """
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
-
-    :param fastq1:
-    :param fastq2:
-    :param sample_sheet:
-    :param title_file:
-    :return:
-    '''
+    """
     fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
     fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq2)
     sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
@@ -313,15 +243,17 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     return fastq1, fastq2, sample_sheet
 
 
-def include_fastqs_params(fh, data_dir, title_file, title_file_path):
-    '''
-    Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
+def perform_patient_id_checks(fastq1, fastq2, title_file):
 
-    :param fh:
-    :param data_dir:
-    :param title_file:
-    :return:
-    '''
+    for patient_id in title_file[TITLE_FILE__PATIENT_ID_COLUMN]:
+        assert any([patient_id in f['path'] for f in fastq1])
+        assert any([patient_id in f['path'] for f in fastq2])
+
+
+def include_fastqs_params(fh, data_dir, title_file, title_file_path):
+    """
+    Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
+    """
     # Load and sort our data files
     fastq1, fastq2, sample_sheet = load_fastqs(data_dir)
     # Get rid of data files that don't have an entry in the title_file
@@ -333,20 +265,14 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
 
     # Check that we have the same number of everything
     perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
+
+    # Check that patient ids are found in fastq filenames
+    # That is how we pair Tumors and Normals
+    perform_patient_id_checks(fastq1, fastq2, title_file)
+
     # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
 
-    # Note: I put some thought into whether to use a
-    # Record type instead of parallel lists here,
-    # but ended up not seeing the benefit because certain
-    # later steps still require some of the original fields from
-    # the record type after the fastqs have been converted to bams.
-    # Todo: If there is a way to output a record type then this^ would be a cleaner option.
-    #
-    # But according to @Mr-c:
-    # "@ionox0 [returning record objects with values from inputs] is an area we want to get better in.
-    # Alas the inputs object isn't in scope inside outputs in CWL v1.0
-    # One approach is to keep everything in matched arrays"
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
@@ -371,13 +297,11 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
 
 
 def substitute_project_root(yaml_file):
-    '''
+    """
     Substitute in the ROOT_PATH variable based on our current installation directory
     The purpose of this method is to support referencing resources in the resources folder
     This may be unnecessary now that we manually set the RESOURCES_ROOT variable in constants.py
-
-    :return:
-    '''
+    """
     for key in yaml_file.keys():
         # If we are dealing with a File object
         if 'path' in yaml_file[key]:
@@ -394,13 +318,9 @@ def substitute_project_root(yaml_file):
 
 
 def include_file_resources(fh, file_resources_path):
-    '''
+    """
     Write the paths to our resource files into the inputs yaml file.
-
-    :param fh:
-    :param file_resources_path:
-    :return:
-    '''
+    """
     with open(file_resources_path, 'r') as stream:
         file_resources = ruamel.yaml.round_trip_load(stream)
 
@@ -409,12 +329,9 @@ def include_file_resources(fh, file_resources_path):
 
 
 def include_run_params(fh, run_params_path):
-    '''
+    """
     Load and write our default run parameters
-
-    :param fh: File handle for pipeline yaml inputs
-    :param run_params_path: Path to run params file (for either testing or production)
-    '''
+    """
     with open(run_params_path, 'r') as stream:
         other_params = ruamel.yaml.round_trip_load(stream)
 
@@ -422,11 +339,11 @@ def include_run_params(fh, run_params_path):
 
 
 def include_resource_overrides(fh):
-    '''
+    """
     Load and write our ResourceRequirement overrides for testing
 
     :param fh: File handle for pipeline yaml inputs
-    '''
+    """
     with open(RESOURCE_OVERRIDES_FILE_PATH, 'r') as stream:
         resource_overrides = ruamel.yaml.round_trip_load(stream)
 
@@ -434,11 +351,11 @@ def include_resource_overrides(fh):
 
 
 def include_tool_resources(fh, tool_resources_file_path):
-    '''
+    """
     Load and write our ResourceRequirement overrides for testing
 
     :param fh: File handle for pipeline yaml inputs
-    '''
+    """
     with open(tool_resources_file_path, 'r') as stream:
         tool_resources = ruamel.yaml.round_trip_load(stream)
         tool_resources = substitute_project_root(tool_resources)
@@ -447,18 +364,12 @@ def include_tool_resources(fh, tool_resources_file_path):
 
 
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
-    '''
+    """
     Check whether the title file matches input fastqs
 
     Todo: we might want an option to remove fastqs or rows from the title_file instead of throwing error,
     in the event that we use this script on a subset of the fastqs in a pool
-
-    :param fastq1:
-    :param fastq2:
-    :param sample_sheet:
-    :param title_file:
-    :return:
-    '''
+    """
     try:
         assert len(fastq1) == len(fastq2)
     except AssertionError as e:
@@ -480,12 +391,12 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
 
 
 def include_collapsing_params(fh, test=False):
-    '''
+    """
     Load and write our Collapsing & QC parameters
 
     :param fh: File handle for pipeline yaml inputs
     :param test: Whether to include test or production collapsing params
-    '''
+    """
     if test:
         collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
         collapsing_files = RUN_FILES_TEST_COLLAPSING
@@ -507,14 +418,10 @@ def include_collapsing_params(fh, test=False):
 
 
 def write_inputs_file(args, title_file):
-    '''
+    """
     Main function to write our inputs.yaml file.
     Contains most of the logic related to which inputs to use based on the type of run
-
-    :param data_dir:
-    :param title_file:
-    :return:
-    '''
+    """
     if args.test:
         run_params_path = RUN_PARAMS_TEST
         run_files_path = RUN_FILES_TEST
@@ -553,11 +460,9 @@ def include_version_info(fh):
 
 
 def check_final_file():
-    '''
+    """
     Check that lengths of these fields in the final file are equal:
-
-    :return:
-    '''
+    """
     with open(FINAL_FILE_NAME, 'r') as stream:
         final_file = ruamel.yaml.round_trip_load(stream)
 
@@ -583,13 +488,11 @@ def check_final_file():
         print DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample)
         print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
 
-    # TODO: Check that every patient_id can be found in every fastq1 and fastq2
-    # That is how we pair the Tumors and Normals
-
 
 def parse_arguments():
-    # Required Arguments
     parser = argparse.ArgumentParser()
+
+    # Required Arguments
     parser.add_argument(
         "-i",
         "--title_file_path",
@@ -631,12 +534,9 @@ def parse_arguments():
 
 
 def sanity_check(title_file):
-    '''
+    """
     Make sure samples are unique, and barcodes are unique within each lane
-
-    :param title_file:
-    :return:
-    '''
+    """
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample names. Exiting.')
 

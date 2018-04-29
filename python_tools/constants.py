@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 # Define a constant for the root directory of this project
 # Todo: Find better way to set project root while still using setup.py
-ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
+ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
 
 
 #############
@@ -101,3 +101,127 @@ columns_map = OrderedDict({
 
 # Todo: ok to have 'Lane' colunn?
 TITLE_FILE__LANE_COLUMN = 'Lane'
+
+
+##########################
+# Constants for QC files #
+##########################
+
+# Waltz Metrics Files Constants
+
+SAMPLE_ID_COLUMN = 'Sample'
+
+WALTZ_READ_COUNTS_FILENAME_SUFFIX = '.read-counts'
+WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX = '.fragment-sizes'
+WALTZ_INTERVALS_FILENAME_SUFFIX = '-intervals.txt'
+WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX = '-intervals-without-duplicates.txt'
+
+# todo
+WALTZ_INTERVALS_FILE_HEADER = ['chromosome', 'start', 'stop', 'interval_name', 'size', '???', 'coverage', 'gc']
+WALTZ_COVERAGE_FILE_HEADER = ['TotalCoverage', 'UniqueCoverage']
+
+WALTZ_READ_COUNTS_HEADER = [
+    'Bam',
+    'TotalReads',
+    'UnmappedReads',
+    'TotalMapped',
+    'UniqueMapped',
+    'DuplicateFraction',
+    'TotalOnTarget',
+    'UniqueOnTarget',
+    'TotalOnTargetFraction',
+    'UniqueOnTargetFraction'
+]
+
+# Agbm Metrics Files Constants
+
+AGBM_READ_COUNTS_HEADER = [
+    'bam',
+    'id',
+    'total_reads',
+    'unmapped_reads',
+    'total_mapped',
+    'unique_mapped',
+    'duplicate_fraction',
+    'total_on_target',
+    'unique_on_target',
+    'total_on_target_fraction',
+    'unique_on_target_fraction'
+]
+
+AGBM_COVERAGE_FILENAME = 'waltz-coverage.txt'
+AGBM_READ_COUNTS_FILENAME = 'read-counts.txt'
+AGBM_FRAGMENT_SIZES_FILENAME = 'fragment-sizes.txt'
+AGBM_INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
+
+AGBM_READ_COUNTS_FILE_HEADER = [
+    'bam',
+    SAMPLE_ID_COLUMN,
+    'total_reads',
+    'unmapped_reads',
+    'total_mapped',
+    'unique_mapped',
+    'duplicate_fraction'
+]
+
+AGBM_READ_COUNTS_FILE_HEADER += [
+    'total_on_target',
+    'unique_on_target',
+    'total_on_target_fraction',
+    'unique_on_target_fraction'
+]
+
+AGBM_FRAGMENT_SIZES_FILE_HEADER = [
+    SAMPLE_ID_COLUMN,
+    'fragment_size',
+    'total_frequency',
+    'unique_frequency'
+]
+
+AGBM_COVERAGE_FILE_HEADER = [
+    SAMPLE_ID_COLUMN,
+    'total_coverage',
+    'unique_coverage'
+]
+
+AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER = [
+    SAMPLE_ID_COLUMN,
+     'chromosome',
+     'start',
+     'end',
+     'interval_name',
+     'length',
+     'gc',
+     'coverage',
+     'coverage_with_duplicates',
+     'coverage_without_duplicates'
+]
+
+AGBM_INTERVALS_COVERAGE_SUM_ALL_INTERVALS_FILE_HEADER = [
+    SAMPLE_ID_COLUMN,
+    'chromosome',
+    'start',
+    'end',
+    'interval_name',
+    'length',
+    'gc',
+    'coverage',
+    'coverage_with_duplicates'
+]
+
+# Labels for collapsing methods
+
+TOTAL_LABEL = 'Total'
+PICARD_LABEL = 'Picard'
+MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
+MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'marianas_simplex_duplex'
+MARIANAS_DUPLEX_COLLAPSING_METHOD = 'marianas_duplex'
+
+# Tables Module Files Constants
+
+# Headers for tables
+DUPLICATION_RATES_HEADER = ['sample', 'method', 'duplication_rate']
+INSERT_SIZE_PEAKS_HEADER = ['sample', 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
+GC_BIAS_HEADER = ['method', 'sample', 'interval', 'coverage', 'gc']
+GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', 'sample', 'gc_bin', 'coverage']

@@ -2,7 +2,7 @@ import xlrd
 import argparse
 import pandas as pd
 
-from constants import *
+from ..constants import *
 
 
 ##################################

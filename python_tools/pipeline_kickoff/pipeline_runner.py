@@ -70,21 +70,23 @@ def parse_arguments():
         action="store",
         dest="workflow",
         help="Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)",
-        required=False
+        required=True
     )
 
     parser.add_argument(
         "--batch_system",
         action="store",
         dest="batch_system",
-        help="(e.g. lsf or singleMachine)"
+        help="(e.g. lsf or singleMachine)",
+        required=True
     )
 
     parser.add_argument(
         "--job_store_uuid",
         action="store",
         dest="job_store_uuid",
-        help="(LSF & Toil job UUID)"
+        help="(LSF & Toil job UUID)",
+        required=True
     )
 
     return parser.parse_args()
