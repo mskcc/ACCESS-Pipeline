@@ -6,7 +6,7 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 
 | tool | version |
 | --- | --- |
-| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 |
+| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually)|
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python | 2.7.10 | 
