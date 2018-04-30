@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 # Define a constant for the root directory of this project
 # Todo: Find better way to set project root while still using setup.py
-ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
+ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 
 
 #############
@@ -17,16 +17,20 @@ RUN_FILES_FOLDER                    = os.path.join(RESOURCES_FOLDER, 'run_files'
 RUN_PARAMS_FOLDER                   = os.path.join(RESOURCES_FOLDER, 'run_params')
 RUN_TOOLS_FOLDER                    = os.path.join(RESOURCES_FOLDER, 'run_tools')
 
-PRODUCTION                          = 'production.yaml'
-PRODUCTION_COLLAPSING               = 'production__collapsing.yaml'
 TEST                                = 'test.yaml'
+LOCAL                               = 'local.yaml'
+PRODUCTION                          = 'production.yaml'
 TEST_COLLAPSING                     = 'test__collapsing.yaml'
+LOCAL_COLLAPSING                    = 'local__collapsing.yaml'
+PRODUCTION_COLLAPSING               = 'production__collapsing.yaml'
 
 # Run Files
 RUN_FILES                           = os.path.join(RUN_FILES_FOLDER, PRODUCTION)
 RUN_FILES_COLLAPSING                = os.path.join(RUN_FILES_FOLDER, PRODUCTION_COLLAPSING)
 RUN_FILES_TEST                      = os.path.join(RUN_FILES_FOLDER, TEST)
 RUN_FILES_TEST_COLLAPSING           = os.path.join(RUN_FILES_FOLDER, TEST_COLLAPSING)
+RUN_FILES_LOCAL                     = os.path.join(RUN_FILES_FOLDER, LOCAL)
+RUN_FILES_LOCAL_COLLAPSING          = os.path.join(RUN_FILES_FOLDER, LOCAL_COLLAPSING)
 
 # Run Parameters
 RUN_PARAMS                          = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION)
@@ -68,7 +72,7 @@ MANIFEST__BARCODE_INDEX_COLUMN              = 'BARCODE_INDEX'
 # Title File columns
 TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
 TITLE_FILE__POOL_COLUMN                     = 'Pool'
-TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample_ID'
+TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
 TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
 TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
 TITLE_FILE__CLASS_COLUMN                    = 'Class'
@@ -109,7 +113,20 @@ TITLE_FILE__LANE_COLUMN = 'Lane'
 
 # Waltz Metrics Files Constants
 
-SAMPLE_ID_COLUMN = 'Sample'
+# Use same string for sample ID everywhere
+SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
+
+TOTAL_MAPPED_COLUMN = 'total_mapped'
+UNIQUE_MAPPED_COLUMN = 'unique_mapped'
+TOTAL_READS_COLUMN = 'total_reads'
+UNMAPPED_READS_COLUMN = 'unmapped_reads'
+DUPLICATE_FRACTION_COLUMN = 'duplicate_fraction'
+TOTAL_ON_TARGET_COLUMN = 'total_on_target'
+UNIQUE_ON_TARGET_COLUMN = 'unique_on_target'
+TOTAL_ON_TARGET_FRACTION_COLUMN = 'total_on_target_fraction'
+UNIQUE_ON_TARGET_FRACTION_COLUMN = 'unique_on_target_fraction'
+
+TOTAL_OFF_TARGET_FRACTION_COLUMN = 'total_off_target_fraction'
 
 WALTZ_READ_COUNTS_FILENAME_SUFFIX = '.read-counts'
 WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX = '.fragment-sizes'
@@ -117,111 +134,99 @@ WALTZ_INTERVALS_FILENAME_SUFFIX = '-intervals.txt'
 WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX = '-intervals-without-duplicates.txt'
 
 # todo
-WALTZ_INTERVALS_FILE_HEADER = ['chromosome', 'start', 'stop', 'interval_name', 'size', '???', 'coverage', 'gc']
-WALTZ_COVERAGE_FILE_HEADER = ['TotalCoverage', 'UniqueCoverage']
+WALTZ_INTERVALS_FILE_HEADER = ['chromosome', 'start', 'stop', 'interval_name', 'fragment_size', '???', 'coverage', 'gc']
+WALTZ_COVERAGE_FILE_HEADER = ['total_coverage', 'unique_coverage']
+
 
 WALTZ_READ_COUNTS_HEADER = [
     'Bam',
-    'TotalReads',
-    'UnmappedReads',
-    'TotalMapped',
-    'UniqueMapped',
-    'DuplicateFraction',
-    'TotalOnTarget',
-    'UniqueOnTarget',
-    'TotalOnTargetFraction',
-    'UniqueOnTargetFraction'
+    TOTAL_READS_COLUMN,
+    UNMAPPED_READS_COLUMN,
+    TOTAL_MAPPED_COLUMN,
+    UNIQUE_MAPPED_COLUMN,
+    DUPLICATE_FRACTION_COLUMN,
+    TOTAL_ON_TARGET_COLUMN,
+    UNIQUE_ON_TARGET_COLUMN,
+    TOTAL_ON_TARGET_FRACTION_COLUMN,
+    UNIQUE_ON_TARGET_FRACTION_COLUMN
 ]
+
 
 # Agbm Metrics Files Constants
-
-AGBM_READ_COUNTS_HEADER = [
-    'bam',
-    'id',
-    'total_reads',
-    'unmapped_reads',
-    'total_mapped',
-    'unique_mapped',
-    'duplicate_fraction',
-    'total_on_target',
-    'unique_on_target',
-    'total_on_target_fraction',
-    'unique_on_target_fraction'
-]
-
+#
+# Column names
 AGBM_COVERAGE_FILENAME = 'waltz-coverage.txt'
 AGBM_READ_COUNTS_FILENAME = 'read-counts.txt'
 AGBM_FRAGMENT_SIZES_FILENAME = 'fragment-sizes.txt'
 AGBM_INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
 
-AGBM_READ_COUNTS_FILE_HEADER = [
+FRAGMENT_SIZE_COLUMN = 'fragment_size'
+TOTAL_FREQUENCY_COLUMN = 'total_frequency'
+UNIQUE_FREQUENCY_COLUMN = 'unique_frequency'
+
+CHROMOSOME_COLUMN = 'chromosome'
+START_COLUMN = 'start'
+END_COLUMN = 'end'
+INTERVAL_NAME_COLUMN = 'interval_name'
+LENGTH_COLUMN = 'length'
+GC_COLUMN = 'gc'
+COVERAGE_COLUMN = 'coverage'
+COVERAGE_WITH_DUPLICATES_COLUMN = 'coverage_with_duplicates'
+COVERAGE_WITHOUT_DUPLICATES_COLUMN = 'coverage_without_duplicates'
+
+# File Headers
+AGBM_READ_COUNTS_HEADER = [
     'bam',
     SAMPLE_ID_COLUMN,
-    'total_reads',
-    'unmapped_reads',
-    'total_mapped',
-    'unique_mapped',
-    'duplicate_fraction'
-]
-
-AGBM_READ_COUNTS_FILE_HEADER += [
-    'total_on_target',
-    'unique_on_target',
-    'total_on_target_fraction',
-    'unique_on_target_fraction'
+    TOTAL_READS_COLUMN,
+    UNMAPPED_READS_COLUMN,
+    TOTAL_MAPPED_COLUMN,
+    UNIQUE_MAPPED_COLUMN,
+    DUPLICATE_FRACTION_COLUMN,
+    TOTAL_ON_TARGET_COLUMN,
+    UNIQUE_ON_TARGET_COLUMN,
+    TOTAL_ON_TARGET_FRACTION_COLUMN,
+    UNIQUE_ON_TARGET_FRACTION_COLUMN,
 ]
 
 AGBM_FRAGMENT_SIZES_FILE_HEADER = [
     SAMPLE_ID_COLUMN,
-    'fragment_size',
-    'total_frequency',
-    'unique_frequency'
-]
-
-AGBM_COVERAGE_FILE_HEADER = [
-    SAMPLE_ID_COLUMN,
-    'total_coverage',
-    'unique_coverage'
+    FRAGMENT_SIZE_COLUMN,
+    TOTAL_FREQUENCY_COLUMN,
+    UNIQUE_FREQUENCY_COLUMN
 ]
 
 AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER = [
     SAMPLE_ID_COLUMN,
-     'chromosome',
-     'start',
-     'end',
-     'interval_name',
-     'length',
-     'gc',
-     'coverage',
-     'coverage_with_duplicates',
-     'coverage_without_duplicates'
+    CHROMOSOME_COLUMN,
+    START_COLUMN,
+    END_COLUMN,
+    INTERVAL_NAME_COLUMN,
+    LENGTH_COLUMN,
+    GC_COLUMN,
+    COVERAGE_COLUMN,
 ]
 
-AGBM_INTERVALS_COVERAGE_SUM_ALL_INTERVALS_FILE_HEADER = [
+AGBM_COVERAGE_FILE_HEADER = [
     SAMPLE_ID_COLUMN,
-    'chromosome',
-    'start',
-    'end',
-    'interval_name',
-    'length',
-    'gc',
-    'coverage',
-    'coverage_with_duplicates'
+    COVERAGE_WITH_DUPLICATES_COLUMN,
+    COVERAGE_WITHOUT_DUPLICATES_COLUMN
 ]
+
 
 # Labels for collapsing methods
-
-TOTAL_LABEL = 'Total'
-PICARD_LABEL = 'Picard'
+TOTAL_LABEL = 'total'
+PICARD_LABEL = 'picard'
 MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
 MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'marianas_simplex_duplex'
 MARIANAS_DUPLEX_COLLAPSING_METHOD = 'marianas_duplex'
 
-# Tables Module Files Constants
 
+# Tables Module Files Constants
+#
 # Headers for tables
-DUPLICATION_RATES_HEADER = ['sample', 'method', 'duplication_rate']
-INSERT_SIZE_PEAKS_HEADER = ['sample', 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
-GC_BIAS_HEADER = ['method', 'sample', 'interval', 'coverage', 'gc']
+DUPLICATION_RATES_HEADER = ['Sample', 'method', 'duplication_rate']
+INSERT_SIZE_PEAKS_HEADER = ['Sample', 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
+GC_BIAS_HEADER = ['method', 'Sample', 'interval_name', 'coverage', 'gc']
 GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
-GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', 'sample', 'gc_bin', 'coverage']
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', 'Sample', 'gc_bin', 'coverage']

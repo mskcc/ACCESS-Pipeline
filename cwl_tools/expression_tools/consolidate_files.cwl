@@ -1,4 +1,4 @@
-#!/usr/bin/env/cwl-runner
+#!toil-cwl-runner
 
 cwlVersion: v1.0
 
@@ -35,7 +35,7 @@ expression: |
     }
 
     return {
-      'out': {
+      'directory': {
         'class': 'Directory',
         'basename': 'waltz_output',
         'listing': output_files

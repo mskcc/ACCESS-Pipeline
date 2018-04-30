@@ -18,6 +18,11 @@ inputs:
     inputBinding:
       position: 1
 
+  title_file:
+    type: File
+    inputBinding:
+      position: 2
+
 outputs:
   output_dir:
     type: Directory

@@ -13,8 +13,8 @@ run_tools:
   # Module 1
   trimgalore_path: /Users/johnsoni/Desktop/vendor_tools/Trim_Galore_v0.2.5/trim_galore
   fastqc_path: /Users/johnsoni/Desktop/vendor_tools/FastQC_v0.10.1/fastqc
-  #cutadapt_path: /Users/johnsoni/Desktop/vendor_tools/cutadapt-1.1/bin/cutadapt
-  cutadapt_path: /Users/johnsoni/Desktop/virtualenv/cwltool_test/bin/cutadapt
+  cutadapt_path: /Users/johnsoni/Desktop/vendor_tools/cutadapt-1.1/bin/cutadapt
+#  cutadapt_path: /Users/johnsoni/Desktop/virtualenv/cwltool_test/bin/cutadapt
   bwa_path: /Users/johnsoni/Desktop/vendor_tools/bwa-0.7.5a/bwa
   arrg_path: /Users/johnsoni/Desktop/vendor_tools/AddOrReplaceReadGroups-1.96.jar
   picard_path: /Users/johnsoni/Desktop/vendor_tools/picard-2.8.1.jar
@@ -28,3 +28,5 @@ run_tools:
   # Module 2.5
   marianas_duplex_path: /Users/johnsoni/Desktop/vendor_tools/Marianas-true-duplex-1-1.jar
   fulcrum_path: /Users/johnsoni/Desktop/vendor_tools/fgbio-0.5.0.jar
+
+  waltz_path: /Users/johnsoni/Desktop/vendor_tools/Waltz-2.0.jar

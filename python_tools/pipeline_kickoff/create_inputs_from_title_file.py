@@ -390,14 +390,17 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
         print 'title file length: {}'.format(title_file.shape[0])
 
 
-def include_collapsing_params(fh, test=False):
+def include_collapsing_params(fh, test=False, local=False):
     """
     Load and write our Collapsing & QC parameters
 
     :param fh: File handle for pipeline yaml inputs
     :param test: Whether to include test or production collapsing params
     """
-    if test:
+    if local:
+        collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
+        collapsing_files = RUN_FILES_LOCAL_COLLAPSING
+    elif test:
         collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
         collapsing_files = RUN_FILES_TEST_COLLAPSING
     else:
@@ -422,15 +425,18 @@ def write_inputs_file(args, title_file):
     Main function to write our inputs.yaml file.
     Contains most of the logic related to which inputs to use based on the type of run
     """
-    if args.test:
+    tool_resources_file_path = TOOL_RESOURCES_LUNA
+
+    if args.local:
+        run_params_path = RUN_PARAMS_TEST
+        run_files_path = RUN_FILES_LOCAL
+        tool_resources_file_path = TOOL_RESOURCES_LOCAL
+    elif args.test:
         run_params_path = RUN_PARAMS_TEST
         run_files_path = RUN_FILES_TEST
     else:
         run_params_path = RUN_PARAMS
         run_files_path = RUN_FILES
-
-    # Todo: Implement choice for tool paths
-    tool_resources_file_path = TOOL_RESOURCES_LUNA
 
     # Actually start writing the inputs file
     fh = open(FINAL_FILE_NAME, 'wb')
@@ -441,11 +447,11 @@ def write_inputs_file(args, title_file):
     include_tool_resources(fh, tool_resources_file_path)
 
     if args.collapsing:
-        include_collapsing_params(fh, args.test)
+        include_collapsing_params(fh, args.test, args.local)
 
     # Optionally override ResourceRequirements with smaller values when testing
-    if args.include_resource_overrides:
-        include_resource_overrides(fh)
+    # if args.include_resource_overrides:
+    #     include_resource_overrides(fh)
 
     # Include title_file in inputs.yaml
     title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
@@ -518,6 +524,13 @@ def parse_arguments():
         "-c",
         "--collapsing",
         help="Whether to only generate inputs necessary for standard bams, or to run full pipeline with collapsing.",
+        required=False,
+        action="store_true"
+    )
+    parser.add_argument(
+        "-l",
+        "--local",
+        help="Whether to use paths to tool specified for local pipeline operation",
         required=False,
         action="store_true"
     )

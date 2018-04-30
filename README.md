@@ -6,16 +6,17 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 
 | tool | version |
 | --- | --- |
-| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 |
+| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually)|
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
-| Python | 2.7.10 | 
+| Python | 2.7.10 |
+| R | 3.4.2 |
 | Perl | 5.20.2 |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Marianas](https://github.com/juberpatel/Marianas) | 1.5 |
 | [Waltz](https://github.com/juberpatel/Waltz) | 2.0 |
-| [Picard](https://github.com/broadinstitute/picard) | picard-2.8.1.jar | 
+| [Picard](https://github.com/broadinstitute/picard) | picard-2.8.1.jar |
 | Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
 | Picard FixMateInformation | FixMateInformation.jar (1.96) |
 | [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 |
@@ -72,7 +73,7 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 
 I usually run the pipelines from a separate directory, with ample storage space. Even though the pipelines outputs directory can be specified for the runs, even the log files can be quite large (up to ~50GB if running in debug mode).
 
-### 1. Create a run title file from a sample manifest 
+### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i Innovation_Pipeline/test/test_data/umi-T_N/manifest.xls -o ./title_file.txt
@@ -100,11 +101,11 @@ or use:
 Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
 
 # Running a real run
-The same steps for testing can be used for a real run. 
+The same steps for testing can be used for a real run.
 
 Note that there are several requirements when running on your own data:
 1. The fields that are found in the sample manifest should matched with the examples in `test/test_data`
-2. The sample ID's in the manifest but be matched somewhere in the fastq file names fom the `-d` data folder
+2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the `-d` data folder
 3. The `SAMPLE_CLASS` column of the manifest must consist of the values either "Tumor" or "Normal"
 4. Each "Tumor" sample must have at least one associated "Normal" sample
 5. Each sample folder in the `-d` data folder must have three files that match the following:
@@ -116,7 +117,7 @@ Note that there are several requirements when running on your own data:
 ### Example:
 Note that we use `pipeline_submit` here to submit both the leader job as well as the worker jobs to the cluster.
 
-Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`. 
+Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`.
 
 Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options. This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 ```

@@ -165,6 +165,7 @@ steps:
   standard_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
+      title_file: title_file
       waltz_input_files: standard_consolidate_bam_metrics/directory
     out:
       [output_dir]
@@ -172,6 +173,7 @@ steps:
   marianas_unfiltered_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
+      title_file: title_file
       waltz_input_files: marianas_unfiltered_consolidate_bam_metrics/directory
     out:
       [output_dir]
@@ -179,6 +181,7 @@ steps:
   marianas_simplex_duplex_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
+      title_file: title_file
       waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/directory
     out:
       [output_dir]
@@ -186,6 +189,7 @@ steps:
   marianas_duplex_aggregate_bam_metrics:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
+      title_file: title_file
       waltz_input_files: marianas_duplex_consolidate_bam_metrics/directory
     out:
       [output_dir]
@@ -195,7 +199,7 @@ steps:
   #################
 
   duplex_innovation_qc:
-    run: ../../cwl_tools/innovation-qc/innovation-qc.cwl
+    run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
