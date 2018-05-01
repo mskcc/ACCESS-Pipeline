@@ -59,7 +59,7 @@ PATH="/usr/bin/bedtools:$PATH"
 ```
 
 ### 5. Set the root directory of the project
-(found in `/python_tools/pipeline_kickoff/constants.py`)
+(found in `/python_tools/constants.py`)
 ```
 ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 ```
