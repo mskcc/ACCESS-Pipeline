@@ -28,7 +28,7 @@ Note: These steps are preliminary, and are waiting on consolidation of certain d
 # Installation
 
 ### 1. Set up a Virtual Environment
-Make virtualenv with the name of your virtual environment for this project, e.g. innovation-pipeline
+Make virtualenv with the name of your virtual environment for this project (e.g. innovation_pipeline)
 ```
 ~$ virtualenv ~/innovation_pipeline
 ~$ source ~/innovation_pipeline/bin/activate
@@ -52,7 +52,7 @@ There are several combinations of resource files to edit, to support different e
 ```
 
 ### 4. Include the paths to BWA and Bedtools as the first entries in your path:
-Abra will use this version of BWA implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
+Abra and pybedtools will use these versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
 ```
 PATH="/usr/bin/bwa:$PATH"
 PATH="/usr/bin/bedtools:$PATH"
