@@ -111,48 +111,44 @@ TITLE_FILE__LANE_COLUMN = 'Lane'
 # Constants for QC files #
 ##########################
 
-# Waltz Metrics Files Constants
+# WALTZ Metrics Files Constants
 
 # Use same string for sample ID everywhere
 SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
 
-TOTAL_MAPPED_COLUMN = 'total_mapped'
-UNIQUE_MAPPED_COLUMN = 'unique_mapped'
-TOTAL_READS_COLUMN = 'total_reads'
-UNMAPPED_READS_COLUMN = 'unmapped_reads'
-DUPLICATE_FRACTION_COLUMN = 'duplicate_fraction'
-TOTAL_ON_TARGET_COLUMN = 'total_on_target'
-UNIQUE_ON_TARGET_COLUMN = 'unique_on_target'
-TOTAL_ON_TARGET_FRACTION_COLUMN = 'total_on_target_fraction'
-UNIQUE_ON_TARGET_FRACTION_COLUMN = 'unique_on_target_fraction'
-
-TOTAL_OFF_TARGET_FRACTION_COLUMN = 'total_off_target_fraction'
-
+# File suffixes
 WALTZ_READ_COUNTS_FILENAME_SUFFIX = '.read-counts'
 WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX = '.fragment-sizes'
 WALTZ_INTERVALS_FILENAME_SUFFIX = '-intervals.txt'
 WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX = '-intervals-without-duplicates.txt'
 
+TOTAL_OFF_TARGET_FRACTION_COLUMN = 'total_off_target_fraction'
+
+WALTZ_CHROMOSOME_COLUMN = 'chromosome'
+WALTZ_START_COLUMN = 'start'
+WALTZ_STOP_COLUMN = 'stop'
+WALTZ_INTERVAL_NAME_COLUMN = 'interval_name'
+WALTZ_FRAGMENT_SIZE_COLUMN = 'fragment_size'
+WALTZ_PEAK_COVERAGE_COLUMN = 'peak_coverage'
+WALTZ_AVERAGE_COVERAGE_COLUMN = 'average_coverage'
+WALTZ_GC_CONTENT_COLUMN = 'gc'
+
 # todo
-WALTZ_INTERVALS_FILE_HEADER = ['chromosome', 'start', 'stop', 'interval_name', 'fragment_size', '???', 'coverage', 'gc']
+WALTZ_INTERVALS_FILE_HEADER = [
+    WALTZ_CHROMOSOME_COLUMN,
+    WALTZ_START_COLUMN,
+    WALTZ_STOP_COLUMN,
+    WALTZ_INTERVAL_NAME_COLUMN,
+    WALTZ_FRAGMENT_SIZE_COLUMN,
+    WALTZ_PEAK_COVERAGE_COLUMN,
+    WALTZ_AVERAGE_COVERAGE_COLUMN,
+    WALTZ_GC_CONTENT_COLUMN
+]
+
 WALTZ_COVERAGE_FILE_HEADER = ['total_coverage', 'unique_coverage']
 
 
-WALTZ_READ_COUNTS_HEADER = [
-    'Bam',
-    TOTAL_READS_COLUMN,
-    UNMAPPED_READS_COLUMN,
-    TOTAL_MAPPED_COLUMN,
-    UNIQUE_MAPPED_COLUMN,
-    DUPLICATE_FRACTION_COLUMN,
-    TOTAL_ON_TARGET_COLUMN,
-    UNIQUE_ON_TARGET_COLUMN,
-    TOTAL_ON_TARGET_FRACTION_COLUMN,
-    UNIQUE_ON_TARGET_FRACTION_COLUMN
-]
-
-
-# Agbm Metrics Files Constants
+# AGBM Metrics Files Constants
 #
 # Column names
 AGBM_COVERAGE_FILENAME = 'waltz-coverage.txt'
@@ -166,18 +162,29 @@ UNIQUE_FREQUENCY_COLUMN = 'unique_frequency'
 
 CHROMOSOME_COLUMN = 'chromosome'
 START_COLUMN = 'start'
+STOP_COLUMN = 'stop'
 END_COLUMN = 'end'
-INTERVAL_NAME_COLUMN = 'interval_name'
+INTERVAL_NAME_COLUMN = WALTZ_INTERVAL_NAME_COLUMN
 LENGTH_COLUMN = 'length'
 GC_COLUMN = 'gc'
-COVERAGE_COLUMN = 'coverage'
+COVERAGE_COLUMN = WALTZ_AVERAGE_COVERAGE_COLUMN
 COVERAGE_WITH_DUPLICATES_COLUMN = 'coverage_with_duplicates'
 COVERAGE_WITHOUT_DUPLICATES_COLUMN = 'coverage_without_duplicates'
 
+TOTAL_MAPPED_COLUMN = 'total_mapped'
+UNIQUE_MAPPED_COLUMN = 'unique_mapped'
+TOTAL_READS_COLUMN = 'total_reads'
+UNMAPPED_READS_COLUMN = 'unmapped_reads'
+DUPLICATE_FRACTION_COLUMN = 'duplicate_fraction'
+TOTAL_ON_TARGET_COLUMN = 'total_on_target'
+UNIQUE_ON_TARGET_COLUMN = 'unique_on_target'
+TOTAL_ON_TARGET_FRACTION_COLUMN = 'total_on_target_fraction'
+UNIQUE_ON_TARGET_FRACTION_COLUMN = 'unique_on_target_fraction'
+
 # File Headers
 AGBM_READ_COUNTS_HEADER = [
-    'bam',
     SAMPLE_ID_COLUMN,
+    'bam',
     TOTAL_READS_COLUMN,
     UNMAPPED_READS_COLUMN,
     TOTAL_MAPPED_COLUMN,
@@ -214,6 +221,8 @@ AGBM_COVERAGE_FILE_HEADER = [
 ]
 
 
+# TABLES MODULE Files Constants
+#
 # Labels for collapsing methods
 TOTAL_LABEL = 'total'
 PICARD_LABEL = 'picard'
@@ -221,9 +230,6 @@ MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
 MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'marianas_simplex_duplex'
 MARIANAS_DUPLEX_COLLAPSING_METHOD = 'marianas_duplex'
 
-
-# Tables Module Files Constants
-#
 # Headers for tables
 DUPLICATION_RATES_HEADER = ['Sample', 'method', 'duplication_rate']
 INSERT_SIZE_PEAKS_HEADER = ['Sample', 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']

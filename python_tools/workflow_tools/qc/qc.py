@@ -78,7 +78,8 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
     for sample in sample_files:
-        curr_table = pd.read_table('/'.join([path, sample]), header=None)
+        filename = '/'.join([path, sample])
+        curr_table = pd.read_csv(filename, sep='\t')
 
         # todo - consolidate / standardize sample names
         sample = sample.replace(intervals_filename_suffix, '')
@@ -102,14 +103,15 @@ def get_read_counts_table(path):
     This method is only used to generate stats for un-collapsed bams
     """
     read_counts_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
-    read_counts = pd.read_table(read_counts_path, index_col=0)
+    read_counts = pd.read_csv(read_counts_path, sep='\t')
+    print read_counts
 
     read_counts = pd.melt(read_counts, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     read_counts['method'] = read_counts['Category'].apply(unique_or_tot)
     read_counts = read_counts.dropna(axis=0)
     read_counts['Category'] = read_counts['Category'].apply(rename_category)
     read_counts = read_counts.sort_values(['method', 'Category'], ascending=False)
-    read_counts = read_counts.reset_index(drop=True).rename(columns={SAMPLE_ID_COLUMN: 'Sample'})
+    read_counts = read_counts.reset_index(drop=True)
 
     return read_counts
 
@@ -120,10 +122,12 @@ def get_read_counts_total_table(path):
     "Fraction of Total Reads that Align to the Human Genome" plot
     """
     full_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
-    read_counts_total = pd.read_table(full_path, index_col=0)
+    read_counts_total = pd.read_csv(full_path, sep='\t')
+
+    print read_counts_total
 
     col_idx = ~read_counts_total.columns.str.contains('unique')
-    read_counts_total = read_counts_total.iloc[:, col_idx].rename(columns={SAMPLE_ID_COLUMN: 'Sample'})
+    read_counts_total = read_counts_total.iloc[:, col_idx]
 
     read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
     read_counts_total[TOTAL_OFF_TARGET_FRACTION_COLUMN] = 1 - read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN]
@@ -136,7 +140,7 @@ def get_coverage_table(path):
     Coverage table
     """
     full_path = os.path.join(path, AGBM_COVERAGE_FILENAME)
-    tbl = pd.read_table(full_path, header=0)
+    tbl = pd.read_csv(full_path, sep='\t')
     coverage = pd.melt(tbl, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
     coverage['method'] = coverage['method'].apply(unique_or_tot)
     return coverage
@@ -147,24 +151,21 @@ def get_collapsed_waltz_tables(path, method):
     Creates read_counts, coverage, and gc_bias tables for collapsed bam metrics.
     """
     full_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
-    read_counts_table = pd.read_table(full_path, index_col=0)
+    read_counts_table = pd.read_csv(full_path, sep='\t')
     read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     read_counts_table['Category'] = read_counts_table['Category'].apply(rename_category_2)
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
 
     read_counts_table = read_counts_table.rename(columns={SAMPLE_ID_COLUMN: 'Sample'})
-    read_counts_table['value'] = read_counts_table['value'].astype(float)
-    read_counts_table = read_counts_table.sort_values(['method', 'Category'], ascending=False).reset_index(drop=True)
+
+    print read_counts_table
+
+    # read_counts_table['value'] = read_counts_table['value'].astype(float)
 
     waltz_coverage_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
 
-    coverage_table = pd.read_table(
-        waltz_coverage_path,
-        usecols=[0, 1],
-        names=[SAMPLE_ID_COLUMN, 'averge_coverage'],
-        header=0
-    )
+    coverage_table = pd.read_csv(waltz_coverage_path, sep='\t')
 
     coverage_table['method'] = [method] * len(coverage_table)
 

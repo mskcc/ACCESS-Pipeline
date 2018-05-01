@@ -94,19 +94,26 @@ def create_waltz_coverage_file(files):
     for files in [input_files, unique_input_files]:
         coverage_df = merge_files_across_samples(files)
 
-        coverage_df.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER
-        coverage_df['coverage_X_length'] = coverage_df['coverage'] * coverage_df['length']
+        coverage_df.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
+        coverage_df['coverage_X_length'] = coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN] * coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN]
 
-        intervals_count = len(coverage_df['interval_name'].unique())
+        intervals_count = len(coverage_df[INTERVAL_NAME_COLUMN].unique())
 
         coverage_total = coverage_df['coverage_X_length'].groupby(coverage_df[SAMPLE_ID_COLUMN]).transform('sum')
         coverage_df['coverage_total'] = coverage_total
         coverage_df['coverage_avg'] = coverage_df['coverage_total'] / intervals_count
 
-        coverage_per_sample = coverage_df[[SAMPLE_ID_COLUMN, 'coverage_avg']]
+        coverage_per_sample = coverage_df[[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]]
         coverage_dfs.append(coverage_per_sample)
 
-    coverage_df = coverage_dfs[0].merge(coverage_dfs[1], on=SAMPLE_ID_COLUMN)
+    coverage_df = coverage_dfs[0].merge(coverage_dfs[1],
+                                        on=[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN],
+                                        suffixes=('_total', '_unique'))
+
+    coverage_df = coverage_df[[SAMPLE_ID_COLUMN,
+                               WALTZ_AVERAGE_COVERAGE_COLUMN + '_total',
+                               WALTZ_AVERAGE_COVERAGE_COLUMN + '_unique']]
+
     coverage_df.columns = AGBM_COVERAGE_FILE_HEADER
     to_csv(coverage_df, AGBM_COVERAGE_FILENAME)
 
@@ -118,10 +125,10 @@ def create_sum_of_coverage_dup_temp_file(files):
     input_files = [f for f in files if WALTZ_INTERVALS_FILENAME_SUFFIX in f]
 
     intervals_coverage_all = merge_files_across_samples(input_files)
-    intervals_coverage_all.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER
+    intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
 
     # Todo: is interval_name the same as 0:5 for key?
-    togroupby = [SAMPLE_ID_COLUMN, 'chromosome', 'start', 'end', 'interval_name', 'length']
+    togroupby = [SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN]
     gc_coverage_sum_per_interval = intervals_coverage_all.groupby(togroupby).sum().reset_index()
 
     # Todo: should 'gc' be averaged across all samples or come from just last sample?
@@ -137,9 +144,9 @@ def create_sum_of_coverage_nodup_temp_file(files):
     input_files = [f for f in files if WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX in f]
 
     intervals_coverage_all = merge_files_across_samples(input_files)
-    intervals_coverage_all.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER
+    intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
 
-    togroupby = [SAMPLE_ID_COLUMN, 'interval_name']
+    togroupby = [SAMPLE_ID_COLUMN, INTERVAL_NAME_COLUMN]
     gc_coverage_sum_per_interval = intervals_coverage_all.groupby(togroupby).sum().reset_index()
 
     to_csv(gc_coverage_sum_per_interval, 't6')
@@ -151,10 +158,10 @@ def create_intervals_coverage_sum_file():
     """
     t5 = pd.read_csv('t5', sep='\t')
     t6 = pd.read_csv('t6', sep='\t')
-    t6 = t6[[SAMPLE_ID_COLUMN, 'interval_name', 'coverage']]
+    t6 = t6[[SAMPLE_ID_COLUMN, INTERVAL_NAME_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]]
 
-    intervals_coverage_sum = t5.merge(t6, on=[SAMPLE_ID_COLUMN, 'interval_name'])
-    intervals_coverage_sum.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER + ['coverage_without_duplicates']
+    intervals_coverage_sum = t5.merge(t6, on=[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN], suffixes=('_total', '_unique'))
+    # intervals_coverage_sum.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER + ['coverage_without_duplicates']
     to_csv(intervals_coverage_sum, AGBM_INTERVALS_COVERAGE_SUM_FILENAME)
 
 

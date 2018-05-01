@@ -1,5 +1,0 @@
-standard_waltz_metrics: {class: Directory, path: ./test_data/std_agbm}
-marianas_unfiltered_waltz_metrics: {class: Directory, path: ./test_data/uf_agbm}
-marianas_simplex_duplex_waltz_metrics: {class: Directory, path: ./test_data/sd_agbm}
-marianas_duplex_waltz_metrics: {class: Directory, path: ./test_data/md_agbm}
-title_file: {class: File, path: ./test_data/test_title_file.txt}

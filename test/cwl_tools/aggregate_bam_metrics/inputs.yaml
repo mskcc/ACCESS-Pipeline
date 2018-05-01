@@ -1,2 +1,0 @@
-waltz_input_files: {class: Directory, path: ./test_data/uf_waltz}
-title_file: {class: File, path: ./test_data/test_title_file.txt}

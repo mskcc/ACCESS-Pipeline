@@ -1,4 +1,4 @@
-#!Rscript
+#! /usr/bin/env Rscript
 
 ##################################################
 # Innovation Laboratory
@@ -355,42 +355,20 @@ parse_sort_order = function(groups_file) {
 }
 
 
-#' Run this on a data.frame to provide consistent sample names to our sample ids
-#' @param data data.frame with 'Sample' column
-#' @param format either 'DASHES' or 'UNDERSCORES'
-convert_sample_names = function(data, format) {
-  if (format == 'DASHES') {
-    data = data %>% mutate(Sample = gsub('_', '-', Sample))
-  } else if (format == 'UNDERSCORES') {
-    data = data %>% mutate(Sample = gsub('-', '_', Sample))
-  } else {
-    stop('Incorrect sample id format provided')
-  }
-  data
-}
-
-
+# Extract actual sample names from full filenames
+#' Ex: sample_names = c('test_patient_T', 'test_patient_N')
+#' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
 cleanup_sample_names = function(data, sample_names) {
-  data = convert_sample_names(data, 'DASHES')
-  
-  # Ex: sample_names = c('test_patient_T', 'test_patient_N')
-  # test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
   find.string <- paste(unlist(sample_names), collapse = "|")
   find.string <- paste0('.*(', find.string, ').*', collapse='', sep='')
   data = data %>% mutate(Sample = gsub(find.string, '\\1', Sample))
-  
-  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_standard...
-  data = data %>% mutate(Sample = gsub('_standard.*', '', Sample))
-  
-  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
-  #                                       ^^^^
-  data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
   data
 }
 
 
 # Main function that will provide all of the desired plots
 main = function(args) {
+
   # Read arguments specifying where the required tables are
   # as well as where the plots should be put
   # todo - should return an object or named list, instead of this indexed list 
@@ -399,81 +377,62 @@ main = function(args) {
   inDirWaltz = args[2]
   outDir = args[3]
   title_file = args[4]
+
+  title_df = read.table(title_file, sep='\t', header=TRUE)
   
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
   final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
   final_dest = paste(outDir, final_filename, sep="/")
   pdf(file = final_dest, onefile = TRUE)
-
-  title_df = read.table(title_file, sep='\t', header=TRUE)
-  
-  # Check if the title_file had the correct delimiter
-  if (length(colnames(title_df)) == 1) {
-    title_df = read.table(title_file, sep=',', header=TRUE)
-  }
   
   # Put title file on first page of PDF
   printTitle(title_df)
+
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
-  # We prefer dashes
-  title_df = convert_sample_names(title_df, 'DASHES')
 
-  availTabs = list.files(path = inDirTables)
-  if ('read-counts-total.txt' %in% availTabs) {
-    readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep = '/'), sep = '\t', head = TRUE)
-    dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep = '/'), sep = '\t', head = TRUE)
-    covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep = '/'), sep = '\t', head = TRUE)
-    insertSizePeaks = read.table(paste(inDirTables, 'insert-size-peaks.txt', sep = '/'), sep = '\t', head = TRUE)
-    insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-    
-    printhead = function(x) {
-      print(head(x))
-    }
-    
-    # Perform some processing on some of our tables
-    dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizePeaks, insertSizes)
-    dfList = lapply(dfList, convert_sample_names, 'DASHES')
-    dfList = lapply(dfList, cleanup_sample_names, sort_order)
-    dfList = lapply(dfList, sort_df, 'Sample', sort_order)
-    lapply(dfList, printhead)
+readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
+dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
+covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
+insertSizePeaks = read.table(paste(inDirTables, 'insert-size-peaks.txt', sep='/'), sep='\t', head=TRUE)
+insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
+meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
+gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
+gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
 
-    dfList = lapply(dfList, mergeInTitleFileData, title_df)
+printhead = function(x) {
+  print(head(x))
+}
 
-    readCountsDataTotal = dfList[[1]]
-    dupRateData = dfList[[2]]
-    covPerInterval = dfList[[3]]
-    insertSizePeaks = dfList[[4]]
-    insertSizes = dfList[[5]]
+# Perform some processing on some of our tables
+dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizePeaks, insertSizes, meanCovData, gcEachSample)
+dfList = lapply(dfList, cleanup_sample_names, sort_order)
+dfList = lapply(dfList, sort_df, 'Sample', sort_order)
+lapply(dfList, printhead)
 
-    # Choose the plots that we want to run
-    print(plotDupFrac(dupRateData))
-    print(plotAlignGenome(readCountsDataTotal))
-    # print(plotCovDistPerInterval(covPerInterval))
-    print(plotOnTarget(readCountsDataTotal))
-    print(plotInsertSizeDistribution(insertSizes, insertSizePeaks))
-    print(plotCovDistPerIntervalLine(covPerInterval))
-  }
+dfList = lapply(dfList, mergeInTitleFileData, title_df)
 
-  meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head = TRUE)
-  gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
-  gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
-  
-  # Perform some processing on some of our (other) tables
-  dfList <- list(meanCovData, gcEachSample)
-  dfList = lapply(dfList, convert_sample_names, 'DASHES')
-  dfList = lapply(dfList, cleanup_sample_names, sort_order)
-  dfList = lapply(dfList, sort_df, 'Sample', sort_order)
-  dfList = lapply(dfList, mergeInTitleFileData, title_df)
+readCountsDataTotal = dfList[[1]]
+dupRateData = dfList[[2]]
+covPerInterval = dfList[[3]]
+insertSizePeaks = dfList[[4]]
+insertSizes = dfList[[5]]
+meanCovData = dfList[[6]]
+gcEachSample = dfList[[7]]
 
-  meanCovData = dfList[[1]]
-  gcEachSample = dfList[[2]]
+# Choose the plots that we want to run
+print(plotDupFrac(dupRateData))
+print(plotAlignGenome(readCountsDataTotal))
+# print(plotCovDistPerInterval(covPerInterval))
+print(plotOnTarget(readCountsDataTotal))
+print(plotInsertSizeDistribution(insertSizes, insertSizePeaks))
+print(plotCovDistPerIntervalLine(covPerInterval))
+print(plotMeanCov(meanCovData))
+print(plotGCwithCovAllSamples(gcAllSamples))
+print(plotGCwithCovEachSample(gcEachSample, sort_order))
 
-  print(plotMeanCov(meanCovData))
-  print(plotGCwithCovAllSamples(gcAllSamples))
-  print(plotGCwithCovEachSample(gcEachSample, sort_order))
-  dev.off()
+dev.off()
 }
 
 
