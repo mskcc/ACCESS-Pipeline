@@ -94,11 +94,6 @@ To run with Toil batch system runner:
 ```
 (innovation_pipeline) ~/PIPELINE_RUNS$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
-or use:
-```
-(innovation_pipeline) ~/PIPELINE_RUNS$ test/run-pipeline-test.sh ~/output_dir
-```
-Have a look inside `pipeline_runner.sh` to see some useful arguments for Toil & cwltool
 
 # Running a real run
 The same steps for testing can be used for a real run.
