@@ -34,7 +34,7 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 ~$ source ~/innovation_pipeline/bin/activate
 ```
 
-### 2. Copy the latest release of the pipeline and Install the python tools
+### 2. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
 (innovation_pipeline) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
