@@ -61,7 +61,7 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 # Delimiter for printing logs
 DELIMITER = '\n' + '*' * 20 + '\n'
 # Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = '\n\n' + '--' * 30 + '\n\n'
+INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
 
 def load_fastqs(data_dir):
