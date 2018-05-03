@@ -1,11 +1,12 @@
 #!python
 
-import re
+import os
 import sys
 import ntpath
 import pandas as pd
 from shutil import copyfile
 
+from ...util import to_csv, merge_files_across_samples
 from python_tools.constants import *
 
 
@@ -27,40 +28,7 @@ from python_tools.constants import *
 
 # Todo: shouldn't be global
 TITLE_FILE = pd.read_csv(sys.argv[2], sep='\t')
-
-
-def to_csv(df, filename):
-    """
-    Helper to write in desired csv format
-    """
-    df.to_csv(filename, sep='\t', index=False)
-
-
-def read_df(f):
-    """
-    Helper to read our particular format of metrics files
-    """
-    return pd.read_csv(f, sep='\t', header=None)
-
-
-def extract_sample_name(f):
-    sample_names = TITLE_FILE[TITLE_FILE__SAMPLE_ID_COLUMN]
-    sample_name_search = r'|'.join(sample_names)
-    sample_name_search = r'.*(' + sample_name_search + ').*'
-    return re.sub(sample_name_search, r'\1', f)
-
-
-def merge_files_across_samples(files):
-    """
-    Helper to merge sample files and add in sample name
-    """
-    all_dataframes = []
-    for f in files:
-        new = read_df(f)
-        new.insert(0, SAMPLE_ID_COLUMN, extract_sample_name(f))
-        all_dataframes.append(new)
-
-    return pd.concat([d for d in all_dataframes])
+SID_COL = TITLE_FILE[TITLE_FILE__SAMPLE_ID_COLUMN]
 
 
 def process_read_counts_files(files):
@@ -68,7 +36,7 @@ def process_read_counts_files(files):
     Aggregate read-counts metrics files for each Bam into one file
     """
     read_counts_files = [f for f in files if WALTZ_READ_COUNTS_FILENAME_SUFFIX in f]
-    all_read_counts = merge_files_across_samples(read_counts_files)
+    all_read_counts = merge_files_across_samples(read_counts_files, SID_COL)
     all_read_counts.columns = AGBM_READ_COUNTS_HEADER
     to_csv(all_read_counts, AGBM_READ_COUNTS_FILENAME)
 
@@ -78,7 +46,7 @@ def process_fragment_sizes_files(files):
     Aggregate fragment-sizes metrics files for each Bam into one file
     """
     fragment_sizes_files = [f for f in files if WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX in f]
-    all_frag_sizes = merge_files_across_samples(fragment_sizes_files)
+    all_frag_sizes = merge_files_across_samples(fragment_sizes_files, SID_COL)
     all_frag_sizes.columns = AGBM_FRAGMENT_SIZES_FILE_HEADER
     to_csv(all_frag_sizes, AGBM_FRAGMENT_SIZES_FILENAME)
 
@@ -92,29 +60,24 @@ def create_waltz_coverage_file(files):
 
     coverage_dfs = []
     for files in [input_files, unique_input_files]:
-        coverage_df = merge_files_across_samples(files)
+        coverage_df = merge_files_across_samples(files, SID_COL)
 
         coverage_df.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
         coverage_df['coverage_X_length'] = coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN] * coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN]
 
-        intervals_count = len(coverage_df[INTERVAL_NAME_COLUMN].unique())
-
-        coverage_total = coverage_df['coverage_X_length'].groupby(coverage_df[SAMPLE_ID_COLUMN]).transform('sum')
-        coverage_df['coverage_total'] = coverage_total
-        coverage_df['coverage_avg'] = coverage_df['coverage_total'] / intervals_count
-
-        coverage_per_sample = coverage_df[[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]]
+        coverage_avg = coverage_df.groupby(SAMPLE_ID_COLUMN, as_index=False).mean()
+        coverage_per_sample = coverage_avg[[SAMPLE_ID_COLUMN, 'coverage_X_length']]
+        coverage_per_sample.columns = [SAMPLE_ID_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]
         coverage_dfs.append(coverage_per_sample)
 
-    coverage_df = coverage_dfs[0].merge(coverage_dfs[1],
-                                        on=[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN],
-                                        suffixes=('_total', '_unique'))
+    coverage_df = coverage_dfs[0].merge(
+        coverage_dfs[1],
+        on=[SAMPLE_ID_COLUMN],
+        suffixes=('_total', '_unique')
+    )
 
-    coverage_df = coverage_df[[SAMPLE_ID_COLUMN,
-                               WALTZ_AVERAGE_COVERAGE_COLUMN + '_total',
-                               WALTZ_AVERAGE_COVERAGE_COLUMN + '_unique']]
-
-    coverage_df.columns = AGBM_COVERAGE_FILE_HEADER
+    coverage_df = coverage_df[AGBM_COVERAGE_HEADER]
+    coverage_df.columns = AGBM_COVERAGE_HEADER
     to_csv(coverage_df, AGBM_COVERAGE_FILENAME)
 
 
@@ -124,7 +87,7 @@ def create_sum_of_coverage_dup_temp_file(files):
     """
     input_files = [f for f in files if WALTZ_INTERVALS_FILENAME_SUFFIX in f]
 
-    intervals_coverage_all = merge_files_across_samples(input_files)
+    intervals_coverage_all = merge_files_across_samples(input_files, SID_COL)
     intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
 
     # Todo: is interval_name the same as 0:5 for key?
@@ -143,7 +106,7 @@ def create_sum_of_coverage_nodup_temp_file(files):
     """
     input_files = [f for f in files if WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX in f]
 
-    intervals_coverage_all = merge_files_across_samples(input_files)
+    intervals_coverage_all = merge_files_across_samples(input_files, SID_COL)
     intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
 
     togroupby = [SAMPLE_ID_COLUMN, INTERVAL_NAME_COLUMN]
@@ -161,7 +124,6 @@ def create_intervals_coverage_sum_file():
     t6 = t6[[SAMPLE_ID_COLUMN, INTERVAL_NAME_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]]
 
     intervals_coverage_sum = t5.merge(t6, on=[SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN], suffixes=('_total', '_unique'))
-    # intervals_coverage_sum.columns = AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER + ['coverage_without_duplicates']
     to_csv(intervals_coverage_sum, AGBM_INTERVALS_COVERAGE_SUM_FILENAME)
 
 
@@ -169,7 +131,6 @@ def main():
     """
     Main - called from aggregate-bam-metrics.cwl
     """
-    import os
     files = [os.path.join(sys.argv[1], f) for f in os.listdir(sys.argv[1])]
 
     for input_file in files:

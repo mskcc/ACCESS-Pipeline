@@ -1,0 +1,2 @@
+Sample	average_coverage_total	average_coverage_unique
+blah	0.06615146831530139	0.06615146831530139

@@ -12,39 +12,20 @@ import re
 import numpy as np
 import pandas as pd
 
+from ...util import merge_files_across_samples
 from ...constants import *
 
 
-###################
-# Helper methods  #
+#####################
+# Helper methods
 # todo: refactor away
-###################
+#####################
 
 def unique_or_tot(x):
-    if (TOTAL_READS_COLUMN in x) or (UNMAPPED_READS_COLUMN in x) or ('duplicate' in x):
-        return None
-    elif TOTAL_LABEL in x:
-        return TOTAL_LABEL
+    if 'total' in x:
+        return 'total'
     else:
-        return PICARD_LABEL
-
-
-def rename_category(y):
-    if 'unique' in y:
-        return y.replace('unique', '')
-    elif 'total' in y:
-        return y.replace('total', '')
-    else:
-        return y
-
-
-def rename_category_2(y):
-    if ('unique' in y) or ('total_reads' in y) or (UNMAPPED_READS_COLUMN in y) or ('duplicate' in y):
-        return None
-    elif 'total' in y:
-        return y.replace('total', '')
-    else:
-        return y
+        return 'picard'
 
 
 def get_gene_and_probe(interval):
@@ -70,65 +51,32 @@ def get_gene_and_probe(interval):
 # Table creation methods #
 ##########################
 
-def get_gc_table(curr_method, intervals_filename_suffix, path):
-    """
-    Function to create GC content table
-    """
-    gc_with_cov = pd.DataFrame(columns=GC_BIAS_HEADER)
-    sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
-
-    for sample in sample_files:
-        filename = '/'.join([path, sample])
-        curr_table = pd.read_csv(filename, sep='\t')
-
-        # todo - consolidate / standardize sample names
-        sample = sample.replace(intervals_filename_suffix, '')
-
-        # todo - columns should be given constant labels:
-        newDf = pd.DataFrame({
-            'method': [curr_method.replace('Waltz', '')] * len(curr_table),
-            'Sample': [sample] * len(curr_table),
-            'interval_name': curr_table.ix[:, 3],
-            'coverage': curr_table.ix[:, 5],
-            'gc': curr_table.ix[:, 7]
-        })
-
-        gc_with_cov = pd.concat([gc_with_cov, newDf]).sort_values(['Sample', 'interval_name'])
-
-    return gc_with_cov
-
-
 def get_read_counts_table(path):
     """
     This method is only used to generate stats for un-collapsed bams
     """
     read_counts_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts = pd.read_csv(read_counts_path, sep='\t')
-    print read_counts
-
+    # Melt our DF to get all values of the on target rate and duplicate rates as values
     read_counts = pd.melt(read_counts, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
+    # We only want the read counts-related row values
+    read_counts = read_counts[~read_counts['Category'].isin(['bam', TOTAL_READS_COLUMN, UNMAPPED_READS_COLUMN, 'duplicate_fraction'])]
     read_counts['method'] = read_counts['Category'].apply(unique_or_tot)
-    read_counts = read_counts.dropna(axis=0)
-    read_counts['Category'] = read_counts['Category'].apply(rename_category)
-    read_counts = read_counts.sort_values(['method', 'Category'], ascending=False)
-    read_counts = read_counts.reset_index(drop=True)
+    # read_counts = read_counts.reset_index(drop=True)
 
     return read_counts
 
 
 def get_read_counts_total_table(path):
     """
-    This table is used for:
-    "Fraction of Total Reads that Align to the Human Genome" plot
+    This table is used for "Fraction of Total Reads that Align to the Human Genome" plot
     """
     full_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts_total = pd.read_csv(full_path, sep='\t')
 
-    print read_counts_total
-
     col_idx = ~read_counts_total.columns.str.contains('unique')
-    read_counts_total = read_counts_total.iloc[:, col_idx]
 
+    read_counts_total = read_counts_total.iloc[:, col_idx]
     read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
     read_counts_total[TOTAL_OFF_TARGET_FRACTION_COLUMN] = 1 - read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN]
 
@@ -142,7 +90,6 @@ def get_coverage_table(path):
     full_path = os.path.join(path, AGBM_COVERAGE_FILENAME)
     tbl = pd.read_csv(full_path, sep='\t')
     coverage = pd.melt(tbl, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
-    coverage['method'] = coverage['method'].apply(unique_or_tot)
     return coverage
 
 
@@ -150,23 +97,14 @@ def get_collapsed_waltz_tables(path, method):
     """
     Creates read_counts, coverage, and gc_bias tables for collapsed bam metrics.
     """
-    full_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
-    read_counts_table = pd.read_csv(full_path, sep='\t')
+    read_counts_table_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
+    read_counts_table = pd.read_csv(read_counts_table_path, sep='\t')
     read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
-    read_counts_table['Category'] = read_counts_table['Category'].apply(rename_category_2)
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
 
-    read_counts_table = read_counts_table.rename(columns={SAMPLE_ID_COLUMN: 'Sample'})
-
-    print read_counts_table
-
-    # read_counts_table['value'] = read_counts_table['value'].astype(float)
-
-    waltz_coverage_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
-
-    coverage_table = pd.read_csv(waltz_coverage_path, sep='\t')
-
+    coverage_table_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
+    coverage_table = pd.read_csv(coverage_table_path, sep='\t')
     coverage_table['method'] = [method] * len(coverage_table)
 
     gc_bias_table = get_gc_table(method, WALTZ_INTERVALS_FILENAME_SUFFIX, path)
@@ -178,118 +116,73 @@ def get_table_duplication(tbl):
     """
     Creates duplication rate table
     """
-    mapped_idx = tbl['Category'].str.contains('mapped')
-    columns_idx = (mapped_idx & tbl['method'].str.contains('total'))
-    mapped_reads_total = tbl[columns_idx][[SAMPLE_ID_COLUMN, 'value']]
-    methods = tbl['method'].unique().tolist()
+    mapped_boolv = tbl['Category'] == TOTAL_MAPPED_COLUMN
+    total_method_boolv = tbl['method'] == TOTAL_LABEL
+    rows_idx = mapped_boolv & total_method_boolv
+    mapped_reads_total = tbl[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
 
-    methods.remove('total')
-    dup_table = pd.DataFrame(columns=DUPLICATION_RATES_HEADER)
+    dup_rate_table = tbl[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value']]
+    dup_rate_table['unique_rate'] = np.divide(dup_rate_table['value'], mapped_reads_total['value'])
+    dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
+    dup_rate_table = dup_rate_table[DUPLICATION_RATES_HEADER]
 
-    for method in methods:
-        tbl_subset = tbl[mapped_idx & tbl['method'].str.contains(method)]
-        unique_counts = tbl_subset['value'].astype('float').values
+    return dup_rate_table
 
-        # Duplication rate = 1 - (unique mapped reads / total mapped reads)
-        duplication_rate = np.subtract(1, np.divide(unique_counts, mapped_reads_total['value'].values))
 
-        new_dup = pd.DataFrame({
-            'Sample': mapped_reads_total[SAMPLE_ID_COLUMN].values,
-            'method': [method] * (len(mapped_reads_total)),
-            'duplication_rate': duplication_rate
-        })
-        dup_table = pd.concat([dup_table, new_dup])
+def get_gc_table(curr_method, intervals_filename_suffix, path):
+    """
+    Function to create GC content table
+    """
+    sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
-    return dup_table
+    for i, sample in enumerate(sample_files):
+        sample_files[i] = '/'.join([path, sample])
+
+    gc_with_cov = merge_files_across_samples(sample_files)
+    gc_with_cov = gc_with_cov.ix[:, [SAMPLE_ID_COLUMN, 3, 5, 7]]
+    gc_with_cov['method'] = [curr_method] * len(gc_with_cov)
+    gc_with_cov.columns = GC_BIAS_HEADER
+
+    return gc_with_cov
+
+
+def get_bins(tbl):
+    min_gc = np.min(tbl['gc'])
+    max_gc = np.max(tbl['gc'])
+    start = round(min_gc - np.mod(min_gc, 0.05), 2)
+    stop = round(max_gc + 0.1 - np.mod(max_gc, 0.05), 2)
+    all_bins = np.arange(start, stop, step=0.05)
+    return all_bins
 
 
 def get_gc_table_average_over_all_samples(tbl):
     """
     Function to create GC content table: averaged over all samples
     """
-    final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER)
-    all_samples = tbl[SAMPLE_ID_COLUMN].unique()
-    all_methods = tbl['method'].unique()
-
-    min_gc = np.min(tbl['gc'])
-    max_gc = np.max(tbl['gc'])
-
-    all_bins = np.arange(round(min_gc - np.mod(min_gc, 0.05), 2), round(max_gc + 0.1 - np.mod(max_gc, 0.05), 2), 0.05)
-
-    for method in all_methods:
-        curr_table = tbl[tbl['method'] == method].copy()
-
-        for sample in all_samples:
-            curr_loc = curr_table[SAMPLE_ID_COLUMN] == sample
-
-            curr_avg = np.mean(curr_table.loc[curr_loc, 'coverage'])
-
-            if (curr_avg == 0):
-                curr_table.loc[curr_loc, 'coverage_norm'] = [0] * len(curr_table.loc[curr_loc, 'coverage'].values)
-            else:
-                curr_table.loc[curr_loc, 'coverage_norm'] = curr_table.loc[curr_loc, 'coverage'].values / curr_avg
-
-        for bin_idx in range(0, len(all_bins) - 1):
-
-            gt_boolv = (curr_table['gc'] >= all_bins[bin_idx])
-            lt_boolv = (curr_table['gc'] < all_bins[bin_idx + 1])
-
-            cur_coverages = curr_table[gt_boolv & lt_boolv]['coverage_norm']
-            avg_cov = np.mean(cur_coverages)
-
-            newDf = pd.DataFrame({
-                'method': [method],
-                'gc_bin': [all_bins[bin_idx]],
-                'coverage': [avg_cov]
-            })
-
-            final_bins_table = pd.concat([final_bins_table, newDf])
-
-    return final_bins_table
+    all_bins = get_bins(tbl)
+    tbl['gc_bin'] = pd.cut(tbl['gc'], all_bins)
+    means = tbl.groupby(['gc_bin', 'method']).transform(np.mean)
+    tbl['coverage_norm'] = np.divide(tbl['coverage'], means['coverage'] + EPSILON)
+    return tbl
 
 
 def get_gc_table_average_for_each_sample(tbl):
     """
     Creates the GC content table, with each sample represented
     """
-    final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER)
-    all_samples = tbl['Sample'].unique()
-    all_methods = tbl['method'].unique()
-    minGC = np.min(tbl['gc'])
-    maxGC = np.max(tbl['gc'])
+    all_bins = get_bins(tbl)
+    tbl['gc_bin'] = pd.cut(tbl['gc'], all_bins)
+    means = tbl.groupby(['gc_bin', 'method', SAMPLE_ID_COLUMN]).transform(np.mean)
+    tbl['coverage_norm'] = np.divide(tbl['coverage'], means['coverage'] + EPSILON)
+    return tbl
 
-    low_bin = round(minGC - np.mod(minGC, 0.05), 2)
-    high_bin = round(maxGC + 0.1 - np.mod(maxGC, 0.05), 2)
 
-    all_bins = np.arange(low_bin, high_bin, 0.05)
-
-    for method in all_methods:
-        for sample in all_samples:
-
-            method_boolv = (tbl['method'] == method)
-            sample_boolv = (tbl['Sample'] == sample)
-
-            curr_table = tbl[method_boolv & sample_boolv].copy()
-            curr_table['coverage_norm'] = curr_table['coverage'] / np.mean(curr_table['coverage'])
-
-            for subset in range(0, len(all_bins) - 1):
-
-                low_bin_boolv = (curr_table['gc'] >= all_bins[subset])
-                high_bin_boolv = (curr_table['gc'] < all_bins[subset + 1])
-
-                cur_gc_values = curr_table[low_bin_boolv & high_bin_boolv]['coverage_norm']
-                avg_cov = np.mean(cur_gc_values)
-
-                newDf = pd.DataFrame({
-                    'method': [method.replace('Waltz', '')],
-                    'Sample': [sample],
-                    'gc_bin': [all_bins[subset]],
-                    'coverage': [avg_cov]
-                })
-
-                final_bins_table = pd.concat([final_bins_table, newDf])
-
-    return final_bins_table
+def get_gc_coverage_table(std_waltz_path):
+    total_gc_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, std_waltz_path)
+    picard_gc_table = get_gc_table(PICARD_LABEL, WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX, std_waltz_path)
+    gc_cov_int_table = pd.concat([total_gc_table, picard_gc_table])
+    gc_cov_int_table = gc_cov_int_table.sort_values(['method'], ascending=False)
+    return gc_cov_int_table
 
 
 def get_coverage_per_interval(tbl):
@@ -299,12 +192,13 @@ def get_coverage_per_interval(tbl):
     total_boolv = (tbl['method'] == 'total')
     # todo - why is this needed:
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
-    final_tbl = tbl[total_boolv & exon_boolv][['coverage', 'interval_name', 'Sample']]
+    relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
+    final_tbl = tbl[total_boolv & exon_boolv][relevant_coverage_columns]
 
     gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
     gene_probe_df = pd.DataFrame(gene_probe, columns=['Gene', 'Probe'])
 
-    # todo: most likely, the reset_index() calls are unnecessary
+    # Todo: most likely, the reset_index() calls are unnecessary
     final_tbl = final_tbl.reset_index()
     final_tbl = pd.concat([final_tbl, gene_probe_df], axis=1)
     final_tbl = final_tbl.reset_index()
@@ -328,7 +222,7 @@ def get_insert_size_peaks_table(path):
         max_unique_size = cur_sizes['fragment_size'][np.argmax(cur_sizes['peak_unique'])]
 
         final_tbl_peaks = pd.concat([final_tbl_peaks, pd.DataFrame({
-            'Sample': f,
+            SAMPLE_ID_COLUMN: f,
             'peak_total': [max_tot],
             'peak_total_size': [max_tot_size],
             'peak_unique': [max_unique],
@@ -336,14 +230,6 @@ def get_insert_size_peaks_table(path):
         })])
 
     return final_tbl_peaks
-
-
-def get_gc_coverage_table(std_waltz_path):
-    total_gc_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, std_waltz_path)
-    picard_gc_table = get_gc_table(PICARD_LABEL, WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX, std_waltz_path)
-    gc_cov_int_table = pd.concat([total_gc_table, picard_gc_table])
-    gc_cov_int_table = gc_cov_int_table.sort_values(['method'], ascending=False)
-    return gc_cov_int_table
 
 
 ########

@@ -87,8 +87,8 @@ steps:
       run_tools: run_tools
       bwa:
         valueFrom: $(inputs.run_tools.bwa_path)
-      fastq1: fastq1
-      fastq2: fastq2
+      fastq1: trimgalore/clfastq1
+      fastq2: trimgalore/clfastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       ID: add_rg_ID

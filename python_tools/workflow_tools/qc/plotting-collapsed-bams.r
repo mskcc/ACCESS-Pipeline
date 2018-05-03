@@ -91,7 +91,7 @@ plotDupFrac = function(data) {
   
   levels_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
   # Plot may be used across collapsing methods, or with T/N coloring for just total values
-  # data = transform(data, method=factor(method,levels=levels_c))
+  # data = transform(data, method=factor(method, levels=levels_c))
   data = data %>% filter(method == 'picard')
   
   if('Class' %in% colnames(data)) {
@@ -170,7 +170,7 @@ plotOnTarget = function(data) {
 #' @param data data.frame with the usual columns
 plotGCwithCovAllSamples = function(data) {
   
-  levels_c = c("total", "picard", "marianas_unfiltered", "marianas_simplex_duplex", 'marianas_duplex')
+  levels_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
   data = transform(data, method=factor(method, levels=levels_c))
   
   ggplot(data, aes(x = gc_bin, y = coverage, color = method, group = method)) +
@@ -439,3 +439,5 @@ dev.off()
 # Parse arguments and run main()
 argv = commandArgs(trailingOnly=TRUE)
 main(argv)
+# Show warnings after running
+warnings()
