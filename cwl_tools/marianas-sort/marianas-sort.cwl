@@ -16,7 +16,7 @@ baseCommand: [sort]
 
 arguments:
 - shellQuote: false
-  valueFrom: -S 8G -k 6,6n -k 8,8n $( inputs.first_pass_file.path ) > first-pass.mate-position-sorted.txt
+  valueFrom: -S 8G -k 6,6n -k 8,8n $(inputs.first_pass_file.path) > first-pass.mate-position-sorted.txt
 
 outputs:
   output_file:

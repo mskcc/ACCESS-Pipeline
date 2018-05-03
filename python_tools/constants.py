@@ -111,6 +111,9 @@ TITLE_FILE__LANE_COLUMN = 'Lane'
 # Constants for QC files #
 ##########################
 
+# Avoid division by zero errors
+EPSILON = 1e-9
+
 # WALTZ Metrics Files Constants
 
 # Use same string for sample ID everywhere
@@ -214,10 +217,13 @@ AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER = [
     COVERAGE_COLUMN,
 ]
 
-AGBM_COVERAGE_FILE_HEADER = [
+AGBM_TOTAL_AVERAGE_COVERAGE_COLUMN = WALTZ_AVERAGE_COVERAGE_COLUMN + '_total'
+AGBM_UNIQUE_AVERAGE_COVERAGE_COLUMN = WALTZ_AVERAGE_COVERAGE_COLUMN + '_unique'
+
+AGBM_COVERAGE_HEADER = [
     SAMPLE_ID_COLUMN,
-    COVERAGE_WITH_DUPLICATES_COLUMN,
-    COVERAGE_WITHOUT_DUPLICATES_COLUMN
+    AGBM_TOTAL_AVERAGE_COVERAGE_COLUMN,
+    AGBM_UNIQUE_AVERAGE_COVERAGE_COLUMN
 ]
 
 
@@ -225,14 +231,16 @@ AGBM_COVERAGE_FILE_HEADER = [
 #
 # Labels for collapsing methods
 TOTAL_LABEL = 'total'
+UNIQUE_LABEL = 'unique'
 PICARD_LABEL = 'picard'
+MAPPED_LABEL = 'mapped'
 MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
 MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'marianas_simplex_duplex'
 MARIANAS_DUPLEX_COLLAPSING_METHOD = 'marianas_duplex'
 
 # Headers for tables
-DUPLICATION_RATES_HEADER = ['Sample', 'method', 'duplication_rate']
-INSERT_SIZE_PEAKS_HEADER = ['Sample', 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
-GC_BIAS_HEADER = ['method', 'Sample', 'interval_name', 'coverage', 'gc']
+DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate']
+INSERT_SIZE_PEAKS_HEADER = [SAMPLE_ID_COLUMN, 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
+GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', 'coverage', 'gc', 'method']
 GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
-GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', 'Sample', 'gc_bin', 'coverage']
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']

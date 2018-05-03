@@ -15,8 +15,7 @@ from ..constants import *
 #
 # Usage Example:
 #
-# python \
-#   ../../python_tools/pipeline_kickoff/create_inputs_from_title_file.py \
+# create_inputs_from_title_file \
 #   -i ./DY_title_file.txt \
 #   -d /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY
 #
@@ -31,11 +30,8 @@ from ..constants import *
 # The requirements for running this module include:
 #
 #   1. Read 1 fastq, Read 2 fastq, and SampleSheet.csv are found in the same directory
-#   2. The Sample_ID from the title_file matches with at least some part of the path to the Read 1 fastq file
-#
-# Todo: The main assumption of this module is that the Sample_ID column from the Manifest will have
-# sample ids that match the filenames of the fastqs in the data directory. We need to confirm that this will
-# always be the case.
+#   2. The Sample ID from the title_file matches with at least some part of the path in the fastq files and sample sheet
+#   3. The Patient ID from the title_file is found in at least one of the fastq files
 #
 # Todo: This file is too large
 
@@ -65,7 +61,7 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 # Delimiter for printing logs
 DELIMITER = '\n' + '*' * 20 + '\n'
 # Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = '\n' + '#' * 30 + '\n'
+INPUTS_FILE_DELIMITER = '\n\n' + '--' * 30 + '\n\n'
 
 
 def load_fastqs(data_dir):
@@ -221,7 +217,7 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
-        print DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet.' \
+        print DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' \
                           'These samples will be removed from the title file so that the remaining samples can be run.'
 
         print 'Please perform a manual check on the inputs file before running the pipeline.'

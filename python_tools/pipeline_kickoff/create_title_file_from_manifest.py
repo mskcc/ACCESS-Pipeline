@@ -13,8 +13,7 @@ from ..constants import *
 #
 # Usage example:
 #
-# python
-#   ../../python_tools/pipeline_kickoff/create_title_file_from_manifest.py \
+# create_title_file_from_manifest \
 #   -i ./manifest.xlsx \
 #   -o ./DY_title_file.txt
 #
@@ -67,9 +66,8 @@ def create_title_file(manifest_file_path, title_file_output_filename):
 ########
 # Main #
 ########
+
 def main():
-    # Usage:
-    # python create_title_file_from_manifest.py <path to manifest> <output_title_file_name>
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--manifest_file_path", help="Sample Manifest File (see runs/DY/manifest.xlsx)", required=True)
     parser.add_argument("-o", "--output_filename", help="Desired output title location and name", required=True)

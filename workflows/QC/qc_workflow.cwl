@@ -6,6 +6,8 @@ class: Workflow
 
 requirements:
   MultipleInputFeatureRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
 
 inputs:
   run_tools:
@@ -203,8 +205,8 @@ steps:
     in:
       title_file: title_file
       standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
-      marianas_unfiltered_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
-      marianas_simplex_duplex_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
+      marianas_unfiltered_waltz_metrics: marianas_unfiltered_aggregate_bam_metrics/output_dir
+      marianas_simplex_duplex_waltz_metrics: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
       marianas_duplex_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
     out:
       [qc_pdf]
