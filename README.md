@@ -96,7 +96,7 @@ To run with Toil batch system runner:
 ```
 
 # Running a real run
-The same steps for testing can be used for a real run.
+The same steps for testing can be used for a real run. However this project is still in development, and validation needs to be done on the results of our collapsing steps. In addition, the adapter sequences are hard-coded into the `create_inputs_from_title_file` step, and should be updated as per the barcode-flanking sequences being used. 
 
 Note that there are several requirements when running on your own data:
 1. The fields that are found in the sample manifest should matched with the examples in `test/test_data`
