@@ -19,10 +19,16 @@ from ..constants import *
 #
 # Note: The following requirements will be imposed on the input manifest file:
 #
-# 1. The "SAMPLE_CLASS" column must contain entries specified as either "Tumor" or "Normal"
-# 2. The "CMO_SAMPLE_ID" column must contain entries that match at least partially with the fastq file paths
-# 3. The "CMO_PATIENT_ID" column must match between Tumor and Normal samples
-# 4. There must be at least one Normal for Sample for each Tumor sample
+# 1. The fields that are found in the sample manifest should matched with the examples in test/test_data
+# 2 The sample ID's in the manifest must be matched somewhere in the fastq file names fom the -d data folder
+# 3. The sample ID's in the manifest must be matched somewhere in the path to the SampleSheet.csv files
+# 4. The SAMPLE_CLASS column of the manifest must consist of the values either "Tumor" or "Normal"
+# 5. Each "Tumor" sample must have at least one associated "Normal" sample
+# 6. Each sample folder in the -d data folder must have these three files:
+#
+# '_R1_001.fastq.gz'
+# '_R2_001.fastq.gz'
+# 'SampleSheet.csv'
 
 
 # Todo: Start filling these out in manifest?
@@ -41,10 +47,6 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         manifest = pd.read_excel(manifest_file_path, sep='\t')
     manifest = manifest.dropna(axis=0, how='all')
-
-    # Sometimes we require some additional fixing of our columns.
-    # Uncomment next line to apply change to MANIFEST__CMO_SAMPLE_ID_COLUMN.
-    # manifest[MANIFEST__CMO_SAMPLE_ID_COLUMN] = manifest[MANIFEST__CMO_SAMPLE_ID_COLUMN].str.replace('Normal', 'Pan_Cancer')
 
     # Select the columns we want from the manifest & rename them
     title_file = manifest.loc[:,columns_map.keys()]
