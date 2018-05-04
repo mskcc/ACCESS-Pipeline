@@ -144,9 +144,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
         '--batchSystem', args.batch_system,
         '--workDir', output_directory,
         '--outdir', output_directory,
-        '--writeLogs', logdir,
-        args.workflow,
-        args.inputs_file
+        '--writeLogs', logdir
     ])
 
     ARG_TEMPLATE = ' {} {} '
@@ -159,6 +157,11 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
     # Override with user-supplied argument if found
     if len(unknowns) > 0:
         cmd += ' '.join(unknowns)
+
+    cmd += ARG_TEMPLATE.format(
+        args.workflow,
+        args.inputs_file
+    )
 
     print "Running Toil with command: {}".format(cmd)
     subprocess.check_call(cmd, shell=True)
