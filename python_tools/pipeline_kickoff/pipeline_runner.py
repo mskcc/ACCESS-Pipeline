@@ -96,7 +96,7 @@ def parse_arguments():
         required=True
     )
 
-    return parser.parse_args()
+    return parser.parse_known_args()
 
 
 def create_directories(args):
@@ -107,9 +107,6 @@ def create_directories(args):
     - Log files
     - Temporary directories (deleted as per the cleanWorkDir parameter)
     - Jobstore directories (deleted as per cleanWorkDir parameter?)
-
-    :param args:
-    :return:
     """
     project_name = args.project_name
     output_location = args.output_location
@@ -139,12 +136,6 @@ def create_directories(args):
 def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
     """
     Format and call the command to run CWL Toil
-
-    :param args:
-    :param output_directory:
-    :param jobstore_path:
-    :param logdir:
-    :return:
     """
     cmd = ' '.join(
         [BASE_TOIL_RUNNER] + [
@@ -159,15 +150,18 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
     ])
 
     ARG_TEMPLATE = ' {} {} '
-    for arg, value in DEFAULT_TOIL_ARGS:
-        # Override with user-supplied argument if found
-        if unknowns[arg.replace('--', '')]:
-            cmd += ARG_TEMPLATE.format(arg, unknowns[arg.replace('--', '')])
+    for arg, value in DEFAULT_TOIL_ARGS.items():
+        if arg.replace('--', '') in unknowns:
+            pass
         else:
             cmd += ARG_TEMPLATE.format(arg, value)
 
+    # Override with user-supplied argument if found
+    if len(unknowns) > 0:
+        cmd += ' '.join(unknowns)
+
     print "Running Toil with command: {}".format(cmd)
-    # subprocess.check_call(cmd, shell=True)
+    subprocess.check_call(cmd, shell=True)
 
 
 ########
@@ -175,7 +169,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
 ########
 
 def main():
-    args, unknowns = parser.parse_known_args()
+    args, unknowns = parse_arguments()
 
     output_directory, jobstore_path, logdir = create_directories(args)
 
