@@ -190,7 +190,7 @@ steps:
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
 
-    out: [standard_bams, standard_bais, covint_list, covint_bed]
+    out: [standard_bams, standard_bais] #, covint_list, covint_bed]
     scatter: [bams, patient_id]
     scatterMethod: dotproduct
 

@@ -78,44 +78,44 @@ outputs:
     type: File[]
     outputSource: BQSR_workflow/bqsr_bais
 
-  covint_list:
-    type: File
-    outputSource: ABRA_workflow/covint_list
-
-  covint_bed:
-    type: File
-    outputSource: ABRA_workflow/covint_bed
+#  covint_list:
+#    type: File
+#    outputSource: ABRA_workflow/covint_list
+#
+#  covint_bed:
+#    type: File
+#    outputSource: ABRA_workflow/covint_bed
 
 steps:
 
-  ABRA_workflow:
-    run: ABRA/abra_workflow.cwl
-    in:
-      run_tools: run_tools
-      bams: bams
-      tmp_dir: tmp_dir
-      reference_fasta: reference_fasta
-      patient_id: patient_id
-
-      fci__minbq: fci__minbq
-      fci__minmq: fci__minmq
-      fci__cov: fci__cov
-      fci__rf: fci__rf
-      fci__intervals: fci__intervals
-      abra__kmers: abra__kmers
-      abra__scratch: abra__scratch
-      abra__mad: abra__mad
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
-    out: [ir_bams, covint_list, covint_bed]
+#  ABRA_workflow:
+#    run: ABRA/abra_workflow.cwl
+#    in:
+#      run_tools: run_tools
+#      bams: bams
+#      tmp_dir: tmp_dir
+#      reference_fasta: reference_fasta
+#      patient_id: patient_id
+#
+#      fci__minbq: fci__minbq
+#      fci__minmq: fci__minmq
+#      fci__cov: fci__cov
+#      fci__rf: fci__rf
+#      fci__intervals: fci__intervals
+#      abra__kmers: abra__kmers
+#      abra__scratch: abra__scratch
+#      abra__mad: abra__mad
+#      fix_mate_information__sort_order: fix_mate_information__sort_order
+#      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+#      fix_mate_information__compression_level: fix_mate_information__compression_level
+#      fix_mate_information__create_index: fix_mate_information__create_index
+#    out: [ir_bams, covint_list, covint_bed]
 
   BQSR_workflow:
     run: BQSR/bqsr_workflow.cwl
     in:
       run_tools: run_tools
-      bams: ABRA_workflow/ir_bams
+      bams: bams
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
 

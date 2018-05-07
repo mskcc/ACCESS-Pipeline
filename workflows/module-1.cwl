@@ -55,15 +55,15 @@ outputs:
 
   bam:
     type: File
-    outputSource: picard.MarkDuplicates/bam
+    outputSource: picard.AddOrReplaceReadGroups/bam
 
   bai:
     type: File
-    outputSource: picard.MarkDuplicates/bai
+    outputSource: picard.AddOrReplaceReadGroups/bai
 
-  md_metrics:
-    type: File
-    outputSource: picard.MarkDuplicates/mdmetrics
+#  md_metrics:
+#    type: File
+#    outputSource: picard.MarkDuplicates/mdmetrics
 
 steps:
 
@@ -126,19 +126,19 @@ steps:
       tmp_dir: tmp_dir
     out: [bam, bai]
 
-  picard.MarkDuplicates:
-    run: ../cwl_tools/picard/MarkDuplicates.cwl
-    in:
-      run_tools: run_tools
-      java:
-        valueFrom: $(inputs.run_tools.java_8)
-      picard:
-        valueFrom: $(inputs.run_tools.picard_path)
-      input_bam: picard.AddOrReplaceReadGroups/bam
-      tmp_dir: tmp_dir
-      assume_sorted: md__assume_sorted
-      compression_level: md__compression_level
-      create_index: md__create_index
-      validation_stringency: md__validation_stringency
-      duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [bam, bai, mdmetrics]
+#  picard.MarkDuplicates:
+#    run: ../cwl_tools/picard/MarkDuplicates.cwl
+#    in:
+#      run_tools: run_tools
+#      java:
+#        valueFrom: $(inputs.run_tools.java_8)
+#      picard:
+#        valueFrom: $(inputs.run_tools.picard_path)
+#      input_bam: picard.AddOrReplaceReadGroups/bam
+#      tmp_dir: tmp_dir
+#      assume_sorted: md__assume_sorted
+#      compression_level: md__compression_level
+#      create_index: md__create_index
+#      validation_stringency: md__validation_stringency
+#      duplicate_scoring_strategy: md__duplicate_scoring_strategy
+#    out: [bam, bai, mdmetrics]
