@@ -231,7 +231,6 @@ AGBM_COVERAGE_HEADER = [
 #
 # Labels for collapsing methods
 TOTAL_LABEL = 'total'
-UNIQUE_LABEL = 'unique'
 PICARD_LABEL = 'picard'
 MAPPED_LABEL = 'mapped'
 MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
