@@ -2,7 +2,7 @@
 
 # Getting Started
 
-Note: These steps are preliminary, and are waiting on consolidation of certain dependencies. Moving to docker containers is the long term solution for this. For now these additional dependencies must be explicitly installed:
+WARNING! These steps are preliminary, and are waiting on further pipeline validation, as well as consolidation of certain dependencies. Moving to docker containers is the long term solution for the latter. For now these additional dependencies must be explicitly installed:
 
 | tool | version |
 | --- | --- |
