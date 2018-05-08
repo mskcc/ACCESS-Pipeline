@@ -88,7 +88,13 @@ This step will create a file `inputs.yaml`, and pull in the run parameters (-t f
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool ~/Innovation-Pipeline/workflows/standard_pipeline.cwl inputs.yaml
+(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool \
+  --tmpdir-prefix /where/i/want/tempdirs \
+  --tmp-outdir-prefix /where/i/want/outdirs \
+  --leave-tmpdir \ # If you want to keep the temp dirs
+  --leave-outputs \ # If you want to keep the outputs
+  ~/Innovation-Pipeline/workflows/standard_pipeline.cwl \
+  inputs.yaml
 ```
 To run with Toil batch system runner:
 ```
