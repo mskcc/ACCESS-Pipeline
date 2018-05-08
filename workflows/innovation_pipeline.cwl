@@ -213,18 +213,21 @@ steps:
   group_pileups:
     run: ../cwl_tools/expression_tools/group_pileups.cwl
     in:
-      pileups: waltz_standard/pileup
       bams: standard_bam_generation/standard_bams
+      pileups: waltz_standard/pileup
+      # Todo: rename add_rg_ID to "sample_ids"
+      sample_ids: add_rg_ID
+      # Todo: rename patient_id to "patient_ids"
       patient_ids: patient_id
-      class_list: class_list
-    out: [ordered_bams, ordered_patient_ids, ordered_pileups]
+      sample_classes: class_list
+    out: [matched_pileups]
 
   umi_collapsing:
     run: ./marianas/marianas_collapsing_workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: group_pileups/ordered_bams
-      pileup: group_pileups/ordered_pileups
+      input_bam: standard_bam_generation/standard_bams
+      pileup: group_pileups/matched_pileups
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       mismatches: marianas__mismatches

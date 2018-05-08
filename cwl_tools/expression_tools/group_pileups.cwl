@@ -12,79 +12,81 @@ requirements:
   - class: InlineJavascriptRequirement
 
 inputs:
-
-  pileups: File[]
   bams: File[]
+  pileups: File[]
+  sample_ids: string[]
   patient_ids: string[]
-  class_list: string[]
+  sample_classes: string[]
 
 outputs:
-
-  ordered_pileups:
-    type:
-      type: array
-      items: File
-#      secondaryFiles: ['^.bai']
-
-  ordered_bams:
+  matched_pileups:
     type:
       type: array
       items: File
 
-  ordered_patient_ids:
-    type:
-      type: array
-      items: string
-
-
-# Todo: Currently, this tool does not handle the following situations:
-#
-# 1. Tumor sample with no Normal (these samples will not proceed)
-# 2. Any sample with multiple normals (the first pileup will be chosen for both)
-# 3. A sample whose filename does not match the associated patient_id (will not be processed)
-#
 expression: |
   ${
-    var pileups = inputs.pileups;
+    // These lists are all in parallel sorted order
     var bams = inputs.bams;
+    var pileups = inputs.pileups;
+    var sample_ids = inputs.sample_ids;
     var patient_ids = inputs.patient_ids;
-    var class_list = inputs.class_list;
+    var sample_classes = inputs.sample_classes;
 
-    var ordered_bams = [];
-    var ordered_pileups = [];
-    var ordered_patient_ids = [];
+    var matched_pileups = [];
 
-    // For each pileup
-    for (var i = 0; i < pileups.length; i++) {
-      var current_pileup = pileups[i];
-      var current_patient_id = patient_ids[i].replace('-', '_');
-      var current_class = class_list[i];
+    // For every bam
+    for (var i = 0; i < bams.length; i++) {
+      var current_bam = bams[i];
+      var current_bam_sample_id = sample_ids[i];
+      var current_bam_patient_id = patient_ids[i];
+      var current_pileup_class = sample_classes[j];
 
-      // If it is a normal pileup
-      if (current_class.indexOf('Normal') > -1) {
+      var found = false;
 
-        // Go through the input bams
-        for (var j = 0; j < inputs.bams.length; j++) {
-          var current_bam = inputs.bams[j];
+      // Look for the right pileup
+      for (var j = 0; j < pileups.length; j++) {
+        var current_pileup = pileups[j];
+        var current_pileup_sample_id = sample_ids[j];
+        var current_pileup_patient_id = patient_ids[j];
 
-          // If the current bam matches the current patient ID for this normal pileup
-          if (current_bam.basename.replace('-', '_').indexOf(current_patient_id) > -1) {
+        // If they have matching patient IDs
+        if (current_bam_patient_id === current_pileup_patient_id) {
 
-            // Store the current bam
-            ordered_bams.push(current_bam);
-            // Store the matching normal pileup
-            ordered_pileups.push(current_pileup);
-            // And store the matching patient ID
-            ordered_patient_ids.push(current_patient_id);
+          // And the current Pileup is a Normal
+          if (current_pileup_class === 'Normal'){
+
+            // Add this Pileup to the final matching list
+            matched_pileups.push(current_pileup);
+            found = true;
+            break;
 
           }
         }
       }
+
+      // If we never found a Normal pileup from the same patient for this Bam
+      if (!found) {
+
+        // Go through the pileups again
+        for (var j = 0; j < pileups.length; j++) {
+          var current_pileup = pileups[j];
+          var current_pileup_sample_id = sample_ids[j];
+
+          // And add the pileup that matches that Tumor sample
+          if (current_bam_sample_id === current_pileup_sample_id) {
+
+            matched_pileups.push(current_pileup);
+            break;
+
+          }
+
+        }
+
+      }
     }
 
     return {
-      'ordered_bams': ordered_bams,
-      'ordered_pileups': ordered_pileups,
-      'ordered_patient_ids': ordered_patient_ids
+      'matched_pileups': matched_pileups
     }
   }
