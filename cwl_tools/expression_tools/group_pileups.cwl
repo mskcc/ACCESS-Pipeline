@@ -40,7 +40,7 @@ expression: |
       var current_bam = bams[i];
       var current_bam_sample_id = sample_ids[i];
       var current_bam_patient_id = patient_ids[i];
-      var current_pileup_class = sample_classes[j];
+      var current_bam_class = sample_classes[i];
 
       var found = false;
 
@@ -49,12 +49,23 @@ expression: |
         var current_pileup = pileups[j];
         var current_pileup_sample_id = sample_ids[j];
         var current_pileup_patient_id = patient_ids[j];
+        var current_pileup_class = sample_classes[j];
 
         // If they have matching patient IDs
         if (current_bam_patient_id === current_pileup_patient_id) {
 
-          // And the current Pileup is a Normal
-          if (current_pileup_class === 'Normal'){
+          // And we're matching a Tumor with a corresponding Normal Pileup
+          if (current_bam_class === 'Tumor' && current_pileup_class === 'Normal') {
+
+            // Add this Pileup to the final matching list
+            matched_pileups.push(current_pileup);
+            found = true;
+            break;
+
+		  // Otherwise, if the Sample is Normal, and we found the matching Pileup for this sample
+          } else if (current_bam_class === 'Normal'
+					&& current_pileup_class === 'Normal'
+					&& current_bam_sample_id == current_pileup_sample_id) {
 
             // Add this Pileup to the final matching list
             matched_pileups.push(current_pileup);
@@ -80,9 +91,7 @@ expression: |
             break;
 
           }
-
         }
-
       }
     }
 
