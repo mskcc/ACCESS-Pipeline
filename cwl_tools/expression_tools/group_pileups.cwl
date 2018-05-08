@@ -62,16 +62,15 @@ expression: |
             found = true;
             break;
 
-		  // Otherwise, if the Sample is Normal, and we found the matching Pileup for this sample
-          } else if (current_bam_class === 'Normal'
-					&& current_pileup_class === 'Normal'
-					&& current_bam_sample_id == current_pileup_sample_id) {
+          // Otherwise, if the Sample is Normal, and we found the matching Pileup for this sample
+          } else if (current_bam_class === 'Normal' &&
+                     current_pileup_class === 'Normal' &&
+                     current_bam_sample_id === current_pileup_sample_id) {
 
             // Add this Pileup to the final matching list
             matched_pileups.push(current_pileup);
             found = true;
             break;
-
           }
         }
       }
@@ -86,10 +85,8 @@ expression: |
 
           // And add the pileup that matches that Tumor sample
           if (current_bam_sample_id === current_pileup_sample_id) {
-
             matched_pileups.push(current_pileup);
             break;
-
           }
         }
       }
