@@ -59,6 +59,7 @@ expression: |
             // Add this Pileup to the final matching list
             matched_pileups.push(current_pileup);
             found = true;
+            break;
 
           }
         }
@@ -74,7 +75,10 @@ expression: |
 
           // And add the pileup that matches that Tumor sample
           if (current_bam_sample_id === current_pileup_sample_id) {
+
             matched_pileups.push(current_pileup);
+            break;
+
           }
 
         }
