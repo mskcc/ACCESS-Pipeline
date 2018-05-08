@@ -88,9 +88,9 @@ def get_coverage_table(path):
     Coverage table
     """
     full_path = os.path.join(path, AGBM_COVERAGE_FILENAME)
-    tbl = pd.read_csv(full_path, sep='\t')
-    coverage = pd.melt(tbl, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
-    return coverage
+    coverage_table = pd.read_csv(full_path, sep='\t')
+    coverage_table = pd.melt(coverage_table, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
+    return coverage_table
 
 
 def get_collapsed_waltz_tables(path, method):
@@ -104,7 +104,7 @@ def get_collapsed_waltz_tables(path, method):
     read_counts_table['method'] = [method] * len(read_counts_table)
 
     coverage_table_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
-    coverage_table = pd.read_csv(coverage_table_path, sep='\t')
+    coverage_table = pd.read_csv(coverage_table_path, sep='\t', usecols=[0, 1], names=[SAMPLE_ID_COLUMN, 'average_coverage'], header=0)
     coverage_table['method'] = [method] * len(coverage_table)
 
     gc_bias_table = get_gc_table(method, WALTZ_INTERVALS_FILENAME_SUFFIX, path)
@@ -112,17 +112,22 @@ def get_collapsed_waltz_tables(path, method):
     return [read_counts_table, coverage_table, gc_bias_table]
 
 
-def get_table_duplication(tbl):
+def get_table_duplication(read_counts_table):
     """
     Creates duplication rate table
     """
-    mapped_boolv = tbl['Category'] == TOTAL_MAPPED_COLUMN
-    total_method_boolv = tbl['method'] == TOTAL_LABEL
+    mapped_boolv = read_counts_table['Category'] == TOTAL_MAPPED_COLUMN
+    total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
     rows_idx = mapped_boolv & total_method_boolv
-    mapped_reads_total = tbl[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
+    mapped_reads = read_counts_table[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value']]
+    mapped_reads['value'] = mapped_reads['value'].astype(int)
+    mapped_reads_total = read_counts_table[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
+    mapped_reads_total['value'] = mapped_reads_total['value'].astype(int)
 
-    dup_rate_table = tbl[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value']]
-    dup_rate_table['unique_rate'] = np.divide(dup_rate_table['value'], mapped_reads_total['value'])
+    grouped = mapped_reads.groupby('method')
+    unique_rate = grouped['value'].transform(lambda x: x.div(mapped_reads_total['value'].values))
+    dup_rate_table = mapped_reads.copy()
+    dup_rate_table['unique_rate'] = unique_rate
     dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
     dup_rate_table = dup_rate_table[DUPLICATION_RATES_HEADER]
 
