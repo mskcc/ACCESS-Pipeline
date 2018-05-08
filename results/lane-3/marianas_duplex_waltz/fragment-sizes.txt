@@ -1,4 +1,0 @@
-Sample	fragment_size	total_frequency	unique_frequency
-blah	142	4	1
-blah	177	3	1
-blah	210	1	1

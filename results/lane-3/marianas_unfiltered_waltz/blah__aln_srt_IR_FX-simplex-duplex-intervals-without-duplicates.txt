@@ -1,1 +1,0 @@
-/Users/johnsoni/Desktop/Code/Innovation-Pipeline/test/test_data/qc/qc_wrapper/uf_agbm/blah__aln_srt_IR_FX-simplex-duplex-intervals-without-duplicates.txt
