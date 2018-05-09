@@ -31,6 +31,8 @@ setup(
         'xlrd==1.1.0',
         'numpy==1.14.2',
         'pybedtools',
+        'PyPDF2==1.26.0',
+        'matplotlib==2.2.2'
     ],
     packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.qc'],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
@@ -45,6 +47,7 @@ setup(
             'list2bed = python_tools.workflow_tools.list2bed:main',
             'map_read_names_to_umis = python_tools.workflow_tools.map_read_names_to_umis:main',
             'reverse_clip = python_tools.workflow_tools.reverse_clip:main',
+            'fingerprinting = python_tools.workflow_tools.fingerprinting:main',
             # QC
             'aggregate_bam_metrics = python_tools.workflow_tools.qc.aggregate_bam_metrics:main',
             'qc = python_tools.workflow_tools.qc.qc:main',
