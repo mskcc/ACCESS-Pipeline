@@ -35,7 +35,6 @@ DEFAULT_TOIL_ARGS = {
     '--no-container'            : '',
     '--disableCaching'          : '',
     '--cleanWorkDir'            : 'onSuccess',
-    '--logDebug'                : ''
     # '--maxLogFileSize':       : '20000000',
 }
 
@@ -44,6 +43,7 @@ def parse_arguments():
     """
     Argparse wrapper
 
+    Many of these arguments are simply passed through to the Toil runner
     :return:
     """
     parser = argparse.ArgumentParser(description='submit toil job')
@@ -96,6 +96,14 @@ def parse_arguments():
         required=True
     )
 
+    parser.add_argument(
+        '--logLevel',
+        action='store',
+        dest='logLevel',
+        help='OFF (or CRITICAL), ERROR, WARN (or WARNING), INFO or DEBUG',
+        required=True
+    )
+
     return parser.parse_known_args()
 
 
@@ -140,21 +148,22 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
     cmd = ' '.join(
         [BASE_TOIL_RUNNER] + [
         '--logFile', os.path.join(logdir, LOG_FILE_NAME),
-        '--jobStore file://' + jobstore_path,
+        '--jobStore', 'file://' + jobstore_path,
         '--batchSystem', args.batch_system,
         '--workDir', output_directory,
         '--outdir', output_directory,
-        '--writeLogs', logdir
+        '--writeLogs', logdir,
+        '--logLevel', args.logLevel,
     ])
 
     ARG_TEMPLATE = ' {} {} '
     for arg, value in DEFAULT_TOIL_ARGS.items():
+        # Override with user-supplied argument if found
         if arg.replace('--', '') in unknowns:
             pass
         else:
             cmd += ARG_TEMPLATE.format(arg, value)
 
-    # Override with user-supplied argument if found
     if len(unknowns) > 0:
         cmd += ' '.join(unknowns)
 
