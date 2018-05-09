@@ -40,9 +40,10 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, workflow, batch_system):
+def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, workflow, batch_system, logLevel):
     '''
     Submit pipeline_runner python script to the control node
+    Todo: too many arguments, too many layers
 
     :param job_store_uuid:
     :param project_name:
@@ -56,14 +57,15 @@ def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, wo
     lsf_proj_name = "{}:{}".format(project_name, job_store_uuid)
     job_desc = lsf_proj_name
 
-    job_command = "{} {} {} {} {} {} {}".format(
+    job_command = "{} {} {} {} {} {} {} {}".format(
         'pipeline_runner',
         '--project_name ' + project_name,
         '--workflow ' + workflow,
         '--inputs_file ' + inputs_file,
         '--output_location ' + output_location,
         '--batch_system ' + batch_system,
-        '--job_store_uuid ' + job_store_uuid
+        '--job_store_uuid ' + job_store_uuid,
+        '--logLevel ' + logLevel,
     )
 
     bsubline = [
@@ -128,6 +130,13 @@ def main():
         help="(e.g. lsf or singleMachine)"
     )
 
+    parser.add_argument(
+        "--logLevel",
+        action="store",
+        dest="logLevel",
+        help="(e.g. lsf or singleMachine)"
+    )
+
     params = parser.parse_args()
 
     # Create job-uuid
@@ -140,7 +149,8 @@ def main():
         params.output_location,
         params.inputs_file,
         params.workflow,
-        params.batch_system
+        params.batch_system,
+        params.logLevel
     )
 
     print lsf_proj_name
