@@ -34,13 +34,13 @@ inputs:
         cutadapt_path: string?
         waltz_path: string
 
+  samples:
+    type:
+      type: array
+      items:
+        type: 'fastq_pair.yml#FastqPair'
+
   title_file: File
-  fastq1: File[]
-  fastq2: File[]
-  sample_sheet: File[]
-  patient_id: string[]
-  # List of ['Tumor', 'Normal', ...] sample class values
-  class_list: string[]
 
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file?
@@ -53,14 +53,6 @@ inputs:
   output_project_folder: string
 
   # Module 1
-  adapter: string[]
-  adapter2: string[]
-  add_rg_PL: string
-  add_rg_CN: string
-  add_rg_LB: int[]
-  add_rg_ID: string[]
-  add_rg_PU: string[]
-  add_rg_SM: string[]
   md__assume_sorted: boolean
   md__compression_level: int
   md__create_index: boolean
@@ -142,33 +134,20 @@ steps:
     run: ./standard_pipeline.cwl
     in:
       run_tools: run_tools
-      fastq1: fastq1
-      fastq2: fastq2
-      sample_sheet: sample_sheet
+      samples: samples
       # Process Loop Umi Fastq
       umi_length: umi_length
       output_project_folder: output_project_folder
       # Module 1
       tmp_dir: tmp_dir
-      adapter: adapter
-      adapter2: adapter2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
       md__create_index: md__create_index
       md__assume_sorted: md__assume_sorted
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-      # Group bams by patient
-      patient_id: patient_id
       # Module 2
-      reference_fasta: reference_fasta
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -235,17 +214,9 @@ steps:
       min_mapping_quality: marianas__min_mapping_quality
       min_base_quality: marianas__min_base_quality
       min_consensus_percent: marianas__min_consensus_percent
-      # Todo: not needed:
-      patient_id: patient_id
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -290,7 +261,6 @@ steps:
       reference_fasta: reference_fasta
       tmp_dir: tmp_dir
       bams: group_bams_by_patient/grouped_bams
-      patient_id: group_bams_by_patient/grouped_patient_ids
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__rf: fci__rf

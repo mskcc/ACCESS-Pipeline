@@ -12,6 +12,7 @@ inputs:
   bams: File[]
   patient_ids: string[]
 
+
 outputs:
 
   grouped_bams:
@@ -27,6 +28,16 @@ outputs:
       type: array
       items: string
 
+  sample_ids:
+    type:
+      type: array
+      items: string
+
+  sample_classes:
+    type:
+      type: array
+      items: string
+
 expression: |
   ${
     var found;
@@ -37,6 +48,12 @@ expression: |
 
     // This is a list with patient IDs that correspond to these bams^
     var matching_patient_ids = [];
+
+    // This will hold the re-ordered sample ids
+    var ordered_sample_ids = [];
+
+    // This will hold the re-ordered
+
 
     // For each Bam in our input Bams
     for (var i = 0; i < inputs.bams.length; i++) {

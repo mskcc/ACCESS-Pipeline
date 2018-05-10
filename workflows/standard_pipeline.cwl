@@ -35,11 +35,13 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
+  samples:
+    type:
+      type: array
+      items:
+        type: 'fastq_pair.yml#FastqPair'
+
   tmp_dir: string
-  fastq1: File[]
-  fastq2: File[]
-  sample_sheet: File[]
-  patient_id: string[]
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file,
   # so we need to use strings here instead of file types
@@ -50,14 +52,6 @@ inputs:
   umi_length: int
   output_project_folder: string
   # Module 1
-  adapter: string[]
-  adapter2: string[]
-  add_rg_PL: string
-  add_rg_CN: string
-  add_rg_LB: int[]
-  add_rg_ID: string[]
-  add_rg_PU: string[]
-  add_rg_SM: string[]
   md__create_index: boolean
   md__assume_sorted: boolean
   md__compression_level: int
@@ -106,7 +100,6 @@ steps:
         valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
-
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
@@ -154,9 +147,8 @@ steps:
     run: ../cwl_tools/expression_tools/group_bams.cwl
     in:
       bams: module_1/bam
-      patient_ids: patient_id
     out:
-      [grouped_bams, grouped_patient_ids]
+      [grouped_bams, grouped_patient_ids, ordered_sample_ids, ordered_classes]
 
   ####################
   # Adapted Module 2 #
@@ -169,7 +161,6 @@ steps:
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams
-      patient_id: group_bams_by_patient/grouped_patient_ids
       fci__rf: fci__rf
       fci__cov: fci__cov
       fci__minbq: fci__minbq

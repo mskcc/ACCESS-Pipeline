@@ -28,16 +28,14 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  bams:
+  samples:
     type:
       type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
+      items:
+        type: 'bam.yml#Bam'
 
   tmp_dir: string
   reference_fasta: string
-  patient_id: string
 
   fci__minbq: int
   fci__minmq: int
@@ -96,7 +94,6 @@ steps:
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       patient_id: patient_id
-
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -118,7 +115,6 @@ steps:
       bams: ABRA_workflow/ir_bams
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
-
       bqsr__nct: bqsr__nct
       bqsr__rf: bqsr__rf
       bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
@@ -127,3 +123,11 @@ steps:
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
     out: [bqsr_bams, bqsr_bais]
+
+  collect_output:
+    run: ../cwl_tools/expression_tools/collect_bam_output.cwl
+    in:
+      bam: picard.MarkDuplicates/bam
+      sample: sample
+    out:
+      [bam_out]

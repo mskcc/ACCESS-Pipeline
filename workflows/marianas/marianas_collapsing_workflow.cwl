@@ -29,6 +29,12 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
+  samples:
+    type:
+      type: array
+      items:
+        type: 'fastq_pair.yml#FastqPair'
+
   input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
@@ -39,17 +45,9 @@ inputs:
   min_base_quality: int
   min_consensus_percent: int
 
-  patient_id: string[]
-
   tmp_dir: string
   reference_fasta: string
   reference_fasta_fai: string
-  add_rg_LB: int
-  add_rg_PL: string
-  add_rg_ID: string
-  add_rg_PU: string
-  add_rg_SM: string
-  add_rg_CN: string
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
@@ -159,18 +157,11 @@ steps:
     run: ./collapsed_fastq_to_bam.cwl
     in:
       run_tools: run_tools
-      patient_id: patient_id
       tmp_dir: tmp_dir
       fastq1: rename_fastq_1/renamed_file
       fastq2: rename_fastq_2/renamed_file
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
       output_suffix:
         valueFrom: ${return '_MC_'}
     out: [bam, bai]

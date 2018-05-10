@@ -25,20 +25,11 @@ inputs:
         arrg_path: string
         picard_path: string
 
-  tmp_dir: string
-  fastq1: File
-  fastq2: File
+  sample: 'fastq_pair.yml#FastqPair'
 
+  tmp_dir: string
   reference_fasta: string
   reference_fasta_fai: string
-  adapter: string
-  adapter2: string
-  add_rg_LB: int
-  add_rg_PL: string
-  add_rg_ID: string
-  add_rg_PU: string
-  add_rg_SM: string
-  add_rg_CN: string
   md__assume_sorted: boolean
   md__compression_level: int
   md__create_index: boolean
@@ -83,10 +74,19 @@ steps:
       cutadapt_path:
         valueFrom: $(inputs.run_tools.cutadapt_path)
 
-      adapter: adapter
-      adapter2: adapter2
-      fastq1: fastq1
-      fastq2: fastq2
+      adapter:
+        source: sample
+        valueFrom: $(self.adapter)
+      adapter2:
+        source: sample
+        valueFrom: $(self.adapter2)
+      fastq1:
+        source: sample
+        valueFrom: $(self.fastq1)
+      fastq2:
+        source: sample
+        valueFrom: $(self.fastq2)
+
     out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
@@ -95,16 +95,32 @@ steps:
       run_tools: run_tools
       bwa:
         valueFrom: $(inputs.run_tools.bwa_path)
-      fastq1: trimgalore/clfastq1
-      fastq2: trimgalore/clfastq2
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      ID: add_rg_ID
-      LB: add_rg_LB
-      SM: add_rg_SM
-      PL: add_rg_PL
-      PU: add_rg_PU
-      CN: add_rg_CN
+
+      fastq1: trimgalore/clfastq1
+      fastq2: trimgalore/clfastq2
+
+      ID:
+        source: sample
+        valueFrom: $(self.ID)
+      LB:
+        source: sample
+        valueFrom: $(self.LB)
+      SM:
+        source: sample
+        valueFrom: $(self.SM)
+      PL:
+        source: sample
+        valueFrom: $(self.PL)
+      PU:
+        source: sample
+        valueFrom: $(self.PU)
+      CN:
+        source: sample
+        valueFrom: $(self.CN)
+
     out: [output_sam]
 
   picard.AddOrReplaceReadGroups:
@@ -116,12 +132,24 @@ steps:
       arrg:
         valueFrom: $(inputs.run_tools.arrg_path)
       input_bam: bwa_mem/output_sam
-      LB: add_rg_LB
-      PL: add_rg_PL
-      ID: add_rg_ID
-      PU: add_rg_PU
-      SM: add_rg_SM
-      CN: add_rg_CN
+      ID:
+        source: sample
+        valueFrom: $(self.ID)
+      LB:
+        source: sample
+        valueFrom: $(self.LB)
+      SM:
+        source: sample
+        valueFrom: $(self.SM)
+      PL:
+        source: sample
+        valueFrom: $(self.PL)
+      PU:
+        source: sample
+        valueFrom: $(self.PU)
+      CN:
+        source: sample
+        valueFrom: $(self.CN)
       # Todo: Move to inputs.yaml
       sort_order:
         default: 'coordinate'
@@ -150,3 +178,11 @@ steps:
       validation_stringency: md__validation_stringency
       duplicate_scoring_strategy: md__duplicate_scoring_strategy
     out: [bam, bai, mdmetrics]
+
+  collect_output:
+    run: ../cwl_tools/expression_tools/collect_bam_output.cwl
+    in:
+      bam: picard.MarkDuplicates/bam
+      sample: sample
+    out:
+      [bam_out]

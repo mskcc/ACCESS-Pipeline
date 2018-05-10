@@ -37,7 +37,6 @@ inputs:
 
   tmp_dir: string
   reference_fasta: string
-  patient_id: string
 
   fci__minbq: int
   fci__minmq: int
@@ -112,7 +111,6 @@ steps:
       run_tools: run_tools
       java:
         valueFrom: ${return inputs.run_tools.java_7}
-#        valueFrom: ${return inputs.run_tools.java_8}
       abra:
         valueFrom: ${return inputs.run_tools.abra_path}
 

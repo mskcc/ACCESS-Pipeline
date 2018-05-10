@@ -28,16 +28,14 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  bams:
+  samples:
     type:
       type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
+      items:
+        type: 'bam.yml#Bam'
 
   tmp_dir: string
   reference_fasta: string
-#  patient_id: string
 
   bqsr__nct: int
   bqsr__rf: string
