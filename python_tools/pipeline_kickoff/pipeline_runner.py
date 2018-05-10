@@ -35,7 +35,7 @@ DEFAULT_TOIL_ARGS = {
     '--no-container'            : '',
     '--disableCaching'          : '',
     '--cleanWorkDir'            : 'onSuccess',
-    # '--maxLogFileSize':       : '20000000',
+    '--maxLogFileSize'          : '0',
 }
 
 
@@ -153,7 +153,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
         '--workDir', output_directory,
         '--outdir', output_directory,
         '--writeLogs', logdir,
-        '--logLevel', args.logLevel,
+        args.logLevel,
     ])
 
     ARG_TEMPLATE = ' {} {} '
