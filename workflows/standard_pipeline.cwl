@@ -15,6 +15,9 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/schema_defs/Sample.cwl
 
 inputs:
   run_tools:
@@ -35,11 +38,7 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  samples:
-    type:
-      type: array
-      items:
-        type: 'fastq_pair.yml#FastqPair'
+  samples: ../resources/schema_defs/Sample.cwl#Sample[]
 
   tmp_dir: string
   # Todo: Open a ticket
@@ -80,11 +79,9 @@ inputs:
 
 outputs:
 
-  standard_bams:
-    type:
-      type: array
-      items: File
-    outputSource: flatten_array_bams/output_bams
+  output_samples:
+    type: ../resources/schema_defs/Sample.cwl#Sample[]
+    outputSource: flatten_samples_array/output_samples
 
 steps:
 
@@ -100,13 +97,20 @@ steps:
         valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
-      fastq1: fastq1
-      fastq2: fastq2
-      sample_sheet: sample_sheet
+
+      sample: samples
+      fastq1:
+        valueFrom: $(inputs.sample.fastq1)
+      fastq2:
+        valueFrom: $(inputs.sample.fastq2)
+      sample_sheet:
+        valueFrom: $(inputs.sample.sample_sheet)
+
       umi_length: umi_length
       output_project_folder: output_project_folder
-    out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
-    scatter: [fastq1, fastq2, sample_sheet]
+
+    out: [output_sample]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   ####################
@@ -118,37 +122,28 @@ steps:
     in:
       run_tools: run_tools
       tmp_dir: tmp_dir
-      fastq1: umi_clipping/processed_fastq_1
-      fastq2: umi_clipping/processed_fastq_2
-      adapter: adapter
-      adapter2: adapter2
+      sample: umi_clipping/output_sample
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      add_rg_LB: add_rg_LB
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
-      add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      add_rg_PL: add_rg_PL
       md__create_index: md__create_index
       md__assume_sorted: md__assume_sorted
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [bam, bai, md_metrics]
-    scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    out: [output_sample]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   ############################
   # Group Bams by Patient ID #
   ############################
 
-  group_bams_by_patient:
-    run: ../cwl_tools/expression_tools/group_bams.cwl
+  group_samples_by_patient:
+    run: ../cwl_tools/expression_tools/group_samples_by_patient.cwl
     in:
-      bams: module_1/bam
+      samples: module_1/output_sample
     out:
-      [grouped_bams, grouped_patient_ids, ordered_sample_ids, ordered_classes]
+      [grouped_samples]
 
   ####################
   # Adapted Module 2 #
@@ -159,8 +154,10 @@ steps:
     in:
       run_tools: run_tools
       tmp_dir: tmp_dir
+
+      samples: group_samples_by_patient/grouped_samples
+
       reference_fasta: reference_fasta
-      bams: group_bams_by_patient/grouped_bams
       fci__rf: fci__rf
       fci__cov: fci__cov
       fci__minbq: fci__minbq
@@ -180,17 +177,16 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-
-    out: [standard_bams, standard_bais, covint_list, covint_bed]
-    scatter: [bams, patient_id]
+    out: [output_samples]
+    scatter: [samples]
     scatterMethod: dotproduct
 
   ################################
   # Return to flat array of bams #
   ################################
 
-  flatten_array_bams:
-    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
+  flatten_samples_array:
+    run: ../cwl_tools/expression_tools/flatten_samples_array.cwl
     in:
-      bams: module_2/standard_bams
-    out: [output_bams]
+      samples: module_2/output_samples
+    out: [output_samples]

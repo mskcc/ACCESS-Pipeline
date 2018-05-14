@@ -8,6 +8,9 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
   run_tools:
@@ -28,11 +31,7 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  samples:
-    type:
-      type: array
-      items:
-        type: 'bam.yml#Bam'
+  samples: ../../resources/schema_defs/Sample.cwl#Sample[]
 
   tmp_dir: string
   reference_fasta: string
@@ -53,15 +52,11 @@ inputs:
 
 outputs:
 
-  bqsr_bams:
-    type: File[]
-    secondaryFiles:
-      - ^.bai
-    outputSource: parallel_printreads/bams
-
-  bqsr_bais:
-    type: File[]
-    outputSource: parallel_printreads/bais
+  output_samples:
+    type:
+      type: array
+      items: ../../resources/schema_defs/Sample.cwl#Sample
+    outputSource: parallel_printreads/output_samples
 
 steps:
 
@@ -73,7 +68,11 @@ steps:
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
       tmp_dir: tmp_dir
-      bam: bams
+
+      samples: samples
+      bam:
+        valueFrom: $(inputs.samples.bam)
+
       reference_fasta: reference_fasta
       rf: bqsr__rf
       nct: bqsr__nct
@@ -89,7 +88,9 @@ steps:
         java: string
         gatk: string
         tmp_dir: string
+
         bam: File
+
         reference_fasta: string
         rf: string
         nct: int
@@ -106,14 +107,16 @@ steps:
             tmp_dir: tmp_dir
             java: java
             gatk: gatk
+
             input_bam: bam
+
             reference_fasta: reference_fasta
             rf: rf
             nct: nct
             known_sites_1: known_sites_1
             known_sites_2: known_sites_2
             out:
-              default: "recal.matrix"
+              default: 'recal.matrix'
           out: [recal_matrix]
 
   parallel_printreads:
@@ -125,14 +128,16 @@ steps:
         valueFrom: ${return inputs.run_tools.gatk_path}
 
       tmp_dir: tmp_dir
-      input_file: bams
+
+      sample: samples
       BQSR: parallel_bqsr/recal_matrix
+
       nct: print_reads__nct
       EOQ: print_reads__EOQ
       baq: print_reads__baq
       reference_sequence: reference_fasta
-    out: [bams, bais]
-    scatter: [input_file, BQSR]
+    out: [output_samples]
+    scatter: [sample, BQSR]
     scatterMethod: dotproduct
 
     run:
@@ -141,21 +146,18 @@ steps:
         tmp_dir: string
         java: string
         gatk: string
-        input_file: File
+
+        sample: ../../resources/schema_defs/Sample.cwl#Sample
         BQSR: File
+
         nct: int
         EOQ: boolean
         reference_sequence: string
         baq: string
       outputs:
-        bams:
-          type: File
-          secondaryFiles:
-            - ^.bai
-          outputSource: gatk_print_reads/out_bams
-        bais:
-          type: File
-          outputSource: gatk_print_reads/out_bais
+        output_samples:
+          type: ../../resources/schema_defs/Sample.cwl#Sample
+          outputSource: gatk_print_reads/output_sample
       steps:
         gatk_print_reads:
           run: ../../cwl_tools/gatk/PrintReads.cwl
@@ -163,12 +165,16 @@ steps:
             tmp_dir: tmp_dir
             java: java
             gatk: gatk
-            input_file: input_file
+
+            sample: sample
+            input_file:
+              valueFrom: $(inputs.sample.ir_bam)
+
             BQSR: BQSR
             nct: nct
             EOQ: EOQ
             baq: baq
             reference_sequence: reference_sequence
             out:
-              valueFrom: ${return inputs.input_file.basename.replace(".bam", "_BR.bam")}
-          out: [out_bams, out_bais]
+              valueFrom: ${return inputs.input_file.basename.replace('.bam', '_BR.bam')}
+          out: [output_sample]

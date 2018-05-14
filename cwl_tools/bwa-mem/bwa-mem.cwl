@@ -43,13 +43,19 @@ arguments:
 # Todo: LB == lane number?
 
 requirements:
-  - class: InlineJavascriptRequirement
-  - class: ResourceRequirement
+  InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
+  ResourceRequirement:
     ramMin: 30000
     coresMin: 4
 
 inputs:
   bwa: string
+
+
+
   fastq1: File
   fastq2: File
   reference_fasta: string
@@ -74,7 +80,18 @@ stdout: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.s
 
 outputs:
 
-  output_sam:
-    type: File
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: $(inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam'))
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
+
+          output_sample.sam_1 = self.filter(function(x) {
+            return x.basename === inputs.fastq1.basename.replace('_R1', '').replace('.fastq.gz', '_aln.sam')
+          })[0];
+
+          return output_sample
+        }

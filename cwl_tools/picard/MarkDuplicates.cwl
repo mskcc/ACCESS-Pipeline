@@ -16,6 +16,9 @@ requirements:
   ResourceRequirement:
     ramMin: 30000
     coresMin: 2
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 doc: |
   None
@@ -23,6 +26,7 @@ doc: |
 inputs:
   java: string
   picard: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   input_bam:
     type: File
@@ -86,18 +90,26 @@ inputs:
 
 outputs:
 
-  bam:
-    type: File
-    secondaryFiles: [^.bai]
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bam') )
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
 
-  bai:
-    type: File?
-    outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bai') )
+          output_sample.md_bam = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace('.bam', '_MD.bam')
+          })[0];
 
-  mdmetrics:
-    type: File
-    outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '.md_metrics') )
+          output_sample.md_bai = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace('.bam', '_MD.bai')
+          })[0];
+
+          output_sample.md_metrics = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace('.bam', '.md_metrics')
+          })[0];
+
+          return output_sample
+        }

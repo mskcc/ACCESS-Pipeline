@@ -28,12 +28,10 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  bams:
+  samples:
     type:
       type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
+      items: ../../resources/schema_defs/Sample.cwl#Sample
 
   tmp_dir: string
   reference_fasta: string
@@ -54,23 +52,9 @@ inputs:
 
 outputs:
 
-  ir_bams:
-    type: File[]
-    secondaryFiles:
-      - ^.bai
-    outputSource: parallel_fixmate/bams
-
-#  standard_bais:
-#    type: File[]
-#    outputSource: parallel_fixmate/bais
-
-  covint_list:
-    type: File
-    outputSource: find_covered_intervals/fci_list
-
-  covint_bed:
-    type: File
-    outputSource: list2bed/output_file
+  output_samples:
+    type: ../../resources/schema_defs/Sample.cwl#Sample[]
+    outputSource: parallel_fixmate/output_samples
 
 steps:
 
@@ -83,9 +67,13 @@ steps:
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
 
+      samples: samples
+      bams:
+        valueFrom: $(inputs.samples.map(function(x){ return x.bam }))
+      patient_id:
+        valueFrom: $(inputs.samples[0].patient_id)
+
       tmp_dir: tmp_dir
-      bams: bams
-      patient_id: patient_id
       reference_sequence: reference_fasta
       min_base_quality: fci__minbq
       min_mapping_quality: fci__minmq
@@ -94,7 +82,7 @@ steps:
       intervals: fci__intervals
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
-        valueFrom: ${return inputs.patient_id + ".fci.list"}
+        valueFrom: ${return inputs.patient_id + '.fci.list'}
     out: [fci_list]
 
   list2bed:
@@ -102,7 +90,7 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
+        valueFrom: ${return inputs.input_file.basename.replace('.list', '.bed.srt')}
     out: [output_file]
 
   abra:
@@ -113,11 +101,14 @@ steps:
         valueFrom: ${return inputs.run_tools.java_7}
       abra:
         valueFrom: ${return inputs.run_tools.abra_path}
+      samples: samples
+      input_bams:
+        valueFrom: $( inputs.samples.map(function(x){ return x.bam }) )
+      patient_id:
+        valueFrom: $( inputs.samples[0].patient_id )
 
-      input_bams: bams
       targets: list2bed/output_file
       scratch_dir: abra__scratch
-      patient_id: patient_id
       reference_fasta: reference_fasta
       kmer: abra__kmers
       mad: abra__mad
@@ -126,11 +117,8 @@ steps:
       # Todo: Find a cleaner way
       working_directory:
         valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
-      out:
-        valueFrom: |
-          ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}
     out:
-      [bams]
+      [output_samples]
 
   parallel_fixmate:
     in:
@@ -140,14 +128,17 @@ steps:
       fix_mate_information:
         valueFrom: ${return inputs.run_tools.fx_path}
 
-      bam: abra/bams
+      sample: abra/output_samples
+      bam:
+        valueFrom: $(inputs.samples.map(function(x){ return x.ir_bam }))
+
       tmp_dir: tmp_dir
       sort_order: fix_mate_information__sort_order
       create_index: fix_mate_information__create_index
       compression_level: fix_mate_information__compression_level
       validation_stringency: fix_mate_information__validation_stringency
-    out: [bams]
-    scatter: [bam]
+    out: [output_samples]
+    scatter: [sample, bam]
     scatterMethod: dotproduct
 
     run:
@@ -155,26 +146,30 @@ steps:
       inputs:
         java: string
         fix_mate_information: string
+
+        sample: ../../resources/schema_defs/Sample.cwl#Sample
         bam: File
+
         tmp_dir: string
         sort_order: string
         create_index: boolean
         compression_level: int
         validation_stringency: string
       outputs:
-        bams:
-          type: File
-          outputSource: picard_fixmate_information/bam
+        output_samples:
+          type: ../../resources/schema_defs/Sample.cwl#Sample
+          outputSource: picard_fixmate_information/output_sample
       steps:
         picard_fixmate_information:
           run: ../../cwl_tools/picard/FixMateInformation.cwl
           in:
             java: java
             fix_mate_information: fix_mate_information
+            sample: sample
             input_bam: bam
             tmp_dir: tmp_dir
             sort_order: sort_order
             create_index: create_index
             compression_level: compression_level
             validation_stringency: validation_stringency
-          out: [bam]
+          out: [output_sample]

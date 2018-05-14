@@ -15,6 +15,9 @@ requirements:
   ResourceRequirement:
     ramMin: 26000
     coresMin: 5
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 doc: |
   None
@@ -22,6 +25,7 @@ doc: |
 inputs:
   java: string
   fix_mate_information: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   input_bam:
     type:
@@ -71,13 +75,22 @@ inputs:
 
 outputs:
 
-  bam:
-    type: File
-    secondaryFiles: [^.bai]
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
 
-  bai:
-    type: File
-    outputBinding:
-      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bai"))
+          output_sample.fx_bam = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace('.bam', '_FX.bam')
+          })[0];
+
+          output_sample.fx_bai = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace('.bam', '_FX.bai')
+          })[0];
+
+          return output_sample
+        }

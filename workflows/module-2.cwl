@@ -8,6 +8,9 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/schema_defs/Sample.cwl
 
 inputs:
   run_tools:
@@ -31,8 +34,7 @@ inputs:
   samples:
     type:
       type: array
-      items:
-        type: 'bam.yml#Bam'
+      items: ../resources/schema_defs/Sample.cwl#Sample
 
   tmp_dir: string
   reference_fasta: string
@@ -66,23 +68,11 @@ inputs:
 
 outputs:
 
-  standard_bams:
-    type: File[]
-    secondaryFiles:
-      - ^.bai
-    outputSource: BQSR_workflow/bqsr_bams
-
-  standard_bais:
-    type: File[]
-    outputSource: BQSR_workflow/bqsr_bais
-
-  covint_list:
-    type: File
-    outputSource: ABRA_workflow/covint_list
-
-  covint_bed:
-    type: File
-    outputSource: ABRA_workflow/covint_bed
+  output_samples:
+    type:
+      type: array
+      items: ../resources/schema_defs/Sample.cwl#Sample
+    outputSource: BQSR_workflow/output_samples
 
 steps:
 
@@ -90,10 +80,11 @@ steps:
     run: ABRA/abra_workflow.cwl
     in:
       run_tools: run_tools
-      bams: bams
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
-      patient_id: patient_id
+
+      samples: samples
+
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -106,13 +97,17 @@ steps:
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
-    out: [ir_bams, covint_list, covint_bed]
+    out: [output_samples]
 
   BQSR_workflow:
     run: BQSR/bqsr_workflow.cwl
     in:
       run_tools: run_tools
-      bams: ABRA_workflow/ir_bams
+      samples: ABRA_workflow/output_samples
+
+      bams:
+        valueFrom: $(inputs.samples.map(function(x){ return x.ir_bam }))
+
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bqsr__nct: bqsr__nct
@@ -122,12 +117,4 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-    out: [bqsr_bams, bqsr_bais]
-
-  collect_output:
-    run: ../cwl_tools/expression_tools/collect_bam_output.cwl
-    in:
-      bam: picard.MarkDuplicates/bam
-      sample: sample
-    out:
-      [bam_out]
+    out: [output_samples]

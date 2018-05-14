@@ -16,6 +16,9 @@ arguments:
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
   ResourceRequirement:
     ramMin: 10000
     coresMin: 8
@@ -78,23 +81,20 @@ inputs:
       prefix: -EOQ
 
 outputs:
-  out_bams:
-    type: File
-    secondaryFiles: [^.bai]
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.out)
-            return inputs.out;
-          return null;
-        }
 
-  out_bais:
-    type: File?
+  output_sample:
+    name: output_samples
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: |
+      glob: '*_BR.bam'
+      # Todo: confirm that IR bams are matched correctly
+      outputEval: |
         ${
-          if (inputs.out)
-            return inputs.out.replace(/\.bam/,'') + ".bai";
-          return null;
+          var output_sample = inputs.sample;
+
+          for (var i = 0; i < output_samples.length; i++) {
+            output_samples.bams[i].br_bam = self[i];
+          }
+
+          return output_samples
         }

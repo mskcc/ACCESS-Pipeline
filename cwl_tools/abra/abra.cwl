@@ -13,6 +13,9 @@ arguments:
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
   ResourceRequirement:
     ramMin: 62000
     coresMin: 8
@@ -30,6 +33,7 @@ requirements:
 inputs:
   java: string
   abra: string
+  samples: ../../resources/schema_defs/Sample.cwl#Sample[]
 
   input_bams:
     type:
@@ -77,17 +81,28 @@ inputs:
       prefix: --mad
 
   out:
-    type:
-      type: array
-      items: string
+    type: string[]
+    default: $(inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")}))
     inputBinding:
       itemSeparator: ','
       prefix: --out
+      valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")}))
 
 outputs:
 
-  bams:
-    type: File[]
+  output_samples:
+    name: output_samples
+    type: ../../resources/schema_defs/Sample.cwl#Sample[]
     outputBinding:
-      # Todo: Only specify in one place.
       glob: '*_IR.bam'
+      # Todo: confirm that IR bams are matched correctly
+      outputEval: |
+        ${
+          var output_samples = inputs.samples;
+
+          for (var i = 0; i < output_samples.length; i++) {
+            output_samples.bams[i].ir_bam = self[i];
+          }
+
+          return output_samples
+        }

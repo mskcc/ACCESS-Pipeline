@@ -7,6 +7,9 @@ class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
 
@@ -28,30 +31,20 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  patient_id: string[]
-
-  tmp_dir: string
-  fastq1: File
-  fastq2: File
   reference_fasta: string
   reference_fasta_fai: string
-  add_rg_LB: int
-  add_rg_PL: string
-  add_rg_ID: string
-  add_rg_PU: string
-  add_rg_SM: string
-  add_rg_CN: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
+  fastq1: File
+  fastq2: File
+
+  tmp_dir: string
   output_suffix: string
 
 outputs:
 
-  bam:
-    type: File
-    outputSource: add_or_replace_read_groups/bam
-
-  bai:
-    type: File
-    outputSource: add_or_replace_read_groups/bai
+  output_sample:
+    type: ../../resources/schema_defs/Sample.cwl#Sample
+    outputSource: add_or_replace_read_groups/output_sample
 
 steps:
 
@@ -62,44 +55,57 @@ steps:
       bwa:
         valueFrom: ${return inputs.run_tools.bwa_path}
 
-      fastq1: fastq1
-      fastq2: fastq2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      ID: add_rg_ID
-      LB: add_rg_LB
-      SM: add_rg_SM
-      PL: add_rg_PL
-      PU: add_rg_PU
-      CN: add_rg_CN
+      sample: sample
+      fastq1: fastq1
+      fastq2: fastq2
+      ID:
+        valueFrom: $(inputs.sample.ID)
+      LB:
+        valueFrom: $(inputs.sample.LB)
+      SM:
+        valueFrom: $(inputs.sample.SM)
+      PL:
+        valueFrom: $(inputs.sample.PL)
+      PU:
+        valueFrom: $(inputs.sample.PU)
+      CN:
+        valueFrom: $(inputs.sample.CN)
       output_suffix: output_suffix
-    out: [output_sam]
+    out: [output_sample]
 
   add_or_replace_read_groups:
     run: ../../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_7}
+        valueFrom: $(inputs.run_tools.java_7)
       arrg:
-        valueFrom: ${return inputs.run_tools.arrg_path}
+        valueFrom: $(inputs.run_tools.arrg_path)
 
-      input_bam: bwa_mem/output_sam
-      LB: add_rg_LB
-      PL: add_rg_PL
-      ID: add_rg_ID
-      PU: add_rg_PU
-      SM: add_rg_SM
-      CN: add_rg_CN
+      sample: bwa_mem/output_sample
+      ID:
+        valueFrom: $(inputs.sample.ID)
+      LB:
+        valueFrom: $(inputs.sample.LB)
+      SM:
+        valueFrom: $(inputs.sample.SM)
+      PL:
+        valueFrom: $(inputs.sample.PL)
+      PU:
+        valueFrom: $(inputs.sample.PU)
+      CN:
+        valueFrom: $(inputs.sample.CN)
 
+      # Todo: Move to inputs.yaml
       sort_order:
-        default: 'coordinate'
+        default: coordinate
       validation_stringency:
-        default: 'LENIENT'
+        default: LENIENT
       compression_level:
         default: 0
       create_index:
         default: true
-
       tmp_dir: tmp_dir
-    out: [bam, bai]
+    out: [output_sample]

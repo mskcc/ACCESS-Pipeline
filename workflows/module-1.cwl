@@ -8,6 +8,9 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/schema_defs/Sample.cwl
 
 inputs:
   run_tools:
@@ -25,7 +28,7 @@ inputs:
         arrg_path: string
         picard_path: string
 
-  sample: 'fastq_pair.yml#FastqPair'
+  sample: ../resources/schema_defs/Sample.cwl#Sample
 
   tmp_dir: string
   reference_fasta: string
@@ -37,26 +40,9 @@ inputs:
   md__duplicate_scoring_strategy: string
 
 outputs:
-
-  clstats1:
-    type: File
-    outputSource: trimgalore/clstats1
-
-  clstats2:
-    type: File
-    outputSource: trimgalore/clstats2
-
-  bam:
-    type: File
-    outputSource: picard.MarkDuplicates/bam
-
-  bai:
-    type: File
-    outputSource: picard.MarkDuplicates/bai
-
-  md_metrics:
-    type: File
-    outputSource: picard.MarkDuplicates/mdmetrics
+  output_sample:
+    type: ../resources/schema_defs/Sample.cwl#Sample
+    outputSource: picard.MarkDuplicates/output_sample
 
 steps:
 
@@ -68,26 +54,21 @@ steps:
         valueFrom: $(inputs.run_tools.perl_5)
       trimgalore:
         valueFrom: $(inputs.run_tools.trimgalore_path)
-
       fastqc_path:
         valueFrom: $(inputs.run_tools.fastqc_path)
       cutadapt_path:
         valueFrom: $(inputs.run_tools.cutadapt_path)
 
-      adapter:
-        source: sample
-        valueFrom: $(self.adapter)
-      adapter2:
-        source: sample
-        valueFrom: $(self.adapter2)
+      sample: sample
       fastq1:
-        source: sample
-        valueFrom: $(self.fastq1)
+        valueFrom: $(inputs.sample.fastq1)
       fastq2:
-        source: sample
-        valueFrom: $(self.fastq2)
-
-    out: [clfastq1, clfastq2, clstats1, clstats2]
+        valueFrom: $(inputs.sample.fastq2)
+      adapter:
+        valueFrom: $(inputs.sample.adapter)
+      adapter2:
+        valueFrom: $(inputs.sample.adapter2)
+    out: [output_sample]
 
   bwa_mem:
     run: ../cwl_tools/bwa-mem/bwa-mem.cwl
@@ -99,29 +80,24 @@ steps:
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
 
-      fastq1: trimgalore/clfastq1
-      fastq2: trimgalore/clfastq2
-
+      sample: trimgalore/output_sample
+      fastq1:
+        valueFrom: $(inputs.sample.clfastq1)
+      fastq2:
+        valueFrom: $(inputs.sample.clfastq2)
       ID:
-        source: sample
-        valueFrom: $(self.ID)
+        valueFrom: $(inputs.sample.ID)
       LB:
-        source: sample
-        valueFrom: $(self.LB)
+        valueFrom: $(inputs.sample.LB)
       SM:
-        source: sample
-        valueFrom: $(self.SM)
+        valueFrom: $(inputs.sample.SM)
       PL:
-        source: sample
-        valueFrom: $(self.PL)
+        valueFrom: $(inputs.sample.PL)
       PU:
-        source: sample
-        valueFrom: $(self.PU)
+        valueFrom: $(inputs.sample.PU)
       CN:
-        source: sample
-        valueFrom: $(self.CN)
-
-    out: [output_sam]
+        valueFrom: $(inputs.sample.CN)
+    out: [output_sample]
 
   picard.AddOrReplaceReadGroups:
     run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
@@ -131,36 +107,32 @@ steps:
         valueFrom: $(inputs.run_tools.java_7)
       arrg:
         valueFrom: $(inputs.run_tools.arrg_path)
-      input_bam: bwa_mem/output_sam
+
+      sample: bwa_mem/output_sample
       ID:
-        source: sample
-        valueFrom: $(self.ID)
+        valueFrom: $(inputs.sample.ID)
       LB:
-        source: sample
-        valueFrom: $(self.LB)
+        valueFrom: $(inputs.sample.LB)
       SM:
-        source: sample
-        valueFrom: $(self.SM)
+        valueFrom: $(inputs.sample.SM)
       PL:
-        source: sample
-        valueFrom: $(self.PL)
+        valueFrom: $(inputs.sample.PL)
       PU:
-        source: sample
-        valueFrom: $(self.PU)
+        valueFrom: $(inputs.sample.PU)
       CN:
-        source: sample
-        valueFrom: $(self.CN)
+        valueFrom: $(inputs.sample.CN)
+
       # Todo: Move to inputs.yaml
       sort_order:
-        default: 'coordinate'
+        default: coordinate
       validation_stringency:
-        default: 'LENIENT'
+        default: LENIENT
       compression_level:
         default: 0
       create_index:
         default: true
       tmp_dir: tmp_dir
-    out: [bam, bai]
+    out: [output_sample]
 
   picard.MarkDuplicates:
     run: ../cwl_tools/picard/MarkDuplicates.cwl
@@ -170,19 +142,15 @@ steps:
         valueFrom: $(inputs.run_tools.java_8)
       picard:
         valueFrom: $(inputs.run_tools.picard_path)
-      input_bam: picard.AddOrReplaceReadGroups/bam
+
+      sample: picard.AddOrReplaceReadGroups/output_sample
+      input_bam:
+        valueFrom: $(inputs.sample.rg_bam)
+
       tmp_dir: tmp_dir
       assume_sorted: md__assume_sorted
       compression_level: md__compression_level
       create_index: md__create_index
       validation_stringency: md__validation_stringency
       duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [bam, bai, mdmetrics]
-
-  collect_output:
-    run: ../cwl_tools/expression_tools/collect_bam_output.cwl
-    in:
-      bam: picard.MarkDuplicates/bam
-      sample: sample
-    out:
-      [bam_out]
+    out: [output_sample]

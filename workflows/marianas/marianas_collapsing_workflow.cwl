@@ -8,6 +8,9 @@ class: Workflow
 requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
 
@@ -29,16 +32,11 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  samples:
-    type:
-      type: array
-      items:
-        type: 'fastq_pair.yml#FastqPair'
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
-  input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
-  pileup: File
+
   mismatches: int
   wobble: int
   min_mapping_quality: int
@@ -63,9 +61,9 @@ inputs:
 
 outputs:
 
-  collapsed_bams:
-    type: File
-    outputSource: post_collapsing_realignment/bam
+  output_samples:
+    type: ../../resources/schema_defs/Sample.cwl#Sample
+    outputSource: post_collapsing_realignment/output_sample
 
 steps:
 
@@ -77,8 +75,13 @@ steps:
         valueFrom: ${ return inputs.run_tools.java_8 }
       marianas_path:
         valueFrom: ${ return inputs.run_tools.marianas_path }
-      input_bam: input_bam
-      pileup: pileup
+
+      sample: sample
+      input_bam:
+        valueFrom: $(inputs.sample.standard_bam)
+      pileup:
+        valueFrom: $(inputs.sample.normal_pileup)
+
       wobble: wobble
       mismatches: mismatches
       min_mapping_quality: min_mapping_quality
@@ -106,9 +109,15 @@ steps:
         valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
-      input_bam: input_bam
-      pileup: pileup
+
+      sample: sample
+      input_bam:
+        valueFrom: $(inputs.sample.standard_bam)
+      pileup:
+        valueFrom: $(inputs.sample.normal_pileup)
+
       first_pass_file: sort_by_mate_position/output_file
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       wobble: wobble
@@ -138,8 +147,7 @@ steps:
     in:
       input_file: gzip_fastq_1/output
       new_name:
-        source: input_bam
-        valueFrom: $(self.basename.replace('.bam', '_R1_.fastq.gz'))
+        valueFrom: $(inputs.sample.standard_bam.basename.replace('.bam', '_R1_.fastq.gz'))
     out:
       [renamed_file]
 
@@ -148,8 +156,7 @@ steps:
     in:
       input_file: gzip_fastq_2/output
       new_name:
-        source: input_bam
-        valueFrom: $(self.basename.replace('.bam', '_R2_.fastq.gz'))
+        valueFrom: $(inputs.sample.standard_bam.basename.replace('.bam', '_R2_.fastq.gz'))
     out:
       [renamed_file]
 
@@ -158,10 +165,13 @@ steps:
     in:
       run_tools: run_tools
       tmp_dir: tmp_dir
+
+      sample: sample
       fastq1: rename_fastq_1/renamed_file
       fastq2: rename_fastq_2/renamed_file
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       output_suffix:
         valueFrom: ${return '_MC_'}
-    out: [bam, bai]
+    out: [output_sample]

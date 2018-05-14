@@ -23,6 +23,8 @@ inputs:
   java_8: string
   marianas_path: string
 
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
+
   collapsed_bam:
     type: File
     inputBinding:
@@ -31,14 +33,21 @@ inputs:
 
 outputs:
 
-  simplex_duplex_bam:
-    type: File
-    secondaryFiles: [^.bai]
+  output_samples:
+    name: output_samples
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex-duplex.bam'))
+      glob: '*.bam'
+      # Todo: confirm that simp/dup bams are matched correctly
+      outputEval: |
+        ${
+          var output_sample = inputs.samples;
 
-  duplex_bam:
-    type: File
-    secondaryFiles: [^.bai]
-    outputBinding:
-      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-duplex.bam'))
+          var simplex_duplex_bam = self.filter(function(x){return x.indexOf('simplex-duplex' > -1)}[0]);
+          var duplex_bam = self.filter(function(x){return x.indexOf('BR-duplex' > -1)}[0]);
+
+          output_sample.simplex_duplex_bam = simplex_duplex_bam;
+          output_sample.duplex_bam = duplex_bam;
+
+          return {'output_sample': output_sample}
+        }

@@ -15,13 +15,14 @@ requirements:
   ResourceRequirement:
     ramMin: 16000
     coresMin: 2
-
-doc: |
-  None
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
   java: string
   arrg: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   input_bam:
     type: File?
@@ -106,13 +107,22 @@ inputs:
 
 outputs:
 
-  bam:
-    type: File
-    secondaryFiles: [^.bai]
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace(".sam", "_srt.bam"))
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
 
-  bai:
-    type: File
-    outputBinding:
-      glob: ${return '*.bai'}
+          output_sample.rg_bam = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace(".sam", "_srt.bam")
+          })[0];
+
+          output_sample.rg_bai = self.filter(function(x) {
+            return x.basename === inputs.input_bam.basename.replace(".sam", "_srt.bai")
+          })[0];
+
+          return {'output_sample': output_sample}
+        }

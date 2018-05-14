@@ -10,6 +10,9 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/schema_defs/Sample.cwl
 
 inputs:
 
@@ -34,11 +37,7 @@ inputs:
         cutadapt_path: string?
         waltz_path: string
 
-  samples:
-    type:
-      type: array
-      items:
-        type: 'fastq_pair.yml#FastqPair'
+  samples: ../resources/schema_defs/Sample.cwl#Sample[]
 
   title_file: File
 
@@ -98,34 +97,14 @@ inputs:
 
 outputs:
 
-  standard_bams:
+  output_samples:
     type:
       type: array
-      items: File
-    outputSource: standard_bam_generation/standard_bams
-
-  unfiltered_bams:
-    type:
-      type: array
-      items: File
-    outputSource: flatten_array_bams/output_bams
-
-  simplex_duplex_bams:
-    type:
-      type: array
-      items: File
-    outputSource: separate_bams/simplex_duplex_bam
-
-  duplex_bams:
-    type:
-      type: array
-      items: File
-    outputSource: separate_bams/duplex_bam
+      items: ../resources/schema_defs/Sample.cwl#Sample
+    outputSource: separate_bams/output_samples
 
   qc_pdf:
-    type:
-      type: array
-      items: File
+    type: File[]
     outputSource: qc_workflow/qc_pdf
 
 steps:
@@ -135,6 +114,7 @@ steps:
     in:
       run_tools: run_tools
       samples: samples
+
       # Process Loop Umi Fastq
       umi_length: umi_length
       output_project_folder: output_project_folder
@@ -167,13 +147,17 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-    out: [standard_bams]
+    out: [output_samples]
 
   waltz_standard:
     run: ./waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: standard_bam_generation/standard_bams
+
+      input_bam:
+        source: standard_bam_generation/output_samples
+        valueFrom: $(self.bamfile)
+
       bed_file: bed_file
       gene_list: gene_list
       coverage_threshold: coverage_threshold
@@ -189,24 +173,18 @@ steps:
   # each Tumor and Normal bam  #
   ##############################
 
-  group_pileups:
-    run: ../cwl_tools/expression_tools/group_pileups.cwl
+  match_normal_pileups:
+    run: ../cwl_tools/expression_tools/match_normal_pileups.cwl
     in:
-      bams: standard_bam_generation/standard_bams
-      pileups: waltz_standard/pileup
-      # Todo: rename add_rg_ID to "sample_ids"
-      sample_ids: add_rg_ID
-      # Todo: rename patient_id to "patient_ids"
-      patient_ids: patient_id
-      sample_classes: class_list
-    out: [matched_pileups]
+      samples: standard_bam_generation/output_samples
+    out: [samples_with_matched_normal_pileups]
 
   umi_collapsing:
     run: ./marianas/marianas_collapsing_workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: standard_bam_generation/standard_bams
-      pileup: group_pileups/matched_pileups
+      sample: match_normal_pileups/samples_with_matched_normal_pileups
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       mismatches: marianas__mismatches
@@ -230,15 +208,8 @@ steps:
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
 
-    out: [collapsed_bams]
-    scatter: [
-      input_bam,
-      pileup,
-      add_rg_LB,
-      add_rg_ID,
-      add_rg_PU,
-      add_rg_SM,
-    ]
+    out: [output_samples]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   ############################
@@ -246,13 +217,12 @@ steps:
   # and run Abra a 2nd time  #
   ############################
 
-  group_bams_by_patient:
-    run: ../cwl_tools/expression_tools/group_bams.cwl
+  group_samples_by_patient:
+    run: ../cwl_tools/expression_tools/group_samples_by_patient.cwl
     in:
-      bams: umi_collapsing/collapsed_bams
-      patient_ids: patient_id
+      samples: umi_collapsing/output_samples
     out:
-      [grouped_bams, grouped_patient_ids]
+      [grouped_samples]
 
   abra_workflow:
     run: ABRA/abra_workflow.cwl
@@ -260,7 +230,9 @@ steps:
       run_tools: run_tools
       reference_fasta: reference_fasta
       tmp_dir: tmp_dir
-      bams: group_bams_by_patient/grouped_bams
+
+      samples: group_samples_by_patient/grouped_samples
+
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__rf: fci__rf
@@ -274,19 +246,19 @@ steps:
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
       fix_mate_information__compression_level: fix_mate_information__compression_level
       fix_mate_information__create_index: fix_mate_information__create_index
-    out: [ir_bams]
-    scatter: [bams, patient_id]
+    out: [output_samples]
+    scatter: [samples]
     scatterMethod: dotproduct
 
   ################################
   # Return to flat array of bams #
   ################################
 
-  flatten_array_bams:
-    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
+  flatten_samples_array:
+    run: ../cwl_tools/expression_tools/flatten_samples_array.cwl
     in:
-      bams: abra_workflow/ir_bams
-    out: [output_bams]
+      samples: abra_workflow/output_samples
+    out: [output_samples]
 
   ################
   # SeparateBams #
@@ -300,9 +272,11 @@ steps:
         valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
-      collapsed_bam: flatten_array_bams/output_bams
-    out: [simplex_duplex_bam, duplex_bam]
-    scatter: [collapsed_bam]
+      sample: flatten_samples_array/output_samples
+      collapsed_bam:
+        valueFrom: $(inputs.sample.unfiltered_bam)
+    out: [output_samples]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   ######
@@ -320,9 +294,15 @@ steps:
       waltz__min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      standard_bams: standard_bam_generation/standard_bams
-      marianas_unfiltered_bams: umi_collapsing/collapsed_bams
-      marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
-      marianas_duplex_bams: separate_bams/duplex_bam
+
+      samples: separate_bams/output_samples
+      standard_bams:
+        valueFrom: $( inputs.samples.map(function(x){return x.standard_bam)} )
+      marianas_unfiltered_bams:
+        valueFrom: $( inputs.samples.map(function(x){return x.unfiltered_bam)} )
+      marianas_simplex_duplex_bams:
+        valueFrom: $( inputs.samples.map(function(x){return x.simplex_duplex_bam)} )
+      marianas_duplex_bams:
+        valueFrom: $( inputs.samples.map(function(x){return x.duplex_bam)} )
     out:
       [qc_pdf]

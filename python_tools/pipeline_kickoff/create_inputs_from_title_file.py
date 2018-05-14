@@ -246,7 +246,7 @@ def perform_patient_id_checks(fastq1, fastq2, title_file):
         assert any([patient_id in f['path'] for f in fastq2])
 
 
-def include_fastqs_params(fh, data_dir, title_file, title_file_path):
+def include_samples(fh, data_dir, title_file, title_file_path):
     """
     Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
     """
@@ -269,27 +269,33 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
 
-    out_dict = {
-        'fastq1': fastq1,
-        'fastq2': fastq2,
-        'sample_sheet': sample_sheet,
-        'adapter': adapter.tolist(),
-        'adapter2': adapter2.tolist(),
+    # Todo: what's the difference between ID & SM?
+    # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
+    # or abbreviate it (might be the way they do it in Roslin)
+    # Todo: should we use one or two barcodes in the PU field if they are different?
 
-        # Todo: what's the difference between ID & SM?
-        # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
-        # or abbreviate it (might be the way they do it in Roslin)
-        'add_rg_ID': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_SM': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_LB': title_file[TITLE_FILE__LANE_COLUMN].tolist(),
+    fastq1 = [('fastq1', f) for f in fastq1]
+    fastq2 = [('fastq2', f) for f in fastq2]
+    sample_sheet = [('sample_sheet', s) for s in sample_sheet]
 
-        # Todo: should we use one or two barcodes in the PU field if they are different?
-        'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
-        'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist(),
-        'class_list': title_file[TITLE_FILE__CLASS_COLUMN].tolist(),
+    adapter = [('adapter', a) for a in adapter.tolist()]
+    adapter2 = [('adapter2', a) for a in adapter2.tolist()]
+
+    add_rg_ID = [('add_rg_ID', a) for a in title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()]
+    add_rg_SM = [('add_rg_SM', a) for a in title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()]
+    add_rg_LB = [('add_rg_LB', a) for a in title_file[TITLE_FILE__LANE_COLUMN].tolist()]
+    add_rg_PU = [('add_rg_PU', a) for a in title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist()]
+
+    patient_id = [('patient_id', a) for a in title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()]
+    sample_class = [('sample_class', c) for c in title_file[TITLE_FILE__CLASS_COLUMN].tolist()]
+
+    the_list = [fastq1, fastq2, sample_sheet, adapter, adapter2, add_rg_ID, add_rg_SM, add_rg_LB, add_rg_PU, patient_id, sample_class]
+
+    samples = {
+        'samples': [{k: v for k, v in x} for x in zip(*the_list)]
     }
 
-    fh.write(ruamel.yaml.dump(out_dict))
+    fh.write(ruamel.yaml.dump(samples))
 
 
 def substitute_project_root(yaml_file):
@@ -437,7 +443,7 @@ def write_inputs_file(args, title_file):
     # Actually start writing the inputs file
     fh = open(FINAL_FILE_NAME, 'wb')
 
-    include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
+    include_samples(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, run_files_path)
     include_tool_resources(fh, tool_resources_file_path)
@@ -459,36 +465,6 @@ def write_inputs_file(args, title_file):
 def include_version_info(fh):
     label = subprocess.check_output(["git", "describe"]).strip()
     fh.write(INPUTS_FILE_DELIMITER + label)
-
-
-def check_final_file():
-    """
-    Check that lengths of these fields in the final file are equal:
-    """
-    with open(FINAL_FILE_NAME, 'r') as stream:
-        final_file = ruamel.yaml.round_trip_load(stream)
-
-    # Todo: Use CONSTANTS
-    fields_per_sample = [
-        'adapter',
-        'adapter2',
-        'add_rg_ID',
-        'add_rg_LB',
-        'add_rg_PU',
-        'add_rg_SM',
-        'class_list',
-        'patient_id',
-        'fastq1',
-        'fastq2',
-        'sample_sheet',
-    ]
-
-    try:
-        for field in fields_per_sample:
-            assert len(final_file[field]) == len(final_file['fastq1'])
-    except AssertionError:
-        print DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample)
-        print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
 
 
 def parse_arguments():
@@ -569,8 +545,6 @@ def main():
     sanity_check(title_file)
     # Create the inputs file for the run
     write_inputs_file(args, title_file)
-    # Perform some checks on the final yaml file that will be supplied to the pipeline
-    check_final_file()
 
 
 if __name__ == '__main__':

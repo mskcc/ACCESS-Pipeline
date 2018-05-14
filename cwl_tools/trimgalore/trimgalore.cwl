@@ -9,10 +9,13 @@ arguments:
 - $(inputs.trimgalore)
 
 requirements:
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  ramMin: 16000
-  coresMin: 2
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 16000
+    coresMin: 2
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 doc: |
   None
@@ -20,6 +23,7 @@ doc: |
 inputs:
   perl: string
   trimgalore: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   fastqc_path:
     type: ['null', string]
@@ -34,11 +38,13 @@ inputs:
   fastq1:
     type: File
     inputBinding:
+      # Todo: not ok
       position: 999
 
   fastq2:
     type: File
     inputBinding:
+      # Todo: not ok
       position: 1000
 
   adapter:
@@ -90,22 +96,30 @@ inputs:
 
 outputs:
 
-  clfastq1:
-    type: File
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
-      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.fastq.gz')}
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
 
-  clfastq2:
-    type: File
-    outputBinding:
-      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.fastq.gz')}
+          output_sample.clfastq1 = self.filter(function(x) {
+            return x.basename === inputs.fastq1.basename.replace('.fastq.gz', '_cl.fastq.gz')
+          })[0];
 
-  clstats1:
-    type: File
-    outputBinding:
-      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.stats')}
+          output_sample.clfastq2 = self.filter(function(x){
+            return x.basename === inputs.fastq2.basename.replace('.fastq.gz', '_cl.fastq.gz')
+          })[0];
 
-  clstats2:
-    type: File
-    outputBinding:
-      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.stats')}
+          output_sample.clstats1 = self.filter(function(x) {
+            return x.basename === inputs.fastq1.basename.replace('.fastq.gz', '_cl.stats')
+          })[0];
+
+          output_sample.clstats2 = self.filter(function(x){
+            return x.basename === inputs.fastq2.basename.replace('.fastq.gz', '_cl.stats')
+          })[0];
+
+          return output_sample
+        }

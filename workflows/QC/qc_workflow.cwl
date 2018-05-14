@@ -37,22 +37,15 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
-  standard_bams:
+  samples:
     type:
       type: array
-      items: File
-  marianas_unfiltered_bams:
-    type:
-      type: array
-      items: File
-  marianas_simplex_duplex_bams:
-    type:
-      type: array
-      items: File
-  marianas_duplex_bams:
-    type:
-      type: array
-      items: File
+      items: ../../resources/schema_defs/Sample.cwl#Sample
+
+  standard_bams: File[]
+  marianas_unfiltered_bams: File[]
+  marianas_simplex_duplex_bams: File[]
+  marianas_duplex_bams: File[]
 
 outputs:
 
