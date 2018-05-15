@@ -9,12 +9,6 @@ tmp_dir: /tmp
 umi_length: 3
 output_project_folder: .
 
-##########################
-# AddOrReplaceReadGroups #
-##########################
-add_rg_PL: Illumina
-add_rg_CN: BergerLab_MSKCC
-
 ##################
 # MarkDuplicates #
 ##################

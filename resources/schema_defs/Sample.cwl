@@ -15,6 +15,8 @@ fields:
     type: string
   - name: sample_class
     type: string
+#    symbols: [Tumor, Normal]
+
   - name: adapter
     type: string
   - name: adapter2
@@ -31,7 +33,7 @@ fields:
   - name: add_rg_CN
     type: string
   - name: add_rg_LB
-    type: string
+    type: int
 
   # UMI Clipping
   - name: clipped_fastq_1

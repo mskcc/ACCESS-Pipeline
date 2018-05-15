@@ -50,6 +50,10 @@ ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
 ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
 ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
 
+# Todo: PL & CN should come from Manifest
+ADD_RG_PL = 'Illumina'
+ADD_RG_CN = 'BergerLab_MSKCC'
+
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
@@ -249,6 +253,11 @@ def perform_patient_id_checks(fastq1, fastq2, title_file):
 def include_samples(fh, data_dir, title_file, title_file_path):
     """
     Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
+
+    # Todo: what's the difference between ID & SM?
+    # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
+    # or abbreviate it (might be the way they do it in Roslin)
+    # Todo: should we use one or two barcodes in the PU field if they are different?
     """
     # Load and sort our data files
     fastq1, fastq2, sample_sheet = load_fastqs(data_dir)
@@ -261,39 +270,42 @@ def include_samples(fh, data_dir, title_file, title_file_path):
 
     # Check that we have the same number of everything
     perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
-
     # Check that patient ids are found in fastq filenames
     # That is how we pair Tumors and Normals
     perform_patient_id_checks(fastq1, fastq2, title_file)
-
     # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
-
-    # Todo: what's the difference between ID & SM?
-    # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
-    # or abbreviate it (might be the way they do it in Roslin)
-    # Todo: should we use one or two barcodes in the PU field if they are different?
 
     fastq1 = [('fastq1', f) for f in fastq1]
     fastq2 = [('fastq2', f) for f in fastq2]
     sample_sheet = [('sample_sheet', s) for s in sample_sheet]
-
     adapter = [('adapter', a) for a in adapter.tolist()]
     adapter2 = [('adapter2', a) for a in adapter2.tolist()]
-
     add_rg_ID = [('add_rg_ID', a) for a in title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()]
     add_rg_SM = [('add_rg_SM', a) for a in title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()]
     add_rg_LB = [('add_rg_LB', a) for a in title_file[TITLE_FILE__LANE_COLUMN].tolist()]
     add_rg_PU = [('add_rg_PU', a) for a in title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist()]
-
+    add_rg_PL = [('add_rg_PL', ADD_RG_PL)] * len(fastq1)
+    add_rg_CN = [('add_rg_CN', ADD_RG_CN)] * len(fastq1)
     patient_id = [('patient_id', a) for a in title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()]
     sample_class = [('sample_class', c) for c in title_file[TITLE_FILE__CLASS_COLUMN].tolist()]
 
-    the_list = [fastq1, fastq2, sample_sheet, adapter, adapter2, add_rg_ID, add_rg_SM, add_rg_LB, add_rg_PU, patient_id, sample_class]
-
-    samples = {
-        'samples': [{k: v for k, v in x} for x in zip(*the_list)]
-    }
+    the_list = [
+        fastq1,
+        fastq2,
+        sample_sheet,
+        adapter,
+        adapter2,
+        add_rg_ID,
+        add_rg_SM,
+        add_rg_LB,
+        add_rg_PU,
+        add_rg_PL,
+        add_rg_CN,
+        patient_id,
+        sample_class
+    ]
+    samples = {'samples': [{k: v for k, v in x} for x in zip(*the_list)]}
 
     fh.write(ruamel.yaml.dump(samples))
 
