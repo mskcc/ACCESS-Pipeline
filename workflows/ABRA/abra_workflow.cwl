@@ -8,6 +8,9 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
   run_tools:
@@ -69,9 +72,9 @@ steps:
 
       samples: samples
       bams:
-        valueFrom: $(inputs.samples.map(function(x){ return x.bam }))
-      patient_id:
-        valueFrom: $(inputs.samples[0].patient_id)
+        valueFrom: $(inputs.samples.map(function(x){ return x.md_bam }))
+      bais:
+        valueFrom: $(inputs.samples.map(function(x){ return x.md_bai }))
 
       tmp_dir: tmp_dir
       reference_sequence: reference_fasta
@@ -82,7 +85,7 @@ steps:
       intervals: fci__intervals
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
-        valueFrom: ${return inputs.patient_id + '.fci.list'}
+        valueFrom: ${return inputs.samples[0].patient_id + '.fci.list'}
     out: [fci_list]
 
   list2bed:
@@ -103,9 +106,11 @@ steps:
         valueFrom: ${return inputs.run_tools.abra_path}
       samples: samples
       input_bams:
-        valueFrom: $( inputs.samples.map(function(x){ return x.bam }) )
-      patient_id:
-        valueFrom: $( inputs.samples[0].patient_id )
+        valueFrom: $( inputs.samples.map(function(x){ return x.md_bam }) )
+      input_bais:
+        valueFrom: $(inputs.samples.map(function(x){ return x.md_bai }))
+#      patient_id:
+#        valueFrom: $( inputs.samples[0].patient_id )
 
       targets: list2bed/output_file
       scratch_dir: abra__scratch
@@ -116,7 +121,11 @@ steps:
         valueFrom: ${return 12}
       # Todo: Find a cleaner way
       working_directory:
-        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
+        valueFrom: ${return inputs.scratch_dir + '__' + inputs.samples[0].patient_id + '_' + Math.floor(Math.random() * 99999999);}
+
+      out:
+        valueFrom: |
+          ${return inputs.samples.map(function(s){return s.md_bam.basename.replace(".bam", "_IR.bam")})}
     out:
       [output_samples]
 
@@ -130,7 +139,8 @@ steps:
 
       sample: abra/output_samples
       bam:
-        valueFrom: $(inputs.samples.map(function(x){ return x.ir_bam }))
+        valueFrom: |
+          ${return inputs.sample.ir_bam_1}
 
       tmp_dir: tmp_dir
       sort_order: fix_mate_information__sort_order
@@ -138,7 +148,7 @@ steps:
       compression_level: fix_mate_information__compression_level
       validation_stringency: fix_mate_information__validation_stringency
     out: [output_samples]
-    scatter: [sample, bam]
+    scatter: [sample]
     scatterMethod: dotproduct
 
     run:

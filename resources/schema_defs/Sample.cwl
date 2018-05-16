@@ -1,3 +1,10 @@
+# Sample Schema
+#
+# This data structure holds all relevant info for a Sample
+# Any bams, fastqs, sample sheets, stats files, metadata, or
+# other sample-related information is stored here, and accessed by
+# the tools by referencing the relevant fields from this struct.
+
 name: Sample
 type: record
 fields:
@@ -8,7 +15,7 @@ fields:
   - name: fastq2
     type: File
   - name: sample_sheet
-    type: File
+    type: File?
 
   # Sample Metadata
   - name: patient_id
@@ -57,28 +64,41 @@ fields:
   - name: clstats2
     type: File?
 
-  # Mapping
-  - name: sam_file
+  # BWA mem 1
+  - name: sam_1
     type: File?
-  # ARRG
-  - name: bam_file
+  # ARRG 1
+  - name: rg_bam_1
+    type: File?
+  - name: rg_bai_1
     type: File?
   # MD
-  - name: md_bamfile
+  - name: md_bam
+    type: File?
+  - name: md_bai
     type: File?
   - name: md_metrics
     type: File?
-  # FCI
-  - name: covered_intervals_file
+  # FCI 1
+  - name: covered_intervals_file_1
     type: File?
-  # Abra
-  - name: ir_bam
+  # Abra 1
+  - name: ir_bam_1
+    type: File?
+  # FX 1
+  - name: fx_bam_1
+    type: File?
+  - name: fx_bai_1
     type: File?
   # BQSR
   - name: bqsr_matrix
     type: File?
-  - name: standard_bam_file
+  - name: standard_bam
     type: File?
+
+  # Standard Waltz Metrics (needed for normal_pileup)
+#  - name: standard_waltz_metrics
+#    type: Directory
 
   # Collapsed Bams
   - name: unfiltered_bam_file
@@ -86,6 +106,26 @@ fields:
   - name: simplex_duplex_bam_file
     type: File?
   - name: duplex_bam_file
+    type: File?
+
+  # BWA mem 2
+  - name: sam_2
+    type: File?
+  # ARRG 2
+  - name: rg_bam_2
+    type: File?
+  - name: rg_bai_2
+    type: File?
+  # FCI 2
+  - name: covered_intervals_file_2
+    type: File?
+  # Abra 2
+  - name: ir_bam_2
+    type: File?
+  # FX 2
+  - name: fx_bam_2
+    type: File?
+  - name: fx_bai_2
     type: File?
 
 # Todo: add all manifest information to this struct

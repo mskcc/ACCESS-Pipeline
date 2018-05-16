@@ -84,11 +84,11 @@ outputs:
         ${
           var output_sample = inputs.sample;
 
-          output_sample.fx_bam = self.filter(function(x) {
+          output_sample.fx_bam_1 = self.filter(function(x) {
             return x.basename === inputs.input_bam.basename.replace('.bam', '_FX.bam')
           })[0];
 
-          output_sample.fx_bai = self.filter(function(x) {
+          output_sample.fx_bai_1 = self.filter(function(x) {
             return x.basename === inputs.input_bam.basename.replace('.bam', '_FX.bai')
           })[0];
 

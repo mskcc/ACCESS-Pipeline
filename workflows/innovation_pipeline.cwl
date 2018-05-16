@@ -154,9 +154,7 @@ steps:
     in:
       run_tools: run_tools
 
-      input_bam:
-        source: standard_bam_generation/output_samples
-        valueFrom: $(self.bamfile)
+      sample: standard_bam_generation/output_samples
 
       bed_file: bed_file
       gene_list: gene_list
@@ -164,8 +162,8 @@ steps:
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: [input_bam]
+    out: [output_sample, waltz_output_files]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   ##############################

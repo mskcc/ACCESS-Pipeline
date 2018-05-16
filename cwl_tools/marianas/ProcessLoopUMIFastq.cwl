@@ -84,7 +84,7 @@ outputs:
             return x.basename === 'info.txt'
           })[0];
 
-          output_sample.output_sample_sheet = self.filter(function(x){
+          output_sample.sample_sheet = self.filter(function(x){
             return x.basename === 'SampleSheet.csv'
           })[0];
 

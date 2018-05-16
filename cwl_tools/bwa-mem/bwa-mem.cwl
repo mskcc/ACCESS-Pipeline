@@ -38,10 +38,6 @@ arguments:
 - $(inputs.fastq1.path)
 - $(inputs.fastq2.path)
 
-# Example -R usage from Impact Pipeline:
-#-R '@RG     ID:MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000     LB:0    SM:MSK-L-009-bc-IGO-05500-DY-6  PL:Illumina     PU:bc209        CN:BergerLab_MSKCC'
-# Todo: LB == lane number?
-
 requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
@@ -53,8 +49,7 @@ requirements:
 
 inputs:
   bwa: string
-
-
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   fastq1: File
   fastq2: File

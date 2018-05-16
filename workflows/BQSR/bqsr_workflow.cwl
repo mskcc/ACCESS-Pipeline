@@ -1,5 +1,9 @@
 #!/usr/bin/env cwl-runner
 
+# Todo: This workflow need not have scatters within,
+# it should instead be scattered over completely.
+# Unless we plan to have BQSR done on groups of bams.
+
 cwlVersion: v1.0
 
 class: Workflow
@@ -69,9 +73,14 @@ steps:
         valueFrom: ${return inputs.run_tools.gatk_path}
       tmp_dir: tmp_dir
 
-      samples: samples
+#      samples: samples
+#      bam:
+#        valueFrom: ${return inputs.samples.bam}
+#
+      sample: samples
       bam:
-        valueFrom: $(inputs.samples.bam)
+        valueFrom: |
+          ${return inputs.sample.fx_bam_1}
 
       reference_fasta: reference_fasta
       rf: bqsr__rf
@@ -79,7 +88,7 @@ steps:
       known_sites_1: bqsr__knownSites_dbSNP
       known_sites_2: bqsr__knownSites_millis
     out: [recal_matrix]
-    scatter: bam
+    scatter: sample
     scatterMethod: dotproduct
 
     run:
@@ -168,7 +177,9 @@ steps:
 
             sample: sample
             input_file:
-              valueFrom: $(inputs.sample.ir_bam)
+              valueFrom: ${ return inputs.sample.fx_bam_1 }
+            input_bai:
+              valueFrom: ${ return inputs.sample.fx_bai_1 }
 
             BQSR: BQSR
             nct: nct
@@ -176,5 +187,5 @@ steps:
             baq: baq
             reference_sequence: reference_sequence
             out:
-              valueFrom: ${return inputs.input_file.basename.replace('.bam', '_BR.bam')}
+              valueFrom: ${return inputs.sample.fx_bam_1.basename.replace('.bam', '_BR.bam')}
           out: [output_sample]

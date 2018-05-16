@@ -105,8 +105,8 @@ steps:
       run_tools: run_tools
       samples: ABRA_workflow/output_samples
 
-      bams:
-        valueFrom: $(inputs.samples.map(function(x){ return x.ir_bam }))
+#      bams:
+#        valueFrom: $(inputs.samples.map(function(x){ return x.ir_bam }))
 
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta

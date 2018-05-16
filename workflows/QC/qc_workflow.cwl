@@ -64,29 +64,33 @@ steps:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: standard_bams
-      coverage_threshold: coverage_threshold
-      gene_list: gene_list
+
+      sample: samples
+
       bed_file: bed_file
+      gene_list: gene_list
+      coverage_threshold: coverage_threshold
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: [input_bam]
+    out: [output_sample, waltz_output_files]
+    scatter: [sample]
     scatterMethod: dotproduct
 
   waltz_marianas_unfiltered:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: marianas_unfiltered_bams
+
+      sample: samples
+
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
+    out: [output_sample, waltz_output_files]
     scatter: input_bam
     scatterMethod: dotproduct
 
@@ -94,14 +98,16 @@ steps:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: marianas_simplex_duplex_bams
+
+      sample: samples
+
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
+    out: [output_sample, waltz_output_files]
     scatter: input_bam
     scatterMethod: dotproduct
 
@@ -109,14 +115,16 @@ steps:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: marianas_duplex_bams
+
+      sample: samples
+
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
+    out: [output_sample, waltz_output_files]
     scatter: input_bam
     scatterMethod: dotproduct
 

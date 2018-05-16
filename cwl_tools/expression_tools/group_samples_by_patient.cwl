@@ -34,7 +34,7 @@ expression: |
 
     // For each Sample in our input Bams
     for (var i = 0; i < inputs.samples.length; i++) {
-      found = false;
+      var found = false;
       var current_patient_id = inputs.samples[i].patient_id;
 
       // Check the patient IDs for the Bam groups we've created

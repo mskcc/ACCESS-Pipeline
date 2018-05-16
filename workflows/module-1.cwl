@@ -86,17 +86,17 @@ steps:
       fastq2:
         valueFrom: $(inputs.sample.clfastq2)
       ID:
-        valueFrom: $(inputs.sample.ID)
+        valueFrom: $(inputs.sample.add_rg_ID)
       LB:
-        valueFrom: $(inputs.sample.LB)
+        valueFrom: $(inputs.sample.add_rg_LB)
       SM:
-        valueFrom: $(inputs.sample.SM)
+        valueFrom: $(inputs.sample.add_rg_SM)
       PL:
-        valueFrom: $(inputs.sample.PL)
+        valueFrom: $(inputs.sample.add_rg_PL)
       PU:
-        valueFrom: $(inputs.sample.PU)
+        valueFrom: $(inputs.sample.add_rg_PU)
       CN:
-        valueFrom: $(inputs.sample.CN)
+        valueFrom: $(inputs.sample.add_rg_CN)
     out: [output_sample]
 
   picard.AddOrReplaceReadGroups:
@@ -109,18 +109,20 @@ steps:
         valueFrom: $(inputs.run_tools.arrg_path)
 
       sample: bwa_mem/output_sample
+      input_bam:
+        valueFrom: $(inputs.sample.sam_1)
       ID:
-        valueFrom: $(inputs.sample.ID)
+        valueFrom: $(inputs.sample.add_rg_ID)
       LB:
-        valueFrom: $(inputs.sample.LB)
+        valueFrom: $(inputs.sample.add_rg_LB)
       SM:
-        valueFrom: $(inputs.sample.SM)
+        valueFrom: $(inputs.sample.add_rg_SM)
       PL:
-        valueFrom: $(inputs.sample.PL)
+        valueFrom: $(inputs.sample.add_rg_PL)
       PU:
-        valueFrom: $(inputs.sample.PU)
+        valueFrom: $(inputs.sample.add_rg_PU)
       CN:
-        valueFrom: $(inputs.sample.CN)
+        valueFrom: $(inputs.sample.add_rg_CN)
 
       # Todo: Move to inputs.yaml
       sort_order:
@@ -145,7 +147,7 @@ steps:
 
       sample: picard.AddOrReplaceReadGroups/output_sample
       input_bam:
-        valueFrom: $(inputs.sample.rg_bam)
+        valueFrom: $(inputs.sample.rg_bam_1)
 
       tmp_dir: tmp_dir
       assume_sorted: md__assume_sorted

@@ -15,6 +15,12 @@ arguments:
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
+  InitialWorkDirRequirement:
+    listing: |
+      $(inputs.bais.concat(inputs.bams))
   ResourceRequirement:
     ramMin: 22000
     coresMin: 1
@@ -26,8 +32,9 @@ inputs:
   tmp_dir: string
   java: string
   gatk: string
+  samples: ../../resources/schema_defs/Sample.cwl#Sample[]
 
-# todo: cleaner way to provide inputs after arguments
+# Todo: cleaner way to provide inputs after arguments
 # https://www.biostars.org/p/303637/
   bams:
     type:
@@ -37,12 +44,16 @@ inputs:
         prefix: --input_file
         position: 100
 
+  bais:
+    type:
+      type: array
+      items: File
+
   reference_sequence:
     type: string
     inputBinding:
       prefix: --reference_sequence
 
-# todo: How to programatically use "intervals" parameter only during testing?
   intervals:
     type:
     - 'null'
@@ -77,8 +88,6 @@ inputs:
       inputBinding:
         prefix: --read_filter
         position: 100
-        # todo: there should be a better way to specify multiple arguments with same prefix
-        # https://www.biostars.org/p/303633/
 
   ignore_misencoded_base_qualities:
     type: boolean?

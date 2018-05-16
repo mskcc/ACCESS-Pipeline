@@ -116,13 +116,13 @@ outputs:
         ${
           var output_sample = inputs.sample;
 
-          output_sample.rg_bam = self.filter(function(x) {
+          output_sample.rg_bam_1 = self.filter(function(x) {
             return x.basename === inputs.input_bam.basename.replace(".sam", "_srt.bam")
           })[0];
 
-          output_sample.rg_bai = self.filter(function(x) {
+          output_sample.rg_bai_1 = self.filter(function(x) {
             return x.basename === inputs.input_bam.basename.replace(".sam", "_srt.bai")
           })[0];
 
-          return {'output_sample': output_sample}
+          return output_sample
         }

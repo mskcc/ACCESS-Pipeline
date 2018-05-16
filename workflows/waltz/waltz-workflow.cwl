@@ -8,6 +8,9 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/schema_defs/Sample.cwl
 
 inputs:
 
@@ -30,9 +33,12 @@ inputs:
         cutadapt_path: string?
         waltz_path: string
 
-  input_bam:
-    type: File
-    secondaryFiles: [^.bai]
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
+
+#  input_bam:
+#    type: File
+#    secondaryFiles: [^.bai]
+
   coverage_threshold: int
   gene_list: File
   bed_file: File
@@ -41,9 +47,9 @@ inputs:
   reference_fasta_fai: string
 
 outputs:
-  pileup:
-    type: File
-    outputSource: pileup_metrics/pileup
+  output_sample:
+    type: ../../resources/schema_defs/Sample.cwl#Sample
+    outputSource: pileup_metrics/output_sample
 
   waltz_output_files:
     type:
@@ -62,7 +68,10 @@ steps:
       waltz_path:
         valueFrom: ${return inputs.run_tools.waltz_path}
 
-      input_bam: input_bam
+      input_bam:
+        source: sample
+        valueFrom: $(self.standard_bam)
+
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
@@ -81,7 +90,11 @@ steps:
       waltz_path:
         valueFrom: ${return inputs.run_tools.waltz_path}
 
-      input_bam: input_bam
+      sample: sample
+      input_bam:
+        source: sample
+        valueFrom: $(self.standard_bam)
+
       min_mapping_quality: min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -90,7 +103,8 @@ steps:
       pileup,
       pileup_without_duplicates,
       intervals,
-      intervals_without_duplicates
+      intervals_without_duplicates,
+      output_sample
     ]
 
   grouped_waltz_files:

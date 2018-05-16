@@ -52,6 +52,8 @@ inputs:
 
 outputs:
 
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
+
   pileup:
     type: File
     outputBinding:
@@ -71,3 +73,19 @@ outputs:
     type: File
     outputBinding:
       glob: '*-intervals-without-duplicates.txt'
+
+  output_sample:
+    name: output_sample
+    type: ../../resources/schema_defs/Sample.cwl#Sample
+    outputBinding:
+      glob: '*'
+      outputEval: |
+        ${
+          var output_sample = inputs.sample;
+
+          output_sample.pileup = self.filter(function(x) {
+            return x.basename.indexOf('-pileup.txt') > -1
+          })[0];
+
+          return output_sample
+        }

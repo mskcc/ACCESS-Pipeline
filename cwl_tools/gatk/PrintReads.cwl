@@ -19,6 +19,10 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/schema_defs/Sample.cwl
+  InitialWorkDirRequirement:
+    listing:
+    - $(inputs.input_file)
+    - $(inputs.input_bai)
   ResourceRequirement:
     ramMin: 10000
     coresMin: 8
@@ -30,6 +34,7 @@ inputs:
   tmp_dir: string
   java: string
   gatk: string
+  sample: ../../resources/schema_defs/Sample.cwl#Sample
 
   out:
     type:
@@ -44,6 +49,9 @@ inputs:
     doc: Input file containing sequence data (SAM or BAM)
     inputBinding:
       prefix: --input_file
+
+  input_bai:
+    type: File
 
   reference_sequence:
     type: string
@@ -83,7 +91,7 @@ inputs:
 outputs:
 
   output_sample:
-    name: output_samples
+    name: output_sample
     type: ../../resources/schema_defs/Sample.cwl#Sample
     outputBinding:
       glob: '*_BR.bam'
@@ -91,10 +99,8 @@ outputs:
       outputEval: |
         ${
           var output_sample = inputs.sample;
+          // Todo: better way to reference what should be the only found BR bam
+          output_sample.standard_bam = self[0];
 
-          for (var i = 0; i < output_samples.length; i++) {
-            output_samples.bams[i].br_bam = self[i];
-          }
-
-          return output_samples
+          return output_sample
         }

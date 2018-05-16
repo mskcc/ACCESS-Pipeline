@@ -16,6 +16,9 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/schema_defs/Sample.cwl
+  InitialWorkDirRequirement:
+    listing: |
+      $(inputs.input_bais.concat(inputs.input_bams))
   ResourceRequirement:
     ramMin: 62000
     coresMin: 8
@@ -42,13 +45,13 @@ inputs:
     inputBinding:
       prefix: --in
       itemSeparator: ','
-    secondaryFiles:
-    - ^.bai
 
-  scratch_dir:
-    type: string
-  patient_id:
-    type: string
+  input_bais:
+    type:
+      type: array
+      items: File
+
+  scratch_dir: string
 
   working_directory:
     type: string
@@ -81,12 +84,12 @@ inputs:
       prefix: --mad
 
   out:
-    type: string[]
-    default: $(inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")}))
+    type:
+      type: array
+      items: string
     inputBinding:
       itemSeparator: ','
       prefix: --out
-      valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")}))
 
 outputs:
 
@@ -101,7 +104,7 @@ outputs:
           var output_samples = inputs.samples;
 
           for (var i = 0; i < output_samples.length; i++) {
-            output_samples.bams[i].ir_bam = self[i];
+            output_samples[i].ir_bam_1 = self[i];
           }
 
           return output_samples
