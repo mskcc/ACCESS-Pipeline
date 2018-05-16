@@ -12,6 +12,7 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 | Python | 2.7.10 |
 | R | 3.4.2 |
 | Perl | 5.20.2 |
+| Node | v6.10.1 |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Marianas](https://github.com/juberpatel/Marianas) | 1.5 |
