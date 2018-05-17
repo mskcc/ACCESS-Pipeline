@@ -51,7 +51,7 @@ def get_gene_and_probe(interval):
 # Table creation methods #
 ##########################
 
-def get_read_counts_table(path):
+def get_read_counts_table(path, pool):
     """
     This method is only used to generate stats for un-collapsed bams
     """
@@ -62,6 +62,7 @@ def get_read_counts_table(path):
     # We only want the read counts-related row values
     read_counts = read_counts[~read_counts['Category'].isin(['bam', TOTAL_READS_COLUMN, UNMAPPED_READS_COLUMN, 'duplicate_fraction'])]
     read_counts['method'] = read_counts['Category'].apply(unique_or_tot)
+    read_counts['pool'] = pool
     # read_counts = read_counts.reset_index(drop=True)
 
     return read_counts
@@ -83,17 +84,18 @@ def get_read_counts_total_table(path):
     return read_counts_total
 
 
-def get_coverage_table(path):
+def get_coverage_table(path, pool):
     """
     Coverage table
     """
     full_path = os.path.join(path, AGBM_COVERAGE_FILENAME)
     coverage_table = pd.read_csv(full_path, sep='\t')
     coverage_table = pd.melt(coverage_table, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
+    coverage_table['pool'] = pool * len(coverage_table)
     return coverage_table
 
 
-def get_collapsed_waltz_tables(path, method):
+def get_collapsed_waltz_tables(path, method, pool):
     """
     Creates read_counts, coverage, and gc_bias tables for collapsed bam metrics.
     """
@@ -102,10 +104,15 @@ def get_collapsed_waltz_tables(path, method):
     read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
+    read_counts_table['pool'] = [pool] * len(read_counts_table)
 
     coverage_table_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
     coverage_table = pd.read_csv(coverage_table_path, sep='\t', usecols=[0, 1], names=[SAMPLE_ID_COLUMN, 'average_coverage'], header=0)
     coverage_table['method'] = [method] * len(coverage_table)
+    if POOL_A_LABEL in method:
+        coverage_table['pool'] = POOL_A_LABEL * len(coverage_table)
+    elif POOL_B_LABEL in method:
+        coverage_table['pool'] = POOL_B_LABEL * len(coverage_table)
 
     gc_bias_table = get_gc_table(method, WALTZ_INTERVALS_FILENAME_SUFFIX, path)
 
@@ -117,18 +124,23 @@ def get_table_duplication(read_counts_table):
     Creates duplication rate table
     """
     mapped_boolv = read_counts_table['Category'] == TOTAL_MAPPED_COLUMN
-    total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
-    rows_idx = mapped_boolv & total_method_boolv
-    mapped_reads = read_counts_table[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value']]
-    mapped_reads['value'] = mapped_reads['value'].astype(int)
-    mapped_reads_total = read_counts_table[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
-    mapped_reads_total['value'] = mapped_reads_total['value'].astype(int)
 
-    grouped = mapped_reads.groupby('method')
-    unique_rate = grouped['value'].transform(lambda x: x.div(mapped_reads_total['value'].values))
-    dup_rate_table = mapped_reads.copy()
-    dup_rate_table['unique_rate'] = unique_rate
-    dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
+    total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
+
+    for pool in ['pool_a', 'pool_b']:
+        pool_boolv = read_counts_table['pool'] == pool
+        rows_idx = mapped_boolv & total_method_boolv & pool_boolv
+        mapped_reads = read_counts_table[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value', 'pool']]
+        mapped_reads['value'] = mapped_reads['value'].astype(int)
+        mapped_reads_total = read_counts_table[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
+        mapped_reads_total['value'] = mapped_reads_total['value'].astype(int)
+
+        grouped = mapped_reads.groupby(['method', 'pool'])
+        unique_rate = grouped['value'].transform(lambda x: x.div(mapped_reads_total['value'].values))
+        dup_rate_table = mapped_reads.copy()
+        dup_rate_table['unique_rate'] = unique_rate
+        dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
+
     dup_rate_table = dup_rate_table[DUPLICATION_RATES_HEADER]
 
     return dup_rate_table
@@ -243,7 +255,6 @@ def get_insert_size_peaks_table(path):
 
 def main(args):
     output_dir = args.tables_output_dir
-    std_waltz_path = args.standard_waltz
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -259,35 +270,60 @@ def main(args):
     coverage_per_interval_filename = '/'.join([output_dir, 'coverage-per-interval.txt'])
     duplication_rates_filename = '/'.join([output_dir, 'duplication-rates.txt'])
 
-    # Get our 5 base tables
-    coverage_table = get_coverage_table(std_waltz_path)
-    gc_cov_int_table = get_gc_coverage_table(std_waltz_path)
-    read_counts_table = get_read_counts_table(std_waltz_path)
-    read_counts_total_table = get_read_counts_total_table(std_waltz_path)
-    insert_size_peaks_table = get_insert_size_peaks_table(std_waltz_path)
 
+    read_counts_total_table = get_read_counts_total_table(args.standard_waltz_pool_a)
+    insert_size_peaks_table = get_insert_size_peaks_table(args.unfiltered_waltz_pool_a)
+
+    # Std, Pool A and B
+    read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
+    coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
+    gc_cov_int_table = get_gc_coverage_table(args.standard_waltz_pool_a)
+
+    read_counts_table = pd.concat([get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL), read_counts_table])
+    coverage_table = pd.concat([get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL), coverage_table])
+    gc_cov_int_table = pd.concat([get_gc_coverage_table(args.standard_waltz_pool_b), gc_cov_int_table])
+
+
+    ###### Pool A #######
     # Add in the Marianas Unfiltered tables
-    if args.marianas_unfiltered_waltz:
-        mw = get_collapsed_waltz_tables(args.marianas_unfiltered_waltz, MARIANAS_UNFILTERED_COLLAPSING_METHOD)
-        read_counts_table = pd.concat([read_counts_table, mw[0]])
-        coverage_table = pd.concat([coverage_table, mw[1]])
-        gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
     # Add in the Marianas Simplex Duplex tables
-    if args.marianas_simplex_duplex_waltz:
-        mw = get_collapsed_waltz_tables(args.marianas_simplex_duplex_waltz, MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD)
-        read_counts_table = pd.concat([read_counts_table, mw[0]])
-        coverage_table = pd.concat([coverage_table, mw[1]])
-        gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+    mw = get_collapsed_waltz_tables(args.simplex_duplex_waltz_pool_a, SIMPLEX_DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
     # Add in the Marianas Duplex tables
-    if args.marianas_duplex_waltz:
-        mw = get_collapsed_waltz_tables(args.marianas_duplex_waltz, MARIANAS_DUPLEX_COLLAPSING_METHOD)
-        read_counts_table = pd.concat([read_counts_table, mw[0]])
-        coverage_table = pd.concat([coverage_table, mw[1]])
-        gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
-    # Use base tables for additional tables
+    ###### Pool B #######
+    # Add in the Marianas Unfiltered tables
+    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+
+    # Add in the Marianas Simplex Duplex tables
+    mw = get_collapsed_waltz_tables(args.simplex_duplex_waltz_pool_b, SIMPLEX_DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+
+    # Add in the Marianas Duplex tables
+    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    read_counts_table = pd.concat([read_counts_table, mw[0]])
+    coverage_table = pd.concat([coverage_table, mw[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+
+
+    # Use base tables to create additional tables
     gc_avg_table_all = get_gc_table_average_over_all_samples(gc_cov_int_table)
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
     coverage_per_interval_table = get_coverage_per_interval(gc_cov_int_table)

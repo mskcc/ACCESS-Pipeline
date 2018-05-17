@@ -233,9 +233,13 @@ AGBM_COVERAGE_HEADER = [
 TOTAL_LABEL = 'total'
 PICARD_LABEL = 'picard'
 MAPPED_LABEL = 'mapped'
-MARIANAS_UNFILTERED_COLLAPSING_METHOD = 'marianas_unfiltered'
-MARIANAS_SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'marianas_simplex_duplex'
-MARIANAS_DUPLEX_COLLAPSING_METHOD = 'marianas_duplex'
+
+POOL_A_LABEL = 'pool_a'
+POOL_B_LABEL = 'pool_b'
+
+UNFILTERED_COLLAPSING_METHOD = 'unfiltered'
+SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'simplex_duplex'
+DUPLEX_COLLAPSING_METHOD = 'duplex'
 
 # Headers for tables
 DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate']

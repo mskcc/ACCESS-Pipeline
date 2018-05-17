@@ -44,6 +44,18 @@ gg_color_hue <- function(n) {
 }
 
 
+#' Levels and sort order for collapsing method & Pool A vs B
+LEVEL_C = c(
+  'total',
+  'picard',
+  'marianas_unfiltered_pool_a',
+  'marianas_simplex_duplex_pool_a',
+  'marianas_duplex_pool_a',
+  'marianas_unfiltered_pool_b',
+  'marianas_simplex_duplex_pool_b',
+  'marianas_duplex_pool_b'
+)
+
 #' Util function to sort data by arbitrary list
 #' @param df The data.frame to be sorted 
 #' @param sort_column String - column to sort on
@@ -88,8 +100,7 @@ readInputs = function(args) {
 #' Function to plot duplication fraction (Standard Bams only)
 #' @param data data.frame with the usual columns
 plotDupFrac = function(data) {
-  
-  levels_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
+
   # Plot may be used across collapsing methods, or with T/N coloring for just total values
   # data = transform(data, method=factor(method, levels=levels_c))
   data = data %>% filter(method == 'picard')
@@ -130,10 +141,7 @@ plotAlignGenome = function(data) {
 #' for each collapsing method
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
-
-  # Specify sort order of collapsing method
-  levels_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
-  data = transform(data, method=factor(method, levels=levels_c))
+  data = transform(data, method=factor(method, levels=LEVEL_C))
   
   if('Class' %in% colnames(data)) {
     fill_var = 'Class'
@@ -154,7 +162,6 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  
   method_c = c('Sample', 'total_on_target_fraction', 'total_off_target_fraction')
 
   ggplot(melt(data[method_c], id = 'Sample'), aes(x = Sample, y = value)) +
@@ -169,9 +176,7 @@ plotOnTarget = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovAllSamples = function(data) {
-  
-  levels_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
-  data = transform(data, method=factor(method, levels=levels_c))
+  data = transform(data, method=factor(method, levels=LEVEL_C))
   
   ggplot(data, aes(x = gc_bin, y = coverage, color = method, group = method)) +
     geom_line() +
@@ -187,8 +192,7 @@ plotGCwithCovAllSamples = function(data) {
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
 
-  level_c = c('total', 'picard', 'marianas_unfiltered', 'marianas_simplex_duplex', 'marianas_duplex')
-  data = transform(data, method=factor(method, levels=level_c))
+  data = transform(data, method=factor(method, levels=LEVEL_C))
 
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method~.) +

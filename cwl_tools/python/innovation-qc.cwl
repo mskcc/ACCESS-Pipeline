@@ -13,25 +13,45 @@ requirements:
 baseCommand: qc_wrapper
 
 inputs:
-  standard_waltz_metrics:
+  standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -sw
+      prefix: -swa
 
-  marianas_unfiltered_waltz_metrics:
+  unfiltered_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -mu
+      prefix: -mua
 
-  marianas_simplex_duplex_waltz_metrics:
+  simplex_duplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -ms
+      prefix: -msa
 
-  marianas_duplex_waltz_metrics:
+  duplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -md
+      prefix: -mda
+
+  standard_waltz_metrics_pool_b:
+    type: Directory
+    inputBinding:
+      prefix: -swb
+
+  unfiltered_waltz_metrics_pool_b:
+    type: Directory
+    inputBinding:
+      prefix: -mub
+
+  simplex_duplex_waltz_metrics_pool_b:
+    type: Directory
+    inputBinding:
+      prefix: -msb
+
+  duplex_waltz_metrics_pool_b:
+    type: Directory
+    inputBinding:
+      prefix: -mdb
 
   title_file:
     type: File

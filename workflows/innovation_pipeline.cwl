@@ -97,6 +97,10 @@ inputs:
 
   # Waltz
   bed_file: File
+
+  pool_a_bed_file: File
+  pool_b_bed_file: File
+
   gene_list: File
   coverage_threshold: int
   waltz__min_mapping_quality: int
@@ -190,7 +194,22 @@ steps:
       print_reads__baq: print_reads__baq
     out: [standard_bams]
 
-  waltz_standard:
+  waltz_standard_pool_a:
+    run: ./waltz/waltz-workflow.cwl
+    in:
+      run_tools: run_tools
+      input_bam: standard_bam_generation/standard_bams
+      bed_file: bed_file
+      gene_list: gene_list
+      coverage_threshold: coverage_threshold
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: [input_bam]
+    scatterMethod: dotproduct
+
+  waltz_standard_pool_b:
     run: ./waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
@@ -210,7 +229,7 @@ steps:
     in:
       run_tools: run_tools
       input_bam: standard_bam_generation/standard_bams
-      pileup: waltz_standard/pileup
+      pileup: waltz_standard_pool_a/pileup
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       mismatches: marianas__mismatches
@@ -327,7 +346,10 @@ steps:
     in:
       run_tools: run_tools
       title_file: title_file
-      bed_file: bed_file
+
+      pool_a_bed_file: pool_a_bed_file
+      pool_b_bed_file: pool_b_bed_file
+
       gene_list: gene_list
       coverage_threshold: coverage_threshold
       waltz__min_mapping_quality: waltz__min_mapping_quality
