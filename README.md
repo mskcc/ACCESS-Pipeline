@@ -9,11 +9,14 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually)|
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
-| Python | 2.7.10 |
-| R | 3.4.2 |
-| Perl | 5.20.2 |
+| Python (must exist in PATH)| 2.7.10 |
+| R (must exist in PATH)| 3.4.2 |
+| Perl (must exist in PATH)| 5.20.2 |
+| Node (must exist in PATH)| v6.10.1 |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
+| [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | ? | 
+| [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | ? |
 | [Marianas](https://github.com/juberpatel/Marianas) | 1.5 |
 | [Waltz](https://github.com/juberpatel/Waltz) | 2.0 |
 | [Picard](https://github.com/broadinstitute/picard) | picard-2.8.1.jar |
