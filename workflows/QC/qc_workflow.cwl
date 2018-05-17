@@ -30,7 +30,10 @@ inputs:
         waltz_path: string
 
   title_file: File
-  bed_file: File
+
+  pool_a_bed_file: File
+  pool_b_bed_file: File
+
   gene_list: File
   coverage_threshold: int
   waltz__min_mapping_quality: int
@@ -67,14 +70,14 @@ steps:
   ##############
 
   # Todo: this currently gets run 2x
-  waltz_standard:
+  waltz_standard_pool_a:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
       input_bam: standard_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
-      bed_file: bed_file
+      bed_file: pool_a_bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -82,14 +85,14 @@ steps:
     scatter: [input_bam]
     scatterMethod: dotproduct
 
-  waltz_marianas_unfiltered:
+  waltz_unfiltered_pool_a:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
       input_bam: marianas_unfiltered_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
-      bed_file: bed_file
+      bed_file: pool_a_bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -97,14 +100,14 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
-  waltz_marianas_simplex_duplex:
+  waltz_simplex_duplex_pool_a:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
       input_bam: marianas_simplex_duplex_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
-      bed_file: bed_file
+      bed_file: pool_a_bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -112,14 +115,75 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
-  waltz_marianas_duplex:
+  waltz_duplex_pool_a:
     run: ../waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
       input_bam: marianas_duplex_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
-      bed_file: bed_file
+      bed_file: pool_a_bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  # Todo: this currently gets run 2x
+  waltz_standard_pool_b:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      run_tools: run_tools
+      input_bam: standard_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: pool_b_bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: [input_bam]
+    scatterMethod: dotproduct
+
+  waltz_unfiltered_pool_b:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      run_tools: run_tools
+      input_bam: marianas_unfiltered_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: pool_b_bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_simplex_duplex_pool_b:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      run_tools: run_tools
+      input_bam: marianas_simplex_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: pool_b_bed_file
+      min_mapping_quality: waltz__min_mapping_quality
+      reference_fasta: reference_fasta
+      reference_fasta_fai: reference_fasta_fai
+    out: [pileup, waltz_output_files]
+    scatter: input_bam
+    scatterMethod: dotproduct
+
+  waltz_duplex_pool_b:
+    run: ../waltz/waltz-workflow.cwl
+    in:
+      run_tools: run_tools
+      input_bam: marianas_duplex_bams
+      coverage_threshold: coverage_threshold
+      gene_list: gene_list
+      bed_file: pool_b_bed_file
       min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -131,31 +195,59 @@ steps:
   # Group waltz output files #
   ############################
 
-  standard_consolidate_bam_metrics:
+  standard_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      files: waltz_standard/waltz_output_files
+      files: waltz_standard_pool_a/waltz_output_files
     out:
       [directory]
 
-  marianas_unfiltered_consolidate_bam_metrics:
+  unfiltered_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      files: waltz_marianas_unfiltered/waltz_output_files
+      files: waltz_unfiltered_pool_a/waltz_output_files
     out:
       [directory]
 
-  marianas_simplex_duplex_consolidate_bam_metrics:
+  simplex_duplex_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      files: waltz_marianas_simplex_duplex/waltz_output_files
+      files: waltz_simplex_duplex_pool_a/waltz_output_files
     out:
       [directory]
 
-  marianas_duplex_consolidate_bam_metrics:
+  duplex_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
-      files: waltz_marianas_duplex/waltz_output_files
+      files: waltz_duplex_pool_a/waltz_output_files
+    out:
+      [directory]
+
+  standard_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_standard_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  unfiltered_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_unfiltered_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  simplex_duplex_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_simplex_duplex_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  duplex_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_duplex_pool_b/waltz_output_files
     out:
       [directory]
 
@@ -164,35 +256,67 @@ steps:
   # for each collapsing method           #
   ########################################
 
-  standard_aggregate_bam_metrics:
+  standard_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: standard_consolidate_bam_metrics/directory
+      waltz_input_files: standard_pool_a_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
-  marianas_unfiltered_aggregate_bam_metrics:
+  unfiltered_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: marianas_unfiltered_consolidate_bam_metrics/directory
+      waltz_input_files: unfiltered_pool_a_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
-  marianas_simplex_duplex_aggregate_bam_metrics:
+  simplex_duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: marianas_simplex_duplex_consolidate_bam_metrics/directory
+      waltz_input_files: simplex_duplex_pool_a_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
-  marianas_duplex_aggregate_bam_metrics:
+  duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: marianas_duplex_consolidate_bam_metrics/directory
+      waltz_input_files: duplex_pool_a_consolidate_bam_metrics/directory
+    out:
+      [output_dir]
+
+  standard_aggregate_bam_metrics_pool_b:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      title_file: title_file
+      waltz_input_files: standard_pool_b_consolidate_bam_metrics/directory
+    out:
+      [output_dir]
+
+  unfiltered_aggregate_bam_metrics_pool_b:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      title_file: title_file
+      waltz_input_files: unfiltered_pool_b_consolidate_bam_metrics/directory
+    out:
+      [output_dir]
+
+  simplex_duplex_aggregate_bam_metrics_pool_b:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      title_file: title_file
+      waltz_input_files: simplex_duplex_pool_b_consolidate_bam_metrics/directory
+    out:
+      [output_dir]
+
+  duplex_aggregate_bam_metrics_pool_b:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      title_file: title_file
+      waltz_input_files: duplex_pool_b_consolidate_bam_metrics/directory
     out:
       [output_dir]
 
@@ -204,9 +328,14 @@ steps:
     run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
-      standard_waltz_metrics: standard_aggregate_bam_metrics/output_dir
-      marianas_unfiltered_waltz_metrics: marianas_unfiltered_aggregate_bam_metrics/output_dir
-      marianas_simplex_duplex_waltz_metrics: marianas_simplex_duplex_aggregate_bam_metrics/output_dir
-      marianas_duplex_waltz_metrics: marianas_duplex_aggregate_bam_metrics/output_dir
+      standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
+      unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
+      simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
+      duplex_waltz_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
+
+      standard_waltz_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
+      unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
+      simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
+      duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
     out:
       [qc_pdf]

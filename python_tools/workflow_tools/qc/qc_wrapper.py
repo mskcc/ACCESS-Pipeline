@@ -41,6 +41,7 @@ def run_table_module(folders, tables_output_dir):
     for prefix, _, new_dir in folders:
         setattr(args, prefix, BASE + new_dir)
 
+    # Todo: Rename to table_module.main()
     qc.main(args)
 
 
@@ -130,10 +131,15 @@ def run_table_module_for_group(sample_group, folder_pairs, tables_output_dir):
 
 
 def run_qc_for_lane(title_file, lane, args):
-    standard_waltz_dir = args.standard_waltz_dir
-    marianas_unfiltered_waltz_dir = args.marianas_unfiltered_waltz_dir
-    marianas_simplex_duplex_waltz_dir = args.marianas_simplex_duplex_waltz_dir
-    marianas_duplex_waltz_dir = args.marianas_duplex_waltz_dir
+    standard_waltz_dir_pool_a = args.standard_waltz_dir_pool_a
+    unfiltered_waltz_dir_pool_a = args.unfiltered_waltz_dir_pool_a
+    simplex_duplex_waltz_dir_pool_a = args.simplex_duplex_waltz_dir_pool_a
+    duplex_waltz_dir_pool_a = args.duplex_waltz_dir_pool_a
+
+    standard_waltz_dir_pool_b = args.standard_waltz_dir_pool_b
+    unfiltered_waltz_dir_pool_b = args.unfiltered_waltz_dir_pool_b
+    simplex_duplex_waltz_dir_pool_b = args.simplex_duplex_waltz_dir_pool_b
+    duplex_waltz_dir_pool_b = args.duplex_waltz_dir_pool_b
 
     # Write the new title file for just this lane
     title_file_sub = title_file[title_file['Lane'] == lane]
@@ -150,10 +156,15 @@ def run_qc_for_lane(title_file, lane, args):
     os.makedirs(tables_output_dir)
 
     folder_pairs = [
-        ('standard_waltz', standard_waltz_dir),
-        ('marianas_unfiltered_waltz', marianas_unfiltered_waltz_dir),
-        ('marianas_simplex_duplex_waltz', marianas_simplex_duplex_waltz_dir),
-        ('marianas_duplex_waltz', marianas_duplex_waltz_dir)
+        ('standard_waltz_pool_a', standard_waltz_dir_pool_a),
+        ('unfiltered_waltz_pool_a', unfiltered_waltz_dir_pool_a),
+        ('simplex_duplex_waltz_pool_a', simplex_duplex_waltz_dir_pool_a),
+        ('duplex_waltz_pool_a', duplex_waltz_dir_pool_a),
+
+        ('standard_waltz_pool_b', standard_waltz_dir_pool_b),
+        ('unfiltered_waltz_pool_b', unfiltered_waltz_dir_pool_b),
+        ('simplex_duplex_waltz_pool_b', simplex_duplex_waltz_dir_pool_b),
+        ('duplex_waltz_pool_b', duplex_waltz_dir_pool_b),
     ]
 
     folder_pairs_with_results_folder = []
@@ -165,7 +176,8 @@ def run_qc_for_lane(title_file, lane, args):
     run_table_module_for_group(sample_group, folder_pairs_with_results_folder, tables_output_dir)
 
     # Todo: same folder is referenced twice:
-    std_waltz_loc = os.path.join(*[BASE, RESULTS_DIR, 'standard_waltz'])
+    # Todo: ok to use Pool A as std waltz?
+    std_waltz_loc = os.path.join(*[BASE, RESULTS_DIR, 'standard_waltz_pool_a'])
     run_plots_module(std_waltz_loc, tables_output_dir, plots_output_dir, title_file_path=title_file_sub_path)
 
 
@@ -193,10 +205,15 @@ def main():
 
     parser = argparse.ArgumentParser(description='Innovation QC module', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-t', '--title_file_path', type=str, default=None, required=True, action=FullPaths)
-    parser.add_argument('-sw', '--standard_waltz_dir', type=str, default=None, required=True, action=FullPaths)
-    parser.add_argument('-mu', '--marianas_unfiltered_waltz_dir', type=str, default=None, action=FullPaths)
-    parser.add_argument('-ms', '--marianas_simplex_duplex_waltz_dir', type=str, default=None, action=FullPaths)
-    parser.add_argument('-md', '--marianas_duplex_waltz_dir', type=str, default=None, action=FullPaths)
+    parser.add_argument('-swa', '--standard_waltz_dir_pool_a', type=str, default=None, required=True, action=FullPaths)
+    parser.add_argument('-mua', '--unfiltered_waltz_dir_pool_a', type=str, default=None, action=FullPaths)
+    parser.add_argument('-msa', '--simplex_duplex_waltz_dir_pool_a', type=str, default=None, action=FullPaths)
+    parser.add_argument('-mda', '--duplex_waltz_dir_pool_a', type=str, default=None, action=FullPaths)
+
+    parser.add_argument('-swb', '--standard_waltz_dir_pool_b', type=str, default=None, required=True, action=FullPaths)
+    parser.add_argument('-mub', '--unfiltered_waltz_dir_pool_b', type=str, default=None, action=FullPaths)
+    parser.add_argument('-msb', '--simplex_duplex_waltz_dir_pool_b', type=str, default=None, action=FullPaths)
+    parser.add_argument('-mdb', '--duplex_waltz_dir_pool_b', type=str, default=None, action=FullPaths)
     args = parser.parse_args()
 
     run_qc_for_lanes(args)
