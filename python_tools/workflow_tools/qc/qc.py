@@ -68,7 +68,7 @@ def get_read_counts_table(path, pool):
     return read_counts
 
 
-def get_read_counts_total_table(path):
+def get_read_counts_total_table(path, pool):
     """
     This table is used for "Fraction of Total Reads that Align to the Human Genome" plot
     """
@@ -81,6 +81,7 @@ def get_read_counts_total_table(path):
     read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
     read_counts_total[TOTAL_OFF_TARGET_FRACTION_COLUMN] = 1 - read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN]
 
+    read_counts_total['pool'] = pool
     return read_counts_total
 
 
@@ -272,7 +273,10 @@ def main(args):
     duplication_rates_filename = '/'.join([output_dir, 'duplication-rates.txt'])
 
 
-    read_counts_total_table = get_read_counts_total_table(args.standard_waltz_pool_a)
+    read_counts_total_pool_a_table = get_read_counts_total_table(args.standard_waltz_pool_a, POOL_A_LABEL)
+    read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
+    read_counts_total_table = pd.concat([read_counts_total_pool_a_table, read_counts_total_pool_b_table])
+
     insert_size_peaks_table = get_insert_size_peaks_table(args.unfiltered_waltz_pool_a)
 
     # Std, Pool A and B
