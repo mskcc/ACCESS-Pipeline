@@ -33,6 +33,8 @@ MY_THEME = theme(text = element_text(size=8),
   axis.text.x = element_text(angle = 45, hjust = 1, face='bold'),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
+# Some title file columns will not be printed
+DROP_COLS = c('Sample_type', 'Pool_input', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -128,7 +130,7 @@ plotAlignGenome = function(data) {
   ggplot(data, aes(x=Sample, y=total_on_target_fraction)) +
     geom_bar(position = 'dodge', stat='identity', aes_string(fill = fill_var)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
-    scale_y_continuous('Fraction of Reads', label=format_comma) +
+    scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0.8, 1.0)) +
     MY_THEME
 }
 
@@ -139,17 +141,12 @@ plotAlignGenome = function(data) {
 plotMeanCov = function(data) {
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('pool_a', 'pool_b')))
-  # if('Class' %in% colnames(data)) {
-  #   fill_var = 'Class'
-  # } else {
-  #   fill_var = 'method'
-  # }
   
   ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool~ ., , scales = 'free') +
     geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
     
-    ggtitle('Average Coverage per Sample for Each Collapsing Method') +
+    ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
 }
@@ -163,7 +160,7 @@ plotOnTarget = function(data) {
 
   ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
     geom_bar(position = position_stack(reverse = TRUE), stat='identity', aes(fill = pool)) +
-    ggtitle('Fraction of Total On/Off Target Reads') +
+    ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma) +
     MY_THEME
 }
@@ -177,7 +174,7 @@ plotGCwithCovAllSamples = function(data) {
   
   ggplot(data, aes(x = gc_bin, y = coverage, color = method, group = method)) +
     geom_line() +
-    ggtitle('Average Coverage versus GC bias for each Collapsing Method') +
+    ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage (all samples)', label=format_comma) +
     xlab('GC bias') +
     MY_THEME
@@ -188,13 +185,12 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
-
   data = transform(data, method=factor(method, levels=LEVEL_C))
 
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method~.) +
     geom_line() +
-    ggtitle('Average Coverage versus GC bias for each Collapsing Method') +
+    ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage (per sample)', label=format_comma) +
     xlab('GC Bias') +
     MY_THEME
@@ -289,19 +285,23 @@ plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
 #      label = paste('peak_total_size: ', peak_total_size,  ', n = ', peak_total, sep = ''))) +
 
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
-    ggtitle('Insert Size Distribution for all Samples') +
+    ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
+    ylab('Frequency') +
     MY_THEME
 }
 
 
 #' Print the title file to our PDF
 #' @param title_df
-printTitle = function(title_df) {
+printTitle = function(title_df, date) {
   mytheme <- gridExtra::ttheme_default(
     core = list(fg_params=list(cex = 0.4)),
     colhead = list(fg_params=list(cex = 0.5)),
     rowhead = list(fg_params=list(cex = 0.5)))
+  
+  # Remove some columns
+  title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
   
   # Split into two sections
   halfway = floor(ncol(title_df) / 2)
@@ -310,8 +310,8 @@ printTitle = function(title_df) {
   title_df_two = title_df[, title_df_two_subset]
   tbl1 <- tableGrob(title_df_one, rows=NULL, theme=mytheme)
   tbl2 <- tableGrob(title_df_two, rows=NULL, theme=mytheme)
-  
-  grid.draw(textGrob(label = 'Innovation QC Report'))
+  grid.draw(textGrob(label = 'MSK-ACCESS QC Report'))
+  grid.draw(textGrob(label = date))
   
   # Use viewports to arrange the tables
   sample_vp_1 <- viewport(
@@ -321,7 +321,6 @@ printTitle = function(title_df) {
     height = 0.4,
     just = c('center', 'center')
   )
-
   sample_vp_2 <- viewport(
     x = 0.5, 
     y = 0.25,
@@ -381,7 +380,6 @@ cleanup_sample_names = function(data, sample_names) {
 
 # Main function that will provide all of the desired plots
 main = function(args) {
-
   # Read arguments specifying where the required tables are
   # as well as where the plots should be put
   # todo - should return an object or named list, instead of this indexed list 
@@ -400,7 +398,7 @@ main = function(args) {
   pdf(file = final_dest, onefile = TRUE)
   
   # Put title file on first page of PDF
-  printTitle(title_df)
+  printTitle(title_df, date)
 
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
@@ -435,22 +433,23 @@ meanCovData = dfList[[6]]
 gcEachSample = dfList[[7]]
 
 # Choose the plots that we want to run
-print(plotDupFrac(dupRateData))
 print(plotAlignGenome(readCountsDataTotal))
 # print(plotCovDistPerInterval(covPerInterval))
 print(plotOnTarget(readCountsDataTotal))
 print(plotInsertSizeDistribution(insertSizes, insertSizePeaks))
 print(plotCovDistPerIntervalLine(covPerInterval))
+print(plotDupFrac(dupRateData))
 print(plotMeanCov(meanCovData))
-print(plotGCwithCovAllSamples(gcAllSamples))
+# print(plotGCwithCovAllSamples(gcAllSamples))
 print(plotGCwithCovEachSample(gcEachSample, sort_order))
 
 dev.off()
 }
 
 
-# Parse arguments and run main()
+# Parse arguments
 argv = commandArgs(trailingOnly=TRUE)
+# Run main()
 main(argv)
 # Show warnings after running
 warnings()
