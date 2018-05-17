@@ -25,7 +25,7 @@ def unique_or_tot(x):
     if 'total' in x:
         return 'total'
     else:
-        return 'picard'
+        return 'unique'
 
 
 def get_gene_and_probe(interval):
@@ -91,7 +91,8 @@ def get_coverage_table(path, pool):
     full_path = os.path.join(path, AGBM_COVERAGE_FILENAME)
     coverage_table = pd.read_csv(full_path, sep='\t')
     coverage_table = pd.melt(coverage_table, id_vars=SAMPLE_ID_COLUMN, var_name='method', value_name='average_coverage')
-    coverage_table['pool'] = pool * len(coverage_table)
+    coverage_table['method'] = coverage_table['method'].str.replace('average_coverage_', '')
+    coverage_table['pool'] = pool
     return coverage_table
 
 
@@ -104,15 +105,12 @@ def get_collapsed_waltz_tables(path, method, pool):
     read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
-    read_counts_table['pool'] = [pool] * len(read_counts_table)
+    read_counts_table['pool'] = pool
 
     coverage_table_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
     coverage_table = pd.read_csv(coverage_table_path, sep='\t', usecols=[0, 1], names=[SAMPLE_ID_COLUMN, 'average_coverage'], header=0)
     coverage_table['method'] = [method] * len(coverage_table)
-    if POOL_A_LABEL in method:
-        coverage_table['pool'] = POOL_A_LABEL * len(coverage_table)
-    elif POOL_B_LABEL in method:
-        coverage_table['pool'] = POOL_B_LABEL * len(coverage_table)
+    coverage_table['pool'] = pool
 
     gc_bias_table = get_gc_table(method, WALTZ_INTERVALS_FILENAME_SUFFIX, path)
 
@@ -124,7 +122,6 @@ def get_table_duplication(read_counts_table):
     Creates duplication rate table
     """
     mapped_boolv = read_counts_table['Category'] == TOTAL_MAPPED_COLUMN
-
     total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
 
     for pool in ['pool_a', 'pool_b']:
@@ -140,6 +137,7 @@ def get_table_duplication(read_counts_table):
         dup_rate_table = mapped_reads.copy()
         dup_rate_table['unique_rate'] = unique_rate
         dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
+        dup_rate_table['pool'] = pool
 
     dup_rate_table = dup_rate_table[DUPLICATION_RATES_HEADER]
 
@@ -164,6 +162,9 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
 
 
 def get_bins(tbl):
+    """
+    Create bins from min_gc value to max_gc value in increments of 0.05 (for GC content table)
+    """
     min_gc = np.min(tbl['gc'])
     max_gc = np.max(tbl['gc'])
     start = round(min_gc - np.mod(min_gc, 0.05), 2)

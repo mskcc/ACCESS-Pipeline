@@ -45,16 +45,16 @@ def run_table_module(folders, tables_output_dir):
     qc.main(args)
 
 
-def run_plots_module(standard_waltz_dir, tables_output_dir, plots_output_dir, title_file_path):
+def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_path):
     """
     Run the plots submodule
-    """
-    # Note: The following script should be found in your Virtual
-    # environment PATH (/somewhere/virtualenv/bin/plotting-collapsed-bams.r)
-    # after installing this module with `python setup.py install`
-    plots_module_cmd = 'plotting-collapsed-bams.r'
 
-    plots_module_cmd += ' -i {} -w {} -o {}'.format(tables_output_dir, standard_waltz_dir, plots_output_dir)
+    Note: The following R script should be found in your Virtual
+    environment PATH (/somewhere/virtualenv/bin/plotting-collapsed-bams.r)
+    after installing this module with `python setup.py install`
+    """
+    plots_module_cmd = 'plotting-collapsed-bams.r'
+    plots_module_cmd += ' -i {} -w {} -o {}'.format(tables_output_dir, ufa_waltz_loc, plots_output_dir)
     plots_module_cmd += ' -t {}'.format(title_file_path)
 
     print('Running plots module with cmd: {}'.format(plots_module_cmd))
@@ -176,9 +176,9 @@ def run_qc_for_lane(title_file, lane, args):
     run_table_module_for_group(sample_group, folder_pairs_with_results_folder, tables_output_dir)
 
     # Todo: same folder is referenced twice:
-    # Todo: ok to use Pool A as std waltz?
-    std_waltz_loc = os.path.join(*[BASE, RESULTS_DIR, 'standard_waltz_pool_a'])
-    run_plots_module(std_waltz_loc, tables_output_dir, plots_output_dir, title_file_path=title_file_sub_path)
+    # Note: We use Unfiltered Pool A values for Standard Graphs (insert size distribution, coverages distribution)
+    ufa_waltz_loc = os.path.join(*[BASE, RESULTS_DIR, 'unfiltered_waltz_pool_a'])
+    run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_path=title_file_sub_path)
 
 
 def run_qc_for_lanes(args):

@@ -47,13 +47,10 @@ gg_color_hue <- function(n) {
 #' Levels and sort order for collapsing method & Pool A vs B
 LEVEL_C = c(
   'total',
-  'picard',
-  'marianas_unfiltered_pool_a',
-  'marianas_simplex_duplex_pool_a',
-  'marianas_duplex_pool_a',
-  'marianas_unfiltered_pool_b',
-  'marianas_simplex_duplex_pool_b',
-  'marianas_duplex_pool_b'
+  'unique',
+  'unfiltered',
+  'simplex_duplex',
+  'duplex'
 )
 
 #' Util function to sort data by arbitrary list
@@ -102,17 +99,16 @@ readInputs = function(args) {
 plotDupFrac = function(data) {
 
   # Plot may be used across collapsing methods, or with T/N coloring for just total values
-  # data = transform(data, method=factor(method, levels=levels_c))
-  data = data %>% filter(method == 'picard')
-  
-  if('Class' %in% colnames(data)) {
-    fill_var = 'Class'
-  } else {
-    fill_var = 'method'
-  }
+  data = transform(data, method=factor(method, levels=LEVEL_C))
+  # data = data %>% filter(method == 'picard')
+  # if('Class' %in% colnames(data)) {
+  #   fill_var = 'Class'
+  # } else {
+  #   fill_var = 'method'
+  # }
   
   ggplot(data, aes(x = Sample, y = as.numeric(duplication_rate))) +
-    geom_bar(stat='identity', aes_string(fill = fill_var), position = 'dodge') +
+    geom_bar(stat='identity', aes_string(fill = 'method'), position = 'dodge') +
     ggtitle('Duplication Rate per Sample') +
     scale_y_continuous('Duplication Rate', label=format_comma) +
     MY_THEME
@@ -142,16 +138,17 @@ plotAlignGenome = function(data) {
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
   data = transform(data, method=factor(method, levels=LEVEL_C))
-  
-  if('Class' %in% colnames(data)) {
-    fill_var = 'Class'
-  } else {
-    fill_var = 'method'
-  }
+  data = transform(data, pool=factor(pool, levels=c('pool_a', 'pool_b')))
+  # if('Class' %in% colnames(data)) {
+  #   fill_var = 'Class'
+  # } else {
+  #   fill_var = 'method'
+  # }
   
   ggplot(data, aes(x=Sample, y=average_coverage)) +
-    facet_grid(method~ ., , scales = 'free') +
-    geom_bar(position = 'dodge', stat='identity', aes_string(fill=fill_var)) +
+    facet_grid(pool~ ., , scales = 'free') +
+    geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
+    
     ggtitle('Average Coverage per Sample for Each Collapsing Method') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
@@ -229,18 +226,28 @@ plotCovDistPerInterval = function(data) {
 #' Function to plot histogram of coverage per target interval distribution
 #' Coverage values are scaled by the mean of the distribution
 plotCovDistPerIntervalLine = function(data) {
-  n = length(unique(data$Sample))
-  cols = factor(gg_color_hue(n))
+  # n = length(unique(data$Sample))
+  # cols = factor(gg_color_hue(n))
   
   data = data %>%
     group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
+  # Comment out stat='density' for testing (too few points)
+  # ggplot(data) +
+  #   # geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
+  #   ggtitle('Distribution of Coverages per Target Interval') +
+  #   scale_y_continuous('frequency', label=format_comma) +
+  #   scale_x_continuous('coverage', limits=c(0, 3)) +
+  #   # scale_color_manual(values = cols) +
+  #   MY_THEME
+  
+  # Use this when testing on small data
   ggplot(data) +
-    geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
+    geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
     ggtitle('Distribution of Coverages per Target Interval') +
     scale_y_continuous('frequency', label=format_comma) +
-    scale_x_continuous('coverage', limits=c(0, 3)) +
+    # scale_x_continuous('coverage') +
     # scale_color_manual(values = cols) +
     MY_THEME
 }
@@ -267,7 +274,9 @@ plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
     ungroup()
 
   ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
-    stat_smooth(size=.5, n=200, span=0.2, se=FALSE, method='loess', level=.01) +
+    # geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
+    # Use geom_line instead of geom_smooth for testing (not enough points)
+    geom_line() +
 
 #    geom_text_repel(
 #      data = peakSizes,
