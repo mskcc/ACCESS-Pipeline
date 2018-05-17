@@ -159,10 +159,10 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  method_c = c('Sample', 'total_on_target_fraction', 'total_off_target_fraction')
+  method_c = c('Sample', 'total_on_target_fraction', 'pool')
 
-  ggplot(melt(data[method_c], id = 'Sample'), aes(x = Sample, y = value)) +
-    geom_bar(position = position_stack(reverse = TRUE), stat='identity', aes(fill = variable)) +
+  ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
+    geom_bar(position = position_stack(reverse = TRUE), stat='identity', aes(fill = pool)) +
     ggtitle('Fraction of Total On/Off Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma) +
     MY_THEME
