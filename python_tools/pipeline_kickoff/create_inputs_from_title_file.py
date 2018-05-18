@@ -240,10 +240,10 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
 
 def perform_patient_id_checks(fastq1, fastq2, title_file):
-
-    for patient_id in title_file[TITLE_FILE__PATIENT_ID_COLUMN]:
-        assert any([patient_id in f['path'] for f in fastq1])
-        assert any([patient_id in f['path'] for f in fastq2])
+    # Todo: Using correct title file column to match samples in data folder?
+    for patient_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
+        assert any([patient_id in f['path'] for f in fastq1]), 'Missing fastq1 for patient id: {}'.format(patient_id)
+        assert any([patient_id in f['path'] for f in fastq2]), 'Missing fastq2 for patient id: {}'.format(patient_id)
 
 
 def include_fastqs_params(fh, data_dir, title_file, title_file_path):
