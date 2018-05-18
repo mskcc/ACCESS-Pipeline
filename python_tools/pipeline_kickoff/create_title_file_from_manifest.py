@@ -31,14 +31,6 @@ from ..constants import *
 # 'SampleSheet.csv'
 
 
-# Todo: Start filling these out in manifest?
-# These are normally not found in the manifest, and will be supplied as dashes
-MISSING_COLUMNS = [
-    'PatientName',
-    'MAccession',
-    'Extracted_DNA_Yield'
-]
-
 
 def create_title_file(manifest_file_path, title_file_output_filename):
     # Read Manifest as either csv or Excel file
@@ -51,10 +43,6 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     # Select the columns we want from the manifest & rename them
     title_file = manifest.loc[:,columns_map.keys()]
     title_file.columns = columns_map.values()
-
-    # Include any missing columns
-    for col in MISSING_COLUMNS:
-        title_file.loc[:,col] = '-'
 
     # Get Lane # from Pool column
     # We use this new column to group the QC results by lane
