@@ -35,7 +35,8 @@ DEFAULT_TOIL_ARGS = {
     '--no-container'            : '',
     '--disableCaching'          : '',
     '--cleanWorkDir'            : 'onSuccess',
-    # '--maxLogFileSize':       : '20000000',
+    '--maxLogFileSize'          : '20000000',
+    '--logWarn'                 : '',
 }
 
 
@@ -96,14 +97,6 @@ def parse_arguments():
         required=True
     )
 
-    parser.add_argument(
-        '--logLevel',
-        action='store',
-        dest='logLevel',
-        help='OFF (or CRITICAL), ERROR, WARN (or WARNING), INFO or DEBUG',
-        required=True
-    )
-
     return parser.parse_known_args()
 
 
@@ -153,7 +146,6 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
         '--workDir', output_directory,
         '--outdir', output_directory,
         '--writeLogs', logdir,
-        '--logLevel', args.logLevel,
     ])
 
     ARG_TEMPLATE = ' {} {} '

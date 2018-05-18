@@ -15,7 +15,7 @@ from ..constants import *
 #
 # create_title_file_from_manifest \
 #   -i ./manifest.xlsx \
-#   -o ./DY_title_file.txt
+#   -o ./title_file.txt
 #
 # Note: The following requirements will be imposed on the input manifest file:
 #
@@ -41,13 +41,8 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     manifest = manifest.dropna(axis=0, how='all')
 
     # Select the columns we want from the manifest & rename them
-    title_file = manifest.loc[:,columns_map.keys()]
+    title_file = manifest.loc[:, columns_map.keys()]
     title_file.columns = columns_map.values()
-
-    # Get Lane # from Pool column
-    # We use this new column to group the QC results by lane
-    # Todo: have a lane column manually entered
-    title_file.loc[:,TITLE_FILE__LANE_COLUMN] = title_file.loc[:,TITLE_FILE__POOL_COLUMN].str.split('_').apply(lambda x: x[1][-1]).copy()
 
     # Write title file
     title_file.to_csv(title_file_output_filename, sep='\t', index=False)
@@ -59,7 +54,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--manifest_file_path", help="Sample Manifest File (see runs/DY/manifest.xlsx)", required=True)
+    parser.add_argument("-i", "--manifest_file_path", help="Sample Manifest File (e.g. test_manifest.xlsx)", required=True)
     parser.add_argument("-o", "--output_filename", help="Desired output title location and name", required=True)
 
     args = parser.parse_args()
