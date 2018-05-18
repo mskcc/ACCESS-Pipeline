@@ -211,7 +211,7 @@ plotCovDistPerInterval = function(data) {
       geom_boxplot(fill = hue_pal()(2)[2]) +
       theme(text = element_text(size=8), axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.margin = unit(c(.1, .1, .1, 1), 'in')) +
       ggtitle('Coverage for each Target Interval') +
-      scale_y_continuous('coverage', label=format_comma) +
+      scale_y_continuous('Coverage', label=format_comma) +
       xlab('Target Interval')
     print(plot_data)
   }
@@ -229,20 +229,20 @@ plotCovDistPerIntervalLine = function(data) {
     group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
-  # ggplot(data) +
-  #   # geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
-  #   ggtitle('Distribution of Coverages per Target Interval') +
-  #   scale_y_continuous('frequency', label=format_comma) +
-  #   scale_x_continuous('coverage', limits=c(0, 3)) +
-  #   # scale_color_manual(values = cols) +
-  #   MY_THEME
+  ggplot(data) +
+    geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
+    ggtitle('Distribution of Coverages per Target Interval') +
+    scale_y_continuous('Frequency', label=format_comma) +
+    scale_x_continuous('Coverage', limits=c(0, 3)) +
+    # scale_color_manual(values = cols) +
+    MY_THEME
   
   # Use stat='bin' when testing on small data
-  ggplot(data) +
-    geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
-    ggtitle('Distribution of Coverages per Target Interval') +
-    scale_y_continuous('frequency', label=format_comma) +
-    MY_THEME
+  # ggplot(data) +
+  #   geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
+  #   ggtitle('Distribution of Coverages per Target Interval') +
+  #   scale_y_continuous('Frequency', label=format_comma) +
+  #   MY_THEME
 }
 
 

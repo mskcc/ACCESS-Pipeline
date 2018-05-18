@@ -16,6 +16,7 @@ import subprocess
 # which runs the leader job on the head node.
 
 # Todo: Move to project root
+# Todo: Include check for existing outputs directory
 
 DEFAULT_MEM = 1
 DEFAULT_CPU = 1
