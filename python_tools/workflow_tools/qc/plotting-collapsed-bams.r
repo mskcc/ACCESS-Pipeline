@@ -34,7 +34,7 @@ MY_THEME = theme(text = element_text(size=8),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Sample_type', 'Pool_input', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
+DROP_COLS = c('Pool_input')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -46,7 +46,7 @@ gg_color_hue <- function(n) {
 }
 
 
-#' Levels and sort order for collapsing method & Pool A vs B
+#' Levels and sort order for collapsing methods
 LEVEL_C = c(
   'total',
   'unique',
@@ -229,7 +229,6 @@ plotCovDistPerIntervalLine = function(data) {
     group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
-  # Comment out stat='density' for testing (too few points)
   # ggplot(data) +
   #   # geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
   #   ggtitle('Distribution of Coverages per Target Interval') +
@@ -238,7 +237,7 @@ plotCovDistPerIntervalLine = function(data) {
   #   # scale_color_manual(values = cols) +
   #   MY_THEME
   
-  # Use this when testing on small data
+  # Use this ggplot call instead, when testing on small data
   ggplot(data) +
     geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
     ggtitle('Distribution of Coverages per Target Interval') +
@@ -294,7 +293,7 @@ plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
 
 #' Print the title file to our PDF
 #' @param title_df
-printTitle = function(title_df, date) {
+printTitle = function(title_df) {
   mytheme <- gridExtra::ttheme_default(
     core = list(fg_params=list(cex = 0.4)),
     colhead = list(fg_params=list(cex = 0.5)),
@@ -310,31 +309,41 @@ printTitle = function(title_df, date) {
   title_df_two = title_df[, title_df_two_subset]
   tbl1 <- tableGrob(title_df_one, rows=NULL, theme=mytheme)
   tbl2 <- tableGrob(title_df_two, rows=NULL, theme=mytheme)
-  grid.draw(textGrob(label = 'MSK-ACCESS QC Report'))
-  grid.draw(textGrob(label = date))
   
-  # Use viewports to arrange the tables
-  sample_vp_1 <- viewport(
-    x = 0.5, 
-    y = 0.75,
-    width = 0.9, 
-    height = 0.4,
-    just = c('center', 'center')
-  )
-  sample_vp_2 <- viewport(
-    x = 0.5, 
-    y = 0.25,
-    width = 0.9, 
-    height = 0.4,
-    just = c('center', 'center')
-  )
+  title = textGrob(label = 'MSK-ACCESS QC Report')
+  date = format(Sys.time(), '%a %b %d %Y %H:%M.%S')
+  date = textGrob(label = date)
+  # line = linesGrob(
+            # x=unit(c(0, 1), 'npc'),
+            # y=unit(c(0, 0), 'npc'),
+            # default.units='npc',
+            # arrow=NULL,
+            # name=NULL,
+            # gp=gpar(),
+            # vp=NULL)
+  line = linesGrob(
+    unit(c(0.05, 0.95), 'npc'),
+    unit(1, 'npc'),
+    gp=gpar(col='lightgrey', lwd=4))
   
-  pushViewport(sample_vp_1)
-  grid.draw(tbl1)
-  popViewport()
-  pushViewport(sample_vp_2)
-  grid.draw(tbl2)
-  popViewport()
+  # Todo: this is not a clean solution
+  lay <- rbind(c(1,1,1,1,1),
+               c(2,2,2,2,2),
+               c(3,3,3,3,3),
+               c(4,4,4,4,4),
+               c(4,4,4,4,4),
+               c(4,4,4,4,4),
+               c(4,4,4,4,4),
+               c(4,4,4,4,4),
+               c(4,4,4,4,4),
+               c(5,5,5,5,5),
+               c(5,5,5,5,5),
+               c(5,5,5,5,5),
+               c(5,5,5,5,5),
+               c(5,5,5,5,5),
+               c(5,5,5,5,5))
+  gs = list(title, date, line, tbl1, tbl2)
+  grid.arrange(grobs=gs, layout_matrix=lay)
 }
 
 
@@ -398,7 +407,7 @@ main = function(args) {
   pdf(file = final_dest, onefile = TRUE)
   
   # Put title file on first page of PDF
-  printTitle(title_df, date)
+  printTitle(title_df)
 
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
