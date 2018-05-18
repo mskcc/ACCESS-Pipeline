@@ -237,13 +237,11 @@ plotCovDistPerIntervalLine = function(data) {
   #   # scale_color_manual(values = cols) +
   #   MY_THEME
   
-  # Use this ggplot call instead, when testing on small data
+  # Use stat='bin' when testing on small data
   ggplot(data) +
     geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
     ggtitle('Distribution of Coverages per Target Interval') +
     scale_y_continuous('frequency', label=format_comma) +
-    # scale_x_continuous('coverage') +
-    # scale_color_manual(values = cols) +
     MY_THEME
 }
 
