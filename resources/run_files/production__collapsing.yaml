@@ -1,3 +1,7 @@
 # Files used in collapsing steps
-bed_file: {class: File, path: $PIPELINE_ROOT/resources/pan-cancer-panel.sorted.bed}
-gene_list: {class: File, path: $PIPELINE_ROOT/resources/juber-hg19-gene-list.bed}
+bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel.sorted.bed}
+
+pool_a_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_2_probe_A.bed}
+pool_b_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_2_probe_B.bed}
+
+gene_list: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/juber-hg19-gene-list.bed}
