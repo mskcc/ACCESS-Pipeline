@@ -30,10 +30,8 @@ inputs:
         waltz_path: string
 
   title_file: File
-
   pool_a_bed_file: File
   pool_b_bed_file: File
-
   gene_list: File
   coverage_threshold: int
   waltz__min_mapping_quality: int

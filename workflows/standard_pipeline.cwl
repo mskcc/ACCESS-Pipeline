@@ -32,8 +32,6 @@ inputs:
         gatk_path: string
         abra_path: string
         fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
 
   tmp_dir: string
   fastq1: File[]

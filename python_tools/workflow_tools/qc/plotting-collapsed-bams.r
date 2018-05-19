@@ -309,7 +309,7 @@ printTitle = function(title_df) {
   tbl2 <- tableGrob(title_df_two, rows=NULL, theme=mytheme)
   
   title = textGrob(label = 'MSK-ACCESS QC Report')
-  date = format(Sys.time(), '%a %b %d %Y %H:%M.%S')
+  date = format(Sys.time(), '%a %b %d %Y %H:%M:%S')
   date = textGrob(label = date)
   # line = linesGrob(
             # x=unit(c(0, 1), 'npc'),
