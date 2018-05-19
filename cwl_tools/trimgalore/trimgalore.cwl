@@ -21,16 +21,6 @@ inputs:
   perl: string
   trimgalore: string
 
-  fastqc_path:
-    type: ['null', string]
-    inputBinding:
-      prefix: --path_to_fastqc
-
-  cutadapt_path:
-    type: ['null', string]
-    inputBinding:
-      prefix: --path_to_cutadapt
-
   fastq1:
     type: File
     inputBinding:

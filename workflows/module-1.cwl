@@ -19,8 +19,6 @@ inputs:
         java_8: string
         marianas_path: string
         trimgalore_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
         bwa_path: string
         arrg_path: string
         picard_path: string
@@ -77,11 +75,6 @@ steps:
         valueFrom: $(inputs.run_tools.perl_5)
       trimgalore:
         valueFrom: $(inputs.run_tools.trimgalore_path)
-
-      fastqc_path:
-        valueFrom: $(inputs.run_tools.fastqc_path)
-      cutadapt_path:
-        valueFrom: $(inputs.run_tools.cutadapt_path)
 
       adapter: adapter
       adapter2: adapter2

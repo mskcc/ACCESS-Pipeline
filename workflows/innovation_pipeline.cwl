@@ -30,8 +30,6 @@ inputs:
         gatk_path: string
         abra_path: string
         fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
         waltz_path: string
 
   title_file: File
@@ -96,8 +94,6 @@ inputs:
   marianas__min_consensus_percent: int
 
   # Waltz
-  bed_file: File
-
   pool_a_bed_file: File
   pool_b_bed_file: File
 
@@ -199,7 +195,7 @@ steps:
     in:
       run_tools: run_tools
       input_bam: standard_bam_generation/standard_bams
-      bed_file: bed_file
+      bed_file: pool_a_bed_file
       gene_list: gene_list
       coverage_threshold: coverage_threshold
       min_mapping_quality: waltz__min_mapping_quality
@@ -214,7 +210,7 @@ steps:
     in:
       run_tools: run_tools
       input_bam: standard_bam_generation/standard_bams
-      bed_file: bed_file
+      bed_file: pool_b_bed_file
       gene_list: gene_list
       coverage_threshold: coverage_threshold
       min_mapping_quality: waltz__min_mapping_quality
@@ -346,10 +342,8 @@ steps:
     in:
       run_tools: run_tools
       title_file: title_file
-
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
-
       gene_list: gene_list
       coverage_threshold: coverage_threshold
       waltz__min_mapping_quality: waltz__min_mapping_quality

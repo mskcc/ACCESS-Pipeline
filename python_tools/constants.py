@@ -63,8 +63,7 @@ MANIFEST__LIBRARY_YIELD_COLUMN              = 'LIBRARY_YIELD[ng]'
 MANIFEST__CAPTURE_INPUT_COLUMN              = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN           = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN                        = 'SEX'
-
-# Todo: Communicate to Xiaohong about including this column, in ALL CAPS
+# Todo: Communicate to Xiaohong about including this column, in ALL CAPS like other columns
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
 
 # Use barcode index column as well,
