@@ -1,4 +1,5 @@
 import os
+import uuid
 import argparse
 import subprocess
 
@@ -90,11 +91,11 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        '--job_store_uuid',
-        action='store',
-        dest='job_store_uuid',
-        help='(LSF & Toil job UUID)',
-        required=True
+        '--restart',
+        action='store_true',
+        dest='restart',
+        help='(include if we are restarting from an existing output directory)',
+        required=False
     )
 
     return parser.parse_known_args()
@@ -109,32 +110,40 @@ def create_directories(args):
     - Temporary directories (deleted as per the cleanWorkDir parameter)
     - Jobstore directories (deleted as per cleanWorkDir parameter?)
     """
+
     project_name = args.project_name
     output_location = args.output_location
-    job_store_uuid = args.job_store_uuid
 
     # Set output directory
     output_directory = "{}/{}".format(output_location, project_name)
-    jobstore_base = "{}/tmp/".format(output_directory)
-    jobstore_path = "{}/jobstore-{}".format(jobstore_base, job_store_uuid)
     logdir = os.path.join(output_directory, 'log')
+    jobstore_base = '{}/tmp/'.format(output_directory)
+
+    # Use existing jobstore, or create new one
+    if args.restart:
+        job_store_uuid = os.listdir(jobstore_base)[0]
+        jobstore_path = '{}/{}'.format(jobstore_base, job_store_uuid)
+    else:
+        job_store_uuid = str(uuid.uuid1())
+        jobstore_path = '{}/jobstore-{}'.format(jobstore_base, job_store_uuid)
 
     # Check if output directory already exists
-    if os.path.exists(output_directory):
-        print "The specified output directory already exists: {}".format(output_directory)
+    if os.path.exists(output_directory) and not args.restart:
+        raise Exception('The specified output directory already exists: {}'.format(output_directory))
 
-    print "Output Dir: " + output_directory
-    print "Jobstore Base: " + jobstore_base
+    if not args.restart:
+        # Create output directories
+        os.makedirs(output_directory)
+        os.makedirs(logdir)
+        os.makedirs(jobstore_base)
 
-    # Create output directories
-    os.makedirs(output_directory)
-    os.makedirs(logdir)
-    os.makedirs(jobstore_base)
+    print 'Output Dir: ' + output_directory
+    print 'Jobstore Base: ' + jobstore_base
 
     return output_directory, jobstore_path, logdir
 
 
-def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
+def run_toil(args, output_directory, jobstore_path, logdir):
     """
     Format and call the command to run CWL Toil
     """
@@ -149,16 +158,16 @@ def run_toil(args, output_directory, jobstore_path, logdir, unknowns):
     ])
 
     ARG_TEMPLATE = ' {} {} '
+
+    # Include Default arguments
     for arg, value in DEFAULT_TOIL_ARGS.items():
-        # Override with user-supplied argument if found
-        if arg.replace('--', '') in unknowns:
-            pass
-        else:
-            cmd += ARG_TEMPLATE.format(arg, value)
+        cmd += ARG_TEMPLATE.format(arg, value)
 
-    if len(unknowns) > 0:
-        cmd += ' '.join(unknowns)
+    # Include restart argument
+    if args.restart:
+        cmd += ' --restart '
 
+    # End with the workflow and inputs.yaml file
     cmd += ARG_TEMPLATE.format(
         args.workflow,
         args.inputs_file
@@ -177,4 +186,4 @@ def main():
 
     output_directory, jobstore_path, logdir = create_directories(args)
 
-    run_toil(args, output_directory, jobstore_path, logdir, unknowns)
+    run_toil(args, output_directory, jobstore_path, logdir)
