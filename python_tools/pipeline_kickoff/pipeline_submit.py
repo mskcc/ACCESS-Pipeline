@@ -41,12 +41,11 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, workflow, batch_system):
+def submit_to_lsf(params):
     '''
     Submit pipeline_runner python script to the control node
     Todo: too many arguments, too many layers
 
-    :param job_store_uuid:
     :param project_name:
     :param output_location:
     :param inputs_file:
@@ -54,38 +53,35 @@ def submit_to_lsf(job_store_uuid, project_name, output_location, inputs_file, wo
     :param batch_system:
     :return:
     '''
-
-    lsf_proj_name = "{}:{}".format(project_name, job_store_uuid)
-    job_desc = lsf_proj_name
-
-    job_command = "{} {} {} {} {} {} {}".format(
+    job_command = "{} {} {} {} {} {}".format(
         'pipeline_runner',
-        '--project_name ' + project_name,
-        '--workflow ' + workflow,
-        '--inputs_file ' + inputs_file,
-        '--output_location ' + output_location,
-        '--batch_system ' + batch_system,
-        '--job_store_uuid ' + job_store_uuid,
+        '--project_name ' + params.project_name,
+        '--workflow ' + params.workflow,
+        '--inputs_file ' + params.inputs_file,
+        '--output_location ' + params.output_location,
+        '--batch_system ' + params.batch_system,
     )
+
+    if params.restart:
+        job_command += ' --restart '
 
     bsubline = [
         "bsub",
         "-cwd", '.',
-        "-P", lsf_proj_name,
-        "-J", project_name,
-        "-oo", project_name + "_stdout.log",
-        "-eo", project_name + "_stderr.log",
+        "-P", params.project_name,
+        "-J", params.project_name,
+        "-oo", params.project_name + "_stdout.log",
+        "-eo", params.project_name + "_stderr.log",
         "-R", "select[hname={}]".format(LEADER_NODE),
         "-R", "rusage[mem={}]".format(DEFAULT_MEM),
         "-n", str(DEFAULT_CPU),
         "-q", CONTROL_QUEUE,
-        "-Jd", job_desc,
+        "-Jd", params.project_name,
         job_command
     ]
 
     lsf_job_id = bsub(bsubline)
-
-    return lsf_proj_name, lsf_job_id
+    return params.project_name, lsf_job_id
 
 
 def main():
@@ -130,20 +126,18 @@ def main():
         help="(e.g. lsf or singleMachine)"
     )
 
+    parser.add_argument(
+        "--restart",
+        action="store_true",
+        dest="restart",
+        help="restart from an existing output directory",
+        required=False
+    )
+
     params = parser.parse_args()
 
-    # Create job-uuid
-    job_store_uuid = str(uuid.uuid1())
-
-    # submit
-    lsf_proj_name, lsf_job_id = submit_to_lsf(
-        job_store_uuid,
-        params.project_name,
-        params.output_location,
-        params.inputs_file,
-        params.workflow,
-        params.batch_system,
-    )
+    # Submit
+    lsf_proj_name, lsf_job_id = submit_to_lsf(params)
 
     print lsf_proj_name
     print lsf_job_id
