@@ -15,8 +15,8 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 | Node (must exist in PATH)| v6.10.1 |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
-| [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | ? | 
-| [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | ? |
+| [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | 1.1 | 
+| [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | v0.10.1 |
 | [Marianas](https://github.com/juberpatel/Marianas) | 1.5 |
 | [Waltz](https://github.com/juberpatel/Waltz) | 2.0 |
 | [Picard](https://github.com/broadinstitute/picard) | picard-2.8.1.jar |
