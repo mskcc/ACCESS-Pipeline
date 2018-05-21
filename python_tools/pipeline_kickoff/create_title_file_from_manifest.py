@@ -41,7 +41,7 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     manifest = manifest.dropna(axis=0, how='all')
 
     # Select the columns we want from the manifest & rename them
-    title_file = manifest.loc[:, columns_map.keys()]
+    title_file = manifest[columns_map.keys()]
     title_file.columns = columns_map.values()
 
     # Write title file
