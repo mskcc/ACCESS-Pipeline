@@ -34,7 +34,7 @@ MY_THEME = theme(text = element_text(size=8),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Pool_input')
+DROP_COLS = c('Pool_input', 'Barcode_index')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
