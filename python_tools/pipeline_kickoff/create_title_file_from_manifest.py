@@ -20,7 +20,7 @@ from ..constants import *
 # Note: The following requirements will be imposed on the input manifest file:
 #
 # 1. The fields that are found in the sample manifest should matched with the examples in test/test_data
-# 2 The sample ID's in the manifest must be matched somewhere in the fastq file names fom the -d data folder
+# 2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the -d data folder
 # 3. The sample ID's in the manifest must be matched somewhere in the path to the SampleSheet.csv files
 # 4. The SAMPLE_CLASS column of the manifest must consist of the values either "Tumor" or "Normal"
 # 5. Each "Tumor" sample must have at least one associated "Normal" sample

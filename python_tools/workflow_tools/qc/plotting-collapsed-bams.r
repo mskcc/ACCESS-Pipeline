@@ -34,7 +34,7 @@ MY_THEME = theme(text = element_text(size=8),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Pool_input', 'Barcode_index')
+DROP_COLS = c('Pool_input', 'Barcode_index', 'Sample_type', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -49,7 +49,6 @@ gg_color_hue <- function(n) {
 #' Levels and sort order for collapsing methods
 LEVEL_C = c(
   'total',
-  'unique',
   'unfiltered',
   'simplex_duplex',
   'duplex'
@@ -99,7 +98,7 @@ readInputs = function(args) {
 #' Function to plot duplication fraction (Standard Bams only)
 #' @param data data.frame with the usual columns
 plotDupFrac = function(data) {
-
+  data = filter(data, method %in% LEVEL_C)
   # Plot may be used across collapsing methods, or with T/N coloring for just total values
   data = transform(data, method=factor(method, levels=LEVEL_C))
   # data = data %>% filter(method == 'picard')
@@ -139,13 +138,15 @@ plotAlignGenome = function(data) {
 #' for each collapsing method
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
+  data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('pool_a', 'pool_b')))
+  data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
+  data = data %>% arrange(total_or_collapsed, method)
   
   ggplot(data, aes(x=Sample, y=average_coverage)) +
-    facet_grid(pool~ ., , scales = 'free') +
+    facet_grid(pool + total_or_collapsed~ . , scales = 'free') +
     geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
-    
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
@@ -170,6 +171,7 @@ plotOnTarget = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovAllSamples = function(data) {
+  data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   
   ggplot(data, aes(x = gc_bin, y = coverage, color = method, group = method)) +
@@ -185,10 +187,11 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
+  data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
 
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
-    facet_grid(method~.) +
+    facet_grid(method ~ .) +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage (per sample)', label=format_comma) +
@@ -289,6 +292,26 @@ plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
 }
 
 
+cleanup_sample_names_2 = function(data) {
+  data = data %>% mutate(Sample = gsub('_md', '', Sample))
+  data = data %>% mutate(Sample = gsub('-md', '', Sample))
+  data = data %>% mutate(Sample = gsub('.bam', '', Sample))
+  data = data %>% mutate(Sample = gsub('Sample_', '', Sample))
+  data = data %>% mutate(Sample = gsub('Sample-', '', Sample))
+  data = data %>% mutate(Sample = gsub('Sample', '', Sample))
+  data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  
+  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_standard...
+  data = data %>% mutate(Sample = gsub('_standard.*', '', Sample))
+  
+  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
+  #                                       ^^^^
+  data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
+  data
+}
+
+
 #' Print the title file to our PDF
 #' @param title_df
 printTitle = function(title_df) {
@@ -299,6 +322,9 @@ printTitle = function(title_df) {
   
   # Remove some columns
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
+  
+  # Clean Sample names for printing
+  title_df = cleanup_sample_names_2(title_df)
   
   # Split into two sections
   halfway = floor(ncol(title_df) / 2)
@@ -311,20 +337,12 @@ printTitle = function(title_df) {
   title = textGrob(label = 'MSK-ACCESS QC Report')
   date = format(Sys.time(), '%a %b %d %Y %H:%M:%S')
   date = textGrob(label = date)
-  # line = linesGrob(
-            # x=unit(c(0, 1), 'npc'),
-            # y=unit(c(0, 0), 'npc'),
-            # default.units='npc',
-            # arrow=NULL,
-            # name=NULL,
-            # gp=gpar(),
-            # vp=NULL)
   line = linesGrob(
     unit(c(0.05, 0.95), 'npc'),
     unit(1, 'npc'),
     gp=gpar(col='lightgrey', lwd=4))
   
-  # Todo: this is not a clean solution
+  # Todo: better way to make smaller title
   lay <- rbind(c(1,1,1,1,1),
                c(2,2,2,2,2),
                c(3,3,3,3,3),
@@ -445,7 +463,7 @@ print(plotAlignGenome(readCountsDataTotal))
 print(plotOnTarget(readCountsDataTotal))
 print(plotInsertSizeDistribution(insertSizes, insertSizePeaks))
 print(plotCovDistPerIntervalLine(covPerInterval))
-print(plotDupFrac(dupRateData))
+# print(plotDupFrac(dupRateData))
 print(plotMeanCov(meanCovData))
 # print(plotGCwithCovAllSamples(gcAllSamples))
 print(plotGCwithCovEachSample(gcEachSample, sort_order))
