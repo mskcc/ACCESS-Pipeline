@@ -156,9 +156,9 @@ or for other job schedulers:
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
 >   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
->   --batch_system gridEngine \
->   --job_store_uuid some_random_uuid
+>   --batch_system gridEngine
 ```
+This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
 # Issues
 Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
