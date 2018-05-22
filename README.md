@@ -72,6 +72,12 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 (innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
+### 7. Copy the test data
+It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here:
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+```
+
 # Running the test pipeline
 
 I usually run the pipelines from a separate directory, with ample storage space. Even though the pipelines outputs directory can be specified for the runs, even the log files can be quite large (up to ~50GB if running in debug mode).
