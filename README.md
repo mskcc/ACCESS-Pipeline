@@ -96,7 +96,7 @@ To run with the CWL reference implementation (faster for testing purposes):
   --tmp-outdir-prefix /where/i/want/outdirs \
   --leave-tmpdir \ # If you want to keep the temp dirs
   --leave-outputs \ # If you want to keep the outputs
-  ~/Innovation-Pipeline/workflows/standard_pipeline.cwl \
+  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
   inputs.yaml
 ```
 To run with Toil batch system runner:
