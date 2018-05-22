@@ -78,6 +78,12 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 (innovation_pipeline) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
 ```
 
+### 8. Set TMPDIR
+cwltool & toil will use the `TMPDIR` variable for intermediate outputs
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+```
+
 # Running the test pipeline
 
 I usually run the pipelines from a separate directory, with ample storage space. Even though the pipelines outputs directory can be specified for the runs, even the log files can be quite large (up to ~50GB if running in debug mode).
