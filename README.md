@@ -72,6 +72,18 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 (innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
+### 7. Copy the test data
+It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here:
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+```
+
+### 8. Set TMPDIR
+cwltool & toil will use the `TMPDIR` variable for intermediate outputs
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+```
+
 # Running the test pipeline
 
 I usually run the pipelines from a separate directory, with ample storage space. Even though the pipelines outputs directory can be specified for the runs, even the log files can be quite large (up to ~50GB if running in debug mode).
@@ -96,7 +108,7 @@ To run with the CWL reference implementation (faster for testing purposes):
   --tmp-outdir-prefix /where/i/want/outdirs \
   --leave-tmpdir \ # If you want to keep the temp dirs
   --leave-outputs \ # If you want to keep the outputs
-  ~/Innovation-Pipeline/workflows/standard_pipeline.cwl \
+  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
   inputs.yaml
 ```
 To run with Toil batch system runner:
@@ -144,9 +156,9 @@ or for other job schedulers:
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
 >   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
->   --batch_system gridEngine \
->   --job_store_uuid some_random_uuid
+>   --batch_system gridEngine
 ```
+This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
 # Issues
 Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
