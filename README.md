@@ -120,7 +120,7 @@ To run with Toil batch system runner:
 The same steps for testing can be used for a real run. However this project is still in development, and validation needs to be done on the results of our collapsing steps. In addition, the adapter sequences are hard-coded into the `create_inputs_from_title_file` step, and should be updated as per the barcode-flanking sequences being used. 
 
 Note that there are several requirements when running on your own data:
-1. The fields that are found in the sample manifest should matched with the examples in `test/test_data`
+1. The header names that are found in the sample manifest should matched with the examples in `test/test_data`
 2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the `-d` data folder
 3. The sample ID's in the manifest must be matched somewhere in the path to the SampleSheet.csv files
 4. Each sample in the `-d` data folder must have these three files:
