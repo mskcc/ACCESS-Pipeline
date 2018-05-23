@@ -235,15 +235,15 @@ AGBM_COVERAGE_HEADER = [
 #
 # Labels for collapsing methods
 TOTAL_LABEL = 'total'
-PICARD_LABEL = 'unique'
-MAPPED_LABEL = 'mapped'
+PICARD_LABEL = 'Picard Unique'
+MAPPED_LABEL = 'Mapped'
 
-POOL_A_LABEL = 'pool_a'
-POOL_B_LABEL = 'pool_b'
+POOL_A_LABEL = 'A Targets'
+POOL_B_LABEL = 'B Targets'
 
-UNFILTERED_COLLAPSING_METHOD = 'unfiltered'
-SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'simplex_duplex'
-DUPLEX_COLLAPSING_METHOD = 'duplex'
+UNFILTERED_COLLAPSING_METHOD = 'All Unique'
+SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'Simplex-Duplex'
+DUPLEX_COLLAPSING_METHOD = 'Duplex'
 
 # Headers for tables
 DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']

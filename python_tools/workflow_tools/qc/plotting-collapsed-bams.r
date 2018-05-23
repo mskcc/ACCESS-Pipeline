@@ -8,11 +8,12 @@
 ##################################################
 
 library(grid)
+library(gridBase)
+library(gridExtra)
 library(lattice)
 library(ggplot2)
 library('getopt');
 library(reshape2)
-library(gridExtra)
 suppressMessages(library(dplyr))
 suppressMessages(library(ggrepel))
 
@@ -49,9 +50,9 @@ gg_color_hue <- function(n) {
 #' Levels and sort order for collapsing methods
 LEVEL_C = c(
   'total',
-  'unfiltered',
-  'simplex_duplex',
-  'duplex'
+  'All Unique',
+  'Simplex-Duplex',
+  'Duplex'
 )
 
 #' Util function to sort data by arbitrary list
@@ -127,7 +128,7 @@ plotAlignGenome = function(data) {
 
   # Todo: is this 'on target' or 'aligned to human genome'?
   ggplot(data, aes(x=Sample, y=total_on_target_fraction)) +
-    geom_bar(position = 'dodge', stat='identity', aes_string(fill = fill_var)) +
+    geom_bar(position='dodge', stat='identity', aes_string(fill=fill_var)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0.8, 1.0)) +
     MY_THEME
@@ -140,29 +141,35 @@ plotAlignGenome = function(data) {
 plotMeanCov = function(data) {
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
-  data = transform(data, pool=factor(pool, levels=c('pool_a', 'pool_b')))
+  data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
   data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  ggplot(data, aes(x=Sample, y=average_coverage)) +
-    facet_grid(pool + total_or_collapsed~ . , scales = 'free') +
+  inset = data %>% group_by(Class, pool, method) %>% summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
+  
+  g = ggplot(data, aes(x=Sample, y=average_coverage)) +
+    facet_grid(pool + total_or_collapsed ~ . , scales = 'free') +
     geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
+  
+  layout(matrix(c(1,2,2,2), nrow = 4, ncol = 1, byrow = FALSE))
+  par(mfrow = c(2, 1))
+  tt = ttheme_default(base_size=6, colhead=list(fg_params = list(parse=TRUE)))
+  tbl = tableGrob(inset, rows=NULL, theme=tt)
+  grid.arrange(tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
 }
 
 
-#' Plot on target rate 
+#' Plot on target rate
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  method_c = c('Sample', 'total_on_target_fraction', 'pool')
-
   ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
     geom_bar(position = position_stack(reverse = TRUE), stat='identity', aes(fill = pool)) +
     ggtitle('Fraction of On Target Reads') +
-    scale_y_continuous('Fraction of Reads', label=format_comma) +
+    scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
     MY_THEME
 }
 
@@ -208,7 +215,7 @@ plotCovDistPerInterval = function(data) {
   for (i in seq(1, length(unique_genes), 2)) {
     end = i + 2
     genes_subset = unique_genes[i : end]
-    data_subset = data[data$Gene %in% genes_subset, ]
+    data_subset = data[data$Gene %in% genes_subset,]
     plot_data = ggplot(data_subset, aes(x=probe, y=coverage)) +
       facet_grid(~gene, scales = 'free', space = 'free') +
       geom_boxplot(fill = hue_pal()(2)[2]) +
@@ -314,11 +321,20 @@ cleanup_sample_names_2 = function(data) {
 
 #' Print the title file to our PDF
 #' @param title_df
-printTitle = function(title_df) {
+printTitle = function(title_df, coverage_df) {
   mytheme <- gridExtra::ttheme_default(
     core = list(fg_params=list(cex = 0.4)),
     colhead = list(fg_params=list(cex = 0.5)),
     rowhead = list(fg_params=list(cex = 0.5)))
+  
+  print(title_df)
+  print(coverage_df)
+  
+  coverage_df = dcast(coverage_df, Sample ~ method + pool) %>%
+      select('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')
+  
+  # Merge in coverage data
+  title_df = inner_join(title_df, coverage_df, by='Sample')
   
   # Remove some columns
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
@@ -422,20 +438,21 @@ main = function(args) {
   final_dest = paste(outDir, final_filename, sep="/")
   pdf(file = final_dest, onefile = TRUE)
   
+  # Read in tables
+  readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
+  dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
+  covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
+  insertSizePeaks = read.table(paste(inDirTables, 'insert-size-peaks.txt', sep='/'), sep='\t', head=TRUE)
+  insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
+  meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
+  gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
+  gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
+  
   # Put title file on first page of PDF
-  printTitle(title_df)
+  printTitle(title_df, meanCovData)
 
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
-
-readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
-dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
-covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-insertSizePeaks = read.table(paste(inDirTables, 'insert-size-peaks.txt', sep='/'), sep='\t', head=TRUE)
-insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
-gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
-gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
 
 printhead = function(x) {
   print(head(x))
