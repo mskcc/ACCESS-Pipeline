@@ -22,10 +22,10 @@ from ...constants import *
 #####################
 
 def unique_or_tot(x):
-    if 'total' in x:
-        return 'total'
+    if TOTAL_LABEL in x:
+        return TOTAL_LABEL
     else:
-        return 'unique'
+        return PICARD_LABEL
 
 
 def get_gene_and_probe(interval):
@@ -75,7 +75,7 @@ def get_read_counts_total_table(path, pool):
     full_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts_total = pd.read_csv(full_path, sep='\t')
 
-    col_idx = ~read_counts_total.columns.str.contains('unique')
+    col_idx = ~read_counts_total.columns.str.contains(PICARD_LABEL)
 
     read_counts_total = read_counts_total.iloc[:, col_idx]
     read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
@@ -125,7 +125,7 @@ def get_table_duplication(read_counts_table):
     mapped_boolv = read_counts_table['Category'] == TOTAL_MAPPED_COLUMN
     total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
 
-    for pool in ['pool_a', 'pool_b']:
+    for pool in [POOL_A_LABEL, POOL_B_LABEL]:
         pool_boolv = read_counts_table['pool'] == pool
         rows_idx = mapped_boolv & total_method_boolv & pool_boolv
         mapped_reads = read_counts_table[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value', 'pool']]
@@ -208,7 +208,7 @@ def get_coverage_per_interval(tbl):
     """
     Creates table of (un-collapsed) coverage per interval
     """
-    total_boolv = (tbl['method'] == 'total')
+    total_boolv = (tbl['method'] == TOTAL_LABEL)
     # todo - why is this needed:
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
     relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
