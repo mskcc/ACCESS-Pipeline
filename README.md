@@ -121,9 +121,9 @@ The same steps for testing can be used for a real run. However this project is s
 
 Note that there are several requirements when running on your own data:
 1. The header names that are found in the sample manifest should matched with the examples in `test/test_data`
-2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the `-d` data folder
-3. The sample ID's in the manifest must be matched somewhere in the path to the SampleSheet.csv files
-4. Each sample in the `-d` data folder must have these three files:
+2. The sample ID's in the manifest must be matched somewhere in the fastqs and sample sheets fom the `-d` data folder
+4. The pt ids in the manifest must be matched somewhere in the fastqs and sample sheets fom the `-d` data folder
+5. Each sample in the `-d` data folder must have these three files:
 ```
 '_R1_001.fastq.gz'
 '_R2_001.fastq.gz'
