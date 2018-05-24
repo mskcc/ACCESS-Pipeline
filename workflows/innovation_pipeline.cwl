@@ -244,18 +244,6 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      fci__minbq: fci__minbq
-      fci__minmq: fci__minmq
-      fci__cov: fci__cov
-      fci__rf: fci__rf
-      fci__intervals: fci__intervals
-      abra__kmers: abra__kmers
-      abra__scratch: abra__scratch
-      abra__mad: abra__mad
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__create_index: fix_mate_information__create_index
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
 
     out: [collapsed_bams]
     scatter: [

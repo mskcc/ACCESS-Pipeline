@@ -50,18 +50,6 @@ inputs:
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
-  fci__minbq: int
-  fci__minmq: int
-  fci__cov: int
-  fci__rf: string[]
-  fci__intervals: string[]
-  abra__kmers: string
-  abra__scratch: string
-  abra__mad: int
-  fix_mate_information__sort_order: string
-  fix_mate_information__create_index: boolean
-  fix_mate_information__compression_level: int
-  fix_mate_information__validation_stringency: string
 
 outputs:
 
