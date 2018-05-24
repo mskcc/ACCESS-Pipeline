@@ -247,7 +247,6 @@ DUPLEX_COLLAPSING_METHOD = 'Duplex'
 
 # Headers for tables
 DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']
-INSERT_SIZE_PEAKS_HEADER = [SAMPLE_ID_COLUMN, 'peak_total', 'peak_total_size', 'peak_unique', 'peak_unique_size']
 GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', 'coverage', 'gc', 'method']
 GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
 GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']

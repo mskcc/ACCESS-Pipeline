@@ -225,32 +225,6 @@ def get_coverage_per_interval(tbl):
     return final_tbl
 
 
-def get_insert_size_peaks_table(path):
-    """
-    This table is used for the "Insert Size Distribution for All Samples" plot
-    """
-    files = [fileName for fileName in os.listdir(path) if WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX in fileName]
-
-    final_tbl_peaks = pd.DataFrame(columns=INSERT_SIZE_PEAKS_HEADER)
-    for f in files:
-
-        cur_sizes = pd.read_csv(path + '/' + f, sep="\t", names=['fragment_size', 'peak_total', 'peak_unique'])
-        max_tot = max(cur_sizes['peak_total'])
-        max_unique = max(cur_sizes['peak_unique'])
-        max_tot_size = cur_sizes['fragment_size'][np.argmax(cur_sizes['peak_total'])]
-        max_unique_size = cur_sizes['fragment_size'][np.argmax(cur_sizes['peak_unique'])]
-
-        final_tbl_peaks = pd.concat([final_tbl_peaks, pd.DataFrame({
-            SAMPLE_ID_COLUMN: f,
-            'peak_total': [max_tot],
-            'peak_total_size': [max_tot_size],
-            'peak_unique': [max_unique],
-            'peak_unique_size': [max_unique_size]
-        })])
-
-    return final_tbl_peaks
-
-
 ########
 # Main #
 ########
@@ -267,7 +241,6 @@ def main(args):
     all_samples_coverage_filename = '/'.join([output_dir, 'GC-bias-with-coverage-averages-over-all-samples.txt'])
     each_sample_coverage_filename = '/'.join([output_dir, 'GC-bias-with-coverage-averages-over-each-sample.txt'])
     gc_bias_with_coverage_filename = '/'.join([output_dir, 'GC-bias-with-coverage.txt'])
-    insert_size_peaks_filename = '/'.join([output_dir, 'insert-size-peaks.txt'])
     read_counts_total_filename = '/'.join([output_dir, 'read-counts-total.txt'])
     coverage_per_interval_filename = '/'.join([output_dir, 'coverage-per-interval.txt'])
     duplication_rates_filename = '/'.join([output_dir, 'duplication-rates.txt'])
@@ -276,8 +249,6 @@ def main(args):
     read_counts_total_pool_a_table = get_read_counts_total_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_total_table = pd.concat([read_counts_total_pool_a_table, read_counts_total_pool_b_table])
-
-    insert_size_peaks_table = get_insert_size_peaks_table(args.unfiltered_waltz_pool_a)
 
     # Std, Pool A and B
     read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
@@ -338,7 +309,6 @@ def main(args):
     read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
     read_counts_total_table.to_csv(read_counts_total_filename, sep='\t', index=False)
     coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
-    insert_size_peaks_table.to_csv(insert_size_peaks_filename, sep='\t', index=False)
     gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
     gc_avg_table_each.to_csv(each_sample_coverage_filename, sep='\t', index=False)
     gc_avg_table_all.to_csv(all_samples_coverage_filename, sep='\t', index=False)
