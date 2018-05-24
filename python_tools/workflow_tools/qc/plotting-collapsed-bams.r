@@ -140,7 +140,9 @@ plotMeanCov = function(data) {
   data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  inset = data %>% group_by(Class, pool, method) %>% summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
+  inset = data %>% 
+    group_by(Class, pool, method) %>% 
+    summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
   
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
@@ -149,11 +151,11 @@ plotMeanCov = function(data) {
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
   
-  layout(matrix(c(1,2,2,2), nrow = 4, ncol = 1, byrow = FALSE))
+  layout(matrix(c(1,2,2,2), nrow=4, ncol=1, byrow = FALSE))
   par(mfrow = c(2, 1))
-  tt = ttheme_default(base_size=6, colhead=list(fg_params = list(parse=TRUE)))
-  tbl = tableGrob(inset, rows=NULL, theme=tt)
-  grid.arrange(tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
+  tt = ttheme_default(base_size=4)
+  tbl = tableGrob(inset, theme=tt)
+  grid.arrange(tbl, g, nrow=2, as.table=TRUE, heights=c(1,2))
 }
 
 

@@ -21,6 +21,6 @@ waltz__min_mapping_quality: 20
 
 ########################
 # 2nd Realignment step
-# In this step we want to lower base qualities
+# In this step we want to ignore base qualities
 # that were changed during collapsing
 fci_2__basq_fix: true
