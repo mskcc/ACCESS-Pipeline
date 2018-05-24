@@ -328,8 +328,8 @@ printTitle = function(title_df, coverage_df) {
     rowhead = list(fg_params=list(cex = 0.5)))
   
   # Cast the coverage values
-  coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage') %>%
-    select('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')
+  coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
+  coverage_df = coverage_df[,c('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
   
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')

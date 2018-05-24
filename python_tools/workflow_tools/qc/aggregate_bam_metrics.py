@@ -36,7 +36,7 @@ def process_read_counts_files(files):
     Aggregate read-counts metrics files for each Bam into one file
     """
     read_counts_files = [f for f in files if WALTZ_READ_COUNTS_FILENAME_SUFFIX in f]
-    all_read_counts = merge_files_across_samples(read_counts_files, SID_COL)
+    all_read_counts = merge_files_across_samples(read_counts_files, AGBM_READ_COUNTS_HEADER, SID_COL)
     all_read_counts.columns = AGBM_READ_COUNTS_HEADER
     to_csv(all_read_counts, AGBM_READ_COUNTS_FILENAME)
 
@@ -47,7 +47,7 @@ def process_fragment_sizes_files(files):
     """
     fragment_sizes_files = [f for f in files if WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX in f]
     # Todo: not happy with this method for empty DataFrame
-    all_frag_sizes = merge_files_across_samples(fragment_sizes_files, SID_COL, AGBM_FRAGMENT_SIZES_FILE_HEADER)
+    all_frag_sizes = merge_files_across_samples(fragment_sizes_files, AGBM_FRAGMENT_SIZES_FILE_HEADER, SID_COL)
     all_frag_sizes.columns = AGBM_FRAGMENT_SIZES_FILE_HEADER
     to_csv(all_frag_sizes, AGBM_FRAGMENT_SIZES_FILENAME)
 
@@ -61,7 +61,7 @@ def create_waltz_coverage_file(files):
 
     coverage_dfs = []
     for files in [input_files, unique_input_files]:
-        coverage_df = merge_files_across_samples(files, SID_COL)
+        coverage_df = merge_files_across_samples(files, AGBM_COVERAGE_HEADER, SID_COL)
 
         coverage_df.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
         coverage_df['coverage_X_length'] = coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN] * coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN]
@@ -88,8 +88,9 @@ def create_sum_of_coverage_dup_temp_file(files):
     """
     input_files = [f for f in files if WALTZ_INTERVALS_FILENAME_SUFFIX in f]
 
-    intervals_coverage_all = merge_files_across_samples(input_files, SID_COL)
-    intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
+    cols = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
+    intervals_coverage_all = merge_files_across_samples(input_files, cols, SID_COL)
+    intervals_coverage_all.columns = cols
 
     # Todo: is interval_name the same as 0:5 for key?
     togroupby = [SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN]
@@ -107,8 +108,9 @@ def create_sum_of_coverage_nodup_temp_file(files):
     """
     input_files = [f for f in files if WALTZ_INTERVALS_WITHOUT_DUPLICATES_FILENAME_SUFFIX in f]
 
-    intervals_coverage_all = merge_files_across_samples(input_files, SID_COL)
-    intervals_coverage_all.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
+    cols = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
+    intervals_coverage_all = merge_files_across_samples(input_files, cols, SID_COL)
+    intervals_coverage_all.columns = cols
 
     togroupby = [SAMPLE_ID_COLUMN, INTERVAL_NAME_COLUMN]
     gc_coverage_sum_per_interval = intervals_coverage_all.groupby(togroupby).sum().reset_index()
