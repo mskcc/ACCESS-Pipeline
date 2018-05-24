@@ -78,7 +78,7 @@ def get_read_counts_total_table(path, pool):
     col_idx = ~read_counts_total.columns.str.contains(PICARD_LABEL)
 
     read_counts_total = read_counts_total.iloc[:, col_idx]
-    read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
+    read_counts_total['AlignFrac'] = read_counts_total[TOTAL_MAPPED_COLUMN] / read_counts_total[TOTAL_READS_COLUMN]
     read_counts_total[TOTAL_OFF_TARGET_FRACTION_COLUMN] = 1 - read_counts_total[TOTAL_ON_TARGET_FRACTION_COLUMN]
 
     read_counts_total['pool'] = pool
