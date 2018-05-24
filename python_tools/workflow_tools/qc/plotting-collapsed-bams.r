@@ -102,12 +102,6 @@ plotDupFrac = function(data) {
   data = filter(data, method %in% LEVEL_C)
   # Plot may be used across collapsing methods, or with T/N coloring for just total values
   data = transform(data, method=factor(method, levels=LEVEL_C))
-  # data = data %>% filter(method == 'picard')
-  # if('Class' %in% colnames(data)) {
-  #   fill_var = 'Class'
-  # } else {
-  #   fill_var = 'method'
-  # }
   
   ggplot(data, aes(x = Sample, y = as.numeric(duplication_rate))) +
     geom_bar(stat='identity', aes_string(fill = 'method'), position = 'dodge') +
@@ -232,9 +226,6 @@ plotCovDistPerInterval = function(data) {
 #' Function to plot histogram of coverage per target interval distribution
 #' Coverage values are scaled by the mean of the distribution
 plotCovDistPerIntervalLine = function(data) {
-  # n = length(unique(data$Sample))
-  # cols = factor(gg_color_hue(n))
-  
   data = data %>%
     group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
@@ -244,32 +235,18 @@ plotCovDistPerIntervalLine = function(data) {
     ggtitle('Distribution of Coverages per Target Interval') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage', limits=c(0, 3)) +
-    # scale_color_manual(values = cols) +
     MY_THEME
-  
-  # Use stat='bin' when testing on small data
-  # ggplot(data) +
-  #   geom_line(aes(x=coverage, colour=Sample), stat='bin', binwidth=0.5) +
-  #   ggtitle('Distribution of Coverages per Target Interval') +
-  #   scale_y_continuous('Frequency', label=format_comma) +
-  #   MY_THEME
 }
 
 
 #' Plot the distribution of insert sizes (a.k.a. fragment lengths),
 #' as well as most frequent insert sizes
 #' @param insertSizes data.frame of insertSizes, ?
-#' @param insertSizes data.frame of insertSizePeaks, ?
-plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
+plotInsertSizeDistribution = function(insertSizes) {
   totalFreq = insertSizes %>%
     group_by(Sample) %>%
     mutate(total_frequency_sum = sum(total_frequency)) %>%
     select(Sample, total_frequency_sum)
-
-  peakSizes = insertSizePeaks %>%
-    inner_join(totalFreq, by='Sample') %>%
-    distinct() %>%
-    mutate(total_frequency_fraction = peak_total / total_frequency_sum)
 
   insertSizes = insertSizes %>%
     group_by(Sample) %>%
@@ -277,20 +254,7 @@ plotInsertSizeDistribution = function(insertSizes, insertSizePeaks) {
     ungroup()
 
   ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
-    # geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
-    # Use geom_line instead of geom_smooth for testing (not enough points)
-    geom_line() +
-
-#    geom_text_repel(
-#      data = peakSizes,
-#      size = 2,
-#      segment.color = 'transparent',
-#      force = 1,
-#      direction = 'y',
-#      show.legend = FALSE,
-#      aes(x = Inf, y = Inf,
-#      label = paste('peak_total_size: ', peak_total_size,  ', n = ', peak_total, sep = ''))) +
-
+    geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
@@ -440,7 +404,6 @@ main = function(args) {
   readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
   dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
   covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-  insertSizePeaks = read.table(paste(inDirTables, 'insert-size-peaks.txt', sep='/'), sep='\t', head=TRUE)
   insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
   meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
   gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
@@ -457,7 +420,7 @@ printhead = function(x) {
 }
 
 # Perform some processing on some of our tables
-dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizePeaks, insertSizes, meanCovData, gcEachSample)
+dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample)
 dfList = lapply(dfList, cleanup_sample_names, sort_order)
 dfList = lapply(dfList, sort_df, 'Sample', sort_order)
 lapply(dfList, printhead)
@@ -467,16 +430,15 @@ dfList = lapply(dfList, mergeInTitleFileData, title_df)
 readCountsDataTotal = dfList[[1]]
 dupRateData = dfList[[2]]
 covPerInterval = dfList[[3]]
-insertSizePeaks = dfList[[4]]
-insertSizes = dfList[[5]]
-meanCovData = dfList[[6]]
-gcEachSample = dfList[[7]]
+insertSizes = dfList[[4]]
+meanCovData = dfList[[5]]
+gcEachSample = dfList[[6]]
 
 # Choose the plots that we want to run
 print(plotAlignGenome(readCountsDataTotal))
 # print(plotCovDistPerInterval(covPerInterval))
 print(plotOnTarget(readCountsDataTotal))
-print(plotInsertSizeDistribution(insertSizes, insertSizePeaks))
+print(plotInsertSizeDistribution(insertSizes))
 print(plotCovDistPerIntervalLine(covPerInterval))
 # print(plotDupFrac(dupRateData))
 print(plotMeanCov(meanCovData))
