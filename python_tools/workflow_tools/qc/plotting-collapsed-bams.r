@@ -114,6 +114,7 @@ plotDupFrac = function(data) {
 #' Function to plot number of reads that aligned to the reference genome
 #' @param data data.frame with the usual columns
 plotAlignGenome = function(data) {
+  data$AlignFrac = as.numeric(data$AlignFrac)
   if('Class' %in% colnames(data)) {
     fill_var = 'Class'
   } else {
@@ -121,7 +122,7 @@ plotAlignGenome = function(data) {
   }
 
   # Todo: is this 'on target' or 'aligned to human genome'?
-  ggplot(data, aes(x=Sample, y=total_on_target_fraction)) +
+  ggplot(data, aes(x=Sample, y=AlignFrac)) +
     geom_bar(position='dodge', stat='identity', aes_string(fill=fill_var)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0.8, 1.0)) +
@@ -425,6 +426,7 @@ dfList = lapply(dfList, cleanup_sample_names, sort_order)
 dfList = lapply(dfList, sort_df, 'Sample', sort_order)
 lapply(dfList, printhead)
 
+dfList = lapply(dfList, cleanup_sample_names_2)
 dfList = lapply(dfList, mergeInTitleFileData, title_df)
 
 readCountsDataTotal = dfList[[1]]
