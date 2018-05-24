@@ -574,6 +574,8 @@ def main():
     print "3. Not specifying the '-c' parameter when collapsing steps are intended"
     print "4. Working in the wrong virtual environment (are you sure you ran setup.py install?)"
     print "5. Using the wrong adapter sequences (this setup only support dual-indexing)"
+    print "6. Not specifying the correct parameters for logLevel or cleanWorkDir " + \
+          "(if you want to see the actual commands passed to the tools, or keep the outputs after a successful run)"
 
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
