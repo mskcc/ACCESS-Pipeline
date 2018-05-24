@@ -46,7 +46,8 @@ def process_fragment_sizes_files(files):
     Aggregate fragment-sizes metrics files for each Bam into one file
     """
     fragment_sizes_files = [f for f in files if WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX in f]
-    all_frag_sizes = merge_files_across_samples(fragment_sizes_files, SID_COL)
+    # Todo: not happy with this method for empty DataFrame
+    all_frag_sizes = merge_files_across_samples(fragment_sizes_files, SID_COL, AGBM_FRAGMENT_SIZES_FILE_HEADER)
     all_frag_sizes.columns = AGBM_FRAGMENT_SIZES_FILE_HEADER
     to_csv(all_frag_sizes, AGBM_FRAGMENT_SIZES_FILENAME)
 

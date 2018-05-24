@@ -148,7 +148,7 @@ plotMeanCov = function(data) {
   inset = data %>% group_by(Class, pool, method) %>% summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
   
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
-    facet_grid(pool + total_or_collapsed ~ . , scales = 'free') +
+    facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
     geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
@@ -327,11 +327,9 @@ printTitle = function(title_df, coverage_df) {
     colhead = list(fg_params=list(cex = 0.5)),
     rowhead = list(fg_params=list(cex = 0.5)))
   
-  print(title_df)
-  print(coverage_df)
-  
-  coverage_df = dcast(coverage_df, Sample ~ method + pool) %>%
-      select('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')
+  # Cast the coverage values
+  coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage') %>%
+    select('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')
   
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')

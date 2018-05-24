@@ -154,7 +154,7 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     for i, sample in enumerate(sample_files):
         sample_files[i] = '/'.join([path, sample])
 
-    gc_with_cov = merge_files_across_samples(sample_files)
+    gc_with_cov = merge_files_across_samples(sample_files, GC_BIAS_HEADER)
     gc_with_cov = gc_with_cov.ix[:, [SAMPLE_ID_COLUMN, 3, 5, 7]]
     gc_with_cov['method'] = [curr_method] * len(gc_with_cov)
     gc_with_cov.columns = GC_BIAS_HEADER

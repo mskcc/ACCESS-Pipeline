@@ -1,6 +1,7 @@
 # Files used in collapsing steps
 #bed_file: {class: File, path: /home/johnsoni/test_reference/bed/pan-cancer-panel_14-16.sorted.bed}
 
+# Todo: Use $PIPELINE_ROOT
 pool_a_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/PanCancer_v2_2_probe_A_14.bed}
 pool_b_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/PanCancer_v2_2_probe_B_16.bed}
 
