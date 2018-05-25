@@ -563,6 +563,18 @@ def sanity_check(title_file):
 def main():
     # Parse arguments
     args = parse_arguments()
+
+    print args
+    print
+    print "You've just created the inputs file. Please double check its entries before kicking off a run."
+    print "Common mistakes include:"
+    print
+    print "1. Trying to use test parameters on a real run (accidentally using the -t param)"
+    print "2. Using the wrong bedfile for the capture"
+    print "3. Not specifying the '-c' parameter when collapsing steps are intended"
+    print "4. Working in the wrong virtual environment (are you sure you ran setup.py install?)"
+    print "5. Using the wrong adapter sequences (this setup only support dual-indexing)"
+
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
     # Perform some sanity checks on the title file
