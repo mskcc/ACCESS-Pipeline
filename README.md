@@ -78,10 +78,17 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 (innovation_pipeline) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
 ```
 
-### 8. Set TMPDIR
+### 8. Set TMPDIR (optional)
 cwltool & toil will use the `TMPDIR` variable for intermediate outputs
 ```
 (innovation_pipeline) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+```
+
+### 9. Set SGE Environment Vars (optional)
+If running on Sun Grid Engine workflow scheduler, these will be used to specify the queue, and parallel environment
+```
+export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
+export TOIL_GRIDENGINE_PE="smp"
 ```
 
 # Running the test pipeline
