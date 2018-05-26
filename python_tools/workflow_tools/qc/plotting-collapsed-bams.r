@@ -115,17 +115,18 @@ plotDupFrac = function(data) {
 #' @param data data.frame with the usual columns
 plotAlignGenome = function(data) {
   data$AlignFrac = as.numeric(data$AlignFrac)
-  if('Class' %in% colnames(data)) {
+  if ('Class' %in% colnames(data)) {
     fill_var = 'Class'
   } else {
     fill_var = 'Sample'
   }
-
+ 
   # Todo: is this 'on target' or 'aligned to human genome'?
   ggplot(data, aes(x=Sample, y=AlignFrac)) +
     geom_bar(position='dodge', stat='identity', aes_string(fill=fill_var)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
-    scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0.8, 1.0)) +
+    scale_y_continuous('Fraction of Reads', label=format_comma) + 
+    coord_cartesian(ylim=c(0.8, 1)) +
     MY_THEME
 }
 
@@ -140,10 +141,6 @@ plotMeanCov = function(data) {
   data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  inset = data %>% 
-    group_by(Class, pool, method) %>% 
-    summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
-  
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
     geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
@@ -151,11 +148,27 @@ plotMeanCov = function(data) {
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
   
-  layout(matrix(c(1,2,2,2), nrow=4, ncol=1, byrow = FALSE))
+  layout(matrix(c(1,2,3,3,3,3,3,3), nrow=4, ncol=2, byrow = TRUE))
   par(mfrow = c(2, 1))
   tt = ttheme_default(base_size=4)
-  tbl = tableGrob(inset, theme=tt)
-  grid.arrange(tbl, g, nrow=2, as.table=TRUE, heights=c(1,2))
+  
+  inset = data %>% 
+    group_by(Class, pool, method) %>% 
+    summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
+  inset_1 = inset[inset$Class == 'Normal',]
+  inset_2 = inset[inset$Class != 'Normal',]
+  
+  if (nrow(inset_1) > 0 && nrow(inset_2) > 0) {
+    tbl_1 = tableGrob(inset_1, theme=tt)
+    tbl_2 = tableGrob(inset_2, theme=tt)
+    grid.arrange(tbl_1, tbl_2, g, nrow=2, as.table=TRUE, heights=c(1,2))
+  } else if (nrow(inset_1) > 0) {
+    tbl_1 = tableGrob(inset_1, theme=tt)
+    grid.arrange(tbl_1, g, nrow=2, as.table=TRUE, heights=c(1,2))
+  } else if (nrow(inset_2) > 0) {
+    tbl_2 = tableGrob(inset_2, theme=tt)
+    grid.arrange(tbl_2, g, nrow=2, as.table=TRUE, heights=c(1,2))
+  }
 }
 
 
@@ -198,7 +211,7 @@ plotGCwithCovEachSample = function(data, sort_order) {
     facet_grid(method ~ .) +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
-    scale_y_continuous('Average Coverage (per sample)', label=format_comma) +
+    scale_y_continuous('Average Coverage', label=format_comma) +
     xlab('GC Bias') +
     MY_THEME
 }
@@ -237,7 +250,8 @@ plotCovDistPerIntervalLine = function(data) {
     geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
     ggtitle('Distribution of Coverages per Target Interval') +
     scale_y_continuous('Frequency', label=format_comma) +
-    scale_x_continuous('Coverage', limits=c(0, 3)) +
+    scale_x_continuous('Coverage (median scaled)') + #, limits=c(0, 3)) +
+    coord_cartesian(xlim=c(0, 3)) +
     MY_THEME
 }
 
@@ -257,7 +271,8 @@ plotInsertSizeDistribution = function(insertSizes) {
     ungroup()
 
   ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
-    geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
+    # geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
+    stat_smooth(size=.5, n=200, span=0.2, se=FALSE, method='loess', level=.01) +
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
@@ -413,45 +428,50 @@ main = function(args) {
   gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
   
   # Put title file on first page of PDF
-  printTitle(title_df, meanCovData)
+  title_df = cleanup_sample_names_2(title_df)
 
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
 
-printhead = function(x) {
-  print(head(x))
+  printhead = function(x) {print(head(x))}
+  
+  print("Title dataframe:")
+  print(title_df)
+  
+  dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample)
+  
+  print("Dataframes:")
+  lapply(dfList, printhead)
+  
+  dfList = lapply(dfList, cleanup_sample_names, sort_order)
+  dfList = lapply(dfList, sort_df, 'Sample', sort_order)
+  dfList = lapply(dfList, mergeInTitleFileData, title_df)
+  
+  print("After processing:")
+  lapply(dfList, printhead)
+  
+  readCountsDataTotal = dfList[[1]]
+  dupRateData = dfList[[2]]
+  covPerInterval = dfList[[3]]
+  insertSizes = dfList[[4]]
+  meanCovData = dfList[[5]]
+  gcEachSample = dfList[[6]]
+  
+  printTitle(title_df, meanCovData)
+  # Choose the plots that we want to run
+  print(plotAlignGenome(readCountsDataTotal))
+  # print(plotCovDistPerInterval(covPerInterval))
+  print(plotOnTarget(readCountsDataTotal))
+  print(plotInsertSizeDistribution(insertSizes))
+  print(plotCovDistPerIntervalLine(covPerInterval))
+  # print(plotDupFrac(dupRateData))
+  print(plotMeanCov(meanCovData))
+  # print(plotGCwithCovAllSamples(gcAllSamples))
+  print(plotGCwithCovEachSample(gcEachSample, sort_order))
+  
+  dev.off()
 }
-
-# Perform some processing on some of our tables
-dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample)
-dfList = lapply(dfList, cleanup_sample_names, sort_order)
-dfList = lapply(dfList, sort_df, 'Sample', sort_order)
-lapply(dfList, printhead)
-
-dfList = lapply(dfList, cleanup_sample_names_2)
-dfList = lapply(dfList, mergeInTitleFileData, title_df)
-
-readCountsDataTotal = dfList[[1]]
-dupRateData = dfList[[2]]
-covPerInterval = dfList[[3]]
-insertSizes = dfList[[4]]
-meanCovData = dfList[[5]]
-gcEachSample = dfList[[6]]
-
-# Choose the plots that we want to run
-print(plotAlignGenome(readCountsDataTotal))
-# print(plotCovDistPerInterval(covPerInterval))
-print(plotOnTarget(readCountsDataTotal))
-print(plotInsertSizeDistribution(insertSizes))
-print(plotCovDistPerIntervalLine(covPerInterval))
-# print(plotDupFrac(dupRateData))
-print(plotMeanCov(meanCovData))
-# print(plotGCwithCovAllSamples(gcAllSamples))
-print(plotGCwithCovEachSample(gcEachSample, sort_order))
-
-dev.off()
-}
-
+  
 
 # Parse arguments
 argv = commandArgs(trailingOnly=TRUE)

@@ -1,7 +1,7 @@
 import unittest
-from python_tools.workflow_tools.qc import qc_wrapper #, aggregate_bam_metrics
+from python_tools.workflow_tools.qc import aggregate_bam_metrics
 
-qc_wrapper.main()
+aggregate_bam_metrics.main()
 
 # class Tests(unittest.TestCase):
 #
