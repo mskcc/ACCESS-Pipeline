@@ -19,6 +19,7 @@ import subprocess
 #    --js-console
 # Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
 #    --linkImports \
+#    --clusterStats FILEPATH \
 #    --stats \
 
 
@@ -117,15 +118,15 @@ def create_directories(args):
     # Set output directory
     output_directory = "{}/{}".format(output_location, project_name)
     logdir = os.path.join(output_directory, 'log')
-    jobstore_base = '{}/tmp/'.format(output_directory)
+    tmpdir = '{}/tmp/'.format(output_directory)
 
     # Use existing jobstore, or create new one
     if args.restart:
-        job_store_uuid = os.listdir(jobstore_base)[0]
-        jobstore_path = '{}/{}'.format(jobstore_base, job_store_uuid)
+        job_store_uuid = os.listdir(tmpdir)[0]
+        jobstore_path = '{}/{}'.format(tmpdir, job_store_uuid)
     else:
         job_store_uuid = str(uuid.uuid1())
-        jobstore_path = '{}/jobstore-{}'.format(jobstore_base, job_store_uuid)
+        jobstore_path = '{}/jobstore-{}'.format(tmpdir, job_store_uuid)
 
     # Check if output directory already exists
     if os.path.exists(output_directory) and not args.restart:
@@ -135,15 +136,15 @@ def create_directories(args):
         # Create output directories
         os.makedirs(output_directory)
         os.makedirs(logdir)
-        os.makedirs(jobstore_base)
+        os.makedirs(tmpdir)
 
     print 'Output Dir: ' + output_directory
-    print 'Jobstore Base: ' + jobstore_base
+    print 'Jobstore Base: ' + tmpdir
 
-    return output_directory, jobstore_path, logdir
+    return output_directory, jobstore_path, logdir, tmpdir
 
 
-def run_toil(args, output_directory, jobstore_path, logdir):
+def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     """
     Format and call the command to run CWL Toil
     """
@@ -152,7 +153,7 @@ def run_toil(args, output_directory, jobstore_path, logdir):
         '--logFile', os.path.join(logdir, LOG_FILE_NAME),
         '--jobStore', 'file://' + jobstore_path,
         '--batchSystem', args.batch_system,
-        '--workDir', output_directory,
+        '--workDir', tmpdir,
         '--outdir', output_directory,
         '--writeLogs', logdir,
     ])
@@ -184,6 +185,6 @@ def run_toil(args, output_directory, jobstore_path, logdir):
 def main():
     args, unknowns = parse_arguments()
 
-    output_directory, jobstore_path, logdir = create_directories(args)
+    output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
-    run_toil(args, output_directory, jobstore_path, logdir)
+    run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
