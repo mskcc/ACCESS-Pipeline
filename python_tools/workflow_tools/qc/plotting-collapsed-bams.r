@@ -148,27 +148,19 @@ plotMeanCov = function(data) {
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
   
-  layout(matrix(c(1,2,3,3,3,3,3,3), nrow=4, ncol=2, byrow=TRUE))
+  layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
   tt = ttheme_default(base_size=4)
   
-  inset = data %>% 
+  avg_cov_df = data %>% 
     group_by(Class, pool, method) %>% 
     summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
-  inset_1 = inset[inset$Class == 'Normal',]
-  inset_2 = inset[inset$Class != 'Normal',]
   
-  if (nrow(inset_1) > 0 && nrow(inset_2) > 0) {
-    tbl_1 = tableGrob(inset_1, theme=tt)
-    tbl_2 = tableGrob(inset_2, theme=tt)
-    grid.arrange(tbl_1, tbl_2, g, nrow=2, as.table=TRUE, heights=c(1,2))
-  } else if (nrow(inset_1) > 0) {
-    tbl_1 = tableGrob(inset_1, theme=tt)
-    grid.arrange(tbl_1, g, nrow=2, as.table=TRUE, heights=c(1,2))
-  } else if (nrow(inset_2) > 0) {
-    tbl_2 = tableGrob(inset_2, theme=tt)
-    grid.arrange(tbl_2, g, nrow=2, as.table=TRUE, heights=c(1,2))
-  }
+  print(head(avg_cov_df))
+  
+  avg_cov_df = dcast(avg_cov_df, Class + pool ~ method, value.var='average_coverage')
+  avg_cov_tbl = tableGrob(avg_cov_df, theme=tt)
+  grid.arrange(avg_cov_tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
 }
 
 
@@ -191,7 +183,7 @@ plotGCwithCovAllSamples = function(data) {
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   
-  ggplot(data, aes(x = gc_bin, y = coverage, color = method, group = method)) +
+  ggplot(data, aes(x=gc_bin, y=coverage, color=method, group=method)) +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage (all samples)', label=format_comma) +
@@ -207,17 +199,23 @@ plotGCwithCovEachSample = function(data, sort_order) {
   print("GC Cov data:")
   print(head(data))
   print(sort_order)
-  
-  data = filter(data, method %in% LEVEL_C)
+  data = data[complete.cases(data[, 'coverage']),]
+
+  data = dplyr::filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
+  data = transform(data, Sample=factor(Sample))
+  
+  print("after transform:")
+  print(head(data))
 
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
-    facet_grid(method ~ .) +
+    facet_grid(method ~ ., scales='free') +
     geom_line() +
+    # stat_smooth(size=.5, n=100, span=0.1, se=FALSE, method='loess', level=.01) +
     ggtitle('Average Coverage versus GC bias') +
-    scale_y_continuous('Average Coverage', label=format_comma) +
-    xlab('GC Bias') +
-    MY_THEME
+    # scale_y_continuous('Average Coverage', label=format_comma) +
+    xlab('GC Bias') #+
+    # MY_THEME
 }
 
 
@@ -415,6 +413,9 @@ main = function(args) {
   title_file = args[4]
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
+  
+  # Use only two class labels
+  title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
   
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
