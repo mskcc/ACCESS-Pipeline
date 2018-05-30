@@ -37,6 +37,8 @@ setup(
         'xlrd==1.1.0',
         'numpy==1.14.2',
         'pybedtools',
+        'PyPDF2==1.26.0',
+        'matplotlib==2.2.2'
     ],
     # These links are for referencing a particular commit / branch of Toil
     dependency_links=[
@@ -57,6 +59,7 @@ setup(
             'list2bed = python_tools.workflow_tools.list2bed:main',
             'map_read_names_to_umis = python_tools.workflow_tools.map_read_names_to_umis:main',
             'reverse_clip = python_tools.workflow_tools.reverse_clip:main',
+            'fingerprinting = python_tools.workflow_tools.fingerprinting:main',
             # QC
             'aggregate_bam_metrics = python_tools.workflow_tools.qc.aggregate_bam_metrics:main',
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
