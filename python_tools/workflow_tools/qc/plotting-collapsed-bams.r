@@ -211,11 +211,10 @@ plotGCwithCovEachSample = function(data, sort_order) {
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method ~ ., scales='free') +
     geom_line() +
-    # stat_smooth(size=.5, n=100, span=0.1, se=FALSE, method='loess', level=.01) +
     ggtitle('Average Coverage versus GC bias') +
-    # scale_y_continuous('Average Coverage', label=format_comma) +
-    xlab('GC Bias') #+
-    # MY_THEME
+    scale_y_continuous('Average Coverage', label=format_comma) +
+    xlab('GC Bias') +
+    MY_THEME
 }
 
 
@@ -357,6 +356,39 @@ printTitle = function(title_df, coverage_df) {
                c(5,5,5,5,5),
                c(5,5,5,5,5))
   gs = list(title, date, line, tbl1, tbl2)
+  
+  if (nrow(title_df) > 10) {
+    print_title_two_page(title, date, line, tbl1, tbl2)
+    return()
+  }
+  grid.arrange(grobs=gs, layout_matrix=lay)
+}
+
+
+print_title_two_page = function(title, date, line, tbl1, tbl2) {
+  gs = list(title, date, line, tbl1)
+  lay = rbind(c(1,1,1,1,1),
+                c(2,2,2,2,2),
+                c(3,3,3,3,3),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5),
+                c(5,5,5,5,5))
+  grid.arrange(grobs=gs, layout_matrix=lay)
+  gs = list(tbl2)
+  lay = rbind(c(1,1,1,1,1),
+              c(1,1,1,1,1),
+              c(1,1,1,1,1),
+              c(1,1,1,1,1),
+              c(1,1,1,1,1))
   grid.arrange(grobs=gs, layout_matrix=lay)
 }
 
