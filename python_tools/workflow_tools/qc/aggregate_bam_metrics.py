@@ -62,22 +62,15 @@ def create_waltz_coverage_file(files):
     coverage_dfs = []
     for files in [input_files, unique_input_files]:
         coverage_df = merge_files_across_samples(files, AGBM_COVERAGE_HEADER, SID_COL)
-
         coverage_df.columns = [SAMPLE_ID_COLUMN] + WALTZ_INTERVALS_FILE_HEADER
-        coverage_df['coverage_X_length'] = coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN] * coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN]
 
-        coverage_avg = coverage_df.groupby(SAMPLE_ID_COLUMN, as_index=False).mean()
-        coverage_per_sample = coverage_avg[[SAMPLE_ID_COLUMN, 'coverage_X_length']]
-        coverage_per_sample.columns = [SAMPLE_ID_COLUMN, WALTZ_AVERAGE_COVERAGE_COLUMN]
-        coverage_dfs.append(coverage_per_sample)
+        total_intervals_length = coverage_df.drop_duplicates(WALTZ_INTERVAL_NAME_COLUMN)[FRAGMENT_SIZE_COLUMN].sum()
+        coverage_df['coverage_X_length'] = coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN] * coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN]
+        coverage = coverage_df['coverage_X_length'].groupby(coverage_df[SAMPLE_ID_COLUMN]).apply(lambda x: x.sum() / total_intervals_length)
+        coverage_dfs.append(coverage)
 
-    coverage_df = coverage_dfs[0].merge(
-        coverage_dfs[1],
-        on=[SAMPLE_ID_COLUMN],
-        suffixes=('_total', '_unique')
-    )
-
-    coverage_df = coverage_df[AGBM_COVERAGE_HEADER]
+    coverage_df = pd.concat(coverage_dfs, axis=1)
+    coverage_df.insert(0, SAMPLE_ID_COLUMN, coverage_df.index)
     coverage_df.columns = AGBM_COVERAGE_HEADER
     to_csv(coverage_df, AGBM_COVERAGE_FILENAME)
 

@@ -108,6 +108,7 @@ def get_collapsed_waltz_tables(path, method, pool):
     read_counts_table['method'] = [method] * len(read_counts_table)
     read_counts_table['pool'] = pool
 
+    # Todo: merge with get_cov_table
     coverage_table_path = '/'.join([path, AGBM_COVERAGE_FILENAME])
     coverage_table = pd.read_csv(coverage_table_path, sep='\t', usecols=[0, 1], names=[SAMPLE_ID_COLUMN, 'average_coverage'], header=0)
     coverage_table['method'] = [method] * len(coverage_table)

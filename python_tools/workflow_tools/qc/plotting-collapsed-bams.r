@@ -143,13 +143,13 @@ plotMeanCov = function(data) {
   
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
-    geom_bar(position = 'dodge', stat='identity', aes_string(fill='method')) +
+    geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
   
-  layout(matrix(c(1,2,3,3,3,3,3,3), nrow=4, ncol=2, byrow = TRUE))
-  par(mfrow = c(2, 1))
+  layout(matrix(c(1,2,3,3,3,3,3,3), nrow=4, ncol=2, byrow=TRUE))
+  par(mfrow=c(2, 1))
   tt = ttheme_default(base_size=4)
   
   inset = data %>% 
@@ -204,6 +204,10 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
+  print("GC Cov data:")
+  print(head(data))
+  print(sort_order)
+  
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
 
