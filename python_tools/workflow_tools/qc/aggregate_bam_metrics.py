@@ -66,11 +66,17 @@ def create_waltz_coverage_file(files):
 
         total_intervals_length = coverage_df.drop_duplicates(WALTZ_INTERVAL_NAME_COLUMN)[FRAGMENT_SIZE_COLUMN].sum()
         coverage_df['coverage_X_length'] = coverage_df[WALTZ_FRAGMENT_SIZE_COLUMN] * coverage_df[WALTZ_AVERAGE_COVERAGE_COLUMN]
-        coverage = coverage_df['coverage_X_length'].groupby(coverage_df[SAMPLE_ID_COLUMN]).apply(lambda x: x.sum() / total_intervals_length)
+        coverage = coverage_df['coverage_X_length'].groupby(coverage_df[SAMPLE_ID_COLUMN]).apply(lambda x: x.sum() / total_intervals_length).to_frame()
         coverage_dfs.append(coverage)
 
-    coverage_df = pd.concat(coverage_dfs, axis=1)
-    coverage_df.insert(0, SAMPLE_ID_COLUMN, coverage_df.index)
+    coverage_dfs[0].insert(0, SAMPLE_ID_COLUMN, coverage_dfs[0].index)
+    coverage_dfs[1].insert(0, SAMPLE_ID_COLUMN, coverage_dfs[1].index)
+
+    coverage_dfs[0].reset_index(drop=True, inplace=True)
+    coverage_dfs[1].reset_index(drop=True, inplace=True)
+    coverage_df = pd.concat(coverage_dfs, axis=1, ignore_index=True)
+
+    coverage_df = coverage_df.drop(2, axis=1)
     coverage_df.columns = AGBM_COVERAGE_HEADER
     to_csv(coverage_df, AGBM_COVERAGE_FILENAME)
 
@@ -127,6 +133,8 @@ def main():
     """
     Main - called from aggregate-bam-metrics.cwl
     """
+    print 'here'
+
     files = [os.path.join(sys.argv[1], f) for f in os.listdir(sys.argv[1])]
 
     for input_file in files:
