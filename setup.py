@@ -20,25 +20,22 @@ setup(
     name='innovation-pipeline-tools',
     version='0.0.0',
     description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
-    url='http://github.com/mskcc/Innovation-Pipeline',
+    url='http://github.com/mskcc/ACCESS-Pipeline',
     author='Ian Johnson',
     author_email='johnsoni@mskcc.org',
     licence='MIT',
     install_requires=[
         'argparse',
-        'toil[cwl]',
+        'toil[cwl]==3.15.0',
         # These dependencies may need to be explicitly specified,
-        # if PyPi gives us ResourceConflict issues
-        # 'cwltool==3.15.0',
+        # if PyPi gives us ResourceConflict issues:
         # 'cwltest==1.0.20180209171722',
-        # 'cwltest==1.0.20180129111038',
         # 'cwltool==1.0.20180403145700',
         'pandas==0.19.0',
         'xlrd==1.1.0',
         'numpy==1.14.2',
         'pybedtools',
     ],
-    # These links are for referencing a particular commit / branch of Toil
     dependency_links=[
         'git@github.com:BD2KGenomics/toil.git@toilpy23',
         # 'http://github.com/BD2KGenomics/toil/tarball/cwl_safe_followon'
@@ -64,7 +61,7 @@ setup(
         ]
     },
     scripts=[
-        'python_tools/workflow_tools/qc/plotting-collapsed-bams.r'
+        'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
     ],
     include_package_data = True,
     zip_safe=False,
