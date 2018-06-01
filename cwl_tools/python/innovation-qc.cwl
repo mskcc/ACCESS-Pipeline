@@ -13,6 +13,12 @@ requirements:
 baseCommand: qc_wrapper
 
 inputs:
+
+  title_file:
+    type: File
+    inputBinding:
+      prefix: -t
+
   standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
@@ -52,11 +58,6 @@ inputs:
     type: Directory
     inputBinding:
       prefix: -mdb
-
-  title_file:
-    type: File
-    inputBinding:
-      prefix: -t
 
 outputs:
   qc_pdf:

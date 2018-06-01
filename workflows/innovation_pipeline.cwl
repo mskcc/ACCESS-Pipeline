@@ -104,6 +104,9 @@ inputs:
   # FindCoveredIntervals2
   fci_2__basq_fix: boolean?
 
+  # Fingerprinting
+  FP_config_file: File
+
 outputs:
 
   standard_bams:
@@ -135,6 +138,14 @@ outputs:
       type: array
       items: File
     outputSource: qc_workflow/qc_pdf
+
+  all_fp_results:
+    type: Directory
+    outputSource: qc_workflow/all_fp_results
+
+  FPFigures:
+    type: File
+    outputSource: qc_workflow/FPFigures
 
 steps:
 
@@ -341,5 +352,9 @@ steps:
       marianas_unfiltered_bams: umi_collapsing/collapsed_bams
       marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
       marianas_duplex_bams: separate_bams/duplex_bam
-    out:
-      [qc_pdf]
+      FP_config_file: FP_config_file
+    out: [
+      qc_pdf,
+      all_fp_results,
+      FPFigures,
+      selectFPComparePlot_file]

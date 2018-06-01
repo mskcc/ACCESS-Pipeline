@@ -1,11 +1,13 @@
-title_file: {class: File, path: /Users/johnsoni/Desktop/ET_waltz_test_data/ET_title_file.txt}
+title_file: {class: File, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/ET_title_file.txt}
 
-standard_waltz_metrics_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/total_A_targets}
-unfiltered_waltz_metrics_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/unfiltered_A_targets}
-simplex_duplex_waltz_metrics_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/simplex_duplex_A_targets}
-duplex_waltz_metrics_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/duplex_A_targets}
+waltz_standard_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/total_A_targets}
+waltz_unfiltered_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/unfiltered_A_targets}
+waltz_simplex_duplex_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/simplex_duplex_A_targets}
+waltz_duplex_pool_a: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/duplex_A_targets}
 
-standard_waltz_metrics_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/total_B_targets}
-unfiltered_waltz_metrics_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/out_tmpdirspOyj4}
-simplex_duplex_waltz_metrics_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/out_tmpdirqeIKnF}
-duplex_waltz_metrics_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/ET_waltz_test_data/duplex_B_targets}
+waltz_standard_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/total_B_targets}
+waltz_unfiltered_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/out_tmpdirspOyj4}
+waltz_simplex_duplex_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/out_tmpdirqeIKnF}
+waltz_duplex_pool_b: {class: Directory, path: /Users/johnsoni/Desktop/Test_Data/ET_waltz_test_data/duplex_B_targets}
+
+FP_config_file: {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}

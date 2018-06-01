@@ -58,68 +58,36 @@ inputs:
 outputs:
 
   waltz_standard_pool_a_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_standard_pool_a/waltz_output_files
+    type: Directory
+    outputSource: standard_pool_a_consolidate_bam_metrics/directory
 
   waltz_unfiltered_pool_a_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_unfiltered_pool_a/waltz_output_files
+    type: Directory
+    outputSource: unfiltered_pool_a_consolidate_bam_metrics/directory
 
   waltz_simplex_duplex_pool_a_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_simplex_duplex_pool_a/waltz_output_files
+    type: Directory
+    outputSource: simplex_duplex_pool_a_consolidate_bam_metrics/directory
 
   waltz_duplex_pool_a_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_duplex_pool_a/waltz_output_files
+    type: Directory
+    outputSource: duplex_pool_a_consolidate_bam_metrics/directory
 
   waltz_standard_pool_b_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_standard_pool_b/waltz_output_files
+    type: Directory
+    outputSource: standard_pool_b_consolidate_bam_metrics/directory
 
   waltz_unfiltered_pool_b_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_unfiltered_pool_b/waltz_output_files
+    type: Directory
+    outputSource: unfiltered_pool_b_consolidate_bam_metrics/directory
 
   waltz_simplex_duplex_pool_b_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_simplex_duplex_pool_b/waltz_output_files
+    type: Directory
+    outputSource: simplex_duplex_pool_b_consolidate_bam_metrics/directory
 
   waltz_duplex_pool_b_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: waltz_duplex_pool_b/waltz_output_files
+    type: Directory
+    outputSource: duplex_pool_b_consolidate_bam_metrics/directory
 
 steps:
 
@@ -244,3 +212,63 @@ steps:
     out: [pileup, waltz_output_files]
     scatter: input_bam
     scatterMethod: dotproduct
+
+  ############################
+  # Group waltz output files #
+  ############################
+
+  standard_pool_a_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_standard_pool_a/waltz_output_files
+    out:
+      [directory]
+
+  unfiltered_pool_a_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_unfiltered_pool_a/waltz_output_files
+    out:
+      [directory]
+
+  simplex_duplex_pool_a_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_simplex_duplex_pool_a/waltz_output_files
+    out:
+      [directory]
+
+  duplex_pool_a_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_duplex_pool_a/waltz_output_files
+    out:
+      [directory]
+
+  standard_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_standard_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  unfiltered_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_unfiltered_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  simplex_duplex_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_simplex_duplex_pool_b/waltz_output_files
+    out:
+      [directory]
+
+  duplex_pool_b_consolidate_bam_metrics:
+    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
+    in:
+      files: waltz_duplex_pool_b/waltz_output_files
+    out:
+      [directory]

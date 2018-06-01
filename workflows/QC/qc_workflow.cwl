@@ -38,6 +38,9 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
+  # Fingerprinting
+  FP_config_file: File
+
   standard_bams:
     type:
       type: array
@@ -60,6 +63,18 @@ outputs:
   qc_pdf:
     type: File[]
     outputSource: qc_workflow_wo_waltz/qc_pdf
+
+  all_fp_results:
+    type: Directory
+    outputSource: fingerprinting/all_fp_results
+
+  FPFigures:
+    type: File
+    outputSource: fingerprinting/FPFigures
+
+  noise:
+    type: File[]
+    outputSource: qc_workflow_wo_waltz/noise
 
 steps:
 
@@ -102,15 +117,7 @@ steps:
     run: ./qc_workflow_wo_waltz.cwl
     in:
       title_file: title_file
-      run_tools: run_tools
-      pool_a_bed_file: pool_a_bed_file
-      pool_b_bed_file: pool_b_bed_file
-      gene_list: gene_list
-      coverage_threshold: coverage_threshold
-      waltz__min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-
+      FP_config_file: FP_config_file
       waltz_standard_pool_a: waltz_workflow/waltz_standard_pool_a_files
       waltz_unfiltered_pool_a: waltz_workflow/waltz_unfiltered_pool_a_files
       waltz_simplex_duplex_pool_a: waltz_workflow/waltz_simplex_duplex_pool_a_files
@@ -119,4 +126,9 @@ steps:
       waltz_unfiltered_pool_b: waltz_workflow/waltz_unfiltered_pool_b_files
       waltz_simplex_duplex_pool_b: waltz_workflow/waltz_simplex_duplex_pool_b_files
       waltz_duplex_pool_b: waltz_workflow/waltz_duplex_pool_b_files
-    out: [qc_pdf]
+
+    out: [
+      qc_pdf,
+      all_fp_results,
+      FPFigures,
+      noise]

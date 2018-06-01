@@ -133,8 +133,6 @@ def main():
     """
     Main - called from aggregate-bam-metrics.cwl
     """
-    print 'here'
-
     files = [os.path.join(sys.argv[1], f) for f in os.listdir(sys.argv[1])]
 
     for input_file in files:

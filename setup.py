@@ -26,7 +26,7 @@ setup(
     licence='MIT',
     install_requires=[
         'argparse',
-        'toil[cwl]==3.15.0',
+        'toil-ionox0[cwl]==3.15.1a1',
         # These dependencies may need to be explicitly specified,
         # if PyPi gives us ResourceConflict issues:
         # 'cwltest==1.0.20180209171722',
@@ -35,11 +35,13 @@ setup(
         'xlrd==1.1.0',
         'numpy==1.14.2',
         'pybedtools',
+        'PyPDF2==1.26.0',
+        'matplotlib==2.2.2',
+        'seaborn==0.7.1'
     ],
     dependency_links=[
-        'git@github.com:BD2KGenomics/toil.git@toilpy23',
-        # 'http://github.com/BD2KGenomics/toil/tarball/cwl_safe_followon'
-        # 'git+ssh://git@github.com/ionox0/toil.git#egg=toil-0.0.7'
+        'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-3.15.1a1',
+        # 'git://git@github.com/BD2KGenomics/toil.git@3.16.0#egg=toil[cwl]-3.16.0'
     ],
     packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.qc'],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
@@ -58,12 +60,15 @@ setup(
             'aggregate_bam_metrics = python_tools.workflow_tools.qc.aggregate_bam_metrics:main',
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'qc = python_tools.workflow_tools.qc.qc:main',
+            'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
         ]
     },
     scripts=[
         'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
+        'python_tools/workflow_tools/qc/calculate-noise.sh',
+        'python_tools/workflow_tools/qc/plot_noise.r',
     ],
-    include_package_data = True,
+    include_package_data=True,
     zip_safe=False,
     cmdclass={
         'clean': CleanCommand,

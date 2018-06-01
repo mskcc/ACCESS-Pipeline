@@ -12,91 +12,21 @@ requirements:
   MultipleInputFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
+  InlineJavascriptRequirement: {}
 
 inputs:
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
-        waltz_path: string
-
   title_file: File
-  pool_a_bed_file: File
-  pool_b_bed_file: File
-  gene_list: File
-  coverage_threshold: int
-  waltz__min_mapping_quality: int
-  reference_fasta: string
-  reference_fasta_fai: string
+  FP_config_file: File
 
-  waltz_standard_pool_a:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_unfiltered_pool_a:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_simplex_duplex_pool_a:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_duplex_pool_a:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_standard_pool_b:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_unfiltered_pool_b:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_simplex_duplex_pool_b:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  waltz_duplex_pool_b:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+  waltz_standard_pool_a: Directory
+  waltz_unfiltered_pool_a: Directory
+  waltz_simplex_duplex_pool_a: Directory
+  waltz_duplex_pool_a: Directory
+  waltz_standard_pool_b: Directory
+  waltz_unfiltered_pool_b: Directory
+  waltz_simplex_duplex_pool_b: Directory
+  waltz_duplex_pool_b: Directory
 
 outputs:
 
@@ -104,67 +34,19 @@ outputs:
     type: File[]
     outputSource: duplex_innovation_qc/qc_pdf
 
+  all_fp_results:
+    type: Directory
+    outputSource: fingerprinting/all_fp_results
+
+  FPFigures:
+    type: File
+    outputSource: fingerprinting/FPFigures
+
+  noise_out:
+    type: File[]
+    outputSource: plot_noise/plots
+
 steps:
-
-  ############################
-  # Group waltz output files #
-  ############################
-
-  standard_pool_a_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_standard_pool_a
-    out:
-      [directory]
-
-  unfiltered_pool_a_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_unfiltered_pool_a
-    out:
-      [directory]
-
-  simplex_duplex_pool_a_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_simplex_duplex_pool_a
-    out:
-      [directory]
-
-  duplex_pool_a_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_duplex_pool_a
-    out:
-      [directory]
-
-  standard_pool_b_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_standard_pool_b
-    out:
-      [directory]
-
-  unfiltered_pool_b_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_unfiltered_pool_b
-    out:
-      [directory]
-
-  simplex_duplex_pool_b_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_simplex_duplex_pool_b
-    out:
-      [directory]
-
-  duplex_pool_b_consolidate_bam_metrics:
-    run: ../../cwl_tools/expression_tools/consolidate_files.cwl
-    in:
-      files: waltz_duplex_pool_b
-    out:
-      [directory]
 
   ########################################
   # Aggregate Bam Metrics across samples #
@@ -175,7 +57,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: standard_pool_a_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_standard_pool_a
     out:
       [output_dir]
 
@@ -183,7 +65,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: unfiltered_pool_a_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_unfiltered_pool_a
     out:
       [output_dir]
 
@@ -191,7 +73,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: simplex_duplex_pool_a_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_simplex_duplex_pool_a
     out:
       [output_dir]
 
@@ -199,7 +81,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: duplex_pool_a_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_duplex_pool_a
     out:
       [output_dir]
 
@@ -207,7 +89,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: standard_pool_b_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_standard_pool_b
     out:
       [output_dir]
 
@@ -215,7 +97,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: unfiltered_pool_b_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_unfiltered_pool_b
     out:
       [output_dir]
 
@@ -223,7 +105,7 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: simplex_duplex_pool_b_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_simplex_duplex_pool_b
     out:
       [output_dir]
 
@@ -231,9 +113,59 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       title_file: title_file
-      waltz_input_files: duplex_pool_b_consolidate_bam_metrics/directory
+      waltz_input_files: waltz_duplex_pool_b
     out:
       [output_dir]
+
+  ##################
+  # Fingerprinting #
+  ##################
+
+  fingerprinting:
+    run: ../../cwl_tools/python/fingerprinting.cwl
+    in:
+      output_directory:
+        valueFrom: ${return '.'}
+      waltz_directory: waltz_standard_pool_a
+      FP_config_file: FP_config_file
+    out: [
+      all_fp_results,
+      FPFigures
+    ]
+
+  #########
+  # Noise #
+  #########
+
+  noise:
+    run: ../../cwl_tools/noise/noise.cwl
+    in:
+      # Todo: Should be on Duplex A:
+      waltz_directory: waltz_standard_pool_a
+    out:
+      [noise, noise_by_substitution]
+
+  plot_noise:
+    run: ../../cwl_tools/noise/plot_noise.cwl
+    in:
+      noise: noise/noise
+      noise_by_substitution: noise/noise_by_substitution
+    out:
+      [plots]
+
+  ###############
+  # UMI Metrics #
+  ###############
+
+#  umi_metrics:
+#    run: ../../cwl_tools/umi_metrics/make_umi_qc_tables.cwl
+#    in:
+#
+#
+#  umi_qc:
+#    run: ../../cwl_tools/umi_metrics/umi_qc.cwl
+#    in:
+
 
   #################
   # Innovation-QC #
@@ -243,6 +175,7 @@ steps:
     run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
+
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
