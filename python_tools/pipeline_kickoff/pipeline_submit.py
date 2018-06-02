@@ -1,5 +1,3 @@
-import os
-import uuid
 import argparse
 import subprocess
 
@@ -14,9 +12,9 @@ import subprocess
 # We would like it to work across batch systems.
 # Use pipeline-runner.sh to use other batch systems,
 # which runs the leader job on the head node.
-
-# Todo: Move to project root
+#
 # Todo: Include check for existing outputs directory
+
 
 DEFAULT_MEM = 1
 DEFAULT_CPU = 1

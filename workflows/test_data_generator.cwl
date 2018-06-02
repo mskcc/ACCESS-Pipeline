@@ -33,13 +33,10 @@ inputs:
   fastq_1: File[]
   fastq_2: File[]
   sample_sheet: File[]
-
   reference_fasta: string
   reference_fasta_fai: string
-
   umi_length: int
   output_project_folder: string
-  # Module 1
   tmp_dir: string
   adapter: string[]
   adapter2: string[]
@@ -49,7 +46,6 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-
   md__assume_sorted: boolean
   md__compression_level: int
   md__create_index: boolean

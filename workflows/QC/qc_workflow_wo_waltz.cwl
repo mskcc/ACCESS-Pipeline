@@ -14,6 +14,9 @@ requirements:
   ScatterFeatureRequirement: {}
   StepInputExpressionRequirement: {}
   InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 3000
+    coresMin: 4
 
 inputs:
   title_file: File
@@ -34,17 +37,21 @@ outputs:
     type: File[]
     outputSource: duplex_innovation_qc/qc_pdf
 
-  all_fp_results:
-    type: Directory
-    outputSource: fingerprinting/all_fp_results
+#  all_fp_results:
+#    type: Directory
+#    outputSource: fingerprinting/all_fp_results
+#
+#  FPFigures:
+#    type: File
+#    outputSource: fingerprinting/FPFigures
 
-  FPFigures:
+  noise_alt_percent:
     type: File
-    outputSource: fingerprinting/FPFigures
+    outputSource: plot_noise/noise_alt_percent
 
-  noise_out:
-    type: File[]
-    outputSource: plot_noise/plots
+  noise_contributing_sites:
+    type: File
+    outputSource: plot_noise/noise_contributing_sites
 
 steps:
 
@@ -121,37 +128,39 @@ steps:
   # Fingerprinting #
   ##################
 
-  fingerprinting:
-    run: ../../cwl_tools/python/fingerprinting.cwl
-    in:
-      output_directory:
-        valueFrom: ${return '.'}
-      waltz_directory: waltz_standard_pool_a
-      FP_config_file: FP_config_file
-    out: [
-      all_fp_results,
-      FPFigures
-    ]
+#  fingerprinting:
+#    run: ../../cwl_tools/python/fingerprinting.cwl
+#    in:
+#      output_directory:
+#        valueFrom: ${return '.'}
+#      waltz_directory: waltz_standard_pool_a
+#      FP_config_file: FP_config_file
+#    out: [
+#      all_fp_results,
+#      FPFigures
+#    ]
 
   #########
   # Noise #
   #########
 
   noise:
-    run: ../../cwl_tools/noise/noise.cwl
+    run: ../../cwl_tools/noise/calculate_noise.cwl
     in:
       # Todo: Should be on Duplex A:
-      waltz_directory: waltz_standard_pool_a
+      waltz_directory: waltz_duplex_pool_a
     out:
-      [noise, noise_by_substitution]
+      [noise, noise_by_substitution] #waltz_dir_with_noise]
 
   plot_noise:
     run: ../../cwl_tools/noise/plot_noise.cwl
     in:
+      output_dir:
+        valueFrom: ${return '.'}
       noise: noise/noise
       noise_by_substitution: noise/noise_by_substitution
     out:
-      [plots]
+      [noise_alt_percent, noise_contributing_sites]
 
   ###############
   # UMI Metrics #
@@ -160,7 +169,6 @@ steps:
 #  umi_metrics:
 #    run: ../../cwl_tools/umi_metrics/make_umi_qc_tables.cwl
 #    in:
-#
 #
 #  umi_qc:
 #    run: ../../cwl_tools/umi_metrics/umi_qc.cwl

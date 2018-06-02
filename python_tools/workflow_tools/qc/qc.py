@@ -152,6 +152,10 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     gc_with_cov = pd.DataFrame(columns=GC_BIAS_HEADER)
     sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
+    print(curr_method, intervals_filename_suffix, path)
+    print(sample_files)
+    print(os.listdir(path))
+
     for sample in sample_files:
         filename = '/'.join([path, sample])
         curr_table = pd.read_csv(filename, sep='\t')
@@ -177,10 +181,14 @@ def get_bins(tbl):
     """
     Create bins from min_gc value to max_gc value in increments of 0.05 (for GC content table)
     """
+    print('GC table generation')
+    print(tbl)
+
     min_gc = np.min(tbl['gc'])
     max_gc = np.max(tbl['gc'])
     start = round(min_gc - np.mod(min_gc, 0.05), 2)
     stop = round(max_gc + 0.1 - np.mod(max_gc, 0.05), 2)
+    print start, stop
     all_bins = np.arange(start, stop, step=0.05)
     return all_bins
 
@@ -211,6 +219,9 @@ def get_gc_table_average_for_each_sample(tbl):
     """
     Creates the GC content table, with each sample represented
     """
+    print "GC table"
+    print tbl
+
     final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER)
     all_samples = tbl['Sample'].unique()
     all_methods = tbl['method'].unique()

@@ -43,11 +43,8 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
-  # Marianas Clipping
   umi_length: int
   output_project_folder: string
-  # Module 1
   adapter: string[]
   adapter2: string[]
   add_rg_PL: string
@@ -61,7 +58,6 @@ inputs:
   md__compression_level: int
   md__validation_stringency: string
   md__duplicate_scoring_strategy: string
-  # Module 2
   fci__minbq: int
   fci__minmq: int
   fci__cov: int

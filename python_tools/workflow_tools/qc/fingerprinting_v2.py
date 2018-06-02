@@ -192,7 +192,10 @@ def compare_genotype (All_geno, n, fpOutputdir, expectedFile='none'):
                     htMisMatch=htMisMatch+1
                 elif j!=0:
                     hmMisMatch=hmMisMatch+1
-            Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+
+            # Todo: Use util.extract_sample_name() instead of relying on "IGO"
+            Geno_Compare.append([g[0][0:g[0].find('IGO')],h[0][0:h[0].find('IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+
     sort_index = np.argsort([x[2] for x in Geno_Compare])
     Geno_Compare=[Geno_Compare[i] for i in sort_index]
 
@@ -229,7 +232,7 @@ def plotMinorContamination(All_FP, fpOutputdir):
     plt.clf()
     contamination=ContaminationRate (All_FP)
     contamination=[x for x in contamination if x[1]!='NaN']
-    samplename =[c[0][0:c[0].find('_bc')] for c in contamination]
+    samplename =[c[0][0:c[0].find('IGO')] for c in contamination]
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minorContamination=[[samplename[i],meanContam[i]] for i in range(0,len(samplename))]
@@ -251,7 +254,7 @@ def plotMajorContamination(All_geno, fpOutputdir):
     plt.clf()
     if All_geno[0][0]=='Sample':
         All_geno=All_geno[1::]
-    samples=[g[0].split('_bc')[0] for g in All_geno]
+    samples=[g[0].split('IGO')[0] for g in All_geno]
     x_pos=np.arange(len(All_geno))
     pHet=[sum([1 for a in g if a=='Het'])/(len(g)-1) for g in All_geno]
 
@@ -319,24 +322,26 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
     listMatrix=[[matrix[k1][k2] for k2 in keys] for k1 in keys]
     
     plt.subplots(figsize=(8,7))
+    plt.title('Sample Mix-Ups')
     ax=sns.heatmap(listMatrix,cmap="Blues_r",cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90,fontsize=11)
     ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
     plt.savefig(fpOutputdir+'GenoMatrix.pdf',bbox_inches='tight')
-    
+
     Match_status=[[x[0],x[1],x[7]] for x in Geno_Compare if x[7]=='Unexpected Mismatch' or x[7]=='Unexpected Match']
-    df = pd.DataFrame(Match_status, columns=["Sample1","Sample2", "Status"])
-    Match_status.insert(0,["Sample1","Sample2", "Status"])
-    writeCVS(fpOutputdir+'Match_status.txt', Match_status)
-    
-    plt.clf()
-    fig, ax1 = plt.subplots()
-    plt.title('Sample Mix-Ups')
-    ax1.axis('off')
-    ax1.axis('tight')
-    ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
-    fig.tight_layout()
-    plt.savefig(fpOutputdir+'Geno_Match_status.pdf',bbox_inches='tight')
+    if Match_status:
+        df = pd.DataFrame(Match_status, columns=["Sample1","Sample2", "Status"])
+        Match_status.insert(0,["Sample1","Sample2", "Status"])
+        writeCVS(fpOutputdir+'Match_status.txt', Match_status)
+
+        plt.clf()
+        fig, ax1 = plt.subplots()
+        # plt.title('Unexpected Matches and Mismatches')
+        ax1.axis('off')
+        ax1.axis('tight')
+        ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+        fig.tight_layout()
+        plt.savefig(fpOutputdir+'Geno_Match_status.pdf',bbox_inches='tight')
 
 
 ######################

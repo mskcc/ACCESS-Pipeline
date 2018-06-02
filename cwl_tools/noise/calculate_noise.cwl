@@ -7,7 +7,10 @@ class: CommandLineTool
 baseCommand: [calculate-noise.sh]
 
 requirements:
-  InlineJavascriptRequirement: {}
+  - class: InlineJavascriptRequirement
+#  - class: InitialWorkDirRequirement
+#    listing:
+#      - $(inputs.waltz_directory)
 
 inputs:
 
@@ -21,9 +24,14 @@ outputs:
   noise:
     type: File
     outputBinding:
-      glob: $('./noise.txt')
+      glob: $('noise.txt')
 
   noise_by_substitution:
     type: File
     outputBinding:
-      glob: $('./noise-by-substitution.txt')
+      glob: $('noise-by-substitution.txt')
+
+#  waltz_dir_with_noise:
+#    type: Directory
+#    outputBinding:
+#      glob: '*'

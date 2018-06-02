@@ -14,7 +14,6 @@ requirements:
 inputs:
 
   tmp_dir: string
-
   run_tools:
     type:
       type: record
@@ -37,20 +36,14 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
-  # List of ['Tumor', 'Normal', ...] sample class values
   class_list: string[]
-
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file?
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
-  # Marianas Clipping
   umi_length: int
   output_project_folder: string
-
-  # Module 1
   adapter: string[]
   adapter2: string[]
   add_rg_PL: string
@@ -64,8 +57,6 @@ inputs:
   md__create_index: boolean
   md__validation_stringency: string
   md__duplicate_scoring_strategy: string
-
-  # Module 2
   fci__minbq: int
   fci__minmq: int
   fci__cov: int
@@ -85,26 +76,16 @@ inputs:
   print_reads__nct: int
   print_reads__EOQ: boolean
   print_reads__baq: string
-
-  # Marianas
   marianas__mismatches: int
   marianas__wobble: int
   marianas__min_mapping_quality: int
   marianas__min_base_quality: int
   marianas__min_consensus_percent: int
-
-  # Waltz
   pool_a_bed_file: File
   pool_b_bed_file: File
-
-  gene_list: File
   coverage_threshold: int
   waltz__min_mapping_quality: int
-
-  # FindCoveredIntervals2
   fci_2__basq_fix: boolean?
-
-  # Fingerprinting
   FP_config_file: File
 
 outputs:
@@ -156,10 +137,8 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
-      # Process Loop Umi Fastq
       umi_length: umi_length
       output_project_folder: output_project_folder
-      # Module 1
       tmp_dir: tmp_dir
       adapter: adapter
       adapter2: adapter2
@@ -176,9 +155,7 @@ steps:
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-      # Group bams by patient
       patient_id: patient_id
-      # Module 2
       reference_fasta: reference_fasta
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq

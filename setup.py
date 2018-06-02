@@ -41,7 +41,6 @@ setup(
     ],
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-3.15.1a1',
-        # 'git://git@github.com/BD2KGenomics/toil.git@3.16.0#egg=toil[cwl]-3.16.0'
     ],
     packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.qc'],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
@@ -66,7 +65,7 @@ setup(
     scripts=[
         'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
         'python_tools/workflow_tools/qc/calculate-noise.sh',
-        'python_tools/workflow_tools/qc/plot_noise.r',
+        'python_tools/workflow_tools/qc/plot_noise.py',
     ],
     include_package_data=True,
     zip_safe=False,
