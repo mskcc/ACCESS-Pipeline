@@ -24,8 +24,9 @@ def readCVS(filename):
 def NoiseAltPercentPlot(noise_file):
     plt.clf()
     noise=readCVS(noise_file)
-    print(noise)
     noise.pop(0)
+    print("Noise levels:")
+    print(noise)
     altPercent = [[n[0][0:n[0].find('IGO')], float(n[3])] for n in noise if n[5]=='Total']
     y_pos = np.arange(len(altPercent))
     altPercent = sorted(altPercent)
@@ -43,6 +44,7 @@ def NoiseContributingSitesPlot(noise_file):
     plt.clf()
     noise=readCVS(noise_file)
     noise.pop(0)
+    print("Noise levels:")
     print noise
     altPercent = [[n[0][0:n[0].find('IGO')], int(n[4])] for n in noise if n[5]=='Total']
     y_pos = np.arange(len(altPercent))

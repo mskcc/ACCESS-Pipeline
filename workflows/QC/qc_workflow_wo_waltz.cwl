@@ -37,13 +37,21 @@ outputs:
     type: File[]
     outputSource: duplex_innovation_qc/qc_pdf
 
-#  all_fp_results:
-#    type: Directory
-#    outputSource: fingerprinting/all_fp_results
-#
-#  FPFigures:
-#    type: File
-#    outputSource: fingerprinting/FPFigures
+  all_fp_results:
+    type: Directory
+    outputSource: fingerprinting/all_fp_results
+
+  FPFigures:
+    type: File
+    outputSource: fingerprinting/FPFigures
+
+  noise_table:
+    type: File
+    outputSource: noise/noise
+
+  noise_by_substitution:
+    type: File
+    outputSource: noise/noise_by_substitution
 
   noise_alt_percent:
     type: File
@@ -128,17 +136,17 @@ steps:
   # Fingerprinting #
   ##################
 
-#  fingerprinting:
-#    run: ../../cwl_tools/python/fingerprinting.cwl
-#    in:
-#      output_directory:
-#        valueFrom: ${return '.'}
-#      waltz_directory: waltz_standard_pool_a
-#      FP_config_file: FP_config_file
-#    out: [
-#      all_fp_results,
-#      FPFigures
-#    ]
+  fingerprinting:
+    run: ../../cwl_tools/python/fingerprinting.cwl
+    in:
+      output_directory:
+        valueFrom: ${return '.'}
+      waltz_directory: waltz_standard_pool_a
+      FP_config_file: FP_config_file
+    out: [
+      all_fp_results,
+      FPFigures
+    ]
 
   #########
   # Noise #
