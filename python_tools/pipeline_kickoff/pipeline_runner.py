@@ -122,7 +122,7 @@ def create_directories(args):
 
     # Use existing jobstore, or create new one
     if args.restart:
-        job_store_uuid = os.listdir(tmpdir)[0]
+        job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))[0]
         jobstore_path = '{}/{}'.format(tmpdir, job_store_uuid)
     else:
         job_store_uuid = str(uuid.uuid1())
