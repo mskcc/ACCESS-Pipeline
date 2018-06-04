@@ -83,6 +83,7 @@ inputs:
   marianas__min_consensus_percent: int
   pool_a_bed_file: File
   pool_b_bed_file: File
+  gene_list: File
   coverage_threshold: int
   waltz__min_mapping_quality: int
   fci_2__basq_fix: boolean?
@@ -90,29 +91,9 @@ inputs:
 
 outputs:
 
-  standard_bams:
-    type:
-      type: array
-      items: File
-    outputSource: standard_bam_generation/standard_bams
-
-  unfiltered_bams:
-    type:
-      type: array
-      items: File
-    outputSource: flatten_array_bams/output_bams
-
-  simplex_duplex_bams:
-    type:
-      type: array
-      items: File
-    outputSource: separate_bams/simplex_duplex_bam
-
-  duplex_bams:
-    type:
-      type: array
-      items: File
-    outputSource: separate_bams/duplex_bam
+  sample_dirs:
+    type: Directory[]
+    outputSource: make_sample_output_directories/directory
 
   qc_pdf:
     type:
@@ -129,6 +110,10 @@ outputs:
     outputSource: qc_workflow/FPFigures
 
 steps:
+
+  #####################
+  # Generate Std Bams #
+  #####################
 
   standard_bam_generation:
     run: ./standard_pipeline.cwl
@@ -178,6 +163,10 @@ steps:
       print_reads__baq: print_reads__baq
     out: [standard_bams]
 
+  #########################
+  # Run Waltz on Std Bams #
+  #########################
+
   waltz_standard_pool_a:
     run: ./waltz/waltz-workflow.cwl
     in:
@@ -208,6 +197,10 @@ steps:
     scatter: [input_bam]
     scatterMethod: dotproduct
 
+  #####################
+  # Collapse Std Bams #
+  #####################
+
   umi_collapsing:
     run: ./marianas/marianas_collapsing_workflow.cwl
     in:
@@ -232,16 +225,21 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-
-    out: [collapsed_bams]
+    out: [
+      collapsed_bams,
+      first_pass_output_file,
+      first_pass_alt_allele,
+      first_pass_alt_allele_sorted,
+      second_pass_alt_alleles,
+      collapsed_fastq_1,
+      collapsed_fastq_2]
     scatter: [
       input_bam,
       pileup,
       add_rg_LB,
       add_rg_ID,
       add_rg_PU,
-      add_rg_SM,
-    ]
+      add_rg_SM]
     scatterMethod: dotproduct
 
   ############################
@@ -309,6 +307,65 @@ steps:
     scatter: [collapsed_bam]
     scatterMethod: dotproduct
 
+  ##################################
+  # Make sample output directories #
+  ##################################
+
+  # Todo: Error! std order != collapsed order != IR bams order
+  make_sample_output_directories:
+    run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
+    in:
+      standard_bam: standard_bam_generation/standard_bams
+      unfiltered_bam: flatten_array_bams/output_bams
+      simplex_duplex_bam: separate_bams/simplex_duplex_bam
+      duplex_bam: separate_bams/duplex_bam
+      r1_fastq: umi_collapsing/collapsed_fastq_1
+      r2_fastq: umi_collapsing/collapsed_fastq_2
+      first_pass_file: umi_collapsing/first_pass_output_file
+      first_pass_sorted: umi_collapsing/first_pass_alt_allele_sorted
+      first_pass_alt_alleles: umi_collapsing/first_pass_alt_allele
+      second_pass: umi_collapsing/second_pass_alt_alleles
+    scatter: [
+      standard_bam,
+      unfiltered_bam,
+      simplex_duplex_bam,
+      duplex_bam,
+      r1_fastq,
+      r2_fastq,
+      first_pass_file,
+      first_pass_sorted,
+      first_pass_alt_alleles,
+      second_pass]
+    scatterMethod: dotproduct
+    out:
+      [directory]
+
+  ##########
+  # UMI QC #
+  ##########
+
+  umi_qc_tables:
+    run: ../cwl_tools/umi_qc/make_umi_qc_tables.cwl
+    in:
+      folders: make_sample_output_directories/directory
+    out: [
+      cluster_sizes,
+      cluster_sizes_post_filtering,
+      clusters_per_position,
+      clusters_per_position_post_filtering,
+      family_types_A,
+      family_types_B]
+
+  umi_qc:
+    run: ../cwl_tools/umi_qc/umi_qc.cwl
+    in:
+      cluster_sizes: umi_qc_tables/cluster_sizes
+      cluster_sizes_post_filtering: umi_qc_tables/cluster_sizes_post_filtering
+      clusters_per_position: umi_qc_tables/clusters_per_position
+      clusters_per_position_post_filtering: umi_qc_tables/clusters_per_position_post_filtering
+    out:
+      [plots]
+
   ######
   # QC #
   ######
@@ -334,4 +391,7 @@ steps:
       qc_pdf,
       all_fp_results,
       FPFigures,
-      selectFPComparePlot_file]
+      noise_table,
+      noise_by_substitution,
+      noise_alt_percent,
+      noise_contributing_sites]

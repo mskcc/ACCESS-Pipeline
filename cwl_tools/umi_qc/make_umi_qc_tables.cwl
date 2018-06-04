@@ -7,18 +7,46 @@ class: CommandLineTool
 baseCommand: [make_umi_qc_tables.sh]
 
 requirements:
-  InlineJavascriptRequirement: {}
+- class: InlineJavascriptRequirement
+#- class: InitialWorkDirRequirement
+#  listing: # $(inputs.folders)
+#  - entry: $(inputs.folders[0])
 
 inputs:
 
-  noise:
-    type: File
+  folders:
+    type: Directory[]
     inputBinding:
       position: 1
 
 outputs:
 
-  plots:
-    type: File[]
+  cluster_sizes:
+    type: File
     outputBinding:
-      glob: $('*.pdf')
+      glob: 'cluster-sizes.txt'
+
+  cluster_sizes_post_filtering:
+    type: File
+    outputBinding:
+      glob: 'cluster-sizes-post-filtering.txt'
+
+  clusters_per_position:
+    type: File
+    outputBinding:
+        glob: 'clusters-per-position.txt'
+
+  clusters_per_position_post_filtering:
+    type: File
+    outputBinding:
+      glob: 'clusters-per-position-post-filtering.txt'
+
+  family_types_A:
+    type: File
+    outputBinding:
+      glob: 'family-types-A.txt'
+
+  family_types_B:
+    type: File
+    outputBinding:
+      glob: 'family-types-B.txt'

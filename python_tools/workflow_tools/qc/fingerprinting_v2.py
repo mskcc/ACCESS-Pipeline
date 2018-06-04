@@ -362,18 +362,23 @@ def convertFP_mAF(InputDir, OutputDir):
 ######################
 
 def runFPreport (OutputDir, WaltzDir, configFile, expectedFile='none'):
-    listofpileups=Extractpileupfiles (WaltzDir)
-    fpIndices, n=createFPIndices(configFile)
-    fpOutputdir=MakeOutputDir (OutputDir)
-    All_FP, All_geno=FindFPMAF (listofpileups, fpIndices, fpOutputdir)
-    Geno_Compare=compare_genotype (All_geno, n, fpOutputdir, expectedFile)
-    #plots
-    plotMinorContamination(All_FP, fpOutputdir)
-    plotMajorContamination(All_geno, fpOutputdir)
-   # plotGenoCompare (Geno_Compare,n, fpOutputdir)
-    plotGenotypingMatrix(Geno_Compare, fpOutputdir)
-    mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
-    #return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
+    try:
+        listofpileups=Extractpileupfiles (WaltzDir)
+        fpIndices, n=createFPIndices(configFile)
+        fpOutputdir=MakeOutputDir (OutputDir)
+        All_FP, All_geno=FindFPMAF (listofpileups, fpIndices, fpOutputdir)
+        Geno_Compare=compare_genotype (All_geno, n, fpOutputdir, expectedFile)
+        #plots
+        plotMinorContamination(All_FP, fpOutputdir)
+        plotMajorContamination(All_geno, fpOutputdir)
+       # plotGenoCompare (Geno_Compare,n, fpOutputdir)
+        plotGenotypingMatrix(Geno_Compare, fpOutputdir)
+        mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
+        #return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
+    except Exception as exc:
+        import traceback
+        print traceback.format_exc()
+        print exc
 
 
 def parse_arguments():

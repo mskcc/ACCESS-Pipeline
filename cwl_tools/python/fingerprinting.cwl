@@ -38,6 +38,6 @@ outputs:
       glob: $('./FPResults')
 
   FPFigures:
-    type: File
+    type: File?
     outputBinding:
       glob: $('./FPResults/FPFigures.pdf')

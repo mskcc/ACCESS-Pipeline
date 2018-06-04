@@ -66,15 +66,27 @@ outputs:
 
   all_fp_results:
     type: Directory
-    outputSource: fingerprinting/all_fp_results
+    outputSource: qc_workflow_wo_waltz/all_fp_results
 
   FPFigures:
     type: File
-    outputSource: fingerprinting/FPFigures
+    outputSource: qc_workflow_wo_waltz/FPFigures
 
-  noise:
-    type: File[]
-    outputSource: qc_workflow_wo_waltz/noise
+  noise_table:
+    type: File
+    outputSource: qc_workflow_wo_waltz/noise_table
+
+  noise_by_substitution:
+    type: File
+    outputSource: qc_workflow_wo_waltz/noise_by_substitution
+
+  noise_alt_percent:
+    type: File
+    outputSource: qc_workflow_wo_waltz/noise_alt_percent
+
+  noise_contributing_sites:
+    type: File
+    outputSource: qc_workflow_wo_waltz/noise_contributing_sites
 
 steps:
 
@@ -131,4 +143,7 @@ steps:
       qc_pdf,
       all_fp_results,
       FPFigures,
-      noise]
+      noise_table,
+      noise_by_substitution,
+      noise_alt_percent,
+      noise_contributing_sites]

@@ -37,7 +37,7 @@ setup(
         'pybedtools',
         'PyPDF2==1.26.0',
         'matplotlib==2.2.2',
-        'seaborn==0.7.1'
+        'seaborn==0.8.1'
     ],
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-3.15.1a1',
@@ -65,7 +65,9 @@ setup(
     scripts=[
         'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
         'python_tools/workflow_tools/qc/calculate-noise.sh',
+        'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
         'python_tools/workflow_tools/qc/plot_noise.py',
+        'python_tools/workflow_tools/qc/plot_umi_qc.r',
     ],
     include_package_data=True,
     zip_safe=False,

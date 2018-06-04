@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # $1 - The collapsed bam folder that contains sample folders that contain collapsed bams, collapsed fastqs and first-pass.txt.
 
 
@@ -15,9 +17,10 @@ echo -e "Sample\tType\tCount" > family-types-B.txt
 ln -s /home/patelju1/workspace/Waltz/bedFiles/pan-cancer-panel-v2-pool-A-on-target-positions.txt A-positions.txt
 ln -s /home/patelju1/workspace/Waltz/bedFiles/pan-cancer-panel-v2-pool-B-on-target-positions.txt B-positions.txt
 
+echo $1
 
 # process samples
-for sampleFolder in `ls -d $1/*-folder`
+for sampleFolder in `find -L $1 | grep -P "Sample_$"`
 do
   sampleName=`basename $sampleFolder`
   sampleName=${sampleName/-IGO*/}

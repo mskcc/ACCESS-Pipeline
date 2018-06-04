@@ -5,7 +5,10 @@
 import csv
 import argparse
 import matplotlib
-matplotlib.use('TkAgg')
+# For Local:
+# matplotlib.use('TkAgg')
+# For Luna:
+matplotlib.use('Agg')
 
 import numpy as np
 import matplotlib.pyplot as plt

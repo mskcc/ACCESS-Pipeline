@@ -57,6 +57,30 @@ outputs:
     type: File
     outputSource: post_collapsing_realignment/bam
 
+  first_pass_output_file:
+    type: File
+    outputSource: first_pass/first_pass_output_file
+
+  first_pass_alt_allele:
+    type: File
+    outputSource: first_pass/alt_allele_file
+
+  first_pass_alt_allele_sorted:
+    type: File
+    outputSource: sort_by_mate_position/output_file
+
+  collapsed_fastq_1:
+    type: File
+    outputSource: rename_fastq_1/renamed_file
+
+  collapsed_fastq_2:
+    type: File
+    outputSource: rename_fastq_2/renamed_file
+
+  second_pass_alt_alleles:
+    type: File
+    outputSource: second_pass/second_pass_alt_alleles
+
 steps:
 
   first_pass:
@@ -107,7 +131,7 @@ steps:
       min_base_quality: min_base_quality
       min_consensus_percent: min_consensus_percent
     out:
-      [collapsed_fastq_1, collapsed_fastq_2]
+      [collapsed_fastq_1, collapsed_fastq_2, second_pass_alt_alleles]
 
   gzip_fastq_2:
     run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl

@@ -145,8 +145,7 @@ steps:
       FP_config_file: FP_config_file
     out: [
       all_fp_results,
-      FPFigures
-    ]
+      FPFigures]
 
   #########
   # Noise #
@@ -169,19 +168,6 @@ steps:
       noise_by_substitution: noise/noise_by_substitution
     out:
       [noise_alt_percent, noise_contributing_sites]
-
-  ###############
-  # UMI Metrics #
-  ###############
-
-#  umi_metrics:
-#    run: ../../cwl_tools/umi_metrics/make_umi_qc_tables.cwl
-#    in:
-#
-#  umi_qc:
-#    run: ../../cwl_tools/umi_metrics/umi_qc.cwl
-#    in:
-
 
   #################
   # Innovation-QC #
