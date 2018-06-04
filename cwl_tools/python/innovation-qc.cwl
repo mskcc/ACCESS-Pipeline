@@ -19,6 +19,11 @@ inputs:
     inputBinding:
       prefix: -t
 
+  inputs_file:
+    type: File
+    inputBinding:
+      prefix: -i
+
   standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:

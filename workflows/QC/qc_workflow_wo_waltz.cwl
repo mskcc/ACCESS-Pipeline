@@ -20,6 +20,7 @@ requirements:
 
 inputs:
   title_file: File
+  inputs_file: File
   FP_config_file: File
 
   waltz_standard_pool_a: Directory
@@ -177,6 +178,7 @@ steps:
     run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
+      inputs_file: inputs_file
 
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir

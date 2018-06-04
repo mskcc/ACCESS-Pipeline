@@ -45,7 +45,7 @@ def run_table_module(folders, tables_output_dir):
     qc.main(args)
 
 
-def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_path):
+def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_path, inputs_file_path):
     """
     Run the plots submodule
 
@@ -55,7 +55,7 @@ def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_f
     """
     plots_module_cmd = 'plotting-collapsed-bams.r'
     plots_module_cmd += ' -i {} -w {} -o {}'.format(tables_output_dir, ufa_waltz_loc, plots_output_dir)
-    plots_module_cmd += ' -t {}'.format(title_file_path)
+    plots_module_cmd += ' -t {} -y'.format(title_file_path, inputs_file_path)
 
     print('Running plots module with cmd: {}'.format(plots_module_cmd))
     rv = subprocess.check_call(plots_module_cmd, shell=True)
@@ -178,7 +178,7 @@ def run_qc_for_lane(title_file, lane, args):
     # Todo: same folder is referenced twice:
     # Note: We use Unfiltered Pool A values for Standard Graphs (insert size distribution, coverages distribution)
     ufa_waltz_loc = os.path.join(*[BASE, RESULTS_DIR, 'unfiltered_waltz_pool_a'])
-    run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_path=title_file_sub_path)
+    run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_file_sub_path, args.inputs_file_path)
 
 
 def run_qc_for_lanes(args):
@@ -205,6 +205,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Innovation QC module', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-t', '--title_file_path', type=str, default=None, required=True, action=FullPaths)
+    parser.add_argument('-i', '--inputs_file_path', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-swa', '--standard_waltz_dir_pool_a', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mua', '--unfiltered_waltz_dir_pool_a', type=str, default=None, action=FullPaths)
     parser.add_argument('-msa', '--simplex_duplex_waltz_dir_pool_a', type=str, default=None, action=FullPaths)

@@ -82,7 +82,8 @@ readInputs = function(args) {
     'standardWaltz', 'w', 1, 'character',
     'tablesOutputDir', 'i', 1, 'character',
     'plotsOutputDir', 'o', 1, 'character',
-    'titleFilePath', 't', 2, 'character'
+    'titleFilePath', 't', 2, 'character',
+    'inputsFilePath', 'y', 2, 'character'
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
@@ -91,7 +92,8 @@ readInputs = function(args) {
     opts$tablesOutputDir,
     opts$standardWaltz,
     opts$plotsOutputDir,
-    opts$titleFilePath)
+    opts$titleFilePath,
+    opts$inputsFilePath)
   )
 }
 
@@ -439,8 +441,10 @@ main = function(args) {
   inDirWaltz = args[2]
   outDir = args[3]
   title_file = args[4]
+  inputs_yaml = args[5]
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
+  inputs_yaml = readLines(inputs_yaml)
   
   # Use only two class labels
   title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
@@ -500,6 +504,9 @@ main = function(args) {
   print(plotMeanCov(meanCovData))
   # print(plotGCwithCovAllSamples(gcAllSamples))
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
+  
+  # Write the inputs yaml file
+  print(write(inputs_yaml, file="inputs_yaml_towrite"))
   
   dev.off()
 }

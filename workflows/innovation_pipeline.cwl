@@ -32,6 +32,7 @@ inputs:
         waltz_path: string
 
   title_file: File
+  inputs_file: File
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
@@ -379,6 +380,7 @@ steps:
     in:
       run_tools: run_tools
       title_file: title_file
+      inputs_file: inputs_file
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
       gene_list: gene_list

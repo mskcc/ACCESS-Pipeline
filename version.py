@@ -6,7 +6,7 @@ def version():
     return _version()
 
 
-def shortVersion():
+def short_version():
     """
     A version identifier that includes the abbreviated commit SHA1 and an optional suffix to
     indicate that the working copy is dirty.
@@ -15,7 +15,7 @@ def shortVersion():
 
 
 def _version(shorten=False):
-    return '-'.join(filter(None, [currentCommit()[:7 if shorten else None],
+    return '-'.join(filter(None, [current_commit()[:7 if shorten else None],
                                   ('dirty' if dirty() else None)]))
 
 
@@ -24,7 +24,7 @@ def most_recent_tag():
     return subprocess.check_output(["git", "describe", "--tags"]).strip()
 
 
-def currentCommit():
+def current_commit():
     from subprocess import check_output
     try:
         output = check_output('git log --pretty=oneline -n 1 -- $(pwd)', shell=True).split()[0]

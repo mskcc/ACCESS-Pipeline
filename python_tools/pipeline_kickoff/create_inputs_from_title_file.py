@@ -451,18 +451,24 @@ def write_inputs_file(args, title_file):
     title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
     fh.write(ruamel.yaml.dump(title_file_obj))
 
+    # Make a copy of the inputs file to include in the QC PDF
+    copy_inputs_yaml(fh)
+
     include_version_info(fh)
     fh.close()
 
 
 def include_version_info(fh):
+    """
+    Todo: Include indentifier to indicate if commit == tag
+    """
     import version
     fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('Pipeline Version Information')
-    fh.write('# {} \n'.format(version.version))
-    fh.write('# {} \n'.format(version.shortVersion))
-    fh.write('# {} \n'.format(version.most_recent_tag))
-    fh.write('# {} \n'.format(str(version.dirty)))
+    fh.write('# Pipeline Run Version Information: \n')
+    fh.write('# Version: {} \n'.format(version.version))
+    fh.write('# Short Version: {} \n'.format(version.short_version))
+    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
 def check_final_file():
@@ -560,6 +566,17 @@ def sanity_check(title_file):
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
 
 
+def copy_inputs_yaml(fh):
+    '''
+    We want to include the inputs.yaml file in the QC PDF,
+    so we must make a copy of it and use it as an input to the pipeline
+    '''
+    from shutil import copyfile
+    copyfile('./inputs.yaml', './inputs__towrite.yaml')
+    inputs_file_object = {'inputs_file': {'class': 'File', 'path': './inputs__towrite.yaml'}}
+    fh.write(ruamel.yaml.dump(inputs_file_object))
+
+
 def print_user_message(args):
     print args
     print
@@ -574,6 +591,7 @@ def print_user_message(args):
     print "6. Not specifying the correct parameters for logLevel or cleanWorkDir " + \
           "(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)"
 
+
 ########
 # Main #
 ########
@@ -581,7 +599,6 @@ def print_user_message(args):
 def main():
     # Parse arguments
     args = parse_arguments()
-    print_user_message(args)
 
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
@@ -597,6 +614,8 @@ def main():
     write_inputs_file(args, title_file)
     # Perform some checks on the final yaml file that will be supplied to the pipeline
     check_final_file()
+
+    print_user_message(args)
 
 
 if __name__ == '__main__':
