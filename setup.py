@@ -1,6 +1,8 @@
 import os
 from setuptools import setup, Command
 
+import version
+
 
 class CleanCommand(Command):
     """
@@ -14,6 +16,12 @@ class CleanCommand(Command):
         pass
     def run(self):
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
+
+
+# Write version info to version.py
+version = version.expand_()
+with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
+    f.write(version)
 
 
 setup(

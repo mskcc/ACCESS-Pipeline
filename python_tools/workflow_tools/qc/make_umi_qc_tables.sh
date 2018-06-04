@@ -14,13 +14,14 @@ echo -e "Sample\tType\tCount" > family-types-A.txt
 echo -e "Sample\tType\tCount" > family-types-B.txt
 
 # link up the on target positions file
-ln -s /home/patelju1/workspace/Waltz/bedFiles/pan-cancer-panel-v2-pool-A-on-target-positions.txt A-positions.txt
-ln -s /home/patelju1/workspace/Waltz/bedFiles/pan-cancer-panel-v2-pool-B-on-target-positions.txt B-positions.txt
+# Todo: consolidate
+ln -s /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-A-on-target-positions.txt A-positions.txt
+ln -s /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-B-on-target-positions.txt B-positions.txt
 
 echo $1
 
 # process samples
-for sampleFolder in `find -L $1 | grep -P "Sample_$"`
+for sampleFolder in "$@"
 do
   sampleName=`basename $sampleFolder`
   sampleName=${sampleName/-IGO*/}
@@ -39,7 +40,6 @@ do
 
   # clusters per position post filtering
   gunzip -c $sampleFolder/collapsed_R1_.fastq.gz | grep "@Marianas" | awk -v sample=$sampleName 'BEGIN{FS=OFS="\t"; while(getline < "A-positions.txt"){pos=$1"\t"$2; positions[pos]=pos} FS=":"}{if(positions[$3"\t"$4]!=null) print $3"AND"$4}' | sort | uniq -c | awk -v sample=$sampleName '{print $1"\t"sample}' >> clusters-per-position-post-filtering.txt
-
 
   # calculate A pool family counts
   awk -v sample=$sampleName 'BEGIN{FS=OFS="\t"; while(getline < "A-positions.txt"){positions[$1"\t"$2]=$1"\t"$2}}{if(positions[$1"\t"$2]==null) next; if($4+$5==1){singletons++} else if(($4==0 || $5==0) && $4+$5==2){subSimplex++} else if(($4==0 || $5==0) && $4+$5>=3){simplex++} else if($4>0 && $5>0){duplex++}}END{print sample, "Singletons", singletons; print sample, "Sub-Simplex", subSimplex; print sample, "Simplex", simplex; print sample, "Duplex", duplex}' $sampleFolder/first-pass.txt >> family-types-A.txt

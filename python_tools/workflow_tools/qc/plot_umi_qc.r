@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env Rscript
 
 # load the libraries
 library(ggplot2)

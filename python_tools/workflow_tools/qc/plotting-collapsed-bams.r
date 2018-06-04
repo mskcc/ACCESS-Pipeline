@@ -156,8 +156,6 @@ plotMeanCov = function(data) {
     group_by(Class, pool, method) %>% 
     summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
   
-  print(head(avg_cov_df))
-  
   avg_cov_df = dcast(avg_cov_df, Class + pool ~ method, value.var='average_coverage')
   avg_cov_tbl = tableGrob(avg_cov_df, theme=tt)
   grid.arrange(avg_cov_tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
@@ -316,10 +314,8 @@ printTitle = function(title_df, coverage_df) {
   
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')
-  
   # Remove some columns
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
-  
   # Clean Sample names for printing
   title_df = cleanup_sample_names_2(title_df)
   
@@ -466,12 +462,10 @@ main = function(args) {
   
   # Put title file on first page of PDF
   title_df = cleanup_sample_names_2(title_df)
-
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
 
   printhead = function(x) {print(head(x))}
-  
   print("Title dataframe:")
   print(title_df)
   
@@ -484,6 +478,7 @@ main = function(args) {
   dfList = lapply(dfList, sort_df, 'Sample', sort_order)
   dfList = lapply(dfList, mergeInTitleFileData, title_df)
   
+  # We have had problems here with sample names not matching between files and title_file entries
   print("After processing:")
   lapply(dfList, printhead)
   

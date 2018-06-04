@@ -109,6 +109,10 @@ outputs:
     type: File
     outputSource: qc_workflow/FPFigures
 
+  umi_qc_plots:
+    type: File[]
+    outputSource: umi_qc/plots
+
 steps:
 
   #####################
@@ -395,3 +399,16 @@ steps:
       noise_by_substitution,
       noise_alt_percent,
       noise_contributing_sites]
+
+  #####################################
+  # Combine FP, UMI, & std qc results #
+  #####################################
+
+#  combined_qc:
+#    run: ../cwl_tools/python_tools/combine_qc.cwl
+#    in:
+#      std_qc: qc_workflow/qc_pdf
+#      umi_qc: umi_qc/plots
+#      fingerprinting_qc: qc_workflow/all_fp_results
+#    out:
+#      [combined_qc]

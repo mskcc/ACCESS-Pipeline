@@ -1,7 +1,5 @@
-import re
 import sys
 import argparse
-import subprocess
 import ruamel.yaml
 import numpy as np
 import pandas as pd
@@ -16,8 +14,8 @@ from ..constants import *
 # Usage Example:
 #
 # create_inputs_from_title_file \
-#   -i ./DY_title_file.txt \
-#   -d /ifs/archive/BIC/share/bergerm1/JAX_0101_BHL5KNBBXX/Project_05500_DY
+#   -i ./XX_title_file.txt \
+#   -d ./Innovation-Pipeline/test/test_data/new_test_data
 #
 # This module is used to create a yaml file that will be supplied to the pipeline run.
 # Some input parameters may take on multiple values based on what system we are running on (e.g. compute cluster or Local)
@@ -453,12 +451,18 @@ def write_inputs_file(args, title_file):
     title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
     fh.write(ruamel.yaml.dump(title_file_obj))
 
+    include_version_info(fh)
     fh.close()
 
 
 def include_version_info(fh):
-    label = subprocess.check_output(["git", "describe"]).strip()
-    fh.write(INPUTS_FILE_DELIMITER + label)
+    import version
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('Pipeline Version Information')
+    fh.write('# {} \n'.format(version.version))
+    fh.write('# {} \n'.format(version.shortVersion))
+    fh.write('# {} \n'.format(version.most_recent_tag))
+    fh.write('# {} \n'.format(str(version.dirty)))
 
 
 def check_final_file():
@@ -556,14 +560,7 @@ def sanity_check(title_file):
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
 
 
-########
-# Main #
-########
-
-def main():
-    # Parse arguments
-    args = parse_arguments()
-
+def print_user_message(args):
     print args
     print
     print "You've just created the inputs file. Please double check its entries before kicking off a run."
@@ -575,10 +572,25 @@ def main():
     print "4. Working in the wrong virtual environment (are you sure you ran setup.py install?)"
     print "5. Using the wrong adapter sequences (this setup only support dual-indexing)"
     print "6. Not specifying the correct parameters for logLevel or cleanWorkDir " + \
-          "(if you want to see the actual commands passed to the tools, or keep the outputs after a successful run)"
+          "(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)"
+
+########
+# Main #
+########
+
+def main():
+    # Parse arguments
+    args = parse_arguments()
+    print_user_message(args)
 
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
+    # Sort based on Patient ID
+    # This is done to ensure that the order of the samples is retained after indel realignment,
+    # which is done on a per-patient basis
+    # Todo: This requirement / rule needs to be explicitly documented
+    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN)
+
     # Perform some sanity checks on the title file
     sanity_check(title_file)
     # Create the inputs file for the run
