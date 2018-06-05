@@ -14,18 +14,18 @@ requirements:
 
 inputs:
 
-  folders:
-    type: Directory[]
+  A_on_target_positions:
+    type: File
     inputBinding:
       position: 1
 
-  A_on_target_positions:
+  B_on_target_positions:
     type: File
     inputBinding:
       position: 2
 
-  B_on_target_positions:
-    type: File
+  folders:
+    type: Directory[]
     inputBinding:
       position: 3
 

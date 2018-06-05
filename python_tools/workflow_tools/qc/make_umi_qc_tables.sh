@@ -2,7 +2,9 @@
 
 set -x
 
-# $1 - The collapsed bam folder that contains sample folders that contain collapsed bams, collapsed fastqs and first-pass.txt.
+# $1 - A-positions file
+# $2 - B-positions file
+# $3: - The collapsed bam folders that contain collapsed bams, collapsed fastqs and first-pass.txt.
 
 
 # make output files
@@ -14,13 +16,11 @@ echo -e "Sample\tType\tCount" > family-types-A.txt
 echo -e "Sample\tType\tCount" > family-types-B.txt
 
 # link up the on target positions file
-ln -s $2 A-positions.txt
-ln -s $3 B-positions.txt
-
-echo $1
+ln -s $1 A-positions.txt
+ln -s $2 B-positions.txt
 
 # process samples
-for sampleFolder in "$@"
+for sampleFolder in "${@:3}"
 do
   sampleName=`basename $sampleFolder`
   sampleName=${sampleName/-IGO*/}

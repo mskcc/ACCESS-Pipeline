@@ -144,12 +144,12 @@ steps:
   # Fingerprinting #
   ##################
 
-  concat_pileups:
-    in:
-      pileup_A: standard_aggregate_bam_metrics_pool_a/pileup
-      pileup_B: standard_aggregate_bam_metrics_pool_b/pileup
-    out: [pileups_concat]
-    scatter: [pileup_A, pileup_B]
+#  concat_pileups:
+#    in:
+#      pileup_A: standard_aggregate_bam_metrics_pool_a/pileup
+#      pileup_B: standard_aggregate_bam_metrics_pool_b/pileup
+#    out: [pileups_concat]
+#    scatter: [pileup_A, pileup_B]
 
   fingerprinting:
     run: ../../cwl_tools/python/fingerprinting.cwl
@@ -157,7 +157,6 @@ steps:
       output_directory:
         valueFrom: ${return '.'}
       waltz_directory: waltz_standard_pool_a
-      waltz_directory: waltz_standard_pool_b
       FP_config_file: FP_config_file
     out: [
       all_fp_results,
