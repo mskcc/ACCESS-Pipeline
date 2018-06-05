@@ -323,7 +323,7 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
     
     plt.subplots(figsize=(8,7))
     plt.title('Sample Mix-Ups')
-    ax=sns.heatmap(listMatrix,cmap="Blues_r",cbar_kws={'label': 'Fraction Mismatch Homozygous'})
+    ax=sns.heatmap(listMatrix, robust=True, fmt='f', cmap="Blues_r", vmax=.25, cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90,fontsize=11)
     ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
     plt.savefig(fpOutputdir+'GenoMatrix.pdf',bbox_inches='tight')
