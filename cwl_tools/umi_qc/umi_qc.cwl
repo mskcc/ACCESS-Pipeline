@@ -42,6 +42,16 @@ inputs:
     inputBinding:
       position: 4
 
+  family_types_A:
+    type: File
+    inputBinding:
+      position: 5
+
+  family_types_B:
+    type: File
+    inputBinding:
+      position: 6
+
 outputs:
 
   plots:

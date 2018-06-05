@@ -19,6 +19,16 @@ inputs:
     inputBinding:
       position: 1
 
+  A_on_target_positions:
+    type: File
+    inputBinding:
+      position: 2
+
+  B_on_target_positions:
+    type: File
+    inputBinding:
+      position: 3
+
 outputs:
 
   cluster_sizes:

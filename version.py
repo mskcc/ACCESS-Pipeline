@@ -1,3 +1,6 @@
+# (Taken from Toil version.py)
+
+
 def version():
     """
     A version identifier that includes the full-legth commit SHA1 and an optional suffix to

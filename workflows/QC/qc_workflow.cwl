@@ -42,6 +42,10 @@ inputs:
   # Fingerprinting
   FP_config_file: File
 
+  sample_directories: Directory[]
+  A_on_target_positions: File
+  B_on_target_positions: File
+
   standard_bams:
     type:
       type: array
@@ -89,6 +93,10 @@ outputs:
     type: File
     outputSource: qc_workflow_wo_waltz/noise_contributing_sites
 
+  umi_qc:
+    type: File[]
+    outputSource: qc_workflow_wo_waltz/umi_qc
+
 steps:
 
   ##############
@@ -107,7 +115,6 @@ steps:
       waltz__min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-
       standard_bams: standard_bams
       marianas_unfiltered_bams: marianas_unfiltered_bams
       marianas_simplex_duplex_bams: marianas_simplex_duplex_bams
@@ -132,6 +139,10 @@ steps:
       title_file: title_file
       inputs_file: inputs_file
       FP_config_file: FP_config_file
+      sample_directories: sample_directories
+      A_on_target_positions: A_on_target_positions
+      B_on_target_positions: B_on_target_positions
+
       waltz_standard_pool_a: waltz_workflow/waltz_standard_pool_a_files
       waltz_unfiltered_pool_a: waltz_workflow/waltz_unfiltered_pool_a_files
       waltz_simplex_duplex_pool_a: waltz_workflow/waltz_simplex_duplex_pool_a_files
@@ -140,7 +151,6 @@ steps:
       waltz_unfiltered_pool_b: waltz_workflow/waltz_unfiltered_pool_b_files
       waltz_simplex_duplex_pool_b: waltz_workflow/waltz_simplex_duplex_pool_b_files
       waltz_duplex_pool_b: waltz_workflow/waltz_duplex_pool_b_files
-
     out: [
       qc_pdf,
       all_fp_results,
@@ -148,4 +158,5 @@ steps:
       noise_table,
       noise_by_substitution,
       noise_alt_percent,
-      noise_contributing_sites]
+      noise_contributing_sites,
+      umi_qc]

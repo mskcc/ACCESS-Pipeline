@@ -23,7 +23,7 @@ options(error = quote({dump.frames(to.file=TRUE); q()}))
 options(error=function()traceback(2))
 
 
-# Util for putting commas in scale labels?
+# Util for putting commas in scale labels
 format_comma <- function(x, ...) {
   format(x, ..., big.mark = ',', scientific = FALSE, trim = TRUE)
 }
@@ -169,7 +169,7 @@ plotMeanCov = function(data) {
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
   ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
-    geom_bar(position = position_stack(reverse = TRUE), stat='identity', aes(fill = pool)) +
+    geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=pool)) +
     ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
     MY_THEME
@@ -444,6 +444,8 @@ main = function(args) {
   inputs_yaml = args[5]
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
+  
+  print(inputs_yaml)
   inputs_yaml = readLines(inputs_yaml)
   
   # Use only two class labels
@@ -474,7 +476,6 @@ main = function(args) {
   print(title_df)
   
   dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample)
-  
   print("Dataframes:")
   lapply(dfList, printhead)
   
@@ -485,7 +486,6 @@ main = function(args) {
   # We have had problems here with sample names not matching between files and title_file entries
   print("After processing:")
   lapply(dfList, printhead)
-  
   readCountsDataTotal = dfList[[1]]
   dupRateData = dfList[[2]]
   covPerInterval = dfList[[3]]
@@ -494,6 +494,7 @@ main = function(args) {
   gcEachSample = dfList[[6]]
   
   printTitle(title_df, meanCovData)
+  
   # Choose the plots that we want to run
   print(plotAlignGenome(readCountsDataTotal))
   # print(plotCovDistPerInterval(covPerInterval))
@@ -505,12 +506,32 @@ main = function(args) {
   # print(plotGCwithCovAllSamples(gcAllSamples))
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
   
-  # Write the inputs yaml file
-  print(write(inputs_yaml, file="inputs_yaml_towrite"))
+  # print_inputs(inputs_yaml)
   
   dev.off()
 }
-  
+
+
+# print_inputs = function(inputs_yaml) {
+#   # asdf = readChar('~/Downloads/inputs__towrite.yaml', file.info('~/Downloads/inputs__towrite.yaml')$size)
+#   pdf(file='asdf.pdf', onefile=FALSE)
+#   print(inputs_yaml)
+#   split = strsplit(inputs_yaml, '# ------', fixed=FALSE, perl=FALSE, useBytes=FALSE)
+#   for (section in split) {
+#     print(section)
+#     print("HERE")
+#     # grid.text(section, gp=gpar(fontsize=5), just='left', check.overlap=TRUE)
+#     grid.table(
+#       section, #gp=gpar(fontsize=5), just='left', check.overlap=TRUE, 
+#       theme=ttheme_minimal(
+#       core=list(fg_params=list(hjust=0, x=0.1)),
+#       rowhead=list(fg_params=list(hjust=0, x=0)),
+#       base_size=6, padding = unit(c(1, 1), "mm")
+#     ))
+#   }
+#   dev.off()
+# }
+
 
 # Parse arguments
 argv = commandArgs(trailingOnly=TRUE)

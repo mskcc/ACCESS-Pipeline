@@ -14,9 +14,8 @@ echo -e "Sample\tType\tCount" > family-types-A.txt
 echo -e "Sample\tType\tCount" > family-types-B.txt
 
 # link up the on target positions file
-# Todo: consolidate
-ln -s /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-A-on-target-positions.txt A-positions.txt
-ln -s /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-B-on-target-positions.txt B-positions.txt
+ln -s $2 A-positions.txt
+ln -s $3 B-positions.txt
 
 echo $1
 

@@ -22,6 +22,9 @@ inputs:
   title_file: File
   inputs_file: File
   FP_config_file: File
+  sample_directories: Directory[]
+  A_on_target_positions: File
+  B_on_target_positions: File
 
   waltz_standard_pool_a: Directory
   waltz_unfiltered_pool_a: Directory
@@ -61,6 +64,10 @@ outputs:
   noise_contributing_sites:
     type: File
     outputSource: plot_noise/noise_contributing_sites
+
+  umi_qc:
+    type: File[]
+    outputSource: umi_qc_plots/plots
 
 steps:
 
@@ -137,12 +144,20 @@ steps:
   # Fingerprinting #
   ##################
 
+  concat_pileups:
+    in:
+      pileup_A: standard_aggregate_bam_metrics_pool_a/pileup
+      pileup_B: standard_aggregate_bam_metrics_pool_b/pileup
+    out: [pileups_concat]
+    scatter: [pileup_A, pileup_B]
+
   fingerprinting:
     run: ../../cwl_tools/python/fingerprinting.cwl
     in:
       output_directory:
         valueFrom: ${return '.'}
       waltz_directory: waltz_standard_pool_a
+      waltz_directory: waltz_standard_pool_b
       FP_config_file: FP_config_file
     out: [
       all_fp_results,
@@ -157,8 +172,7 @@ steps:
     in:
       # Todo: Should be on Duplex A:
       waltz_directory: waltz_duplex_pool_a
-    out:
-      [noise, noise_by_substitution] #waltz_dir_with_noise]
+    out: [noise, noise_by_substitution] #waltz_dir_with_noise]
 
   plot_noise:
     run: ../../cwl_tools/noise/plot_noise.cwl
@@ -167,8 +181,36 @@ steps:
         valueFrom: ${return '.'}
       noise: noise/noise
       noise_by_substitution: noise/noise_by_substitution
-    out:
-      [noise_alt_percent, noise_contributing_sites]
+    out: [noise_alt_percent, noise_contributing_sites]
+
+  ##########
+  # UMI QC #
+  ##########
+
+  umi_qc_tables:
+    run: ../../cwl_tools/umi_qc/make_umi_qc_tables.cwl
+    in:
+      folders: sample_directories
+      A_on_target_positions: A_on_target_positions
+      B_on_target_positions: B_on_target_positions
+    out: [
+      cluster_sizes,
+      cluster_sizes_post_filtering,
+      clusters_per_position,
+      clusters_per_position_post_filtering,
+      family_types_A,
+      family_types_B]
+
+  umi_qc_plots:
+    run: ../../cwl_tools/umi_qc/umi_qc.cwl
+    in:
+      cluster_sizes: umi_qc_tables/cluster_sizes
+      cluster_sizes_post_filtering: umi_qc_tables/cluster_sizes_post_filtering
+      clusters_per_position: umi_qc_tables/clusters_per_position
+      clusters_per_position_post_filtering: umi_qc_tables/clusters_per_position_post_filtering
+      family_types_A: umi_qc_tables/family_types_A
+      family_types_B: umi_qc_tables/family_types_B
+    out: [plots]
 
   #################
   # Innovation-QC #
@@ -179,15 +221,12 @@ steps:
     in:
       title_file: title_file
       inputs_file: inputs_file
-
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
       duplex_waltz_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
-
       standard_waltz_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
       unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
-    out:
-      [qc_pdf]
+    out: [qc_pdf]

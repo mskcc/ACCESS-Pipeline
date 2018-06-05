@@ -33,11 +33,13 @@ inputs:
 
   title_file: File
   inputs_file: File
+
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
   class_list: string[]
+
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file?
   # so we need to use strings here instead of file types
@@ -82,12 +84,15 @@ inputs:
   marianas__min_mapping_quality: int
   marianas__min_base_quality: int
   marianas__min_consensus_percent: int
-  pool_a_bed_file: File
-  pool_b_bed_file: File
-  gene_list: File
+
   coverage_threshold: int
   waltz__min_mapping_quality: int
   fci_2__basq_fix: boolean?
+  pool_a_bed_file: File
+  pool_b_bed_file: File
+  A_on_target_positions: File
+  B_on_target_positions: File
+  gene_list: File
   FP_config_file: File
 
 outputs:
@@ -110,9 +115,9 @@ outputs:
     type: File
     outputSource: qc_workflow/FPFigures
 
-  umi_qc_plots:
+  umi_qc:
     type: File[]
-    outputSource: umi_qc/plots
+    outputSource: qc_workflow/umi_qc
 
 steps:
 
@@ -317,6 +322,7 @@ steps:
   ##################################
 
   # Todo: Error! std order != collapsed order != IR bams order
+  # This is now enforced by grouping samples from same patient in title file
   make_sample_output_directories:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
     in:
@@ -342,34 +348,7 @@ steps:
       first_pass_alt_alleles,
       second_pass]
     scatterMethod: dotproduct
-    out:
-      [directory]
-
-  ##########
-  # UMI QC #
-  ##########
-
-  umi_qc_tables:
-    run: ../cwl_tools/umi_qc/make_umi_qc_tables.cwl
-    in:
-      folders: make_sample_output_directories/directory
-    out: [
-      cluster_sizes,
-      cluster_sizes_post_filtering,
-      clusters_per_position,
-      clusters_per_position_post_filtering,
-      family_types_A,
-      family_types_B]
-
-  umi_qc:
-    run: ../cwl_tools/umi_qc/umi_qc.cwl
-    in:
-      cluster_sizes: umi_qc_tables/cluster_sizes
-      cluster_sizes_post_filtering: umi_qc_tables/cluster_sizes_post_filtering
-      clusters_per_position: umi_qc_tables/clusters_per_position
-      clusters_per_position_post_filtering: umi_qc_tables/clusters_per_position_post_filtering
-    out:
-      [plots]
+    out: [directory]
 
   ######
   # QC #
@@ -379,6 +358,10 @@ steps:
     run: ./QC/qc_workflow.cwl
     in:
       run_tools: run_tools
+      sample_directories: make_sample_output_directories/directory
+      A_on_target_positions: A_on_target_positions
+      B_on_target_positions: B_on_target_positions
+
       title_file: title_file
       inputs_file: inputs_file
       pool_a_bed_file: pool_a_bed_file
@@ -400,7 +383,8 @@ steps:
       noise_table,
       noise_by_substitution,
       noise_alt_percent,
-      noise_contributing_sites]
+      noise_contributing_sites,
+      umi_qc]
 
   #####################################
   # Combine FP, UMI, & std qc results #

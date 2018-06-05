@@ -1,4 +1,5 @@
 title_file: {class: File, path: /home/johnsoni/ET_waltz_test_data_medium/ET_title_file.txt}
+inputs_file: {class: File, path: /home/johnsoni/TEST_RUNS/inputs__towrite.yaml}
 
 waltz_standard_pool_a: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/total_A_targets}
 waltz_unfiltered_pool_a: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/unfiltered_A_targets}
@@ -11,3 +12,23 @@ waltz_simplex_duplex_pool_b: {class: Directory, path: /home/johnsoni/ET_waltz_te
 waltz_duplex_pool_b: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/duplex_B_targets}
 
 FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/justFPSnps.txt}
+
+sample_directories:
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/ZS-msi-4500-bc-N01-IGO-05500-ET-60_bc444_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder/}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/ZS-msi-4501-bc-N01-IGO-05500-ET-61_bc445_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder/}
+
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-005-pl-T02-30ng-a-IGO-05500-ET-41_bc411_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-005-pl-T02-30ng-IGO-05500-ET-66_bc411_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-012-pl-T02-30ng-a-IGO-05500-ET-39_bc409_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-012-pl-T02-30ng-IGO-05500-ET-64_bc409_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-020-pl-T02-30ng-a-IGO-05500-ET-40_bc410_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-020-pl-T02-30ng-IGO-05500-ET-65_bc410_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-037-pl-T01-30ng-a-IGO-05500-ET-42_bc412_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-037-pl-T01-30ng-IGO-05500-ET-67_bc412_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-041-pl-T01-30ng-a-IGO-05500-ET-38_bc408_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-041-pl-T01-30ng-IGO-05500-ET-63_bc408_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-041-pl-T02-30ng-a-IGO-05500-ET-37_bc407_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/BL-tdm1-041-pl-T02-30ng-IGO-05500-ET-62_bc407_Pool-05500-ET-Tube8-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/DH-fgfr2-0136-bc-N01-IGO-05500-ET-47_bc430_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/DH-fgfr2-0136-pl-T01-IGO-05500-ET-15_bc417_Pool-05500-ET-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+#- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/DH-fgfr2-0136-pl-T17-IGO-05500-ET-18_bc421_Pool-05500-ET-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}

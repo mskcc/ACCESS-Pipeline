@@ -55,7 +55,7 @@ def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_f
     """
     plots_module_cmd = 'plotting-collapsed-bams.r'
     plots_module_cmd += ' -i {} -w {} -o {}'.format(tables_output_dir, ufa_waltz_loc, plots_output_dir)
-    plots_module_cmd += ' -t {} -y'.format(title_file_path, inputs_file_path)
+    plots_module_cmd += ' -t {} -y {}'.format(title_file_path, inputs_file_path)
 
     print('Running plots module with cmd: {}'.format(plots_module_cmd))
     rv = subprocess.check_call(plots_module_cmd, shell=True)

@@ -572,6 +572,7 @@ def copy_inputs_yaml(fh):
     so we must make a copy of it and use it as an input to the pipeline
     '''
     from shutil import copyfile
+    fh.flush()
     copyfile('./inputs.yaml', './inputs__towrite.yaml')
     inputs_file_object = {'inputs_file': {'class': 'File', 'path': './inputs__towrite.yaml'}}
     fh.write(ruamel.yaml.dump(inputs_file_object))

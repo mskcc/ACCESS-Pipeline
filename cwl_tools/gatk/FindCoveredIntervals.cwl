@@ -19,9 +19,6 @@ requirements:
     ramMin: 22000
     coresMin: 1
 
-doc: |
-  None
-
 inputs:
   tmp_dir: string
   java: string
@@ -42,7 +39,6 @@ inputs:
     inputBinding:
       prefix: --reference_sequence
 
-# todo: How to programatically use "intervals" parameter only during testing?
   intervals:
     type:
     - 'null'
@@ -77,8 +73,6 @@ inputs:
       inputBinding:
         prefix: --read_filter
         position: 100
-        # todo: there should be a better way to specify multiple arguments with same prefix
-        # https://www.biostars.org/p/303633/
 
   ignore_misencoded_base_qualities:
     type: boolean?
