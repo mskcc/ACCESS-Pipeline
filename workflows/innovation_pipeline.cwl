@@ -224,8 +224,6 @@ steps:
       min_mapping_quality: marianas__min_mapping_quality
       min_base_quality: marianas__min_base_quality
       min_consensus_percent: marianas__min_consensus_percent
-      # Todo: not needed:
-      patient_id: patient_id
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
@@ -321,7 +319,7 @@ steps:
   # Make sample output directories #
   ##################################
 
-  # Todo: Error! std order != collapsed order != IR bams order
+  # Todo: test that these directories are correctly created
   # This is now enforced by grouping samples from same patient in title file
   make_sample_output_directories:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl

@@ -91,7 +91,6 @@ outputs:
 
 steps:
 
-  # Todo: this currently gets run 2x
   waltz_standard_pool_a:
     run: ./waltz-workflow.cwl
     in:

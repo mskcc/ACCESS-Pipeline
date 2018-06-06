@@ -97,9 +97,9 @@ steps:
     in:
       run_tools: run_tools
       java_8:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       marianas_path:
-        valueFrom: ${return inputs.run_tools.marianas_path}
+        valueFrom: $(inputs.run_tools.marianas_path)
 
       fastq1: fastq1
       fastq2: fastq2

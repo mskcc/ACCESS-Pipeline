@@ -61,10 +61,6 @@ outputs:
       - ^.bai
     outputSource: parallel_fixmate/bams
 
-#  standard_bais:
-#    type: File[]
-#    outputSource: parallel_fixmate/bais
-
   covint_list:
     type: File
     outputSource: find_covered_intervals/fci_list
@@ -80,9 +76,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       gatk:
-        valueFrom: ${return inputs.run_tools.gatk_path}
+        valueFrom: $(inputs.run_tools.gatk_path)
 
       tmp_dir: tmp_dir
       bams: bams
@@ -111,11 +107,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_7}
-#        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_7)
       abra:
-        valueFrom: ${return inputs.run_tools.abra_path}
-
+        valueFrom: $(inputs.run_tools.abra_path)
       input_bams: bams
       targets: list2bed/output_file
       scratch_dir: abra__scratch
@@ -138,10 +132,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       fix_mate_information:
-        valueFrom: ${return inputs.run_tools.fx_path}
-
+        valueFrom: $(inputs.run_tools.fx_path)
       bam: abra/bams
       tmp_dir: tmp_dir
       sort_order: fix_mate_information__sort_order

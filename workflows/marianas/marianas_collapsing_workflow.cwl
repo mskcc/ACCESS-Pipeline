@@ -39,8 +39,6 @@ inputs:
   min_base_quality: int
   min_consensus_percent: int
 
-  patient_id: string[]
-
   tmp_dir: string
   reference_fasta: string
   reference_fasta_fai: string
@@ -171,7 +169,6 @@ steps:
     run: ./collapsed_fastq_to_bam.cwl
     in:
       run_tools: run_tools
-      patient_id: patient_id
       tmp_dir: tmp_dir
       fastq1: rename_fastq_1/renamed_file
       fastq2: rename_fastq_2/renamed_file

@@ -4,7 +4,6 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-#baseCommand:
 ## Todo: Reported bug in 0.7.5a which introduces randomness related to number of threads used:
 ## https://www.biostars.org/p/90390/
 #- /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa

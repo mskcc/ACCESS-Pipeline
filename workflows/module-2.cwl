@@ -51,7 +51,6 @@ inputs:
   fix_mate_information__validation_stringency: string
   fix_mate_information__compression_level: int
   fix_mate_information__create_index: boolean
-
   bqsr__nct: int
   bqsr__rf: string
   bqsr__knownSites_dbSNP:
@@ -96,7 +95,6 @@ steps:
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       patient_id: patient_id
-
       fci__minbq: fci__minbq
       fci__minmq: fci__minmq
       fci__cov: fci__cov
@@ -118,7 +116,6 @@ steps:
       bams: ABRA_workflow/ir_bams
       tmp_dir: tmp_dir
       reference_fasta: reference_fasta
-
       bqsr__nct: bqsr__nct
       bqsr__rf: bqsr__rf
       bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP

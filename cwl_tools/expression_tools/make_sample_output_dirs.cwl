@@ -37,8 +37,6 @@ outputs:
   directory:
     type: Directory
 
-# Todo: Sample Name in basename
-# 'basename': inputs.standard_bam.basename.split('IGO')[0],
 expression: |
   ${
     var output_files = [];

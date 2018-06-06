@@ -3,7 +3,6 @@
 #############################################
 
 # Used in multiple steps
-# Todo: implement smaller reference fasta for testing
 reference_fasta: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta
 reference_fasta_fai: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta.fai
 

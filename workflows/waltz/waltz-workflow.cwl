@@ -58,9 +58,9 @@ steps:
     in:
       run_tools: run_tools
       java_8:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       waltz_path:
-        valueFrom: ${return inputs.run_tools.waltz_path}
+        valueFrom: $(inputs.run_tools.waltz_path)
 
       input_bam: input_bam
       coverage_threshold: coverage_threshold
@@ -77,9 +77,9 @@ steps:
     in:
       run_tools: run_tools
       java_8:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: $(inputs.run_tools.java_8)
       waltz_path:
-        valueFrom: ${return inputs.run_tools.waltz_path}
+        valueFrom: $(inputs.run_tools.waltz_path)
 
       input_bam: input_bam
       min_mapping_quality: min_mapping_quality

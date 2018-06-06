@@ -28,8 +28,6 @@ inputs:
         fastqc_path: string?
         cutadapt_path: string?
 
-  patient_id: string[]
-
   tmp_dir: string
   fastq1: File
   fastq2: File

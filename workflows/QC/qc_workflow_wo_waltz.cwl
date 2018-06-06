@@ -169,7 +169,6 @@ steps:
   noise:
     run: ../../cwl_tools/noise/calculate_noise.cwl
     in:
-      # Todo: Should be on Duplex A:
       waltz_directory: waltz_duplex_pool_a
     out: [noise, noise_by_substitution] #waltz_dir_with_noise]
 
