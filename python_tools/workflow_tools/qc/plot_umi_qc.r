@@ -5,7 +5,11 @@ library(ggplot2)
 library(dplyr)
 library(grid)
 library(gridExtra)
-library(scales)
+library(scales)s
+
+options(show.error.locations = TRUE)
+options(error=quote({dump.frames(to.file=TRUE); q()}))
+options(error=function()traceback(2))
 
 
 argv = commandArgs(trailingOnly=TRUE)
@@ -101,18 +105,19 @@ plot_family_types = function(family_types_A_filepath, family_types_B_filepath) {
   family_types_B = read.table(family_types_B_filepath, sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
   family_types_B$Count = as.numeric(family_types_B$Count)
   family_types_B$Pool = 'B Targets'
+  
   family_types_all = bind_rows(family_types_A, family_types_B)
+  
   family_types_all[is.na(family_types_all)] <- 0
+  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  family_types_all$Sample = factor(family_types_all$Sample)
+  family_types_all$Type = factor(family_types_all$Type, levels=c('Singletons', 'Sub-Simplex', 'Simplex', 'Duplex'))
   
   # Convert to % family sizes
   family_types_all = family_types_all %>%
     group_by(Pool, Sample) %>%
     mutate(CountPercent = Count / sum(Count))
-  
-  family_types_all$Sample = factor(family_types_all$Sample)
-  family_types_all$Type = factor(family_types_all$Type, levels=c('Singletons', 'Sub-Simplex', 'Simplex', 'Duplex'))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
   
   ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
       geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=Type)) + 

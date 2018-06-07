@@ -32,7 +32,6 @@ inputs:
         waltz_path: string
 
   title_file: File
-  inputs_file: File
 
   fastq1: File[]
   fastq2: File[]
@@ -359,9 +358,7 @@ steps:
       sample_directories: make_sample_output_directories/directory
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
-
       title_file: title_file
-      inputs_file: inputs_file
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
       gene_list: gene_list

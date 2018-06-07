@@ -16,11 +16,10 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 3000
-    coresMin: 4
+    coresMin: 2
 
 inputs:
   title_file: File
-  inputs_file: File
   FP_config_file: File
   sample_directories: Directory[]
   A_on_target_positions: File
@@ -170,7 +169,7 @@ steps:
     run: ../../cwl_tools/noise/calculate_noise.cwl
     in:
       waltz_directory: waltz_duplex_pool_a
-    out: [noise, noise_by_substitution] #waltz_dir_with_noise]
+    out: [noise, noise_by_substitution]
 
   plot_noise:
     run: ../../cwl_tools/noise/plot_noise.cwl
@@ -218,7 +217,6 @@ steps:
     run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
-      inputs_file: inputs_file
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir

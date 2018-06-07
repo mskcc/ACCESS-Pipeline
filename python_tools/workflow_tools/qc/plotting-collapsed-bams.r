@@ -82,8 +82,7 @@ readInputs = function(args) {
     'standardWaltz', 'w', 1, 'character',
     'tablesOutputDir', 'i', 1, 'character',
     'plotsOutputDir', 'o', 1, 'character',
-    'titleFilePath', 't', 2, 'character',
-    'inputsFilePath', 'y', 2, 'character'
+    'titleFilePath', 't', 2, 'character'
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
@@ -92,9 +91,23 @@ readInputs = function(args) {
     opts$tablesOutputDir,
     opts$standardWaltz,
     opts$plotsOutputDir,
-    opts$titleFilePath,
-    opts$inputsFilePath)
+    opts$titleFilePath)
   )
+}
+
+
+#' Count of read pairs per sample
+#' @param data data.frame with Sample and total_reads columns
+plotReadPairsCount = function(data) {
+  data = data %>% mutate(data, read_pairs = total_reads / 2)
+  # Plot may be used across collapsing methods, or with T/N coloring for just total values
+  data = transform(data, method=factor(method, levels=LEVEL_C))
+  
+  ggplot(data, aes(x = Sample, y = read_pairs)) + 
+    geom_bar(stat='identity', aes_string(fill = 'method')) + 
+    ggtitle('Read Pairs') +
+    scale_y_continuous('Count') +
+    MY_THEME
 }
 
 
@@ -441,12 +454,8 @@ main = function(args) {
   inDirWaltz = args[2]
   outDir = args[3]
   title_file = args[4]
-  inputs_yaml = args[5]
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
-  
-  print(inputs_yaml)
-  inputs_yaml = readLines(inputs_yaml)
   
   # Use only two class labels
   title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
@@ -496,6 +505,7 @@ main = function(args) {
   printTitle(title_df, meanCovData)
   
   # Choose the plots that we want to run
+  print(plotReadPairsCount(readCountsDataTotal))
   print(plotAlignGenome(readCountsDataTotal))
   # print(plotCovDistPerInterval(covPerInterval))
   print(plotOnTarget(readCountsDataTotal))
@@ -506,31 +516,8 @@ main = function(args) {
   # print(plotGCwithCovAllSamples(gcAllSamples))
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
   
-  # print_inputs(inputs_yaml)
-  
   dev.off()
 }
-
-
-# print_inputs = function(inputs_yaml) {
-#   # asdf = readChar('~/Downloads/inputs__towrite.yaml', file.info('~/Downloads/inputs__towrite.yaml')$size)
-#   pdf(file='asdf.pdf', onefile=FALSE)
-#   print(inputs_yaml)
-#   split = strsplit(inputs_yaml, '# ------', fixed=FALSE, perl=FALSE, useBytes=FALSE)
-#   for (section in split) {
-#     print(section)
-#     print("HERE")
-#     # grid.text(section, gp=gpar(fontsize=5), just='left', check.overlap=TRUE)
-#     grid.table(
-#       section, #gp=gpar(fontsize=5), just='left', check.overlap=TRUE, 
-#       theme=ttheme_minimal(
-#       core=list(fg_params=list(hjust=0, x=0.1)),
-#       rowhead=list(fg_params=list(hjust=0, x=0)),
-#       base_size=6, padding = unit(c(1, 1), "mm")
-#     ))
-#   }
-#   dev.off()
-# }
 
 
 # Parse arguments

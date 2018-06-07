@@ -30,7 +30,6 @@ inputs:
         waltz_path: string
 
   title_file: File
-  inputs_file: File
   pool_a_bed_file: File
   pool_b_bed_file: File
   gene_list: File
@@ -137,7 +136,6 @@ steps:
     run: ./qc_workflow_wo_waltz.cwl
     in:
       title_file: title_file
-      inputs_file: inputs_file
       FP_config_file: FP_config_file
       sample_directories: sample_directories
       A_on_target_positions: A_on_target_positions

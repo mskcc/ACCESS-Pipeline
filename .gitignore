@@ -5,3 +5,4 @@ notes
 .DS_Store
 *.pyc
 *.log
+resources/bedfiles

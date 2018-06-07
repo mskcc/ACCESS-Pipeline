@@ -174,7 +174,7 @@ def contained_in(sample_id, fastq_object):
 
 def get_pos(title_file, fastq_object):
     """
-    Return position of `filename` in 'Sample_ID' column of title_file
+    Return position of `fastq_object` in 'Sample_ID' column of title_file
     Used for sorting purposes
     """
     boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, fastq_object=fastq_object)

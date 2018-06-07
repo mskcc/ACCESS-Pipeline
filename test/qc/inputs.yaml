@@ -1,5 +1,5 @@
 title_file: {class: File, path: /home/johnsoni/ET_waltz_test_data_medium/ET_title_file.txt}
-inputs_file: {class: File, path: /home/johnsoni/TEST_RUNS/inputs__towrite.yaml}
+#inputs_file: {class: File, path: /home/johnsoni/TEST_RUNS/inputs__towrite.yaml}
 
 waltz_standard_pool_a: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/total_A_targets}
 waltz_unfiltered_pool_a: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/unfiltered_A_targets}
@@ -11,7 +11,13 @@ waltz_unfiltered_pool_b: {class: Directory, path: /home/johnsoni/ET_waltz_test_d
 waltz_simplex_duplex_pool_b: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/simplex_duplex_B_targets}
 waltz_duplex_pool_b: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/duplex_B_targets}
 
+# Fingerprinting
 FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/justFPSnps.txt}
+# UMI QC
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-B-on-target-positions.txt}
+# Noise
+good_positions: {class File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}
 
 sample_directories:
 - {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/5500-ET/marianas/collapsed-bams-1.5.0/ZS-msi-4500-bc-N01-IGO-05500-ET-60_bc444_Pool-05500-ET-Tube7-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder/}
