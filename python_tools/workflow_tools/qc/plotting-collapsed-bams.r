@@ -99,14 +99,14 @@ readInputs = function(args) {
 #' Count of read pairs per sample
 #' @param data data.frame with Sample and total_reads columns
 plotReadPairsCount = function(data) {
-  data = data %>% mutate(data, read_pairs = total_reads / 2)
-  # Plot may be used across collapsing methods, or with T/N coloring for just total values
-  data = transform(data, method=factor(method, levels=LEVEL_C))
+  data = data %>% mutate(read_pairs = total_reads / 2)
+  # Because the values for read counts are the same for both Pool A and Pool B, we just pick one
+  data = filter(data, pool == 'A Targets')
   
   ggplot(data, aes(x = Sample, y = read_pairs)) + 
-    geom_bar(stat='identity', aes_string(fill = 'method')) + 
+    geom_bar(stat='identity') + 
     ggtitle('Read Pairs') +
-    scale_y_continuous('Count') +
+    scale_y_continuous('Count', label=format_comma) +
     MY_THEME
 }
 
@@ -217,9 +217,6 @@ plotGCwithCovEachSample = function(data, sort_order) {
   data = dplyr::filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, Sample=factor(Sample))
-  
-  print("after transform:")
-  print(head(data))
 
   ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method ~ ., scales='free') +
@@ -507,14 +504,14 @@ main = function(args) {
   # Choose the plots that we want to run
   print(plotReadPairsCount(readCountsDataTotal))
   print(plotAlignGenome(readCountsDataTotal))
-  # print(plotCovDistPerInterval(covPerInterval))
   print(plotOnTarget(readCountsDataTotal))
   print(plotInsertSizeDistribution(insertSizes))
   print(plotCovDistPerIntervalLine(covPerInterval))
-  # print(plotDupFrac(dupRateData))
   print(plotMeanCov(meanCovData))
-  # print(plotGCwithCovAllSamples(gcAllSamples))
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
+  # print(plotDupFrac(dupRateData))
+  # print(plotCovDistPerInterval(covPerInterval))
+  # print(plotGCwithCovAllSamples(gcAllSamples))
   
   dev.off()
 }

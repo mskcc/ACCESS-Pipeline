@@ -17,3 +17,6 @@ FP_config_file: {class: File, path: $PIPELINE_ROOT/resources/fingerprinting/Acce
 # UMI QC
 A_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_0-A-on-target-positions.txt}
 B_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_0-B-on-target-positions.txt}
+
+# Noise QC
+noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}

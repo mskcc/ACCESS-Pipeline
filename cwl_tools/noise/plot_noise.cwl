@@ -4,7 +4,7 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [plot_noise.py]
+baseCommand: [plot_noise]
 
 requirements:
   InlineJavascriptRequirement: {}

@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 # Define a constant for the root directory of this project
 # Todo: Find better way to set project root while still using setup.py
-ROOT_DIR = '/Users/johnsoni/Desktop/code/Innovation-Pipeline'
+ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 
 
 #############

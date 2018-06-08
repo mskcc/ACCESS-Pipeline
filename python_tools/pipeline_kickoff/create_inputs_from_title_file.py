@@ -452,7 +452,7 @@ def write_inputs_file(args, title_file):
     fh.write(ruamel.yaml.dump(title_file_obj))
 
     # Make a copy of the inputs file to include in the QC PDF
-    copy_inputs_yaml(fh)
+    # copy_inputs_yaml(fh)
 
     # include_version_info(fh)
     fh.close()

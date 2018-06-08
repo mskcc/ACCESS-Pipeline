@@ -5,15 +5,16 @@ import pandas as pd
 from constants import *
 
 
-def read_df(f):
+def read_df(f, header=None):
     """
     Helper to read our particular format of metrics files
     """
     try:
-        df = pd.read_csv(f, sep='\t')
+        df = pd.read_csv(f, sep='\t', header=header)
         return df
     except Exception as e:
         print >> sys.stderr, 'Exception reading data file {}: {}'.format(f, e)
+        print >> sys.stderr, 'Continuing anyways, some metrics may not be available.'
         return pd.DataFrame({})
 
 
@@ -43,6 +44,7 @@ def merge_files_across_samples(files, cols, sample_ids=None):
     all_dataframes = []
     for f in files:
         new = read_df(f)
+        print(new.head())
 
         if new.empty:
             pass
@@ -56,7 +58,7 @@ def merge_files_across_samples(files, cols, sample_ids=None):
 
         all_dataframes.append(new)
 
-    final = pd.concat([d for d in all_dataframes])
+    final = pd.concat(all_dataframes)
 
     if final.empty:
         return pd.DataFrame(columns=cols)

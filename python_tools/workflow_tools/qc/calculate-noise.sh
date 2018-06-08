@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # calculate substituion rate ("noise") for all pileup and pileup-without-duplicates files in the current folder. Run it in a folder with Waltz output
 
 # $1 - (optional) a file indicating good positions that should be used exclusively for noise calculation. Each line has chromosome and position separated by tab.

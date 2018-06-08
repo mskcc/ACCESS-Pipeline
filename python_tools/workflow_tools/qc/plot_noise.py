@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 from ...util import read_df
@@ -55,7 +56,7 @@ def parse_arguments():
 
 def main ():
     args= parse_arguments()
-    noise_table = read_df(args.noise_file).fillna(0)
+    noise_table = pd.read_csv(args.noise_file, sep='\t').fillna(0)
     NoiseAltPercentPlot(noise_table)
     NoiseContributingSitesPlot(noise_table)
     

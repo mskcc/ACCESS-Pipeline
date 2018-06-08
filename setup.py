@@ -68,13 +68,13 @@ setup(
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'qc = python_tools.workflow_tools.qc.qc:main',
             'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
+            'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
         ]
     },
     scripts=[
         'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
         'python_tools/workflow_tools/qc/calculate-noise.sh',
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
-        'python_tools/workflow_tools/qc/plot_noise.py',
         'python_tools/workflow_tools/qc/plot_umi_qc.r',
     ],
     include_package_data=True,
