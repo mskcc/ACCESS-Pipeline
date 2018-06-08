@@ -454,7 +454,7 @@ def write_inputs_file(args, title_file):
     # Make a copy of the inputs file to include in the QC PDF
     copy_inputs_yaml(fh)
 
-    include_version_info(fh)
+    # include_version_info(fh)
     fh.close()
 
 

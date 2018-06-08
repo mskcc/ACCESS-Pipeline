@@ -44,6 +44,7 @@ inputs:
   sample_directories: Directory[]
   A_on_target_positions: File
   B_on_target_positions: File
+  noise__good_positions_A: File
 
   standard_bams:
     type:
@@ -140,6 +141,7 @@ steps:
       sample_directories: sample_directories
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
+      noise__good_positions_A: noise__good_positions_A
 
       waltz_standard_pool_a: waltz_workflow/waltz_standard_pool_a_files
       waltz_unfiltered_pool_a: waltz_workflow/waltz_unfiltered_pool_a_files

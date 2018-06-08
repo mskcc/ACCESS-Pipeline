@@ -18,10 +18,10 @@ class CleanCommand(Command):
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
 
 
-# Write version info to version.py
-version = version.expand_()
-with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
-    f.write(version)
+# Uncomment to write version info to version.py on setup
+# version = version.expand_()
+# with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
+#     f.write(version)
 
 
 setup(

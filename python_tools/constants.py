@@ -250,3 +250,7 @@ DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'poo
 GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', 'coverage', 'gc', 'method']
 GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
 GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']
+
+
+# Noise
+NOISE_HEADER = ['Sample', 'GenotypeCount', 'AltCount', 'AltPercent', 'ContributingSites', 'Method']

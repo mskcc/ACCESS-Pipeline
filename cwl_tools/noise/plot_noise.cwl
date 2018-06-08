@@ -10,11 +10,6 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-#
-#  waltz_dir:
-#    type: Directory
-#    inputBinding:
-#      prefix: --waltz_dir
 
   noise:
     type: File

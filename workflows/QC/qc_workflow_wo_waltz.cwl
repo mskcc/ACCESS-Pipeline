@@ -24,6 +24,7 @@ inputs:
   sample_directories: Directory[]
   A_on_target_positions: File
   B_on_target_positions: File
+  noise__good_positions_A: File
 
   waltz_standard_pool_a: Directory
   waltz_unfiltered_pool_a: Directory
@@ -50,19 +51,19 @@ outputs:
 
   noise_table:
     type: File
-    outputSource: noise/noise
+    outputSource: noise_tables/noise
 
   noise_by_substitution:
     type: File
-    outputSource: noise/noise_by_substitution
+    outputSource: noise_tables/noise_by_substitution
 
   noise_alt_percent:
     type: File
-    outputSource: plot_noise/noise_alt_percent
+    outputSource: noise_plots/noise_alt_percent
 
   noise_contributing_sites:
     type: File
-    outputSource: plot_noise/noise_contributing_sites
+    outputSource: noise_plots/noise_contributing_sites
 
   umi_qc:
     type: File[]
@@ -143,13 +144,6 @@ steps:
   # Fingerprinting #
   ##################
 
-#  concat_pileups:
-#    in:
-#      pileup_A: standard_aggregate_bam_metrics_pool_a/pileup
-#      pileup_B: standard_aggregate_bam_metrics_pool_b/pileup
-#    out: [pileups_concat]
-#    scatter: [pileup_A, pileup_B]
-
   fingerprinting:
     run: ../../cwl_tools/python/fingerprinting.cwl
     in:
@@ -165,19 +159,18 @@ steps:
   # Noise #
   #########
 
-  noise:
+  noise_tables:
     run: ../../cwl_tools/noise/calculate_noise.cwl
     in:
       waltz_directory: waltz_duplex_pool_a
+      good_positions_A: noise__good_positions_A
     out: [noise, noise_by_substitution]
 
-  plot_noise:
+  noise_plots:
     run: ../../cwl_tools/noise/plot_noise.cwl
     in:
-      output_dir:
-        valueFrom: ${return '.'}
-      noise: noise/noise
-      noise_by_substitution: noise/noise_by_substitution
+      noise: noise_tables/noise
+      noise_by_substitution: noise_tables/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
   ##########

@@ -1,8 +1,6 @@
 #!python
 # -*- coding: utf-8 -*-
 
-
-import csv
 import argparse
 import matplotlib
 # For Local:
@@ -13,52 +11,37 @@ matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 
+from ...util import read_df
 
 
-def readCVS(filename):
-  data = []
-  with open(filename, 'r') as f:
-    reader = csv.reader(f, delimiter='\t')
-    for row in reader:
-      data.append(row)
-  return data
-  
+def NoiseAltPercentPlot(noise_table):
+    samples = noise_table['Sample'].str.replace('[_-]IGO.*', '').unique()
+    alt_percent = noise_table[noise_table['Method'] == 'Total']['AltPercent']
+    y_pos = np.arange(len(samples))
 
-def NoiseAltPercentPlot(noise_file):
     plt.clf()
-    noise=readCVS(noise_file)
-    noise.pop(0)
-    print("Noise levels:")
-    print(noise)
-    altPercent = [[n[0][0:n[0].find('IGO')], float(n[3])] for n in noise if n[5]=='Total']
-    y_pos = np.arange(len(altPercent))
-    altPercent = sorted(altPercent)
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, [m[1] for m in altPercent], align='edge', color='black')
-    plt.xticks(y_pos, [m[0] for m in altPercent], rotation=90, ha='left')
+    plt.bar(y_pos, alt_percent, align='edge', color='black')
+    plt.xticks(y_pos, samples, rotation=90, ha='left')
     plt.ylabel('Noise (%)')
     plt.xlabel('Sample Name')
     plt.title('Noise Level')
-    plt.xlim([0,y_pos.size])
+    plt.title('Contributing Sites for Noise')
     plt.savefig('./NoiseAltPercent.pdf', bbox_inches='tight')
 
 
-def NoiseContributingSitesPlot(noise_file):
+def NoiseContributingSitesPlot(noise_table):
+    samples = noise_table['Sample'].str.replace('[_-]IGO.*', '').unique()
+    contributing_sites = noise_table[noise_table['Method'] == 'Total']['ContributingSites']
+    y_pos = np.arange(len(samples))
+
     plt.clf()
-    noise=readCVS(noise_file)
-    noise.pop(0)
-    print("Noise levels:")
-    print noise
-    altPercent = [[n[0][0:n[0].find('IGO')], int(n[4])] for n in noise if n[5]=='Total']
-    y_pos = np.arange(len(altPercent))
-    altPercent = sorted(altPercent)
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, [m[1] for m in altPercent], align='edge', color='black')
-    plt.xticks(y_pos, [m[0] for m in altPercent], rotation=90, ha='left')
+    plt.bar(y_pos, contributing_sites, align='edge', color='black')
+    plt.xticks(y_pos, samples, rotation=90, ha='left')
     plt.ylabel('Number of Contributing Sites')
     plt.xlabel('Sample Name')
     plt.title('Contributing Sites for Noise')
-    plt.xlim([0,y_pos.size])
     plt.savefig('./NoiseContributingSites.pdf', bbox_inches='tight')
 
 
@@ -72,8 +55,9 @@ def parse_arguments():
 
 def main ():
     args= parse_arguments()
-    NoiseAltPercentPlot(args.noise_file)
-    NoiseContributingSitesPlot(args.noise_file)
+    noise_table = read_df(args.noise_file).fillna(0)
+    NoiseAltPercentPlot(noise_table)
+    NoiseContributingSitesPlot(noise_table)
     
     
 if __name__ == '__main__':

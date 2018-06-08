@@ -14,10 +14,15 @@ requirements:
 
 inputs:
 
+  good_positions_A:
+    type: File
+    inputBinding:
+      position: 1
+
   waltz_directory:
     type: Directory
     inputBinding:
-      position: 1
+      position: 2
 
 outputs:
 
@@ -30,8 +35,3 @@ outputs:
     type: File
     outputBinding:
       glob: $('noise-by-substitution.txt')
-
-#  waltz_dir_with_noise:
-#    type: Directory
-#    outputBinding:
-#      glob: '*'

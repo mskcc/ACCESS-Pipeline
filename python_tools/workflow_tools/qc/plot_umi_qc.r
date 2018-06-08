@@ -5,7 +5,7 @@ library(ggplot2)
 library(dplyr)
 library(grid)
 library(gridExtra)
-library(scales)s
+library(scales)
 
 options(show.error.locations = TRUE)
 options(error=quote({dump.frames(to.file=TRUE); q()}))
@@ -120,7 +120,7 @@ plot_family_types = function(family_types_A_filepath, family_types_B_filepath) {
     mutate(CountPercent = Count / sum(Count))
   
   ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
-      geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=Type)) + 
+      geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=Type)) +
       facet_grid(Pool ~ ., scales='free') +
       scale_y_continuous('Read Count', labels = percent_format())
   

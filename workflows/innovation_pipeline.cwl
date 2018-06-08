@@ -91,6 +91,7 @@ inputs:
   pool_b_bed_file: File
   A_on_target_positions: File
   B_on_target_positions: File
+  noise__good_positions_A: File
   gene_list: File
   FP_config_file: File
 
@@ -358,6 +359,7 @@ steps:
       sample_directories: make_sample_output_directories/directory
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
+      noise__good_positions_A: noise__good_positions_A
       title_file: title_file
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file

@@ -10,7 +10,7 @@ def read_df(f):
     Helper to read our particular format of metrics files
     """
     try:
-        df = pd.read_csv(f, sep='\t', header=None)
+        df = pd.read_csv(f, sep='\t')
         return df
     except Exception as e:
         print >> sys.stderr, 'Exception reading data file {}: {}'.format(f, e)
