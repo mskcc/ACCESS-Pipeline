@@ -219,9 +219,6 @@ def get_gc_table_average_for_each_sample(tbl):
     """
     Creates the GC content table, with each sample represented
     """
-    print "GC table"
-    print tbl
-
     final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER)
     all_samples = tbl['Sample'].unique()
     all_methods = tbl['method'].unique()
