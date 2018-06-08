@@ -1,1 +1,0 @@
-Sample	fragment_size	total_frequency	unique_frequency
