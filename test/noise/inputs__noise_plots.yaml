@@ -1,2 +1,2 @@
-noise: {class: File, path: /home/johnsoni/TEST_RUNS/noise.txt}
+noise: {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/ian/noise.txt}
 noise_by_substitution: {class: File, path: /home/johnsoni/TEST_RUNS/noise-by-substitution.txt}

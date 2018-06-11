@@ -125,8 +125,8 @@ steps:
     in:
       output_directory:
         valueFrom: ${return '.'}
-      waltz_directory_A: waltz_standard_pool_a
-      waltz_directory_B: waltz_standard_pool_b
+      waltz_directory_A: waltz_unfiltered_pool_a
+      waltz_directory_B: waltz_unfiltered_pool_b
       FP_config_file: FP_config_file
       title_file: title_file
     out: [
