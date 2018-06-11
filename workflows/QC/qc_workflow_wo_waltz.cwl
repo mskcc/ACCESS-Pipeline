@@ -39,35 +39,11 @@ outputs:
 
   qc_pdf:
     type: File[]
-    outputSource: duplex_innovation_qc/qc_pdf
+    outputSource: innovation_qc/qc_pdf
 
-  all_fp_results:
-    type: Directory
-    outputSource: fingerprinting/all_fp_results
-
-  FPFigures:
+  combined_qc:
     type: File
-    outputSource: fingerprinting/FPFigures
-
-  noise_table:
-    type: File
-    outputSource: noise_tables/noise
-
-  noise_by_substitution:
-    type: File
-    outputSource: noise_tables/noise_by_substitution
-
-  noise_alt_percent:
-    type: File
-    outputSource: noise_plots/noise_alt_percent
-
-  noise_contributing_sites:
-    type: File
-    outputSource: noise_plots/noise_contributing_sites
-
-  umi_qc:
-    type: File[]
-    outputSource: umi_qc_plots/plots
+    outputSource: combine_qc/combined_qc
 
 steps:
 
@@ -180,33 +156,25 @@ steps:
   umi_qc_tables:
     run: ../../cwl_tools/umi_qc/make_umi_qc_tables.cwl
     in:
-      folders: sample_directories
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
+      folders: sample_directories
     out: [
-      cluster_sizes,
-      cluster_sizes_post_filtering,
-      clusters_per_position,
-      clusters_per_position_post_filtering,
+      family_sizes,
       family_types_A,
       family_types_B]
 
   umi_qc_plots:
-    run: ../../cwl_tools/umi_qc/umi_qc.cwl
+    run: ../../cwl_tools/umi_qc/plot_umi_qc.cwl
     in:
-      cluster_sizes: umi_qc_tables/cluster_sizes
-      cluster_sizes_post_filtering: umi_qc_tables/cluster_sizes_post_filtering
-      clusters_per_position: umi_qc_tables/clusters_per_position
-      clusters_per_position_post_filtering: umi_qc_tables/clusters_per_position_post_filtering
-      family_types_A: umi_qc_tables/family_types_A
-      family_types_B: umi_qc_tables/family_types_B
+      family_sizes: umi_qc_tables/family_sizes
     out: [plots]
 
   #################
   # Innovation-QC #
   #################
 
-  duplex_innovation_qc:
+  innovation_qc:
     run: ../../cwl_tools/python/innovation-qc.cwl
     in:
       title_file: title_file
@@ -219,3 +187,17 @@ steps:
       simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
     out: [qc_pdf]
+
+  #####################################
+  # Combine FP, UMI, & std qc results #
+  #####################################
+
+  combine_qc:
+    run: ../../cwl_tools/python/combine_qc_pdfs.cwl
+    in:
+      umi_qc: umi_qc_plots/plots
+      noise_alt_percent: noise_plots/noise_alt_percent
+      noise_contributing_sites: noise_plots/noise_contributing_sites
+      fingerprinting_qc: fingerprinting/FPFigures
+    out:
+      [combined_qc]

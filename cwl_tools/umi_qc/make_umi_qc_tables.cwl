@@ -8,9 +8,6 @@ baseCommand: [make_umi_qc_tables.sh]
 
 requirements:
 - class: InlineJavascriptRequirement
-#- class: InitialWorkDirRequirement
-#  listing: # $(inputs.folders)
-#  - entry: $(inputs.folders[0])
 
 inputs:
 
@@ -31,25 +28,10 @@ inputs:
 
 outputs:
 
-  cluster_sizes:
+  family_sizes:
     type: File
     outputBinding:
-      glob: 'cluster-sizes.txt'
-
-  cluster_sizes_post_filtering:
-    type: File
-    outputBinding:
-      glob: 'cluster-sizes-post-filtering.txt'
-
-  clusters_per_position:
-    type: File
-    outputBinding:
-        glob: 'clusters-per-position.txt'
-
-  clusters_per_position_post_filtering:
-    type: File
-    outputBinding:
-      glob: 'clusters-per-position-post-filtering.txt'
+      glob: 'family-sizes.txt'
 
   family_types_A:
     type: File
