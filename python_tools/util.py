@@ -8,6 +8,8 @@ from constants import *
 def read_df(f, header=None):
     """
     Helper to read our particular format of metrics files
+
+    Waltz does not use headers, but in some cases we will want to provide header='infer' to this function
     """
     try:
         df = pd.read_csv(f, sep='\t', header=header)
