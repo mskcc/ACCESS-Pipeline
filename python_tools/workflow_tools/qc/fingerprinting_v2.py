@@ -26,6 +26,9 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from ...util import extract_sample_name, read_df
+from ...constants import *
+
 
 ###################
 ##Helper Functions
@@ -200,6 +203,7 @@ def createExpectedFile (titlefile, fpOutputdir):
 
 def compare_genotype (All_geno, n, fpOutputdir, titlefile):
     expected=createExpectedFile (titlefile, fpOutputdir)
+    titlefile = read_df(titlefile, header='infer')
 
     if All_geno[0][0]=='Sample':
         All_geno=All_geno[1::]
@@ -226,8 +230,11 @@ def compare_genotype (All_geno, n, fpOutputdir, titlefile):
                     hmMisMatch=hmMisMatch+1
 
             # Todo: Use util.extract_sample_name() instead of relying on "IGO"
-            #Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
-            Geno_Compare.append([g[0][0:g[0].find('[-_]IGO')],h[0][0:h[0].find('[-_]IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            # Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            # Geno_Compare.append([g[0][0:g[0].find('[-_]IGO')],h[0][0:h[0].find('[-_]IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            sample_g = extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
+            sample_h = extract_sample_name(h[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
+            Geno_Compare.append([sample_g, sample_h, TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
 
     sort_index = np.argsort([x[2] for x in Geno_Compare])
     Geno_Compare=[Geno_Compare[i] for i in sort_index]
@@ -261,11 +268,12 @@ def compare_genotype (All_geno, n, fpOutputdir, titlefile):
 ##Plot Functions
 ###################
 
-def plotMinorContamination(All_FP, fpOutputdir):
+def plotMinorContamination(All_FP, fpOutputdir, titlefile):
     plt.clf()
     contamination=ContaminationRate (All_FP)
     contamination=[x for x in contamination if x[1]!='NaN']
-    samplename =[c[0][0:c[0].find('[-_]IGO')] for c in contamination]
+    titlefile = read_df(titlefile, header='infer')
+    samplename =[extract_sample_name(c[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for c in contamination]
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minorContamination=[[samplename[i],meanContam[i]] for i in range(0,len(samplename))]
@@ -283,11 +291,12 @@ def plotMinorContamination(All_FP, fpOutputdir):
     plt.xlim([0,y_pos.size])
     plt.savefig(fpOutputdir+'/MinorContaminationRate.pdf', bbox_inches='tight')
 
-def plotMajorContamination(All_geno, fpOutputdir):
+def plotMajorContamination(All_geno, fpOutputdir, titlefile):
     plt.clf()
     if All_geno[0][0]=='Sample':
         All_geno=All_geno[1::]
-    samples=[g[0].split('[-_]IGO')[0] for g in All_geno]
+    titlefile = read_df(titlefile, header='infer')
+    samples=[extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for g in All_geno]
     x_pos=np.arange(len(All_geno))
     pHet=[sum([1 for a in g if a=='Het'])/(len(g)-1) for g in All_geno]
 
@@ -404,8 +413,8 @@ def runFPreport (OutputDir, WaltzDirA, WaltzDirB, configFile, titlefile):
         All_FP, All_geno=FindFPMAF (listofpileups, fpIndices, fpOutputdir)
         Geno_Compare=compare_genotype (All_geno, n, fpOutputdir, titlefile)
         #plots
-        plotMinorContamination(All_FP, fpOutputdir)
-        plotMajorContamination(All_geno, fpOutputdir)
+        plotMinorContamination(All_FP, fpOutputdir, titlefile)
+        plotMajorContamination(All_geno, fpOutputdir, titlefile)
        #plotGenoCompare (Geno_Compare,n, fpOutputdir)
         plotGenotypingMatrix(Geno_Compare, fpOutputdir)
         mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
