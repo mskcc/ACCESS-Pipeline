@@ -58,19 +58,28 @@ def mergePdfInFolder(inDir, outDir, filename):
     else:
         raise IOError('Error: '+filename+' not created, input folder does not have PDFs to merge')
 
+def MakeOutputDir (OutputDir, DirName):
+    if os.path.exists(OutputDir):
+        if os.path.exists(OutputDir+'/'+DirName):
+            raise IOError('Error '+DirName+' already exist in the OutputDir, either remove or rename Older directory')
+        else:
+            os.mkdir(OutputDir+'/'+DirName)
+            return OutputDir+'/'+DirName+'/'
+    else:
+        raise IOError('Error: Output directory does not exist')
 
 ###################
 ##Extract RawData Functions
 ###################
-def Extractpileupfiles (WaltzDir):
+def Extractpileupfiles (InputDir):
     listofpileups=[]
-    if os.path.isdir(WaltzDir):
-        for pileupfile in os.listdir(WaltzDir):
+    if os.path.isdir(InputDir):
+        for pileupfile in os.listdir(InputDir):
             if pileupfile.endswith("pileup.txt"):
-                listofpileups.append(WaltzDir+'/'+pileupfile)
+                listofpileups.append(InputDir+'/'+pileupfile)
         return listofpileups
     else:
-        raise IOError('Error: Waltz Directory does not exist')
+        raise IOError('Error: Input Directory with pileups does not exist')
 
 
 def createFPIndices(configFile):
@@ -96,18 +105,20 @@ def createFPIndices(configFile):
         n=len(fpIndices.keys())
         return fpIndices, n
 
-###################
-#Make Output Dir Functions
-###################
-def MakeOutputDir (OutputDir):
-    if os.path.exists(OutputDir):
-        if os.path.exists(OutputDir+'/FPResults'):
-            raise IOError('Error FPResults already exist in the OutputDir, either remove or rename Older directory')
-        else:
-            os.mkdir(OutputDir+'/FPResults')
-            return OutputDir+'/FPResults/'
+def concatenate_AandB_pileups (WaltzDirA, WaltzDirB, OutputDir):
+  MergedDir=MakeOutputDir (OutputDir, 'MergedPileup')
+  listofpileups=[p for p in os.listdir(WaltzDirA) if p.endswith("-pileup.txt")]   
+  for p in listofpileups:
+    if p in os.listdir(WaltzDirB):
+      a=readCVS(WaltzDirA+'/'+p)
+      b=readCVS(WaltzDirB+'/'+p)
+      a.extend(b)
+     #this is not a uniq list. extractRawFP makes sure FP pileups are unique.
+      writeCVS(MergedDir+'/'+p, a)
     else:
-        raise IOError('Error: Output directory does not exist')
+      raise IOError(p+" not in WaltzDirB so pileup not concatenated and sample not fingerprinted")
+  return MergedDir
+
 
 ###################
 ##Run Analysis
@@ -161,13 +172,33 @@ def ContaminationRate (All_FP):
         contamination.append([sample[0], 'NaN'])
     return contamination
 
+def createExpectedFile (titlefile, fpOutputdir):
+    title=readCVS(titlefile)
+    samples=[t[2:5] for t in title]
+    samples.pop(0)
 
-def compare_genotype (All_geno, n, fpOutputdir, expectedFile='none'):
-    if os.path.isfile(expectedFile):
-        expected =readCVS(expectedFile)
-    else:
-        print('Expected List not found')
-        expected =[]
+    patient={}
+
+    for s in samples:
+        if s[2] in patient.keys():
+            patient[s[2]].append(s[0])
+        else:
+            patient[s[2]]=[s[0]]
+            
+    expected=[]
+    for key, samples_per_patient in patient.items():
+        if len(samples_per_patient)==2:
+            expected.append(samples_per_patient)
+        elif len(samples_per_patient)>2:
+            for i, s1 in enumerate(samples_per_patient):
+                for s2 in samples_per_patient[i+1::]:
+                    expected.append([s1, s2])
+    if expected:
+        writeCVS (fpOutputdir+'/ExpectedMatches.txt', expected)
+    return expected  
+
+def compare_genotype (All_geno, n, fpOutputdir, titlefile):
+    expected=createExpectedFile (titlefile, fpOutputdir)
 
     if All_geno[0][0]=='Sample':
         All_geno=All_geno[1::]
@@ -194,7 +225,8 @@ def compare_genotype (All_geno, n, fpOutputdir, expectedFile='none'):
                     hmMisMatch=hmMisMatch+1
 
             # Todo: Use util.extract_sample_name() instead of relying on "IGO"
-            Geno_Compare.append([g[0][0:g[0].find('IGO')],h[0][0:h[0].find('IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            #Geno_Compare.append([g[0][0:g[0].find('IGO')],h[0][0:h[0].find('IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
 
     sort_index = np.argsort([x[2] for x in Geno_Compare])
     Geno_Compare=[Geno_Compare[i] for i in sort_index]
@@ -240,8 +272,8 @@ def plotMinorContamination(All_FP, fpOutputdir):
     writeCVS(fpOutputdir+'minorContamination.txt', minorContamination)
 
     plt.figure(figsize=(10, 5))
-    plt.axhline(y=0.02, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.01, xmin=0, xmax=1, c='orange', ls='--')
+    plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
+    plt.axhline(y=0.001, xmin=0, xmax=1, c='orange', ls='--')
     plt.bar(y_pos, [m[1] for m in minorContamination], align='edge', color='black')
     plt.xticks(y_pos, [m[0] for m in minorContamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
@@ -325,7 +357,8 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
     plt.title('Sample Mix-Ups')
     ax=sns.heatmap(listMatrix, robust=True, fmt='f', cmap="Blues_r", vmax=.25, cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90,fontsize=11)
-    ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
+    ax.set_yticklabels(keys, rotation=0,fontsize=11)
+   # ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
     plt.savefig(fpOutputdir+'GenoMatrix.pdf',bbox_inches='tight')
 
     Match_status=[[x[0],x[1],x[7]] for x in Geno_Compare if x[7]=='Unexpected Mismatch' or x[7]=='Unexpected Match']
@@ -361,17 +394,18 @@ def convertFP_mAF(InputDir, OutputDir):
 #Main Function
 ######################
 
-def runFPreport (OutputDir, WaltzDir, configFile, expectedFile='none'):
+def runFPreport (OutputDir, WaltzDirA, WaltzDirB, configFile, titlefile):
     try:
-        listofpileups=Extractpileupfiles (WaltzDir)
+        mergedDir=concatenate_AandB_pileups (WaltzDirA, WaltzDirB, OutputDir)
+        listofpileups=Extractpileupfiles (mergedDir)
         fpIndices, n=createFPIndices(configFile)
-        fpOutputdir=MakeOutputDir (OutputDir)
+        fpOutputdir=MakeOutputDir (OutputDir, 'FPResults')
         All_FP, All_geno=FindFPMAF (listofpileups, fpIndices, fpOutputdir)
-        Geno_Compare=compare_genotype (All_geno, n, fpOutputdir, expectedFile)
+        Geno_Compare=compare_genotype (All_geno, n, fpOutputdir, titlefile)
         #plots
         plotMinorContamination(All_FP, fpOutputdir)
         plotMajorContamination(All_geno, fpOutputdir)
-       # plotGenoCompare (Geno_Compare,n, fpOutputdir)
+       #plotGenoCompare (Geno_Compare,n, fpOutputdir)
         plotGenotypingMatrix(Geno_Compare, fpOutputdir)
         mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
         #return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
@@ -384,20 +418,16 @@ def runFPreport (OutputDir, WaltzDir, configFile, expectedFile='none'):
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output_dir", help="Directory to write the Output files to", required=True)
-    parser.add_argument("-w", "--waltz_dir", help="Directory with waltz pileup files", required=True)
+    parser.add_argument("-a", "--waltz_dir_A", help="Directory with waltz pileup files for target set A", required=True)
+    parser.add_argument("-b", "--waltz_dir_B", help="Directory with waltz pileup files for target set B", required=True)
     parser.add_argument("-c", "--fp_config", help="File with information about the SNPs for analysis", required=True)
-    parser.add_argument("-e", "--expected_match", help="File with the expected samples matches", required=False)
+    parser.add_argument("-t", "--title_file", help="Title File for the run", required=False)
     args = parser.parse_args()
     return args
 
 def main ():
     args= parse_arguments()
-    if args.expected_match: #if it exsists
-        runFPreport(OutputDir=args.output_dir, WaltzDir=args.waltz_dir, configFile=args.fp_config, expectedFile=args.expected_match)
-    else:
-       runFPreport(OutputDir=args.output_dir, WaltzDir=args.waltz_dir, configFile=args.fp_config)
-
-#    runFPreport(OutputDir='/home/hasanm/Innovation/sandbox/Maysun/FingerPrinting/testPipeline/', WaltzDir='/home/hasanm/Innovation/sandbox/Maysun/FingerPrinting/testPipeline/waltz/', configFile='/home/hasanm/Innovation/sandbox/Maysun/FingerPrinting/testPipeline/testFPconfig.txt')
+    runFPreport(OutputDir=args.output_dir, WaltzDirA=args.waltz_dir_A, WaltzDirB=args.waltz_dir_B, configFile=args.fp_config, titlefile=args.title_file)
 
 if __name__ == '__main__':
     main()
