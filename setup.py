@@ -34,7 +34,7 @@ setup(
     licence='MIT',
     install_requires=[
         'argparse',
-        'toil-ionox0[cwl]==3.15.1a1',
+        'toil-ionox0[cwl]==0.0.1',
         # These dependencies may need to be explicitly specified,
         # if PyPi gives us ResourceConflict issues:
         # 'cwltest==1.0.20180209171722',
@@ -48,7 +48,7 @@ setup(
         'seaborn==0.8.1'
     ],
     dependency_links=[
-        'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-3.15.1a1',
+        'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
     ],
     packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.qc'],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
@@ -69,6 +69,7 @@ setup(
             'qc = python_tools.workflow_tools.qc.qc:main',
             'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
             'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
+            'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
         ]
     },
     scripts=[
