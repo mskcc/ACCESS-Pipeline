@@ -301,6 +301,7 @@ cleanup_sample_names_2 = function(data) {
   data = data %>% mutate(Sample = gsub('Sample', '', Sample))
   data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
   data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
   
   # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_standard...
   data = data %>% mutate(Sample = gsub('_standard.*', '', Sample))

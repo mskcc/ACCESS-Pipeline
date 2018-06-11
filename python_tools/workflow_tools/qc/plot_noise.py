@@ -22,12 +22,12 @@ def NoiseAltPercentPlot(noise_table):
 
     plt.clf()
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, alt_percent, align='edge', color='black')
-    plt.xticks(y_pos, samples, rotation=90, ha='left')
+    plt.bar(y_pos, alt_percent, align='center', color='black')
+    plt.xticks(y_pos, samples, rotation=90, ha='center')
+    plt.xlim([-1, len(samples)])
     plt.ylabel('Noise (%)')
     plt.xlabel('Sample Name')
     plt.title('Noise Level')
-    plt.title('Contributing Sites for Noise')
     plt.savefig('./NoiseAltPercent.pdf', bbox_inches='tight')
 
 
@@ -38,8 +38,9 @@ def NoiseContributingSitesPlot(noise_table):
 
     plt.clf()
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, contributing_sites, align='edge', color='black')
-    plt.xticks(y_pos, samples, rotation=90, ha='left')
+    plt.bar(y_pos, contributing_sites, align='center', color='black')
+    plt.xticks(y_pos, samples, rotation=90, ha='center')
+    plt.xlim([-1, len(samples)])
     plt.ylabel('Number of Contributing Sites')
     plt.xlabel('Sample Name')
     plt.title('Contributing Sites for Noise')
