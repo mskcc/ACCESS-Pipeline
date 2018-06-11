@@ -10,25 +10,31 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   output_directory:
     type: string
     inputBinding:
       prefix: -o
 
-  waltz_directory:
+  waltz_directory_A:
     type: Directory
     inputBinding:
-      prefix: -w
+      prefix: -a
+
+  waltz_directory_B:
+    type: Directory
+    inputBinding:
+      prefix: -b
 
   FP_config_file:
     type: File
     inputBinding:
       prefix: -c
 
-  expected_match_file:
-    type: File?
+  title_file:
+    type: File
     inputBinding:
-      prefix: -e
+      prefix: -t
 
 outputs:
 
