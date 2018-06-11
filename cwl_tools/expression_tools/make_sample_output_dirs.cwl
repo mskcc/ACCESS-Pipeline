@@ -55,7 +55,7 @@ expression: |
     return {
       'directory': {
         'class': 'Directory',
-        'basename': 'Sample_' + inputs.standard_bam.basename.split('IGO')[0],
+        'basename': 'Sample_' + inputs.standard_bam.basename.split('IGO')[0].split('_cl')[0],
         'listing': output_files
       }
     };
