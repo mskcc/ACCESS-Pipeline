@@ -170,9 +170,23 @@ steps:
       family_sizes: umi_qc_tables/family_sizes
     out: [plots]
 
-  #################
-  # Innovation-QC #
-  #################
+  #######################################
+  # Combine FP, UMI, & Noise qc results #
+  #######################################
+
+  combine_qc:
+    run: ../../cwl_tools/python/combine_qc_pdfs.cwl
+    in:
+      umi_qc: umi_qc_plots/plots
+      noise_alt_percent: noise_plots/noise_alt_percent
+      noise_contributing_sites: noise_plots/noise_contributing_sites
+      fingerprinting_qc: fingerprinting/FPFigures
+    out:
+      [combined_qc]
+
+  ###############
+  # Standard-QC #
+  ###############
 
   innovation_qc:
     run: ../../cwl_tools/python/innovation-qc.cwl
@@ -187,17 +201,3 @@ steps:
       simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
     out: [qc_pdf]
-
-  #####################################
-  # Combine FP, UMI, & std qc results #
-  #####################################
-
-  combine_qc:
-    run: ../../cwl_tools/python/combine_qc_pdfs.cwl
-    in:
-      umi_qc: umi_qc_plots/plots
-      noise_alt_percent: noise_plots/noise_alt_percent
-      noise_contributing_sites: noise_plots/noise_contributing_sites
-      fingerprinting_qc: fingerprinting/FPFigures
-    out:
-      [combined_qc]
