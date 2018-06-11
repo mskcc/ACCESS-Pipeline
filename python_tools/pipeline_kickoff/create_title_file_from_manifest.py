@@ -31,7 +31,6 @@ from ..constants import *
 # 'SampleSheet.csv'
 
 
-
 def create_title_file(manifest_file_path, title_file_output_filename):
     # Read Manifest as either csv or Excel file
     try:
@@ -43,6 +42,9 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     # Select the columns we want from the manifest & rename them
     title_file = manifest[columns_map.keys()]
     title_file.columns = columns_map.values()
+
+    # Trim whitespace
+    title_file = title_file.apply(lambda x: x.str.strip() if x.dtype == 'object' else x)
 
     # Write title file
     title_file.to_csv(title_file_output_filename, sep='\t', index=False)
