@@ -26,6 +26,7 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 ###################
 ##Helper Functions
 ###################
@@ -225,8 +226,8 @@ def compare_genotype (All_geno, n, fpOutputdir, titlefile):
                     hmMisMatch=hmMisMatch+1
 
             # Todo: Use util.extract_sample_name() instead of relying on "IGO"
-            Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
-            #Geno_Compare.append([g[0][0:g[0].find('IGO')],h[0][0:h[0].find('IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            #Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
+            Geno_Compare.append([g[0][0:g[0].find('[-_]IGO')],h[0][0:h[0].find('[-_]IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
 
     sort_index = np.argsort([x[2] for x in Geno_Compare])
     Geno_Compare=[Geno_Compare[i] for i in sort_index]
@@ -264,7 +265,7 @@ def plotMinorContamination(All_FP, fpOutputdir):
     plt.clf()
     contamination=ContaminationRate (All_FP)
     contamination=[x for x in contamination if x[1]!='NaN']
-    samplename =[c[0][0:c[0].find('IGO')] for c in contamination]
+    samplename =[c[0][0:c[0].find('[-_]IGO')] for c in contamination]
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minorContamination=[[samplename[i],meanContam[i]] for i in range(0,len(samplename))]
@@ -286,7 +287,7 @@ def plotMajorContamination(All_geno, fpOutputdir):
     plt.clf()
     if All_geno[0][0]=='Sample':
         All_geno=All_geno[1::]
-    samples=[g[0].split('IGO')[0] for g in All_geno]
+    samples=[g[0].split('[-_]IGO')[0] for g in All_geno]
     x_pos=np.arange(len(All_geno))
     pHet=[sum([1 for a in g if a=='Het'])/(len(g)-1) for g in All_geno]
 
