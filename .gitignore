@@ -6,5 +6,4 @@ notes
 *.pyc
 *.log
 resources/bedfiles
-test/test_data_val_5_1000000
-test/test_data_val_5
+test/test_data/test_data_val_5
