@@ -8,6 +8,7 @@ class: Workflow
 requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  SubworkflowFeatureRequirement: {}
 
 inputs:
 
@@ -69,11 +70,11 @@ outputs:
 
   collapsed_fastq_1:
     type: File
-    outputSource: rename_fastq_1/renamed_file
+    outputSource: gzip_fastq_1/output
 
   collapsed_fastq_2:
     type: File
-    outputSource: rename_fastq_2/renamed_file
+    outputSource: gzip_fastq_2/output
 
   second_pass_alt_alleles:
     type: File
@@ -131,17 +132,17 @@ steps:
     out:
       [collapsed_fastq_1, collapsed_fastq_2, second_pass_alt_alleles]
 
-  gzip_fastq_2:
-    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
-    in:
-      input_fastq: second_pass/collapsed_fastq_2
-    out:
-      [output]
-
   gzip_fastq_1:
     run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
     in:
       input_fastq: second_pass/collapsed_fastq_1
+    out:
+      [output]
+
+  gzip_fastq_2:
+    run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
+    in:
+      input_fastq: second_pass/collapsed_fastq_2
     out:
       [output]
 
