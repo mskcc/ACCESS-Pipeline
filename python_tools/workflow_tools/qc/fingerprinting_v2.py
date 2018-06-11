@@ -239,7 +239,8 @@ def compare_genotype (All_geno, n, fpOutputdir, titlefile):
     sort_index = np.argsort([x[2] for x in Geno_Compare])
     Geno_Compare=[Geno_Compare[i] for i in sort_index]
 
-    mlist=[i for i, x in enumerate([g[2] for g in Geno_Compare]) if x/n>.8]
+   # mlist=[i for i, x in enumerate([g[2] for g in Geno_Compare]) if x/n>.8] #Total Match/All Fingerprinting snps
+    mlist=[i for i, x in enumerate([[int(g[4]),int(g[3])+int(g[4])] for g in Geno_Compare]) if x[0]/x[1]<.1] #Homozygous Mismatch/All Homozygous SNPs
     if mlist!=[]:
         m=min(mlist)
     else:
