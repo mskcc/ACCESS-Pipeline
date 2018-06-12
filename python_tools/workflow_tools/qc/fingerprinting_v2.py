@@ -15,6 +15,7 @@ Adapted newFP4.py to Luna
 
 from __future__ import division
 import csv
+import re
 import os
 import numpy as np
 import argparse
@@ -230,10 +231,12 @@ def compare_genotype (All_geno, n, fpOutputdir, titlefile):
                     hmMisMatch=hmMisMatch+1
 
             # Todo: Use util.extract_sample_name() instead of relying on "IGO"
-            # Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
-            # Geno_Compare.append([g[0][0:g[0].find('[-_]IGO')],h[0][0:h[0].find('[-_]IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
             sample_g = extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             sample_h = extract_sample_name(h[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
+            sample_g =re.sub(r'[_-]IGO.*', '', sample_g)
+            sample_h =re.sub(r'[_-]IGO.*', '', sample_h)
+            sample_g =re.sub(r'_bc.*', '', sample_g)
+            sample_h =re.sub(r'_bc.*', '', sample_h)
             Geno_Compare.append([sample_g, sample_h, TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
 
     sort_index = np.argsort([x[2] for x in Geno_Compare])
@@ -275,6 +278,9 @@ def plotMinorContamination(All_FP, fpOutputdir, titlefile):
     contamination=[x for x in contamination if x[1]!='NaN']
     titlefile = read_df(titlefile, header='infer')
     samplename =[extract_sample_name(c[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for c in contamination]
+    samplename =[re.sub(r'[_-]IGO.*', '', c) for c in samplename]
+    samplename =[re.sub(r'_bc.*', '', c)  for c in samplename]
+
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minorContamination=[[samplename[i],meanContam[i]] for i in range(0,len(samplename))]
@@ -298,6 +304,9 @@ def plotMajorContamination(All_geno, fpOutputdir, titlefile):
         All_geno=All_geno[1::]
     titlefile = read_df(titlefile, header='infer')
     samples=[extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for g in All_geno]
+    samples =[re.sub(r'[_-]IGO.*', '', c) for c in samples]
+    samples =[re.sub(r'_bc.*', '', c)  for c in samples]
+
     x_pos=np.arange(len(All_geno))
     pHet=[sum([1 for a in g if a=='Het'])/(len(g)-1) for g in All_geno]
 
