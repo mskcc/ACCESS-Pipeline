@@ -53,7 +53,7 @@ def run_plots_module(ufa_waltz_loc, tables_output_dir, plots_output_dir, title_f
     environment PATH (/somewhere/virtualenv/bin/plotting-collapsed-bams.r)
     after installing this module with `python setup.py install`
     """
-    plots_module_cmd = 'plotting-collapsed-bams.r'
+    plots_module_cmd = 'plotting_collapsed_bams.r'
     plots_module_cmd += ' -i {} -w {} -o {}'.format(tables_output_dir, ufa_waltz_loc, plots_output_dir)
     plots_module_cmd += ' -t {} '.format(title_file_path)
 
