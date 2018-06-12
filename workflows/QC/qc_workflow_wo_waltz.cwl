@@ -170,6 +170,8 @@ steps:
     run: ../../cwl_tools/umi_qc/plot_umi_qc.cwl
     in:
       family_sizes: umi_qc_tables/family_sizes
+      family_types_A: umi_qc_tables/family_types_A
+      family_types_B: umi_qc_tables/family_types_B
     out: [plots]
 
   #######################################
