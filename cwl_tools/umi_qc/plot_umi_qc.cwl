@@ -11,6 +11,8 @@ requirements:
 - class: InitialWorkDirRequirement
   listing:
   - entry: $(inputs.family_sizes)
+  - entry: $(inputs.family_types_A)
+  - entry: $(inputs.family_types_B)
 
 inputs:
 
@@ -18,6 +20,16 @@ inputs:
     type: File
     inputBinding:
       position: 1
+
+  family_types_A:
+    type: File
+    inputBinding:
+      position: 2
+
+  family_types_B:
+    type: File
+    inputBinding:
+      position: 3
 
 outputs:
 
