@@ -16,7 +16,7 @@ from ...util import read_df
 
 
 def NoiseAltPercentPlot(noise_table):
-    samples = noise_table['Sample'].str.replace('[_-]IGO.*', '').unique()
+    samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
     alt_percent = noise_table[noise_table['Method'] == 'Total']['AltPercent']
     y_pos = np.arange(len(samples))
 
@@ -32,7 +32,7 @@ def NoiseAltPercentPlot(noise_table):
 
 
 def NoiseContributingSitesPlot(noise_table):
-    samples = noise_table['Sample'].str.replace('[_-]IGO.*', '').unique()
+    samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
     contributing_sites = noise_table[noise_table['Method'] == 'Total']['ContributingSites']
     y_pos = np.arange(len(samples))
 
