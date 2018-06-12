@@ -109,9 +109,23 @@ def createFPIndices(configFile):
         n=len(fpIndices.keys())
         return fpIndices, n
 
-def concatenate_AandB_pileups (WaltzDirA, WaltzDirB, OutputDir):
-  MergedDir=MakeOutputDir (OutputDir, 'MergedPileup')
+def ExtractListofTumorSamples (titlefile):
+  title=readCVS (titlefile)
+  listofsamples=[t[2].replace('_','-') for i, t in enumerate(title) if t[5]=="Tumor"]
+  return listofsamples
+
+def concatenate_AandB_pileups (WaltzDirA, WaltzDirB, OutputDir, DirName, listofsamples=[]):
+  MergedDir=MakeOutputDir (OutputDir, DirName)
   listofpileups=[p for p in os.listdir(WaltzDirA) if p.endswith("-pileup.txt")]   
+# Added: If you want to concatenate only some of the samples (i.e. Only Tumor Samples) 
+  if listofsamples:
+    newlistofpileups=[]
+    for s in listofsamples:
+      for p in listofpileups:
+        if p.startswith(s):
+          newlistofpileups.append(p)
+    listofpileups=newlistofpileups
+
   for p in listofpileups:
     if p in os.listdir(WaltzDirB):
       a=readCVS(WaltzDirA+'/'+p)
@@ -314,6 +328,40 @@ def plotMajorContamination(All_geno, fpOutputdir, titlefile):
     plt.xlim([0,x_pos.size])
     plt.savefig(fpOutputdir+'MajorContaminationRate.pdf', bbox_inches='tight')
 
+def plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, OutputDir, fpIndices, fpOutputdir):
+    listofsamples=ExtractListofTumorSamples (titlefile)
+    if listofsamples:
+        duplexMergedDir=concatenate_AandB_pileups (WaltzDirA_duplex, WaltzDirB_duplex, OutputDir, 'DuplexMergedPileup', listofsamples)
+        fpDuplexOutputdir=MakeOutputDir (fpOutputdir, 'FPDuplexResults')
+        listofduplexpileups=Extractpileupfiles (duplexMergedDir)            
+        All_FP, All_geno=FindFPMAF (listofduplexpileups, fpIndices, fpDuplexOutputdir)
+    #Plot the Contamination
+        plt.clf()
+        contamination=ContaminationRate (All_FP)
+        contamination=[x for x in contamination if x[1]!='NaN']
+        ##To Do: Find the samplename from titlefile
+        samplename =[c[0][0:c[0].find('IGO')] for c in contamination]
+        y_pos = np.arange(len(samplename))
+        meanContam = [c[1] for c in contamination]
+        minorContamination=[[samplename[i],meanContam[i]] for i in range(0,len(samplename))]
+        minorContamination=sorted(minorContamination)
+        writeCVS(fpOutputdir+'minorDuplexContamination.txt', minorContamination)
+    
+        plt.figure(figsize=(10, 5))
+        plt.axhline(y=0.02, xmin=0, xmax=1, c='r', ls='--')
+        plt.axhline(y=0.01, xmin=0, xmax=1, c='orange', ls='--')
+        plt.bar(y_pos, [m[1] for m in minorContamination], align='edge', color='black')
+        plt.xticks(y_pos, [m[0] for m in minorContamination], rotation=90, ha='left')
+        plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
+        plt.xlabel('Sample Name')
+        plt.title('Minor Contamination Check (Duplex)')
+        plt.xlim([0,y_pos.size])
+        plt.savefig(fpOutputdir+'/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
+    else:
+        print("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
+
+
+
 def plotGenoCompare (Geno_Compare,n, fpOutputdir):
     plt.clf()
     if Geno_Compare[0][0]=="Sample1":
@@ -405,7 +453,7 @@ def convertFP_mAF(InputDir, OutputDir):
 #Main Function
 ######################
 
-def runFPreport (OutputDir, WaltzDirA, WaltzDirB, configFile, titlefile):
+def runFPreport (OutputDir, WaltzDirA, WaltzDirB, WaltzDirA_duplex, WaltzDirB_duplex, configFile, titlefile):
     try:
         mergedDir=concatenate_AandB_pileups (WaltzDirA, WaltzDirB, OutputDir)
         listofpileups=Extractpileupfiles (mergedDir)
@@ -418,6 +466,9 @@ def runFPreport (OutputDir, WaltzDirA, WaltzDirB, configFile, titlefile):
         plotMajorContamination(All_geno, fpOutputdir, titlefile)
        #plotGenoCompare (Geno_Compare,n, fpOutputdir)
         plotGenotypingMatrix(Geno_Compare, fpOutputdir)
+        #Duplex Plot
+        listofsamples=ExtractListofTumorSamples (titlefile)
+        plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, OutputDir, fpIndices, fpOutputdir)
         mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
         #return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
     except Exception as exc:
@@ -431,6 +482,8 @@ def parse_arguments():
     parser.add_argument("-o", "--output_dir", help="Directory to write the Output files to", required=True)
     parser.add_argument("-a", "--waltz_dir_A", help="Directory with waltz pileup files for target set A", required=True)
     parser.add_argument("-b", "--waltz_dir_B", help="Directory with waltz pileup files for target set B", required=True)
+    parser.add_argument("-da", "--waltz_dir_A_duplex", help="Directory with waltz pileup files for Duplex target set A", required=True)
+    parser.add_argument("-db", "--waltz_dir_B_duplex", help="Directory with waltz pileup files for Duplex target set B", required=True)
     parser.add_argument("-c", "--fp_config", help="File with information about the SNPs for analysis", required=True)
     parser.add_argument("-t", "--title_file", help="Title File for the run", required=False)
     args = parser.parse_args()
@@ -438,7 +491,7 @@ def parse_arguments():
 
 def main ():
     args= parse_arguments()
-    runFPreport(OutputDir=args.output_dir, WaltzDirA=args.waltz_dir_A, WaltzDirB=args.waltz_dir_B, configFile=args.fp_config, titlefile=args.title_file)
+    runFPreport(OutputDir=args.output_dir, WaltzDirA=args.waltz_dir_A, WaltzDirB=args.waltz_dir_B, WaltzDirA_duplex=args.waltz_dir_A_duplex, WaltzDirB_duplex=args.waltz_dir_B_duplex, configFile=args.fp_config, titlefile=args.title_file)
 
 if __name__ == '__main__':
     main()
