@@ -73,7 +73,7 @@ setup(
         ]
     },
     scripts=[
-        'python_tools/workflow_tools/qc/plotting-collapsed-bams.r',
+        'python_tools/workflow_tools/qc/plotting_collapsed_bams.r',
         'python_tools/workflow_tools/qc/calculate-noise.sh',
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
         'python_tools/workflow_tools/qc/plot_umi_qc.r',
