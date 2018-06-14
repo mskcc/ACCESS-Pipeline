@@ -14,27 +14,37 @@ inputs:
   output_directory:
     type: string
     inputBinding:
-      prefix: -o
+      prefix: --output_dir
 
   waltz_directory_A:
     type: Directory
     inputBinding:
-      prefix: -a
+      prefix: --waltz_dir_A
 
   waltz_directory_B:
     type: Directory
     inputBinding:
-      prefix: -b
+      prefix: --waltz_dir_B
+
+  waltz_directory_A_duplex:
+    type: Directory
+    inputBinding:
+      prefix: --waltz_dir_A_duplex
+
+  waltz_directory_B_duplex:
+    type: Directory
+    inputBinding:
+      prefix: --waltz_dir_B_duplex
 
   FP_config_file:
     type: File
     inputBinding:
-      prefix: -c
+      prefix: --fp_config
 
   title_file:
     type: File
     inputBinding:
-      prefix: -t
+      prefix: --title_file
 
 outputs:
 
