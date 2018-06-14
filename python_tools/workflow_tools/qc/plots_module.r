@@ -35,7 +35,7 @@ MY_THEME = theme(text = element_text(size=8),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Pool_input', 'Barcode_index', 'Sample_type', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
+DROP_COLS = c('Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -69,17 +69,15 @@ sort_df = function(df, sort_column, sort_list) {
 }
 
 
-#' Function to read inputs and obtain the previously created tables
+#' Function to read inputs
 #' @param args Arguments from argv
 #' @return Parsed list of (
 #'   tables_output_dir_location,
-#'   standard_waltz_output_dir_location,
 #'   output_dir_for_plots,
 #'   title_file_path
 #' )
 readInputs = function(args) {
   spec = matrix(c(
-    'standardWaltz', 'w', 1, 'character',
     'tablesOutputDir', 'i', 1, 'character',
     'plotsOutputDir', 'o', 1, 'character',
     'titleFilePath', 't', 2, 'character'
@@ -89,7 +87,6 @@ readInputs = function(args) {
 
   return(c(
     opts$tablesOutputDir,
-    opts$standardWaltz,
     opts$plotsOutputDir,
     opts$titleFilePath)
   )
@@ -402,10 +399,72 @@ print_title_two_page = function(title, date, line, tbl1, tbl2) {
 }
 
 
-# Todo - demultiplexing stats (# reads per sample; # unexpected reads)
-# Input would be folder of fastqs --> output would be histogram of # reads per fastq (cat asdf.fastq | head / 4...)
-# problems may occur if 'undertermined' reads are in the folder as well...
-# might already have the undertemined Bam though ... should check
+#' % Family Types Graph 
+#' @param data data.frame with Sample, Type, and Count columns
+plot_family_types <- function(family_types_A, family_types_B) {
+  family_types_A$Count = as.numeric(family_types_A$Count)
+  family_types_A$Pool = 'A Targets'
+  
+  family_types_B$Count = as.numeric(family_types_B$Count)
+  family_types_B$Pool = 'B Targets'
+  family_types_all = bind_rows(family_types_A, family_types_B)
+  family_types_all[is.na(family_types_all)] <- 0
+  
+  family_types_all$Sample = factor(family_types_all$Sample)
+  family_types_all$Type = factor(family_types_all$Type, levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons'))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  family_types_all = cleanup_sample_names_2(family_types_all)
+  
+  # Convert to % family sizes
+  family_types_all = family_types_all %>%
+    group_by(Pool, Sample) %>%
+    mutate(CountPercent = Count / sum(Count))
+  
+  ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
+    geom_bar(position=position_stack(), stat='identity', aes(fill=Type)) + 
+    facet_grid(Pool ~ ., scales='free') +
+    scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+}
+
+
+#' Family sizes curves
+#' @param data data.frame with Sample, FamilySize, and Frequency columns
+plot_family_curves <- function(data) {
+  families$Sample = factor(families$Sample)
+  families = cleanup_sample_names_2(families)
+  # Only plot the Plasma samples
+  families = families %>% filter(Sample_type='Plasma')
+  
+  g = ggplot(filter(families, FamilyType=='All'), aes(FamilySize, Frequency, color=Sample)) + 
+    geom_point(size=1) + 
+    geom_line() + 
+    ggtitle('All Unique Family Sizes') +
+    xlab('Family Size') + 
+    scale_y_continuous('Frequency', label=format_comma) +
+    coord_cartesian(xlim = c(0, 40))
+  print(g)
+  
+  g = ggplot(filter(families, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
+    geom_point(size=1) + 
+    geom_line() + 
+    ggtitle('Simplex Family Sizes') +
+    xlab('Family Size') + 
+    scale_y_continuous('Frequency', label=format_comma) +
+    coord_cartesian(xlim = c(0, 40))
+  print(g)
+  
+  g = ggplot(filter(families, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
+    geom_point(size=1) + 
+    geom_line() + 
+    ggtitle('Duplex Family Sizes') +
+    xlab('Family Size') + 
+    scale_y_continuous('Frequency', label=format_comma) +
+    coord_cartesian(xlim = c(0, 40))
+  print(g)
+}
+
 
 
 #' Util function to merge various computed tables with original experiment title file
@@ -442,6 +501,28 @@ cleanup_sample_names = function(data, sample_names) {
 }
 
 
+#' Read in all tables for plots
+#' @param inDirTables location of tables from python tables_module
+read_tables = function(inDirTables) {
+  readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
+  dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
+  covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
+  
+  insertSizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
+  
+  meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
+  gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
+  gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
+  
+  # Todo: We are using initialWorkDirRequirement to put these in the current dir, for now
+  family_types_A = read.table('family-types-A.txt', sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
+  family_types_B = read.table('family-types-B.txt', sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
+  families = read.table('family-sizes.txt', sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
+  
+  list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample, family_types_A, family_types_B, families)
+}
+
+
 # Main function that will provide all of the desired plots
 main = function(args) {
   # Read arguments specifying where the required tables are
@@ -449,57 +530,52 @@ main = function(args) {
   # todo - should return an object or named list, instead of this indexed list 
   args = readInputs(args)
   inDirTables = args[1]
-  inDirWaltz = args[2]
-  outDir = args[3]
-  title_file = args[4]
+  outDir = args[2]
+  title_file = args[3]
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
-  
   # Use only two class labels
+  # Todo: We need to handle "Primary", "Metastasis", "Normal", and "Normal Pool"
   title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
+  title_df = cleanup_sample_names_2(title_df)
+  # Title file sample colunn is used as sort order
+  sort_order = unlist(title_df$Sample)
+  print("Title dataframe:")
+  print(title_df)
+  
+  # Read in tables
+  df_list = read_tables(inDirTables)
+  printhead = function(x) {print(head(x))}
+  print("Dataframes:")
+  lapply(df_list, printhead)
+  
+  # Fix sample names,
+  # sort by ordering in the title file,
+  # merge in the title file data by sample id
+  df_list = lapply(df_list, cleanup_sample_names, sort_order)
+  df_list = lapply(df_list, sort_df, 'Sample', sort_order)
+  df_list = lapply(df_list, mergeInTitleFileData, title_df)
+  
+  # We have had problems here with sample names not matching between files and title_file entries
+  print("Dataframes after processing:")
+  lapply(df_list, printhead)
+  
+  readCountsDataTotal = df_list[[1]]
+  dupRateData = df_list[[2]]
+  covPerInterval = df_list[[3]]
+  insertSizes = df_list[[4]]
+  meanCovData = df_list[[5]]
+  gcEachSample = df_list[[6]]
+  family_types_A = df_list[[7]]
+  family_types_B = df_list[[8]]
+  families = df_list[[8]]
   
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
   final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
-  final_dest = paste(outDir, final_filename, sep="/")
-  pdf(file = final_dest, onefile = TRUE)
-  
-  # Read in tables
-  readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
-  dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
-  covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-  insertSizes = read.table(paste(inDirWaltz, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-  meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
-  gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
-  gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
+  pdf(file = final_filename, onefile = TRUE)
   
   # Put title file on first page of PDF
-  title_df = cleanup_sample_names_2(title_df)
-  # Title file sample colunn is used as sort order
-  sort_order = unlist(title_df$Sample)
-
-  printhead = function(x) {print(head(x))}
-  print("Title dataframe:")
-  print(title_df)
-  
-  dfList <- list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample)
-  print("Dataframes:")
-  lapply(dfList, printhead)
-  
-  dfList = lapply(dfList, cleanup_sample_names, sort_order)
-  dfList = lapply(dfList, sort_df, 'Sample', sort_order)
-  dfList = lapply(dfList, mergeInTitleFileData, title_df)
-  
-  # We have had problems here with sample names not matching between files and title_file entries
-  print("After processing:")
-  lapply(dfList, printhead)
-  readCountsDataTotal = dfList[[1]]
-  dupRateData = dfList[[2]]
-  covPerInterval = dfList[[3]]
-  insertSizes = dfList[[4]]
-  meanCovData = dfList[[5]]
-  gcEachSample = dfList[[6]]
-  
   printTitle(title_df, meanCovData)
   
   # Choose the plots that we want to run
@@ -510,6 +586,8 @@ main = function(args) {
   print(plotCovDistPerIntervalLine(covPerInterval))
   print(plotMeanCov(meanCovData))
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
+  print(plot_family_types(family_types_A, family_types_B))
+  plot_family_curves(families)
   # print(plotDupFrac(dupRateData))
   # print(plotCovDistPerInterval(covPerInterval))
   # print(plotGCwithCovAllSamples(gcAllSamples))

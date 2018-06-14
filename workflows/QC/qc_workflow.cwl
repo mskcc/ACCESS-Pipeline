@@ -65,10 +65,6 @@ inputs:
 
 outputs:
 
-  qc_pdf:
-    type: File[]
-    outputSource: qc_workflow_wo_waltz/qc_pdf
-
   combined_qc:
     type: File
     outputSource: qc_workflow_wo_waltz/combined_qc
@@ -127,6 +123,4 @@ steps:
       waltz_unfiltered_pool_b: waltz_workflow/waltz_unfiltered_pool_b_files
       waltz_simplex_duplex_pool_b: waltz_workflow/waltz_simplex_duplex_pool_b_files
       waltz_duplex_pool_b: waltz_workflow/waltz_duplex_pool_b_files
-    out: [
-      qc_pdf,
-      combined_qc]
+    out: [combined_qc]

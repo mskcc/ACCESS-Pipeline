@@ -5,14 +5,23 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4000
-    coresMin: 1
+- class: InlineJavascriptRequirement
+- class: ResourceRequirement
+  ramMin: 4000
+  coresMin: 1
+- class: InitialWorkDirRequirement
+  listing:
+  - entry: $(inputs.family_sizes)
+  - entry: $(inputs.family_types_A)
+  - entry: $(inputs.family_types_B)
 
 baseCommand: qc_wrapper
 
 inputs:
+
+  family_sizes: File
+  family_types_A: File
+  family_types_B: File
 
   title_file:
     type: File
@@ -60,8 +69,9 @@ inputs:
       prefix: -mdb
 
 outputs:
+
   qc_pdf:
-    type: File[]
+    type: File
     outputBinding:
       # todo: find pdfs explicitly
-      glob: ${ return '**/**/**/*.pdf' }
+      glob: '*.pdf'

@@ -45,7 +45,8 @@ setup(
         'pybedtools',
         'PyPDF2==1.26.0',
         'matplotlib==2.2.2',
-        'seaborn==0.8.1'
+        'seaborn==0.8.1',
+        'mock==2.0.0'
     ],
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
@@ -61,22 +62,20 @@ setup(
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
             # Workflow Tools
             'list2bed = python_tools.workflow_tools.list2bed:main',
-            'map_read_names_to_umis = python_tools.workflow_tools.map_read_names_to_umis:main',
-            'reverse_clip = python_tools.workflow_tools.reverse_clip:main',
-            # QC
+            # Quality Control
             'aggregate_bam_metrics = python_tools.workflow_tools.qc.aggregate_bam_metrics:main',
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
-            'qc = python_tools.workflow_tools.qc.qc:main',
-            'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
+            'tables_module = python_tools.workflow_tools.qc.tables_module:main',
             'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
+            'fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main',
             'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
+            'gender_check = python_tools.workflow_tools.qc.gender_check:main',
         ]
     },
     scripts=[
-        'python_tools/workflow_tools/qc/plotting_collapsed_bams.r',
-        'python_tools/workflow_tools/qc/calculate-noise.sh',
+        'python_tools/workflow_tools/qc/plots_module.r',
+        'python_tools/workflow_tools/qc/calculate_noise.sh',
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
-        'python_tools/workflow_tools/qc/plot_umi_qc.r',
     ],
     include_package_data=True,
     zip_safe=False,

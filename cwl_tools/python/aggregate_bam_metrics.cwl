@@ -13,6 +13,7 @@ requirements:
 baseCommand: [aggregate_bam_metrics]
 
 inputs:
+
   waltz_input_files:
     type: Directory
     inputBinding:
@@ -24,6 +25,7 @@ inputs:
       position: 2
 
 outputs:
+
   output_dir:
     type: Directory
     outputBinding:
