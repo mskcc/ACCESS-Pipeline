@@ -8,6 +8,7 @@
 ##################################################
 
 library(grid)
+library(scales)
 library(gridBase)
 library(gridExtra)
 library(lattice)
