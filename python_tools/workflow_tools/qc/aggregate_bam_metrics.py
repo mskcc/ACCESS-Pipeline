@@ -36,8 +36,11 @@ def process_read_counts_files(files):
     Aggregate read-counts metrics files for each Bam into one file
     """
     read_counts_files = [f for f in files if WALTZ_READ_COUNTS_FILENAME_SUFFIX in f]
+
     all_read_counts = merge_files_across_samples(read_counts_files, AGBM_READ_COUNTS_HEADER, SID_COL)
     all_read_counts.columns = AGBM_READ_COUNTS_HEADER
+    logging.info(all_read_counts)
+
     to_csv(all_read_counts, AGBM_READ_COUNTS_FILENAME)
 
 
@@ -45,14 +48,13 @@ def process_fragment_sizes_files(files):
     """
     Aggregate fragment-sizes metrics files for each Bam into one file
     """
-    logging.info(files)
     fragment_sizes_files = [f for f in files if WALTZ_FRAGMENT_SIZES_FILENAME_SUFFIX in f]
+    logging.info(fragment_sizes_files)
 
-    # Todo: not happy with this method for empty DataFrame
     all_frag_sizes = merge_files_across_samples(fragment_sizes_files, AGBM_FRAGMENT_SIZES_FILE_HEADER, SID_COL)
+    all_frag_sizes.columns = AGBM_FRAGMENT_SIZES_FILE_HEADER
     logging.info(all_frag_sizes)
 
-    all_frag_sizes.columns = AGBM_FRAGMENT_SIZES_FILE_HEADER
     to_csv(all_frag_sizes, AGBM_FRAGMENT_SIZES_FILENAME)
 
 
@@ -92,6 +94,7 @@ def main():
     waltz_dir = sys.argv[1]
     files = [os.path.join(waltz_dir, f) for f in os.listdir(waltz_dir)]
 
+    # Todo: Try removing this:
     for input_file in files:
         copyfile(input_file, ntpath.basename(input_file))
 

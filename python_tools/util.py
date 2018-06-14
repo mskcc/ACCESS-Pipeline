@@ -1,5 +1,6 @@
 import re
 import sys
+import logging
 import pandas as pd
 
 from constants import *
@@ -48,7 +49,7 @@ def merge_files_across_samples(files, cols, sample_ids=None):
     all_dataframes = []
     for f in files:
         new = read_df(f)
-        print(new.head())
+        logging.info(new.head())
 
         if new.empty:
             pass
