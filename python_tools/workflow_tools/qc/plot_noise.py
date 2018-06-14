@@ -12,11 +12,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from ...util import read_df
+from ...util import read_df, extract_sample_name
+from ...constants import *
 
 
-def NoiseAltPercentPlot(noise_table):
+def noise_alt_percent_plot(noise_table):
+    print(noise_table)
     samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
+
     alt_percent = noise_table[noise_table['Method'] == 'Total']['AltPercent']
     y_pos = np.arange(len(samples))
 
@@ -32,8 +35,9 @@ def NoiseAltPercentPlot(noise_table):
     plt.savefig('./NoiseAltPercent.pdf', bbox_inches='tight')
 
 
-def NoiseContributingSitesPlot(noise_table):
+def noise_contributing_sites_plot(noise_table):
     samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
+
     contributing_sites = noise_table[noise_table['Method'] == 'Total']['ContributingSites']
     y_pos = np.arange(len(samples))
 
@@ -50,17 +54,30 @@ def NoiseContributingSitesPlot(noise_table):
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-n", "--noise_file", help="Directory to write the Output files to", required=True)
-    parser.add_argument("-ns", "--noise_by_substitution", help="Directory with waltz pileup files", required=True)
+    parser.add_argument("-n", "--noise_file", required=True)
+    parser.add_argument("-ns", "--noise_by_substitution", required=True)
+    parser.add_argument("-t", "--title_file", required=True)
     args = parser.parse_args()
     return args
 
 
-def main ():
-    args= parse_arguments()
+def main():
+    args = parse_arguments()
     noise_table = pd.read_csv(args.noise_file, sep='\t').fillna(0)
-    NoiseAltPercentPlot(noise_table)
-    NoiseContributingSitesPlot(noise_table)
+
+    title_file = read_df(args.title_file, header='infer')
+    sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
+
+    # Cleanup sample IDs
+    noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
+
+    # Filter to Plasma samples
+    plasma_samples = title_file[title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma'][TITLE_FILE__SAMPLE_ID_COLUMN]
+    boolv = noise_table[SAMPLE_ID_COLUMN].isin(plasma_samples)
+    noise_table = noise_table.loc[boolv]
+
+    noise_alt_percent_plot(noise_table)
+    noise_contributing_sites_plot(noise_table)
     
     
 if __name__ == '__main__':

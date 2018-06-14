@@ -11,6 +11,11 @@ requirements:
 
 inputs:
 
+  title_file:
+    type: File
+    inputBinding:
+      prefix: --title_file
+
   noise:
     type: File
     inputBinding:

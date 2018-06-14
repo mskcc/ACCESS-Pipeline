@@ -10,10 +10,11 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-  umi_qc:
-    type: File[]
+
+  std_qc:
+    type: File
     inputBinding:
-      prefix: --umi_qc
+      prefix: --std_qc
 
   noise_alt_percent:
     type: File
@@ -30,9 +31,14 @@ inputs:
     inputBinding:
       prefix: --fingerprinting_qc
 
+  gender_check:
+    type: File?
+    inputBinding:
+      prefix: --gender_check
+
 outputs:
 
   combined_qc:
     type: File
     outputBinding:
-      glob: $('all_qc.pdf')
+      glob: 'main_qc.pdf'

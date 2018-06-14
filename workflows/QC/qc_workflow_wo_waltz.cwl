@@ -37,10 +37,6 @@ inputs:
 
 outputs:
 
-  qc_pdf:
-    type: File[]
-    outputSource: innovation_qc/qc_pdf
-
   combined_qc:
     type: File
     outputSource: combine_qc/combined_qc
@@ -133,6 +129,16 @@ steps:
       all_fp_results,
       FPFigures]
 
+  gender_check:
+    run: ../../cwl_tools/python/gender_check.cwl
+    in:
+      output_dir:
+        valueFrom: ${return '.'}
+      # Todo: Which waltz dir for this?
+      waltz_dir: waltz_unfiltered_pool_a
+      title_file: title_file
+    out: [gender_table, gender_plot]
+
   #########
   # Noise #
   #########
@@ -147,13 +153,14 @@ steps:
   noise_plots:
     run: ../../cwl_tools/noise/plot_noise.cwl
     in:
+      title_file: title_file
       noise: noise_tables/noise
       noise_by_substitution: noise_tables/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
-  ##########
-  # UMI QC #
-  ##########
+  #################
+  # UMI QC tables #
+  #################
 
   umi_qc_tables:
     run: ../../cwl_tools/umi_qc/make_umi_qc_tables.cwl
@@ -166,36 +173,18 @@ steps:
       family_types_A,
       family_types_B]
 
-  umi_qc_plots:
-    run: ../../cwl_tools/umi_qc/plot_umi_qc.cwl
-    in:
-      family_sizes: umi_qc_tables/family_sizes
-      family_types_A: umi_qc_tables/family_types_A
-      family_types_B: umi_qc_tables/family_types_B
-    out: [plots]
-
-  #######################################
-  # Combine FP, UMI, & Noise qc results #
-  #######################################
-
-  combine_qc:
-    run: ../../cwl_tools/python/combine_qc_pdfs.cwl
-    in:
-      umi_qc: umi_qc_plots/plots
-      noise_alt_percent: noise_plots/noise_alt_percent
-      noise_contributing_sites: noise_plots/noise_contributing_sites
-      fingerprinting_qc: fingerprinting/FPFigures
-    out:
-      [combined_qc]
-
   ###############
   # Standard-QC #
   ###############
 
   innovation_qc:
-    run: ../../cwl_tools/python/innovation-qc.cwl
+    run: ../../cwl_tools/python/innovation_qc.cwl
     in:
       title_file: title_file
+      family_sizes: umi_qc_tables/family_sizes
+      family_types_A: umi_qc_tables/family_types_A
+      family_types_B: umi_qc_tables/family_types_B
+
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
@@ -205,3 +194,18 @@ steps:
       simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
     out: [qc_pdf]
+
+  #######################################
+  # Combine FP, Noise, & Std qc results #
+  #######################################
+
+  combine_qc:
+    run: ../../cwl_tools/python/combine_qc_pdfs.cwl
+    in:
+      std_qc: innovation_qc/qc_pdf
+      noise_alt_percent: noise_plots/noise_alt_percent
+      noise_contributing_sites: noise_plots/noise_contributing_sites
+      fingerprinting_qc: fingerprinting/FPFigures
+      gender_check: gender_check/gender_plot
+    out:
+      [combined_qc]

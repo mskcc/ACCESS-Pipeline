@@ -29,6 +29,8 @@ def to_csv(df, filename):
 
 def extract_sample_name(has_a_sample, sample_names):
     """
+    TODO: THIS WILL FAIL FOR sample_1, sample_10    xxxxxxxxxxx
+
     Useful for matching sample names in larger strings such as fastq file names
 
     Ex:

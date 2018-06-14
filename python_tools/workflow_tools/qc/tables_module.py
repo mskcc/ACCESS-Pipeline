@@ -1,18 +1,18 @@
 #!python
 
-#######################################################
+##################################################
 # Innovation-QC Module
 # Innovation Laboratory
 # Center For Molecular Oncology
 # Memorial Sloan Kettering Cancer Research Center
 # maintainer: Ian Johnson (johnsoni@mskcc.org)
-#######################################################
+##################################################
 
 import re
+import logging
 import numpy as np
 import pandas as pd
 
-from ...util import merge_files_across_samples
 from ...constants import *
 
 
@@ -152,9 +152,9 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     gc_with_cov = pd.DataFrame(columns=GC_BIAS_HEADER)
     sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
-    print(curr_method, intervals_filename_suffix, path)
-    print(sample_files)
-    print(os.listdir(path))
+    logging.info(curr_method, intervals_filename_suffix, path)
+    logging.info(sample_files)
+    logging.info(os.listdir(path))
 
     for sample in sample_files:
         filename = '/'.join([path, sample])
@@ -181,14 +181,13 @@ def get_bins(tbl):
     """
     Create bins from min_gc value to max_gc value in increments of 0.05 (for GC content table)
     """
-    print('GC table generation')
-    print(tbl)
+    logging.info('GC table generation')
+    logging.info(tbl)
 
     min_gc = np.min(tbl['gc'])
     max_gc = np.max(tbl['gc'])
     start = round(min_gc - np.mod(min_gc, 0.05), 2)
     stop = round(max_gc + 0.1 - np.mod(max_gc, 0.05), 2)
-    print start, stop
     all_bins = np.arange(start, stop, step=0.05)
     return all_bins
 
@@ -301,7 +300,6 @@ def main(args):
     coverage_per_interval_filename = '/'.join([output_dir, 'coverage-per-interval.txt'])
     duplication_rates_filename = '/'.join([output_dir, 'duplication-rates.txt'])
 
-
     read_counts_total_pool_a_table = get_read_counts_total_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_total_table = pd.concat([read_counts_total_pool_a_table, read_counts_total_pool_b_table])
@@ -366,3 +364,13 @@ def main(args):
     gc_avg_table_all.to_csv(all_samples_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
     duplication_table.to_csv(duplication_rates_filename, sep='\t', index=False)
+
+    # also copy the fragment-sizes.txt file, which the plots module also uses
+    # todo: not clean
+    import shutil
+    frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
+
+    print('paths:')
+    print(frag_sizes_path)
+    print(output_dir)
+    shutil.copyfile(frag_sizes_path, '%s/%s' % (output_dir, frag_sizes_path.split('/')[-1]))

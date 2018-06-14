@@ -392,6 +392,7 @@ def include_collapsing_params(fh, test=False, local=False):
     :param test: Whether to include test or production collapsing params
     """
     if local:
+        # Local run params are same as Test params
         collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
         collapsing_files = RUN_FILES_LOCAL_COLLAPSING
     elif test:
@@ -422,6 +423,7 @@ def write_inputs_file(args, title_file):
     tool_resources_file_path = TOOL_RESOURCES_LUNA
 
     if args.local:
+        # Local run params are same as Test params
         run_params_path = RUN_PARAMS_TEST
         run_files_path = RUN_FILES_LOCAL
         tool_resources_file_path = TOOL_RESOURCES_LOCAL
