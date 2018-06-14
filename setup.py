@@ -67,7 +67,7 @@ setup(
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'tables_module = python_tools.workflow_tools.qc.tables_module:main',
             'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
-            'fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main',
+            'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
             'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
             'gender_check = python_tools.workflow_tools.qc.gender_check:main',
         ]
