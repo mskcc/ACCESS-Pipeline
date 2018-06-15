@@ -418,7 +418,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
     mutate(CountPercent = Count / sum(Count))
   
   ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
-    geom_bar(position=position_stack(), stat='identity', aes(fill=Type)) + 
+    geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -434,7 +434,7 @@ plot_family_curves <- function(data) {
   data = data %>% filter(Sample_type=='Plasma')
   
   g = ggplot(filter(data, FamilyType=='All'), aes(FamilySize, Frequency, color=Sample)) + 
-    geom_point(size=1) + 
+    geom_point(size=.5) + 
     geom_line() + 
     ggtitle('All Unique Family Sizes') +
     xlab('Family Size') + 
@@ -443,7 +443,7 @@ plot_family_curves <- function(data) {
   print(g)
   
   g = ggplot(filter(data, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
-    geom_point(size=1) + 
+    geom_point(size=.5) + 
     geom_line() + 
     ggtitle('Simplex Family Sizes') +
     xlab('Family Size') + 
@@ -452,7 +452,7 @@ plot_family_curves <- function(data) {
   print(g)
   
   g = ggplot(filter(data, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
-    geom_point(size=1) + 
+    geom_point(size=.5) + 
     geom_line() + 
     ggtitle('Duplex Family Sizes') +
     xlab('Family Size') + 

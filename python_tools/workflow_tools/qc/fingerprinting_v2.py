@@ -372,6 +372,10 @@ def plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, 
         contamination = [x for x in contamination if x[1] != 'NaN']
         ##To Do: Find the samplename from titlefile
         samplename = [c[0][0:c[0].find('IGO')] for c in contamination]
+
+        title_file = read_df(titlefile, header='infer')
+        samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
+
         y_pos = np.arange(len(samplename))
         meanContam = [c[1] for c in contamination]
         minorContamination = [[samplename[i], meanContam[i]] for i in range(0, len(samplename))]
