@@ -18,7 +18,8 @@ library(reshape2)
 suppressMessages(library(dplyr))
 suppressMessages(library(ggrepel))
 
-
+# Set terminal display width, error tracebacks
+options(width=1000)
 options(show.error.locations = TRUE)
 options(error = quote({dump.frames(to.file=TRUE); q()}))
 options(error=function()traceback(2))
@@ -294,19 +295,13 @@ cleanup_sample_names_2 = function(data) {
   data = data %>% mutate(Sample = gsub('_md', '', Sample))
   data = data %>% mutate(Sample = gsub('-md', '', Sample))
   data = data %>% mutate(Sample = gsub('.bam', '', Sample))
-  data = data %>% mutate(Sample = gsub('Sample_', '', Sample))
-  data = data %>% mutate(Sample = gsub('Sample-', '', Sample))
-  data = data %>% mutate(Sample = gsub('Sample', '', Sample))
   data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
   data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
   data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
   
-  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41_standard...
-  data = data %>% mutate(Sample = gsub('_standard.*', '', Sample))
-  
   # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
   #                                       ^^^^
-  data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
+  # data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
   data
 }
 
@@ -554,7 +549,7 @@ main = function(args) {
   # sort by ordering in the title file,
   # merge in the title file data by sample id
   df_list = lapply(df_list, cleanup_sample_names, sort_order)
-  df_list = lapply(df_list, sort_df, 'Sample', sort_order)
+  #df_list = lapply(df_list, sort_df, 'Sample', sort_order)
   df_list = lapply(df_list, mergeInTitleFileData, title_df)
   
   # We have had problems here with sample names not matching between files and title_file entries
