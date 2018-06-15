@@ -1,5 +1,4 @@
 import re
-import sys
 import logging
 import pandas as pd
 
@@ -16,8 +15,8 @@ def read_df(f, header=None):
         df = pd.read_csv(f, sep='\t', header=header)
         return df
     except Exception as e:
-        print >> sys.stderr, 'Exception reading data file {}: {}'.format(f, e)
-        print >> sys.stderr, 'Continuing anyways, some metrics may not be available.'
+        logging.error('Exception reading data file {}: {}'.format(f, e))
+        logging.error('Continuing anyways, some metrics may not be available.')
         return pd.DataFrame({})
 
 

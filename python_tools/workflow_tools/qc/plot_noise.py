@@ -1,6 +1,7 @@
 #!python
 # -*- coding: utf-8 -*-
 
+import logging
 import argparse
 import matplotlib
 # For Local:
@@ -17,7 +18,6 @@ from ...constants import *
 
 
 def noise_alt_percent_plot(noise_table):
-    print(noise_table)
     samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
 
     alt_percent = noise_table[noise_table['Method'] == 'Total']['AltPercent']
@@ -32,7 +32,7 @@ def noise_alt_percent_plot(noise_table):
     plt.ylabel('Noise (%)')
     plt.xlabel('Sample Name')
     plt.title('Noise Level')
-    plt.savefig('./NoiseAltPercent.pdf', bbox_inches='tight')
+    plt.savefig('NoiseAltPercent.pdf', bbox_inches='tight')
 
 
 def noise_contributing_sites_plot(noise_table):
@@ -49,7 +49,7 @@ def noise_contributing_sites_plot(noise_table):
     plt.ylabel('Number of Contributing Sites')
     plt.xlabel('Sample Name')
     plt.title('Contributing Sites for Noise')
-    plt.savefig('./NoiseContributingSites.pdf', bbox_inches='tight')
+    plt.savefig('NoiseContributingSites.pdf', bbox_inches='tight')
 
 
 def parse_arguments():
@@ -64,9 +64,12 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     noise_table = pd.read_csv(args.noise_file, sep='\t').fillna(0)
-
     title_file = read_df(args.title_file, header='infer')
     sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
+
+    logging.info('Noise Calculation')
+    logging.info(noise_table)
+    logging.info(title_file)
 
     # Cleanup sample IDs
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
