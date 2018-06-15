@@ -7,6 +7,7 @@
 ##################################################
 
 
+import logging
 import argparse
 import subprocess
 
@@ -28,9 +29,9 @@ def run_plots_module(tables_output_dir, plots_output_dir, title_file_path):
     plots_module_cmd += ' -o {} '.format(plots_output_dir)
     plots_module_cmd += ' -t {} '.format(title_file_path)
 
-    print('Running plots module with cmd: {}'.format(plots_module_cmd))
+    logging.info('Running plots module with cmd: {}'.format(plots_module_cmd))
     rv = subprocess.check_call(plots_module_cmd, shell=True)
-    print("Plots module return code: " + str(rv))
+    logging.info("Plots module return code: " + str(rv))
 
     # Raise error to prevent Toil job from finishing successfully
     if rv != 0:

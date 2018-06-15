@@ -369,8 +369,4 @@ def main(args):
     # todo: not clean
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
-
-    print('paths:')
-    print(frag_sizes_path)
-    print(output_dir)
     shutil.copyfile(frag_sizes_path, '%s/%s' % (output_dir, frag_sizes_path.split('/')[-1]))

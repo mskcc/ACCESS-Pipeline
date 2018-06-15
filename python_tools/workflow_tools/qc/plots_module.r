@@ -433,12 +433,12 @@ plot_family_types <- function(family_types_A, family_types_B) {
 #' Family sizes curves
 #' @param data data.frame with Sample, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
-  families$Sample = factor(families$Sample)
-  families = cleanup_sample_names_2(families)
+  data$Sample = factor(data$Sample)
+  data = cleanup_sample_names_2(data)
   # Only plot the Plasma samples
-  families = families %>% filter(Sample_type='Plasma')
+  data = data %>% filter(Sample_type=='Plasma')
   
-  g = ggplot(filter(families, FamilyType=='All'), aes(FamilySize, Frequency, color=Sample)) + 
+  g = ggplot(filter(data, FamilyType=='All'), aes(FamilySize, Frequency, color=Sample)) + 
     geom_point(size=1) + 
     geom_line() + 
     ggtitle('All Unique Family Sizes') +
@@ -447,7 +447,7 @@ plot_family_curves <- function(data) {
     coord_cartesian(xlim = c(0, 40))
   print(g)
   
-  g = ggplot(filter(families, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
+  g = ggplot(filter(data, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
     geom_point(size=1) + 
     geom_line() + 
     ggtitle('Simplex Family Sizes') +
@@ -456,7 +456,7 @@ plot_family_curves <- function(data) {
     coord_cartesian(xlim = c(0, 40))
   print(g)
   
-  g = ggplot(filter(families, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
+  g = ggplot(filter(data, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
     geom_point(size=1) + 
     geom_line() + 
     ggtitle('Duplex Family Sizes') +
@@ -569,7 +569,7 @@ main = function(args) {
   gcEachSample = df_list[[6]]
   family_types_A = df_list[[7]]
   family_types_B = df_list[[8]]
-  families = df_list[[8]]
+  families = df_list[[9]]
   
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
