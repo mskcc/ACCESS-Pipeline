@@ -7,6 +7,7 @@ class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   StepInputExpressionRequirement: {}
 
