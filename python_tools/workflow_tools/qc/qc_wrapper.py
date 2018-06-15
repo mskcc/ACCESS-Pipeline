@@ -1,5 +1,5 @@
 ##################################################
-# Innovation-QC Module
+# ACCESS QC Module
 # Innovation Laboratory
 # Center For Molecular Oncology
 # Memorial Sloan Kettering Cancer Research Center
