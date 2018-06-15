@@ -29,17 +29,12 @@ def to_csv(df, filename):
 
 def extract_sample_name(has_a_sample, sample_names):
     """
-    TODO: THIS WILL FAIL FOR sample_1, sample_10    xxxxxxxxxxx
-
     Useful for matching sample names in larger strings such as fastq file names.
 
     Note that we must sort the samples names by length in order to return the longest match:
     e.g. sample_abc123-IGO-XXX, [sample_abc123, sample_abc12] --> sample_abc123
-
-    Ex:
-    ('somestuff_sampleid_somestuff', [list, of, sampleid]) --> sampleid
     """
-    sample_names.sort(key=len, reverse=True)
+    sample_names = sorted(sample_names, key=len, reverse=True)
     sample_name_search = r'|'.join(sample_names)
     sample_name_search = r'.*(' + sample_name_search + ').*'
     return re.sub(sample_name_search, r'\1', has_a_sample)
