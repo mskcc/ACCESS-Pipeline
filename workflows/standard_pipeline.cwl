@@ -81,10 +81,48 @@ inputs:
 outputs:
 
   standard_bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     outputSource: flatten_array_bams/output_bams
+
+  processed_fastq_1:
+    type: File[]
+    outputSource: umi_clipping/processed_fastq_1
+
+  processed_fastq_2:
+    type: File[]
+    outputSource: umi_clipping/processed_fastq_2
+
+  info:
+    type: File[]
+    outputSource: umi_clipping/info
+
+  sample_sheets:
+    type: File[]
+    outputSource: umi_clipping/output_sample_sheet
+
+  umi_frequencies:
+    type: File[]
+    outputSource: umi_clipping/umi_frequencies
+
+  composite_umi_frequencies:
+    type: File[]
+    outputSource: umi_clipping/composite_umi_frequencies
+
+  clstats1:
+    type: File[]
+    outputSource: module_1/clstats1
+
+  clstats2:
+    type: File[]
+    outputSource: module_1/clstats2
+
+  covint_list:
+    type: File[]
+    outputSource: module_2/covint_list
+
+  covint_bed:
+    type: File[]
+    outputSource: module_2/covint_bed
 
 steps:
 
@@ -100,13 +138,18 @@ steps:
         valueFrom: $(inputs.run_tools.java_8)
       marianas_path:
         valueFrom: $(inputs.run_tools.marianas_path)
-
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
       umi_length: umi_length
       output_project_folder: output_project_folder
-    out: [processed_fastq_1, processed_fastq_2, info, output_sample_sheet, umi_frequencies]
+    out: [
+      processed_fastq_1,
+      processed_fastq_2,
+      info,
+      output_sample_sheet,
+      umi_frequencies,
+      composite_umi_frequencies]
     scatter: [fastq1, fastq2, sample_sheet]
     scatterMethod: dotproduct
 
@@ -136,7 +179,12 @@ steps:
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [bam, bai, md_metrics]
+    out: [
+      bam,
+      bai,
+      clstats1,
+      clstats2,
+      md_metrics]
     scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
 

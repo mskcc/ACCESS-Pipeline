@@ -101,9 +101,41 @@ outputs:
     type: Directory[]
     outputSource: make_sample_output_directories/directory
 
-  qc_pdf:
-    type: File
+  combined_qc:
+    type: Directory
     outputSource: qc_workflow/combined_qc
+
+  waltz_standard_pool_a_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_standard_pool_a_files
+
+  waltz_unfiltered_pool_a_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_unfiltered_pool_a_files
+
+  waltz_simplex_duplex_pool_a_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_simplex_duplex_pool_a_files
+
+  waltz_duplex_pool_a_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_duplex_pool_a_files
+
+  waltz_standard_pool_b_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_standard_pool_b_files
+
+  waltz_unfiltered_pool_b_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_unfiltered_pool_b_files
+
+  waltz_simplex_duplex_pool_b_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_simplex_duplex_pool_b_files
+
+  waltz_duplex_pool_b_files:
+    type: Directory
+    outputSource: qc_workflow/waltz_duplex_pool_b_files
 
 steps:
 
@@ -157,7 +189,18 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-    out: [standard_bams]
+    out: [
+      standard_bams,
+      processed_fastq_1,
+      processed_fastq_2,
+      info,
+      sample_sheets,
+      umi_frequencies,
+      composite_umi_frequencies,
+      clstats1,
+      clstats2,
+      covint_list,
+      covint_bed]
 
   #########################
   # Run Waltz on Std Bams #
@@ -311,6 +354,16 @@ steps:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
     in:
       standard_bam: standard_bam_generation/standard_bams
+      processed_fastq_1: standard_bam_generation/processed_fastq_1
+      processed_fastq_2: standard_bam_generation/processed_fastq_2
+      info: standard_bam_generation/info
+      sample_sheets: standard_bam_generation/sample_sheets
+      umi_frequencies: standard_bam_generation/umi_frequencies
+      composite_umi_frequencies: standard_bam_generation/composite_umi_frequencies
+      clstats1: standard_bam_generation/clstats1
+      clstats2: standard_bam_generation/clstats2
+#      covint_list: standard_bam_generation/covint_list
+#      covint_bed: standard_bam_generation/covint_bed
       unfiltered_bam: flatten_array_bams/output_bams
       simplex_duplex_bam: separate_bams/simplex_duplex_bam
       duplex_bam: separate_bams/duplex_bam
@@ -322,6 +375,16 @@ steps:
       second_pass: umi_collapsing/second_pass_alt_alleles
     scatter: [
       standard_bam,
+      processed_fastq_1,
+      processed_fastq_2,
+      info,
+      sample_sheets,
+      umi_frequencies,
+      composite_umi_frequencies,
+      clstats1,
+      clstats2,
+#      covint_list,
+#      covint_bed,
       unfiltered_bam,
       simplex_duplex_bam,
       duplex_bam,
@@ -359,4 +422,13 @@ steps:
       marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
       marianas_duplex_bams: separate_bams/duplex_bam
       FP_config_file: FP_config_file
-    out: [combined_qc]
+    out: [
+      combined_qc,
+      waltz_standard_pool_a_files,
+      waltz_unfiltered_pool_a_files,
+      waltz_simplex_duplex_pool_a_files,
+      waltz_duplex_pool_a_files,
+      waltz_standard_pool_b_files,
+      waltz_unfiltered_pool_b_files,
+      waltz_simplex_duplex_pool_b_files,
+      waltz_duplex_pool_b_files]
