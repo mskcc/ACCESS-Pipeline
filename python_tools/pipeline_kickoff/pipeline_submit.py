@@ -4,7 +4,6 @@ import subprocess
 
 # This is a script to submit the leader toil-cwl-runner job to
 # one of the worker nodes instead of the head node.
-# It gets called from scripts such as run-example.sh, or run-DY.sh
 #
 # This script is taken from Roslin's roslin_submit.py
 #
