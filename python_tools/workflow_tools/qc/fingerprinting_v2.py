@@ -280,7 +280,7 @@ def compare_genotype(All_geno, n, fpOutputdir, titlefile):
 
     # mlist=[i for i, x in enumerate([g[2] for g in Geno_Compare]) if x/n>.8] #Total Match/All Fingerprinting snps
     mlist = [i for i, x in enumerate([[int(g[4]), int(g[3]) + int(g[4])] for g in Geno_Compare]) if
-             x[0] / x[1] < .1]  # Homozygous Mismatch/All Homozygous SNPs
+             x[0] / (x[1] + EPSILON) < .1]  # Homozygous Mismatch/All Homozygous SNPs
     if mlist != []:
         m = min(mlist)
     else:
@@ -325,7 +325,6 @@ def plotMinorContamination(All_FP, fpOutputdir, titlefile):
 
     plt.figure(figsize=(10, 5))
     plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='orange', ls='--')
     plt.bar(y_pos, [m[1] for m in minorContamination], align='edge', color='black')
     plt.xticks(y_pos, [m[0] for m in minorContamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
@@ -462,19 +461,19 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
 
     Match_status = [[x[0], x[1], x[7]] for x in Geno_Compare if
                     x[7] == 'Unexpected Mismatch' or x[7] == 'Unexpected Match']
-    if Match_status:
-        df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
-        Match_status.insert(0, ["Sample1", "Sample2", "Status"])
-        writeCVS(fpOutputdir + 'Match_status.txt', Match_status)
 
-        plt.clf()
-        fig, ax1 = plt.subplots()
-        # plt.title('Unexpected Matches and Mismatches')
-        ax1.axis('off')
-        ax1.axis('tight')
-        ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
-        fig.tight_layout()
-        plt.savefig(fpOutputdir + 'Geno_Match_status.pdf', bbox_inches='tight')
+    df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
+    Match_status.insert(0, ["Sample1", "Sample2", "Status"])
+    writeCVS(fpOutputdir + 'Match_status.txt', Match_status)
+
+    plt.clf()
+    fig, ax1 = plt.subplots()
+    # plt.title('Unexpected Matches and Mismatches')
+    ax1.axis('off')
+    ax1.axis('tight')
+    ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+    fig.tight_layout()
+    plt.savefig(fpOutputdir + 'Geno_Match_status.pdf', bbox_inches='tight')
 
 
 ######################
