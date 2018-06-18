@@ -251,6 +251,9 @@ def get_gc_table_average_for_each_sample(tbl):
                 })
                 final_bins_table = pd.concat([final_bins_table, newDf])
 
+    # Restrict to .35 < coverage < .8
+    final_bins_table = final_bins_table[final_bins_table['gc_bin'] >= .35 and final_bins_table['coverage'] <= .8]
+
     return final_bins_table
 
 
