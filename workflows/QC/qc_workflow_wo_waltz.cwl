@@ -38,8 +38,8 @@ inputs:
 outputs:
 
   combined_qc:
-    type: File
-    outputSource: combine_qc/combined_qc
+    type: Directory
+    outputSource: group_qc_files/qc_files
 
 steps:
 
@@ -211,3 +211,28 @@ steps:
       gender_check: gender_check/gender_plot
     out:
       [combined_qc]
+
+  ####################
+  # Put in Directory #
+  ####################
+
+  group_qc_files:
+    run: ../../cwl_tools/expression_tools/group_qc_files.cwl
+    in:
+      standard_aggregate_bam_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
+      unfiltered_aggregate_bam_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
+      simplex_duplex_aggregate_bam_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
+      duplex_aggregate_bam_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
+      standard_aggregate_bam_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
+      unfiltered_aggregate_bam_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
+      simplex_duplex_aggregate_bam_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
+      duplex_aggregate_bam_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+      all_fp_results: fingerprinting/all_fp_results
+      gender_table: gender_check/gender_table
+      noise_alt_percent: noise_tables/noise
+      noise_contributing_sites: noise_tables/noise_by_substitution
+      family_sizes: umi_qc_tables/family_sizes
+      family_types_A: umi_qc_tables/family_types_A
+      family_types_B: umi_qc_tables/family_types_B
+      combined_qc: combine_qc/combined_qc
+    out: [qc_files]

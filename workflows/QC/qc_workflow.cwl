@@ -66,8 +66,40 @@ inputs:
 outputs:
 
   combined_qc:
-    type: File
+    type: Directory
     outputSource: qc_workflow_wo_waltz/combined_qc
+
+  waltz_standard_pool_a_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_standard_pool_a_files
+
+  waltz_unfiltered_pool_a_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_unfiltered_pool_a_files
+
+  waltz_simplex_duplex_pool_a_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_simplex_duplex_pool_a_files
+
+  waltz_duplex_pool_a_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_duplex_pool_a_files
+
+  waltz_standard_pool_b_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_standard_pool_b_files
+
+  waltz_unfiltered_pool_b_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_unfiltered_pool_b_files
+
+  waltz_simplex_duplex_pool_b_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_simplex_duplex_pool_b_files
+
+  waltz_duplex_pool_b_files:
+    type: Directory
+    outputSource: waltz_workflow/waltz_duplex_pool_b_files
 
 steps:
 
