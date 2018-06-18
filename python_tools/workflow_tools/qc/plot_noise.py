@@ -81,7 +81,3 @@ def main():
 
     noise_alt_percent_plot(noise_table)
     noise_contributing_sites_plot(noise_table)
-    
-    
-if __name__ == '__main__':
-    main()
