@@ -83,7 +83,7 @@ TITLE_FILE__INPUT_NG_COLUMN                 = 'Input_ng'
 TITLE_FILE__LIBRARAY_YIELD_COLUMN           = 'Library_yield'
 TITLE_FILE__POOL_INPUT_COLUMN               = 'Pool_input'
 TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
-TITLE_FILE__GENDER_COLUMN                   = 'Gender'
+TITLE_FILE__SEX_COLUMN                   = 'Sex'
 
 TITLE_FILE__BARCODE_INDEX_COLUMN            = 'Barcode_index'
 
@@ -104,7 +104,7 @@ columns_map = OrderedDict([
     (MANIFEST__LIBRARY_YIELD_COLUMN              , TITLE_FILE__LIBRARAY_YIELD_COLUMN),
     (MANIFEST__CAPTURE_INPUT_COLUMN              , TITLE_FILE__POOL_INPUT_COLUMN),
     (MANIFEST__CAPTURE_BAIT_SET_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
-    (MANIFEST__SEX_COLUMN                        , TITLE_FILE__GENDER_COLUMN),
+    (MANIFEST__SEX_COLUMN                        , TITLE_FILE__SEX_COLUMN),
     (MANIFEST__BARCODE_INDEX_COLUMN              , TITLE_FILE__BARCODE_INDEX_COLUMN),
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
 ])
