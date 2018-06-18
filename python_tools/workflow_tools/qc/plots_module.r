@@ -164,7 +164,7 @@ plotMeanCov = function(data) {
   
   layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
-  tt = ttheme_default(base_size=4)
+  tt = ttheme_default(base_size=8)
   
   avg_cov_df = data %>% 
     group_by(Class, pool, method) %>% 
@@ -317,6 +317,7 @@ printTitle = function(title_df, coverage_df) {
   # Cast the coverage values
   coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
   coverage_df = coverage_df[,c('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
+  colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')
@@ -359,7 +360,7 @@ printTitle = function(title_df, coverage_df) {
                c(5,5,5,5,5))
   gs = list(title, date, line, tbl1, tbl2)
   
-  if (nrow(title_df) > 10) {
+  if (nrow(title_df) > 12) {
     print_title_two_page(title, date, line, tbl1, tbl2)
     return()
   }
