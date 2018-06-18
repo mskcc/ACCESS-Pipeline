@@ -1,4 +1,5 @@
 import xlrd
+import logging
 import argparse
 import pandas as pd
 
@@ -31,7 +32,7 @@ from ..constants import *
 # 'SampleSheet.csv'
 
 
-def create_title_file(manifest_file_path, title_file_output_filename):
+def create_title_file(manifest_file_path, output_filename):
     # Read Manifest as either csv or Excel file
     try:
         manifest = pd.read_csv(manifest_file_path, sep='\t')
@@ -40,15 +41,26 @@ def create_title_file(manifest_file_path, title_file_output_filename):
     manifest = manifest.dropna(axis=0, how='all')
 
     # Select the columns we want from the manifest & rename them
-    title_file = manifest[columns_map.keys()]
+    try:
+        title_file = manifest[columns_map.keys()]
+    except KeyError as e:
+        logging.error('Existing manifest columns:')
+        logging.error(manifest.columns)
+        raise e
+
     title_file.columns = columns_map.values()
 
     # Trim whitespace
     title_file = title_file.apply(lambda x: x.str.strip() if x.dtype == 'object' else x)
 
-    # Write title file
-    title_file.to_csv(title_file_output_filename, sep='\t', index=False)
-
+    # Optionally split by lanes
+    if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
+        for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
+            title_file_sub = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
+            # Write title file
+            title_file_sub.to_csv('lane-{}_'.format(lane) + output_filename, sep='\t', index=False)
+    else:
+        title_file.to_csv(output_filename, sep='\t', index=False)
 
 ########
 # Main #

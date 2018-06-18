@@ -34,9 +34,6 @@ from ..constants import *
 # Todo: This file is too large
 
 
-# The name of the resulting yaml file that will be supplied to the pipeline
-FINAL_FILE_NAME = 'inputs.yaml'
-
 # Static adapter sequences that surround the barcodes
 # Used by the Trimgalore step in the pipeline
 #
@@ -415,7 +412,7 @@ def include_collapsing_params(fh, test=False, local=False):
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
 
 
-def write_inputs_file(args, title_file):
+def write_inputs_file(args, title_file, output_file_name):
     """
     Main function to write our inputs.yaml file.
     Contains most of the logic related to which inputs to use based on the type of run
@@ -435,7 +432,7 @@ def write_inputs_file(args, title_file):
         run_files_path = RUN_FILES
 
     # Actually start writing the inputs file
-    fh = open(FINAL_FILE_NAME, 'wb')
+    fh = open(output_file_name, 'wb')
 
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
     include_run_params(fh, run_params_path)
@@ -473,11 +470,11 @@ def include_version_info(fh):
     fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
-def check_final_file():
+def check_final_file(output_file_name):
     """
     Check that lengths of these fields in the final file are equal:
     """
-    with open(FINAL_FILE_NAME, 'r') as stream:
+    with open(output_file_name, 'r') as stream:
         final_file = ruamel.yaml.round_trip_load(stream)
 
     # Todo: Use CONSTANTS
@@ -542,21 +539,21 @@ def parse_arguments():
         required=False,
         action="store_true"
     )
-    # Todo: Argument is unimplememnted
-    # https://github.com/BD2KGenomics/toil/issues/2167
     parser.add_argument(
         "-o",
-        "--include_resource_overrides",
-        help="Whether to override ResourceRequirements with smaller values (to run tests in constrained environment)",
-        required=False,
-        action="store_true"
+        "--output_file_name",
+        help="Name of yaml file for pipeline",
+        required=True
     )
     return parser.parse_args()
 
 
-def sanity_check(title_file):
+def perform_validation(title_file):
     """
-    Make sure samples are unique, and barcodes are unique within each lane
+    1. Sample IDs are unique
+    2. Barcodes are unique within each lane
+    3. Sample_type is either 'Plasma' or 'Buffy Coat'
+    4. Sex is one of ['Male, 'M', 'Female', 'F']
     """
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample names. Exiting.')
@@ -566,6 +563,12 @@ def sanity_check(title_file):
 
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
+
+    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) > 0:
+        raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
+
+    if np.sum(title_file[TITLE_FILE__GENDER_COLUMN].isin(['Male', 'M', 'Female', 'F'])) > 0:
+        raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F]')
 
 
 def copy_inputs_yaml(fh):
@@ -612,11 +615,11 @@ def main():
     title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN)
 
     # Perform some sanity checks on the title file
-    sanity_check(title_file)
+    perform_validation(title_file)
     # Create the inputs file for the run
-    write_inputs_file(args, title_file)
+    write_inputs_file(args, title_file, args.output_file_name)
     # Perform some checks on the final yaml file that will be supplied to the pipeline
-    check_final_file()
+    check_final_file(args.output_file_name)
 
     print_user_message(args)
 
