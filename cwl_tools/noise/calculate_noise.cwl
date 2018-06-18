@@ -4,7 +4,7 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: [calculate-noise.sh]
+baseCommand: [calculate_noise.sh]
 
 requirements:
   - class: InlineJavascriptRequirement
