@@ -564,10 +564,10 @@ def perform_validation(title_file):
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) > 0:
+    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
-    if np.sum(title_file[TITLE_FILE__GENDER_COLUMN].isin(['Male', 'M', 'Female', 'F'])) > 0:
+    if np.sum(title_file[TITLE_FILE__SEX_COLUMN].isin(['Male', 'M', 'Female', 'F'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F]')
 
 
