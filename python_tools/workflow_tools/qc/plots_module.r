@@ -164,7 +164,7 @@ plotMeanCov = function(data) {
   
   layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
-  tt = ttheme_default(base_size=8)
+  tt = ttheme_default(base_size=6)
   
   avg_cov_df = data %>% 
     group_by(Class, pool, method) %>% 
@@ -360,7 +360,7 @@ printTitle = function(title_df, coverage_df) {
                c(5,5,5,5,5))
   gs = list(title, date, line, tbl1, tbl2)
   
-  if (nrow(title_df) > 12) {
+  if (nrow(title_df) > 13) {
     print_title_two_page(title, date, line, tbl1, tbl2)
     return()
   }
