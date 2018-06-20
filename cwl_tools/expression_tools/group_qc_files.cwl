@@ -56,7 +56,7 @@ expression: |
     output_files.push(inputs.combined_qc);
 
     return {
-      'directory': {
+      'qc_files': {
         'class': 'Directory',
         'basename': 'QC_Results',
         'listing': output_files

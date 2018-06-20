@@ -1,5 +1,5 @@
 # Files used after standard Bam steps
-pool_a_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_0_probe_A.sorted.bed}
-pool_b_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_0_probe_B.sorted.bed}
+pool_a_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_2_probe_A.sorted.bed}
+pool_b_bed_file: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/PanCancer_v2_2_probe_B.sorted.bed}
 
 gene_list: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/juber-hg19-gene-list.bed}

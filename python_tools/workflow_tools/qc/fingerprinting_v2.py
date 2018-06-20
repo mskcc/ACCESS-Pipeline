@@ -119,21 +119,6 @@ def ExtractListofTumorSamples(titlefile):
     return listofsamples
 
 
-def concatenate_AandB_pileups_0(WaltzDirA, WaltzDirB, OutputDir):
-  MergedDir=MakeOutputDir (OutputDir, 'MergedPileup')
-  listofpileups=[p for p in os.listdir(WaltzDirA) if p.endswith("-pileup.txt")]
-  for p in listofpileups:
-    if p in os.listdir(WaltzDirB):
-      a=readCVS(WaltzDirA+'/'+p)
-      b=readCVS(WaltzDirB+'/'+p)
-      a.extend(b)
-     #this is not a uniq list. extractRawFP makes sure FP pileups are unique.
-      writeCVS(MergedDir+'/'+p, a)
-    else:
-      raise IOError(p+" not in WaltzDirB so pileup not concatenated and sample not fingerprinted")
-  return MergedDir
-
-
 def concatenate_AandB_pileups(WaltzDirA, WaltzDirB, OutputDir, DirName, listofsamples=[]):
     MergedDir = MakeOutputDir(OutputDir, DirName)
     listofpileups = [p for p in os.listdir(WaltzDirA) if p.endswith("-pileup.txt")]
@@ -329,7 +314,7 @@ def plotMinorContamination(All_FP, fpOutputdir, titlefile):
     plt.xticks(y_pos, [m[0] for m in minorContamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
     plt.xlabel('Sample Name')
-    plt.title('Minor Contamination Check')
+    plt.title('Minor Contamination Check (from all reads)')
     plt.xlim([0, y_pos.size])
     plt.savefig(fpOutputdir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 
@@ -471,7 +456,11 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
     # plt.title('Unexpected Matches and Mismatches')
     ax1.axis('off')
     ax1.axis('tight')
-    ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+    if len(df.values):
+        ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+    else:
+        empty_values = [['No mismatches present', 'No mismatches present', 'No mismatches present']]
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
     fig.tight_layout()
     plt.savefig(fpOutputdir + 'Geno_Match_status.pdf', bbox_inches='tight')
 
@@ -495,7 +484,7 @@ def convertFP_mAF(InputDir, OutputDir):
 ######################
 
 def runFPreport(OutputDir, WaltzDirA, WaltzDirB, WaltzDirA_duplex, WaltzDirB_duplex, configFile, titlefile):
-    mergedDir = concatenate_AandB_pileups_0(WaltzDirA, WaltzDirB, OutputDir)
+    mergedDir = concatenate_AandB_pileups(WaltzDirA, WaltzDirB, OutputDir, 'DuplexMergedPileup')
     listofpileups = Extractpileupfiles(mergedDir)
     fpIndices, n = createFPIndices(configFile)
     fpOutputdir = MakeOutputDir(OutputDir, 'FPResults')

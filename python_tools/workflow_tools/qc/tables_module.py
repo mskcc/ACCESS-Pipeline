@@ -252,7 +252,9 @@ def get_gc_table_average_for_each_sample(tbl):
                 final_bins_table = pd.concat([final_bins_table, newDf])
 
     # Restrict to .35 < coverage < .8
-    final_bins_table = final_bins_table[final_bins_table['gc_bin'] >= .35 and final_bins_table['coverage'] <= .8]
+    low_gc_boolv = (final_bins_table['gc_bin'] >= .35)
+    high_gc_boolv = (final_bins_table['gc_bin'] <= .8)
+    final_bins_table = final_bins_table[low_gc_boolv & high_gc_boolv]
 
     return final_bins_table
 

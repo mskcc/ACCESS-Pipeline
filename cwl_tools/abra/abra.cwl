@@ -7,6 +7,7 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx60g
+# Todo: should be an input
 - -Djava.io.tmpdir=/scratch
 - -jar
 - $(inputs.abra)
