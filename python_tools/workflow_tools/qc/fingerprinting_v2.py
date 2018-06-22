@@ -465,8 +465,87 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
     plt.savefig(fpOutputdir + 'Geno_Match_status.pdf', bbox_inches='tight')
 
 
+def FindSexFromPileup(WaltzDir, OutputDir):
+    # Not Currently Used: Checks the pileups if there are more that 200 positions in the Y chromosome with at least 1 read, the sample is classified as male.
+    sex = []
+    for file in os.listdir(WaltzDir):
+        if file[-10::] == 'pileup.txt':
+            data = []
+            with open(WaltzDir + '/' + file, 'r') as f:
+                reader = csv.reader(f, delimiter='\t')
+                for row in reader:
+                    if row[0] == 'Y':
+                        if int(row[3]) > 0:
+                            data.append(row[3])
+
+            if len(data) > 200:
+                sex.append([file[0:file.find('_bc')], "Male"])
+            else:
+                sex.append([file[0:file.find('_bc')], "Female"])
+    writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
+    return sex
+
+
+def FindSexFromInterval(WaltzDir, OutputDir):
+    # Used: Checks the Interval files if the sum of the average coverage per interval (2 on Y) is greater that 50, the sample is classified as male.
+    sex = []
+    for file in os.listdir(WaltzDir):
+        if file[-13::] == 'intervals.txt':
+            data = []
+            with open(WaltzDir + '/' + file, 'r') as f:
+                reader = csv.reader(f, delimiter='\t')
+                for row in reader:
+                    if row[3] == 'Tiling_SRY_Y:2655301' or row[3] == 'Tiling_USP9Y_Y:14891501':
+                        data.append(row[5])
+
+            if sum(data) > 50:
+                sex.append([file[0:file.find('_bc')], "Male"])
+            else:
+                sex.append([file[0:file.find('_bc')], "Female"])
+    writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
+    return sex
+
+
+def standardizeGender(titleFile):
+    ##Potential inputs
+    female = ['female', 'f', 'Female', 'F']
+    male = ['Male', 'M', 'male', 'm']
+    ##
+    titleInfo = readCVS(titleFile)
+    gender_from_title = [[t[2], t[11]] for t in titleInfo]
+    gender = []
+    for s in gender_from_title:
+        if s[1] in female:
+            gender.append([s[0].replace('_', '-'), 'Female'])
+        elif s[1] in male:
+            gender.append([s[0].replace('_', '-'), 'Male'])
+    return gender
+
+
+def CheckSex(gender, sex, OutputDir):
+    list_of_samples = [s[0] for s in sex]
+    MisMatchSex = []
+    for g in gender:
+        if g[0] in list_of_samples:
+            idx = list_of_samples.index(g[0])
+            if g[1] != sex[idx][1]:
+                MisMatchSex.append([g[0], g[1], sex[idx][1]])
+    if MisMatchSex:
+        df = pd.DataFrame(MisMatchSex, columns=["Sample", "GenderFromTitleFile", "SexFromPileup"])
+        writeCVS(OutputDir + '/MisMatchedGender.txt', MisMatchSex)
+        plt.clf()
+        fig, ax = plt.subplots()
+        plt.title('Gender MisMatch')
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+        fig.tight_layout()
+        plt.savefig(OutputDir + '/GenderMisMatch.pdf', bbox_inches='tight')
+
+
 ######################
 # Convert Txt files
+######################
 
 def convertFP_mAF(InputDir, OutputDir):
     x = readCVS(InputDir + 'FP_mAF.txt')
@@ -484,7 +563,7 @@ def convertFP_mAF(InputDir, OutputDir):
 ######################
 
 def runFPreport(OutputDir, WaltzDirA, WaltzDirB, WaltzDirA_duplex, WaltzDirB_duplex, configFile, titlefile):
-    mergedDir = concatenate_AandB_pileups(WaltzDirA, WaltzDirB, OutputDir, 'DuplexMergedPileup')
+    mergedDir = concatenate_AandB_pileups(WaltzDirA, WaltzDirB, OutputDir, 'MergedPileup')
     listofpileups = Extractpileupfiles(mergedDir)
     fpIndices, n = createFPIndices(configFile)
     fpOutputdir = MakeOutputDir(OutputDir, 'FPResults')
@@ -520,9 +599,16 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
+
+    # Fingerprinting
     runFPreport(OutputDir=args.output_dir, WaltzDirA=args.waltz_dir_A, WaltzDirB=args.waltz_dir_B,
                 WaltzDirA_duplex=args.waltz_dir_A_duplex, WaltzDirB_duplex=args.waltz_dir_B_duplex,
                 configFile=args.fp_config, titlefile=args.title_file)
+
+    # Sex
+    sex=FindSexFromInterval(WaltzDir=args.waltz_dir, OutputDir=args.output_dir)
+    gender=standardizeGender(titleFile=args.title_file)
+    CheckSex(gender, sex, OutputDir=args.output_dir)
 
 
 if __name__ == '__main__':

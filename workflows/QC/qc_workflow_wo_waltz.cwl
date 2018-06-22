@@ -129,17 +129,9 @@ steps:
       title_file: title_file
     out: [
       all_fp_results,
-      FPFigures]
-
-  gender_check:
-    run: ../../cwl_tools/python/gender_check.cwl
-    in:
-      output_dir:
-        valueFrom: ${return '.'}
-      # Todo: Which waltz dir for this?
-      waltz_dir: waltz_unfiltered_pool_a
-      title_file: title_file
-    out: [gender_table, gender_plot]
+      FPFigures,
+      gender_table,
+      gender_plot]
 
   #########
   # Noise #
@@ -208,7 +200,7 @@ steps:
       noise_alt_percent: noise_plots/noise_alt_percent
       noise_contributing_sites: noise_plots/noise_contributing_sites
       fingerprinting_qc: fingerprinting/FPFigures
-      gender_check: gender_check/gender_plot
+      gender_check: fingerprinting/gender_plot
     out:
       [combined_qc]
 
@@ -228,7 +220,7 @@ steps:
       simplex_duplex_aggregate_bam_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_aggregate_bam_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
       all_fp_results: fingerprinting/all_fp_results
-      gender_table: gender_check/gender_table
+      gender_table: fingerprinting/gender_table
       noise_alt_percent: noise_tables/noise
       noise_contributing_sites: noise_tables/noise_by_substitution
       family_sizes: umi_qc_tables/family_sizes
