@@ -530,17 +530,20 @@ def CheckSex(gender, sex, OutputDir):
             idx = list_of_samples.index(g[0])
             if g[1] != sex[idx][1]:
                 MisMatchSex.append([g[0], g[1], sex[idx][1]])
-    if MisMatchSex:
-        df = pd.DataFrame(MisMatchSex, columns=["Sample", "GenderFromTitleFile", "SexFromPileup"])
-        writeCVS(OutputDir + '/MisMatchedGender.txt', MisMatchSex)
-        plt.clf()
-        fig, ax = plt.subplots()
-        plt.title('Gender MisMatch')
-        ax.axis('off')
-        ax.axis('tight')
-        ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-        fig.tight_layout()
-        plt.savefig(OutputDir + '/GenderMisMatch.pdf', bbox_inches='tight')
+
+    df = pd.DataFrame(MisMatchSex, columns=["Sample", "GenderFromTitleFile", "SexFromPileup"])
+    if not len(df):
+        df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
+
+    writeCVS(OutputDir + '/MisMatchedGender.txt', MisMatchSex)
+    plt.clf()
+    fig, ax = plt.subplots()
+    plt.title('Gender MisMatch')
+    ax.axis('off')
+    ax.axis('tight')
+    ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+    fig.tight_layout()
+    plt.savefig(OutputDir + '/GenderMisMatch.pdf', bbox_inches='tight')
 
 
 ######################
