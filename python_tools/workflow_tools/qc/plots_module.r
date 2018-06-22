@@ -155,25 +155,12 @@ plotMeanCov = function(data) {
   data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  peaks = data %>% 
-    group_by(Sample) %>%
-    filter(average_coverage == max(average_coverage))
-  
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
     geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
-    MY_THEME +
-  
-  geom_text_repel(
-      data = peaks,
-      size = 3,
-      force = 1,
-      direction = 'y',
-      show.legend = FALSE,
-      segment.color = 'transparent',
-      aes(x = Inf, y = Inf, label = paste('peak size:', average_coverage)))
+    MY_THEME 
   
   layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
@@ -193,7 +180,7 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
+  ggplot(data, aes(x = Sample_ID, y = total_on_target_fraction)) +
     geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=pool)) +
     ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
@@ -228,9 +215,9 @@ plotGCwithCovEachSample = function(data, sort_order) {
 
   data = dplyr::filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
-  data = transform(data, Sample=factor(Sample))
+  data = transform(data, Sample_ID=factor(Sample_ID))
 
-  ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
+  ggplot(data, aes(x=gc_bin, y=coverage, group=Sample_ID, color=Sample_ID)) +
     facet_grid(method ~ ., scales='free') +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
@@ -266,7 +253,7 @@ plotCovDistPerInterval = function(data) {
 #' Coverage values are scaled by the mean of the distribution
 plotCovDistPerIntervalLine = function(data) {
   data = data %>%
-    group_by(Sample) %>%
+    group_by(Sample_ID) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
   ggplot(data) +
@@ -285,14 +272,18 @@ plotCovDistPerIntervalLine = function(data) {
 #' @param insertSizes data.frame of insertSizes, ?
 plotInsertSizeDistribution = function(insertSizes) {
   totalFreq = insertSizes %>%
-    group_by(Sample) %>%
+    group_by(Sample_ID) %>%
     mutate(total_frequency_sum = sum(total_frequency)) %>%
-    select(Sample, total_frequency_sum)
+    select(Sample_ID, total_frequency_sum)
 
   insertSizes = insertSizes %>%
-    group_by(Sample) %>%
+    group_by(Sample_ID) %>%
     mutate(total_frequency_fraction = total_frequency / sum(total_frequency)) %>%
     ungroup()
+  
+  peaks = insertSizes %>% 
+    group_by(Sample_ID) %>%
+    filter(average_coverage == max(average_coverage))
 
   ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
     # geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
@@ -302,21 +293,30 @@ plotInsertSizeDistribution = function(insertSizes) {
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     theme(legend.position = c(0.8, 0.2)) +
-    MY_THEME
+    MY_THEME +
+    
+    geom_text_repel(
+      data = peaks,
+      size = 3,
+      force = 1,
+      direction = 'y',
+      show.legend = FALSE,
+      segment.color = 'transparent',
+      aes(x = Inf, y = Inf, label = paste('peak size:', average_coverage)))
 }
 
 
 cleanup_sample_names_2 = function(data) {
-  data = data %>% mutate(Sample = gsub('_md', '', Sample))
-  data = data %>% mutate(Sample = gsub('-md', '', Sample))
-  data = data %>% mutate(Sample = gsub('.bam', '', Sample))
-  data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
-  data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
-  data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
+  data = data %>% mutate(Sample_ID = gsub('_md', '', Sample_ID))
+  data = data %>% mutate(Sample_ID = gsub('-md', '', Sample_ID))
+  data = data %>% mutate(Sample_ID = gsub('.bam', '', Sample_ID))
+  data = data %>% mutate(Sample_ID = gsub('_IGO.*', '', Sample_ID))
+  data = data %>% mutate(Sample_ID = gsub('-IGO.*', '', Sample_ID))
+  data = data %>% mutate(Sample_ID = gsub('_bc.*', '', Sample_ID))
   
   # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
   #                                       ^^^^
-  # data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
+  # data = data %>% mutate(Sample_ID = gsub('_.\\d\\d$', '', Sample_ID))
   data
 }
 
@@ -331,12 +331,12 @@ printTitle = function(title_df, coverage_df) {
     rowhead = list(fg_params=list(cex = 0.5)))
   
   # Cast the coverage values
-  coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
-  coverage_df = coverage_df[,c('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
-  colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
+  coverage_df = dcast(coverage_df, Sample_ID ~ method + pool, value.var='average_coverage')
+  coverage_df = coverage_df[,c('Sample_ID', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
+  colnames(coverage_df) = c('Sample_ID', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   # Merge in coverage data
-  title_df = inner_join(title_df, coverage_df, by='Sample')
+  title_df = inner_join(title_df, coverage_df, by='Sample_ID')
   # Remove some columns
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
   # Clean Sample names for printing
@@ -366,7 +366,7 @@ printTitle = function(title_df, coverage_df) {
 
 
 #' % Family Types Graph 
-#' @param data data.frame with Sample, Type, and Count columns
+#' @param data data.frame with Sample_ID, Type, and Count columns
 plot_family_types <- function(family_types_A, family_types_B) {
   family_types_A$Count = as.numeric(family_types_A$Count)
   family_types_A$Pool = 'A Targets'
@@ -376,10 +376,10 @@ plot_family_types <- function(family_types_A, family_types_B) {
   family_types_all = bind_rows(family_types_A, family_types_B)
   family_types_all[is.na(family_types_all)] <- 0
   
-  family_types_all$Sample = factor(family_types_all$Sample)
+  family_types_all$Sample_ID = factor(family_types_all$Sample_ID)
   family_types_all$Type = factor(family_types_all$Type, levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons'))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample_ID))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample_ID))
   family_types_all = cleanup_sample_names_2(family_types_all)
   
   # Convert to % family sizes
@@ -387,7 +387,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
     group_by(Pool, Sample) %>%
     mutate(CountPercent = Count / sum(Count))
   
-  ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
+  ggplot(family_types_all, aes(x=Sample_ID, y=CountPercent)) +
     geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
@@ -396,7 +396,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
 
 
 #' Family sizes curves
-#' @param data data.frame with Sample, FamilySize, and Frequency columns
+#' @param data data.frame with Sample_ID, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
   data$Sample = factor(data$Sample)
   data = cleanup_sample_names_2(data)

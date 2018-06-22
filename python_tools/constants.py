@@ -74,7 +74,7 @@ MANIFEST__BARCODE_INDEX_COLUMN              = 'BARCODE_INDEX'
 # Title File columns
 TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
 TITLE_FILE__POOL_COLUMN                     = 'Pool'
-TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
+TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample_ID'
 TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
 TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
 TITLE_FILE__CLASS_COLUMN                    = 'Class'
@@ -83,7 +83,7 @@ TITLE_FILE__INPUT_NG_COLUMN                 = 'Input_ng'
 TITLE_FILE__LIBRARAY_YIELD_COLUMN           = 'Library_yield'
 TITLE_FILE__POOL_INPUT_COLUMN               = 'Pool_input'
 TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
-TITLE_FILE__SEX_COLUMN                   = 'Sex'
+TITLE_FILE__SEX_COLUMN                      = 'Sex'
 
 TITLE_FILE__BARCODE_INDEX_COLUMN            = 'Barcode_index'
 
