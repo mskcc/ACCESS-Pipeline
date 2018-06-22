@@ -606,7 +606,7 @@ def main():
                 configFile=args.fp_config, titlefile=args.title_file)
 
     # Sex
-    sex=FindSexFromInterval(WaltzDir=args.waltz_dir, OutputDir=args.output_dir)
+    sex=FindSexFromInterval(WaltzDir=args.waltz_dir_A, OutputDir=args.output_dir)
     gender=standardizeGender(titleFile=args.title_file)
     CheckSex(gender, sex, OutputDir=args.output_dir)
 
