@@ -186,6 +186,7 @@ def get_pos(title_file, fastq_object):
         raise Exception('Please double check the order of the fastqs in the final inputs.yaml file')
 
     pos = np.argmax(boolv)
+    print("fastq " + fastq_object['path'] + " found at position " + str(pos))
     return pos
 
 
@@ -195,9 +196,17 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
     Lists of inputs in our yaml file need to be ordered the same order as each other.
     An alternate method might involve using Record types as a cleaner solution.
     """
+    print("Before sorting:")
+    print(fastq1)
+    print(fastq2)
+    print(sample_sheet)
     fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f))
     fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f))
     sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s))
+    print("After sorting:")
+    print(fastq1)
+    print(fastq2)
+    print(sample_sheet)
     return fastq1, fastq2, sample_sheet
 
 
@@ -251,7 +260,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     fastq1, fastq2, sample_sheet = remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file)
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(title_file, fastq1, title_file_path)
-    # Sort everything based on the ordering in the sample sheet
+    # Sort everything based on the ordering in the title_file
     fastq1, fastq2, sample_sheet = sort_fastqs(fastq1, fastq2, sample_sheet, title_file)
 
     # Check that we have the same number of everything
@@ -500,6 +509,8 @@ def check_final_file(output_file_name):
         print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
 
 
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
 
@@ -610,9 +621,9 @@ def main():
     title_file = pd.read_csv(args.title_file_path, sep='\t')
     # Sort based on Patient ID
     # This is done to ensure that the order of the samples is retained after indel realignment,
-    # which is done on a per-patient basis
+    # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN)
+    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index()
 
     # Perform some sanity checks on the title file
     perform_validation(title_file)
