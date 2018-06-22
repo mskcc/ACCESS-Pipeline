@@ -3,31 +3,19 @@
 cwlVersion: v1.0
 
 class: ExpressionTool
+
 requirements:
   - class: InlineJavascriptRequirement
 
 inputs:
 
-  covered_regions:
-    type: File
-
-  fragment_sizes:
-    type: File
-
-  read_counts:
-    type: File
-
-  pileup:
-    type: File
-
-  pileup_without_duplicates:
-    type: File
-
-  intervals:
-    type: File
-
-  intervals_without_duplicates:
-    type: File
+  covered_regions: File
+  fragment_sizes: File
+  read_counts: File
+  pileup: File
+  pileup_without_duplicates: File
+  intervals: File
+  intervals_without_duplicates: File
 
 outputs:
   waltz_files:

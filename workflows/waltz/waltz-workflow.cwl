@@ -46,9 +46,7 @@ outputs:
     outputSource: pileup_metrics/pileup
 
   waltz_output_files:
-    type:
-      type: array
-      items: File
+    type: File[]
     outputSource: grouped_waltz_files/waltz_files
 
 steps:
