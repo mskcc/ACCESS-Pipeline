@@ -155,12 +155,25 @@ plotMeanCov = function(data) {
   data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
+  peaks = data %>% 
+    group_by(Sample) %>%
+    filter(average_coverage == max(average_coverage))
+  
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
     geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
-    MY_THEME
+    MY_THEME +
+  
+  geom_text_repel(
+      data = peaks,
+      size = 3,
+      force = 1,
+      direction = 'y',
+      show.legend = FALSE,
+      segment.color = 'transparent',
+      aes(x = Inf, y = Inf, label = paste('peak size:', average_coverage)))
   
   layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
@@ -262,6 +275,7 @@ plotCovDistPerIntervalLine = function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + #, limits=c(0, 3)) +
     coord_cartesian(xlim=c(0, 3)) +
+    theme(legend.position = c(0.8, 0.2)) +
     MY_THEME
 }
 
@@ -286,7 +300,8 @@ plotInsertSizeDistribution = function(insertSizes) {
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
-    ylab('Frequency') +
+    ylab('Frequency (%)') +
+    theme(legend.position = c(0.8, 0.2)) +
     MY_THEME
 }
 
@@ -310,7 +325,8 @@ cleanup_sample_names_2 = function(data) {
 #' @param title_df
 printTitle = function(title_df, coverage_df) {
   mytheme <- gridExtra::ttheme_default(
-    core = list(fg_params=list(cex = 0.4)),
+    core = list(fg_params=list(cex = .6),
+                padding=unit(c(5, 3), "mm")),
     colhead = list(fg_params=list(cex = 0.5)),
     rowhead = list(fg_params=list(cex = 0.5)))
   
@@ -335,63 +351,16 @@ printTitle = function(title_df, coverage_df) {
   tbl2 <- tableGrob(title_df_two, rows=NULL, theme=mytheme)
   
   title = textGrob(label = 'MSK-ACCESS QC Report')
-  date = format(Sys.time(), '%a %b %d %Y %H:%M:%S')
-  date = textGrob(label = date)
+  date = format(Sys.time(), '%a %b %d %Y %H:%M')
+  sub_header = paste(title_df[1, 'Pool'], date, sep=' - ')
+  sub_header = textGrob(label = sub_header)
   line = linesGrob(
     unit(c(0.05, 0.95), 'npc'),
     unit(1, 'npc'),
     gp=gpar(col='lightgrey', lwd=4))
   
-  # Todo: better way to make smaller title
-  lay <- rbind(c(1,1,1,1,1),
-               c(2,2,2,2,2),
-               c(3,3,3,3,3),
-               c(4,4,4,4,4),
-               c(4,4,4,4,4),
-               c(4,4,4,4,4),
-               c(4,4,4,4,4),
-               c(4,4,4,4,4),
-               c(4,4,4,4,4),
-               c(5,5,5,5,5),
-               c(5,5,5,5,5),
-               c(5,5,5,5,5),
-               c(5,5,5,5,5),
-               c(5,5,5,5,5),
-               c(5,5,5,5,5))
-  gs = list(title, date, line, tbl1, tbl2)
-  
-  if (nrow(title_df) > 13) {
-    print_title_two_page(title, date, line, tbl1, tbl2)
-    return()
-  }
-  grid.arrange(grobs=gs, layout_matrix=lay)
-}
-
-
-print_title_two_page = function(title, date, line, tbl1, tbl2) {
-  gs = list(title, date, line, tbl1)
-  lay = rbind(c(1,1,1,1,1),
-                c(2,2,2,2,2),
-                c(3,3,3,3,3),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5),
-                c(5,5,5,5,5))
-  grid.arrange(grobs=gs, layout_matrix=lay)
-  gs = list(tbl2)
-  lay = rbind(c(1,1,1,1,1),
-              c(1,1,1,1,1),
-              c(1,1,1,1,1),
-              c(1,1,1,1,1),
-              c(1,1,1,1,1))
+  lay <- matrix(c(1,2,3,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5), byrow=TRUE)
+  gs = list(title, sub_header, line, tbl1, tbl2)
   grid.arrange(grobs=gs, layout_matrix=lay)
 }
 
@@ -570,7 +539,7 @@ main = function(args) {
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
   final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
-  pdf(file = final_filename, onefile = TRUE)
+  pdf(file = final_filename, height=8.5, width=11, onefile = TRUE)
   
   # Put title file on first page of PDF
   printTitle(title_df, meanCovData)
@@ -599,3 +568,5 @@ argv = commandArgs(trailingOnly=TRUE)
 main(argv)
 # Show warnings after running
 warnings()
+
+# quit(status=1)
