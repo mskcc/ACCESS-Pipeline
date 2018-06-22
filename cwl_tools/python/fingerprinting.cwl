@@ -57,3 +57,13 @@ outputs:
     type: File?
     outputBinding:
       glob: $('./FPResults/FPFigures.pdf')
+
+  gender_table:
+    type: File?
+    outputBinding:
+      glob: $('MisMatchedGender.txt')
+
+  gender_plot:
+    type: File?
+    outputBinding:
+      glob: $('GenderMisMatch.pdf')
