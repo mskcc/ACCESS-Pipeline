@@ -110,21 +110,6 @@ plotReadPairsCount = function(data) {
 }
 
 
-#' Function to plot duplication fraction (Standard Bams only)
-#' @param data data.frame with the usual columns
-plotDupFrac = function(data) {
-  data = filter(data, method %in% LEVEL_C)
-  # Plot may be used across collapsing methods, or with T/N coloring for just total values
-  data = transform(data, method=factor(method, levels=LEVEL_C))
-  
-  ggplot(data, aes(x = Sample, y = as.numeric(duplication_rate))) +
-    geom_bar(stat='identity', aes_string(fill = 'method'), position = 'dodge') +
-    ggtitle('Duplication Rate per Sample') +
-    scale_y_continuous('Duplication Rate', label=format_comma) +
-    MY_THEME
-}
-
-
 #' Function to plot number of reads that aligned to the reference genome
 #' @param data data.frame with the usual columns
 plotAlignGenome = function(data) {
@@ -180,7 +165,7 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  ggplot(data, aes(x = Sample_ID, y = total_on_target_fraction)) +
+  ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
     geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=pool)) +
     ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
@@ -215,9 +200,9 @@ plotGCwithCovEachSample = function(data, sort_order) {
 
   data = dplyr::filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
-  data = transform(data, Sample_ID=factor(Sample_ID))
+  data = transform(data, Sample=factor(Sample))
 
-  ggplot(data, aes(x=gc_bin, y=coverage, group=Sample_ID, color=Sample_ID)) +
+  ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method ~ ., scales='free') +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
@@ -227,33 +212,12 @@ plotGCwithCovEachSample = function(data, sort_order) {
 }
 
 
-# Function to plot boxplots of coverage distribution over samples per target interval
-plotCovDistPerInterval = function(data) {
-  unique_genes = unique(data$Gene)
-  
-  # Iterate over gene sets
-  for (i in seq(1, length(unique_genes), 2)) {
-    end = i + 2
-    genes_subset = unique_genes[i : end]
-    data_subset = data[data$Gene %in% genes_subset,]
-    plot_data = ggplot(data_subset, aes(x=probe, y=coverage)) +
-      facet_grid(~gene, scales = 'free', space = 'free') +
-      geom_boxplot(fill = hue_pal()(2)[2]) +
-      theme(text = element_text(size=8), axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.margin = unit(c(.1, .1, .1, 1), 'in')) +
-      ggtitle('Coverage for each Target Interval') +
-      scale_y_continuous('Coverage', label=format_comma) +
-      xlab('Target Interval')
-    print(plot_data)
-  }
-}
-
-
 #' Distribution of coverage across targets (total and unique)
 #' Function to plot histogram of coverage per target interval distribution
 #' Coverage values are scaled by the mean of the distribution
 plotCovDistPerIntervalLine = function(data) {
   data = data %>%
-    group_by(Sample_ID) %>%
+    group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
   ggplot(data) +
@@ -272,17 +236,17 @@ plotCovDistPerIntervalLine = function(data) {
 #' @param insertSizes data.frame of insertSizes, ?
 plotInsertSizeDistribution = function(insertSizes) {
   totalFreq = insertSizes %>%
-    group_by(Sample_ID) %>%
+    group_by(Sample) %>%
     mutate(total_frequency_sum = sum(total_frequency)) %>%
-    select(Sample_ID, total_frequency_sum)
+    select(Sample, total_frequency_sum)
 
   insertSizes = insertSizes %>%
-    group_by(Sample_ID) %>%
+    group_by(Sample) %>%
     mutate(total_frequency_fraction = total_frequency / sum(total_frequency)) %>%
     ungroup()
   
   peaks = insertSizes %>% 
-    group_by(Sample_ID) %>%
+    group_by(Sample) %>%
     filter(average_coverage == max(average_coverage))
 
   ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
@@ -307,16 +271,16 @@ plotInsertSizeDistribution = function(insertSizes) {
 
 
 cleanup_sample_names_2 = function(data) {
-  data = data %>% mutate(Sample_ID = gsub('_md', '', Sample_ID))
-  data = data %>% mutate(Sample_ID = gsub('-md', '', Sample_ID))
-  data = data %>% mutate(Sample_ID = gsub('.bam', '', Sample_ID))
-  data = data %>% mutate(Sample_ID = gsub('_IGO.*', '', Sample_ID))
-  data = data %>% mutate(Sample_ID = gsub('-IGO.*', '', Sample_ID))
-  data = data %>% mutate(Sample_ID = gsub('_bc.*', '', Sample_ID))
+  data = data %>% mutate(Sample = gsub('_md', '', Sample))
+  data = data %>% mutate(Sample = gsub('-md', '', Sample))
+  data = data %>% mutate(Sample = gsub('.bam', '', Sample))
+  data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
   
   # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
   #                                       ^^^^
-  # data = data %>% mutate(Sample_ID = gsub('_.\\d\\d$', '', Sample_ID))
+  # data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
   data
 }
 
@@ -331,12 +295,12 @@ printTitle = function(title_df, coverage_df) {
     rowhead = list(fg_params=list(cex = 0.5)))
   
   # Cast the coverage values
-  coverage_df = dcast(coverage_df, Sample_ID ~ method + pool, value.var='average_coverage')
-  coverage_df = coverage_df[,c('Sample_ID', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
-  colnames(coverage_df) = c('Sample_ID', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
+  coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
+  coverage_df = coverage_df[,c('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
+  colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   # Merge in coverage data
-  title_df = inner_join(title_df, coverage_df, by='Sample_ID')
+  title_df = inner_join(title_df, coverage_df, by='Sample')
   # Remove some columns
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
   # Clean Sample names for printing
@@ -366,7 +330,7 @@ printTitle = function(title_df, coverage_df) {
 
 
 #' % Family Types Graph 
-#' @param data data.frame with Sample_ID, Type, and Count columns
+#' @param data data.frame with Sample, Type, and Count columns
 plot_family_types <- function(family_types_A, family_types_B) {
   family_types_A$Count = as.numeric(family_types_A$Count)
   family_types_A$Pool = 'A Targets'
@@ -376,10 +340,10 @@ plot_family_types <- function(family_types_A, family_types_B) {
   family_types_all = bind_rows(family_types_A, family_types_B)
   family_types_all[is.na(family_types_all)] <- 0
   
-  family_types_all$Sample_ID = factor(family_types_all$Sample_ID)
+  family_types_all$Sample = factor(family_types_all$Sample)
   family_types_all$Type = factor(family_types_all$Type, levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons'))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample_ID))
-  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample_ID))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
   family_types_all = cleanup_sample_names_2(family_types_all)
   
   # Convert to % family sizes
@@ -387,7 +351,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
     group_by(Pool, Sample) %>%
     mutate(CountPercent = Count / sum(Count))
   
-  ggplot(family_types_all, aes(x=Sample_ID, y=CountPercent)) +
+  ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
     geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
@@ -396,7 +360,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
 
 
 #' Family sizes curves
-#' @param data data.frame with Sample_ID, FamilySize, and Frequency columns
+#' @param data data.frame with Sample, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
   data$Sample = factor(data$Sample)
   data = cleanup_sample_names_2(data)
@@ -471,7 +435,6 @@ cleanup_sample_names = function(data, sample_names) {
 #' @param inDirTables location of tables from python tables_module
 read_tables = function(inDirTables) {
   readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
-  dupRateData = read.table(paste(inDirTables, 'duplication-rates.txt', sep='/'), sep='\t', head=TRUE)
   covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
   
   insertSizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
@@ -485,7 +448,7 @@ read_tables = function(inDirTables) {
   family_types_B = read.table('family-types-B.txt', sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
   families = read.table('family-sizes.txt', sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
   
-  list(readCountsDataTotal, dupRateData, covPerInterval, insertSizes, meanCovData, gcEachSample, family_types_A, family_types_B, families)
+  list(readCountsDataTotal, covPerInterval, insertSizes, meanCovData, gcEachSample, family_types_A, family_types_B, families)
 }
 
 
@@ -516,7 +479,7 @@ main = function(args) {
   lapply(df_list, printhead)
   
   # Fix sample names,
-  # sort by ordering in the title file,
+  # optionally sort by ordering in the title file,
   # merge in the title file data by sample id
   df_list = lapply(df_list, cleanup_sample_names, sort_order)
   #df_list = lapply(df_list, sort_df, 'Sample', sort_order)
@@ -527,14 +490,13 @@ main = function(args) {
   lapply(df_list, printhead)
   
   readCountsDataTotal = df_list[[1]]
-  dupRateData = df_list[[2]]
-  covPerInterval = df_list[[3]]
-  insertSizes = df_list[[4]]
-  meanCovData = df_list[[5]]
-  gcEachSample = df_list[[6]]
-  family_types_A = df_list[[7]]
-  family_types_B = df_list[[8]]
-  families = df_list[[9]]
+  covPerInterval = df_list[[2]]
+  insertSizes = df_list[[3]]
+  meanCovData = df_list[[4]]
+  gcEachSample = df_list[[5]]
+  family_types_A = df_list[[6]]
+  family_types_B = df_list[[7]]
+  families = df_list[[8]]
   
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
@@ -554,9 +516,6 @@ main = function(args) {
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
   print(plot_family_types(family_types_A, family_types_B))
   plot_family_curves(families)
-  # print(plotDupFrac(dupRateData))
-  # print(plotCovDistPerInterval(covPerInterval))
-  # print(plotGCwithCovAllSamples(gcAllSamples))
   
   dev.off()
 }

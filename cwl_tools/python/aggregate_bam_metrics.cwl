@@ -5,19 +5,19 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4000
-    coresMin: 1
+- class: InlineJavascriptRequirement
+- class: ResourceRequirement
+  ramMin: 4000
+  coresMin: 1
+- class: InitialWorkDirRequirement
+  listing: $(inputs.waltz_input_files.listing)
 
-baseCommand: [aggregate_bam_metrics]
+
+baseCommand: [aggregate_bam_metrics.sh]
 
 inputs:
 
-  waltz_input_files:
-    type: Directory
-    inputBinding:
-      position: 1
+  waltz_input_files: Directory
 
   title_file:
     type: File

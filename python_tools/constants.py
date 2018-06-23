@@ -74,7 +74,7 @@ MANIFEST__BARCODE_INDEX_COLUMN              = 'BARCODE_INDEX'
 # Title File columns
 TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
 TITLE_FILE__POOL_COLUMN                     = 'Pool'
-TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample_ID'
+TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
 TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
 TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
 TITLE_FILE__CLASS_COLUMN                    = 'Class'
@@ -137,7 +137,7 @@ WALTZ_STOP_COLUMN = 'stop'
 WALTZ_INTERVAL_NAME_COLUMN = 'interval_name'
 WALTZ_FRAGMENT_SIZE_COLUMN = 'fragment_size'
 WALTZ_PEAK_COVERAGE_COLUMN = 'peak_coverage'
-WALTZ_AVERAGE_COVERAGE_COLUMN = 'average_coverage'
+WALTZ_AVERAGE_COVERAGE_COLUMN = 'TotalCoverage'
 WALTZ_GC_CONTENT_COLUMN = 'gc'
 
 # todo
@@ -163,30 +163,22 @@ AGBM_READ_COUNTS_FILENAME = 'read-counts.txt'
 AGBM_FRAGMENT_SIZES_FILENAME = 'fragment-sizes.txt'
 AGBM_INTERVALS_COVERAGE_SUM_FILENAME = 'intervals_coverage_sum.txt'
 
-FRAGMENT_SIZE_COLUMN = 'fragment_size'
-TOTAL_FREQUENCY_COLUMN = 'total_frequency'
-UNIQUE_FREQUENCY_COLUMN = 'unique_frequency'
 
-CHROMOSOME_COLUMN = 'chromosome'
-START_COLUMN = 'start'
-STOP_COLUMN = 'stop'
-END_COLUMN = 'end'
-INTERVAL_NAME_COLUMN = WALTZ_INTERVAL_NAME_COLUMN
-LENGTH_COLUMN = 'length'
-GC_COLUMN = 'gc'
-COVERAGE_COLUMN = WALTZ_AVERAGE_COVERAGE_COLUMN
-COVERAGE_WITH_DUPLICATES_COLUMN = 'coverage_with_duplicates'
-COVERAGE_WITHOUT_DUPLICATES_COLUMN = 'coverage_without_duplicates'
+# fragment-sizes.txt
+FRAGMENT_SIZE_COLUMN = 'FragmentSize'
+TOTAL_FREQUENCY_COLUMN = 'TotalFrequency'
+UNIQUE_FREQUENCY_COLUMN = 'UniqueFrequency'
 
-TOTAL_MAPPED_COLUMN = 'total_mapped'
-UNIQUE_MAPPED_COLUMN = 'unique_mapped'
-TOTAL_READS_COLUMN = 'total_reads'
-UNMAPPED_READS_COLUMN = 'unmapped_reads'
-DUPLICATE_FRACTION_COLUMN = 'duplicate_fraction'
-TOTAL_ON_TARGET_COLUMN = 'total_on_target'
-UNIQUE_ON_TARGET_COLUMN = 'unique_on_target'
-TOTAL_ON_TARGET_FRACTION_COLUMN = 'total_on_target_fraction'
-UNIQUE_ON_TARGET_FRACTION_COLUMN = 'unique_on_target_fraction'
+# read-counts.txt
+TOTAL_MAPPED_COLUMN = 'TotalMapped'
+UNIQUE_MAPPED_COLUMN = 'UniqueMapped'
+TOTAL_READS_COLUMN = 'TotalReads'
+UNMAPPED_READS_COLUMN = 'UnmappedReads'
+DUPLICATE_FRACTION_COLUMN = 'DuplicateFraction'
+TOTAL_ON_TARGET_COLUMN = 'TotalOnTarget'
+UNIQUE_ON_TARGET_COLUMN = 'UniqueOnTarget'
+TOTAL_ON_TARGET_FRACTION_COLUMN = 'TotalOnTargetFraction'
+UNIQUE_ON_TARGET_FRACTION_COLUMN = 'UniqueOnTargetFraction'
 
 # File Headers
 AGBM_READ_COUNTS_HEADER = [
@@ -210,6 +202,17 @@ AGBM_FRAGMENT_SIZES_FILE_HEADER = [
     UNIQUE_FREQUENCY_COLUMN
 ]
 
+# Chr\tStart\tEnd\tIntervalName\tLength\tGC\tCoverage\tCoverageWithoutDuplicates
+# intervals-coverage-sum.txt
+CHROMOSOME_COLUMN = 'Chr'
+START_COLUMN = 'Start'
+END_COLUMN = 'End'
+INTERVAL_NAME_COLUMN = 'IntervalName'
+LENGTH_COLUMN = 'Length'
+GC_COLUMN = 'GC'
+COVERAGE_COLUMN = 'Coverage'
+COVERAGE_WITH_DUPLICATES_COLUMN = 'CoverageWithoutDuplicates'
+
 AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER = [
     SAMPLE_ID_COLUMN,
     CHROMOSOME_COLUMN,
@@ -219,6 +222,7 @@ AGBM_INTERVALS_COVERAGE_SUM_FILE_HEADER = [
     LENGTH_COLUMN,
     GC_COLUMN,
     COVERAGE_COLUMN,
+    COVERAGE_WITH_DUPLICATES_COLUMN
 ]
 
 AGBM_TOTAL_AVERAGE_COVERAGE_COLUMN = WALTZ_AVERAGE_COVERAGE_COLUMN + '_total'

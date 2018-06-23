@@ -63,7 +63,6 @@ setup(
             # Workflow Tools
             'list2bed = python_tools.workflow_tools.list2bed:main',
             # Quality Control
-            'aggregate_bam_metrics = python_tools.workflow_tools.qc.aggregate_bam_metrics:main',
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'tables_module = python_tools.workflow_tools.qc.tables_module:main',
             'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
@@ -76,6 +75,7 @@ setup(
         'python_tools/workflow_tools/qc/plots_module.r',
         'python_tools/workflow_tools/qc/calculate_noise.sh',
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
+        'python_tools/workflow_tools/qc/aggregate_bam_metrics.sh',
     ],
     include_package_data=True,
     zip_safe=False,
