@@ -186,7 +186,6 @@ def get_pos(title_file, fastq_object):
         raise Exception('Please double check the order of the fastqs in the final inputs.yaml file')
 
     pos = np.argmax(boolv)
-    print("fastq " + fastq_object['path'] + " found at position " + str(pos))
     return pos
 
 
