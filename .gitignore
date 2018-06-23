@@ -6,4 +6,5 @@ notes
 *.pyc
 *.log
 resources/bedfiles
+resources/fingerprinting
 test/test_data/test_data_val_5
