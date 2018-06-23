@@ -51,7 +51,7 @@ gg_color_hue <- function(n) {
 
 #' Levels and sort order for collapsing methods
 LEVEL_C = c(
-  'total',
+  'TotalCoverage',
   'All Unique',
   'Simplex-Duplex',
   'Duplex'
@@ -98,7 +98,7 @@ readInputs = function(args) {
 #' Count of read pairs per sample
 #' @param data data.frame with Sample and total_reads columns
 plotReadPairsCount = function(data) {
-  data = data %>% mutate(read_pairs = total_reads / 2)
+  data = data %>% mutate(read_pairs = TotalReads / 2)
   # Because the values for read counts are the same for both Pool A and Pool B, we just pick one
   data = filter(data, pool == 'A Targets')
   
@@ -134,14 +134,20 @@ plotAlignGenome = function(data) {
 #' for each collapsing method
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
+  print("DATA")
+  print(data)
+  
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
-  data$total_or_collapsed = factor(ifelse(data$method == 'total', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
+  data$total_or_collapsed = factor(ifelse(data$method == 'TotalCoverage', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
+  print("DATA AGAIN")
+  print(data)
+  
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
-    facet_grid(pool + total_or_collapsed ~ . , scales='free') + #spaces=free
+    facet_grid(pool + total_or_collapsed ~ . , scales='free') +
     geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
@@ -165,7 +171,7 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  ggplot(data, aes(x = Sample, y = total_on_target_fraction)) +
+  ggplot(data, aes(x = Sample, y = TotalOnTargetFraction)) +
     geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=pool)) +
     ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
@@ -226,7 +232,7 @@ plotCovDistPerIntervalLine = function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + #, limits=c(0, 3)) +
     coord_cartesian(xlim=c(0, 3)) +
-    theme(legend.position = c(0.8, 0.2)) +
+    theme(legend.justification = c("right", "top")) +
     MY_THEME
 }
 
@@ -235,28 +241,22 @@ plotCovDistPerIntervalLine = function(data) {
 #' as well as most frequent insert sizes
 #' @param insertSizes data.frame of insertSizes, ?
 plotInsertSizeDistribution = function(insertSizes) {
-  totalFreq = insertSizes %>%
-    group_by(Sample) %>%
-    mutate(total_frequency_sum = sum(total_frequency)) %>%
-    select(Sample, total_frequency_sum)
-
   insertSizes = insertSizes %>%
     group_by(Sample) %>%
-    mutate(total_frequency_fraction = total_frequency / sum(total_frequency)) %>%
+    mutate(total_frequency_fraction = TotalFrequency / sum(TotalFrequency)) %>%
     ungroup()
   
   peaks = insertSizes %>% 
     group_by(Sample) %>%
-    filter(average_coverage == max(average_coverage))
+    filter(TotalFrequency == max(TotalFrequency))
 
-  ggplot(insertSizes, aes(x=fragment_size, y=total_frequency_fraction, colour=Sample)) +
-    # geom_smooth(size=.5, n=2000, span=.1, se=FALSE, method='loess', level=0.95) +
+  ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
     stat_smooth(size=.5, n=200, span=0.2, se=FALSE, method='loess', level=.01) +
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
-    theme(legend.position = c(0.8, 0.2)) +
+    theme(legend.justification = c("right", "top")) +
     MY_THEME +
     
     geom_text_repel(
@@ -266,7 +266,7 @@ plotInsertSizeDistribution = function(insertSizes) {
       direction = 'y',
       show.legend = FALSE,
       segment.color = 'transparent',
-      aes(x = Inf, y = Inf, label = paste('peak size:', average_coverage)))
+      aes(x = Inf, y = Inf, label = paste('peak size:', TotalFrequency)))
 }
 
 
@@ -296,7 +296,7 @@ printTitle = function(title_df, coverage_df) {
   
   # Cast the coverage values
   coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
-  coverage_df = coverage_df[,c('Sample', 'total_A Targets', 'total_B Targets', 'Duplex_A Targets')]
+  coverage_df = coverage_df[,c('Sample', 'TotalCoverage_A Targets', 'TotalCoverage_B Targets', 'Duplex_A Targets')]
   colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   # Merge in coverage data
