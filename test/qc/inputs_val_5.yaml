@@ -8,8 +8,8 @@ FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources
 noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}
 
 # UMI QC
-A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_0-B-on-target-positions.txt}
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
 
 # Waltz files
 waltz_standard_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/bam-metrics/standard-A}
