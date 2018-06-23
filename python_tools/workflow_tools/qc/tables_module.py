@@ -58,7 +58,7 @@ def get_read_counts_table(path, pool):
     read_counts_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts = pd.read_csv(read_counts_path, sep='\t')
     # Melt our DF to get all values of the on target rate and duplicate rates as values
-    read_counts = pd.melt(read_counts, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
+    read_counts = pd.melt(read_counts, id_vars=[TITLE_FILE__SAMPLE_ID_COLUMN], var_name='Category')
     # We only want the read counts-related row values
     read_counts = read_counts[~read_counts['Category'].isin(['bam', TOTAL_READS_COLUMN, UNMAPPED_READS_COLUMN, 'duplicate_fraction'])]
     read_counts['method'] = read_counts['Category'].apply(unique_or_tot)
@@ -103,7 +103,7 @@ def get_collapsed_waltz_tables(path, method, pool):
     """
     read_counts_table_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts_table = pd.read_csv(read_counts_table_path, sep='\t')
-    read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
+    read_counts_table = pd.melt(read_counts_table, id_vars=[TITLE_FILE__SAMPLE_ID_COLUMN], var_name='Category')
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
     read_counts_table['pool'] = pool
@@ -118,32 +118,6 @@ def get_collapsed_waltz_tables(path, method, pool):
 
     return [read_counts_table, coverage_table, gc_bias_table]
 
-
-def get_table_duplication(read_counts_table):
-    """
-    Creates duplication rate table
-    """
-    mapped_boolv = read_counts_table['Category'] == TOTAL_MAPPED_COLUMN
-    total_method_boolv = read_counts_table['method'] == TOTAL_LABEL
-
-    for pool in [POOL_A_LABEL, POOL_B_LABEL]:
-        pool_boolv = read_counts_table['pool'] == pool
-        rows_idx = mapped_boolv & total_method_boolv & pool_boolv
-        mapped_reads = read_counts_table[mapped_boolv][[SAMPLE_ID_COLUMN, 'method', 'value', 'pool']]
-        mapped_reads['value'] = mapped_reads['value'].astype(int)
-        mapped_reads_total = read_counts_table[rows_idx][[SAMPLE_ID_COLUMN, 'value']]
-        mapped_reads_total['value'] = mapped_reads_total['value'].astype(int)
-
-        grouped = mapped_reads.groupby(['method', 'pool'])
-        unique_rate = grouped['value'].transform(lambda x: x.div(mapped_reads_total['value'].values))
-        dup_rate_table = mapped_reads.copy()
-        dup_rate_table['unique_rate'] = unique_rate
-        dup_rate_table['duplication_rate'] = 1 - dup_rate_table['unique_rate']
-        dup_rate_table['pool'] = pool
-
-    dup_rate_table = dup_rate_table[DUPLICATION_RATES_HEADER]
-
-    return dup_rate_table
 
 def get_gc_table(curr_method, intervals_filename_suffix, path):
     """
@@ -303,7 +277,6 @@ def main(args):
     gc_bias_with_coverage_filename = '/'.join([output_dir, 'GC-bias-with-coverage.txt'])
     read_counts_total_filename = '/'.join([output_dir, 'read-counts-total.txt'])
     coverage_per_interval_filename = '/'.join([output_dir, 'coverage-per-interval.txt'])
-    duplication_rates_filename = '/'.join([output_dir, 'duplication-rates.txt'])
 
     read_counts_total_pool_a_table = get_read_counts_total_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
@@ -358,7 +331,6 @@ def main(args):
     gc_avg_table_all = get_gc_table_average_over_all_samples(gc_cov_int_table)
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
     coverage_per_interval_table = get_coverage_per_interval(gc_cov_int_table)
-    duplication_table = get_table_duplication(read_counts_table)
 
     # Write all tables
     read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
@@ -368,7 +340,6 @@ def main(args):
     gc_avg_table_each.to_csv(each_sample_coverage_filename, sep='\t', index=False)
     gc_avg_table_all.to_csv(all_samples_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
-    duplication_table.to_csv(duplication_rates_filename, sep='\t', index=False)
 
     # also copy the fragment-sizes.txt file, which the plots module also uses
     # todo: not clean
