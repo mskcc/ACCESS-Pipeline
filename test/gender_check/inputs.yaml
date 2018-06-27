@@ -1,3 +1,0 @@
-output_dir: '.'
-waltz_dir: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/standard-A}
-title_file: {class: File, path: /home/johnsoni/val_6_title_file.txt}

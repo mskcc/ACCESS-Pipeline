@@ -39,7 +39,6 @@ arguments:
 
 # Example -R usage from Impact Pipeline:
 #-R '@RG     ID:MSK-L-009-bc-IGO-05500-DY-6_bc209_5500-DY-1_L000     LB:0    SM:MSK-L-009-bc-IGO-05500-DY-6  PL:Illumina     PU:bc209        CN:BergerLab_MSKCC'
-# Todo: LB == lane number?
 
 requirements:
   - class: InlineJavascriptRequirement

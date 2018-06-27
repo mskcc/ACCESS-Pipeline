@@ -12,14 +12,14 @@ A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/re
 B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
 
 # Waltz files
-waltz_standard_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/standard-A}
-waltz_unfiltered_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-unfiltered-A}
-waltz_simplex_duplex_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-simplex-duplex-A}
-waltz_duplex_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-duplex-A}
-waltz_standard_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/standard-B}
-waltz_unfiltered_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-unfiltered-B}
-waltz_simplex_duplex_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-simplex-duplex-B}
-waltz_duplex_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Maysun/HiSeq/DMP-validations/validation-6/bam-metrics/collapsed-duplex-B}
+waltz_standard_pool_a: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/standard-A}
+waltz_unfiltered_pool_a: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-unfiltered-A}
+waltz_simplex_duplex_pool_a: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-simplex-duplex-A}
+waltz_duplex_pool_a: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-duplex-A}
+waltz_standard_pool_b: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/standard-B}
+waltz_unfiltered_pool_b: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-unfiltered-B}
+waltz_simplex_duplex_pool_b: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-simplex-duplex-B}
+waltz_duplex_pool_b: {class: Directory, path: /home/johnsoni/validation_6_bam_metrics/collapsed-duplex-B}
 
 # Bam directories
 sample_directories:
