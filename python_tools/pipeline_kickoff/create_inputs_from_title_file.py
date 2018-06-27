@@ -284,6 +284,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
         'class_list': title_file[TITLE_FILE__CLASS_COLUMN].tolist(),
     }
 
+    # Trim whitespace
+    for key in out_dict:
+        out_dict[key] = [x.strip() if type(x) == str else x for x in out_dict[key]]
+
     fh.write(ruamel.yaml.dump(out_dict))
 
 
@@ -585,9 +589,8 @@ def copy_inputs_yaml(fh):
     fh.write(ruamel.yaml.dump(inputs_file_object))
 
 
-def print_user_message(args):
-    print args
-    print
+def print_user_message():
+    print DELIMITER
     print "You've just created the inputs file. Please double check its entries before kicking off a run."
     print "Common mistakes include:"
     print
@@ -622,8 +625,7 @@ def main():
     write_inputs_file(args, title_file, args.output_file_name)
     # Perform some checks on the final yaml file that will be supplied to the pipeline
     check_final_file(args.output_file_name)
-
-    print_user_message(args)
+    print_user_message()
 
 
 if __name__ == '__main__':
