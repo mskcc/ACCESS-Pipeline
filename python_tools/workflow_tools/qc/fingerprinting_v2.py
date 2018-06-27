@@ -12,7 +12,7 @@ Adapted newFP4.py to Luna
 
 from __future__ import division
 import csv
-import os
+import logging
 import numpy as np
 import argparse
 import pandas as pd
@@ -367,8 +367,7 @@ def plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, 
         writeCVS(fpOutputdir + 'minorDuplexContamination.txt', minorContamination)
 
         plt.figure(figsize=(10, 5))
-        plt.axhline(y=0.02, xmin=0, xmax=1, c='r', ls='--')
-        plt.axhline(y=0.01, xmin=0, xmax=1, c='orange', ls='--')
+        plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
         plt.bar(y_pos, [m[1] for m in minorContamination], align='edge', color='black')
         plt.xticks(y_pos, [m[0] for m in minorContamination], rotation=90, ha='left')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
@@ -415,7 +414,7 @@ def plotGenoCompare(Geno_Compare, n, fpOutputdir):
         plt.savefig(fpOutputdir + 'Selectfpcompare.pdf', bbox_inches='tight')
 
 
-def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
+def plotGenotypingMatrix(Geno_Compare, fpOutputdir, title_file):
     plt.clf()
     if Geno_Compare[0][0] == "Sample1":
         Geno_Compare = Geno_Compare[1::]
@@ -433,10 +432,23 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir):
         matrix[element[1]].update({element[1]: 0, element[0]: element[2]})
 
     keys = sorted([k for k in matrix.keys()])
+
+    print('Keys before extracting sample IDs:')
+    print(keys)
+
+    print('Title file before extracting sample IDs:')
+    print(title_file)
+
+    titlefile = read_df(title_file, header='infer')
+    keys = [extract_sample_name(s, titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in keys]
     listMatrix = [[matrix[k1][k2] for k2 in keys] for k1 in keys]
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
+
+    print('Samples for Genotyping Matrix:')
+    print(listMatrix)
+
     ax = sns.heatmap(listMatrix, robust=True, fmt='f', cmap="Blues_r", vmax=.25,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
@@ -496,13 +508,13 @@ def FindSexFromInterval(WaltzDir, OutputDir):
                 reader = csv.reader(f, delimiter='\t')
                 for row in reader:
                     if row[3] == 'Tiling_SRY_Y:2655301' or row[3] == 'Tiling_USP9Y_Y:14891501':
-                        data.append(row[5])
+                        data.append(int(row[5]))
 
             if sum(data) > 50:
                 sex.append([file[0:file.find('_bc')], "Male"])
             else:
                 sex.append([file[0:file.find('_bc')], "Female"])
-    writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
+    # writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
 
@@ -531,14 +543,14 @@ def CheckSex(gender, sex, OutputDir):
             if g[1] != sex[idx][1]:
                 MisMatchSex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(MisMatchSex, columns=["Sample", "GenderFromTitleFile", "SexFromPileup"])
+    df = pd.DataFrame(MisMatchSex, columns=["Sample", "Sex from Title File", "Sex From Pileup"])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 
     writeCVS(OutputDir + '/MisMatchedGender.txt', MisMatchSex)
     plt.clf()
     fig, ax = plt.subplots()
-    plt.title('Gender MisMatch')
+    plt.title('Sex MisMatch')
     ax.axis('off')
     ax.axis('tight')
     ax.table(cellText=df.values, colLabels=df.columns, loc='center')
@@ -576,9 +588,8 @@ def runFPreport(OutputDir, WaltzDirA, WaltzDirB, WaltzDirA_duplex, WaltzDirB_dup
     plotMinorContamination(All_FP, fpOutputdir, titlefile)
     plotMajorContamination(All_geno, fpOutputdir, titlefile)
     # plotGenoCompare (Geno_Compare,n, fpOutputdir)
-    plotGenotypingMatrix(Geno_Compare, fpOutputdir)
+    plotGenotypingMatrix(Geno_Compare, fpOutputdir, titlefile)
     # Duplex Plot
-    listofsamples = ExtractListofTumorSamples(titlefile)
     plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, OutputDir, fpIndices, fpOutputdir)
     mergePdfInFolder(fpOutputdir, fpOutputdir, 'FPFigures.pdf')
     # return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
@@ -609,7 +620,7 @@ def main():
                 configFile=args.fp_config, titlefile=args.title_file)
 
     # Sex
-    sex=FindSexFromInterval(WaltzDir=args.waltz_dir_A, OutputDir=args.output_dir)
+    sex=FindSexFromInterval(WaltzDir=args.waltz_dir_B, OutputDir=args.output_dir)
     gender=standardizeGender(titleFile=args.title_file)
     CheckSex(gender, sex, OutputDir=args.output_dir)
 

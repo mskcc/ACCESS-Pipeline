@@ -18,26 +18,27 @@ library(reshape2)
 suppressMessages(library(dplyr))
 suppressMessages(library(ggrepel))
 
+
 # Set terminal display width, error tracebacks
 options(width=1000)
 options(show.error.locations = TRUE)
 options(error = quote({dump.frames(to.file=TRUE); q()}))
 options(error=function()traceback(2))
 
-
 # Util for putting commas in scale labels
 format_comma <- function(x, ...) {
   format(x, ..., big.mark = ',', scientific = FALSE, trim = TRUE)
 }
 
-
 # Define our global plots theme
-MY_THEME = theme(text = element_text(size=8),
+MY_THEME = theme(text = element_text(size=14),
   axis.text.x = element_text(angle = 45, hjust = 1, face='bold'),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
 DROP_COLS = c('Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
+# Levels and sort order for collapsing methods
+LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex-Duplex', 'Duplex')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -47,15 +48,6 @@ gg_color_hue <- function(n) {
   lums = seq(0, 100, length = n + 1)
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
-
-
-#' Levels and sort order for collapsing methods
-LEVEL_C = c(
-  'TotalCoverage',
-  'All Unique',
-  'Simplex-Duplex',
-  'Duplex'
-)
 
 #' Util function to sort data by arbitrary list
 #' @param df The data.frame to be sorted 
@@ -86,12 +78,7 @@ readInputs = function(args) {
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
-
-  return(c(
-    opts$tablesOutputDir,
-    opts$plotsOutputDir,
-    opts$titleFilePath)
-  )
+  return(opts)
 }
 
 
@@ -134,35 +121,32 @@ plotAlignGenome = function(data) {
 #' for each collapsing method
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
-  print("DATA")
-  print(data)
-  
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
   data$total_or_collapsed = factor(ifelse(data$method == 'TotalCoverage', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  print("DATA AGAIN")
-  print(data)
-  
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') +
     geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
-    MY_THEME 
+    MY_THEME
   
-  layout(matrix(c(1,1,2,2,2,2,2,2), nrow=4, ncol=2, byrow=TRUE))
+  layout(matrix(c(1,2,2,2), nrow=4, ncol=2, byrow=TRUE))
   par(mfrow=c(2, 1))
-  tt = ttheme_default(base_size=6)
+  tt = ttheme_default(base_size=12)
   
   avg_cov_df = data %>% 
     group_by(Class, pool, method) %>% 
     summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
   
+  # Round to one decimal place
+  avg_cov_df$average_coverage = round(avg_cov_df$average_coverage, 1)
+  
   avg_cov_df = dcast(avg_cov_df, Class + pool ~ method, value.var='average_coverage')
-  avg_cov_tbl = tableGrob(avg_cov_df, theme=tt)
+  avg_cov_tbl = tableGrob(avg_cov_df, theme=tt, rows = NULL)
   grid.arrange(avg_cov_tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
 }
 
@@ -199,9 +183,6 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
-  print("GC Cov data:")
-  print(head(data))
-  print(sort_order)
   data = data[complete.cases(data[, 'coverage']),]
 
   data = dplyr::filter(data, method %in% LEVEL_C)
@@ -214,25 +195,6 @@ plotGCwithCovEachSample = function(data, sort_order) {
     ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     xlab('GC Bias') +
-    MY_THEME
-}
-
-
-#' Distribution of coverage across targets (total and unique)
-#' Function to plot histogram of coverage per target interval distribution
-#' Coverage values are scaled by the mean of the distribution
-plotCovDistPerIntervalLine = function(data) {
-  data = data %>%
-    group_by(Sample) %>%
-    mutate(coverage_scaled = coverage / median(coverage))
-  
-  ggplot(data) +
-    geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
-    ggtitle('Distribution of Coverages per Target Interval') +
-    scale_y_continuous('Frequency', label=format_comma) +
-    scale_x_continuous('Coverage (median scaled)') + #, limits=c(0, 3)) +
-    coord_cartesian(xlim=c(0, 3)) +
-    theme(legend.justification = c("right", "top")) +
     MY_THEME
 }
 
@@ -251,22 +213,41 @@ plotInsertSizeDistribution = function(insertSizes) {
     filter(TotalFrequency == max(TotalFrequency))
 
   ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
-    stat_smooth(size=.5, n=200, span=0.2, se=FALSE, method='loess', level=.01) +
+    stat_smooth(size=.5, n=200, span=0.05, se=FALSE, method='loess', level=.01) +
     scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
-    theme(legend.justification = c("right", "top")) +
+    theme(legend.position = c(.75, .35)) +
     MY_THEME +
     
     geom_text_repel(
-      data = peaks,
-      size = 3,
-      force = 1,
+      data=peaks,
+      size=5,
+      force=1,
       direction = 'y',
-      show.legend = FALSE,
+      show.legend=FALSE,
       segment.color = 'transparent',
-      aes(x = Inf, y = Inf, label = paste('peak size:', TotalFrequency)))
+      aes(x=Inf, y=Inf, label=paste(Sample, 'peak insert size:', FragmentSize)))
+}
+
+
+#' Distribution of coverage across targets (total and unique)
+#' Function to plot histogram of coverage per target interval distribution
+#' Coverage values are scaled by the mean of the distribution
+plotCovDistPerIntervalLine = function(data) {
+  data = data %>%
+    group_by(Sample) %>%
+    mutate(coverage_scaled = coverage / median(coverage))
+  
+  ggplot(data) +
+    geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
+    ggtitle('Distribution of Coverages per Target Interval') +
+    scale_y_continuous('Frequency', label=format_comma) +
+    scale_x_continuous('Coverage (median scaled)') + 
+    coord_cartesian(xlim=c(0, 3)) +
+    theme(legend.position = c(.75, .35)) +
+    MY_THEME
 }
 
 
@@ -289,11 +270,16 @@ cleanup_sample_names_2 = function(data) {
 #' @param title_df
 printTitle = function(title_df, coverage_df) {
   mytheme <- gridExtra::ttheme_default(
-    core = list(fg_params=list(cex = .6),
-                padding=unit(c(5, 3), "mm")),
+    base_size=18,
+    core = list(
+      fg_params=list(cex = .6),
+      padding=unit(c(5, 3), "mm")),
     colhead = list(fg_params=list(cex = 0.5)),
-    rowhead = list(fg_params=list(cex = 0.5)))
+    rowhead = list(fg_params=list(cex = 0.5))
+  )
   
+  # Round to one decimal place
+  coverage_df$average_coverage = format(round(coverage_df$average_coverage, 1), nsmall = 1)
   # Cast the coverage values
   coverage_df = dcast(coverage_df, Sample ~ method + pool, value.var='average_coverage')
   coverage_df = coverage_df[,c('Sample', 'TotalCoverage_A Targets', 'TotalCoverage_B Targets', 'Duplex_A Targets')]
@@ -305,26 +291,19 @@ printTitle = function(title_df, coverage_df) {
   title_df = title_df[, !(names(title_df) %in% DROP_COLS)]
   # Clean Sample names for printing
   title_df = cleanup_sample_names_2(title_df)
-  
-  # Split into two sections
-  halfway = floor(ncol(title_df) / 2)
-  title_df_two_subset = c(1, halfway : ncol(title_df))
-  title_df_one = title_df[1 : halfway]
-  title_df_two = title_df[, title_df_two_subset]
-  tbl1 <- tableGrob(title_df_one, rows=NULL, theme=mytheme)
-  tbl2 <- tableGrob(title_df_two, rows=NULL, theme=mytheme)
-  
-  title = textGrob(label = 'MSK-ACCESS QC Report')
+  title_grob <- tableGrob(title_df, rows=NULL, theme=mytheme)
+
+  title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=20, col='black'))
   date = format(Sys.time(), '%a %b %d %Y %H:%M')
   sub_header = paste(title_df[1, 'Pool'], date, sep=' - ')
-  sub_header = textGrob(label = sub_header)
+  sub_header = textGrob(label = sub_header, gp=gpar(fontsize=20, col='black'))
   line = linesGrob(
     unit(c(0.05, 0.95), 'npc'),
     unit(1, 'npc'),
     gp=gpar(col='lightgrey', lwd=4))
   
-  lay <- matrix(c(1,2,3,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5), byrow=TRUE)
-  gs = list(title, sub_header, line, tbl1, tbl2)
+  lay <- matrix(c(1,2,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4), byrow=TRUE)
+  gs = list(title, sub_header, line, title_grob)
   grid.arrange(grobs=gs, layout_matrix=lay)
 }
 
@@ -355,7 +334,7 @@ plot_family_types <- function(family_types_A, family_types_B) {
     geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    MY_THEME
 }
 
 
@@ -373,7 +352,8 @@ plot_family_curves <- function(data) {
     ggtitle('All Unique Family Sizes') +
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label=format_comma) +
-    coord_cartesian(xlim = c(0, 40))
+    coord_cartesian(xlim = c(0, 40)) +
+    MY_THEME
   print(g)
   
   g = ggplot(filter(data, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
@@ -382,7 +362,8 @@ plot_family_curves <- function(data) {
     ggtitle('Simplex Family Sizes') +
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label=format_comma) +
-    coord_cartesian(xlim = c(0, 40))
+    coord_cartesian(xlim = c(0, 40)) +
+    MY_THEME
   print(g)
   
   g = ggplot(filter(data, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
@@ -391,7 +372,8 @@ plot_family_curves <- function(data) {
     ggtitle('Duplex Family Sizes') +
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label=format_comma) +
-    coord_cartesian(xlim = c(0, 40))
+    coord_cartesian(xlim = c(0, 40)) +
+    MY_THEME
   print(g)
 }
 
@@ -458,9 +440,9 @@ main = function(args) {
   # as well as where the plots should be put
   # todo - should return an object or named list, instead of this indexed list 
   args = readInputs(args)
-  inDirTables = args[1]
-  outDir = args[2]
-  title_file = args[3]
+  inDirTables = args$tablesOutputDir
+  outDir = args$plotsOutputDir
+  title_file = args$titleFilePath
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
   # Use only two class labels
@@ -499,9 +481,9 @@ main = function(args) {
   families = df_list[[8]]
   
   # Define the output PDF file
-  date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M-%S')
+  date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M')
   final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
-  pdf(file = final_filename, height=8.5, width=11, onefile = TRUE)
+  pdf(file = final_filename, height=11, width=18, onefile=TRUE)
   
   # Put title file on first page of PDF
   printTitle(title_df, meanCovData)
@@ -527,5 +509,3 @@ argv = commandArgs(trailingOnly=TRUE)
 main(argv)
 # Show warnings after running
 warnings()
-
-# quit(status=1)

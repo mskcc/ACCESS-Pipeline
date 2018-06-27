@@ -285,6 +285,7 @@ def main(args):
     # Std, Pool A and B
     read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
+    # GC bias comes from Standard A Targets
     gc_cov_int_table = get_gc_coverage_table(args.standard_waltz_pool_a)
 
     read_counts_table = pd.concat([get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL), read_counts_table])
