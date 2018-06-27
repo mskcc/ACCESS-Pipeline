@@ -20,4 +20,4 @@ A_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan
 B_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
 
 # Noise QC
-noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}
+noise__good_positions_A: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}
