@@ -31,7 +31,7 @@ setup(
     url='http://github.com/mskcc/ACCESS-Pipeline',
     author='Ian Johnson',
     author_email='johnsoni@mskcc.org',
-    licence='MIT',
+    license='MIT',
     install_requires=[
         'argparse',
         'toil-ionox0[cwl]==0.0.1',
