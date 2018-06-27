@@ -33,11 +33,8 @@ inputs:
     inputBinding:
       position: 1
 
-  fastq2:
-    type: File
-
-  sample_sheet:
-    type: File
+  fastq2: File
+  sample_sheet: File
 
   umi_length:
     type: int
@@ -64,22 +61,7 @@ outputs:
     outputBinding:
       glob: ${ return '**/' + inputs.fastq1.basename.replace('_R1_', '_R2_') }
 
-  info:
-    type: File
+  clipping_dir:
+    type: Directory
     outputBinding:
-      glob: ${ return '**/info.txt' }
-
-  output_sample_sheet:
-    type: File
-    outputBinding:
-      glob: ${ return '**/SampleSheet.csv' }
-
-  umi_frequencies:
-    type: File
-    outputBinding:
-      glob: ${ return '**/umi-frequencies.txt' }
-
-  composite_umi_frequencies:
-    type: File
-    outputBinding:
-      glob: ${ return '**/composite-umi-frequencies.txt' }
+      glob: .
