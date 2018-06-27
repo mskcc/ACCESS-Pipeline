@@ -3,6 +3,14 @@
 set -x
 
 
+# Copy inputs to the current dir,
+# until cwl has support for InitialWorkDirRequirement with
+# directories, or a list of files.
+#
+# https://github.com/common-workflow-language/cwltool/issues/282
+cp $1/* .
+
+
 # process *.read-counts files to get on-target vs off-target
 cat *.read-counts > read-counts.txt
 printf "Bam\tSample\tTotalReads\tUnmappedReads\tTotalMapped\tUniqueMapped\tDuplicateFraction\tTotalOnTarget\tUniqueOnTarget\tTotalOnTargetFraction\tUniqueOnTargetFraction\n" > t

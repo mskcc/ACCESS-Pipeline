@@ -9,20 +9,15 @@ requirements:
 - class: ResourceRequirement
   ramMin: 4000
   coresMin: 1
-- class: InitialWorkDirRequirement
-  listing: $(inputs.waltz_input_files.listing)
-
 
 baseCommand: [aggregate_bam_metrics.sh]
 
 inputs:
 
-  waltz_input_files: Directory
-
-  title_file:
-    type: File
+  waltz_input_files:
+    type: Directory
     inputBinding:
-      position: 2
+      position: 1
 
 outputs:
 
