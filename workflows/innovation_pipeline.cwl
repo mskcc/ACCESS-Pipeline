@@ -97,9 +97,13 @@ inputs:
 
 outputs:
 
-  sample_dirs:
+  clipped_fastq_dirs:
     type: Directory[]
-    outputSource: make_sample_output_directories/directory
+    outputSource: standard_bam_generation/clipping_dirs
+
+  bam_dirs:
+    type: Directory[]
+    outputSource: make_bam_output_directories/directory
 
   combined_qc:
     type: Directory
@@ -191,20 +195,13 @@ steps:
       print_reads__baq: print_reads__baq
     out: [
       standard_bams,
-      processed_fastq_1,
-      processed_fastq_2,
-      info,
-      sample_sheets,
-      umi_frequencies,
-      composite_umi_frequencies,
-      clstats1,
-      clstats2,
+      clipping_dirs,
       covint_list,
       covint_bed]
 
-  #########################
-  # Run Waltz on Std Bams #
-  #########################
+  ##############################
+  # Get pileups for collapsing #
+  ##############################
 
   waltz_standard_pool_a:
     run: ./waltz/waltz-workflow.cwl
@@ -212,21 +209,6 @@ steps:
       run_tools: run_tools
       input_bam: standard_bam_generation/standard_bams
       bed_file: pool_a_bed_file
-      gene_list: gene_list
-      coverage_threshold: coverage_threshold
-      min_mapping_quality: waltz__min_mapping_quality
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
-    out: [pileup, waltz_output_files]
-    scatter: [input_bam]
-    scatterMethod: dotproduct
-
-  waltz_standard_pool_b:
-    run: ./waltz/waltz-workflow.cwl
-    in:
-      run_tools: run_tools
-      input_bam: standard_bam_generation/standard_bams
-      bed_file: pool_b_bed_file
       gene_list: gene_list
       coverage_threshold: coverage_threshold
       min_mapping_quality: waltz__min_mapping_quality
@@ -349,21 +331,10 @@ steps:
   ##################################
 
   # Todo: test that these directories are correctly created
-  # This is now enforced by grouping samples from same patient in title file
-  make_sample_output_directories:
+  make_bam_output_directories:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
     in:
       standard_bam: standard_bam_generation/standard_bams
-      processed_fastq_1: standard_bam_generation/processed_fastq_1
-      processed_fastq_2: standard_bam_generation/processed_fastq_2
-      info: standard_bam_generation/info
-      sample_sheets: standard_bam_generation/sample_sheets
-      umi_frequencies: standard_bam_generation/umi_frequencies
-      composite_umi_frequencies: standard_bam_generation/composite_umi_frequencies
-      clstats1: standard_bam_generation/clstats1
-      clstats2: standard_bam_generation/clstats2
-#      covint_list: standard_bam_generation/covint_list
-#      covint_bed: standard_bam_generation/covint_bed
       unfiltered_bam: flatten_array_bams/output_bams
       simplex_duplex_bam: separate_bams/simplex_duplex_bam
       duplex_bam: separate_bams/duplex_bam
@@ -375,16 +346,6 @@ steps:
       second_pass: umi_collapsing/second_pass_alt_alleles
     scatter: [
       standard_bam,
-      processed_fastq_1,
-      processed_fastq_2,
-      info,
-      sample_sheets,
-      umi_frequencies,
-      composite_umi_frequencies,
-      clstats1,
-      clstats2,
-#      covint_list,
-#      covint_bed,
       unfiltered_bam,
       simplex_duplex_bam,
       duplex_bam,
@@ -405,7 +366,7 @@ steps:
     run: ./QC/qc_workflow.cwl
     in:
       run_tools: run_tools
-      sample_directories: make_sample_output_directories/directory
+      sample_directories: make_bam_output_directories/directory
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
       noise__good_positions_A: noise__good_positions_A

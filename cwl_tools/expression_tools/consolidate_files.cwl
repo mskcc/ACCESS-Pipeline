@@ -9,6 +9,8 @@ requirements:
 
 inputs:
 
+  output_directory_name: string
+
   files:
     type:
       type: array
@@ -37,7 +39,7 @@ expression: |
     return {
       'directory': {
         'class': 'Directory',
-        'basename': 'waltz_output',
+        'basename': inputs.output_directory_name,
         'listing': output_files
       }
     };

@@ -51,7 +51,6 @@ steps:
   standard_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_standard_pool_a
     out:
       [output_dir]
@@ -59,7 +58,6 @@ steps:
   unfiltered_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_unfiltered_pool_a
     out:
       [output_dir]
@@ -67,7 +65,6 @@ steps:
   simplex_duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_simplex_duplex_pool_a
     out:
       [output_dir]
@@ -75,7 +72,6 @@ steps:
   duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_duplex_pool_a
     out:
       [output_dir]
@@ -83,7 +79,6 @@ steps:
   standard_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_standard_pool_b
     out:
       [output_dir]
@@ -91,7 +86,6 @@ steps:
   unfiltered_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_unfiltered_pool_b
     out:
       [output_dir]
@@ -99,7 +93,6 @@ steps:
   simplex_duplex_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_simplex_duplex_pool_b
     out:
       [output_dir]
@@ -107,7 +100,6 @@ steps:
   duplex_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      title_file: title_file
       waltz_input_files: waltz_duplex_pool_b
     out:
       [output_dir]

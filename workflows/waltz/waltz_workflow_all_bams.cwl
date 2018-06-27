@@ -219,6 +219,8 @@ steps:
   standard_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_standard_a')
       files: waltz_standard_pool_a/waltz_output_files
     out:
       [directory]
@@ -226,6 +228,8 @@ steps:
   unfiltered_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_unfiltered_a')
       files: waltz_unfiltered_pool_a/waltz_output_files
     out:
       [directory]
@@ -233,6 +237,8 @@ steps:
   simplex_duplex_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_simplex_duplex_a')
       files: waltz_simplex_duplex_pool_a/waltz_output_files
     out:
       [directory]
@@ -240,6 +246,8 @@ steps:
   duplex_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_duplex_a')
       files: waltz_duplex_pool_a/waltz_output_files
     out:
       [directory]
@@ -247,6 +255,8 @@ steps:
   standard_pool_b_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_standard_b')
       files: waltz_standard_pool_b/waltz_output_files
     out:
       [directory]
@@ -254,6 +264,8 @@ steps:
   unfiltered_pool_b_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_unfiltered_b')
       files: waltz_unfiltered_pool_b/waltz_output_files
     out:
       [directory]
@@ -261,6 +273,8 @@ steps:
   simplex_duplex_pool_b_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_simplex_duplex_b')
       files: waltz_simplex_duplex_pool_b/waltz_output_files
     out:
       [directory]
@@ -268,6 +282,8 @@ steps:
   duplex_pool_b_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
+      output_directory_name:
+        valueFrom: $('waltz_duplex_b')
       files: waltz_duplex_pool_b/waltz_output_files
     out:
       [directory]

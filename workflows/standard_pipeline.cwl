@@ -84,29 +84,9 @@ outputs:
     type: File[]
     outputSource: flatten_array_bams/output_bams
 
-  processed_fastq_1:
-    type: File[]
-    outputSource: umi_clipping/processed_fastq_1
-
-  processed_fastq_2:
-    type: File[]
-    outputSource: umi_clipping/processed_fastq_2
-
-  info:
-    type: File[]
-    outputSource: umi_clipping/info
-
-  sample_sheets:
-    type: File[]
-    outputSource: umi_clipping/output_sample_sheet
-
-  umi_frequencies:
-    type: File[]
-    outputSource: umi_clipping/umi_frequencies
-
-  composite_umi_frequencies:
-    type: File[]
-    outputSource: umi_clipping/composite_umi_frequencies
+  clipping_dirs:
+    type: Directory[]
+    outputSource: umi_clipping/clipping_dir
 
   clstats1:
     type: File[]
@@ -146,10 +126,7 @@ steps:
     out: [
       processed_fastq_1,
       processed_fastq_2,
-      info,
-      output_sample_sheet,
-      umi_frequencies,
-      composite_umi_frequencies]
+      clipping_dir]
     scatter: [fastq1, fastq2, sample_sheet]
     scatterMethod: dotproduct
 
