@@ -201,7 +201,7 @@ plotGCwithCovEachSample = function(data, sort_order) {
 
 #' Plot the distribution of insert sizes (a.k.a. fragment lengths),
 #' as well as most frequent insert sizes
-#' @param insertSizes data.frame of insertSizes, ?
+#' @param insertSizes data.frame of Sample, FragmentSize, TotalFrequency, UniqueFrequency
 plotInsertSizeDistribution = function(insertSizes) {
   insertSizes = insertSizes %>%
     group_by(Sample) %>%
@@ -214,20 +214,19 @@ plotInsertSizeDistribution = function(insertSizes) {
 
   ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
     stat_smooth(size=.5, n=200, span=0.05, se=FALSE, method='loess', level=.01) +
-    scale_y_continuous(limits = c(0, max(insertSizes$total_frequency_fraction))) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     theme(legend.position = c(.75, .35)) +
-    MY_THEME +
+    MY_THEME + 
     
     geom_text_repel(
       data=peaks,
       size=5,
       force=1,
-      direction = 'y',
+      direction='y',
       show.legend=FALSE,
-      segment.color = 'transparent',
+      segment.color='transparent',
       aes(x=Inf, y=Inf, label=paste(Sample, 'peak insert size:', FragmentSize)))
 }
 
@@ -405,6 +404,7 @@ parse_sort_order = function(groups_file) {
 # Extract actual sample names from full filenames
 #' Ex: sample_names = c('test_patient_T', 'test_patient_N')
 #' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
+#' Todo: this will fail for sample_1, sample_10   !!!!!
 cleanup_sample_names = function(data, sample_names) {
   find.string <- paste(unlist(sample_names), collapse = "|")
   find.string <- paste0('.*(', find.string, ').*', collapse='', sep='')
@@ -418,9 +418,7 @@ cleanup_sample_names = function(data, sample_names) {
 read_tables = function(inDirTables) {
   readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
   covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-  
   insertSizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-  
   meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
   gcAllSamples = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-all-samples.txt', sep='/'), sep='\t', head=TRUE)
   gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
