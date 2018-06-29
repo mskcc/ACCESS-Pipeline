@@ -36,7 +36,7 @@ MY_THEME = theme(text = element_text(size=14),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
+DROP_COLS = c('Pool', 'Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
 # Levels and sort order for collapsing methods
 LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex-Duplex', 'Duplex')
 
