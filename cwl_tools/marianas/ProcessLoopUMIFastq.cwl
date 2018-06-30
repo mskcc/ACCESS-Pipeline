@@ -64,4 +64,9 @@ outputs:
   clipping_dir:
     type: Directory
     outputBinding:
-      glob: .
+      glob: '*/'
+      outputEval: |
+        ${
+          self[0].basename = inputs.fastq1.basename.split('_R1_')[0] + '_umi_clipping_results';
+          return self[0]
+        }
