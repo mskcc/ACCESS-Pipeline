@@ -19,9 +19,9 @@ class CleanCommand(Command):
 
 
 # Uncomment to write version info to version.py on setup
-# version = version.expand_()
-# with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
-#     f.write(version)
+version = version.expand_()
+with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
+    f.write(version)
 
 
 setup(

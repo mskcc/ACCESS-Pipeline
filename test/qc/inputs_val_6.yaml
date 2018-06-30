@@ -1,3 +1,6 @@
+# Inputs file itself
+inputs_yaml: {class: File, path: /home/johnsoni/inputs.yaml}
+
 # Title File
 title_file: {class: File, path: /home/johnsoni/val_6_title_file.txt}
 

@@ -28,6 +28,11 @@ inputs:
     inputBinding:
       prefix: -t
 
+  inputs_yaml:
+    type: File
+    inputBinding:
+      prefix: -y
+
   standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:

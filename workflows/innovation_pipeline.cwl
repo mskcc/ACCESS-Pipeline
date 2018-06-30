@@ -32,6 +32,10 @@ inputs:
         waltz_path: string
 
   title_file: File
+  inputs_yaml: File
+  # Todo: This needs to exist in the inputs.yaml,
+  # so it needs to exist here, but it isn't used
+  version: string
 
   fastq1: File[]
   fastq2: File[]
@@ -371,6 +375,7 @@ steps:
       B_on_target_positions: B_on_target_positions
       noise__good_positions_A: noise__good_positions_A
       title_file: title_file
+      inputs_yaml: inputs_yaml
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
       gene_list: gene_list

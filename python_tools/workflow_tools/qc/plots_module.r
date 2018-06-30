@@ -8,6 +8,7 @@
 ##################################################
 
 library(grid)
+library(yaml)
 library(scales)
 library(gridBase)
 library(gridExtra)
@@ -74,7 +75,8 @@ readInputs = function(args) {
   spec = matrix(c(
     'tablesOutputDir', 'i', 1, 'character',
     'plotsOutputDir', 'o', 1, 'character',
-    'titleFilePath', 't', 2, 'character'
+    'titleFilePath', 't', 2, 'character',
+    'inputs_yaml_path', 'y', 2, 'character'
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
@@ -267,7 +269,7 @@ cleanup_sample_names_2 = function(data) {
 
 #' Print the title file to our PDF
 #' @param title_df
-printTitle = function(title_df, coverage_df) {
+printTitle = function(title_df, coverage_df, inputs_yaml) {
   mytheme <- gridExtra::ttheme_default(
     base_size=18,
     core = list(
@@ -284,6 +286,15 @@ printTitle = function(title_df, coverage_df) {
   coverage_df = coverage_df[,c('Sample', 'TotalCoverage_A Targets', 'TotalCoverage_B Targets', 'Duplex_A Targets')]
   colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
+  title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=22, col='black'))
+  date = format(Sys.time(), '%a %b %d %Y %H:%M')
+  sub_header = paste(title_df[1, 'Pool'], date, inputs_yaml$version, sep=' - ')
+  sub_header = textGrob(label = sub_header, gp=gpar(fontsize=20, col='black'))
+  line = linesGrob(
+    unit(c(0.05, 0.95), 'npc'),
+    unit(1, 'npc'),
+    gp=gpar(col='lightgrey', lwd=4))
+  
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')
   # Remove some columns
@@ -291,19 +302,36 @@ printTitle = function(title_df, coverage_df) {
   # Clean Sample names for printing
   title_df = cleanup_sample_names_2(title_df)
   title_grob <- tableGrob(title_df, rows=NULL, theme=mytheme)
-
-  title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=20, col='black'))
-  date = format(Sys.time(), '%a %b %d %Y %H:%M')
-  sub_header = paste(title_df[1, 'Pool'], date, sep=' - ')
-  sub_header = textGrob(label = sub_header, gp=gpar(fontsize=20, col='black'))
-  line = linesGrob(
-    unit(c(0.05, 0.95), 'npc'),
-    unit(1, 'npc'),
-    gp=gpar(col='lightgrey', lwd=4))
   
   lay <- matrix(c(1,2,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4), byrow=TRUE)
   gs = list(title, sub_header, line, title_grob)
   grid.arrange(grobs=gs, layout_matrix=lay)
+}
+
+
+#' Print the input files and run parameters to the durrect device
+#' @param inputs_yaml yaml file with inputs to pipeline
+print_inputs <- function(inputs_yaml) {
+  inputs_theme = ttheme_default(
+    core=list(fg_params=list(hjust=0, x=0.05)),
+    rowhead=list(fg_params=list(hjust=0, x=0)),
+    base_size=5,
+    base_colour="black",
+    base_family="",
+    parse=FALSE,
+    padding=unit(c(4, 2), "mm"))
+  
+  mat = matrix(ncol=2)
+  for (name in names(inputs_yaml)) {
+    value = unlist(inputs_yaml[[name]])
+    value = gsub(',', '\n', toString(value))
+    value = gsub('File\n', '', value)
+    mat = rbind(mat, c(toString(name), value))
+  }
+  # ggplot seems to create its own new pages automatically,
+  # but not gridextra
+  grid.newpage()
+  grid.table(mat, theme=inputs_theme)
 }
 
 
@@ -441,6 +469,7 @@ main = function(args) {
   inDirTables = args$tablesOutputDir
   outDir = args$plotsOutputDir
   title_file = args$titleFilePath
+  inputs_yaml = yaml.load_file(args$inputs_yaml_path)
 
   title_df = read.table(title_file, sep='\t', header=TRUE)
   # Use only two class labels
@@ -481,10 +510,10 @@ main = function(args) {
   # Define the output PDF file
   date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M')
   final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
-  pdf(file = final_filename, height=11, width=18, onefile=TRUE)
+  pdf(file = final_filename, height=15, width=18, onefile=TRUE)
   
   # Put title file on first page of PDF
-  printTitle(title_df, meanCovData)
+  printTitle(title_df, meanCovData, inputs_yaml)
   
   # Choose the plots that we want to run
   print(plotReadPairsCount(readCountsDataTotal))
@@ -496,6 +525,9 @@ main = function(args) {
   print(plotGCwithCovEachSample(gcEachSample, sort_order))
   print(plot_family_types(family_types_A, family_types_B))
   plot_family_curves(families)
+  
+  # Print the inputs and parameters
+  print_inputs(inputs_yaml)
   
   dev.off()
 }

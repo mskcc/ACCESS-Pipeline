@@ -20,6 +20,7 @@ requirements:
 
 inputs:
   title_file: File
+  inputs_yaml: File
   FP_config_file: File
   sample_directories: Directory[]
   A_on_target_positions: File
@@ -167,6 +168,7 @@ steps:
     run: ../../cwl_tools/python/innovation_qc.cwl
     in:
       title_file: title_file
+      inputs_yaml: inputs_yaml
       family_sizes: umi_qc_tables/family_sizes
       family_types_A: umi_qc_tables/family_types_A
       family_types_B: umi_qc_tables/family_types_B

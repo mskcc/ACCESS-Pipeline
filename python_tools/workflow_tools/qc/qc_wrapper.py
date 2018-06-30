@@ -18,7 +18,7 @@ from ...constants import *
 PLOTS_MODULE_BASE = 'plots_module.r'
 
 
-def run_plots_module(tables_output_dir, plots_output_dir, title_file_path):
+def run_plots_module(tables_output_dir, plots_output_dir, title_file_path, inputs_yaml_path):
     """
     Note: The following R script should be found in your Virtual
     environment PATH (/somewhere/virtualenv/bin/plots_module.r)
@@ -28,6 +28,7 @@ def run_plots_module(tables_output_dir, plots_output_dir, title_file_path):
     plots_module_cmd += ' -i {} '.format(tables_output_dir)
     plots_module_cmd += ' -o {} '.format(plots_output_dir)
     plots_module_cmd += ' -t {} '.format(title_file_path)
+    plots_module_cmd += ' -y {} '.format(inputs_yaml_path)
 
     logging.info('Running plots module with cmd: {}'.format(plots_module_cmd))
     rv = subprocess.check_call(plots_module_cmd, shell=True)
@@ -49,6 +50,7 @@ class FullPaths(argparse.Action):
 def main():
     parser = argparse.ArgumentParser(description='MSK ACCESS QC module', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-t', '--title_file_path', type=str, default=None, required=True, action=FullPaths)
+    parser.add_argument('-y', '--inputs_yaml_path', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-swa', '--standard_waltz_pool_a', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mua', '--unfiltered_waltz_pool_a', type=str, default=None, action=FullPaths)
     parser.add_argument('-msa', '--simplex_duplex_waltz_pool_a', type=str, default=None, action=FullPaths)
@@ -69,4 +71,4 @@ def main():
     tables_module.main(args)
 
     # Run plots module
-    run_plots_module(tables_output_dir, plots_output_dir, args.title_file_path)
+    run_plots_module(tables_output_dir, plots_output_dir, args.title_file_path, args.inputs_yaml_path)

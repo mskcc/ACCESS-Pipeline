@@ -454,10 +454,12 @@ def write_inputs_file(args, title_file, output_file_name):
     title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
     fh.write(ruamel.yaml.dump(title_file_obj))
 
-    # Make a copy of the inputs file to include in the QC PDF
-    # copy_inputs_yaml(fh)
+    # This file itself is an input to the pipeline,
+    # to include version details in the QC PDF
+    inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': output_file_name}}
+    fh.write(ruamel.yaml.dump(inputs_yaml_object))
+    include_version_info(fh)
 
-    # include_version_info(fh)
     fh.close()
 
 
@@ -467,6 +469,7 @@ def include_version_info(fh):
     """
     import version
     fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('version: {} \n'.format(version.most_recent_tag))
     fh.write('# Pipeline Run Version Information: \n')
     fh.write('# Version: {} \n'.format(version.version))
     fh.write('# Short Version: {} \n'.format(version.short_version))
