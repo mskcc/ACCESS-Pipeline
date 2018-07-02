@@ -43,6 +43,11 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 (access_pipeline_0.0.16) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
 (access_pipeline_0.0.16) ~$ cd Innovation-Pipeline
 ```
+Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
+```
+(access_pipeline_0.0.16) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git
+(access_pipeline_0.0.16) ~$ git pull --tags
+```
 
 ### 3. Update the paths to the tool resources and run files
 There are several combinations of resource files to edit, to support different environments and run types. The minimal changes that will have to be made to run the tests include:
