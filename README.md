@@ -31,7 +31,7 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 # Installation
 
 ### 1. Set up a Virtual Environment
-Make virtualenv with the name of your virtual environment for this project (e.g. innovation_pipeline)
+Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.16)
 ```
 ~$ virtualenv ~/innovation_pipeline
 ~$ source ~/innovation_pipeline/bin/activate
@@ -40,8 +40,8 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 ### 2. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-(innovation_pipeline) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
-(innovation_pipeline) ~$ cd Innovation-Pipeline
+(access_pipeline_0.0.16) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
+(access_pipeline_0.0.16) ~$ cd Innovation-Pipeline
 ```
 
 ### 3. Update the paths to the tool resources and run files
@@ -72,16 +72,21 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 (innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
 ```
 
+### 6. Install R libraries
+```
+(innovation_pipeline) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
+```
+
 ### 7. Copy the test data
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here:
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
 ```
 
 ### 8. Set TMPDIR (optional)
 cwltool & toil will use the `TMPDIR` variable for intermediate outputs
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ export TMPDIR=/scratch
 ```
 
 ### 9. Set SGE Environment Vars (optional)
@@ -98,19 +103,19 @@ I usually run the pipelines from a separate directory, with ample storage space.
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i Innovation_Pipeline/test/test_data/umi-T_N/manifest.xls -o ./title_file.txt
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i Innovation_Pipeline/test/test_data/umi-T_N/manifest.xls -o ./title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
 ```
 
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ cwltool \
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ cwltool \
   --tmpdir-prefix /where/i/want/tempdirs \
   --tmp-outdir-prefix /where/i/want/outdirs \
   --leave-tmpdir \ # If you want to keep the temp dirs
@@ -120,7 +125,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 To run with Toil batch system runner:
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 
 # Running a real run
@@ -143,11 +148,11 @@ Right now the only supported options for the `--batch-system` parameter are `lsf
 
 Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options. This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./EJ_manifest.xlsx -o ./EJ_title_file.txt
-(innovation_pipeline) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -t -c
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ create_title_file_from_manifest -i ./EJ_manifest.xlsx -o ./EJ_title_file.txt
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -t -c
 ```
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_submit \
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ pipeline_submit \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
@@ -156,7 +161,7 @@ Please use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor
 ```
 or for other job schedulers:
 ```
-(innovation_pipeline) ~/PIPELINE_RUNS$ pipeline_runner \
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ pipeline_runner \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
