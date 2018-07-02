@@ -75,8 +75,67 @@ inputs:
 
 outputs:
 
-  qc_pdf:
+  read_counts:
     type: File
     outputBinding:
-      # todo: find pdfs explicitly
-      glob: '*.pdf'
+      glob: 'read_counts.pdf'
+
+  align_rate:
+    type: File
+    outputBinding:
+      glob: 'align_rate.pdf'
+
+  mean_cov:
+    type: File
+    outputBinding:
+      glob: 'mean_cov.pdf'
+
+  on_target_rate:
+    type: File
+    outputBinding:
+      glob: 'on_target_rate.pdf'
+
+  gc_cov_each_sample:
+    type: File
+    outputBinding:
+      glob: 'gc_cov_each_sample.pdf'
+
+  insert_sizes:
+    type: File
+    outputBinding:
+      glob: 'insert_sizes.pdf'
+
+  coverage_per_interval:
+    type: File
+    outputBinding:
+      glob: 'coverage_per_interval.pdf'
+
+  title_page:
+    type: File
+    outputBinding:
+      glob: 'title_page.pdf'
+
+  pipeline_inputs:
+    type: File
+    outputBinding:
+      glob: 'pipeline_inputs.pdf'
+
+  family_types:
+    type: File
+    outputBinding:
+      glob: 'family_types.pdf'
+
+  family_sizes_all:
+    type: File
+    outputBinding:
+      glob: 'family_sizes_all.pdf'
+
+  family_sizes_simplex:
+    type: File
+    outputBinding:
+      glob: 'family_sizes_simplex.pdf'
+
+  family_sizes_duplex:
+    type: File
+    outputBinding:
+      glob: 'family_sizes_duplex.pdf'

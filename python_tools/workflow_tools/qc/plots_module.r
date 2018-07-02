@@ -66,17 +66,13 @@ sort_df = function(df, sort_column, sort_list) {
 
 #' Function to read inputs
 #' @param args Arguments from argv
-#' @return Parsed list of (
-#'   tables_output_dir_location,
-#'   output_dir_for_plots,
-#'   title_file_path
-#' )
+#' @return 
 readInputs = function(args) {
   spec = matrix(c(
     'tablesOutputDir', 'i', 1, 'character',
     'plotsOutputDir', 'o', 1, 'character',
-    'titleFilePath', 't', 2, 'character',
-    'inputs_yaml_path', 'y', 2, 'character'
+    'titleFilePath', 't', 1, 'character',
+    'inputs_yaml_path', 'y', 1, 'character'
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
@@ -91,11 +87,13 @@ plotReadPairsCount = function(data) {
   # Because the values for read counts are the same for both Pool A and Pool B, we just pick one
   data = filter(data, pool == 'A Targets')
   
-  ggplot(data, aes(x = Sample, y = read_pairs)) + 
+  g = ggplot(data, aes(x = Sample, y = read_pairs)) + 
     geom_bar(stat='identity') + 
     ggtitle('Read Pairs') +
     scale_y_continuous('Count', label=format_comma) +
     MY_THEME
+  
+  ggsave(g, file='read_counts.pdf', width=20, height=8.5)
 }
 
 
@@ -110,12 +108,14 @@ plotAlignGenome = function(data) {
   }
  
   # Todo: is this 'on target' or 'aligned to human genome'?
-  ggplot(data, aes(x=Sample, y=AlignFrac)) +
+  g = ggplot(data, aes(x=Sample, y=AlignFrac)) +
     geom_bar(position='dodge', stat='identity', aes_string(fill=fill_var)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma) + 
     coord_cartesian(ylim=c(0.8, 1)) +
     MY_THEME
+  
+  ggsave(g, file='align_rate.pdf', width=20, height=8.5)
 }
 
 
@@ -123,6 +123,9 @@ plotAlignGenome = function(data) {
 #' for each collapsing method
 #' @param data data.frame with the usual columns
 plotMeanCov = function(data) {
+  # Define the output PDF file
+  pdf(file = 'mean_cov.pdf', height=20, width=8.5, onefile=TRUE)
+  
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
@@ -150,6 +153,8 @@ plotMeanCov = function(data) {
   avg_cov_df = dcast(avg_cov_df, Class + pool ~ method, value.var='average_coverage')
   avg_cov_tbl = tableGrob(avg_cov_df, theme=tt, rows = NULL)
   grid.arrange(avg_cov_tbl, g, nrow=2, as.table=TRUE, heights=c(1,3))
+  
+  dev.off()
 }
 
 
@@ -157,11 +162,13 @@ plotMeanCov = function(data) {
 #' (usually a metric for standard bams)
 #' @param data data.frame with the usual columns
 plotOnTarget = function(data) {
-  ggplot(data, aes(x = Sample, y = TotalOnTargetFraction)) +
+  g = ggplot(data, aes(x = Sample, y = TotalOnTargetFraction)) +
     geom_bar(position=position_stack(reverse=TRUE), stat='identity', aes(fill=pool)) +
     ggtitle('Fraction of On Target Reads') +
     scale_y_continuous('Fraction of Reads', label=format_comma, limits=c(0,1)) +
     MY_THEME
+  
+  ggsave(g, file='on_target_rate.pdf', width=11, height=8.5)
 }
 
 
@@ -172,12 +179,14 @@ plotGCwithCovAllSamples = function(data) {
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   
-  ggplot(data, aes(x=gc_bin, y=coverage, color=method, group=method)) +
+  g = ggplot(data, aes(x=gc_bin, y=coverage, color=method, group=method)) +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage (all samples)', label=format_comma) +
     xlab('GC bias') +
     MY_THEME
+  
+  ggsave(g, file='gc_cov_all_samples.pdf', width=11, height=8.5)
 }
 
 
@@ -191,13 +200,15 @@ plotGCwithCovEachSample = function(data, sort_order) {
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, Sample=factor(Sample))
 
-  ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
+  g = ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
     facet_grid(method ~ ., scales='free') +
     geom_line() +
     ggtitle('Average Coverage versus GC bias') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     xlab('GC Bias') +
     MY_THEME
+  
+  ggsave(g, file='gc_cov_each_sample.pdf', width=11, height=8.5)
 }
 
 
@@ -214,7 +225,7 @@ plotInsertSizeDistribution = function(insertSizes) {
     group_by(Sample) %>%
     filter(TotalFrequency == max(TotalFrequency))
 
-  ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
+  g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
     stat_smooth(size=.5, n=200, span=0.05, se=FALSE, method='loess', level=.01) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
@@ -230,6 +241,8 @@ plotInsertSizeDistribution = function(insertSizes) {
       show.legend=FALSE,
       segment.color='transparent',
       aes(x=Inf, y=Inf, label=paste(Sample, 'peak insert size:', FragmentSize)))
+  
+  ggsave(g, file='insert_sizes.pdf', width=11, height=14)
 }
 
 
@@ -241,7 +254,7 @@ plotCovDistPerIntervalLine = function(data) {
     group_by(Sample) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
-  ggplot(data) +
+  g = ggplot(data) +
     geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
     ggtitle('Distribution of Coverages per Target Interval') +
     scale_y_continuous('Frequency', label=format_comma) +
@@ -249,6 +262,8 @@ plotCovDistPerIntervalLine = function(data) {
     coord_cartesian(xlim=c(0, 3)) +
     theme(legend.position = c(.75, .35)) +
     MY_THEME
+  
+  ggsave(g, file='coverage_per_interval.pdf', width=11, height=8.5)
 }
 
 
@@ -269,7 +284,10 @@ cleanup_sample_names_2 = function(data) {
 
 #' Print the title file to our PDF
 #' @param title_df
-printTitle = function(title_df, coverage_df, inputs_yaml) {
+print_title = function(title_df, coverage_df, inputs_yaml) {
+  # Define the output PDF file
+  pdf(file = 'title_page.pdf', height=15, width=18, onefile=TRUE)
+  
   mytheme <- gridExtra::ttheme_default(
     base_size=18,
     core = list(
@@ -287,9 +305,9 @@ printTitle = function(title_df, coverage_df, inputs_yaml) {
   colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=22, col='black'))
-  date = format(Sys.time(), '%a %b %d %Y %H:%M')
-  sub_header = paste(title_df[1, 'Pool'], date, inputs_yaml$version, sep=' - ')
-  sub_header = textGrob(label = sub_header, gp=gpar(fontsize=20, col='black'))
+  pool = textGrob(paste("Pool", title_df[1, 'Pool']), gp=gpar(fontsize=20, col='black'))
+  date = textGrob(format(Sys.time(), '%a %b %d %Y %H:%M'), gp=gpar(fontsize=20, col='black'))
+  version = textGrob(paste("Pipeline Version: ", inputs_yaml$version), gp=gpar(fontsize=20, col='black'))
   line = linesGrob(
     unit(c(0.05, 0.95), 'npc'),
     unit(1, 'npc'),
@@ -303,15 +321,20 @@ printTitle = function(title_df, coverage_df, inputs_yaml) {
   title_df = cleanup_sample_names_2(title_df)
   title_grob <- tableGrob(title_df, rows=NULL, theme=mytheme)
   
-  lay <- matrix(c(1,2,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4), byrow=TRUE)
-  gs = list(title, sub_header, line, title_grob)
+  lay <- matrix(c(1,2,3,4,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6), byrow=TRUE)
+  gs = list(title, pool, date, version, line, title_grob)
   grid.arrange(grobs=gs, layout_matrix=lay)
+  
+  dev.off()
 }
 
 
 #' Print the input files and run parameters to the durrect device
 #' @param inputs_yaml yaml file with inputs to pipeline
 print_inputs <- function(inputs_yaml) {
+  # Define the output PDF file
+  pdf(file = 'pipeline_inputs.pdf', height = 30, width = 8, onefile=TRUE)
+  
   inputs_theme = ttheme_default(
     core=list(fg_params=list(hjust=0, x=0.05)),
     rowhead=list(fg_params=list(hjust=0, x=0)),
@@ -332,6 +355,8 @@ print_inputs <- function(inputs_yaml) {
   # but not gridextra
   grid.newpage()
   grid.table(mat, theme=inputs_theme)
+  
+  dev.off()
 }
 
 
@@ -357,11 +382,13 @@ plot_family_types <- function(family_types_A, family_types_B) {
     group_by(Pool, Sample) %>%
     mutate(CountPercent = Count / sum(Count))
   
-  ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
+  g = ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
     geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
     MY_THEME
+  
+  ggsave(g, file='family_types.pdf', width=11, height=8.5)
 }
 
 
@@ -381,7 +408,7 @@ plot_family_curves <- function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
     MY_THEME
-  print(g)
+  ggsave(g, file='family_sizes_all.pdf', width=11, height=8.5)
   
   g = ggplot(filter(data, FamilyType=='Simplex'), aes(FamilySize, Frequency, color=Sample)) + 
     geom_point(size=.5) + 
@@ -391,7 +418,7 @@ plot_family_curves <- function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
     MY_THEME
-  print(g)
+  ggsave(g, file='family_sizes_simplex.pdf', width=11, height=8.5)
   
   g = ggplot(filter(data, FamilyType=='Duplex'), aes(FamilySize, Frequency, color=Sample)) + 
     geom_point(size=.5) + 
@@ -401,7 +428,7 @@ plot_family_curves <- function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
     MY_THEME
-  print(g)
+  ggsave(g, file='family_sizes_duplex.pdf', width=11, height=8.5)
 }
 
 
@@ -507,29 +534,22 @@ main = function(args) {
   family_types_B = df_list[[7]]
   families = df_list[[8]]
   
-  # Define the output PDF file
-  date = format(Sys.time(), '%a-%b-%d-%Y_%H-%M')
-  final_filename = paste('qc_results', gsub('[:|/]', '-', date), 'pdf', sep='.')
-  pdf(file = final_filename, height=15, width=18, onefile=TRUE)
-  
   # Put title file on first page of PDF
-  printTitle(title_df, meanCovData, inputs_yaml)
+  print_title(title_df, meanCovData, inputs_yaml)
   
   # Choose the plots that we want to run
-  print(plotReadPairsCount(readCountsDataTotal))
-  print(plotAlignGenome(readCountsDataTotal))
-  print(plotOnTarget(readCountsDataTotal))
-  print(plotInsertSizeDistribution(insertSizes))
-  print(plotCovDistPerIntervalLine(covPerInterval))
-  print(plotMeanCov(meanCovData))
-  print(plotGCwithCovEachSample(gcEachSample, sort_order))
-  print(plot_family_types(family_types_A, family_types_B))
+  plotReadPairsCount(readCountsDataTotal)
+  plotAlignGenome(readCountsDataTotal)
+  plotOnTarget(readCountsDataTotal)
+  plotInsertSizeDistribution(insertSizes)
+  plotCovDistPerIntervalLine(covPerInterval)
+  plotMeanCov(meanCovData)
+  plotGCwithCovEachSample(gcEachSample, sort_order)
+  plot_family_types(family_types_A, family_types_B)
   plot_family_curves(families)
   
   # Print the inputs and parameters
   print_inputs(inputs_yaml)
-  
-  dev.off()
 }
 
 

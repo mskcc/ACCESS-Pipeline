@@ -181,7 +181,20 @@ steps:
       unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
-    out: [qc_pdf]
+    out: [
+      read_counts,
+      align_rate,
+      mean_cov,
+      on_target_rate,
+      gc_cov_each_sample,
+      insert_sizes,
+      coverage_per_interval,
+      title_page,
+      pipeline_inputs,
+      family_types,
+      family_sizes_all,
+      family_sizes_simplex,
+      family_sizes_duplex]
 
   #######################################
   # Combine FP, Noise, & Std qc results #
@@ -190,7 +203,19 @@ steps:
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
     in:
-      std_qc: innovation_qc/qc_pdf
+      read_counts: innovation_qc/read_counts
+      align_rate: innovation_qc/align_rate
+      mean_cov: innovation_qc/mean_cov
+      on_target_rate: innovation_qc/on_target_rate
+      gc_cov_each_sample: innovation_qc/gc_cov_each_sample
+      insert_sizes: innovation_qc/insert_sizes
+      coverage_per_interval: innovation_qc/coverage_per_interval
+      title_page: innovation_qc/title_page
+      pipeline_inputs: innovation_qc/pipeline_inputs
+      family_types: innovation_qc/family_types
+      family_sizes_all: innovation_qc/family_sizes_all
+      family_sizes_simplex: innovation_qc/family_sizes_simplex
+      family_sizes_duplex: innovation_qc/family_sizes_duplex
       noise_alt_percent: noise_plots/noise_alt_percent
       noise_contributing_sites: noise_plots/noise_contributing_sites
       fingerprinting_qc: fingerprinting/FPFigures
