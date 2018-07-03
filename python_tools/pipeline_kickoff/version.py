@@ -1,5 +1,5 @@
-most_recent_tag = '0.0.9-13-g001b395'
+most_recent_tag = '0.0.16-7-g566f7d4'
 dirty = True
-version = '000-dirty'
-short_version = '000-dirty'
-current_commit = '000'
+version = '566f7d4e582dcd4e8db4ffada02eb8d4ddb07b4f-dirty'
+short_version = '566f7d4-dirty'
+current_commit = '566f7d4e582dcd4e8db4ffada02eb8d4ddb07b4f'

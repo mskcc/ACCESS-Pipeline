@@ -2,10 +2,7 @@ import os
 import re
 from collections import OrderedDict
 
-
-# Define a constant for the root directory of this project
-# Todo: Find better way to set project root while still using setup.py
-ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
+from root import ROOT_DIR
 
 
 #############
