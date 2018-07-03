@@ -351,8 +351,7 @@ print_inputs <- function(inputs_yaml) {
     value = gsub('File\n', '', value)
     mat = rbind(mat, c(toString(name), value))
   }
-  # ggplot seems to create its own new pages automatically,
-  # but not gridextra
+  # Todo: newpage shouldn't be necessary
   grid.newpage()
   grid.table(mat, theme=inputs_theme)
   
@@ -498,7 +497,9 @@ main = function(args) {
   title_file = args$titleFilePath
   inputs_yaml = yaml.load_file(args$inputs_yaml_path)
 
-  title_df = read.table(title_file, sep='\t', header=TRUE)
+  # Read title file
+  # (R tries to coerce column of all "F" to logical)
+  title_df = read.table(title_file, sep='\t', header=TRUE, colClasses=c('Sex'='character'))
   # Use only two class labels
   # Todo: We need to handle "Primary", "Metastasis", "Normal", and "Normal Pool"
   title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
