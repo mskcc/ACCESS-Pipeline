@@ -70,6 +70,8 @@ setup(
             'fingerprinting = python_tools.workflow_tools.qc.fingerprinting_v2:main',
             'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
             'gender_check = python_tools.workflow_tools.qc.gender_check:main',
+            # Postprocessing
+            'cleanup_outputs = python_tools.workflow_tools.cleanup_outputs:main',
         ]
     },
     scripts=[
