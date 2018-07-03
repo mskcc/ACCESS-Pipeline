@@ -1,4 +1,4 @@
-Barcode	Pool	Sample_ID	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Sex	Barcode_index	Lane
+Barcode	Pool	Sample	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Sex	Barcode_index	Lane
 bc405-bc405	Test_Pool-Tube1_1	test_sample_2_T	umi	test_patient_1	Tumor	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	TCGACAAG-CTTGTCGA	1
 bc406-bc406	Test_Pool-Tube1_1	test_sample_1_N	umi	test_patient_1	Normal	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	AGTCCTGA-TCAGGACT	1
 bc407-bc407	Test_Pool-Tube1_1	test_sample_4_T	umi	test_patient_2	Tumor	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	TCGTCAAG-CTTATCGA	1
