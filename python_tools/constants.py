@@ -1,4 +1,5 @@
 import os
+import re
 from collections import OrderedDict
 
 
@@ -256,5 +257,40 @@ GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
 GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']
 
 
-# Noise
+#########
+# Noise #
+#########
+
 NOISE_HEADER = ['Sample', 'GenotypeCount', 'AltCount', 'AltPercent', 'ContributingSites', 'Method']
+
+
+########################
+# Cleanup Outputs Step #
+########################
+
+TMPDIR_SEARCH = re.compile(r'tmp......')
+OUT_TMPDIR_SEARCH = re.compile(r'out_tmpdir......')
+
+STANDARD_BAM_DIR = 'standard_bams'
+UNFILTERED_BAM_DIR = 'unfiltered_bams'
+SIMPLEX_DUPLEX_BAM_DIR = 'simplex_duplex_bams'
+DUPLEX_BAM_DIR = 'duplex_bams'
+
+STANDARD_BAM_SEARCH = '_cl_aln_srt_MD_IR_FX_BR.bam'
+UNFILTERED_BAM_SEARCH = '__aln_srt_IR_FX.bam'
+SIMPLEX_DUPLEX_BAM_SEARCH = 'IR_FX-simplex-duplex.bam'
+DUPLEX_BAM_SEARCH = 'IR_FX-duplex.bam'
+
+BAM_DIRS = [
+    STANDARD_BAM_DIR,
+    UNFILTERED_BAM_DIR,
+    SIMPLEX_DUPLEX_BAM_DIR,
+    DUPLEX_BAM_DIR
+]
+
+BAM_SEARCHES = [
+    STANDARD_BAM_SEARCH,
+    UNFILTERED_BAM_SEARCH,
+    SIMPLEX_DUPLEX_BAM_SEARCH,
+    DUPLEX_BAM_SEARCH
+]
