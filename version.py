@@ -32,8 +32,8 @@ def current_commit():
     try:
         output = check_output('git log --pretty=oneline -n 1 -- $(pwd)', shell=True).split()[0]
     except:
-        # Return this we are not in a git environment.
-        return '000'
+        # Return this if we are not in a git environment.
+        return 'no_git_dir'
     return output
 
 

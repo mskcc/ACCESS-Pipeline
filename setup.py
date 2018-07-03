@@ -18,15 +18,20 @@ class CleanCommand(Command):
         os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
 
 
-# Uncomment to write version info to version.py on setup
-version = version.expand_()
+# Write version info to version.py on setup
+version_number = version.expand_()
 with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
-    f.write(version)
+    f.write(version_number)
+
+# Write current path as path to project root
+# (used to include references to the static resource files in inputs.yaml)
+with open('python_tools/root.py', 'wb') as f:
+    f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
 
 
 setup(
-    name='innovation-pipeline-tools',
-    version='0.0.0',
+    name='access_pipeline',
+    version=version.most_recent_tag(),
     description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
     url='http://github.com/mskcc/ACCESS-Pipeline',
     author='Ian Johnson',
