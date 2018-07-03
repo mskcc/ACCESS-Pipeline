@@ -15,12 +15,12 @@ def symlink_bams(pipeline_outputs_folder):
     :param pipeline_outputs_folder: Toil outputs directory with Sample folders of collapsed bams
     :return:
     '''
-    for collapsed_folder in filter(lambda x: 'Sample' in x, os.listdir(pipeline_outputs_folder)):
-        collapsed_folder = os.path.join(pipeline_outputs_folder, collapsed_folder)
+    for bam_search in zip(BAM_DIRS, BAM_SEARCHES):
+        output_dir = os.path.join(pipeline_outputs_folder, bam_search[0])
+        os.makedirs(output_dir)
 
-        for bam_search in zip(BAM_DIRS, BAM_SEARCHES):
-            output_dir = os.path.join(pipeline_outputs_folder, bam_search[0])
-            os.makedirs(output_dir)
+        for collapsed_folder in filter(lambda x: 'Sample' in x, os.listdir(pipeline_outputs_folder)):
+            collapsed_folder = os.path.join(pipeline_outputs_folder, collapsed_folder)
 
             bams = filter(lambda x: bam_search[1] in x, os.listdir(collapsed_folder))
 
