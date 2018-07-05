@@ -17,7 +17,6 @@ library(ggplot2)
 library('getopt');
 library(reshape2)
 suppressMessages(library(dplyr))
-suppressMessages(library(ggrepel))
 
 
 # Set terminal display width, error tracebacks
@@ -224,23 +223,25 @@ plotInsertSizeDistribution = function(insertSizes) {
   peaks = insertSizes %>% 
     group_by(Sample) %>%
     filter(TotalFrequency == max(TotalFrequency))
+  
+  peaks = peaks %>%
+    rename(peak = TotalFrequency, peak_insert_size = FragmentSize)
+  # Only need these columns from peaks table
+  peaks = peaks[,c('peak', 'peak_insert_size', 'Sample')]
+  
+  # Put peak alongside Sample ID in legend
+  insertSizes = insertSizes %>%
+    inner_join(peaks, by='Sample') %>%
+    mutate(sample_and_peak = paste(Sample, peak_insert_size, sep=', '))
 
-  g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=Sample)) +
-    stat_smooth(size=.5, n=200, span=0.05, se=FALSE, method='loess', level=.01) +
+  g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
+    stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
     ggtitle('Insert Size Distribution') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
-    theme(legend.position = c(.75, .35)) +
-    MY_THEME + 
-    
-    geom_text_repel(
-      data=peaks,
-      size=5,
-      force=1,
-      direction='y',
-      show.legend=FALSE,
-      segment.color='transparent',
-      aes(x=Inf, y=Inf, label=paste(Sample, 'peak insert size:', FragmentSize)))
+    labs(colour = "Sample, Peak Insert Size") +
+    theme(legend.position = c(.75, .5)) +
+    MY_THEME
   
   ggsave(g, file='insert_sizes.pdf', width=11, height=14)
 }
@@ -260,7 +261,7 @@ plotCovDistPerIntervalLine = function(data) {
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
     coord_cartesian(xlim=c(0, 3)) +
-    theme(legend.position = c(.75, .35)) +
+    theme(legend.position = c(.75, .5)) +
     MY_THEME
   
   ggsave(g, file='coverage_per_interval.pdf', width=11, height=8.5)
