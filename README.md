@@ -33,8 +33,8 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.16)
 ```
-~$ virtualenv ~/innovation_pipeline
-~$ source ~/innovation_pipeline/bin/activate
+~$ virtualenv ~/access_pipeline_0.0.16
+~$ source ~/access_pipeline_0.0.16/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
@@ -50,7 +50,7 @@ Alternatively, if you want to pull the latest development version you can use th
 ```
 
 ### 3. Update the paths to the tool resources and run files
-There are several combinations of resource files to edit, to support different environments and run types. The minimal changes that will have to be made to run the tests include:
+You will need to have your reference files and target lists available. Then provide paths to these files in the following config files. We have two sets of config files available for either running a test run or a real run, but it may be easier to simplify this to just one set. Alternatively, it is also possible to skip this step, and instead create an `inputs.yaml` file manually with paths to you own custom bedfiles. Please contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists. 
 ```
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
@@ -66,20 +66,14 @@ PATH="/usr/bin/bwa:$PATH"
 PATH="/usr/bin/bedtools:$PATH"
 ```
 
-### 5. Set the root directory of the project
-(found in `/python_tools/constants.py`)
+### 5. Install the python tools
 ```
-ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
-```
-
-### 6. Install the python tools
-```
-(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install
 ```
 
 ### 6. Install R libraries
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 7. Copy the test data
