@@ -254,8 +254,6 @@ def compare_genotype(All_geno, n, fpOutputdir, titlefile):
                     hmMisMatch = hmMisMatch + 1
 
             # Todo: Use util.extract_sample_name() instead of relying on "IGO"
-            # Geno_Compare.append([g[0][0:g[0].find('_bc')],h[0][0:h[0].find('_bc')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
-            # Geno_Compare.append([g[0][0:g[0].find('[-_]IGO')],h[0][0:h[0].find('[-_]IGO')], TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
             sample_g = extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             sample_h = extract_sample_name(h[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             Geno_Compare.append([sample_g, sample_h, TotalMatch, hmMatch, hmMisMatch, htMatch, htMisMatch])
