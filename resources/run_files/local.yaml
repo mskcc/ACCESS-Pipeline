@@ -9,8 +9,8 @@ bqsr__knownSites_dbSNP: {class: File, path: /Users/johnsoni/Desktop/Resources/db
 bqsr__knownSites_millis: {class: File, path: /Users/johnsoni/Desktop/Resources/Mills_and_1000G_gold_standard.indels.b37.vcf}
 
 # Fingerprinting
-FP_config_file: {class: File, path: $PIPELINE_ROOT/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}
+FP_config_file: {class: File, path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}
 
 # UMI QC
-A_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_2-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
+A_on_target_positions: {class: File, path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
