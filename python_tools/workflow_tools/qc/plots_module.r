@@ -333,7 +333,7 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
 #' @param inputs_yaml yaml file with inputs to pipeline
 print_inputs <- function(inputs_yaml) {
   # Define the output PDF file
-  pdf(file = 'pipeline_inputs.pdf', height = 26, width = 8, onefile=TRUE)
+  pdf(file = 'pipeline_inputs.pdf', height=26, width=8, onefile=TRUE)
   
   inputs_theme = ttheme_default(
     core=list(fg_params=list(hjust=0, x=0.05)),
@@ -495,7 +495,8 @@ main = function(args) {
   inDirTables = args$tablesOutputDir
   outDir = args$plotsOutputDir
   title_file = args$titleFilePath
-  inputs_yaml = yaml.load_file(args$inputs_yaml_path)
+  # Load our pipeline inputs file for printing (and convert integers to strings)
+  inputs_yaml = yaml.load_file(args$inputs_yaml_path, handlers = list('int'=toString))
 
   # Read title file
   # (R tries to coerce column of all "F" to logical)
