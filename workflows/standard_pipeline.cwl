@@ -96,6 +96,10 @@ outputs:
     type: File[]
     outputSource: module_1/clstats2
 
+  md_metrics:
+    type: File[]
+    outputSource: module_1/md_metrics
+
   covint_list:
     type: File[]
     outputSource: module_2/covint_list

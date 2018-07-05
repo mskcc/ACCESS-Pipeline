@@ -109,6 +109,26 @@ outputs:
     type: Directory[]
     outputSource: make_bam_output_directories/directory
 
+  clstats1:
+    type: File[]
+    outputSource: standard_bam_generation/clstats1
+
+  clstats2:
+    type: File[]
+    outputSource: standard_bam_generation/clstats2
+
+  md_metrics:
+    type: File[]
+    outputSource: standard_bam_generation/md_metrics
+
+  fci_covint_list:
+    type: File[]
+    outputSource: standard_bam_generation/covint_list
+
+  fci_covint_bed:
+    type: File[]
+    outputSource: standard_bam_generation/covint_bed
+
   combined_qc:
     type: Directory
     outputSource: qc_workflow/combined_qc
@@ -200,6 +220,9 @@ steps:
     out: [
       standard_bams,
       clipping_dirs,
+      clstats1,
+      clstats2,
+      md_metrics,
       covint_list,
       covint_bed]
 
