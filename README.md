@@ -66,13 +66,7 @@ PATH="/usr/bin/bwa:$PATH"
 PATH="/usr/bin/bedtools:$PATH"
 ```
 
-### 5. Set the root directory of the project
-(found in `/python_tools/constants.py`)
-```
-ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
-```
-
-### 6. Install the python tools
+### 5. Install the python tools
 ```
 (access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install
 ```
