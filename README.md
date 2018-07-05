@@ -33,8 +33,8 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.16)
 ```
-~$ virtualenv ~/innovation_pipeline
-~$ source ~/innovation_pipeline/bin/activate
+~$ virtualenv ~/access_pipeline_0.0.16
+~$ source ~/access_pipeline_0.0.16/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
@@ -74,12 +74,12 @@ ROOT_DIR = '/home/johnsoni/Innovation-Pipeline'
 
 ### 6. Install the python tools
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ python setup.py install
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install
 ```
 
 ### 6. Install R libraries
 ```
-(innovation_pipeline) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 7. Copy the test data
