@@ -50,13 +50,14 @@ def submit_to_lsf(params):
     :param batch_system:
     :return:
     '''
-    job_command = "{} {} {} {} {} {}".format(
+    job_command = "{} {} {} {} {} {} {}".format(
         'pipeline_runner',
         '--project_name ' + params.project_name,
         '--workflow ' + params.workflow,
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
         '--batch_system ' + params.batch_system,
+        '--logLevel ' + params.logLevel,
     )
 
     if params.restart:
@@ -82,7 +83,7 @@ def submit_to_lsf(params):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='submit')
+    parser = argparse.ArgumentParser(description='Submit a pipeline leader job to the w01 node (specific for LUNA)')
 
     parser.add_argument(
         "--project_name",
@@ -96,7 +97,7 @@ def main():
         "--output_location",
         action="store",
         dest="output_location",
-        help="Path to CMO Project outputs location (e.g. /ifs/work/bergerm1/Innovation/sandbox/ian",
+        help="Path to where outputs will be written",
         required=True
     )
 
@@ -128,6 +129,15 @@ def main():
         action="store_true",
         dest="restart",
         help="restart from an existing output directory",
+        required=False
+    )
+
+    parser.add_argument(
+        '--logLevel',
+        action='store',
+        dest='logLevel',
+        default='INFO',
+        help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
         required=False
     )
 
