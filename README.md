@@ -50,7 +50,7 @@ Alternatively, if you want to pull the latest development version you can use th
 ```
 
 ### 3. Update the paths to the tool resources and run files
-You will need to have your reference files and target lists available. Then provide paths to these files in the following config files. We have two sets of config files available for either running a test run or a real run, but it may be easier to have simplify this to just one set. Alternatively, it is also possible to skip this step, and instead create an `inputs.yaml` file manually.
+You will need to have your reference files and target lists available. Then provide paths to these files in the following config files. We have two sets of config files available for either running a test run or a real run, but it may be easier to simplify this to just one set. Alternatively, it is also possible to skip this step, and instead create an `inputs.yaml` file manually with paths to you own custom bedfiles. Please contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists. 
 ```
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
