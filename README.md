@@ -50,7 +50,7 @@ Alternatively, if you want to pull the latest development version you can use th
 ```
 
 ### 3. Update the paths to the tool resources and run files
-There are several combinations of resource files to edit, to support different environments and run types. The minimal changes that will have to be made to run the tests include:
+You will need to have your reference files and target lists available. Then provide paths to these files in the following config files. We have two sets of config files available for either running a test run or a real run, but it may be easier to have simplify this to just one set. Alternatively, it is also possible to skip this step, and instead create an `inputs.yaml` file manually.
 ```
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
