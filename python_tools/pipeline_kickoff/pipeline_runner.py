@@ -38,7 +38,6 @@ DEFAULT_TOIL_ARGS = {
     '--disableCaching'          : '',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000',
-    '--logInfo'                 : '',
 }
 
 
@@ -87,7 +86,7 @@ def parse_arguments():
         '--batch_system',
         action='store',
         dest='batch_system',
-        help='(e.g. lsf or singleMachine)',
+        help='e.g. lsf, sge or singleMachine',
         required=True
     )
 
@@ -95,7 +94,16 @@ def parse_arguments():
         '--restart',
         action='store_true',
         dest='restart',
-        help='(include if we are restarting from an existing output directory)',
+        help='include this if we are restarting from an existing output directory',
+        required=False
+    )
+
+    parser.add_argument(
+        '--logLevel',
+        action='store',
+        dest='logLevel',
+        default='INFO',
+        help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
         required=False
     )
 
@@ -156,6 +164,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         '--workDir', tmpdir,
         '--outdir', output_directory,
         '--writeLogs', logdir,
+        '--logLevel', args.logLevel,
     ])
 
     ARG_TEMPLATE = ' {} {} '
