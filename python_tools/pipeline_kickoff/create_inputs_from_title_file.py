@@ -563,6 +563,7 @@ def perform_validation(title_file):
     2. Barcodes are unique within each lane
     3. Sample_type is either 'Plasma' or 'Buffy Coat'
     4. Sex is one of ['Male, 'M', 'Female', 'F']
+    5. Sample Class is in ['Tumor', 'Normal']
     """
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample names. Exiting.')
@@ -572,6 +573,9 @@ def perform_validation(title_file):
 
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
+
+    if np.sum(title_file[TITLE_FILE__CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
 
     if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
@@ -593,17 +597,17 @@ def copy_inputs_yaml(fh):
 
 
 def print_user_message():
-    print DELIMITER
-    print "You've just created the inputs file. Please double check its entries before kicking off a run."
-    print "Common mistakes include:"
-    print
-    print "1. Trying to use test parameters on a real run (accidentally using the -t param)"
-    print "2. Using the wrong bedfile for the capture"
-    print "3. Not specifying the '-c' parameter when collapsing steps are intended"
-    print "4. Working in the wrong virtual environment (are you sure you ran setup.py install?)"
-    print "5. Using the wrong adapter sequences (this setup only support dual-indexing)"
-    print "6. Not specifying the correct parameters for logLevel or cleanWorkDir " + \
-          "(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)"
+    print(DELIMITER)
+    print("You've just created the inputs file. Please double check its entries before kicking off a run.")
+    print("Common mistakes include:")
+    print()
+    print("1. Trying to use test parameters on a real run (accidentally using the -t param)")
+    print("2. Using the wrong bedfile for the capture")
+    print("3. Not specifying the '-c' parameter when collapsing steps are intended")
+    print("4. Working in the wrong virtual environment (are you sure you ran setup.py install?)")
+    print("5. Using the wrong adapter sequences (this setup only support dual-indexing)")
+    print("6. Not specifying the correct parameters for logLevel or cleanWorkDir " +
+          "(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)")
 
 
 ########
