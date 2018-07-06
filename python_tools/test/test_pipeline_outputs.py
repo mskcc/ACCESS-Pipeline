@@ -1,5 +1,7 @@
 import os
+import re
 import sys
+import logging
 import unittest
 
 
@@ -10,6 +12,17 @@ import unittest
 # Usage: python test_pipeline_outputs.py /path/to/toil/outputs
 #
 # Todo: Set up end-to-end test that calls this script automatically
+
+
+# Set up logging
+logger = logging.getLogger('outputs_test')
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 
 def substring_in_list(substring, list):
@@ -24,6 +37,7 @@ def substring_in_list(substring, list):
         if substring in elem:
             return True
     return False
+
 
 def substrings_in_list(substrings, list):
     """
@@ -49,12 +63,23 @@ class TestPipelineOutputs(unittest.TestCase):
         pass
 
     def test_folders_have_all_correct_files(self):
+        """
+        Check that each sample folder has the files that we would expect to get for that sample
+        from the pipeline run
 
-        for folder in os.listdir(self.output_dir):
+        :return:
+        """
+        subfolders = [x[0] for x in os.walk(self.output_dir)]
+
+        for folder in subfolders:
+            print(folder)
 
             files = os.listdir(os.path.join(self.output_dir, folder))
 
             if 'umi_clipping_results' in folder:
+                logger.info('Testing results folder: {}'.format(folder))
+                logger.info('With files: {}'.format(files))
+
                 # UMI Clipping results folder
                 assert 'composite-umi-frequencies.txt' in files
                 assert 'info.txt' in files
@@ -64,9 +89,13 @@ class TestPipelineOutputs(unittest.TestCase):
                 self.assertTrue(substring_in_list('_R1_001.fastq.gz', files))
                 self.assertTrue(substring_in_list('_R2_001.fastq.gz', files))
 
-            if 'Sample_' in folder:
+            if re.compile(r'^Sample_').match(folder.replace('./', '')):
+                logger.info('Testing results folder: {}'.format(folder))
+                logger.info('With files: {}'.format(files))
+
                 # Standard + Collapsed bams folder
-                sample_id = folder.replace('Sample_', '')
+                sample_id = folder.split('/')[-1]
+                sample_id = re.sub(r'^Sample_', '', sample_id)
 
                 assert 'collapsed_R1_.fastq.gz' in files
                 assert 'collapsed_R2_.fastq.gz' in files
@@ -74,6 +103,16 @@ class TestPipelineOutputs(unittest.TestCase):
                 assert 'first-pass.mate-position-sorted.txt' in files
                 assert 'first-pass.txt' in files
                 assert 'second-pass-alt-alleles.txt' in files
+
+                # All bams should be found
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX.bam', files))
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX.bai', files))
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX-duplex.bam', files))
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX-duplex.bai', files))
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX-simplex-duplex.bam', files))
+                self.assertTrue(substring_in_list('__aln_srt_IR_FX-simplex-duplex.bai', files))
+                self.assertTrue(substring_in_list('_cl_aln_srt_MD_IR_FX_BR.bam', files))
+                self.assertTrue(substring_in_list('_cl_aln_srt_MD_IR_FX_BR.bai', files))
 
                 # All bams should be found, with correct sample_ids
                 self.assertTrue(substrings_in_list(['__aln_srt_IR_FX.bam', sample_id], files))
