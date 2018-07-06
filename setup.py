@@ -44,6 +44,7 @@ setup(
         # if PyPi gives us ResourceConflict issues:
         # 'cwltest==1.0.20180209171722',
         # 'cwltool==1.0.20180403145700',
+        # 'subprocess32==3.5.2',
         'pandas==0.19.0',
         'xlrd==1.1.0',
         'numpy==1.14.2',
@@ -57,7 +58,13 @@ setup(
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
     ],
-    packages = ['python_tools', 'python_tools.pipeline_kickoff', 'python_tools.workflow_tools', 'python_tools.workflow_tools.qc'],
+    packages = [
+        'python_tools',
+        'python_tools.pipeline_kickoff',
+        'python_tools.workflow_tools',
+        'python_tools.workflow_tools.qc',
+        'python_tools.test',
+    ],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
         'console_scripts': [
@@ -77,6 +84,8 @@ setup(
             'gender_check = python_tools.workflow_tools.qc.gender_check:main',
             # Postprocessing
             'cleanup_outputs = python_tools.workflow_tools.cleanup_outputs:main',
+            # Test Utilities
+            'test_outputs = python_tools.test.test_pipeline_outputs:main',
         ]
     },
     scripts=[
