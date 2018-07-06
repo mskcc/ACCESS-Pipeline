@@ -265,8 +265,8 @@ NOISE_HEADER = ['Sample', 'GenotypeCount', 'AltCount', 'AltPercent', 'Contributi
 # Cleanup Outputs Step #
 ########################
 
-TMPDIR_SEARCH = re.compile(r'tmp......')
-OUT_TMPDIR_SEARCH = re.compile(r'out_tmpdir......')
+TMPDIR_SEARCH = re.compile(r'^tmp......$')
+OUT_TMPDIR_SEARCH = re.compile(r'^out_tmpdir......$')
 
 STANDARD_BAM_DIR = 'standard_bams'
 UNFILTERED_BAM_DIR = 'unfiltered_bams'

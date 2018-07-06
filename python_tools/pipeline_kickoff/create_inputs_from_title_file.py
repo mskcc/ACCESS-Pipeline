@@ -82,7 +82,7 @@ def load_fastqs(data_dir):
     # Issue a warning
     if not len(folders) == len(folders_4):
         # Todo: Inform user which samples might be missing
-        print DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. Please manually check inputs.yaml'
+        print(DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. Please manually check inputs.yaml')
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -212,11 +212,10 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
-        print DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' \
-                          'These samples will be removed from the title file so that the remaining samples can be run.'
-
-        print 'Please perform a manual check on the inputs file before running the pipeline.'
-        print samples_not_found
+        print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
+                          'These samples will be removed from the title file so that the remaining samples can be run.')
+        print('Please perform a manual check on the inputs file before running the pipeline.')
+        print(samples_not_found)
 
     title_file = title_file.loc[found_boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
@@ -368,21 +367,21 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     try:
         assert len(fastq1) == len(fastq2)
     except AssertionError as e:
-        print DELIMITER + 'Error: Different number of read 1 and read 2 fastqs: {}'.format(repr(e))
-        print 'fastq1: {}'.format(len(fastq1))
-        print 'fastq2: {}'.format(len(fastq2))
+        print(DELIMITER + 'Error: Different number of read 1 and read 2 fastqs: {}'.format(repr(e)))
+        print('fastq1: {}'.format(len(fastq1)))
+        print('fastq2: {}'.format(len(fastq2)))
     try:
         assert len(sample_sheet) == len(fastq1)
     except AssertionError as e:
-        print DELIMITER + 'Error: Different number of sample sheet files & read 1 fastqs: {}'.format(repr(e))
-        print 'fastq1: {}'.format(len(fastq1))
-        print 'sample_sheets: {}'.format(len(sample_sheet))
+        print(DELIMITER + 'Error: Different number of sample sheet files & read 1 fastqs: {}'.format(repr(e)))
+        print('fastq1: {}'.format(len(fastq1)))
+        print('sample_sheets: {}'.format(len(sample_sheet)))
     try:
         assert title_file.shape[0] == len(fastq1)
     except AssertionError as e:
-        print DELIMITER + 'Error: Different number of fastqs files and samples in title file: {}'.format(repr(e))
-        print 'fastq1: {}'.format(len(fastq1))
-        print 'title file length: {}'.format(title_file.shape[0])
+        print(DELIMITER + 'Error: Different number of fastqs files and samples in title file: {}'.format(repr(e)))
+        print('fastq1: {}'.format(len(fastq1)))
+        print('title file length: {}'.format(title_file.shape[0]))
 
 
 def include_collapsing_params(fh, test=False, local=False):
@@ -503,10 +502,8 @@ def check_final_file(output_file_name):
         for field in fields_per_sample:
             assert len(final_file[field]) == len(final_file['fastq1'])
     except AssertionError:
-        print DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample)
-        print 'Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet'
-
-
+        print(DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample))
+        print('Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet')
 
 
 def parse_arguments():
@@ -559,9 +556,11 @@ def parse_arguments():
 
 def perform_validation(title_file):
     """
-    1. Sample IDs are unique
-    2. Barcodes are unique within each lane
-    3. Sample_type is either 'Plasma' or 'Buffy Coat'
+    Make sure that we don't have any unacceptable entries in the title file:
+
+    1. Sample IDs must be unique
+    2. Barcodes must be unique within each lane
+    3. Sample_type is in ['Plasma', 'Buffy Coat']
     4. Sex is one of ['Male, 'M', 'Female', 'F']
     5. Sample Class is in ['Tumor', 'Normal']
     """
@@ -600,7 +599,6 @@ def print_user_message():
     print(DELIMITER)
     print("You've just created the inputs file. Please double check its entries before kicking off a run.")
     print("Common mistakes include:")
-    print()
     print("1. Trying to use test parameters on a real run (accidentally using the -t param)")
     print("2. Using the wrong bedfile for the capture")
     print("3. Not specifying the '-c' parameter when collapsing steps are intended")

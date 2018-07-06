@@ -146,8 +146,8 @@ def create_directories(args):
         os.makedirs(logdir)
         os.makedirs(tmpdir)
 
-    print 'Output Dir: ' + output_directory
-    print 'Jobstore Base: ' + tmpdir
+    print('Output Dir: ' + output_directory)
+    print('Jobstore Base: ' + tmpdir)
 
     return output_directory, jobstore_path, logdir, tmpdir
 
@@ -183,7 +183,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         args.inputs_file
     )
 
-    print "Running Toil with command: {}".format(cmd)
+    print("Running Toil with command: {}".format(cmd))
     subprocess.check_call(cmd, shell=True)
 
 

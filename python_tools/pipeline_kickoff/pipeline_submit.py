@@ -32,7 +32,7 @@ def bsub(bsubline):
     output = process.stdout.readline()
 
     # fixme: need better exception handling
-    print output
+    print(output)
     lsf_job_id = int(output.strip().split()[1].strip('<>'))
 
     return lsf_job_id
@@ -146,11 +146,10 @@ def main():
     # Submit
     lsf_proj_name, lsf_job_id = submit_to_lsf(params)
 
-    print lsf_proj_name
-    print lsf_job_id
+    print(lsf_proj_name)
+    print(lsf_job_id)
 
 
 
 if __name__ == "__main__":
-
     main()
