@@ -109,12 +109,10 @@ def get_adapter_sequences(title_file):
     :return:
     """
     # First, check that there are no duplicate barcodes
-    barcodes_check(title_file)
+    perform_duplicate_barcodes_check(title_file)
 
-    # Split barcode sequences for dual indexing
-    # Todo: support single-indexing as well
-    barcodes_one = extract_barcode_1(title_file)
-    barcodes_two = extract_barcode_2(title_file)
+    barcodes_one = title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN]
+    barcodes_two = title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN]
 
     adapter = ADAPTER_1_PART_1
     adapter += barcodes_one
@@ -127,33 +125,17 @@ def get_adapter_sequences(title_file):
     return adapter, adapter2
 
 
-def extract_barcode_1(title_file):
-    """
-    Split barcode index and return entry before '-'
-    Todo: should come from SampleSheet, but sheeet only includes one barcode index
-    """
-    return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[0])
-
-
-def extract_barcode_2(title_file):
-    """
-    Split barcode index and return entry after '-'
-    Todo: should come from SampleSheet, but sheeet only includes one barcode index
-    """
-    return title_file[TITLE_FILE__BARCODE_INDEX_COLUMN].astype(str).str.split('-').apply(lambda x: x[1])
-
-
-def barcodes_check(title_file):
+def perform_duplicate_barcodes_check(title_file):
     """
     Check that no two samples IN THE SAME LANE have the same barcode 1 or barcode 2
     """
     for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
 
-        if np.sum(extract_barcode_1(lane_subset).duplicated()) > 0:
+        if np.sum(title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
 
-        if np.sum(extract_barcode_2(lane_subset).duplicated()) > 0:
+        if np.sum(title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
@@ -240,25 +222,50 @@ def perform_patient_id_checks(fastq1, fastq2, title_file):
         assert any([patient_id in f['path'] for f in fastq2]), 'Missing fastq2 for patient id: {}'.format(patient_id)
 
 
+def perform_barcode_index_checks(title_file, sample_sheets):
+    """
+    Confirm that the barcode indexes in the title file,
+    match to what is listed in the Sample Sheet files from the Illumina Run
+
+    :param title_file:
+    :param sample_sheets:
+    :return:
+    """
+    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
+
+        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
+        assert len(matching_sample_sheets) == 1
+
+        sample_sheet = matching_sample_sheets[0]
+        sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
+
+        assert sample_sheet_df['Index'].values[0] == cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
+        assert sample_sheet_df['Index2'].values[0] == cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
+
+
 def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     """
     Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
     """
     # Load and sort our data files
-    fastq1, fastq2, sample_sheet = load_fastqs(data_dir)
+    fastq1, fastq2, sample_sheets = load_fastqs(data_dir)
     # Get rid of data files that don't have an entry in the title_file
-    fastq1, fastq2, sample_sheet = remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file)
+    fastq1, fastq2, sample_sheets = remove_missing_fastq_samples(fastq1, fastq2, sample_sheets, title_file)
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(title_file, fastq1, title_file_path)
     # Sort everything based on the ordering in the title_file
-    fastq1, fastq2, sample_sheet = sort_fastqs(fastq1, fastq2, sample_sheet, title_file)
+    fastq1, fastq2, sample_sheets = sort_fastqs(fastq1, fastq2, sample_sheets, title_file)
 
     # Check that we have the same number of everything
-    perform_length_checks(fastq1, fastq2, sample_sheet, title_file)
+    perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
 
     # Check that patient ids are found in fastq filenames
     # That is how we pair Tumors and Normals
     perform_patient_id_checks(fastq1, fastq2, title_file)
+
+    # Check the barcode sequences in the title_file against the sequences in the sample_sheets
+    perform_barcode_index_checks(title_file, sample_sheets)
 
     # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
@@ -266,7 +273,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
-        'sample_sheet': sample_sheet,
+        'sample_sheet': sample_sheets,
         'adapter': adapter.tolist(),
         'adapter2': adapter2.tolist(),
 
@@ -583,29 +590,17 @@ def perform_validation(title_file):
         raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F]')
 
 
-def copy_inputs_yaml(fh):
-    '''
-    We want to include the inputs.yaml file in the QC PDF,
-    so we must make a copy of it and use it as an input to the pipeline
-    '''
-    from shutil import copyfile
-    fh.flush()
-    copyfile('./inputs.yaml', './inputs__towrite.yaml')
-    inputs_file_object = {'inputs_file': {'class': 'File', 'path': './inputs__towrite.yaml'}}
-    fh.write(ruamel.yaml.dump(inputs_file_object))
-
-
 def print_user_message():
     print(DELIMITER)
-    print("You've just created the inputs file. Please double check its entries before kicking off a run.")
-    print("Common mistakes include:")
-    print("1. Trying to use test parameters on a real run (accidentally using the -t param)")
-    print("2. Using the wrong bedfile for the capture")
-    print("3. Not specifying the '-c' parameter when collapsing steps are intended")
-    print("4. Working in the wrong virtual environment (are you sure you ran setup.py install?)")
-    print("5. Using the wrong adapter sequences (this setup only support dual-indexing)")
-    print("6. Not specifying the correct parameters for logLevel or cleanWorkDir " +
-          "(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)")
+    print('You\'ve just created the inputs file. Please double check its entries before kicking off a run.')
+    print('Common mistakes include:')
+    print('1. Trying to use test parameters on a real run (accidentally using the -t param)')
+    print('2. Using the wrong bedfile for the capture')
+    print('3. Not specifying the \'-c\' parameter when collapsing steps are intended')
+    print('4. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
+    print('5. Using the wrong adapter sequences (this setup only support dual-indexing)')
+    print('6. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
+          '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
 
 
 ########

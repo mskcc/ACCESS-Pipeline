@@ -66,8 +66,9 @@ MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
 
 # Use barcode index column as well,
 # for adapter sequences.
-# Todo use SampleSheet?
-MANIFEST__BARCODE_INDEX_COLUMN              = 'BARCODE_INDEX'
+# Todo: use "P5", "P7"
+MANIFEST__BARCODE_INDEX_1_COLUMN              = 'BARCODE_INDEX_1'
+MANIFEST__BARCODE_INDEX_2_COLUMN              = 'BARCODE_INDEX_2'
 
 # Title File columns
 TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
@@ -83,7 +84,8 @@ TITLE_FILE__POOL_INPUT_COLUMN               = 'Pool_input'
 TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
 TITLE_FILE__SEX_COLUMN                      = 'Sex'
 
-TITLE_FILE__BARCODE_INDEX_COLUMN            = 'Barcode_index'
+TITLE_FILE__BARCODE_INDEX_1_COLUMN            = 'Barcode_index_1'
+TITLE_FILE__BARCODE_INDEX_2_COLUMN            = 'Barcode_index_2'
 
 # Todo: ok to have 'Lane' colunn?
 TITLE_FILE__LANE_COLUMN = 'Lane'
@@ -103,7 +105,7 @@ columns_map = OrderedDict([
     (MANIFEST__CAPTURE_INPUT_COLUMN              , TITLE_FILE__POOL_INPUT_COLUMN),
     (MANIFEST__CAPTURE_BAIT_SET_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
     (MANIFEST__SEX_COLUMN                        , TITLE_FILE__SEX_COLUMN),
-    (MANIFEST__BARCODE_INDEX_COLUMN              , TITLE_FILE__BARCODE_INDEX_COLUMN),
+    (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
 ])
 
