@@ -72,8 +72,6 @@ class TestPipelineOutputs(unittest.TestCase):
         subfolders = [x[0] for x in os.walk(self.output_dir)]
 
         for folder in subfolders:
-            print(folder)
-
             files = os.listdir(os.path.join(self.output_dir, folder))
 
             if 'umi_clipping_results' in folder:
