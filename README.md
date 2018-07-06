@@ -127,7 +127,13 @@ To run with Toil batch system runner:
 (access_pipeline_0.0.16) ~/PIPELINE_RUNS$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 
-### 4. Test the output files
+### 4. Cleanup the output files
+There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
+```
+(access_pipeline_0.0.16) ~/PIPELINE_RUNS$ cleanup_outputs -d <path/to/outputs>
+```
+
+### 5. Test the output files
 There is a script included to check that the correct samples are paired in the correct folders, and that expected files are present in the final output directory.
 ```
 (access_pipeline_0.0.16) ~/PIPELINE_RUNS$ python ~/Innovation-Pipeline/python_tools/test/test_pipeline_outputs.py <path/to/outputs>
