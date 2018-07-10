@@ -45,8 +45,17 @@ inputs:
   reference_fasta_fai: string
   umi_length: int
   output_project_folder: string
-  adapter: string[]
-  adapter2: string[]
+
+  adapter: string[]?
+  adapter2: string[]?
+  trim__illumina: boolean?
+  trim__length: int
+  trim__paired: boolean
+  trim__gzip: boolean
+  trim__quality: int
+  trim__stringency: int
+  trim__suppress_warn: boolean
+
   add_rg_PL: string
   add_rg_CN: string
   add_rg_LB: int[]
@@ -150,8 +159,16 @@ steps:
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
+
       adapter: adapter
       adapter2: adapter2
+      trim__length: trim__length
+      trim__paired: trim__paired
+      trim__gzip: trim__gzip
+      trim__quality: trim__quality
+      trim__stringency: trim__stringency
+      trim__suppress_warn: trim__suppress_warn
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       add_rg_LB: add_rg_LB
@@ -165,13 +182,8 @@ steps:
       md__compression_level: md__compression_level
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-    out: [
-      bam,
-      bai,
-      clstats1,
-      clstats2,
-      md_metrics]
-    scatter: [fastq1, fastq2, adapter, adapter2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    out: [bam, bai, clstats1, clstats2, md_metrics]
+    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM] # adapter, adapter2,
     scatterMethod: dotproduct
 
   ############################
