@@ -2,7 +2,7 @@ import shutil
 import unittest
 
 from constants import *
-from python_tools.workflow_tools import cleanup_outputs
+from python_tools.workflow_tools import pipeline_postprocessing
 
 
 class Tests(unittest.TestCase):
@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
 
         :return:
         '''
-        cleanup_outputs.symlink_bams(self.test_outputs_copied)
+        pipeline_postprocessing.symlink_bams(self.test_outputs_copied)
         directories = os.listdir(self.test_outputs_copied)
 
         assert STANDARD_BAM_DIR in directories
@@ -39,7 +39,7 @@ class Tests(unittest.TestCase):
 
         :return:
         '''
-        cleanup_outputs.delete_extraneous_output_folders(self.test_outputs_copied)
+        pipeline_postprocessing.delete_extraneous_output_folders(self.test_outputs_copied)
         directories_remaining = os.listdir(self.test_outputs_copied)
 
         for dir in directories_remaining:
