@@ -88,6 +88,10 @@ outputs:
     type: Directory[]
     outputSource: umi_clipping/clipping_dir
 
+  clipping_info:
+    type: File[]
+    outputSource: umi_clipping/clipping_info
+
   clstats1:
     type: File[]
     outputSource: module_1/clstats1
@@ -130,6 +134,7 @@ steps:
     out: [
       processed_fastq_1,
       processed_fastq_2,
+      clipping_info,
       clipping_dir]
     scatter: [fastq1, fastq2, sample_sheet]
     scatterMethod: dotproduct
