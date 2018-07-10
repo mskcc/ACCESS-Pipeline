@@ -32,49 +32,47 @@ inputs:
       position: 1000
 
   adapter:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: -a
 
   adapter2:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: -a2
 
-  # Todo: use inputs instead of defaults
+#  illumina:
+#    type: boolean?
+#    inputBinding:
+#      prefix: --illumina
+
   length:
-    type: ['null', string]
-    default: '25'
+    type: int
     inputBinding:
       prefix: -length
 
   paired:
-    type: ['null', boolean]
-    default: true
+    type: boolean
     inputBinding:
       prefix: --paired
 
   gzip:
-    type: ['null', boolean]
-    default: true
+    type: boolean
     inputBinding:
       prefix: --gzip
 
   quality:
-    type: ['null', string]
-    default: '1'
+    type: int
     inputBinding:
       prefix: -q
 
   stringency:
-    type: ['null', string]
-    default: '3'
+    type: int
     inputBinding:
       prefix: --stringency
 
   suppress_warn:
-    type: ['null', boolean]
-    default: true
+    type: boolean
     inputBinding:
       prefix: --suppress_warn
 
@@ -83,19 +81,19 @@ outputs:
   clfastq1:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.fastq.gz')}
+      glob: $(inputs.fastq1.basename.replace('.fastq.gz', '_cl.fastq.gz'))
 
   clfastq2:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.fastq.gz')}
+      glob: $(inputs.fastq2.basename.replace('.fastq.gz', '_cl.fastq.gz'))
 
   clstats1:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq1.basename.replace('.fastq.gz', '_cl.stats')}
+      glob: $(inputs.fastq1.basename.replace('.fastq.gz', '_cl.stats'))
 
   clstats2:
     type: File
     outputBinding:
-      glob: ${return inputs.fastq2.basename.replace('.fastq.gz', '_cl.stats')}
+      glob: $(inputs.fastq2.basename.replace('.fastq.gz', '_cl.stats'))

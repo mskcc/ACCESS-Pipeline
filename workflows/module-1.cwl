@@ -30,8 +30,17 @@ inputs:
 
   reference_fasta: string
   reference_fasta_fai: string
-  adapter: string
-  adapter2: string
+
+  adapter: string?
+  adapter2: string?
+  trim__illumina: boolean?
+  trim__length: int
+  trim__paired: boolean
+  trim__gzip: boolean
+  trim__quality: int
+  trim__stringency: int
+  trim__suppress_warn: boolean
+
   add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
@@ -79,6 +88,13 @@ steps:
 
       adapter: adapter
       adapter2: adapter2
+      length: trim__length
+      paired: trim__paired
+      gzip: trim__gzip
+      quality: trim__quality
+      stringency: trim__stringency
+      suppress_warn: trim__suppress_warn
+
       fastq1: fastq1
       fastq2: fastq2
     out: [clfastq1, clfastq2, clstats1, clstats2]

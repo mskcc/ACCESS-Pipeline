@@ -50,8 +50,16 @@ inputs:
   reference_fasta_fai: string
   umi_length: int
   output_project_folder: string
-  adapter: string[]
-  adapter2: string[]
+
+  adapter: string[]?
+  adapter2: string[]?
+  trim__length: int
+  trim__paired: boolean
+  trim__gzip: boolean
+  trim__quality: int
+  trim__stringency: int
+  trim__suppress_warn: boolean
+
   add_rg_PL: string
   add_rg_CN: string
   add_rg_LB: int[]
@@ -149,8 +157,17 @@ steps:
       umi_length: umi_length
       output_project_folder: output_project_folder
       tmp_dir: tmp_dir
+
       adapter: adapter
       adapter2: adapter2
+      trim__illumina: trim__illumina
+      trim__length: trim__length
+      trim__paired: trim__paired
+      trim__gzip: trim__gzip
+      trim__quality: trim__quality
+      trim__stringency: trim__stringency
+      trim__suppress_warn: trim__suppress_warn
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       add_rg_LB: add_rg_LB
