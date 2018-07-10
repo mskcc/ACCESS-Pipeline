@@ -106,6 +106,7 @@ columns_map = OrderedDict([
     (MANIFEST__CAPTURE_BAIT_SET_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
     (MANIFEST__SEX_COLUMN                        , TITLE_FILE__SEX_COLUMN),
     (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
+    (MANIFEST__BARCODE_INDEX_2_COLUMN            , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
 ])
 
@@ -238,7 +239,7 @@ AGBM_COVERAGE_HEADER = [
 # TABLES MODULE Files Constants
 #
 # Labels for collapsing methods
-TOTAL_LABEL = 'total'
+TOTAL_LABEL = 'TotalCoverage'
 PICARD_LABEL = 'Picard Unique'
 MAPPED_LABEL = 'Mapped'
 
