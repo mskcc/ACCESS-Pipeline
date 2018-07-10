@@ -416,9 +416,17 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir, title_file):
     plt.clf()
     if Geno_Compare[0][0] == "Sample1":
         Geno_Compare = Geno_Compare[1::]
-    ## Note: that if the coverage in all Homozygous Sites is less the 10 (failed sample), the mismatch rate is defaulted to 1.
+
+    ## Note: that if the coverage in all Homozygous Sites is less than 10 (failed sample), the mismatch rate is defaulted to 1.
     hm_compare = [[g[0], g[1], int(g[4]) / (int(g[3]) + int(g[4])) if (int(g[3]) + int(g[4])) > 10 else 1] for g in
                   Geno_Compare]
+
+    if len(hm_compare) == 0:
+        # Only had one sample, and thus no comparisons to make
+        titlefile = pd.read_csv(title_file, sep='\t')
+        sample = titlefile[TITLE_FILE__SAMPLE_ID_COLUMN].values[0]
+        hm_compare = [[sample, sample, 0]]
+
     matrix = {}
 
     for element in hm_compare:
@@ -437,8 +445,8 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir, title_file):
     print('Title file before extracting sample IDs:')
     print(title_file)
 
-    titlefile = read_df(title_file, header='infer')
-    keys = [extract_sample_name(s, titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in keys]
+    # titlefile = read_df(title_file, header='infer')
+    # keys = [extract_sample_name(s, titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in keys]
     listMatrix = [[matrix[k1][k2] for k2 in keys] for k1 in keys]
 
     plt.subplots(figsize=(8, 7))
@@ -447,7 +455,7 @@ def plotGenotypingMatrix(Geno_Compare, fpOutputdir, title_file):
     print('Samples for Genotyping Matrix:')
     print(listMatrix)
 
-    ax = sns.heatmap(listMatrix, robust=True, fmt='f', cmap="Blues_r", vmax=.25,
+    ax = sns.heatmap(listMatrix, robust=True, annot=True, fmt='f', cmap="Blues_r", vmax=.25,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
     ax.set_yticklabels(keys, rotation=0, fontsize=11)
@@ -581,11 +589,11 @@ def runFPreport(OutputDir, WaltzDirA, WaltzDirB, WaltzDirA_duplex, WaltzDirB_dup
     fpIndices, n = createFPIndices(configFile)
     fpOutputdir = MakeOutputDir(OutputDir, 'FPResults')
     All_FP, All_geno = FindFPMAF(listofpileups, fpIndices, fpOutputdir)
-    Geno_Compare = compare_genotype(All_geno, n, fpOutputdir, titlefile)
     # plots
     plotMinorContamination(All_FP, fpOutputdir, titlefile)
     plotMajorContamination(All_geno, fpOutputdir, titlefile)
     # plotGenoCompare (Geno_Compare,n, fpOutputdir)
+    Geno_Compare = compare_genotype(All_geno, n, fpOutputdir, titlefile)
     plotGenotypingMatrix(Geno_Compare, fpOutputdir, titlefile)
     # Duplex Plot
     plotduplexMinorContamination(WaltzDirA_duplex, WaltzDirB_duplex, titlefile, OutputDir, fpIndices, fpOutputdir)
