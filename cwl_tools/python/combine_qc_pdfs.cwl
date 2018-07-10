@@ -8,6 +8,11 @@ baseCommand: [combine_qc_pdfs]
 
 inputs:
 
+  title_file:
+    type: File
+    inputBinding:
+      prefix: -t
+
   title_page:
     type: File
     inputBinding:
@@ -98,4 +103,4 @@ outputs:
   combined_qc:
     type: File
     outputBinding:
-      glob: 'main_qc.pdf'
+      glob: '*.pdf'
