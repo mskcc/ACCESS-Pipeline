@@ -83,7 +83,7 @@ setup(
             'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
             'gender_check = python_tools.workflow_tools.qc.gender_check:main',
             # Postprocessing
-            'cleanup_outputs = python_tools.workflow_tools.cleanup_outputs:main',
+            'pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main',
             # Test Utilities
             'test_outputs = python_tools.test.test_pipeline_outputs:main',
         ]
