@@ -14,6 +14,8 @@ baseCommand: [aggregate_bam_metrics.sh]
 
 inputs:
 
+  output_dir_name: string
+
   waltz_input_files:
     type: Directory
     inputBinding:
@@ -25,3 +27,8 @@ outputs:
     type: Directory
     outputBinding:
       glob: .
+      outputEval: |
+        ${
+          self[0].basename = inputs.output_dir_name;
+          return self[0]
+        }

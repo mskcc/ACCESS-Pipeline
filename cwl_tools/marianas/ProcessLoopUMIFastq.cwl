@@ -61,6 +61,16 @@ outputs:
     outputBinding:
       glob: ${ return '**/' + inputs.fastq1.basename.replace('_R1_', '_R2_') }
 
+  clipping_info:
+    type: File
+    outputBinding:
+      glob: ${ return '**/info.txt' }
+      outputEval: |
+        ${
+          self[0].basename = inputs.fastq1.basename.split('_R1_')[0] + '_info.txt';
+          return self[0]
+        }
+
   clipping_dir:
     type: Directory
     outputBinding:

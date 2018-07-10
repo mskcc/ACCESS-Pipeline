@@ -101,9 +101,9 @@ inputs:
 
 outputs:
 
-  clipped_fastq_dirs:
-    type: Directory[]
-    outputSource: standard_bam_generation/clipping_dirs
+  clipping_info:
+    type: File[]
+    outputSource: standard_bam_generation/clipping_info
 
   bam_dirs:
     type: Directory[]
@@ -132,38 +132,6 @@ outputs:
   combined_qc:
     type: Directory
     outputSource: qc_workflow/combined_qc
-
-  waltz_standard_pool_a_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_standard_pool_a_files
-
-  waltz_unfiltered_pool_a_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_unfiltered_pool_a_files
-
-  waltz_simplex_duplex_pool_a_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_simplex_duplex_pool_a_files
-
-  waltz_duplex_pool_a_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_duplex_pool_a_files
-
-  waltz_standard_pool_b_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_standard_pool_b_files
-
-  waltz_unfiltered_pool_b_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_unfiltered_pool_b_files
-
-  waltz_simplex_duplex_pool_b_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_simplex_duplex_pool_b_files
-
-  waltz_duplex_pool_b_files:
-    type: Directory
-    outputSource: qc_workflow/waltz_duplex_pool_b_files
 
 steps:
 
@@ -220,6 +188,7 @@ steps:
     out: [
       standard_bams,
       clipping_dirs,
+      clipping_info,
       clstats1,
       clstats2,
       md_metrics,
@@ -411,13 +380,4 @@ steps:
       marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
       marianas_duplex_bams: separate_bams/duplex_bam
       FP_config_file: FP_config_file
-    out: [
-      combined_qc,
-      waltz_standard_pool_a_files,
-      waltz_unfiltered_pool_a_files,
-      waltz_simplex_duplex_pool_a_files,
-      waltz_duplex_pool_a_files,
-      waltz_standard_pool_b_files,
-      waltz_unfiltered_pool_b_files,
-      waltz_simplex_duplex_pool_b_files,
-      waltz_duplex_pool_b_files]
+    out: [combined_qc]

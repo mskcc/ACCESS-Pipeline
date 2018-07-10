@@ -14,9 +14,6 @@ requirements:
   ScatterFeatureRequirement: {}
   StepInputExpressionRequirement: {}
   InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 3000
-    coresMin: 2
 
 inputs:
   title_file: File
@@ -53,57 +50,65 @@ steps:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_standard_pool_a
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_standard_pool_a')
+    out: [output_dir]
 
   unfiltered_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_unfiltered_pool_a
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_unfiltered_pool_a')
+    out: [output_dir]
 
   simplex_duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_simplex_duplex_pool_a
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_simplex_duplex_pool_a')
+    out: [output_dir]
 
   duplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_duplex_pool_a
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_duplex_pool_a')
+    out: [output_dir]
 
   standard_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_standard_pool_b
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_standard_pool_b')
+    out: [output_dir]
 
   unfiltered_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_unfiltered_pool_b
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_unfiltered_pool_b')
+    out: [output_dir]
 
   simplex_duplex_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_simplex_duplex_pool_b
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_simplex_duplex_pool_b')
+    out: [output_dir]
 
   duplex_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
       waltz_input_files: waltz_duplex_pool_b
-    out:
-      [output_dir]
+      output_dir_name:
+        valueFrom: $('waltz_duplex_pool_b')
+    out: [output_dir]
 
   ##################
   # Fingerprinting #
@@ -203,6 +208,7 @@ steps:
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
     in:
+      title_file: title_file
       read_counts: innovation_qc/read_counts
       align_rate: innovation_qc/align_rate
       mean_cov: innovation_qc/mean_cov
