@@ -16,7 +16,7 @@ trim__length: 25
 trim__paired: true
 trim__gzip: true
 trim__quality: 1
-trim__stringency: 3
+trim__stringency: 1
 trim__suppress_warn: true
 
 ##########################

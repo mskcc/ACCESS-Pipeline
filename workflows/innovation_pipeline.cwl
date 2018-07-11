@@ -160,7 +160,6 @@ steps:
 
       adapter: adapter
       adapter2: adapter2
-      trim__illumina: trim__illumina
       trim__length: trim__length
       trim__paired: trim__paired
       trim__gzip: trim__gzip

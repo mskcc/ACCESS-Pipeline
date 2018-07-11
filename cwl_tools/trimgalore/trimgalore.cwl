@@ -41,11 +41,6 @@ inputs:
     inputBinding:
       prefix: -a2
 
-#  illumina:
-#    type: boolean?
-#    inputBinding:
-#      prefix: --illumina
-
   length:
     type: int
     inputBinding:
