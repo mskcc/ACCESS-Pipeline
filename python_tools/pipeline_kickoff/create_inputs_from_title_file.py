@@ -37,11 +37,9 @@ from ..constants import *
 # Static adapter sequences that surround the barcodes
 # Used by the Trimgalore step in the pipeline
 #
-# Note: These adapters may vary based on the machine and library prep
-# Todo: need to confirm these:
 # See notes/adapters for full descriptions across all cases
-ADAPTER_1_PART_1 = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
-ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
+ADAPTER_1_PART_1 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+ADAPTER_1_PART_2 = 'ATCTCGTATGCCGTCTTCTGCTTG'
 ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
 ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
 
@@ -101,8 +99,10 @@ def load_fastqs(data_dir):
 def get_adapter_sequences(title_file):
     """
     Adapter sequences need to be tailored to include each sample barcode from the title file
-    GATCGGAAGAGCACACGTCTGAACTCCAGTCAC + bc_1 + ATATCTCGTATGCCGTCTTCTGCTTG
-    AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT + bc_2 + AGATCTCGGTGGTCGCCGTATCATT
+
+    p7_end - bc_1 - primer_binding_site_7
+
+    primer_binding_site_5 - bc_2 - p5_end
 
     These will be used during the Trimgalore adapter trimming step
     :param title_file:
