@@ -183,7 +183,7 @@ steps:
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
     out: [bam, bai, clstats1, clstats2, md_metrics]
-    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM] # adapter, adapter2,
+    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM, adapter, adapter2]
     scatterMethod: dotproduct
 
   ############################
