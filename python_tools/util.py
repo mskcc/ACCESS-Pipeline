@@ -67,3 +67,26 @@ def merge_files_across_samples(files, cols, sample_ids=None):
         return pd.DataFrame(columns=cols)
 
     return final
+
+
+def substring_in_list(substring, list):
+    """
+    Look for `substring` in each element in `list`
+
+    :param substring: str or compiled regex object - the substring to look for
+    :param list: elements to find substring in
+    :return: True / False if found / not found
+    """
+
+    # We look for the regex class at runtime:
+    # https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
+    retype = type(re.compile('duct_typing'))
+
+    for elem in list:
+        if type(substring) == str:
+            if substring in elem:
+                return True
+        elif type(substring) == retype:
+            if substring.match(elem):
+                return True
+    return False

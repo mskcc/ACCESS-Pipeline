@@ -2,7 +2,10 @@ import os
 import re
 import sys
 import logging
+import argparse
 import unittest
+
+from ..util import *
 
 
 ########
@@ -16,27 +19,7 @@ import unittest
 
 # Set up logging
 logger = logging.getLogger('outputs_test')
-logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-ch.setFormatter(formatter)
-logger.addHandler(ch)
 
-
-
-def substring_in_list(substring, list):
-    """
-    Look for `substring` in each element in `list`
-
-    :param substring: substring to look for
-    :param list: elements to find substring in
-    :return: True / False if found / not found
-    """
-    for elem in list:
-        if substring in elem:
-            return True
-    return False
 
 
 def substrings_in_list(substrings, list):
@@ -69,15 +52,17 @@ class TestPipelineOutputs(unittest.TestCase):
 
         :return:
         """
-        subfolders = [x[0] for x in os.walk(self.output_dir)]
+        subfolders = [x for x in os.listdir(self.output_dir)]
+        subfolders = [x for x in subfolders if os.path.isdir(os.path.join(self.output_dir, x))]
+        subfolders = [x for x in subfolders if not 'log' in x]
 
         for folder in subfolders:
             files = os.listdir(os.path.join(self.output_dir, folder))
 
-            if 'umi_clipping_results' in folder:
-                logger.info('Testing results folder: {}'.format(folder))
-                logger.info('With files: {}'.format(files))
+            logger.info('Testing results folder: {}'.format(folder))
+            logger.info('With files: {}'.format(files))
 
+            if 'umi_clipping_results' in folder:
                 # UMI Clipping results folder
                 assert 'composite-umi-frequencies.txt' in files
                 assert 'info.txt' in files
@@ -88,9 +73,6 @@ class TestPipelineOutputs(unittest.TestCase):
                 self.assertTrue(substring_in_list('_R2_001.fastq.gz', files))
 
             if re.compile(r'^Sample_').match(folder.replace('./', '')):
-                logger.info('Testing results folder: {}'.format(folder))
-                logger.info('With files: {}'.format(files))
-
                 # Standard + Collapsed bams folder
                 sample_id = folder.split('/')[-1]
                 sample_id = re.sub(r'^Sample_', '', sample_id)
@@ -122,8 +104,58 @@ class TestPipelineOutputs(unittest.TestCase):
                 self.assertTrue(substrings_in_list(['_cl_aln_srt_MD_IR_FX_BR.bam', sample_id], files))
                 self.assertTrue(substrings_in_list(['_cl_aln_srt_MD_IR_FX_BR.bai', sample_id], files))
 
+
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-o',
+        '--output_dir',
+        help='Outputs folder to test',
+        required=True
+    )
+    parser.add_argument(
+        '-l',
+        '--log_level',
+        required=True
+    )
+    args = parser.parse_args()
+
+    return args
+
+
+def setup_logging(args):
+    LEVELS = {
+        'debug': logging.DEBUG,
+        'info': logging.INFO,
+        'warning': logging.WARNING,
+        'error': logging.ERROR,
+        'critical': logging.CRITICAL
+    }
+
+    print('here')
+    if args.log_level:
+        print('here2')
+        log_level = LEVELS[args.log_level]
+    else:
+        log_level = logging.INFO
+
+    logger.setLevel(log_level)
+    ch = logging.StreamHandler()
+    ch.setLevel(log_level)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+
+
 def main():
-    TestPipelineOutputs.output_dir = sys.argv.pop()
+    args = parse_arguments()
+    setup_logging(args)
+
+    for i in range(len(sys.argv)):
+        if i > 0:
+            sys.argv.pop()
+
+    TestPipelineOutputs.output_dir = args.output_dir
     unittest.main()
 
 if __name__ == '__main__':

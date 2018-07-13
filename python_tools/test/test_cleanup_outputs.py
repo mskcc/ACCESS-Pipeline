@@ -2,6 +2,7 @@ import shutil
 import unittest
 
 from constants import *
+from util import substring_in_list
 from python_tools.workflow_tools import pipeline_postprocessing
 
 
@@ -45,6 +46,60 @@ class Tests(unittest.TestCase):
         for dir in directories_remaining:
             assert not TMPDIR_SEARCH.match(dir)
             assert not OUT_TMPDIR_SEARCH.match(dir)
+
+    def test_move_markduplicates_files(self):
+        """
+
+        :return:
+        """
+        pipeline_postprocessing.move_markduplicates_files(self.test_outputs_copied)
+        directories_remaining = os.listdir(self.test_outputs_copied)
+
+        # Folder should exist
+        assert any([MARK_DUPLICATES_FILES_DIR in dir for dir in directories_remaining])
+
+        md_files = os.listdir(os.path.join(self.test_outputs_copied, MARK_DUPLICATES_FILES_DIR))
+        assert len(md_files) > 0
+
+        # Files inside should have md suffix
+        for f in md_files:
+            assert MARK_DUPLICATES_FILE_SEARCH.match(f)
+
+    def test_move_trim_files(self):
+        """
+
+        :return:
+        """
+        pipeline_postprocessing.move_trim_files(self.test_outputs_copied)
+        directories_remaining = os.listdir(self.test_outputs_copied)
+
+        # Folder should exist
+        assert any([TRIM_FILES_DIR in dir for dir in directories_remaining])
+
+        trim_files = os.listdir(os.path.join(self.test_outputs_copied, TRIM_FILES_DIR))
+        assert len(trim_files) > 0
+
+        # Files inside should have trim suffix
+        for f in trim_files:
+            assert TRIM_FILE_SEARCH.match(f)
+
+    def test_move_covered_intervals_files(self):
+        """
+
+        :return:
+        """
+        pipeline_postprocessing.move_covered_intervals_files(self.test_outputs_copied)
+        directories_remaining = os.listdir(self.test_outputs_copied)
+
+        # Folder should exist
+        assert any([COVERED_INTERVALS_DIR in dir for dir in directories_remaining])
+
+        ci_files = os.listdir(os.path.join(self.test_outputs_copied, COVERED_INTERVALS_DIR))
+        assert len(ci_files) > 0
+
+        for f in ci_files:
+            assert COVERED_INTERVALS_FILE_SEARCH.match(f)
+
 
 
 if __name__ == '__main__':

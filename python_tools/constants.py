@@ -275,11 +275,18 @@ STANDARD_BAM_DIR = 'standard_bams'
 UNFILTERED_BAM_DIR = 'unfiltered_bams'
 SIMPLEX_DUPLEX_BAM_DIR = 'simplex_duplex_bams'
 DUPLEX_BAM_DIR = 'duplex_bams'
+TRIM_FILES_DIR = 'trimming_results'
+MARK_DUPLICATES_FILES_DIR = 'mark_duplicates_results'
+COVERED_INTERVALS_DIR = 'covered_intervals_results'
 
-STANDARD_BAM_SEARCH = '_cl_aln_srt_MD_IR_FX_BR.bam'
-UNFILTERED_BAM_SEARCH = '__aln_srt_IR_FX.bam'
-SIMPLEX_DUPLEX_BAM_SEARCH = 'IR_FX-simplex-duplex.bam'
-DUPLEX_BAM_SEARCH = 'IR_FX-duplex.bam'
+STANDARD_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR.bam$')
+UNFILTERED_BAM_SEARCH = re.compile(r'^.*__aln_srt_IR_FX.bam$')
+SIMPLEX_DUPLEX_BAM_SEARCH = re.compile(r'^.*IR_FX-simplex-duplex.bam$')
+DUPLEX_BAM_SEARCH = re.compile(r'^.*IR_FX-duplex.bam$')
+
+TRIM_FILE_SEARCH = re.compile(r'^.*_cl\.stats$')
+MARK_DUPLICATES_FILE_SEARCH = re.compile(r'^.*\.md_metrics$')
+COVERED_INTERVALS_FILE_SEARCH = re.compile(r'^.*(\.fci\.bed\.srt|\.fci\.list)$')
 
 BAM_DIRS = [
     STANDARD_BAM_DIR,
