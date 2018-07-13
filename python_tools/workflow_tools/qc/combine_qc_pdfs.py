@@ -28,7 +28,7 @@ def combine_pdfs(args):
 def main():
     parser = argparse.ArgumentParser(prog='Combine PDF files into one PDF', usage='%(prog)s [options]')
     parser.add_argument('-t', '--title_file')
-    parser.add_argument('pdf_files', nargs='+', help='bar help')
+    parser.add_argument('pdf_files', nargs='+', help='positional arguments for paths to PDF files')
     args = parser.parse_args()
     combine_pdfs(args)
 
