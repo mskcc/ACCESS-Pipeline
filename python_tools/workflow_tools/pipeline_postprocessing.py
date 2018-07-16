@@ -61,15 +61,18 @@ def move_trim_files(pipeline_outputs_folder):
     :param pipeline_outputs_folder:
     :return:
     """
-    os.makedirs(os.path.join(pipeline_outputs_folder, TRIM_FILES_DIR))
     output_files = os.listdir(pipeline_outputs_folder)
     trim_files = filter(lambda x: TRIM_FILE_SEARCH.match(x), output_files)
+
+    new_trim_dir = os.path.join(pipeline_outputs_folder, TRIM_FILES_DIR)
+
+    if not os.path.exists(new_trim_dir):
+        os.makedirs(new_trim_dir)
 
     logging.info('Moving {} files to trim folder'.format(len(trim_files)))
     for trim_file in trim_files:
         old_loc = os.path.join(pipeline_outputs_folder, trim_file)
-        new_loc = os.path.join(pipeline_outputs_folder, TRIM_FILES_DIR)
-        shutil.move(old_loc, new_loc)
+        shutil.move(old_loc, new_trim_dir)
 
 
 def move_markduplicates_files(pipeline_outputs_folder):
@@ -80,13 +83,15 @@ def move_markduplicates_files(pipeline_outputs_folder):
     :return:
     """
     md_files = filter(lambda x: MARK_DUPLICATES_FILE_SEARCH.match(x), os.listdir(pipeline_outputs_folder))
-    os.makedirs(os.path.join(pipeline_outputs_folder, MARK_DUPLICATES_FILES_DIR))
+    new_md_dir = os.path.join(pipeline_outputs_folder, MARK_DUPLICATES_FILES_DIR)
+
+    if not os.path.exists(new_md_dir):
+        os.makedirs(new_md_dir)
 
     logging.info('Moving {} files to trim folder'.format(len(md_files)))
     for md_file in md_files:
         old_loc = os.path.join(pipeline_outputs_folder, md_file)
-        new_loc = os.path.join(pipeline_outputs_folder, MARK_DUPLICATES_FILES_DIR)
-        shutil.move(old_loc, new_loc)
+        shutil.move(old_loc, new_md_dir)
 
 
 def move_covered_intervals_files(pipeline_outputs_folder):
@@ -97,13 +102,15 @@ def move_covered_intervals_files(pipeline_outputs_folder):
     :return:
     """
     ci_files = filter(lambda x: COVERED_INTERVALS_FILE_SEARCH.match(x), os.listdir(pipeline_outputs_folder))
-    os.makedirs(os.path.join(pipeline_outputs_folder, COVERED_INTERVALS_DIR))
+    new_ci_dir = os.path.join(pipeline_outputs_folder, COVERED_INTERVALS_DIR)
+
+    if not os.path.exists(new_ci_dir):
+        os.makedirs(new_ci_dir)
 
     logging.info('Moving {} files to trim folder'.format(len(ci_files)))
     for ci_file in ci_files:
         old_loc = os.path.join(pipeline_outputs_folder, ci_file)
-        new_loc = os.path.join(pipeline_outputs_folder, COVERED_INTERVALS_DIR)
-        shutil.move(old_loc, new_loc)
+        shutil.move(old_loc, new_ci_dir)
 
 
 def delete_extraneous_output_folders(pipeline_outputs_folder):
