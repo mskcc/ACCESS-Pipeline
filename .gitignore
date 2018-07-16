@@ -8,3 +8,6 @@ notes
 resources/bedfiles
 resources/fingerprinting
 test/test_data/test_data_val_5
+
+# Ignore file that stores current PIPELINE_ROOT variable
+python_tools/root.py
