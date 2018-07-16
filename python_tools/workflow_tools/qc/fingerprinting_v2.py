@@ -663,7 +663,7 @@ def main():
 
     # Sex
     sex = find_sex_from_interval(waltz_dir=args.waltz_dir_B)
-    gender = standardize_gender(titleFile=args.title_file)
+    gender = standardize_gender(title_file=args.title_file)
     check_sex(gender, sex, output_dir=args.output_dir)
 
 
