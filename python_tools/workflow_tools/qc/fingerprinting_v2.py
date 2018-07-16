@@ -468,7 +468,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     # titlefile = read_df(title_file, header='infer')
     # keys = [extract_sample_name(s, titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in keys]
-    list_matrix = [[round(matrix[k1][k2], 3) for k2 in keys] for k1 in keys]
+    list_matrix = [[matrix[k1][k2] for k2 in keys] for k1 in keys]
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
@@ -476,7 +476,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     print('Samples for Genotyping Matrix:')
     print(list_matrix)
 
-    ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='f', cmap="Blues_r", vmax=.25,
+    ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.25,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
     ax.set_yticklabels(keys, rotation=0, fontsize=11)
