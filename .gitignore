@@ -9,5 +9,6 @@ resources/bedfiles
 resources/fingerprinting
 test/test_data/test_data_val_5
 
-# Ignore file that stores current PIPELINE_ROOT variable
+# Ignore files that store current installation variables
 python_tools/root.py
+python_tools/pipeline_kickoff/version.py
