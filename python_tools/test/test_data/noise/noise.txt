@@ -1,0 +1,17 @@
+Sample	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
+XX-ntrk-001-pl-T30	116	10	.0004	1	Total
+XX-ntrk-001-pl-T31	116	15	.0003	2	Unique
+XX-ntrk-001-pl-T32	116	10	.0004	3	Total
+XX-ntrk-001-pl-T33	116	15	.0003	4	Unique
+XX-ntrk-001-pl-T34	116	10	.0004	5	Total
+XX-ntrk-001-pl-T35	116	15	.0003	6	Unique
+XX-ntrk-001-pl-T36	116	10	.0004	7	Total
+XX-ntrk-001-pl-T37	116	15	.0003	8	Unique
+XX-ntrk-001-pl-T38	116	10	.0004	100	Total
+XX-ntrk-001-pl-T39	116	15	.0003	200	Unique
+XX-ntrk-001-pl-T40	116	10	.0004	300	Total
+XX-ntrk-001-pl-T41	116	15	.0003	400	Unique
+XX-ntrk-001-pl-T42	116	10	.0004	500	Total
+XX-ntrk-001-pl-T43	116	15	.0003	600	Unique
+XX-ntrk-001-pl-T44	116	10	.0004	700	Total
+XX-ntrk-001-pl-T45	116	15	.0003	800	Unique

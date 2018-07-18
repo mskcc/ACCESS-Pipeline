@@ -18,9 +18,8 @@ from ...constants import *
 
 
 def noise_alt_percent_plot(noise_table):
-    samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
-
-    alt_percent = noise_table[noise_table['Method'] == 'Total']['AltPercent']
+    samples = noise_table[SAMPLE_ID_COLUMN].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').tolist()
+    alt_percent = noise_table['AltPercent']
     y_pos = np.arange(len(samples))
 
     plt.clf()
@@ -37,9 +36,8 @@ def noise_alt_percent_plot(noise_table):
 
 
 def noise_contributing_sites_plot(noise_table):
-    samples = noise_table['Sample'].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').unique()
-
-    contributing_sites = noise_table[noise_table['Method'] == 'Total']['ContributingSites']
+    samples = noise_table[SAMPLE_ID_COLUMN].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').tolist()
+    contributing_sites = noise_table['ContributingSites']
     y_pos = np.arange(len(samples))
 
     plt.clf()
@@ -72,6 +70,9 @@ def main():
     logging.info('Noise Calculation')
     logging.info(noise_table)
     logging.info(title_file)
+
+    # Filter to just Total reads noise counts
+    noise_table = noise_table[noise_table['Method'] == 'Total']
 
     # Cleanup sample IDs
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
