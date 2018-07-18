@@ -73,7 +73,7 @@ PATH="/usr/bin/bedtools:$PATH"
 
 ### 6. Install R libraries
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr", "ggrepel"), repos="https://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="https://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 7. Copy the test data
