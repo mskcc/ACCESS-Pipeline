@@ -21,23 +21,21 @@ requirements:
     ramMin: 8000
     coresMin: 1
 
-doc: |
-  None
-
 inputs:
+
   java_8: string
   waltz_path: string
+
+  min_mapping_quality:
+    type: int
+    inputBinding:
+      position: 1
 
   input_bam:
     type: File
     secondaryFiles: [^.bai]
     inputBinding:
       position: 2
-
-  min_mapping_quality:
-    type: int
-    inputBinding:
-      position: 1
 
   reference_fasta:
     type: string

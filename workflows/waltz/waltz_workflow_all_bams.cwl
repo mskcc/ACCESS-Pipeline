@@ -38,22 +38,10 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
-  standard_bams:
-    type:
-      type: array
-      items: File
-  marianas_unfiltered_bams:
-    type:
-      type: array
-      items: File
-  marianas_simplex_duplex_bams:
-    type:
-      type: array
-      items: File
-  marianas_duplex_bams:
-    type:
-      type: array
-      items: File
+  standard_bams: File[]
+  marianas_unfiltered_bams: File[]
+  marianas_simplex_duplex_bams: File[]
+  marianas_duplex_bams: File[]
 
 outputs:
 
@@ -151,7 +139,6 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
-  # Todo: this currently gets run 2x
   waltz_standard_pool_b:
     run: ./waltz-workflow.cwl
     in:
