@@ -34,6 +34,7 @@ import seaborn as sns
 ###################
 
 def read_csv(filename):
+    # Todo: use Pandas instead
     data = []
     with open(filename, 'r') as f:
         reader = csv.reader(f, delimiter='\t')
@@ -116,7 +117,7 @@ def create_fp_indices(config_file):
 
 def extract_list_of_tumor_samples(titlefile):
     title = read_csv(titlefile)
-    listofsamples = [t[2].replace('_', '-') for i, t in enumerate(title) if t[5] == "Tumor"]
+    listofsamples = [t[2] for i, t in enumerate(title) if t[5] == "Tumor"]
     return listofsamples
 
 
@@ -369,9 +370,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         contamination = contamination_rate(all_fp)
         contamination = [x for x in contamination if x[1] != 'NaN']
 
-        # Todo: Find the samplename from titlefile
         samplename = [c[0][0:c[0].find('IGO')] for c in contamination]
-
         title_file = read_df(titlefile, header='infer')
         samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
 
@@ -477,7 +476,8 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     print(list_matrix)
 
     ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.25,
-                     cbar_kws={'label': 'Fraction Mismatch Homozygous'})
+                     cbar_kws={'label': 'Fraction Mismatch Homozygous'},
+                     annot_kws={"size": 10})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
     ax.set_yticklabels(keys, rotation=0, fontsize=11)
     # ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
