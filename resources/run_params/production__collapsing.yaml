@@ -14,7 +14,7 @@ marianas__min_consensus_percent: 90
 #########
 # Waltz #
 #########
-coverage_threshold: 20
+coverage_threshold: 50
 waltz__min_mapping_quality: 20
 
 ########################
