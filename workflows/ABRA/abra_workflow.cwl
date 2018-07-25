@@ -78,7 +78,7 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: $(inputs.run_tools.java_8)
+        valueFrom: $(inputs.run_tools.java_7)
       gatk:
         valueFrom: $(inputs.run_tools.gatk_path)
 
@@ -134,7 +134,7 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: $(inputs.run_tools.java_8)
+        valueFrom: $(inputs.run_tools.java_7)
       fix_mate_information:
         valueFrom: $(inputs.run_tools.fx_path)
       bam: abra/bams

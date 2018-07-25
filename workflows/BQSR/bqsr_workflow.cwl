@@ -73,7 +73,7 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: ${return inputs.run_tools.java_7}
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
       tmp_dir: tmp_dir
@@ -124,7 +124,7 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: ${return inputs.run_tools.java_8}
+        valueFrom: ${return inputs.run_tools.java_7}
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
 
