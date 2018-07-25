@@ -38,10 +38,13 @@ from ..constants import *
 # Used by the Trimgalore step in the pipeline
 #
 # See notes/adapters for full descriptions across all cases
-ADAPTER_1_PART_1 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
-ADAPTER_1_PART_2 = 'ATCTCGTATGCCGTCTTCTGCTTG'
-ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
-ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
+ADAPTER_1_PART_1 = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
+
+# Todo: Start using default illumina adapter
+# ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
+# ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
+ADAPTER_2 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
 
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
@@ -112,15 +115,14 @@ def get_adapter_sequences(title_file):
     perform_duplicate_barcodes_check(title_file)
 
     barcodes_one = title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN]
-    barcodes_two = title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN]
+    # Todo: use default illumina adapter
+    # barcodes_two = title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN]
 
     adapter = ADAPTER_1_PART_1
     adapter += barcodes_one
     adapter += ADAPTER_1_PART_2
 
-    adapter2 = ADAPTER_2_PART_1
-    adapter2 += barcodes_two
-    adapter2 += ADAPTER_2_PART_2
+    adapter2 = [ADAPTER_2] * len(adapter)
 
     return adapter, adapter2
 
@@ -275,7 +277,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
         'fastq2': fastq2,
         'sample_sheet': sample_sheets,
         'adapter': adapter.tolist(),
-        'adapter2': adapter2.tolist(),
+        'adapter2': adapter2,
 
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
@@ -601,7 +603,7 @@ def print_user_message():
     print('5. Using the wrong adapter sequences (this setup only support dual-indexing)')
     print('6. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
-
+    print('7. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
 
 ########
 # Main #
