@@ -1,0 +1,2 @@
+Sample	TotalCoverage	UniqueCoverage
+XX-tdm1-005-pl-T02_30ng-a_IGO_05500_ET_41_S41_SUB_001_cl_aln_srt_MD_IR_FX_BR__aln_srt-duplex	0	0
