@@ -477,7 +477,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.25,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'},
-                     annot_kws={"size": 10})
+                     annot_kws={'size': 7})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
     ax.set_yticklabels(keys, rotation=0, fontsize=11)
     # ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
