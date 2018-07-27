@@ -2,7 +2,6 @@
 
 cwlVersion: v1.0
 
-# Todo: consider making Duplex and Simplex a single workflow
 class: Workflow
 
 requirements:

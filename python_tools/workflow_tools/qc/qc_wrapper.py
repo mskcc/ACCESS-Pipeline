@@ -53,12 +53,12 @@ def main():
     parser.add_argument('-y', '--inputs_yaml_path', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-swa', '--standard_waltz_pool_a', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mua', '--unfiltered_waltz_pool_a', type=str, default=None, action=FullPaths)
-    parser.add_argument('-msa', '--simplex_duplex_waltz_pool_a', type=str, default=None, action=FullPaths)
+    parser.add_argument('-msa', '--simplex_waltz_pool_a', type=str, default=None, action=FullPaths)
     parser.add_argument('-mda', '--duplex_waltz_pool_a', type=str, default=None, action=FullPaths)
 
     parser.add_argument('-swb', '--standard_waltz_pool_b', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mub', '--unfiltered_waltz_pool_b', type=str, default=None, action=FullPaths)
-    parser.add_argument('-msb', '--simplex_duplex_waltz_pool_b', type=str, default=None, action=FullPaths)
+    parser.add_argument('-msb', '--simplex_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-mdb', '--duplex_waltz_pool_b', type=str, default=None, action=FullPaths)
     args = parser.parse_args()
 

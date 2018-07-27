@@ -233,11 +233,6 @@ def get_gc_table_average_for_each_sample(tbl):
     return final_bins_table
 
 
-def get_gc_coverage_table(std_waltz_path):
-    total_gc_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, std_waltz_path)
-    return total_gc_table
-
-
 def get_coverage_per_interval(tbl):
     """
     Creates table of (un-collapsed) coverage per interval
@@ -286,7 +281,7 @@ def main(args):
     read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     # GC bias comes from A Targets
-    gc_cov_int_table = get_gc_coverage_table(args.standard_waltz_pool_a)
+    gc_cov_int_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_pool_a)
 
     read_counts_table = pd.concat([get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL), read_counts_table])
     coverage_table = pd.concat([get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL), coverage_table])
@@ -299,8 +294,8 @@ def main(args):
     coverage_table = pd.concat([coverage_table, mw[1]])
     gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
-    # Add in the Marianas Simplex Duplex tables
-    mw = get_collapsed_waltz_tables(args.simplex_duplex_waltz_pool_a, SIMPLEX_DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    # Add in the Marianas Simplex tables
+    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
     gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
@@ -317,8 +312,8 @@ def main(args):
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
 
-    # Add in the Marianas Simplex Duplex tables
-    mw = get_collapsed_waltz_tables(args.simplex_duplex_waltz_pool_b, SIMPLEX_DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    # Add in the Marianas Simplex tables
+    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
 

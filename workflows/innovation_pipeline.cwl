@@ -334,7 +334,7 @@ steps:
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
       collapsed_bam: umi_collapsing/collapsed_bams
-    out: [simplex_duplex_bam, duplex_bam]
+    out: [simplex_bam, duplex_bam]
     scatter: [collapsed_bam]
     scatterMethod: dotproduct
 
@@ -348,7 +348,7 @@ steps:
     in:
       standard_bam: standard_bam_generation/standard_bams
       unfiltered_bam: umi_collapsing/collapsed_bams
-      simplex_duplex_bam: separate_bams/simplex_duplex_bam
+      simplex_bam: separate_bams/simplex_bam
       duplex_bam: separate_bams/duplex_bam
       r1_fastq: umi_collapsing/collapsed_fastq_1
       r2_fastq: umi_collapsing/collapsed_fastq_2
@@ -359,7 +359,7 @@ steps:
     scatter: [
       standard_bam,
       unfiltered_bam,
-      simplex_duplex_bam,
+      simplex_bam,
       duplex_bam,
       r1_fastq,
       r2_fastq,
@@ -393,7 +393,7 @@ steps:
       reference_fasta_fai: reference_fasta_fai
       standard_bams: standard_bam_generation/standard_bams
       marianas_unfiltered_bams: umi_collapsing/collapsed_bams
-      marianas_simplex_duplex_bams: separate_bams/simplex_duplex_bam
+      marianas_simplex_bams: separate_bams/simplex_bam
       marianas_duplex_bams: separate_bams/duplex_bam
       FP_config_file: FP_config_file
     out: [combined_qc]

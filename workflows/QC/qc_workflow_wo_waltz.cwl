@@ -26,11 +26,11 @@ inputs:
 
   waltz_standard_pool_a: Directory
   waltz_unfiltered_pool_a: Directory
-  waltz_simplex_duplex_pool_a: Directory
+  waltz_simplex_pool_a: Directory
   waltz_duplex_pool_a: Directory
   waltz_standard_pool_b: Directory
   waltz_unfiltered_pool_b: Directory
-  waltz_simplex_duplex_pool_b: Directory
+  waltz_simplex_pool_b: Directory
   waltz_duplex_pool_b: Directory
 
 outputs:
@@ -62,12 +62,12 @@ steps:
         valueFrom: $('waltz_unfiltered_pool_a')
     out: [output_dir]
 
-  simplex_duplex_aggregate_bam_metrics_pool_a:
+  simplex_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: waltz_simplex_duplex_pool_a
+      waltz_input_files: waltz_simplex_pool_a
       output_dir_name:
-        valueFrom: $('waltz_simplex_duplex_pool_a')
+        valueFrom: $('waltz_simplex_pool_a')
     out: [output_dir]
 
   duplex_aggregate_bam_metrics_pool_a:
@@ -94,12 +94,12 @@ steps:
         valueFrom: $('waltz_unfiltered_pool_b')
     out: [output_dir]
 
-  simplex_duplex_aggregate_bam_metrics_pool_b:
+  simplex_aggregate_bam_metrics_pool_b:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
     in:
-      waltz_input_files: waltz_simplex_duplex_pool_b
+      waltz_input_files: waltz_simplex_pool_b
       output_dir_name:
-        valueFrom: $('waltz_simplex_duplex_pool_b')
+        valueFrom: $('waltz_simplex_pool_b')
     out: [output_dir]
 
   duplex_aggregate_bam_metrics_pool_b:
@@ -180,11 +180,11 @@ steps:
 
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
-      simplex_duplex_waltz_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
+      simplex_waltz_metrics_pool_a: simplex_aggregate_bam_metrics_pool_a/output_dir
       duplex_waltz_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
       standard_waltz_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
       unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
-      simplex_duplex_waltz_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
+      simplex_waltz_metrics_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
     out: [
       read_counts,
@@ -238,11 +238,11 @@ steps:
     in:
       standard_aggregate_bam_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_aggregate_bam_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
-      simplex_duplex_aggregate_bam_metrics_pool_a: simplex_duplex_aggregate_bam_metrics_pool_a/output_dir
+      simplex_aggregate_bam_metrics_pool_a: simplex_aggregate_bam_metrics_pool_a/output_dir
       duplex_aggregate_bam_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
       standard_aggregate_bam_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
       unfiltered_aggregate_bam_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
-      simplex_duplex_aggregate_bam_metrics_pool_b: simplex_duplex_aggregate_bam_metrics_pool_b/output_dir
+      simplex_aggregate_bam_metrics_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_aggregate_bam_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
       all_fp_results: fingerprinting/all_fp_results
       gender_table: fingerprinting/gender_table
