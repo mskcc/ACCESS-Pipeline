@@ -51,8 +51,6 @@ inputs:
   umi_length: int
   output_project_folder: string
 
-  adapter: string[]?
-  adapter2: string[]?
   trim__length: int
   trim__paired: boolean
   trim__gzip: boolean
@@ -158,8 +156,6 @@ steps:
       output_project_folder: output_project_folder
       tmp_dir: tmp_dir
 
-      adapter: adapter
-      adapter2: adapter2
       trim__length: trim__length
       trim__paired: trim__paired
       trim__gzip: trim__gzip
@@ -278,48 +274,48 @@ steps:
   # and run Abra a 2nd time  #
   ############################
 
-#  group_bams_by_patient:
-#    run: ../cwl_tools/expression_tools/group_bams.cwl
-#    in:
-#      bams: umi_collapsing/collapsed_bams
-#      patient_ids: patient_id
-#    out:
-#      [grouped_bams, grouped_patient_ids]
-#
-#  abra_workflow:
-#    run: ABRA/abra_workflow.cwl
-#    in:
-#      run_tools: run_tools
-#      reference_fasta: reference_fasta
-#      tmp_dir: tmp_dir
-#      bams: group_bams_by_patient/grouped_bams
-#      patient_id: group_bams_by_patient/grouped_patient_ids
-#      fci__minbq: fci__minbq
-#      fci__minmq: fci__minmq
-#      fci__rf: fci__rf
-#      fci__cov: fci__cov
-#      fci__intervals: fci__intervals
-#      fci__basq_fix: fci_2__basq_fix
-#      abra__mad: abra__mad
-#      abra__kmers: abra__kmers
-#      abra__scratch: abra__scratch
-#      fix_mate_information__sort_order: fix_mate_information__sort_order
-#      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-#      fix_mate_information__compression_level: fix_mate_information__compression_level
-#      fix_mate_information__create_index: fix_mate_information__create_index
-#    out: [ir_bams]
-#    scatter: [bams, patient_id]
-#    scatterMethod: dotproduct
-#
-#  ################################
-#  # Return to flat array of bams #
-#  ################################
-#
-#  flatten_array_bams:
-#    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
-#    in:
-#      bams: abra_workflow/ir_bams
-#    out: [output_bams]
+  group_bams_by_patient:
+    run: ../cwl_tools/expression_tools/group_bams.cwl
+    in:
+      bams: umi_collapsing/collapsed_bams
+      patient_ids: patient_id
+    out:
+      [grouped_bams, grouped_patient_ids]
+
+  abra_workflow:
+    run: ABRA/abra_workflow.cwl
+    in:
+      run_tools: run_tools
+      reference_fasta: reference_fasta
+      tmp_dir: tmp_dir
+      bams: group_bams_by_patient/grouped_bams
+      patient_id: group_bams_by_patient/grouped_patient_ids
+      fci__minbq: fci__minbq
+      fci__minmq: fci__minmq
+      fci__rf: fci__rf
+      fci__cov: fci__cov
+      fci__intervals: fci__intervals
+      fci__basq_fix: fci_2__basq_fix
+      abra__mad: abra__mad
+      abra__kmers: abra__kmers
+      abra__scratch: abra__scratch
+      fix_mate_information__sort_order: fix_mate_information__sort_order
+      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
+      fix_mate_information__compression_level: fix_mate_information__compression_level
+      fix_mate_information__create_index: fix_mate_information__create_index
+    out: [ir_bams]
+    scatter: [bams, patient_id]
+    scatterMethod: dotproduct
+
+  ################################
+  # Return to flat array of bams #
+  ################################
+
+  flatten_array_bams:
+    run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
+    in:
+      bams: abra_workflow/ir_bams
+    out: [output_bams]
 
   ################
   # SeparateBams #
@@ -333,7 +329,7 @@ steps:
         valueFrom: ${return inputs.run_tools.java_8}
       marianas_path:
         valueFrom: ${return inputs.run_tools.marianas_path}
-      collapsed_bam: umi_collapsing/collapsed_bams
+      collapsed_bam: flatten_array_bams/output_bams
     out: [simplex_bam, duplex_bam]
     scatter: [collapsed_bam]
     scatterMethod: dotproduct
@@ -347,7 +343,8 @@ steps:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
     in:
       standard_bam: standard_bam_generation/standard_bams
-      unfiltered_bam: umi_collapsing/collapsed_bams
+      # Collapsed, and after 2nd Indel Realignment:
+      unfiltered_bam: flatten_array_bams/output_bams
       simplex_bam: separate_bams/simplex_bam
       duplex_bam: separate_bams/duplex_bam
       r1_fastq: umi_collapsing/collapsed_fastq_1
