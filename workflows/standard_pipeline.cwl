@@ -46,9 +46,6 @@ inputs:
   umi_length: int
   output_project_folder: string
 
-  adapter: string[]?
-  adapter2: string[]?
-  trim__illumina: boolean?
   trim__length: int
   trim__paired: boolean
   trim__gzip: boolean
@@ -160,8 +157,6 @@ steps:
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
 
-      adapter: adapter
-      adapter2: adapter2
       trim__length: trim__length
       trim__paired: trim__paired
       trim__gzip: trim__gzip
@@ -183,7 +178,7 @@ steps:
       md__validation_stringency: md__validation_stringency
       md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
     out: [bam, bai, clstats1, clstats2, md_metrics]
-    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM, adapter, adapter2]
+    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
 
   ############################

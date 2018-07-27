@@ -31,9 +31,6 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
-  adapter: string?
-  adapter2: string?
-  trim__illumina: boolean?
   trim__length: int
   trim__paired: boolean
   trim__gzip: boolean
@@ -86,17 +83,14 @@ steps:
       trimgalore:
         valueFrom: $(inputs.run_tools.trimgalore_path)
 
-      adapter: adapter
-      adapter2: adapter2
+      fastq1: fastq1
+      fastq2: fastq2
       length: trim__length
       paired: trim__paired
       gzip: trim__gzip
       quality: trim__quality
       stringency: trim__stringency
       suppress_warn: trim__suppress_warn
-
-      fastq1: fastq1
-      fastq2: fastq2
     out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
