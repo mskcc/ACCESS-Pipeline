@@ -246,7 +246,7 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         assert sample_sheet_df['Index2'].values[0] == cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
 
 
-def include_fastqs_params(fh, data_dir, title_file, title_file_path):
+def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     """
     Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
     """
@@ -259,14 +259,13 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     # Sort everything based on the ordering in the title_file
     fastq1, fastq2, sample_sheets = sort_fastqs(fastq1, fastq2, sample_sheets, title_file)
 
-    # Check that we have the same number of everything
-    perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
-
-    # Check that patient ids are found in fastq filenames
-    perform_patient_id_checks(fastq1, fastq2, title_file)
-
-    # Check the barcode sequences in the title_file against the sequences in the sample_sheets
-    perform_barcode_index_checks(title_file, sample_sheets)
+    if not force:
+        # Check that we have the same number of everything
+        perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
+        # Check that patient ids are found in fastq filenames
+        perform_patient_id_checks(fastq1, fastq2, title_file)
+        # Check the barcode sequences in the title_file against the sequences in the sample_sheets
+        perform_barcode_index_checks(title_file, sample_sheets)
 
     # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
     adapter, adapter2 = get_adapter_sequences(title_file)
@@ -445,7 +444,7 @@ def write_inputs_file(args, title_file, output_file_name):
     # Actually start writing the inputs file
     fh = open(output_file_name, 'wb')
 
-    include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path)
+    include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path, args.force)
     include_run_params(fh, run_params_path)
     include_file_resources(fh, run_files_path)
     include_tool_resources(fh, tool_resources_file_path)
@@ -559,6 +558,13 @@ def parse_arguments():
         help="Name of yaml file for pipeline",
         required=True
     )
+    parser.add_argument(
+        "-f",
+        "--force",
+        help="Skip validation",
+        required=False,
+        action="store_true"
+    )
     return parser.parse_args()
 
 
@@ -621,7 +627,8 @@ def main():
     title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index(drop=True)
 
     # Perform some sanity checks on the title file
-    perform_validation(title_file)
+    if not args.force:
+        perform_validation(title_file)
     # Create the inputs file for the run
     write_inputs_file(args, title_file, args.output_file_name)
     # Perform some checks on the final yaml file that will be supplied to the pipeline
