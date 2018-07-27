@@ -247,7 +247,7 @@ POOL_A_LABEL = 'A Targets'
 POOL_B_LABEL = 'B Targets'
 
 UNFILTERED_COLLAPSING_METHOD = 'All Unique'
-SIMPLEX_DUPLEX_COLLAPSING_METHOD = 'Simplex-Duplex'
+SIMPLEX_COLLAPSING_METHOD = 'Simplex'
 DUPLEX_COLLAPSING_METHOD = 'Duplex'
 
 # Headers for tables
@@ -273,7 +273,7 @@ OUT_TMPDIR_SEARCH = re.compile(r'^out_tmpdir......$')
 
 STANDARD_BAM_DIR = 'standard_bams'
 UNFILTERED_BAM_DIR = 'unfiltered_bams'
-SIMPLEX_DUPLEX_BAM_DIR = 'simplex_duplex_bams'
+SIMPLEX_BAM_DIR = 'simplex_bams'
 DUPLEX_BAM_DIR = 'duplex_bams'
 TRIM_FILES_DIR = 'trimming_results'
 MARK_DUPLICATES_FILES_DIR = 'mark_duplicates_results'
@@ -281,7 +281,7 @@ COVERED_INTERVALS_DIR = 'covered_intervals_results'
 
 STANDARD_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR.bam$')
 UNFILTERED_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt.bam$')
-SIMPLEX_DUPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt-simplex-duplex.bam$')
+SIMPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt-simplex.bam$')
 DUPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt-duplex.bam$')
 
 TRIM_FILE_SEARCH = re.compile(r'^.*_cl\.stats$')
@@ -291,13 +291,13 @@ COVERED_INTERVALS_FILE_SEARCH = re.compile(r'^.*(\.fci\.bed\.srt|\.fci\.list)$')
 BAM_DIRS = [
     STANDARD_BAM_DIR,
     UNFILTERED_BAM_DIR,
-    SIMPLEX_DUPLEX_BAM_DIR,
+    SIMPLEX_BAM_DIR,
     DUPLEX_BAM_DIR
 ]
 
 BAM_SEARCHES = [
     STANDARD_BAM_SEARCH,
     UNFILTERED_BAM_SEARCH,
-    SIMPLEX_DUPLEX_BAM_SEARCH,
+    SIMPLEX_BAM_SEARCH,
     DUPLEX_BAM_SEARCH
 ]

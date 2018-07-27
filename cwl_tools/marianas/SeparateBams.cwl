@@ -31,11 +31,11 @@ inputs:
 
 outputs:
 
-  simplex_duplex_bam:
+  simplex_bam:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex-duplex.bam'))
+      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex.bam'))
 
   duplex_bam:
     type: File

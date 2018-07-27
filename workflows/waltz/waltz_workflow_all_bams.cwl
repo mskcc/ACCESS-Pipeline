@@ -40,7 +40,7 @@ inputs:
 
   standard_bams: File[]
   marianas_unfiltered_bams: File[]
-  marianas_simplex_duplex_bams: File[]
+  marianas_simplex_bams: File[]
   marianas_duplex_bams: File[]
 
 outputs:
@@ -53,9 +53,9 @@ outputs:
     type: Directory
     outputSource: unfiltered_pool_a_consolidate_bam_metrics/directory
 
-  waltz_simplex_duplex_pool_a_files:
+  waltz_simplex_pool_a_files:
     type: Directory
-    outputSource: simplex_duplex_pool_a_consolidate_bam_metrics/directory
+    outputSource: simplex_pool_a_consolidate_bam_metrics/directory
 
   waltz_duplex_pool_a_files:
     type: Directory
@@ -69,9 +69,9 @@ outputs:
     type: Directory
     outputSource: unfiltered_pool_b_consolidate_bam_metrics/directory
 
-  waltz_simplex_duplex_pool_b_files:
+  waltz_simplex_pool_b_files:
     type: Directory
-    outputSource: simplex_duplex_pool_b_consolidate_bam_metrics/directory
+    outputSource: simplex_pool_b_consolidate_bam_metrics/directory
 
   waltz_duplex_pool_b_files:
     type: Directory
@@ -109,11 +109,11 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
-  waltz_simplex_duplex_pool_a:
+  waltz_simplex_pool_a:
     run: ./waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: marianas_simplex_duplex_bams
+      input_bam: marianas_simplex_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: pool_a_bed_file
@@ -169,11 +169,11 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
-  waltz_simplex_duplex_pool_b:
+  waltz_simplex_pool_b:
     run: ./waltz-workflow.cwl
     in:
       run_tools: run_tools
-      input_bam: marianas_simplex_duplex_bams
+      input_bam: marianas_simplex_bams
       coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: pool_b_bed_file
@@ -221,12 +221,12 @@ steps:
     out:
       [directory]
 
-  simplex_duplex_pool_a_consolidate_bam_metrics:
+  simplex_pool_a_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
       output_directory_name:
-        valueFrom: $('waltz_simplex_duplex_a')
-      files: waltz_simplex_duplex_pool_a/waltz_output_files
+        valueFrom: $('waltz_simplex_a')
+      files: waltz_simplex_pool_a/waltz_output_files
     out:
       [directory]
 
@@ -257,12 +257,12 @@ steps:
     out:
       [directory]
 
-  simplex_duplex_pool_b_consolidate_bam_metrics:
+  simplex_pool_b_consolidate_bam_metrics:
     run: ../../cwl_tools/expression_tools/consolidate_files.cwl
     in:
       output_directory_name:
-        valueFrom: $('waltz_simplex_duplex_b')
-      files: waltz_simplex_duplex_pool_b/waltz_output_files
+        valueFrom: $('waltz_simplex_b')
+      files: waltz_simplex_pool_b/waltz_output_files
     out:
       [directory]
 

@@ -19,7 +19,7 @@ inputs:
   unfiltered_bam:
     type: File
     secondaryFiles: [^.bai]
-  simplex_duplex_bam:
+  simplex_bam:
     type: File
     secondaryFiles: [^.bai]
   duplex_bam:
@@ -43,7 +43,7 @@ expression: |
 
     output_files.push(inputs.standard_bam);
     output_files.push(inputs.unfiltered_bam);
-    output_files.push(inputs.simplex_duplex_bam);
+    output_files.push(inputs.simplex_bam);
     output_files.push(inputs.duplex_bam);
     output_files.push(inputs.r1_fastq);
     output_files.push(inputs.r2_fastq);

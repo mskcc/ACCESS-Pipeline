@@ -43,7 +43,7 @@ inputs:
     inputBinding:
       prefix: -mua
 
-  simplex_duplex_waltz_metrics_pool_a:
+  simplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
       prefix: -msa
@@ -63,7 +63,7 @@ inputs:
     inputBinding:
       prefix: -mub
 
-  simplex_duplex_waltz_metrics_pool_b:
+  simplex_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
       prefix: -msb

@@ -47,22 +47,10 @@ inputs:
   B_on_target_positions: File
   noise__good_positions_A: File
 
-  standard_bams:
-    type:
-      type: array
-      items: File
-  marianas_unfiltered_bams:
-    type:
-      type: array
-      items: File
-  marianas_simplex_duplex_bams:
-    type:
-      type: array
-      items: File
-  marianas_duplex_bams:
-    type:
-      type: array
-      items: File
+  standard_bams: File[]
+  marianas_unfiltered_bams: File[]
+  marianas_simplex_bams: File[]
+  marianas_duplex_bams: File[]
 
 outputs:
 
@@ -90,16 +78,16 @@ steps:
       reference_fasta_fai: reference_fasta_fai
       standard_bams: standard_bams
       marianas_unfiltered_bams: marianas_unfiltered_bams
-      marianas_simplex_duplex_bams: marianas_simplex_duplex_bams
+      marianas_simplex_bams: marianas_simplex_bams
       marianas_duplex_bams: marianas_duplex_bams
     out: [
       waltz_standard_pool_a_files,
       waltz_unfiltered_pool_a_files,
-      waltz_simplex_duplex_pool_a_files,
+      waltz_simplex_pool_a_files,
       waltz_duplex_pool_a_files,
       waltz_standard_pool_b_files,
       waltz_unfiltered_pool_b_files,
-      waltz_simplex_duplex_pool_b_files,
+      waltz_simplex_pool_b_files,
       waltz_duplex_pool_b_files]
 
   #########################
@@ -119,10 +107,10 @@ steps:
 
       waltz_standard_pool_a: waltz_workflow/waltz_standard_pool_a_files
       waltz_unfiltered_pool_a: waltz_workflow/waltz_unfiltered_pool_a_files
-      waltz_simplex_duplex_pool_a: waltz_workflow/waltz_simplex_duplex_pool_a_files
+      waltz_simplex_pool_a: waltz_workflow/waltz_simplex_pool_a_files
       waltz_duplex_pool_a: waltz_workflow/waltz_duplex_pool_a_files
       waltz_standard_pool_b: waltz_workflow/waltz_standard_pool_b_files
       waltz_unfiltered_pool_b: waltz_workflow/waltz_unfiltered_pool_b_files
-      waltz_simplex_duplex_pool_b: waltz_workflow/waltz_simplex_duplex_pool_b_files
+      waltz_simplex_pool_b: waltz_workflow/waltz_simplex_pool_b_files
       waltz_duplex_pool_b: waltz_workflow/waltz_duplex_pool_b_files
     out: [combined_qc]

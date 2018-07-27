@@ -38,7 +38,7 @@ MY_THEME = theme(text = element_text(size=14),
 # Some title file columns will not be printed
 DROP_COLS = c('Pool', 'Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
 # Levels and sort order for collapsing methods
-LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex-Duplex', 'Duplex')
+LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex', 'Duplex')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned

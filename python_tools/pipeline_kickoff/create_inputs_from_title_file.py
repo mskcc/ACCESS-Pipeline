@@ -263,7 +263,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path):
     perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
 
     # Check that patient ids are found in fastq filenames
-    # That is how we pair Tumors and Normals
     perform_patient_id_checks(fastq1, fastq2, title_file)
 
     # Check the barcode sequences in the title_file against the sequences in the sample_sheets
