@@ -2,7 +2,6 @@ import shutil
 import unittest
 
 from constants import *
-from util import substring_in_list
 from python_tools.workflow_tools import pipeline_postprocessing
 
 
@@ -31,7 +30,7 @@ class Tests(unittest.TestCase):
 
         assert STANDARD_BAM_DIR in directories
         assert UNFILTERED_BAM_DIR in directories
-        assert SIMPLEX_DUPLEX_BAM_DIR in directories
+        assert SIMPLEX_BAM_DIR in directories
         assert DUPLEX_BAM_DIR in directories
 
     def test_delete_extraneous_output_folders(self):

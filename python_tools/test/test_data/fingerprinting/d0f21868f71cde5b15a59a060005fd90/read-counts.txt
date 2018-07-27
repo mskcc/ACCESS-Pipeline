@@ -1,0 +1,2 @@
+Bam	Sample	TotalReads	UnmappedReads	TotalMapped	UniqueMapped	DuplicateFraction	TotalOnTarget	UniqueOnTarget	TotalOnTargetFraction	UniqueOnTargetFraction
+XX-tdm1-005-pl-T02_30ng-a_IGO_05500_ET_41_S41_SUB_001_cl_aln_srt_MD_IR_FX_BR__aln_srt-duplex.bam	XX-tdm1-005-pl-T02_30ng-a_IGO_05500_ET_41_S41_SUB_001_cl_aln_srt_MD_IR_FX_BR__aln_srt-duplex.bam	0	0	0	0	NaN	0	0	?	?
