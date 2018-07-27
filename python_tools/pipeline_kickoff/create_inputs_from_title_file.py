@@ -34,18 +34,6 @@ from ..constants import *
 # Todo: This file is too large
 
 
-# Static adapter sequences that surround the barcodes
-# Used by the Trimgalore step in the pipeline
-#
-# See notes/adapters for full descriptions across all cases
-ADAPTER_1_PART_1 = 'GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
-ADAPTER_1_PART_2 = 'ATATCTCGTATGCCGTCTTCTGCTTG'
-
-# Todo: Start using default illumina adapter
-# ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
-# ADAPTER_2_PART_2 = 'AGATCTCGGTGGTCGCCGTATCATT'
-ADAPTER_2 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
-
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
@@ -73,7 +61,7 @@ def load_fastqs(data_dir):
     os.walk yields a 3-list (dirpath, dirnames, filenames)
     """
     # Gather Sample Sub-directories (but leave out the parent dir)
-    folders = list(os.walk(data_dir))
+    folders = list(os.walk(data_dir, followlinks=True))
 
     # Filter to those that contain a read 1, read 2, and sample sheet
     folders_2 = filter(lambda folder: any([FASTQ_1_FILE_SEARCH in x for x in folder[2]]), folders)
@@ -97,34 +85,6 @@ def load_fastqs(data_dir):
     sample_sheet = [{'class': 'File', 'path': path} for path in sample_sheet]
 
     return fastq1, fastq2, sample_sheet
-
-
-def get_adapter_sequences(title_file):
-    """
-    Adapter sequences need to be tailored to include each sample barcode from the title file
-
-    p7_end - bc_1 - primer_binding_site_7
-
-    primer_binding_site_5 - bc_2 - p5_end
-
-    These will be used during the Trimgalore adapter trimming step
-    :param title_file:
-    :return:
-    """
-    # First, check that there are no duplicate barcodes
-    perform_duplicate_barcodes_check(title_file)
-
-    barcodes_one = title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN]
-    # Todo: use default illumina adapter
-    # barcodes_two = title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN]
-
-    adapter = ADAPTER_1_PART_1
-    adapter += barcodes_one
-    adapter += ADAPTER_1_PART_2
-
-    adapter2 = [ADAPTER_2] * len(adapter)
-
-    return adapter, adapter2
 
 
 def perform_duplicate_barcodes_check(title_file):
@@ -267,15 +227,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         # Check the barcode sequences in the title_file against the sequences in the sample_sheets
         perform_barcode_index_checks(title_file, sample_sheets)
 
-    # Build adapters from title_file (todo: build from sample sheet once dual indices are available?)
-    adapter, adapter2 = get_adapter_sequences(title_file)
-
     out_dict = {
         'fastq1': fastq1,
         'fastq2': fastq2,
         'sample_sheet': sample_sheets,
-        'adapter': adapter.tolist(),
-        'adapter2': adapter2,
 
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
@@ -492,8 +447,6 @@ def check_final_file(output_file_name):
 
     # Todo: Use CONSTANTS
     fields_per_sample = [
-        'adapter',
-        'adapter2',
         'add_rg_ID',
         'add_rg_LB',
         'add_rg_PU',
@@ -605,7 +558,6 @@ def print_user_message():
     print('2. Using the wrong bedfile for the capture')
     print('3. Not specifying the \'-c\' parameter when collapsing steps are intended')
     print('4. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
-    print('5. Using the wrong adapter sequences (this setup only support dual-indexing)')
     print('6. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
     print('7. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
