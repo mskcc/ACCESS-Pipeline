@@ -1,0 +1,2 @@
+Barcode	Pool	Sample	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Sex	Barcode_index_1	Barcode_index_2	Lane
+bc412-bc412	Pool-05500_ET-Tube3_1	XX-tdm1-005-pl-T02_30ng	XX-tdm1-005-pl-T02_30ng	XX-tdm1-005-pl-T02_30ng	Tumor	Plasma	10	732	500	PanCancer Panel V2.1(A:B=50:1)	F	AGGATAGC	GCTATCCT	1
