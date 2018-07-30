@@ -2,7 +2,7 @@
 inputs_yaml: {class: File, path: ./actual_inputs_val_5.yaml}
 
 # Title File
-title_file: {class: File, path: /home/johnsoni/val_5_title_file.txt}
+title_file: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/val_5-7_26-marianas-1.6.0/val_5_title_file.txt}
 
 # Fingerprinting
 FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}
@@ -15,14 +15,14 @@ A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/re
 B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
 
 # Waltz files
-waltz_standard_pool_a: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/standard-A}
-waltz_unfiltered_pool_a: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/unfiltered-A}
-waltz_simplex_duplex_pool_a: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/simplex-duplex-A}
-waltz_duplex_pool_a: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/duplex-A}
-waltz_standard_pool_b: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/standard-B}
-waltz_unfiltered_pool_b: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/unfiltered-B}
-waltz_simplex_duplex_pool_b: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/simplex-duplex-B}
-waltz_duplex_pool_b: {class: Directory, path: /home/johnsoni/validation_5_bam_metrics/duplex-B}
+waltz_standard_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_standard_pool_a}
+waltz_unfiltered_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_unfiltered_pool_a}
+waltz_simplex_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_simplex_pool_a}
+waltz_duplex_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_duplex_pool_a}
+waltz_standard_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_standard_pool_b}
+waltz_unfiltered_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_unfiltered_pool_b}
+waltz_simplex_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_simplex_pool_b}
+waltz_duplex_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_duplex_pool_b}
 
 # Bam directories
 sample_directories:
