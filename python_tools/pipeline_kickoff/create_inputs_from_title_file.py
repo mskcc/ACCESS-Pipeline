@@ -104,7 +104,7 @@ def perform_duplicate_barcodes_check(title_file):
 def contained_in(sample_id, fastq_object):
     """
     Helper method to sort list of fastqs.
-    Returns True if `value` contained in `string`, False otherwise
+    Returns True if `sample_id` contained in `fastq_object`'s path, False otherwise
     """
     found = sample_id.replace('_', '-') in fastq_object['path'].replace('_', '-')
     if found:

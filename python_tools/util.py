@@ -91,3 +91,18 @@ def substring_in_list(substring, list):
             if substring.match(elem):
                 return True
     return False
+
+
+def get_position_by_substring(tofind, list):
+    '''
+    Get index where `tofind` is a substring of the entry of `list`
+
+    :param tofind: string to find in each element of `list`
+    :param list: list to search through
+    :return: index in `list` where `tofind` is found as a substring
+    '''
+    for i, e in enumerate(list):
+        print "i, e:"
+        print i, e
+        if tofind in e:
+            return i

@@ -19,7 +19,7 @@ import pandas as pd
 from PyPDF2 import PdfFileMerger
 
 from ...constants import *
-from ...util import extract_sample_name, read_df
+from ...util import extract_sample_name, read_df, get_position_by_substring
 
 import matplotlib
 
@@ -550,9 +550,9 @@ def find_sex_from_interval(waltz_dir):
                     if row[3] == 'Tiling_SRY_Y:2655301' or row[3] == 'Tiling_USP9Y_Y:14891501':
                         data.append(int(row[5]))
             if sum(data) > 50:
-                sex.append([file[0:file.find('_bc')], "Male"])
+                sex.append([file, "Male"])
             else:
-                sex.append([file[0:file.find('_bc')], "Female"])
+                sex.append([file, "Female"])
     # writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
@@ -567,9 +567,9 @@ def standardize_gender(title_file):
     gender = []
     for s in gender_from_title:
         if s[1] in female:
-            gender.append([s[0].replace('_', '-'), 'Female'])
+            gender.append([s[0], 'Female'])
         elif s[1] in male:
-            gender.append([s[0].replace('_', '-'), 'Male'])
+            gender.append([s[0], 'Male'])
     return gender
 
 
@@ -577,10 +577,9 @@ def check_sex(gender, sex, output_dir):
     list_of_samples = [s[0] for s in sex]
     mismatch_sex = []
     for g in gender:
-        if g[0] in list_of_samples:
-            idx = list_of_samples.index(g[0])
-            if g[1] != sex[idx][1]:
-                mismatch_sex.append([g[0], g[1], sex[idx][1]])
+        idx = get_position_by_substring(g[0], list_of_samples)
+        if g[1] != sex[idx][1]:
+            mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
     df = pd.DataFrame(mismatch_sex, columns=["Sample", "Sex from Title File", "Sex From Pileup"])
     if not len(df):
@@ -662,8 +661,8 @@ def main():
                     config_file=args.fp_config, titlefile=args.title_file)
 
     # Sex
-    sex = find_sex_from_interval(waltz_dir=args.waltz_dir_B)
     gender = standardize_gender(title_file=args.title_file)
+    sex = find_sex_from_interval(waltz_dir=args.waltz_dir_B)
     check_sex(gender, sex, output_dir=args.output_dir)
 
 
