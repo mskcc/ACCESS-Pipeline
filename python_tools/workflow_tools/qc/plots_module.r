@@ -243,7 +243,7 @@ plotInsertSizeDistribution = function(insertSizes) {
     theme(legend.position = c(.75, .5)) +
     MY_THEME
   
-  ggsave(g, file='insert_sizes.pdf', width=11, height=14)
+  ggsave(g, file='insert_sizes.pdf', width=11, height=8.5)
 }
 
 
@@ -459,8 +459,9 @@ parse_sort_order = function(groups_file) {
 # Extract actual sample names from full filenames
 #' Ex: sample_names = c('test_patient_T', 'test_patient_N')
 #' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
-#' Todo: this will fail for sample_1, sample_10   !!!!!
 cleanup_sample_names = function(data, sample_names) {
+  # Need to reverse sort to get longer matches first
+  sample_names[order(nchar(sample_names), sample_names, decreasing = TRUE)]
   find.string <- paste(unlist(sample_names), collapse = "|")
   find.string <- paste0('.*(', find.string, ').*', collapse='', sep='')
   data = data %>% mutate(Sample = gsub(find.string, '\\1', Sample))
