@@ -34,6 +34,7 @@ def extract_sample_name(has_a_sample, sample_names):
     Note that we must sort the samples names by length in order to return the longest match:
     e.g. sample_abc123-IGO-XXX, [sample_abc123, sample_abc12] --> sample_abc123
     """
+    sample_names = [s.split('_IGO')[0] for s in sample_names]
     sample_names = sorted(sample_names, key=len, reverse=True)
     sample_name_search = r'|'.join(sample_names)
     sample_name_search = r'.*(' + sample_name_search + ').*'
