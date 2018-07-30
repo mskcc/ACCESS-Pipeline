@@ -370,7 +370,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         contamination = contamination_rate(all_fp)
         contamination = [x for x in contamination if x[1] != 'NaN']
 
-        samplename = [c[0][0:c[0].find('IGO')] for c in contamination]
+        samplename = [c[0] for c in contamination]
         title_file = read_df(titlefile, header='infer')
         samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
 
