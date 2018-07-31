@@ -280,9 +280,9 @@ MARK_DUPLICATES_FILES_DIR = 'mark_duplicates_results'
 COVERED_INTERVALS_DIR = 'covered_intervals_results'
 
 STANDARD_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR.bam$')
-UNFILTERED_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt.bam$')
-SIMPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt-simplex.bam$')
-DUPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt-duplex.bam$')
+UNFILTERED_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam$')
+SIMPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam$')
+DUPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam$')
 
 TRIM_FILE_SEARCH = re.compile(r'^.*_cl\.stats$')
 MARK_DUPLICATES_FILE_SEARCH = re.compile(r'^.*\.md_metrics$')
