@@ -102,7 +102,5 @@ def get_position_by_substring(tofind, list):
     :return: index in `list` where `tofind` is found as a substring
     '''
     for i, e in enumerate(list):
-        print "i, e:"
-        print i, e
-        if tofind in e:
+        if tofind.split('_IGO')[0] in e:
             return i
