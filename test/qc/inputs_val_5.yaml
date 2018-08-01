@@ -2,7 +2,7 @@
 inputs_yaml: {class: File, path: ./actual_inputs_val_5.yaml}
 
 # Title File
-title_file: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/val_5-7_26-marianas-1.6.0/val_5_title_file.txt}
+title_file: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/val_5-7_26-marianas-1.6.0/val_5_title_file--IGO_TEST.txt}
 
 # Fingerprinting
 FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}
@@ -26,17 +26,17 @@ waltz_duplex_pool_b: {class: Directory, path: /ifs/work/bergerm1/Innovation/sand
 
 # Bam directories
 sample_directories:
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M15-1035-N_bc439_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M15-21642-N_bc430_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M17-25458-N_bc433_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M17-26854-N_bc431_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M17-27317-N_bc434_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M17-32509-N_bc435_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/M17-32814-N_bc414_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-141-Sample-11-T_bc419_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-144-Sample-13-T_bc421_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-148-Sample-14-T_bc422_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-163-Sample-19-T_bc427_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-183-Sample-10-T_bc418_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-200-Sample-15-T_bc423_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
-- {class: Directory, path: /ifs/work/bergerm1/Innovation/projects/Juber/HiSeq/DMP-validations/validation-5/marianas/collapsed-bams-1.5.0/MSK-L-202-Sample-6-T_bc406_umi-processed-fastqs_L000_mrg_cl_aln_srt_MD_IR_FX_BR-folder}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M15-1035-N_S14_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M15-21642-N_S9_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M17-25458-N_S11_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M17-26854-N_S10_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M17-27317-N_S12_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M17-32509-N_S13_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_M17-32814-N_S8_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-141_Sample_11-T_S2_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-144_Sample_13-T_S3_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-148_Sample_14-T_S4_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-163_Sample_19-T_S6_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-183_Sample_10-T_S1_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-200_Sample_15-T_S5_001}
+- {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/Sample_MSK-L-202_Sample_6-T_S7_001}

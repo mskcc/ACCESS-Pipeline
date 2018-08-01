@@ -55,7 +55,7 @@ def noise_contributing_sites_plot(noise_table):
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--noise_file", required=True)
-    parser.add_argument("-ns", "--noise_by_substitution", required=True)
+    parser.add_argument("-ns", "--noise_by_substitution", required=False)
     parser.add_argument("-t", "--title_file", required=True)
     args = parser.parse_args()
     return args
@@ -65,17 +65,18 @@ def main():
     args = parse_arguments()
     noise_table = pd.read_csv(args.noise_file, sep='\t').fillna(0)
     title_file = read_df(args.title_file, header='infer')
-    sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
 
-    logging.info('Noise Calculation')
+    logging.info('Plotting Noise:')
     logging.info(noise_table)
     logging.info(title_file)
 
     # Filter to just Total reads noise counts
     noise_table = noise_table[noise_table['Method'] == 'Total']
 
-    # Cleanup sample IDs
+    # Cleanup sample IDs (in Noise table as well as Title File)
+    sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
+    title_file[SAMPLE_ID_COLUMN] = title_file[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
 
     # Filter to Plasma samples
     plasma_samples = title_file[title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma'][TITLE_FILE__SAMPLE_ID_COLUMN]
