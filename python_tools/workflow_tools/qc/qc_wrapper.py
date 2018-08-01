@@ -20,7 +20,7 @@ PLOTS_MODULE_BASE = 'plots_module.r'
 
 def run_plots_module(tables_output_dir, plots_output_dir, title_file_path, inputs_yaml_path):
     """
-    Note: The following R script should be found in your Virtual
+    Note: The R script should be found in your Virtual
     environment PATH (/somewhere/virtualenv/bin/plots_module.r)
     after installing with `python setup.py install`
     """

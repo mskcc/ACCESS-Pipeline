@@ -139,7 +139,7 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
 
         # todo - columns should be given constant labels:
         newDf = pd.DataFrame({
-            'method': [curr_method.replace('Waltz', '')] * len(curr_table),
+            'method': [curr_method] * len(curr_table),
             'Sample': [sample] * len(curr_table),
             'interval_name': curr_table.ix[:, 3],
             'coverage': curr_table.ix[:, 5],
@@ -280,7 +280,7 @@ def main(args):
     # Std, Pool A and B
     read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
-    # GC bias comes from A Targets
+    # GC Bias & Coverage Distribution per Interval graphs come from Standard Bam, A Targets
     gc_cov_int_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_pool_a)
 
     read_counts_table = pd.concat([get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL), read_counts_table])
@@ -337,7 +337,7 @@ def main(args):
     gc_avg_table_all.to_csv(all_samples_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
 
-    # also copy the fragment-sizes.txt file, which the plots module also uses
+    # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
     # todo: not clean
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')

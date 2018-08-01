@@ -36,7 +36,7 @@ MY_THEME = theme(text = element_text(size=14),
   plot.margin = unit(c(.1, .1, .1, 1), 'in'))
 
 # Some title file columns will not be printed
-DROP_COLS = c('Pool', 'Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield')
+DROP_COLS = c('Pool', 'Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield', 'Barcode_index_1', 'Barcode_index_2')
 # Levels and sort order for collapsing methods
 LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex', 'Duplex')
 
@@ -189,7 +189,7 @@ plotGCwithCovAllSamples = function(data) {
 }
 
 
-#' Plot Coverage vs %GC content, separately for each sample 
+#' Plot Coverage vs %GC content, separately for each sample
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
@@ -236,7 +236,7 @@ plotInsertSizeDistribution = function(insertSizes) {
 
   g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
     stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
-    ggtitle('Insert Size Distribution') +
+    ggtitle('Insert Size Distribution (from Unfiltered Pool A reads)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     labs(colour = "Sample, Peak Insert Size") +
@@ -257,7 +257,7 @@ plotCovDistPerIntervalLine = function(data) {
   
   g = ggplot(data) +
     geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
-    ggtitle('Distribution of Coverages per Target Interval') +
+    ggtitle('Distribution of Coverages per Target Interval (from Total Reads, Pool A)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
     coord_cartesian(xlim=c(0, 3)) +
@@ -295,8 +295,7 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
       fg_params=list(cex = .6),
       padding=unit(c(5, 3), "mm")),
     colhead = list(fg_params=list(cex = 0.5)),
-    rowhead = list(fg_params=list(cex = 0.5))
-  )
+    rowhead = list(fg_params=list(cex = 0.5)))
   
   # Round to one decimal place
   coverage_df$average_coverage = format(round(coverage_df$average_coverage, 1), nsmall = 1)
@@ -456,7 +455,7 @@ parse_sort_order = function(groups_file) {
 }
 
 
-# Extract actual sample names from full filenames
+#' Extract actual sample names from full filenames
 #' Ex: sample_names = c('test_patient_T', 'test_patient_N')
 #' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
 cleanup_sample_names = function(data, sample_names) {
