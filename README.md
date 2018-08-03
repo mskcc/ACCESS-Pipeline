@@ -69,7 +69,7 @@ PATH="/usr/bin/bedtools:$PATH"
 
 ### 5. Install the python tools
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install && python setup.py clean
 ```
 
 ### 6. Install R libraries
