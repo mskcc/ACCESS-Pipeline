@@ -21,20 +21,6 @@ from ..util import *
 logger = logging.getLogger('outputs_test')
 
 
-
-def substrings_in_list(substrings, list):
-    """
-    Check to see that all elements from `substrings` can be found together in a single element of `list`
-    """
-    for elem in list:
-        founds = []
-        for substring in substrings:
-            founds.append(substring in elem)
-        if all(founds):
-            return True
-    return False
-
-
 class TestPipelineOutputs(unittest.TestCase):
 
     output_dir = ''
@@ -84,25 +70,15 @@ class TestPipelineOutputs(unittest.TestCase):
                 assert 'first-pass.txt' in files
                 assert 'second-pass-alt-alleles.txt' in files
 
-                # All bams should be found
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX.bam', files))
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX.bai', files))
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX-duplex.bam', files))
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX-duplex.bai', files))
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX-simplex-duplex.bam', files))
-                self.assertTrue(substring_in_list('__aln_srt_IR_FX-simplex-duplex.bai', files))
-                self.assertTrue(substring_in_list('_cl_aln_srt_MD_IR_FX_BR.bam', files))
-                self.assertTrue(substring_in_list('_cl_aln_srt_MD_IR_FX_BR.bai', files))
-
                 # All bams should be found, with correct sample_ids
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX.bam', sample_id], files))
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX.bai', sample_id], files))
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX-duplex.bam', sample_id], files))
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX-duplex.bai', sample_id], files))
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX-simplex-duplex.bam', sample_id], files))
-                self.assertTrue(substrings_in_list(['__aln_srt_IR_FX-simplex-duplex.bai', sample_id], files))
-                self.assertTrue(substrings_in_list(['_cl_aln_srt_MD_IR_FX_BR.bam', sample_id], files))
-                self.assertTrue(substrings_in_list(['_cl_aln_srt_MD_IR_FX_BR.bai', sample_id], files))
+                self.assertTrue(substrings_in_list([STANDARD_BAM_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([STANDARD_BAI_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([UNFILTERED_BAM_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([UNFILTERED_BAI_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([SIMPLEX_BAM_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([SIMPLEX_BAI_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([DUPLEX_BAM_SEARCH, sample_id], files))
+                self.assertTrue(substrings_in_list([DUPLEX_BAI_SEARCH, sample_id], files))
 
 
 def parse_arguments():
@@ -116,7 +92,8 @@ def parse_arguments():
     parser.add_argument(
         '-l',
         '--log_level',
-        required=True
+        default='info',
+        required=False
     )
     args = parser.parse_args()
 
@@ -132,13 +109,7 @@ def setup_logging(args):
         'critical': logging.CRITICAL
     }
 
-    print('here')
-    if args.log_level:
-        print('here2')
-        log_level = LEVELS[args.log_level]
-    else:
-        log_level = logging.INFO
-
+    log_level = LEVELS[args.log_level]
     logger.setLevel(log_level)
     ch = logging.StreamHandler()
     ch.setLevel(log_level)

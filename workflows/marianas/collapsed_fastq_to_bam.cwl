@@ -71,6 +71,7 @@ steps:
       PL: add_rg_PL
       PU: add_rg_PU
       CN: add_rg_CN
+      # Todo: this is not used
       output_suffix: output_suffix
     out: [output_sam]
 
