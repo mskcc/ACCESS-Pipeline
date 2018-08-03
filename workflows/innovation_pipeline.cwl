@@ -338,7 +338,6 @@ steps:
   # Make sample output directories #
   ##################################
 
-  # Todo: test that these directories are correctly created
   make_bam_output_directories:
     run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
     in:

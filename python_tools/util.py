@@ -5,6 +5,11 @@ import pandas as pd
 from constants import *
 
 
+# We look for the regex class at runtime:
+# https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
+RETYPE = type(re.compile('duct_typing'))
+
+
 def read_df(f, header=None):
     """
     Helper to read our particular format of metrics files
@@ -79,17 +84,34 @@ def substring_in_list(substring, list):
     :return: True / False if found / not found
     """
 
-    # We look for the regex class at runtime:
-    # https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
-    retype = type(re.compile('duct_typing'))
-
     for elem in list:
         if type(substring) == str:
             if substring in elem:
                 return True
-        elif type(substring) == retype:
+        elif type(substring) == RETYPE:
             if substring.match(elem):
                 return True
+    return False
+
+
+def substrings_in_list(substrings, list):
+    """
+    Check to see that all elements from `substrings` can be found together in a single element of `list`
+
+    :param: substrings List of strings or regex literals
+    :param: list List of elements to search through
+    :return: True / False if all elements found / not found in single element from `list`
+    """
+    for elem in list:
+        founds = []
+        for substring in substrings:
+            if type(substring) == str:
+                founds.append(substring in elem)
+            elif type(substring) == RETYPE:
+                if substring.match(elem):
+                    founds.append(True)
+        if all(founds):
+            return True
     return False
 
 
