@@ -27,6 +27,7 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
+- [Virtualenv](https://virtualenv.pypa.io/en/stable/)
 
 # Installation
 
