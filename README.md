@@ -32,28 +32,28 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 # Installation
 
 ### 1. Set up a Virtual Environment
-Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.16)
+Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
-~$ virtualenv ~/access_pipeline_0.0.16
+~$ virtualenv ~/access_pipeline_0.0.26
 ~$ source ~/access_pipeline_0.0.16/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-(access_pipeline_0.0.16) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.3
-(access_pipeline_0.0.16) ~$ cd Innovation-Pipeline
+(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.26
+(access_pipeline_0.0.26) ~$ cd Innovation-Pipeline
 ```
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
-(access_pipeline_0.0.16) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git
-(access_pipeline_0.0.16) ~$ git pull --tags
+(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git
+(access_pipeline_0.0.26) ~$ git pull --tags
 ```
 
 ### 3. Copy the test data (optional)
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+(access_pipeline_0.0.26) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
 ```
 
 ### 4. Update the paths to the tool resources and run files
@@ -92,19 +92,19 @@ PATH="/usr/bin/bedtools:$PATH"
 
 ### 6. Install the python tools
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ python setup.py install && python setup.py clean
+(access_pipeline_0.0.26) ~/Innovation-Pipeline$ python setup.py install && python setup.py clean
 ```
 
 ### 7. Install R libraries
 These are used by the QC module at the end of the pipeline
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.26) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 8. Set TMPDIR (optional)
 cwltool & toil will use the `TMPDIR` variable for intermediate outputs
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+(access_pipeline_0.0.26) ~/Innovation-Pipeline$ export TMPDIR=/scratch
 ```
 
 ### 9. Set SGE Environment Vars (optional)
@@ -119,19 +119,19 @@ export TOIL_GRIDENGINE_PE="smp"
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ create_title_file_from_manifest -i ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_title_file_from_manifest -i ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
 ```
 
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ cwltool \
+(access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
   --tmpdir-prefix /where/i/want/tempdirs \
   --tmp-outdir-prefix /where/i/want/outdirs \
   --leave-tmpdir \ # If you want to keep the temp dirs
@@ -141,7 +141,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 To run with Toil batch system runner:
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
 ```
 
 # Running a real run
@@ -167,8 +167,8 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 
 These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`. Note that if there are multiple lanes in the manifest the first script will create multiple title files on a per-lane basis.
 ```
-(access_pipeline_0.0.16) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
-(access_pipeline_0.0.16) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml -f
+(access_pipeline_0.0.26) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
+(access_pipeline_0.0.26) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml -f
 ```
 
 ### 2. Use the pipeline runner/submit scripts
@@ -178,7 +178,7 @@ Note that we use `pipeline_submit` here to submit both the leader job as well as
 Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`.
 
 ```
-(access_pipeline_0.0.16) ~/my_REAL_run$ pipeline_submit \
+(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_submit \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
@@ -191,7 +191,7 @@ Or alternatively, use `pipeline_runner` to make use of the `gridEngine`, `mesos`
 This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 
 ```
-(access_pipeline_0.0.16) ~/my_REAL_run$ pipeline_runner \
+(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
@@ -203,13 +203,13 @@ This will create the output directory (or restart a failed run in that output di
 ### 3. Cleanup the output files
 There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
-(access_pipeline_0.0.16) ~$ cleanup_outputs -d <path/to/outputs>
+(access_pipeline_0.0.26) ~$ cleanup_outputs -d <path/to/outputs>
 ```
 
 ### 4. Test the output files
 There is a script included to check that the correct samples are paired in the correct folders, and that expected files are present in the final output directory.
 ```
-(access_pipeline_0.0.16) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
+(access_pipeline_0.0.26) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
 ```
 
 # Issues
