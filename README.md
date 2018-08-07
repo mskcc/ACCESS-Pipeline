@@ -205,7 +205,7 @@ This will create the output directory (or restart a failed run in that output di
 ### 3. Cleanup the output files
 There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
-(access_pipeline_0.0.26) ~$ cleanup_outputs -d <path/to/outputs>
+(access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```
 
 ### 4. Test the output files
