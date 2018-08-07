@@ -98,7 +98,7 @@ PATH="/usr/bin/bedtools:$PATH"
 ### 7. Install R libraries
 These are used by the QC module at the end of the pipeline
 ```
-(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="https://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.16) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 8. Set TMPDIR (optional)
