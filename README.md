@@ -119,13 +119,13 @@ export TOIL_GRIDENGINE_PE="smp"
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ create_title_file_from_manifest -i Innovation_Pipeline/test/test_data/umi-T_N/manifest.xls -o ./title_file.txt
+(access_pipeline_0.0.16) ~/my_TEST_run$ create_title_file_from_manifest -i ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.16) ~/my_TEST_run$ create_inputs_from_title_file -i ./test_title_file.txt -d Innovation-Pipeline/test/test-data/umi-T_N -t -c
+(access_pipeline_0.0.16) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
 ```
 
 ### 3. Run the test pipeline
@@ -168,7 +168,7 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`.
 ```
 (access_pipeline_0.0.16) ~/my_REAL_run$ create_title_file_from_manifest -i ./EJ_manifest.xlsx -o ./EJ_title_file.txt
-(access_pipeline_0.0.16) ~/my_REAL_run$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -t -c
+(access_pipeline_0.0.16) ~/my_REAL_run$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -o inputs.yaml -t -c
 ```
 
 ### 2. Use the pipeline runner/submit scripts
