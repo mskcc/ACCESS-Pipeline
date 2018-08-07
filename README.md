@@ -6,13 +6,14 @@ WARNING! These steps are preliminary, and are waiting on further pipeline valida
 
 | tool | version |
 | --- | --- |
-| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually)|
+| GCC | 4.4.7 |
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python (must exist in PATH)| 2.7.10 |
 | R (must exist in PATH)| 3.4.2 |
 | Perl (must exist in PATH)| 5.20.2 |
 | Node (must exist in PATH)| v6.10.1 |
+| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | 1.1 | 
@@ -65,32 +66,18 @@ You will need to have your reference files and target lists available. Then prov
 /resources/run_params/test.yaml
 /resources/run_params/test__collapsing.yaml
 ```
-For simplicity, its likely that the only values that will actually require any changes are:
+If you are on LUNA, the only value that will actually require changing is:
 ```
 abra__scratch
-tmp_dir
-reference_fasta
-reference_fasta_fai
-bqsr__knownSites_dbSNP
-bqsr__knownSites_millis
-FP_config_file
-A_on_target_positions
-B_on_target_positions
-noise__good_positions_A
-pool_a_bed_file
-pool_b_bed_file
-gene_list
-and the paths to the tools in run_tools
 ```
 
-### 5. Include the paths to BWA and Bedtools as the first entries in your path:
-Abra and pybedtools will use these versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers
+### 5. Update your PATH variable:
+Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers. This will also leverage the correct verison of GCC for pybedtools. 
+
+If you are on LUNA, put the following at the end of your `~/.profile` (or `~/.zshrc` if using zshell) to get the required versions of the tools:
 ```
-PATH="/usr/bin/bwa:$PATH"
-PATH="/usr/bin/bedtools:$PATH"
-PATH="/usr/bin"
+export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
 ```
-This gives us the correct versions of bwa, bedtools and gcc (which are already installed on LUNA)
 
 ### 6. Install the python tools
 ```
