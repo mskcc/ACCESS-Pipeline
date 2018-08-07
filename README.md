@@ -143,7 +143,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 To run with Toil batch system runner:
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl runs/inputs_pipeline_test.yaml
+(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl inputs.yaml
 ```
 
 # Running a real run
