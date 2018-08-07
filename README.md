@@ -165,10 +165,10 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 
 ### 1. Use the inputs generation scripts
 
-These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`.
+These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`. Note that if there are multiple lanes in the manifest the first script will create multiple title files on a per-lane basis.
 ```
-(access_pipeline_0.0.16) ~/my_REAL_run$ create_title_file_from_manifest -i ./EJ_manifest.xlsx -o ./EJ_title_file.txt
-(access_pipeline_0.0.16) ~/my_REAL_run$ create_inputs_from_title_file -i ./EJ_title_file.txt -d ~/data/DY_data -o inputs.yaml -t -c
+(access_pipeline_0.0.16) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
+(access_pipeline_0.0.16) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml -f
 ```
 
 ### 2. Use the pipeline runner/submit scripts
