@@ -88,7 +88,9 @@ Abra and pybedtools will use these versions of BWA & bedtools implicitly.  This 
 ```
 PATH="/usr/bin/bwa:$PATH"
 PATH="/usr/bin/bedtools:$PATH"
+PATH="/usr/bin"
 ```
+This gives us the correct versions of bwa, bedtools and gcc (which are already installed on LUNA)
 
 ### 6. Install the python tools
 ```
