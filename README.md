@@ -42,12 +42,12 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 ### 2. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git --branch 0.0.26
-(access_pipeline_0.0.26) ~$ cd Innovation-Pipeline
+(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
+(access_pipeline_0.0.26) ~$ cd ACCESS-Pipeline
 ```
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/Innovation-Pipeline.git
+(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
 (access_pipeline_0.0.26) ~$ git pull --tags
 ```
 
@@ -80,20 +80,21 @@ export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2
 ```
 
 ### 6. Install the python tools
+From within the ACCESS-Pipeline repository directory, run the following command:
 ```
-(access_pipeline_0.0.26) ~/Innovation-Pipeline$ python setup.py install && python setup.py clean
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
 
 ### 7. Install R libraries
 These are used by the QC module at the end of the pipeline
 ```
-(access_pipeline_0.0.26) ~/Innovation-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
 
 ### 8. Set TMPDIR (optional)
 cwltool & toil will use the `TMPDIR` variable for intermediate outputs
 ```
-(access_pipeline_0.0.26) ~/Innovation-Pipeline$ export TMPDIR=/scratch
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ export TMPDIR=/scratch
 ```
 
 ### 9. Set SGE Environment Vars (optional)
@@ -121,14 +122,15 @@ This step will create a file `inputs.yaml`, and pull in the run parameters (-t f
 To run with the CWL reference implementation (faster for testing purposes):
 ```
 (access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
-  --tmpdir-prefix /where/i/want/tempdirs \
-  --tmp-outdir-prefix /where/i/want/outdirs \
-  --leave-tmpdir \ # If you want to keep the temp dirs
-  --leave-outputs \ # If you want to keep the outputs
-  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
-  inputs.yaml
+  --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
+  --tmp-outdir-prefix ~/my_TEST_run \                         # Where to put temporary output directories
+  --cachedir ~/my_TEST_run \                                  # Where to put cached outputs (useful for restart using same command)
+  --leave-tmpdir \                                            # If you want to keep the temp dirs
+  --leave-outputs \                                           # If you want to keep the outputs
+  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \   # The workflow *required*
+  inputs.yaml                                                 # The inputs to the workflow *required*
 ```
-To run with Toil batch system runner:
+Or, to run with the Toil batch system runner:
 ```
 (access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl inputs.yaml
 ```
