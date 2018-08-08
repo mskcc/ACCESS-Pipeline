@@ -217,6 +217,8 @@ def create_expected_file(titlefile, fpOutputdir):
     patient = {}
 
     for s in samples:
+        s = [sam.split('_IGO')[0] for sam in s]
+        s = [sam.split('-IGO')[0] for sam in s]
         if s[2] in patient.keys():
             patient[s[2]].append(s[0])
         else:
@@ -263,7 +265,6 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
                 elif j != 0:
                     hm_mismatch = hm_mismatch + 1
 
-            # Todo: Use util.extract_sample_name() instead of relying on "IGO"
             sample_g = extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             sample_h = extract_sample_name(h[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             geno_compare.append([sample_g, sample_h, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch])
@@ -299,7 +300,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
                 x.append('Unexpected Match')
 
     geno_compare.insert(0, ["Sample1", "Sample2", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
-                            "HeteozygousMatch", "HeteozygousMismatch", "Status"])
+                            "HeterozygousMatch", "HeterozygousMismatch", "Status"])
 
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
@@ -324,6 +325,8 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
 
     plt.figure(figsize=(10, 5))
     plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
+    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
+
     plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
@@ -346,7 +349,7 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     major_contamination = sorted(major_contamination)
     write_csv(fp_output_dir + 'majorContamination.txt', major_contamination)
 
-    plt.axhline(y=0.55, xmin=0, xmax=1, c='r', ls='--')
+    plt.axhline(y=0.6, xmin=0, xmax=1, c='r', ls='--')
     plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
     plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
     plt.ylabel('% of Heterozygous Position')
@@ -382,6 +385,8 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
 
         plt.figure(figsize=(10, 5))
         plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
+        plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
+
         plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
         plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
@@ -581,7 +586,7 @@ def check_sex(gender, sex, output_dir):
         if g[1] != sex[idx][1]:
             mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(mismatch_sex, columns=["Sample", "Sex from Title File", "Sex From Pileup"])
+    df = pd.DataFrame(mismatch_sex, columns=["Sample", "Reported Sex", "Inferred Sex"])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 

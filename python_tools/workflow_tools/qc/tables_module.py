@@ -28,25 +28,6 @@ def unique_or_tot(x):
         return PICARD_LABEL
 
 
-def get_gene_and_probe(interval):
-    # todo - should be more specific
-    interval_regex = re.compile(r'^.*_.*_.*_.*$')
-
-    # Example interval string: exon_AKT1_4a_1
-    if interval[0:4] == 'exon':
-        split = interval.split('_')
-        return split[1], split[2] + '_' + split[3]
-
-    # Another example I've encountered: 426_2903_324(APC)_1a
-    elif interval_regex.match(interval):
-        split = interval.split('_')
-        return '_'.join(split[0:2]), '_'.join(split[2:4])
-
-    else:
-        curr = interval.split('_exon_')
-        return curr[0], curr[1]
-
-
 ##########################
 # Table creation methods #
 ##########################
@@ -233,11 +214,30 @@ def get_gc_table_average_for_each_sample(tbl):
     return final_bins_table
 
 
+def get_gene_and_probe(interval):
+    # todo - should be more specific
+    interval_regex = re.compile(r'^.*_.*_.*_.*$')
+
+    # Example interval string: exon_AKT1_4a_1
+    if interval[0:4] == 'exon':
+        split = interval.split('_')
+        return split[1], split[2] + '_' + split[3]
+
+    # Another example I've encountered: 426_2903_324(APC)_1a
+    elif interval_regex.match(interval):
+        split = interval.split('_')
+        return '_'.join(split[0:2]), '_'.join(split[2:4])
+
+    else:
+        curr = interval.split('_exon_')
+        return curr[0], curr[1]
+
+
 def get_coverage_per_interval(tbl):
     """
     Creates table of (un-collapsed) coverage per interval
     """
-    total_boolv = (tbl['method'] == TOTAL_LABEL)
+    total_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
     # todo - why is this needed:
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
     relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
