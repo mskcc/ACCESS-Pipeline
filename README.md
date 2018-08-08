@@ -33,8 +33,8 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
-~$ virtualenv ~/access_pipeline_0.0.26
-~$ source ~/access_pipeline_0.0.16/bin/activate
+~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
+~$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
@@ -46,13 +46,13 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
 (access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
-(access_pipeline_0.0.26) ~$ git pull --tags
+(access_pipeline_0.0.26) ~$ git fetch --tags
 ```
 
 ### 3. Copy the test data (optional)
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
 ```
-(access_pipeline_0.0.26) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+(access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 ```
 
 ### 4. Update the paths to the tool resources and run files
@@ -72,9 +72,15 @@ abra__scratch
 ### 5. Update your PATH variable:
 Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers. This will also leverage the correct verison of GCC for pybedtools. 
 
-If you are on LUNA, put the following at the end of your `~/.profile` (or `~/.zshrc` if using zshell) to get the required versions of any tools that will be called based on the PATH variable:
+If you are on LUNA, put the following two lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on the PATH variable:
 ```
-export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
+export PATH="$VIRTUAL_ENV/bin:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
+export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
+```
+
+Then you'll have to do the following to get that update to your PATH in your current shell:
+```
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
 ### 6. Install the python tools
@@ -84,7 +90,7 @@ From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 
 ### 7. Install R libraries
-These are used by the QC module at the end of the pipeline
+These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
@@ -109,13 +115,13 @@ These steps should be run from a new directory, but still while inside your virt
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_title_file_from_manifest -i ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_title_file_from_manifest -i ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
 ```
 
 ### 3. Run the test pipeline
@@ -127,7 +133,7 @@ To run with the CWL reference implementation (faster for testing purposes):
   --cachedir ~/my_TEST_run \                                  # Where to put cached outputs (useful for restart using same command)
   --leave-tmpdir \                                            # If you want to keep the temp dirs
   --leave-outputs \                                           # If you want to keep the outputs
-  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \   # The workflow *required*
+  ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \   # The workflow *required*
   inputs.yaml                                                 # The inputs to the workflow *required*
 ```
 Or, to run with the Toil batch system runner:
@@ -173,7 +179,7 @@ Right now the only supported options for the `--batch-system` parameter are `lsf
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
->   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
+>   --workflow ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \
 >   --batch_system lsf
 ```
 
@@ -186,7 +192,7 @@ This script can be run in the background with `&`, and will make use of worker n
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
 >   --inputs_file ./inputs.yaml \
->   --workflow ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl \
+>   --workflow ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \
 >   --batch_system gridEngine
 ```
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
