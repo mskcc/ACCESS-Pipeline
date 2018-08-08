@@ -52,7 +52,7 @@ Alternatively, if you want to pull the latest development version you can use th
 ### 3. Copy the test data (optional)
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
 ```
-(access_pipeline_0.0.26) ~/Innovation-Pipeline$ cp -r /home/johnsoni/test_reference .
+(access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 ```
 
 ### 4. Update the paths to the tool resources and run files
@@ -75,6 +75,11 @@ Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not
 If you are on LUNA, put the following at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on the PATH variable:
 ```
 export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
+```
+
+Then you'll have to do the following to get that update to your PATH in your current shell:
+```
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
 ### 6. Install the python tools
