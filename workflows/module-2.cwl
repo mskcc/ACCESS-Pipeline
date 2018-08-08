@@ -46,7 +46,6 @@ inputs:
   fci__rf: string[]
   fci__intervals: string[]?
   abra__kmers: string
-  abra__scratch: string
   abra__mad: int
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
@@ -102,7 +101,6 @@ steps:
       fci__rf: fci__rf
       fci__intervals: fci__intervals
       abra__kmers: abra__kmers
-      abra__scratch: abra__scratch
       abra__mad: abra__mad
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
