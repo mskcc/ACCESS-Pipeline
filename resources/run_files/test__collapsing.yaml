@@ -1,7 +1,7 @@
 # Files used in collapsing steps
 
 # Todo: Use $PIPELINE_ROOT
-pool_a_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/MSK-ACCESS-v1_0_probe_A_14.bed}
-pool_b_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/MSK-ACCESS-v1_0_probe_B_16.bed}
+pool_a_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/PanCancer_v2_2_probe_A_14.bed}
+pool_b_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/PanCancer_v2_2_probe_B_16.bed}
 
 gene_list: {class: File, path: /home/johnsoni/test_reference/bed/juber-hg19-gene-list.bed}
