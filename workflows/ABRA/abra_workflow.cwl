@@ -48,7 +48,6 @@ inputs:
   fci__intervals: string[]?
   fci__basq_fix: boolean?
   abra__kmers: string
-  abra__scratch: string
   abra__mad: int
   fix_mate_information__sort_order: string
   fix_mate_information__validation_stringency: string
@@ -81,7 +80,6 @@ steps:
         valueFrom: $(inputs.run_tools.java_7)
       gatk:
         valueFrom: $(inputs.run_tools.gatk_path)
-
       tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
@@ -115,7 +113,6 @@ steps:
       input_bams: bams
       targets: list2bed/output_file
       tmp_dir: tmp_dir
-      scratch_dir: abra__scratch
       patient_id: patient_id
       reference_fasta: reference_fasta
       kmer: abra__kmers
@@ -124,7 +121,7 @@ steps:
         valueFrom: ${return 12}
       # Todo: Find a cleaner way
       working_directory:
-        valueFrom: ${return inputs.scratch_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
+        valueFrom: ${return inputs.tmp_dir + '__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
       out:
         valueFrom: |
           ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}

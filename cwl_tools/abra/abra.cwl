@@ -42,8 +42,6 @@ inputs:
     secondaryFiles:
     - ^.bai
 
-  scratch_dir:
-    type: string
   patient_id:
     type: string
 
