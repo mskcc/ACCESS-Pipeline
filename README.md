@@ -119,7 +119,6 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 (access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
-  --tmp-outdir-prefix ~/my_TEST_run \                         # Where to put temporary output directories
   --cachedir ~/my_TEST_run \                                  # Where to put cached outputs (useful for restart using same command)
   --leave-tmpdir \                                            # If you want to keep the temp dirs
   --leave-outputs \                                           # If you want to keep the outputs
