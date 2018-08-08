@@ -70,7 +70,6 @@ inputs:
   fci__rf: string[]
   fci__intervals: string[]?
   abra__kmers: string
-  abra__scratch: string
   abra__mad: int
   fix_mate_information__sort_order: string
   fix_mate_information__create_index: boolean
@@ -212,7 +211,6 @@ steps:
       fci__intervals: fci__intervals
       abra__mad: abra__mad
       abra__kmers: abra__kmers
-      abra__scratch: abra__scratch
       fix_mate_information__sort_order: fix_mate_information__sort_order
       fix_mate_information__create_index: fix_mate_information__create_index
       fix_mate_information__compression_level: fix_mate_information__compression_level

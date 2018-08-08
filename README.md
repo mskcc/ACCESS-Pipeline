@@ -64,10 +64,6 @@ You will need to have your reference files and target lists available. Then prov
 /resources/run_params/test.yaml
 /resources/run_params/test__collapsing.yaml
 ```
-If you are on LUNA, the only value that will actually require changing is:
-```
-abra__scratch
-```
 
 ### 5. Update your PATH variable:
 Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers. This will also leverage the correct verison of GCC for pybedtools. 
