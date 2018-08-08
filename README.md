@@ -119,11 +119,10 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 (access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
-  --tmp-outdir-prefix ~/my_TEST_run \                         # Where to put temporary output directories
-  --cachedir ~/my_TEST_run \                                  # Where to put cached outputs (useful for restart using same command)
+  --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
   --leave-tmpdir \                                            # If you want to keep the temp dirs
-  --leave-outputs \                                           # If you want to keep the outputs
-  ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \   # The workflow *required*
+  --leave-outputs \                                           # Leave output files in intermediate output directories
+  ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \       # The workflow *required*
   inputs.yaml                                                 # The inputs to the workflow *required*
 ```
 Or, to run with the Toil batch system runner:
