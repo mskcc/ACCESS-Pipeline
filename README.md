@@ -74,7 +74,7 @@ Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not
 
 If you are on LUNA, put the following at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on the PATH variable:
 ```
-export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
+export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
 ```
 
 ### 6. Install the python tools
