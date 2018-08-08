@@ -78,8 +78,6 @@ fci__intervals: ['14', '16']
 # Abra #
 ########
 abra__kmers: 43,53,63,83,93
-# Todo: Can Abra auto-delete this dir?
-abra__scratch: /ifs/work/bergerm1/Innovation/sandbox/ian/Abra_Scratch
 # todo: confirm that 1000 for this parameter is ok for deep sequencing data. It might be too low...
 abra__mad: 1000
 
