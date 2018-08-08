@@ -69,13 +69,21 @@ If you are on LUNA, the only value that will actually require changing is:
 abra__scratch
 ```
 
-### 5. Update your PATH variable:
-Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers. This will also leverage the correct verison of GCC for pybedtools. 
-
-If you are on LUNA, put the following two lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on the PATH variable:
+### 5. Update your environment variables:
+If you are on LUNA, put the following lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on your environment variables:
 ```
+# PATH with LUNA-specific dependencies
 export PATH="$VIRTUAL_ENV/bin:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
+
+# Needed for Node to find shared libraries
 export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
+
+# Location for Toil temporary intermediate files
+export TMPDIR=/scratch
+
+# SGE Environment Vars (optional)
+export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
+export TOIL_GRIDENGINE_PE="smp"
 ```
 
 Then you'll have to do the following to get that update to your PATH in your current shell:
@@ -95,21 +103,7 @@ These are used by the QC module at the end of the pipeline. You can check if the
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
 
-### 8. Set TMPDIR (optional)
-cwltool & toil will use the `TMPDIR` variable for intermediate outputs
-```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ export TMPDIR=/scratch
-```
-
-### 9. Set SGE Environment Vars (optional)
-If running on Sun Grid Engine workflow scheduler, these will be used to specify the queue, and parallel environment
-```
-export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
-export TOIL_GRIDENGINE_PE="smp"
-```
-
 # Running the test pipeline
-
 These steps should be run from a new directory, but still while inside your virtual environment. 
 
 ### 1. Create a run title file from a sample manifest
