@@ -193,10 +193,12 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
+  gc_bias_levels = c('TotalCoverage', 'All Unique')
+  
   data = data[complete.cases(data[, 'coverage']),]
 
-  data = dplyr::filter(data, method %in% LEVEL_C)
-  data = transform(data, method=factor(method, levels=LEVEL_C))
+  data = dplyr::filter(data, method %in% gc_bias_levels)
+  data = transform(data, method=factor(method, levels=gc_bias_levels))
   data = transform(data, Sample=factor(Sample))
 
   g = ggplot(data, aes(x=gc_bin, y=coverage, group=Sample, color=Sample)) +
@@ -235,8 +237,9 @@ plotInsertSizeDistribution = function(insertSizes) {
     mutate(sample_and_peak = paste(Sample, peak_insert_size, sep=', '))
 
   g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
-    stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
-    ggtitle('Insert Size Distribution (from Unfiltered Pool A reads)') +
+    #stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
+    geom_line(size=0.5) +
+    ggtitle('Insert Size Distribution (from All Unique Pool A reads)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     labs(colour = "Sample, Peak Insert Size") +
@@ -500,7 +503,7 @@ main = function(args) {
   inputs_yaml = yaml.load_file(args$inputs_yaml_path, handlers = list('int'=toString))
 
   # Read title file
-  # (R tries to coerce column of all "F" to logical)
+  # (careful with "Sex" column, R will try to coerce column of all "F" to logical)
   title_df = read.table(title_file, sep='\t', header=TRUE, colClasses=c('Sex'='character'))
   # Use only two class labels
   # Todo: We need to handle "Primary", "Metastasis", "Normal", and "Normal Pool"
