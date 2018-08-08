@@ -34,7 +34,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
 ~$ virtualenv ~/access_pipeline_0.0.26
-~$ source ~/access_pipeline_0.0.16/bin/activate
+~$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
