@@ -46,7 +46,7 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
 (access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
-(access_pipeline_0.0.26) ~$ git pull --tags
+(access_pipeline_0.0.26) ~$ git fetch --tags
 ```
 
 ### 3. Copy the test data (optional)
