@@ -114,6 +114,7 @@ steps:
         valueFrom: $(inputs.run_tools.abra_path)
       input_bams: bams
       targets: list2bed/output_file
+      tmp_dir: tmp_dir
       scratch_dir: abra__scratch
       patient_id: patient_id
       reference_fasta: reference_fasta
