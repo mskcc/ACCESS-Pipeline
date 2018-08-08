@@ -16,8 +16,8 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 23000
-    coresMin: 1
+    ramMin: 25000
+    coresMin: 2
 
 inputs:
   tmp_dir: string
