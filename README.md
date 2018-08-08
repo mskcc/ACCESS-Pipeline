@@ -89,7 +89,7 @@ From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 
 ### 7. Install R libraries
-These are used by the QC module at the end of the pipeline
+These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
