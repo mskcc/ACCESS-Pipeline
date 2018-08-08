@@ -33,7 +33,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
-~$ virtualenv --python=/opt/common/CentOS_6-dev/bin/current/python ~/access_pipeline_0.0.26
+~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
 ~$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
