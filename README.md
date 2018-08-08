@@ -1,10 +1,8 @@
-### Innovation Pipeline
-
 # Getting Started
 
-WARNING! These steps are preliminary, and are waiting on further pipeline validation, as well as consolidation of certain dependencies. Moving to docker containers is the long term solution for the latter. For now these additional dependencies must be explicitly installed:
+Disclaimer: Running the pipeline depends on installation of certain dependencies. Moving to docker containers is the long term solution for this. For now these tools must be explicitly installed:
 
-| tool | version |
+| Tool | Version |
 | --- | --- |
 | GCC | 4.4.7 |
 | Java 7 | jdk1.7.0_75 |
@@ -74,7 +72,7 @@ abra__scratch
 ### 5. Update your PATH variable:
 Abra and pybedtools will use versions of BWA & bedtools implicitly.  This is not ideal, but remains the only solution for now unless we move to Docker containers. This will also leverage the correct verison of GCC for pybedtools. 
 
-If you are on LUNA, put the following at the end of your `~/.profile` (or `~/.zshrc` if using zshell) to get the required versions of the tools:
+If you are on LUNA, put the following at the end of your `~/.profile` (or `~/.zshrc` if using zshell) to get the required versions of any tools that will be called based on the PATH variable:
 ```
 export PATH="/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
 ```
@@ -106,6 +104,8 @@ export TOIL_GRIDENGINE_PE="smp"
 
 # Running the test pipeline
 
+These steps should be run from a new directory, but still while inside your virtual environment. 
+
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
@@ -136,7 +136,7 @@ Or, to run with the Toil batch system runner:
 ```
 
 # Running a real run
-I usually start pipeline runs from a consistent directory, with ample storage space. This is where the lsf log files will be written. However, these logs are different from the Toil log files, which will be placed alongside the pipeline outputs as specified by the `output_location` parameter. The log files can be quite large (up to ~50GB if running in debug mode on a large pool). 
+I usually start pipeline runs from a fresh directory, with ample storage space. This is where the lsf log files will be written. However, these logs are different from the Toil log files, which will be placed alongside the pipeline outputs as specified by the `output_location` parameter. Both sets of log files can be quite large (up to ~50GB if running in debug mode on a large pool). 
 
 Note that there are several valiation requirements when running on your own data:
 1. The header names that are found in the sample manifest should matched with the examples in `test/test_data`
