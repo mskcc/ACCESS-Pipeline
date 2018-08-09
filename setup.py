@@ -39,6 +39,7 @@ setup(
     license='MIT',
     install_requires=[
         'argparse',
+        'PyYAML==3.12',
         'ruamel.yaml==0.14.0',
         'toil-ionox0[cwl]==0.0.1',
         # These dependencies may need to be explicitly specified,
