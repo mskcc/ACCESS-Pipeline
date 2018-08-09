@@ -30,6 +30,8 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 
 # Installation
 
+Note: In these instructions, please replace *0.0.26* with the *latest version* of the pipeline. 
+
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
@@ -118,10 +120,9 @@ This step will create a file `inputs.yaml`, and pull in the run parameters (-t f
 To run with the CWL reference implementation (faster for testing purposes):
 ```
 (access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
+  --debug                                                     # For debug level logging
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
   --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
-  --leave-tmpdir \                                            # If you want to keep the temp dirs
-  --leave-outputs \                                           # Leave output files in intermediate output directories
   ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \       # The workflow *required*
   inputs.yaml                                                 # The inputs to the workflow *required*
 ```
