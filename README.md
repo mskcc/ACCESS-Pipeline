@@ -1,6 +1,6 @@
 # Getting Started
 
-Disclaimer: Running the pipeline depends on installation of certain dependencies. Moving to docker containers is the long term solution for this. For now these tools must be explicitly installed:
+Disclaimer: Running the pipeline depends on installation of certain dependencies. Moving to docker containers is the long term solution for this. For now these tools must be previously installed:
 
 | Tool | Version |
 | --- | --- |
