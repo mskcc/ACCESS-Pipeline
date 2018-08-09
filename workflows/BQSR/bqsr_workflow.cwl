@@ -39,7 +39,6 @@ inputs:
 
   tmp_dir: string
   reference_fasta: string
-#  patient_id: string
 
   bqsr__nct: int
   bqsr__rf: string
@@ -51,6 +50,7 @@ inputs:
     type: File
     secondaryFiles:
       - .idx
+
   print_reads__nct: int
   print_reads__EOQ: boolean
   print_reads__baq: string
@@ -62,10 +62,6 @@ outputs:
     secondaryFiles:
       - ^.bai
     outputSource: parallel_printreads/bams
-
-  bqsr_bais:
-    type: File[]
-    outputSource: parallel_printreads/bais
 
 steps:
 
@@ -135,7 +131,7 @@ steps:
       EOQ: print_reads__EOQ
       baq: print_reads__baq
       reference_sequence: reference_fasta
-    out: [bams, bais]
+    out: [bams]
     scatter: [input_file, BQSR]
     scatterMethod: dotproduct
 
@@ -157,10 +153,6 @@ steps:
           secondaryFiles:
             - ^.bai
           outputSource: gatk_print_reads/out_bams
-        # Todo: unnecessary output
-        bais:
-          type: File
-          outputSource: gatk_print_reads/out_bais
       steps:
         gatk_print_reads:
           run: ../../cwl_tools/gatk/PrintReads.cwl
@@ -176,5 +168,4 @@ steps:
             reference_sequence: reference_sequence
             out:
               valueFrom: ${return inputs.input_file.basename.replace(".bam", "_BR.bam")}
-        # Todo: unnecessary bai output
-          out: [out_bams, out_bais]
+          out: [out_bams]
