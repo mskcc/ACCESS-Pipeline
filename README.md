@@ -30,6 +30,8 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 
 # Installation
 
+Note: In these instructions, please replace *0.0.26* with the *latest version* of the pipeline. 
+
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
 ```
