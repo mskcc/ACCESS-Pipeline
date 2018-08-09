@@ -1,7 +1,7 @@
 ######################################################
 # Default Testing Parameters for Innovation-Pipeline #
 ######################################################
-tmp_dir: /scratch/johnsoni/
+tmp_dir: /scratch/
 
 ##########################
 # Process Loop UMI Fastq #
