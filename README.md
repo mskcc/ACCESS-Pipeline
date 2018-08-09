@@ -43,7 +43,6 @@ Make virtualenv with the name of your virtual environment for this project (e.g.
 (Make sure your virtualenv is active)
 ```
 (access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
-(access_pipeline_0.0.26) ~$ cd ACCESS-Pipeline
 ```
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
