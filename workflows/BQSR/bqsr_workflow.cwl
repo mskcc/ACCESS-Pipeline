@@ -157,6 +157,7 @@ steps:
           secondaryFiles:
             - ^.bai
           outputSource: gatk_print_reads/out_bams
+        # Todo: unnecessary output
         bais:
           type: File
           outputSource: gatk_print_reads/out_bais
@@ -175,4 +176,5 @@ steps:
             reference_sequence: reference_sequence
             out:
               valueFrom: ${return inputs.input_file.basename.replace(".bam", "_BR.bam")}
+        # Todo: unnecessary bai output
           out: [out_bams, out_bais]
