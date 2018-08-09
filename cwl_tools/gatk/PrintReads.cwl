@@ -89,8 +89,9 @@ outputs:
           return null;
         }
 
+  # Todo: this is unnecessary, already have secondaryFiles above
   out_bais:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

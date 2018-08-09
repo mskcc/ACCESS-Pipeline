@@ -64,6 +64,7 @@ outputs:
     type: File
     outputSource: picard.MarkDuplicates/bam
 
+  # Todo: unnecessary output
   bai:
     type: File
     outputSource: picard.MarkDuplicates/bai
@@ -153,4 +154,5 @@ steps:
       create_index: md__create_index
       validation_stringency: md__validation_stringency
       duplicate_scoring_strategy: md__duplicate_scoring_strategy
+    # Todo: unnecessary output
     out: [bam, bai, mdmetrics]

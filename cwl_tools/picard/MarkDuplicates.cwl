@@ -92,8 +92,9 @@ outputs:
     outputBinding:
       glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bam') )
 
+  # Todo: unnecessary output
   bai:
-    type: File?
+    type: File
     outputBinding:
       glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bai') )
 
