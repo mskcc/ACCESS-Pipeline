@@ -260,7 +260,7 @@ plotCovDistPerIntervalLine = function(data) {
   
   g = ggplot(data) +
     geom_line(aes(x=coverage_scaled, colour=Sample), stat='density') +
-    ggtitle('Distribution of Coverages per Target Interval (from Total Reads, Pool A)') +
+    ggtitle('Distribution of Coverages per Target Interval (from All Unique Reads, Pool A)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
     coord_cartesian(xlim=c(0, 3)) +
