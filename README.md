@@ -56,14 +56,27 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 (access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 ```
 
-### 4. Update the paths to the tool resources and run files
-You will need to have your reference files and target lists available. Then provide paths to these files in the following config files. We have two sets of config files available for either running a test run or a real run, but it may be easier to simplify this to just one set. Alternatively, it is also possible to skip this step, and instead create an `inputs.yaml` file manually with paths to you own custom bedfiles. Please contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists. 
+### 4. Update the run variables
+
+If you are on LUNA, you only need to update the `tmp_dir` variable in: 
 ```
 /resources/run_files/test.yaml
-/resources/run_files/test__collapsing.yaml
+/resources/run_files/production.yaml
+```
+
+If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
+```
 /resources/run_tools/luna.yaml
+
+/resources/run_files/test.yaml
+/resources/run_files/test__collapsing.yaml
+/resources/run_files/production.yaml
+/resources/run_files/production__collapsing.yaml
+
 /resources/run_params/test.yaml
 /resources/run_params/test__collapsing.yaml
+/resources/run_params/production.yaml
+/resources/run_params/production__collapsing.yaml
 ```
 
 ### 5. Update your environment variables:
