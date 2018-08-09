@@ -56,14 +56,7 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 (access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 ```
 
-### 4. Update the run variables
-
-If you are on LUNA, you only need to update the `tmp_dir` variable in: 
-```
-~/Innovation-Pipeline/resources/run_params/test.yaml
-~/Innovation-Pipeline/resources/run_params/production.yaml
-```
-Make sure there is a slash `/` at the end of this path. 
+### 4. Update the run variables (optional, if not on LUNA)
 
 If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
 ```
@@ -79,6 +72,7 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 /resources/run_params/production.yaml
 /resources/run_params/production__collapsing.yaml
 ```
+And then update the paths to these variables.
 
 ### 5. Update your environment variables:
 If you are on LUNA, put the following lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on your environment variables:
