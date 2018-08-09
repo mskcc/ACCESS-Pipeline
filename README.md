@@ -60,9 +60,10 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 
 If you are on LUNA, you only need to update the `tmp_dir` variable in: 
 ```
-/resources/run_files/test.yaml
-/resources/run_files/production.yaml
+~/Innovation-Pipeline/resources/run_params/test.yaml
+~/Innovation-Pipeline/resources/run_params/production.yaml
 ```
+Make sure there is a slash `/` at the end of this path. 
 
 If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
 ```
