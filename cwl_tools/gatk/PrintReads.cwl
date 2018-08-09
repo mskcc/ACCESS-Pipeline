@@ -88,14 +88,3 @@ outputs:
             return inputs.out;
           return null;
         }
-
-  # Todo: this is unnecessary, already have secondaryFiles above
-  out_bais:
-    type: File
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.out)
-            return inputs.out.replace(/\.bam/,'') + ".bai";
-          return null;
-        }

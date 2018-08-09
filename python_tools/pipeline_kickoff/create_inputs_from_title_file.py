@@ -177,13 +177,6 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     return fastq1, fastq2, sample_sheet
 
 
-def perform_patient_id_checks(fastq1, fastq2, title_file):
-    # Todo: Using correct title file column to match samples in data folder?
-    for patient_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
-        assert any([patient_id in f['path'] for f in fastq1]), 'Missing fastq1 for patient id: {}'.format(patient_id)
-        assert any([patient_id in f['path'] for f in fastq2]), 'Missing fastq2 for patient id: {}'.format(patient_id)
-
-
 def perform_barcode_index_checks(title_file, sample_sheets):
     """
     Confirm that the barcode indexes in the title file,
@@ -223,7 +216,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         # Check that we have the same number of everything
         perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
         # Check that patient ids are found in fastq filenames
-        perform_patient_id_checks(fastq1, fastq2, title_file)
         # Check the barcode sequences in the title_file against the sequences in the sample_sheets
         perform_barcode_index_checks(title_file, sample_sheets)
 

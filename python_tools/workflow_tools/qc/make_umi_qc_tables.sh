@@ -4,7 +4,7 @@
 
 # $2 - B-on-target-positions with chromosome and position separated by tab
 
-# $3+ - The sample folders that contain collapsed bams, collapsed fastqs and first-pass.txt
+# $3: - The sample folders that contain collapsed bams, collapsed fastqs and first-pass.txt
 
 set -x
 

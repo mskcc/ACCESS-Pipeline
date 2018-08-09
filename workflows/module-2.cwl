@@ -73,10 +73,6 @@ outputs:
       - ^.bai
     outputSource: BQSR_workflow/bqsr_bams
 
-  standard_bais:
-    type: File[]
-    outputSource: BQSR_workflow/bqsr_bais
-
   covint_list:
     type: File
     outputSource: ABRA_workflow/covint_list
@@ -122,4 +118,4 @@ steps:
       print_reads__nct: print_reads__nct
       print_reads__EOQ: print_reads__EOQ
       print_reads__baq: print_reads__baq
-    out: [bqsr_bams, bqsr_bais]
+    out: [bqsr_bams]
