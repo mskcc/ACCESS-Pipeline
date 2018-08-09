@@ -128,7 +128,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 Or, to run with the Toil batch system runner:
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner  ~/Innovation-Pipeline/workflows/innovation_pipeline.cwl inputs.yaml
+(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner ~/ACCESS-Pipeline/workflows/ACCESS-pipeline.cwl inputs.yaml
 ```
 
 # Running a real run
@@ -167,9 +167,9 @@ Right now the only supported options for the `--batch-system` parameter are `lsf
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_submit \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
->   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
+>   --output_location /home/johnsoni/projects/EJ_4-27_MarkDuplicatesTest \
 >   --inputs_file ./inputs.yaml \
->   --workflow ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \
+>   --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
 >   --batch_system lsf
 ```
 
@@ -180,9 +180,9 @@ This script can be run in the background with `&`, and will make use of worker n
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
->   --output_location /ifs/work/bergerm1/Innovation/sandbox/ian \
+>   --output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
 >   --inputs_file ./inputs.yaml \
->   --workflow ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \
+>   --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
 >   --batch_system gridEngine
 ```
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
