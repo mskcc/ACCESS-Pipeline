@@ -85,15 +85,18 @@ export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1
 
 # Location for Toil temporary intermediate files
 export TMPDIR=/scratch
-
-# SGE Environment Vars (optional)
-export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
-export TOIL_GRIDENGINE_PE="smp"
 ```
 
 Then you'll have to do the following to get that update to your PATH in your current shell:
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.26/bin/activate
+```
+
+### 6. If on SGE, update environment variables
+If you are using the SGE batch system, you will also need to set these variables for Toil:
+```
+export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
+export TOIL_GRIDENGINE_PE="smp"
 ```
 
 ### 6. Install the python tools
