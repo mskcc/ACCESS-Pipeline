@@ -147,17 +147,16 @@ I usually start pipeline runs from a fresh directory, with ample storage space. 
 Note that there are several valiation requirements when running on your own data (use the example manifests in `test/test_data` for examples):
 1. The header names that are found in the sample manifest should matched with the examples in `test/test_data`
 2. The sample ID's in the manifest must be matched somewhere in the paths to the fastqs and sample sheets fom the `-d` data folder
-4. The pt ids in the manifest must be matched somewhere in the paths to the fastqs and sample sheets fom the `-d` data folder
-5. Each sample in the `-d` data folder must have these three files:
+3. Each sample in the `-d` data folder must have these three files:
 ```
 '_R1_001.fastq.gz'
 '_R2_001.fastq.gz'
 'SampleSheet.csv'
 ```
-6. The i5 and i7 barcode indexes from the manifest/title_file must match what is found in the SampleSheet.csv files (i5 may be reverse-complemented depending on the machine).
-7. The `sample_class` field must always be either "Tumor" or "Normal"
-8. The `sample_type` field must always be either "Plasma" or "Buffy Coat"
-9. The `Sex` column must always be one of ['Male', 'M', 'Female', 'F']
+4. The i5 and i7 barcode indexes from the manifest/title_file must match what is found in the SampleSheet.csv files (i5 may be reverse-complemented depending on the machine).
+5. The `sample_class` field must always be either "Tumor" or "Normal"
+6. The `sample_type` field must always be either "Plasma" or "Buffy Coat"
+7. The `Sex` column must always be one of ['Male', 'M', 'Female', 'F']
 
 Certain validation requirements can be skipped by using the `-f` parameter in the pipeline kickoff step.
 
