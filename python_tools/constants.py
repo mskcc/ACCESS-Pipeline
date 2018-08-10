@@ -111,6 +111,14 @@ columns_map = OrderedDict([
 ])
 
 
+##############################
+# Pipeline Kickoff Constants #
+##############################
+
+NON_REVERSE_COMPLEMENTED = 0
+REVERSE_COMPLEMENTED = 1
+
+
 
 ##########################
 # Constants for QC files #
