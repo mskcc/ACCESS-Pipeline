@@ -176,6 +176,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
 def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
+    If a sample ID from the title file is not found in any of the paths to the fastqs, remove it from the title file.
+
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
     fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
@@ -183,6 +185,72 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
+
+
+def check_i5_index(title_file_i5, sample_sheet_i5):
+    """
+    The i5 index (or "Index2" in the SampleSheet.csv file) will either match as is, or as a reverse-complement,
+    based on the machine the sequencing was done on.
+
+    :param title_file_i5:
+    :param sample_sheet_i5:
+    :return:
+    """
+    rev_comp_i5_barcode = reverse_complement(sample_sheet_i5)
+
+    i5_matches_non_reverse_complemented = sample_sheet_i5 == title_file_i5
+    i5_matches_reverse_complemented = rev_comp_i5_barcode == title_file_i5
+
+    err_string = 'i5 index from title file {} does not match i5 index from SampleSheet {}. Aborting.' \
+        .format(title_file_i5, sample_sheet_i5)
+
+    assert i5_matches_non_reverse_complemented or i5_matches_reverse_complemented, err_string
+
+    if i5_matches_non_reverse_complemented:
+        return NON_REVERSE_COMPLEMENTED
+    elif i5_matches_reverse_complemented:
+        return REVERSE_COMPLEMENTED
+
+
+def perform_barcode_index_checks_i5(title_file, sample_sheets):
+    """
+    The i5 index (or "Index2" in the SampleSheet.csv file) will either match as is, or as a reverse-complement,
+    based on the machine the sequencing was done on.
+
+    :param title_file:
+    :param sample_sheets:
+    :return:
+    """
+    i5_sequencer_types = []
+    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
+        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
+
+        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
+        assert len(matching_sample_sheets) == 1
+        sample_sheet = matching_sample_sheets[0]
+        sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
+
+        try:
+            sample_sheet_i5 = sample_sheet_df['Index2'].values[0]
+        except KeyError:
+            print('Index2 not found in SampleSheet.csv. Skipping i5 barcode index validation.')
+            return
+
+        i5_sequencer_types.append(check_i5_index(title_file_i5, sample_sheet_i5))
+
+    all_non_reverse_complemented = all([match_type == NON_REVERSE_COMPLEMENTED for match_type in i5_sequencer_types])
+    all_reverse_complemented = all([match_type == REVERSE_COMPLEMENTED for match_type in i5_sequencer_types])
+
+    assert all_non_reverse_complemented or all_reverse_complemented, 'Not all barcodes followed same i5 index scheme'
+
+    if all_non_reverse_complemented:
+        print(DELIMITER + 'All i5 barcodes match without reverse-complementing, sequencer was one of the following:')
+        print('NovaSeq\nMiSeq\nHiSeq2500')
+
+    elif all_reverse_complemented:
+        print(DELIMITER + 'All i5 barcodes match after reverse-complementing, sequencer was one of the following:')
+        print('HiSeq4000\nMiniSeq\nNextSeq')
 
 
 def perform_barcode_index_checks(title_file, sample_sheets):
@@ -194,54 +262,22 @@ def perform_barcode_index_checks(title_file, sample_sheets):
     :param sample_sheets:
     :return:
     """
-    i5_sequencer_types = []
-
+    # i7 (Index1) checks
     for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
         cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
-        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
         assert len(matching_sample_sheets) == 1
-
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
 
-        sample_sheet_i7 = sample_sheet_df['Index'].values[0]
-        sample_sheet_i5 = sample_sheet_df['Index2'].values[0]
-
         # i7 Sequence should always match
+        sample_sheet_i7 = sample_sheet_df['Index'].values[0]
         assert sample_sheet_i7 == title_file_i7, 'i7 index does not match. Aborting.'
 
-        # i5 Sequence may have two possibilities based on sequencer
-        i5_matches_non_reverse_complemented = sample_sheet_i5 == title_file_i5
-        rev_comp_i5_barcode = reverse_complement(sample_sheet_i5)
-        i5_matches_reverse_complemented = rev_comp_i5_barcode == title_file_i5
-
-        print(sample_sheet_i5, rev_comp_i5_barcode)
-
-        err_string = 'i5 index from title file {} does not match i5 index from SampleSheet {} for sample {}. Aborting.'\
-            .format(title_file_i5, sample_sheet_i5, sample_id)
-
-        assert i5_matches_non_reverse_complemented or i5_matches_reverse_complemented, err_string
-
-        if i5_matches_non_reverse_complemented:
-            i5_sequencer_types.append('NON_REVERSE_COMPLEMENTED')
-
-        if i5_matches_reverse_complemented:
-            i5_sequencer_types.append('REVERSE_COMPLEMENTED')
-
-    all_non_reverse_complemented = all([type == 'NON_REVERSE_COMPLEMENTED' for type in i5_sequencer_types])
-    all_reverse_complemented = all([type == 'REVERSE_COMPLEMENTED' for type in i5_sequencer_types])
-    assert all_non_reverse_complemented or all_reverse_complemented, 'Not all barcodes followed same schema'
-
-    if all_non_reverse_complemented:
-        print(DELIMITER + 'All i5 barcodes match without reverse-complementing, sequencer was one of the following:')
-        print('NovaSeq\nMiSeq\nHiSeq2500')
-
-    elif all_reverse_complemented:
-        print(DELIMITER + 'All i5 barcodes match after reverse-complementing, sequencer was one of the following:')
-        print('HiSeq4000\nMiniSeq\nNextSeq')
+    # i5 index check is somewhat more involved
+    perform_barcode_index_checks_i5(title_file, sample_sheets)
 
 
 def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
@@ -330,8 +366,8 @@ def include_run_params(fh, run_params_path):
     """
     Load and write our default run parameters to the pipeline inputs file
 
-    :param: fh File Handle to the pipeline inputs yaml file
-    :param: run_params_path String representing full path to the file with our default tool parameters for this run
+    :param fh: File Handle to the pipeline inputs yaml file
+    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
     """
     with open(run_params_path, 'r') as stream:
         other_params = ruamel.yaml.round_trip_load(stream)
@@ -356,6 +392,7 @@ def include_tool_resources(fh, tool_resources_file_path):
     Load and write our ResourceRequirement overrides for testing
 
     :param fh: File handle for pipeline yaml inputs
+    :param tool_resources_file_path: path to file that contains paths to tools
     """
     with open(tool_resources_file_path, 'r') as stream:
         tool_resources = ruamel.yaml.round_trip_load(stream)
@@ -371,12 +408,13 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     Todo: we might want an option to remove fastqs or rows from the title_file instead of throwing error,
     in the event that we use this script on a subset of the fastqs in a pool
 
-    :param: fastq1 List[dict] where each dict is a ruamel file object with `class` and `path` keys,
+    :param fastq1: List[dict] where each dict is a ruamel file object with `class` and `path` keys,
             (`path` being the path to the read 1 fastq)
-    :param: fastq2 List[dict] where each dict is a ruamel file object with `class` and `path` keys,
+    :param fastq2: List[dict] where each dict is a ruamel file object with `class` and `path` keys,
             (`path` being the path to the read 2 fastq)
-    :param: sample_sheet List[dict] where each dict is a ruamel file object with `class` and `path` keys,
+    :param sample_sheet: List[dict] where each dict is a ruamel file object with `class` and `path` keys,
             (`path` being the path to the sample sheet)
+    :param title_file:
     """
     try:
         assert len(fastq1) == len(fastq2)
@@ -404,6 +442,7 @@ def include_collapsing_params(fh, test=False, local=False):
 
     :param fh: File handle for pipeline yaml inputs
     :param test: Whether to include test or production collapsing params
+    :param local:
     """
     if local:
         # Local run params are same as Test params
@@ -433,6 +472,10 @@ def write_inputs_file(args, title_file, output_file_name):
     """
     Main function to write our inputs.yaml file.
     Contains most of the logic related to which inputs to use based on the type of run
+
+    :param args:
+    :param title_file:
+    :param output_file_name:
     """
     tool_resources_file_path = TOOL_RESOURCES_LUNA
 
@@ -514,7 +557,8 @@ def check_final_file(output_file_name):
         for field in fields_per_sample:
             assert len(final_file[field]) == len(final_file['fastq1'])
     except AssertionError:
-        print(DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'.format(fields_per_sample))
+        print(DELIMITER + 'It looks like there aren\'t enough entries for one of these fields: {}'
+              .format(fields_per_sample))
         print('Most likely, one of the samples is missing a read 1 fastq, read 2 fastq and/or sample sheet')
 
 
