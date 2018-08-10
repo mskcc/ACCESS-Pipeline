@@ -126,3 +126,13 @@ def get_position_by_substring(tofind, list):
     for i, e in enumerate(list):
         if tofind.split('_IGO')[0] in e:
             return i
+
+
+def reverse_complement(sequence):
+    """
+    Revcomp the `sequence`
+
+    :return:
+    """
+    complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+    return "".join(complement.get(base) for base in reversed(sequence))
