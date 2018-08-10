@@ -55,7 +55,7 @@ setup(
         'PyPDF2==1.26.0',
         'matplotlib==2.2.2',
         'seaborn==0.8.1',
-        'mock==2.0.0'
+        'mock==2.0.0',
     ],
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
