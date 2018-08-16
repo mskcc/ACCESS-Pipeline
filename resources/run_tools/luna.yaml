@@ -3,22 +3,22 @@
 ############################
 
 run_tools:
-  perl_5: /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
-  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-  java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+  perl_5: /dmp/resources/prod/tools/system/perl/bin/perl
+  java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
+  java_8: /dmp/resources/prod/tools/system/java/jdk1.8.0_121/bin/java
 
   # PLUF & Collapsing
-  marianas_path: /home/patelju1/software/Marianas-1.6.0.jar
+  marianas_path: /home/jayakumg/software/vendor_tools/cwl_luna/Marianas-1.6.0.jar
 
   # Module 1
-  trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
-  bwa_path: /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
-  arrg_path: /home/johnsoni/vendor_tools/AddOrReplaceReadGroups-1.96.jar
-  picard_path: /home/johnsoni/vendor_tools/picard-2.8.1.jar
+  trimgalore_path: /dmp/resources/prod/tools/bio/trim_galore/production/trim_galore
+  bwa_path: /dmp/resources/prod/tools/bio/bwa/production/bwa
+  arrg_path: /home/jayakumg/software/vendor_tools/cwl_luna/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /home/jayakumg/software/vendor_tools/cwl_luna/picard-2.8.1.jar
 
   # Module 2
-  gatk_path: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
-  abra_path: /home/johnsoni/vendor_tools/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
-  fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+  gatk_path: /dmp/resources/prod/tools/bio/gatk/VERSIONS/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /dmp/resources/prod/tools/bio/abra/VERSIONS/abra-0.92/target/abra-0.92-SNAPSHOT-jar-with-dependencies.jar
+  fx_path: /dmp/resources/prod/tools/bio/picard/VERSIONS/picard-tools-1.96/FixMateInformation.jar
 
-  waltz_path: /home/johnsoni/vendor_tools/Waltz-2.0.jar
+  waltz_path: /home/jayakumg/software/vendor_tools/cwl_luna/Walts-2.0_2018-May-22/Waltz-2.0.jar

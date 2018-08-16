@@ -1,7 +1,7 @@
 ##############################################
 # Default Parameters for Innovation-Pipeline #
 ##############################################
-tmp_dir: /scratch/
+tmp_dir: /dmp/analysis/SCRATCH
 
 ##########################
 # Process Loop UMI Fastq #
@@ -23,7 +23,7 @@ trim__suppress_warn: true
 # AddOrReplaceReadGroups #
 ##########################
 add_rg_PL: Illumina
-add_rg_CN: BergerLab_MSKCC
+add_rg_CN: DMP_MSKCC
 
 ##################
 # MarkDuplicates #

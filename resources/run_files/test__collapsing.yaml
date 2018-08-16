@@ -1,7 +1,5 @@
-# Files used in collapsing steps
+# Files used after standard Bam steps
+pool_a_bed_file: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
+pool_b_bed_file: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
 
-# Todo: Use $PIPELINE_ROOT
-pool_a_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/MSK-ACCESS-v1_0-probe-A-14.bed}
-pool_b_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/MSK-ACCESS-v1_0-probe-B-16.bed}
-
-gene_list: {class: File, path: /home/johnsoni/test_reference/bed/juber-hg19-gene-list.bed}
+gene_list: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/juber-hg19-gene-list.bed}
