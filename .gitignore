@@ -5,10 +5,10 @@ notes
 .DS_Store
 *.pyc
 *.log
-#resources/bedfiles
-#resources/fingerprinting
+resources/*bedfiles
+resources/fingerprinting
 test/test_data/test_data_val_5
 
 # Ignore files that store current installation variables
-# python_tools/root.py
-# python_tools/pipeline_kickoff/version.py
+python_tools/root.py
+python_tools/pipeline_kickoff/version.py
