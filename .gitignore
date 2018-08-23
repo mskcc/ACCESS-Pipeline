@@ -5,7 +5,8 @@ notes
 .DS_Store
 *.pyc
 *.log
-resources/*bedfiles
+resources/bedfiles
+resources/test_bedfiles
 resources/fingerprinting
 test/test_data/test_data_val_5
 
