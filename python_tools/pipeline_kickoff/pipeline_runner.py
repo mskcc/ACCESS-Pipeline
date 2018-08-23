@@ -3,6 +3,8 @@ import uuid
 import argparse
 import subprocess
 
+from ..constants import TOIL_BATCHSYSTEM
+
 
 ###################################################################
 # This script is used to run workflows from the command line using toil-cwl-runner.
@@ -89,6 +91,22 @@ def parse_arguments():
         help='e.g. lsf, sge or singleMachine',
         required=True
     )
+    
+    parser.add_argument(
+        '--batch_system_pe',
+        action='store',
+        dest='batch_system_pe',
+        help='batch system parallel environment. e.g. smp for SGE',
+        required=False
+    )
+
+    parser.add_argument(
+        '--batch_system_args',
+        action='store',
+        dest='batch_system_args',
+        help='batch system arguments',
+        required=False
+    )
 
     parser.add_argument(
         '--restart',
@@ -152,6 +170,28 @@ def create_directories(args):
     return output_directory, jobstore_path, logdir, tmpdir
 
 
+def set_batch_system_env(args, TOIL_BATCHSYSTEM):
+    """
+    Set environmental variables for batch system
+    """
+    if args.batch_system == "gridEngine":
+        BATCH_SYSTEM_PARAMETERS = TOIL_BATCHSYSTEM["GRIDENGINE"]
+        if args.batch_system_pe:
+            os.environ["TOIL_GRIDENGINE_PE"] = args.batch_system_pe
+        else:
+            os.environ["TOIL_GRIDENGINE_PE"] = BATCH_SYSTEM_PARAMETERS["PE"]
+
+        if args.batch_system_args:
+            os.environ["TOIL_GRIDENGINE_ARGS"] = args.batch_system_args
+        elif BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]:
+            os.environ["TOIL_GRIDENGINE_ARGS"] =\
+                BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]
+    else:
+        pass
+        # To-Do set LSF variables
+    return
+
+
 def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     """
     Format and call the command to run CWL Toil
@@ -166,6 +206,11 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         '--writeLogs', logdir,
         '--logLevel', args.logLevel,
     ])
+
+    # Update environment variables if batch system is set
+    if args.batch_system:
+        set_batch_system_env(args, TOIL_BATCHSYSTEM)
+    
 
     ARG_TEMPLATE = ' {} {} '
 

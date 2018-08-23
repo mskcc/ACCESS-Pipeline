@@ -121,7 +121,7 @@ steps:
         valueFrom: ${return 12}
       # Todo: Find a cleaner way
       working_directory:
-        valueFrom: ${return inputs.tmp_dir + 'Abra_workdir__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
+        valueFrom: ${return inputs.tmp_dir + '/Abra_workdir__' + inputs.patient_id + '_' + Math.floor(Math.random() * 99999999);}
       out:
         valueFrom: |
           ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}

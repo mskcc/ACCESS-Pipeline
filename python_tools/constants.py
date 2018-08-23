@@ -313,3 +313,22 @@ BAM_SEARCHES = [
     SIMPLEX_BAM_SEARCH,
     DUPLEX_BAM_SEARCH
 ]
+
+
+#################
+# HPC variables #
+#################
+# To-do define for LSF???
+TOIL_BATCHSYSTEM = {
+    "GRIDENGINE" : {
+        "PE" : "smp",
+        "ARGS_HOST" : {
+            "phoenix-h1": "-q test.q",
+            "phoenix-h2": "-q clin2.q"
+        }
+    },
+    "LSF" : {
+        "PE" : "",
+        "ARGS_HOST" : {}
+    }
+}

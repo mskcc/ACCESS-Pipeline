@@ -1,0 +1,19 @@
+#############################################
+# Files required to run Innovation Pipeline #
+#############################################
+
+reference_fasta: /Users/johnsoni/Desktop/Resources/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /Users/johnsoni/Desktop/Resources/Homo_sapiens_assembly19.fasta.fai
+
+bqsr__knownSites_dbSNP: {class: File, path: /Users/johnsoni/Desktop/Resources/test_reference/vcf/dbsnp_137_14_16.b37.vcf}
+bqsr__knownSites_millis: {class: File, path: /Users/johnsoni/Desktop/Resources/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
+
+# Fingerprinting
+FP_config_file: {class: File, path: $PIPELINE_ROOT/resources/fingerprinting/MSK-ACCESS-v1_0_curatedSNPs.txt}
+
+# UMI QC
+A_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+
+# Noise QC
+noise__good_positions_A: {class: File, path: $PIPELINE_ROOT/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}

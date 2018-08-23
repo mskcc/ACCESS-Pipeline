@@ -1,0 +1,22 @@
+#############################################
+# Files required to run Innovation Pipeline #
+#############################################
+
+# Used in multiple steps
+reference_fasta: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta
+reference_fasta_fai: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta.fai
+
+# BaseRecalibrator
+# Todo: Consolidate
+bqsr__knownSites_dbSNP: {class: File, path: /home/johnsoni/test_reference/vcf/dbsnp_137_14_16.b37.vcf}
+bqsr__knownSites_millis: {class: File, path: /home/johnsoni/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
+
+# Fingerprinting
+FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0_curatedSNPs.txt}
+
+# UMI QC
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+
+# Noise QC
+noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}

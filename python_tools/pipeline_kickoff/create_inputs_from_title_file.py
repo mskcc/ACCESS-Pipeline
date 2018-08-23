@@ -271,7 +271,6 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         assert len(matching_sample_sheets) == 1
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
-
         # i7 Sequence should always match
         sample_sheet_i7 = sample_sheet_df['Index'].values[0]
         assert sample_sheet_i7 == title_file_i7, 'i7 index does not match. Aborting.'
