@@ -7,7 +7,7 @@ import argparse
 from ..util import *
 
 
-def symlink_bams(pipeline_outputs_folder):
+def link_bams(pipeline_outputs_folder, hardlink):
     '''
     Create directories with symlinks to pipeline bams
     Todo: clean this function
@@ -38,9 +38,6 @@ def symlink_bams(pipeline_outputs_folder):
                 if bam_search[1].match('__aln_srt_IR_FX.bam'):
                     bam_target_path = bam_target_path.replace('.bam', '-unfiltered.bam')
 
-                logging.info('Linking {} to {}'.format(bam_source_path, bam_target_path))
-                os.symlink(bam_source_path, bam_target_path)
-
                 # Link index file
                 bai = bam.replace('.bam', '.bai')
                 bai_source_path = os.path.abspath(os.path.join(collapsed_folder, bai))
@@ -49,9 +46,16 @@ def symlink_bams(pipeline_outputs_folder):
                 # Todo: Give "-unfiltered" name to bam in collapsing step
                 if bam_search[1].match('__aln_srt_IR_FX.bam'):
                     bai_target_path = bai_target_path.replace('.bai', '-unfiltered.bai')
-
+                
+                logging.info('Linking {} to {}'.format(bam_source_path, bam_target_path))
                 logging.info('Linking {} to {}'.format(bai_source_path, bai_target_path))
-                os.symlink(bai_source_path, bai_target_path)
+
+                if hardlink:
+                    os.link(bam_source_path, bam_target_path)
+                    os.link(bai_source_path, bai_target_path)
+                else:
+                    os.symlink(bam_source_path, bam_target_path)
+                    os.symlink(bai_source_path, bai_target_path)
 
 
 def move_trim_files(pipeline_outputs_folder):
@@ -133,9 +137,10 @@ def delete_extraneous_output_folders(pipeline_outputs_folder):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", help="Toil outputs directory to be cleaned", required=True)
+    parser.add_argument("-h", "--hardlink", help="Hardlink bamfiles", required=False, action='store_true')
     args = parser.parse_args()
 
-    symlink_bams(args.directory)
+    link_bams(args.directory, args.hardlink)
     delete_extraneous_output_folders(args.directory)
     move_trim_files(args.directory)
     move_markduplicates_files(args.directory)

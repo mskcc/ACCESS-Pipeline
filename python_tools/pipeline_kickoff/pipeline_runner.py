@@ -148,7 +148,13 @@ def create_directories(args):
 
     # Use existing jobstore, or create new one
     if args.restart:
-        job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))[0]
+        job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))
+        if len job_store_uuid > 1:
+            raise Exception('Multiple directories that start with jobstore exist in {}'.format(tmpdir))
+        elif len job_store_uuid == 0:
+            raise Exception('No jobstore found in {} for use with --restart option'.format(tmpdir))
+        else:
+            job_store_uuid = job_store_uuid.pop(0)
         jobstore_path = '{}/{}'.format(tmpdir, job_store_uuid)
     else:
         job_store_uuid = str(uuid.uuid1())
