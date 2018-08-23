@@ -1,0 +1,1 @@
+ROOT_DIR = '/home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16'
