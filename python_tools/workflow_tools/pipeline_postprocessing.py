@@ -7,7 +7,7 @@ import argparse
 from ..util import *
 
 
-def link_bams(pipeline_outputs_folder, hardlink):
+def link_bams(pipeline_outputs_folder, softlink):
     '''
     Create directories with symlinks to pipeline bams
     Todo: clean this function
@@ -50,12 +50,12 @@ def link_bams(pipeline_outputs_folder, hardlink):
                 logging.info('Linking {} to {}'.format(bam_source_path, bam_target_path))
                 logging.info('Linking {} to {}'.format(bai_source_path, bai_target_path))
 
-                if hardlink:
-                    os.link(bam_source_path, bam_target_path)
+                if softlink:
+                    os.symlink(bam_source_path, bam_target_path)
                     os.link(bai_source_path, bai_target_path)
                 else:
-                    os.symlink(bam_source_path, bam_target_path)
-                    os.symlink(bai_source_path, bai_target_path)
+                    os.link(bam_source_path, bam_target_path)
+                    os.link(bai_source_path, bai_target_path)
 
 
 def move_trim_files(pipeline_outputs_folder):
@@ -137,7 +137,7 @@ def delete_extraneous_output_folders(pipeline_outputs_folder):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", help="Toil outputs directory to be cleaned", required=True)
-    parser.add_argument("-h", "--hardlink", help="Hardlink bamfiles", required=False, action='store_true')
+    parser.add_argument("-s", "--softlink", help="Softlink bamfiles, instead of default hardlink", required=False, action='store_true')
     args = parser.parse_args()
 
     link_bams(args.directory, args.hardlink)
