@@ -109,6 +109,15 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        '--user_Rlibs',
+        action='store_true',
+        dest='user_Rlibs',
+        help='set if environment variable R_LIBS is defined and to be used \
+                in addition to the R site library',
+        required=False
+    )
+
+    parser.add_argument(
         '--restart',
         action='store_true',
         dest='restart',
@@ -149,9 +158,9 @@ def create_directories(args):
     # Use existing jobstore, or create new one
     if args.restart:
         job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))
-        if len job_store_uuid > 1:
+        if len(job_store_uuid) > 1:
             raise Exception('Multiple directories that start with jobstore exist in {}'.format(tmpdir))
-        elif len job_store_uuid == 0:
+        elif len(job_store_uuid) == 0:
             raise Exception('No jobstore found in {} for use with --restart option'.format(tmpdir))
         else:
             job_store_uuid = job_store_uuid.pop(0)
@@ -198,6 +207,15 @@ def set_batch_system_env(args, TOIL_BATCHSYSTEM):
     return
 
 
+def configure_miscellaneous(args):
+    """
+    configure minor settings and variables
+    """
+    if args.user_Rlibs is not True:
+        os.environ['R_LIBS'] = ""
+    return
+
+
 def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     """
     Format and call the command to run CWL Toil
@@ -217,6 +235,8 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     if args.batch_system:
         set_batch_system_env(args, TOIL_BATCHSYSTEM)
     
+    # miscellaneous settings
+    configure_miscellaneous(args)
 
     ARG_TEMPLATE = ' {} {} '
 
