@@ -16,8 +16,8 @@ bqsr__knownSites_millis: {class: File, path: /dmp/data/pubdata/mills-and-1000g/p
 FP_config_file: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
 
 # UMI QC
-A_on_target_positions: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+A_on_target_positions: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
 
 # Noise QC
-noise__good_positions_A: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
+noise__good_positions_A: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
