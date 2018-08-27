@@ -3,8 +3,7 @@ import logging
 import argparse
 import pandas as pd
 
-#from ..constants import *
-from constants import *
+from ..constants import *
 ##################################
 # Pipeline Kickoff Step #1
 #
