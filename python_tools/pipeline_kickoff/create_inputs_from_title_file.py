@@ -273,7 +273,7 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
         # i7 Sequence should always match
         sample_sheet_i7 = sample_sheet_df['Index'].values[0]
-        assert sample_sheet_i7 == title_file_i7, 'i7 index does not match. Aborting.'
+        assert sample_sheet_i7 == title_file_i7, 'i7 index does not match between samplesheet ({}) and titlefile ({}). Aborting.'.format(sample_sheet_i7, title_file_i7)
 
     # i5 index check is somewhat more involved
     perform_barcode_index_checks_i5(title_file, sample_sheets)

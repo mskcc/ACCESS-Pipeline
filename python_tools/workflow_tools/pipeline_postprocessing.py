@@ -140,7 +140,7 @@ def main():
     parser.add_argument("-s", "--softlink", help="Softlink bamfiles, instead of default hardlink", required=False, action='store_true')
     args = parser.parse_args()
 
-    link_bams(args.directory, args.hardlink)
+    link_bams(args.directory, args.softlink)
     delete_extraneous_output_folders(args.directory)
     move_trim_files(args.directory)
     move_markduplicates_files(args.directory)

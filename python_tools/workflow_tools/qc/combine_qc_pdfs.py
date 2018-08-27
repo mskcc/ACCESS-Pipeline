@@ -12,7 +12,8 @@ def combine_pdfs(args):
     # Grab the pool from the title file
     title_file = pd.read_csv(args.title_file, sep='\t')
     pool = title_file[TITLE_FILE__POOL_COLUMN].values[0]
-
+    if pool is None:
+        pool = "ACCESS-run"
     FINAL_QC_FILENAME = pool + '_' + date + '.pdf'
 
     merger = PdfFileMerger()
