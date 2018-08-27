@@ -87,12 +87,34 @@ TITLE_FILE__SEX_COLUMN                      = 'Sex'
 TITLE_FILE__BARCODE_INDEX_1_COLUMN            = 'Barcode_index_1'
 TITLE_FILE__BARCODE_INDEX_2_COLUMN            = 'Barcode_index_2'
 
+# SampleSheet comma-delimited fields
+SAMPLE_SHEET__BARCODE_ID_COLUMN               = 'I7_Index_ID'
+SAMPLE_SHEET__POOL_COLUMN                     = 'Sample_Project'
+SAMPLE_SHEET__SAMPLE_ID_COLUMN                = 'Sample_ID'
+#SAMPLE_SHEET__COLLAB_ID_COLUMN                = 'Collab_ID'
+SAMPLE_SHEET__PATIENT_ID_COLUMN               = 'Sample_Name'
+SAMPLE_SHEET__CLASS_COLUMN                    = 'Description'
+SAMPLE_SHEET__SAMPLE_TYPE_COLUMN              = 'Sample_type'
+#SAMPLE_SHEET__INPUT_NG_COLUMN                 = 'Input_ng'
+#SAMPLE_SHEET__LIBRARY_YIELD_COLUMN            = 'Library_yield'
+#SAMPLE_SHEET__POOL_INPUT_COLUMN               = 'Pool_input'
+#SAMPLE_SHEET__BAIT_COLUMN                     = 'Bait_version'
+#SAMPLE_SHEET__SEX_COLUMN                      = 'Sex'
+
+SAMPLE_SHEET__BARCODE_INDEX_1_COLUMN            = 'index'
+SAMPLE_SHEET__BARCODE_INDEX_2_COLUMN            = 'index2'
+
 # Todo: ok to have 'Lane' colunn?
+SAMPLE_SHEET__LANE_COLUMN = 'Lane'
+
+
+
+# Todo: ok to have 'Lane' column? Not neccessary
 TITLE_FILE__LANE_COLUMN = 'Lane'
 
 # Map MANIFEST --> TITLE_FILE
 # Use OrderedDict to keep ordering for keys() and values()
-columns_map = OrderedDict([
+columns_map_manifest = OrderedDict([
     (MANIFEST__BARCODE_ID_COLUMN                 , TITLE_FILE__BARCODE_ID_COLUMN),
     (MANIFEST__CAPTURE_NAME_COLUMN               , TITLE_FILE__POOL_COLUMN),
     (MANIFEST__CMO_SAMPLE_ID_COLUMN              , TITLE_FILE__SAMPLE_ID_COLUMN),
@@ -110,6 +132,21 @@ columns_map = OrderedDict([
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
 ])
 
+# Map SAMPLESHEET --> TITLE_FILE
+# Use OrderedDict to keep ordering for keys() and values()
+columns_map_samplesheet = OrderedDict([
+    (SAMPLE_SHEET__BARCODE_ID_COLUMN             , TITLE_FILE__BARCODE_ID_COLUMN),
+    (SAMPLE_SHEET__POOL_COLUMN                   , TITLE_FILE__POOL_COLUMN),
+    (SAMPLE_SHEET__SAMPLE_ID_COLUMN              , TITLE_FILE__SAMPLE_ID_COLUMN),
+#    (SAMPLE_SHEET__COLLAB_ID_COLUMN              , TITLE_FILE__COLLAB_ID_COLUMN),
+    (SAMPLE_SHEET__PATIENT_ID_COLUMN             , TITLE_FILE__PATIENT_ID_COLUMN),
+    (SAMPLE_SHEET__CLASS_COLUMN                  , TITLE_FILE__CLASS_COLUMN),
+#    (SAMPLE_SHEET__BAIT_COLUMN                   , TITLE_FILE__BAIT_VERSION_COLUMN),
+#    (SAMPLE_SHEET__SEX_COLUMN                    , TITLE_FILE__SEX_COLUMN),
+    (SAMPLE_SHEET__BARCODE_INDEX_1_COLUMN        , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
+    (SAMPLE_SHEET__BARCODE_INDEX_2_COLUMN        , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
+    (SAMPLE_SHEET__LANE_COLUMN                   , TITLE_FILE__LANE_COLUMN),
+])
 
 ##############################
 # Pipeline Kickoff Constants #
