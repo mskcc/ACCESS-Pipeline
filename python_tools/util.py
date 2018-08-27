@@ -136,3 +136,16 @@ def reverse_complement(sequence):
     """
     complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
     return "".join(complement.get(base) for base in reversed(sequence))
+
+
+def autolabel(bars, plt, text_format='%.5f'):
+    """
+    Attach a text label above each bar displaying its height
+
+    :param bars: matplotlib.container from matplotlib.pyplot.bar
+    :param plt: matplotlib.pyplot with bars to annotate
+    """
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., 1.05*height, text_format % height, ha='center', va='bottom',
+                 fontsize=5)

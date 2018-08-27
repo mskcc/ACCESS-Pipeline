@@ -13,21 +13,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from ...util import read_df, extract_sample_name
+from ...util import read_df, extract_sample_name, autolabel
 from ...constants import *
 
 
 def noise_alt_percent_plot(noise_table):
-    samples = noise_table[SAMPLE_ID_COLUMN].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').tolist()
+    samples = noise_table[SAMPLE_ID_COLUMN].tolist()
     alt_percent = noise_table['AltPercent']
     y_pos = np.arange(len(samples))
 
     plt.clf()
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, alt_percent, align='center', color='black')
+    bars = plt.bar(y_pos, alt_percent, align='center', color='black')
     plt.axhline(y=0.001, xmin=0, xmax=1, c='r', ls='--')
     plt.axhline(y=0.0004, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
+
+    # Put the values on top of the bars
+    autolabel(bars, plt)
+
     plt.xlim([-1, len(samples)])
     plt.ylabel('Noise (%)')
     plt.xlabel('Sample Name')
@@ -36,15 +40,19 @@ def noise_alt_percent_plot(noise_table):
 
 
 def noise_contributing_sites_plot(noise_table):
-    samples = noise_table[SAMPLE_ID_COLUMN].str.replace(r'[_-]IGO.*', '').str.replace(r'_bc.*', '').tolist()
+    samples = noise_table[SAMPLE_ID_COLUMN].tolist()
     contributing_sites = noise_table['ContributingSites']
     y_pos = np.arange(len(samples))
 
     plt.clf()
     plt.figure(figsize=(10, 5))
-    plt.bar(y_pos, contributing_sites, align='center', color='black')
+    bars = plt.bar(y_pos, contributing_sites, align='center', color='black')
     plt.axhline(y=400, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
+
+    # Put the values on top of the bars
+    autolabel(bars, plt, text_format='%d')
+
     plt.xlim([-1, len(samples)])
     plt.ylabel('Number of Contributing Sites')
     plt.xlabel('Sample Name')
