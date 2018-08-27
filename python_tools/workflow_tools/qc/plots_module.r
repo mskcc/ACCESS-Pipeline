@@ -239,7 +239,7 @@ plotInsertSizeDistribution = function(insertSizes) {
   g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
     #stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
     geom_line(size=0.5) +
-    ggtitle('Insert Size Distribution (from All Unique Pool A reads)') +
+    ggtitle('Insert Size Distribution (from All Unique reds, Pool A)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     labs(colour = "Sample, Peak Insert Size") +
@@ -263,7 +263,7 @@ plotCovDistPerIntervalLine = function(data) {
     ggtitle('Distribution of Coverages per Target Interval (from All Unique Reads, Pool A)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
-    coord_cartesian(xlim=c(0, 3)) +
+    coord_cartesian(xlim=c(0, 2)) +
     theme(legend.position = c(.75, .5)) +
     MY_THEME
   
@@ -309,12 +309,9 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
   
   title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=22, col='black'))
   pool = textGrob(paste('Pool:', title_df[1, 'Pool']), gp=gpar(fontsize=20, col='black'))
-  date = textGrob(format(Sys.time(), '%a %b %d %Y %H:%M'), gp=gpar(fontsize=20, col='black'))
+  date = textGrob(format(Sys.time(), '%a %b %d, %Y %H:%M'), gp=gpar(fontsize=20, col='black'))
   version = textGrob(paste('Pipeline Version: ', inputs_yaml$version), gp=gpar(fontsize=20, col='black'))
-  line = linesGrob(
-    unit(c(0.05, 0.95), 'npc'),
-    unit(1, 'npc'),
-    gp=gpar(col='lightgrey', lwd=4))
+  line = linesGrob(unit(c(0.05, 0.95), 'npc'), unit(1, 'npc'), gp=gpar(col='lightgrey', lwd=4))
   
   # Merge in coverage data
   title_df = inner_join(title_df, coverage_df, by='Sample')
