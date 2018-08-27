@@ -10,34 +10,21 @@ from ..constants import *
 # Pipeline Kickoff Step #1
 #
 # This module is used to create a title file with the information needed for a pipeline run
-# It is derived from the manually-curated sample manifest
+# It is derived from the manually-generated sample manifest
 #
 # Usage example:
 #
 # create_title_file_from_manifest \
 #   -i ./manifest.xlsx \
 #   -o ./title_file.txt
-#
-# Note: The following requirements will be imposed on the input manifest file:
-#
-# 1. The fields that are found in the sample manifest should matched with the examples in test/test_data
-# 2. The sample ID's in the manifest must be matched somewhere in the fastq file names fom the -d data folder
-# 3. The sample ID's in the manifest must be matched somewhere in the path to the SampleSheet.csv files
-# 4. The SAMPLE_CLASS column of the manifest must consist of the values either "Tumor" or "Normal"
-# 5. Each "Tumor" sample must have at least one associated "Normal" sample
-# 6. Each sample folder in the -d data folder must have these three files:
-#
-# '_R1_001.fastq.gz'
-# '_R2_001.fastq.gz'
-# 'SampleSheet.csv'
 
 
 def create_title_file(manifest_file_path, output_filename):
     # Read Manifest as either csv or Excel file
     try:
-        manifest = pd.read_csv(manifest_file_path, sep='\t')
+        manifest = pd.read_csv(manifest_file_path, sep='\t', float_precision='high')
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
-        manifest = pd.read_excel(manifest_file_path, sep='\t')
+        manifest = pd.read_excel(manifest_file_path, sep='\t', float_precision='high')
     manifest = manifest.dropna(axis=0, how='all')
 
     # Select the columns we want from the manifest & rename them
@@ -52,6 +39,9 @@ def create_title_file(manifest_file_path, output_filename):
 
     # Trim whitespace
     title_file = title_file.apply(lambda x: x.str.strip() if x.dtype == 'object' else x)
+
+    # Fix overly-high precision values
+    title_file = title_file.round(3)
 
     # Optionally split by lanes
     if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
