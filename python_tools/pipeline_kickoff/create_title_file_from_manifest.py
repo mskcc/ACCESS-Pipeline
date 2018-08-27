@@ -5,7 +5,6 @@ import pandas as pd
 
 from ..constants import *
 
-
 ##################################
 # Pipeline Kickoff Step #1
 #
@@ -39,7 +38,7 @@ def create_title_file(manifest_file_path, output_filename):
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         manifest = pd.read_excel(manifest_file_path, sep='\t')
     manifest = manifest.dropna(axis=0, how='all')
-
+    
     # Select the columns we want from the manifest & rename them
     try:
         title_file = manifest[columns_map.keys()]

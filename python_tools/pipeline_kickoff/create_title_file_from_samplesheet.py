@@ -3,8 +3,8 @@ import logging
 import argparse
 import pandas as pd
 
-from ..constants import *
-
+#from ..constants import *
+from constants import *
 ##################################
 # Pipeline Kickoff Step #1
 #
@@ -37,8 +37,19 @@ def create_title_file(samplesheet_file_path, output_filename):
         samplesheet = pd.read_csv(samplesheet_file_path, sep=',',skiprows=range(0,19),header=1)
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         samplesheet = pd.read_excel(samplesheet_file_path, sep=',',skiprows=range(0,19))
+    
     samplesheet = samplesheet.dropna(axis=0, how='all')
     samplesheet = samplesheet.replace('\n','', regex=True)
+    samplesheet[SAMPLE_SHEET__COLLAB_ID_COLUMN] = "DMP"
+    samplesheet[SAMPLE_SHEET__SAMPLE_TYPE_COLUMN] = "Plasma"
+    samplesheet[SAMPLE_SHEET__INPUT_NG_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__LIBRARY_INPUT_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__LIBRARY_YIELD_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__POOL_INPUT_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__BAIT_VERSION_COLUMN] = "MSK-ACCESS-v1_0"
+    samplesheet[SAMPLE_SHEET__CAPTURE_INPUT_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__CAPTURE_BAIT_SET_COLUMN] = "-"
+    samplesheet[SAMPLE_SHEET__SEX_COLUMN] = "F"
     
     # Select the columns we want from the samplesheet & rename them
     try:

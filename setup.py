@@ -72,6 +72,7 @@ setup(
         'console_scripts': [
             # Pipeline Kickoff
             'create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main',
+            'create_title_file_from_samplesheet = python_tools.pipeline_kickoff.create_title_file_from_samplesheet:main',
             'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
             'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
