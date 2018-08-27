@@ -7,9 +7,9 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | GCC | 4.4.7 |
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
-| Python (must exist in PATH)| 2.7.10 |
-| R (must exist in PATH)| 3.4.2 |
-| Perl (must exist in PATH)| 5.20.2 |
+| Python (must exist in PATH)| 2.7.14 |
+| R (must exist in PATH)| >=3.4.2 |
+| Perl (must exist in PATH)| >=5.10.1 |
 | Node (must exist in PATH)| v6.10.1 |
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
 | [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
@@ -30,37 +30,32 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 
 # Installation
 
-Note: In these instructions, please replace *0.0.26* with the *latest version* of the pipeline. 
+Note: In these instructions, please replace *0.0.33_dmp* with the *latest version* of the pipeline. 
 
 ### 1. Set up a Virtual Environment
-Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
+Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.33_dmp)
 ```
-~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
-~$ source ~/access_pipeline_0.0.26/bin/activate
+~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.33_dmp
+~$ source ~/access_pipeline_0.0.33_dmp/bin/activate
 ```
 
 ### 2. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
+(access_pipeline_0.0.33_dmp) ~$ git clone https://github.com/andurill/ACCESS-Pipeline.git --branch 0.0.33_dmp
 ```
 Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
 ```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
-(access_pipeline_0.0.26) ~$ git fetch --tags
+(access_pipeline_0.0.33_dmp) ~$ git clone https://github.com/andurill/ACCESS-Pipeline.git
+(access_pipeline_0.0.33_dmp) ~$ git fetch --tags
 ```
 
 ### 3. Copy the test data (optional)
-It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
-```
-(access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
-```
 
-### 4. Update the run variables (optional, if not on LUNA)
+### 4. Update the run variables (optional)
 
-If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
+Depending on whether you are running a test or running the pipeline on local machine or server, manually ensure the corresponding yaml files have the proper path and parameters:
 ```
-/resources/run_tools/luna.yaml
 
 /resources/run_files/test.yaml
 /resources/run_files/test__collapsing.yaml
@@ -72,28 +67,25 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 /resources/run_params/production.yaml
 /resources/run_params/production__collapsing.yaml
 ```
-And then update the paths to these variables.
 
 ### 5. Update your environment variables:
-If you are on LUNA, put the following lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on your environment variables:
 ```
-# PATH with LUNA-specific dependencies
-export PATH="$VIRTUAL_ENV/bin:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
 
 # Needed for Node to find shared libraries
-export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH=/usr/lib64
+export LIBRARY_PATH=/usr/lib64
 
 # Location for Toil temporary intermediate files
-export TMPDIR=/scratch
+export TMPDIR=/dmp/analysis/SCRATCH
 ```
 
 Then you'll have to do the following to get that update to your PATH in your current shell:
 ```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.26/bin/activate
+(access_pipeline_0.0.33_dmp) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.33_dmp/bin/activate
 ```
 
-### 6. If on SGE, update environment variables
-If you are using the SGE batch system, you will also need to set these variables for Toil:
+### 6. If on SGE, update environment variables (optional)
+If you are using the SGE batch system, you will also need to set these variables for Toil. These variables are automatically set by the pipeline.
 ```
 export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
 export TOIL_GRIDENGINE_PE="smp"
@@ -102,34 +94,33 @@ export TOIL_GRIDENGINE_PE="smp"
 ### 6. Install the python tools
 From within the ACCESS-Pipeline repository directory, run the following command:
 ```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
+(access_pipeline_0.0.33_dmp) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
 
 ### 7. Install R libraries
 These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
+(access_pipeline_0.0.33_dmp) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
 ```
 
 # Running the test pipeline
 These steps should be run from a new directory, but still while inside your virtual environment. 
 
-### 1. Create a run title file from a sample manifest
-(example manifests exist in /test/test_data/...)
+### 1. Create a run title file from a samplesheet
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_title_file_from_manifest -i ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
+(access_pipeline_0.0.33_dmp) ~/my_TEST_run$ create_title_file_from_samplesheet -i ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xls -o XX_title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
+(access_pipeline_0.0.33_dmp) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
 ```
 
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
+(access_pipeline_0.0.33_dmp) ~/my_TEST_run$ cwltool \
   --debug                                                     # For debug level logging
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
   --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
@@ -138,7 +129,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 Or, to run with the Toil batch system runner:
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner ~/ACCESS-Pipeline/workflows/ACCESS-pipeline.cwl inputs.yaml
+(access_pipeline_0.0.33_dmp) ~/my_TEST_run$ toil-cwl-runner ~/ACCESS-Pipeline/workflows/ACCESS-pipeline.cwl inputs.yaml
 ```
 
 # Running a real run
@@ -166,8 +157,8 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 
 These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`. Note that if there are multiple lanes in the manifest the first script will create multiple title files on a per-lane basis.
 ```
-(access_pipeline_0.0.26) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
-(access_pipeline_0.0.26) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml
+(access_pipeline_0.0.33_dmp) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
+(access_pipeline_0.0.33_dmp) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml
 ```
 
 ### 2. Use the pipeline runner/submit scripts
@@ -177,7 +168,7 @@ Note that we use `pipeline_submit` here to submit both the leader job as well as
 Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`.
 
 ```
-(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_submit \
+(access_pipeline_0.0.33_dmp) ~/my_REAL_run$ pipeline_submit \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /home/johnsoni/projects/EJ_4-27_MarkDuplicatesTest \
 >   --inputs_file ./inputs.yaml \
@@ -190,7 +181,7 @@ Or alternatively, use `pipeline_runner` to make use of the `gridEngine`, `mesos`
 This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 
 ```
-(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
+(access_pipeline_0.0.33_dmp) ~/my_REAL_run$ pipeline_runner \
 >   --project_name EJ_4-27_MarkDuplicatesTest \
 >   --output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
 >   --inputs_file ./inputs.yaml \
@@ -202,13 +193,13 @@ This will create the output directory (or restart a failed run in that output di
 ### 3. Cleanup the output files
 There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
-(access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
+(access_pipeline_0.0.33_dmp) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```
 
 ### 4. Test the output files
 There is a script included to check that the correct samples are paired in the correct folders, and that expected files are present in the final output directory.
 ```
-(access_pipeline_0.0.26) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
+(access_pipeline_0.0.33_dmp) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
 ```
 
 # Issues
