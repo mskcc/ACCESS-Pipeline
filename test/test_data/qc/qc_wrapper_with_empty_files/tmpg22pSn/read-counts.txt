@@ -1,2 +1,0 @@
-Sample	bam	total_reads	unmapped_reads	total_mapped	unique_mapped	duplicate_fraction	total_on_target	unique_on_target	total_on_target_fraction	unique_on_target_fraction
-umi	umi_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	2	0	2	2	0.0	2	2	1	1
