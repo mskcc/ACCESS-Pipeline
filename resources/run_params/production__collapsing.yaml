@@ -5,17 +5,19 @@
 ############
 # Marianas #
 ############
-marianas__min_mapping_quality: 1
-marianas__min_base_quality: 20
-marianas__mismatches: 1
-marianas__wobble: 2
-marianas__min_consensus_percent: 90
+marianas_collapsing__params:
+  min_mapping_quality: 1
+  min_base_quality: 20
+  mismatches: 1
+  wobble: 2
+  min_consensus_percent: 90
 
 #########
 # Waltz #
 #########
-coverage_threshold: 50
-waltz__min_mapping_quality: 20
+waltz__params:
+  coverage_threshold: 50
+  min_mapping_quality: 20
 
 ########################
 # 2nd Realignment step

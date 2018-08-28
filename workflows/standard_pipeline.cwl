@@ -15,23 +15,22 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/run_tools/schemas.yaml
+      - $import: ../resources/run_params/schemas/process_loop_umi_fastq.yaml
+      - $import: ../resources/run_params/schemas/trimgalore.yaml
+      - $import: ../resources/run_params/schemas/add_or_replace_read_groups.yaml
+      - $import: ../resources/run_params/schemas/mark_duplicates.yaml
+      - $import: ../resources/run_params/schemas/find_covered_intervals.yaml
+      - $import: ../resources/run_params/schemas/abra.yaml
+      - $import: ../resources/run_params/schemas/fix_mate_information.yaml
+      - $import: ../resources/run_params/schemas/base_recalibrator.yaml
+      - $import: ../resources/run_params/schemas/print_reads.yaml
+
 
 inputs:
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
+  run_tools: ../resources/run_tools/schemas.yaml#run_tools
 
   tmp_dir: string
   fastq1: File[]
@@ -43,45 +42,24 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-  umi_length: int
-  output_project_folder: string
 
-  trim__length: int
-  trim__paired: boolean
-  trim__gzip: boolean
-  trim__quality: int
-  trim__stringency: int
-  trim__suppress_warn: boolean
-
-  add_rg_PL: string
-  add_rg_CN: string
   add_rg_LB: int[]
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-  md__create_index: boolean
-  md__assume_sorted: boolean
-  md__compression_level: int
-  md__validation_stringency: string
-  md__duplicate_scoring_strategy: string
-  fci__minbq: int
-  fci__minmq: int
-  fci__cov: int
-  fci__rf: string[]
-  fci__intervals: string[]?
-  abra__kmers: string
-  abra__mad: int
-  fix_mate_information__sort_order: string
-  fix_mate_information__create_index: boolean
-  fix_mate_information__compression_level: int
-  fix_mate_information__validation_stringency: string
-  bqsr__nct: int
+
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
-  bqsr__rf: string
-  print_reads__nct: int
-  print_reads__EOQ: boolean
-  print_reads__baq: string
+
+  process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
+  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
+  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
+  find_covered_intervals__params: ../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
+  abra__params: ../resources/run_params/schemas/abra.yaml#abra__params
+  fix_mate_information__params: ../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
+  base_recalibrator__params: ../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
+  print_reads__params: ../resources/run_params/schemas/print_reads.yaml#print_reads__params
 
 outputs:
 
@@ -127,6 +105,7 @@ steps:
     run: ../cwl_tools/marianas/ProcessLoopUMIFastq.cwl
     in:
       run_tools: run_tools
+      params: process_loop_umi_fastq__params
       java_8:
         valueFrom: $(inputs.run_tools.java_8)
       marianas_path:
@@ -134,8 +113,10 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
-      umi_length: umi_length
-      output_project_folder: output_project_folder
+      umi_length:
+        valueFrom: $(inputs.params.umi_length)
+      output_project_folder:
+        valueFrom: $(inputs.params.output_project_folder)
     out: [
       processed_fastq_1,
       processed_fastq_2,
@@ -155,27 +136,21 @@ steps:
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
-
-      trim__length: trim__length
-      trim__paired: trim__paired
-      trim__gzip: trim__gzip
-      trim__quality: trim__quality
-      trim__stringency: trim__stringency
-      trim__suppress_warn: trim__suppress_warn
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      add_rg_PL: add_rg_PL
-      md__create_index: md__create_index
-      md__assume_sorted: md__assume_sorted
-      md__compression_level: md__compression_level
-      md__validation_stringency: md__validation_stringency
-      md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
+      add_rg_CN:
+        valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_CN)
+      add_rg_PL:
+        valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_PL)
+
+      trimgalore__params: trimgalore__params
+      add_or_replace_read_groups__params: add_or_replace_read_groups__params
+      mark_duplicates__params: mark_duplicates__params
     out: [bam, bai, clstats1, clstats2, md_metrics]
     scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
     scatterMethod: dotproduct
@@ -204,24 +179,15 @@ steps:
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams
       patient_id: group_bams_by_patient/grouped_patient_ids
-      fci__rf: fci__rf
-      fci__cov: fci__cov
-      fci__minbq: fci__minbq
-      fci__minmq: fci__minmq
-      fci__intervals: fci__intervals
-      abra__mad: abra__mad
-      abra__kmers: abra__kmers
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__create_index: fix_mate_information__create_index
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      bqsr__rf: bqsr__rf
-      bqsr__nct: bqsr__nct
+
       bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
       bqsr__knownSites_millis: bqsr__knownSites_millis
-      print_reads__nct: print_reads__nct
-      print_reads__EOQ: print_reads__EOQ
-      print_reads__baq: print_reads__baq
+
+      find_covered_intervals__params: find_covered_intervals__params
+      abra__params: abra__params
+      fix_mate_information__params: fix_mate_information__params
+      base_recalibrator__params: base_recalibrator__params
+      print_reads__params: print_reads__params
 
     out: [standard_bams, covint_list, covint_bed]
     scatter: [bams, patient_id]

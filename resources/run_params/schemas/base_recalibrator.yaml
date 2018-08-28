@@ -1,0 +1,7 @@
+name: base_recalibrator__params
+type: record
+fields:
+- name: nct
+  type: int
+- name: rf
+  type: string

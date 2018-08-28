@@ -1,0 +1,13 @@
+name: find_covered_intervals__params
+type: record
+fields:
+- name: minbq
+  type: int
+- name: minmq
+  type: int
+- name: cov
+  type: int
+- name: rf
+  type: string[]
+- name: intervals
+  type: string[]?

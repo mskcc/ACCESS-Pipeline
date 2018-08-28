@@ -1,0 +1,7 @@
+name: abra__params
+type: record
+fields:
+- name: kmers
+  type: string
+- name: mad
+  type: int

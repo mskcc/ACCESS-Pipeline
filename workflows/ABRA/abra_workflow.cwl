@@ -10,25 +10,15 @@ requirements:
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/run_params/schemas/find_covered_intervals.yaml
+      - $import: ../../resources/run_params/schemas/abra.yaml
+      - $import: ../../resources/run_params/schemas/fix_mate_information.yaml
 
 inputs:
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
+  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
     type:
@@ -41,18 +31,11 @@ inputs:
   reference_fasta: string
   patient_id: string
 
-  fci__minbq: int
-  fci__minmq: int
-  fci__cov: int
-  fci__rf: string[]
-  fci__intervals: string[]?
+  find_covered_intervals__params: ../../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
+  abra__params: ../../resources/run_params/schemas/abra.yaml#abra__params
+  fix_mate_information__params: ../../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
+
   fci__basq_fix: boolean?
-  abra__kmers: string
-  abra__mad: int
-  fix_mate_information__sort_order: string
-  fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: int
-  fix_mate_information__create_index: boolean
 
 outputs:
 
@@ -76,19 +59,29 @@ steps:
     run: ../../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
       run_tools: run_tools
+      params: find_covered_intervals__params
+
       java:
         valueFrom: $(inputs.run_tools.java_7)
       gatk:
         valueFrom: $(inputs.run_tools.gatk_path)
+
       tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
       reference_sequence: reference_fasta
-      min_base_quality: fci__minbq
-      min_mapping_quality: fci__minmq
-      coverage_threshold: fci__cov
-      read_filters: fci__rf
-      intervals: fci__intervals
+
+      min_base_quality:
+        valueFrom: $(inputs.params.minbq)
+      min_mapping_quality:
+        valueFrom: $(inputs.params.minmq)
+      coverage_threshold:
+        valueFrom: $(inputs.params.cov)
+      read_filters:
+        valueFrom: $(inputs.params.rf)
+      intervals:
+        valueFrom: $(inputs.params.intervals)
+
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
         valueFrom: ${return inputs.patient_id + ".fci.list"}
@@ -106,6 +99,7 @@ steps:
     run: ../../cwl_tools/abra/abra.cwl
     in:
       run_tools: run_tools
+      params: abra__params
       java:
         valueFrom: $(inputs.run_tools.java_7)
       abra:
@@ -115,8 +109,12 @@ steps:
       tmp_dir: tmp_dir
       patient_id: patient_id
       reference_fasta: reference_fasta
-      kmer: abra__kmers
-      mad: abra__mad
+
+      kmer:
+        valueFrom: $(inputs.params.kmers)
+      mad:
+        valueFrom: $(inputs.params.mad)
+
       threads:
         valueFrom: ${return 12}
       # Todo: Find a cleaner way
@@ -131,16 +129,24 @@ steps:
   parallel_fixmate:
     in:
       run_tools: run_tools
+      params: fix_mate_information__params
+
       java:
         valueFrom: $(inputs.run_tools.java_7)
       fix_mate_information:
         valueFrom: $(inputs.run_tools.fx_path)
       bam: abra/bams
       tmp_dir: tmp_dir
-      sort_order: fix_mate_information__sort_order
-      create_index: fix_mate_information__create_index
-      compression_level: fix_mate_information__compression_level
-      validation_stringency: fix_mate_information__validation_stringency
+
+      sort_order:
+        valueFrom: $(inputs.params.sort_order)
+      create_index:
+        valueFrom: $(inputs.params.create_index)
+      compression_level:
+        valueFrom: $(inputs.params.compression_level)
+      validation_stringency:
+        valueFrom: $(inputs.params.validation_stringency)
+
     out: [bams]
     scatter: [bam]
     scatterMethod: dotproduct

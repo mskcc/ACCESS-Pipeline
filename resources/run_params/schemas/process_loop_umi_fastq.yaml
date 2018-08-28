@@ -1,0 +1,7 @@
+name: process_loop_umi_fastq__params
+type: record
+fields:
+- name: umi_length
+  type: int
+- name: output_project_folder
+  type: string
