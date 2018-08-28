@@ -1,0 +1,15 @@
+name: trimgalore__params
+type: record
+fields:
+- name: length
+  type: int
+- name: paired
+  type: boolean
+- name: gzip
+  type: boolean
+- name: quality
+  type: int
+- name: stringency
+  type: int
+- name: suppress_warn
+  type: boolean

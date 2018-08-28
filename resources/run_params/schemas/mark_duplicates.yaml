@@ -1,0 +1,13 @@
+name: mark_duplicates__params
+type: record
+fields:
+- name: create_index
+  type: boolean
+- name: assume_sorted
+  type: boolean
+- name: compression_level
+  type: int
+- name: validation_stringency
+  type: string
+- name: duplicate_scoring_strategy
+  type: string

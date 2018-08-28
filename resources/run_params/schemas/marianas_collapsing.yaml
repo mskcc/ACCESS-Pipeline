@@ -1,0 +1,13 @@
+name: marianas_collapsing__params
+type: record
+fields:
+- name: min_mapping_quality
+  type: int
+- name: min_base_quality
+  type: int
+- name: mismatches
+  type: int
+- name: wobble
+  type: int
+- name: min_consensus_percent
+  type: int

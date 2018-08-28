@@ -1,0 +1,15 @@
+name: add_or_replace_read_groups__params
+type: record
+fields:
+- name: add_rg_PL
+  type: string
+- name: add_rg_CN
+  type: string
+- name: sort_order
+  type: string
+- name: validation_stringency
+  type: string
+- name: compression_level
+  type: int
+- name: create_index
+  type: boolean

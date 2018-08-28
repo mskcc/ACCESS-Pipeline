@@ -8,34 +8,20 @@ requirements:
   MultipleInputFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/run_params/schemas/waltz.yaml
 
 inputs:
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
-        waltz_path: string
+  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
   title_file: File
   inputs_yaml: File
   pool_a_bed_file: File
   pool_b_bed_file: File
   gene_list: File
-  coverage_threshold: int
-  waltz__min_mapping_quality: int
   reference_fasta: string
   reference_fasta_fai: string
 
@@ -69,11 +55,10 @@ steps:
     in:
       title_file: title_file
       run_tools: run_tools
+      waltz__params: waltz__params
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
       gene_list: gene_list
-      coverage_threshold: coverage_threshold
-      waltz__min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       standard_bams: standard_bams

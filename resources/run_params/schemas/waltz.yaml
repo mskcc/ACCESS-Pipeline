@@ -1,0 +1,7 @@
+name: waltz__params
+type: record
+fields:
+- name: coverage_threshold
+  type: int
+- name: min_mapping_quality
+  type: int

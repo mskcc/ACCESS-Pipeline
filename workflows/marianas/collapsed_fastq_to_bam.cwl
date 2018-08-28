@@ -8,26 +8,15 @@ requirements:
   MultipleInputFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   SubworkflowFeatureRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/run_params/schemas/marianas_collapsing.yaml
+      - $import: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml
 
 inputs:
-
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
+  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
   tmp_dir: string
   fastq1: File
@@ -79,12 +68,13 @@ steps:
     run: ../../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
       run_tools: run_tools
+      add_or_replace_read_groups__params: add_or_replace_read_groups__params
       java:
         valueFrom: ${return inputs.run_tools.java_7}
       arrg:
         valueFrom: ${return inputs.run_tools.arrg_path}
 
-      input_bam: bwa_mem/output_sam
+      input_sam: bwa_mem/output_sam
       LB: add_rg_LB
       PL: add_rg_PL
       ID: add_rg_ID
@@ -93,13 +83,13 @@ steps:
       CN: add_rg_CN
 
       sort_order:
-        default: 'coordinate'
+        valueFrom: $(inputs.add_or_replace_read_groups__params.sort_order)
       validation_stringency:
-        default: 'LENIENT'
+        valueFrom: $(inputs.add_or_replace_read_groups__params.validation_stringency)
       compression_level:
-        default: 0
+        valueFrom: $(inputs.add_or_replace_read_groups__params.compression_level)
       create_index:
-        default: true
+        valueFrom: $(inputs.add_or_replace_read_groups__params.create_index)
 
       tmp_dir: tmp_dir
     out: [bam, bai]

@@ -1,0 +1,9 @@
+name: print_reads__params
+type: record
+fields:
+- name: nct
+  type: int
+- name: EOQ
+  type: boolean
+- name: baq
+  type: string

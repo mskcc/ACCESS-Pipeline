@@ -1,0 +1,11 @@
+name: fix_mate_information__params
+type: record
+fields:
+- name: sort_order
+  type: string
+- name: validation_stringency
+  type: string
+- name: compression_level
+  type: int
+- name: create_index
+  type: boolean

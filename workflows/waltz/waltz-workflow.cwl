@@ -8,35 +8,20 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/run_params/schemas/waltz.yaml
 
 inputs:
-
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        fastqc_path: string?
-        cutadapt_path: string?
-        waltz_path: string
+  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
   input_bam:
     type: File
     secondaryFiles: [^.bai]
-  coverage_threshold: int
   gene_list: File
   bed_file: File
-  min_mapping_quality: int
   reference_fasta: string
   reference_fasta_fai: string
 
@@ -55,13 +40,15 @@ steps:
     run: ../../cwl_tools/waltz/CountReads.cwl
     in:
       run_tools: run_tools
+      params: waltz__params
       java_8:
         valueFrom: $(inputs.run_tools.java_8)
       waltz_path:
         valueFrom: $(inputs.run_tools.waltz_path)
+      coverage_threshold:
+        valueFrom: $(inputs.params.coverage_threshold)
 
       input_bam: input_bam
-      coverage_threshold: coverage_threshold
       gene_list: gene_list
       bed_file: bed_file
     out: [
@@ -74,13 +61,15 @@ steps:
     run: ../../cwl_tools/waltz/PileupMetrics.cwl
     in:
       run_tools: run_tools
+      params: waltz__params
       java_8:
         valueFrom: $(inputs.run_tools.java_8)
       waltz_path:
         valueFrom: $(inputs.run_tools.waltz_path)
+      min_mapping_quality:
+        valueFrom: $(inputs.params.min_mapping_quality)
 
       input_bam: input_bam
-      min_mapping_quality: min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       bed_file: bed_file

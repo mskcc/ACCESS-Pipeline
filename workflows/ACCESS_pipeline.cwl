@@ -10,26 +10,25 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/run_tools/schemas.yaml
+      - $import: ../resources/run_params/schemas/process_loop_umi_fastq.yaml
+      - $import: ../resources/run_params/schemas/trimgalore.yaml
+      - $import: ../resources/run_params/schemas/add_or_replace_read_groups.yaml
+      - $import: ../resources/run_params/schemas/mark_duplicates.yaml
+      - $import: ../resources/run_params/schemas/find_covered_intervals.yaml
+      - $import: ../resources/run_params/schemas/abra.yaml
+      - $import: ../resources/run_params/schemas/fix_mate_information.yaml
+      - $import: ../resources/run_params/schemas/base_recalibrator.yaml
+      - $import: ../resources/run_params/schemas/print_reads.yaml
+      - $import: ../resources/run_params/schemas/marianas_collapsing.yaml
+      - $import: ../resources/run_params/schemas/waltz.yaml
 
 inputs:
 
   tmp_dir: string
-  run_tools:
-    type:
-      type: record
-      fields:
-        perl_5: string
-        java_7: string
-        java_8: string
-        marianas_path: string
-        trimgalore_path: string
-        bwa_path: string
-        arrg_path: string
-        picard_path: string
-        gatk_path: string
-        abra_path: string
-        fx_path: string
-        waltz_path: string
+  run_tools: ../resources/run_tools/schemas.yaml#run_tools
 
   title_file: File
   inputs_yaml: File
@@ -42,59 +41,32 @@ inputs:
   sample_sheet: File[]
   patient_id: string[]
   class_list: string[]
+  add_rg_LB: int[]
+  add_rg_ID: string[]
+  add_rg_PU: string[]
+  add_rg_SM: string[]
 
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file?
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-  umi_length: int
-  output_project_folder: string
 
-  trim__length: int
-  trim__paired: boolean
-  trim__gzip: boolean
-  trim__quality: int
-  trim__stringency: int
-  trim__suppress_warn: boolean
+  process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
+  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
+  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
+  find_covered_intervals__params: ../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
+  abra__params: ../resources/run_params/schemas/abra.yaml#abra__params
+  fix_mate_information__params: ../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
+  base_recalibrator__params: ../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
+  print_reads__params: ../resources/run_params/schemas/print_reads.yaml#print_reads__params
+  marianas_collapsing__params: ../resources/run_params/schemas/marianas_collapsing.yaml#marianas_collapsing__params
+  waltz__params: ../resources/run_params/schemas/waltz.yaml#waltz__params
 
-  add_rg_PL: string
-  add_rg_CN: string
-  add_rg_LB: int[]
-  add_rg_ID: string[]
-  add_rg_PU: string[]
-  add_rg_SM: string[]
-  md__assume_sorted: boolean
-  md__compression_level: int
-  md__create_index: boolean
-  md__validation_stringency: string
-  md__duplicate_scoring_strategy: string
-  fci__minbq: int
-  fci__minmq: int
-  fci__cov: int
-  fci__rf: string[]
-  fci__intervals: string[]?
-  abra__kmers: string
-  abra__mad: int
-  fix_mate_information__sort_order: string
-  fix_mate_information__validation_stringency: string
-  fix_mate_information__compression_level: int
-  fix_mate_information__create_index: boolean
-  bqsr__nct: int
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
-  bqsr__rf: string
-  print_reads__nct: int
-  print_reads__EOQ: boolean
-  print_reads__baq: string
-  marianas__mismatches: int
-  marianas__wobble: int
-  marianas__min_mapping_quality: int
-  marianas__min_base_quality: int
-  marianas__min_consensus_percent: int
 
-  coverage_threshold: int
-  waltz__min_mapping_quality: int
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
@@ -151,50 +123,29 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
-      umi_length: umi_length
-      output_project_folder: output_project_folder
       tmp_dir: tmp_dir
-
-      trim__length: trim__length
-      trim__paired: trim__paired
-      trim__gzip: trim__gzip
-      trim__quality: trim__quality
-      trim__stringency: trim__stringency
-      trim__suppress_warn: trim__suppress_warn
-
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
+      patient_id: patient_id
+
       add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
-      md__create_index: md__create_index
-      md__assume_sorted: md__assume_sorted
-      md__compression_level: md__compression_level
-      md__validation_stringency: md__validation_stringency
-      md__duplicate_scoring_strategy: md__duplicate_scoring_strategy
-      patient_id: patient_id
-      reference_fasta: reference_fasta
-      fci__minbq: fci__minbq
-      fci__minmq: fci__minmq
-      fci__cov: fci__cov
-      fci__rf: fci__rf
-      fci__intervals: fci__intervals
-      abra__kmers: abra__kmers
-      abra__mad: abra__mad
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__create_index: fix_mate_information__create_index
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      bqsr__nct: bqsr__nct
+
       bqsr__knownSites_dbSNP: bqsr__knownSites_dbSNP
       bqsr__knownSites_millis: bqsr__knownSites_millis
-      bqsr__rf: bqsr__rf
-      print_reads__nct: print_reads__nct
-      print_reads__EOQ: print_reads__EOQ
-      print_reads__baq: print_reads__baq
+
+      process_loop_umi_fastq__params: process_loop_umi_fastq__params
+      trimgalore__params: trimgalore__params
+      add_or_replace_read_groups__params: add_or_replace_read_groups__params
+      mark_duplicates__params: mark_duplicates__params
+      find_covered_intervals__params: find_covered_intervals__params
+      abra__params: abra__params
+      fix_mate_information__params: fix_mate_information__params
+      base_recalibrator__params: base_recalibrator__params
+      print_reads__params: print_reads__params
+
     out: [
       standard_bams,
       clipping_dirs,
@@ -213,11 +164,10 @@ steps:
     run: ./waltz/waltz-workflow.cwl
     in:
       run_tools: run_tools
+      waltz__params: waltz__params
       input_bam: standard_bam_generation/standard_bams
       bed_file: pool_a_bed_file
       gene_list: gene_list
-      coverage_threshold: coverage_threshold
-      min_mapping_quality: waltz__min_mapping_quality
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out: [pileup, waltz_output_files]
@@ -236,20 +186,21 @@ steps:
       pileup: waltz_standard_pool_a/pileup
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
-      mismatches: marianas__mismatches
-      wobble: marianas__wobble
-      min_mapping_quality: marianas__min_mapping_quality
-      min_base_quality: marianas__min_base_quality
-      min_consensus_percent: marianas__min_consensus_percent
       tmp_dir: tmp_dir
-      reference_fasta: reference_fasta
-      reference_fasta_fai: reference_fasta_fai
+
+      marianas_collapsing__params: marianas_collapsing__params
+      add_or_replace_read_groups__params: add_or_replace_read_groups__params
+
       add_rg_LB: add_rg_LB
-      add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
-      add_rg_CN: add_rg_CN
+
+      add_rg_PL:
+        valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_PL)
+      add_rg_CN:
+        valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_CN)
+
     out: [
       collapsed_bams,
       first_pass_output_file,
@@ -288,18 +239,10 @@ steps:
       tmp_dir: tmp_dir
       bams: group_bams_by_patient/grouped_bams
       patient_id: group_bams_by_patient/grouped_patient_ids
-      fci__minbq: fci__minbq
-      fci__minmq: fci__minmq
-      fci__rf: fci__rf
-      fci__cov: fci__cov
-      fci__intervals: fci__intervals
-      fci__basq_fix: fci_2__basq_fix
-      abra__mad: abra__mad
-      abra__kmers: abra__kmers
-      fix_mate_information__sort_order: fix_mate_information__sort_order
-      fix_mate_information__validation_stringency: fix_mate_information__validation_stringency
-      fix_mate_information__compression_level: fix_mate_information__compression_level
-      fix_mate_information__create_index: fix_mate_information__create_index
+
+      find_covered_intervals__params: find_covered_intervals__params
+      abra__params: abra__params
+      fix_mate_information__params: fix_mate_information__params
     out: [ir_bams]
     scatter: [bams, patient_id]
     scatterMethod: dotproduct
@@ -371,6 +314,8 @@ steps:
     run: ./QC/qc_workflow.cwl
     in:
       run_tools: run_tools
+      waltz__params: waltz__params
+
       sample_directories: make_bam_output_directories/directory
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
@@ -380,8 +325,7 @@ steps:
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
       gene_list: gene_list
-      coverage_threshold: coverage_threshold
-      waltz__min_mapping_quality: waltz__min_mapping_quality
+
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       standard_bams: standard_bam_generation/standard_bams
