@@ -283,6 +283,12 @@ def perform_barcode_index_checks(title_file, sample_sheets):
 def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     """
     Write fastq1, fastq2, read group identifiers and sample_sheet file references to yaml inputs file.
+
+    :param fh:
+    :param data_dir:
+    :param title_file:
+    :param title_file_path:
+    :param force:
     """
     # Load and sort our data files
     fastq1, fastq2, sample_sheets = load_fastqs(data_dir)
@@ -300,7 +306,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         # Check the barcode sequences in the title_file against the sequences in the sample_sheets
         perform_barcode_index_checks(title_file, sample_sheets)
 
-    out_dict = {
+    samples_info = {
         'fastq1': fastq1,
         'fastq2': fastq2,
         'sample_sheet': sample_sheets,
@@ -319,10 +325,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     }
 
     # Trim whitespace
-    for key in out_dict:
-        out_dict[key] = [x.strip() if type(x) == str else x for x in out_dict[key]]
+    for key in samples_info:
+        samples_info[key] = [x.strip() if type(x) == str else x for x in samples_info[key]]
 
-    fh.write(ruamel.yaml.dump(out_dict))
+    fh.write(ruamel.yaml.dump(samples_info))
 
 
 def substitute_project_root(yaml_file):
@@ -340,7 +346,7 @@ def substitute_project_root(yaml_file):
             yaml_file[key]['path'] = new_value
 
         # If we are dealing with a string
-        # Todo: should be replaced with File
+        # Todo: these should be replaced with File types
         if type(yaml_file[key]) == str:
             new_value = yaml_file[key].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
             yaml_file[key] = new_value
@@ -668,6 +674,7 @@ def main():
 
     # Read title file
     title_file = pd.read_csv(args.title_file_path, sep='\t')
+
     # Sort based on Patient ID
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
