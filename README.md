@@ -85,7 +85,7 @@ Use the following script to get LUNA-specific environment variables for Toil and
 ### 6. If on SGE, update environment variables
 If you are using the SGE batch system, you will also need to set these variables for Toil:
 ```
-export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
+export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
 export TOIL_GRIDENGINE_PE="smp"
 ```
 
