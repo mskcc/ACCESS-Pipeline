@@ -34,8 +34,10 @@ Note: In these instructions, please replace *0.0.26* with the *latest version* o
 
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
+
+Note: If on LUNA, use the following verison of virtualenv:
 ```
-~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
+~$ /opt/common/CentOS_6-dev/bin/current/virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
 ~$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
