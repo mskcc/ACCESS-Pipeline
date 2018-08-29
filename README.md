@@ -34,8 +34,10 @@ Note: In these instructions, please replace *0.0.26* with the *latest version* o
 
 ### 1. Set up a Virtual Environment
 Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
+
+Note: If on LUNA, use the following verison of virtualenv:
 ```
-~$ virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
+~$ /opt/common/CentOS_6-dev/bin/current/virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
 ~$ source ~/access_pipeline_0.0.26/bin/activate
 ```
 
@@ -99,13 +101,13 @@ export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
 export TOIL_GRIDENGINE_PE="smp"
 ```
 
-### 6. Install the python tools
+### 7. Install the python tools
 From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
 
-### 7. Install R libraries
+### 8. Install R libraries
 These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
@@ -133,7 +135,7 @@ To run with the CWL reference implementation (faster for testing purposes):
   --debug                                                     # For debug level logging
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
   --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
-  ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \       # The workflow *required*
+  ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \           # The workflow *required*
   inputs.yaml                                                 # The inputs to the workflow *required*
 ```
 Or, to run with the Toil batch system runner:
