@@ -135,7 +135,7 @@ To run with the CWL reference implementation (faster for testing purposes):
   --debug                                                     # For debug level logging
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
   --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
-  ~/ACCESS-Pipeline/workflows/innovation_pipeline.cwl \       # The workflow *required*
+  ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \           # The workflow *required*
   inputs.yaml                                                 # The inputs to the workflow *required*
 ```
 Or, to run with the Toil batch system runner:
