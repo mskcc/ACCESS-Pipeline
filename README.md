@@ -99,13 +99,13 @@ export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
 export TOIL_GRIDENGINE_PE="smp"
 ```
 
-### 6. Install the python tools
+### 7. Install the python tools
 From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
 
-### 7. Install R libraries
+### 8. Install R libraries
 These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
