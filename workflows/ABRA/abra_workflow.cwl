@@ -80,11 +80,14 @@ steps:
       read_filters:
         valueFrom: $(inputs.params.rf)
       intervals:
-        valueFrom: $(inputs.params.intervals)
+        valueFrom: |
+          ${
+            return inputs.params.intervals ? inputs.params.intervals : null
+          }
 
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
-        valueFrom: ${return inputs.patient_id + ".fci.list"}
+        valueFrom: ${return inputs.patient_id + '.fci.list'}
     out: [fci_list]
 
   list2bed:
