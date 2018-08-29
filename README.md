@@ -77,27 +77,15 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 And then update the paths to these variables.
 
 ### 5. Update your environment variables:
-If you are on LUNA, put the following lines at the end of your `~/access_pipeline_0.0.26/bin/activate` to get the required versions of any tools that will be called based on your environment variables:
+Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
 ```
-# PATH with LUNA-specific dependencies
-export PATH="$VIRTUAL_ENV/bin:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin:/opt/common/CentOS_6-dev/bin/current:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/:$PATH"
-
-# Needed for Node to find shared libraries
-export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
-
-# Location for Toil temporary intermediate files
-export TMPDIR=/scratch
-```
-
-Then you'll have to do the following to get that update to your PATH in your current shell:
-```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ source ~/access_pipeline_0.0.26/bin/activate
+(access_pipeline_0.0.26) ~$ source ~/ACCESS_pipeline/python_tools/pipeline_kickoff/workspace_init.sh
 ```
 
 ### 6. If on SGE, update environment variables
 If you are using the SGE batch system, you will also need to set these variables for Toil:
 ```
-export TOIL_GRIDENGINE_ARGS="-q <queue_name>"
+export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
 export TOIL_GRIDENGINE_PE="smp"
 ```
 
