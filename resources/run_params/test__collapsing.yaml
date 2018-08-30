@@ -2,9 +2,6 @@
 # TEST Parameters for Collapsing (module 2.5) & QC steps #
 ##########################################################
 
-############
-# Marianas #
-############
 marianas_collapsing__params:
   min_mapping_quality: 1
   min_base_quality: 20
@@ -12,9 +9,6 @@ marianas_collapsing__params:
   wobble: 2
   min_consensus_percent: 90
 
-#########
-# Waltz #
-#########
 # This parameter is lowered for tesing purposes
 # Todo: QC module should be able to handle zero coverage bams?
 waltz__params:
