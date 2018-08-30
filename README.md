@@ -148,7 +148,7 @@ Note that there are several valiation requirements when running on your own data
 4. The i5 and i7 barcode indexes from the manifest/title_file must match what is found in the SampleSheet.csv files (i5 may be reverse-complemented depending on the machine).
 5. The `sample_class` field must always be either "Tumor" or "Normal"
 6. The `sample_type` field must always be either "Plasma" or "Buffy Coat"
-7. The `Sex` column must always be one of ['Male', 'M', 'Female', 'F']
+7. The `Sex` column must always be one of ['Male', 'M', 'Female', 'F', 'Unknown', '-']
 
 Certain validation requirements can be skipped by using the `-f` parameter in the pipeline kickoff step.
 
