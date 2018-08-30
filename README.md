@@ -79,7 +79,7 @@ And then update the paths to these variables.
 ### 5. Update your environment variables:
 Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
 ```
-(access_pipeline_0.0.26) ~$ source ~/ACCESS_pipeline/python_tools/pipeline_kickoff/workspace_init.sh
+(access_pipeline_0.0.26) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
 ```
 
 ### 6. If on SGE, update environment variables
