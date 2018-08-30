@@ -240,6 +240,7 @@ steps:
       bams: group_bams_by_patient/grouped_bams
       patient_id: group_bams_by_patient/grouped_patient_ids
 
+      fci__basq_fix: fci_2__basq_fix
       find_covered_intervals__params: find_covered_intervals__params
       abra__params: abra__params
       fix_mate_information__params: fix_mate_information__params
