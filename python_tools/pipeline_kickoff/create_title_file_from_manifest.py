@@ -22,9 +22,9 @@ from ..constants import *
 def create_title_file(manifest_file_path, output_filename):
     # Read Manifest as either csv or Excel file
     try:
-        manifest = pd.read_csv(manifest_file_path, sep='\t', float_precision='high')
+        manifest = pd.read_csv(manifest_file_path, sep='\t')
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
-        manifest = pd.read_excel(manifest_file_path, sep='\t', float_precision='high')
+        manifest = pd.read_excel(manifest_file_path, sep='\t')
     manifest = manifest.dropna(axis=0, how='all')
 
     # Select the columns we want from the manifest & rename them
