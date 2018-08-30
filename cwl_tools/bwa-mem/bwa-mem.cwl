@@ -46,6 +46,7 @@ requirements:
   - class: ResourceRequirement
     ramMin: 30000
     coresMin: 4
+    outdirMax: 20000
 
 inputs:
   bwa: string

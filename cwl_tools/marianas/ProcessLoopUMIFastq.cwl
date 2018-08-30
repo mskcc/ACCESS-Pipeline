@@ -23,6 +23,7 @@ requirements:
   - class: ResourceRequirement
     ramMin: 30000
     coresMin: 1
+    outdirMax: 30000
 
 inputs:
   java_8: string

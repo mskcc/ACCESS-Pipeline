@@ -7,7 +7,9 @@ class: CommandLineTool
 baseCommand: [make_umi_qc_tables.sh]
 
 requirements:
-- class: InlineJavascriptRequirement
+  ResourceRequirement:
+    # Todo: why does this step use so much disk?
+    outdirMax: 200000
 
 inputs:
 
