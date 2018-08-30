@@ -89,5 +89,26 @@ outputs:
   bams:
     type: File[]
     outputBinding:
-      # Todo: Only specify in one place.
+      # Todo: Only specify this glob string in one place:
       glob: '*_IR.bam'
+
+      # Here we use an expression to make sure that bams come out of abra the same way that they went in,
+      # regardless of their initial lexicographic order.
+      #
+      # `glob` on its own may change the order of the bams if they were not sorted lexicographically initially.
+      outputEval: |
+        ${
+          var sorted_output_bams = [];
+
+          inputs.out.forEach(function(output_bam_filename) {
+            self.forEach(function(realigned_bam) {
+              if (output_bam_filename === realigned_bam.basename) {
+
+                sorted_output_bams.push(realigned_bam);
+
+              }
+            });
+          });
+
+          return sorted_output_bams
+        }
