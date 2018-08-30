@@ -52,13 +52,27 @@ Alternatively, if you want to pull the latest development version you can use th
 (access_pipeline_0.0.26) ~$ git fetch --tags
 ```
 
-### 3. Copy the test data (optional)
+### 3. Update your environment variables:
+Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
+```
+(access_pipeline_0.0.26) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
+```
+
+### 4. Install the python tools
+From within the ACCESS-Pipeline repository directory, run the following command:
+```
+(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
+```
+
+## Additional setup steps, if not on LUNA:
+
+### 1. Copy the test data
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
 ```
 (access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 ```
 
-### 4. Update the run variables (optional, if not on LUNA)
+### 2. Update the run variables
 
 If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
 ```
@@ -76,26 +90,14 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 ```
 And then update the paths to these variables.
 
-### 5. Update your environment variables:
-Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
-```
-(access_pipeline_0.0.26) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
-```
-
-### 6. If on SGE, update environment variables
+### 3. If on SGE, update environment variables
 If you are using the SGE batch system, you will also need to set these variables for Toil:
 ```
 export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
 export TOIL_GRIDENGINE_PE="smp"
 ```
 
-### 7. Install the python tools
-From within the ACCESS-Pipeline repository directory, run the following command:
-```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
-```
-
-### 8. Install R libraries
+### 4. Install R libraries
 These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
