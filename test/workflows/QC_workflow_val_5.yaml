@@ -5,14 +5,14 @@ inputs_yaml: {class: File, path: ./actual_inputs_val_5.yaml}
 title_file: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/val_5-7_26-marianas-1.6.0/val_5_title_file--IGO_TEST.txt}
 
 # Fingerprinting
-FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/Access_v1_0_curatedSNPs.txt}
+FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
 
 # Noise
-noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}
+noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
 
 # UMI QC
-A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-B-on-target-positions.txt}
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
 
 # Waltz files
 waltz_standard_pool_a: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/val_5-7_26--mar1.6.0/QC_Results/waltz_standard_pool_a}
