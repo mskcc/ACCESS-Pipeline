@@ -5,10 +5,11 @@ notes
 .DS_Store
 *.pyc
 *.log
-resources/bedfiles
-resources/test_bedfiles
-resources/fingerprinting
-test/test_data
+.gitignore
+#resources/bedfiles
+#resources/test_bedfiles
+#resources/fingerprinting
+#test/test_data
 
 # Ignore files that store current installation variables
 python_tools/root.py

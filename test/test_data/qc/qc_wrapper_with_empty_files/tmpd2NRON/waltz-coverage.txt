@@ -1,0 +1,2 @@
+Sample	average_coverage_total	average_coverage_unique
+umi	1.4861111111111112	1.4861111111111112

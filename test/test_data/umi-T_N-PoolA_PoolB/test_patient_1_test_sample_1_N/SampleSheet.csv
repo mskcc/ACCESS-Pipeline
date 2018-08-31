@@ -1,0 +1,2 @@
+FCID,Lane,SampleID,SampleRef,Index,Index2,Description,Control,Recipe,Operator,SampleProject
+Test_Machine,1,super_small,na,AGTCCTGA,TCAGGACT,Ian_Johnson,N,na,na,Test_XX
