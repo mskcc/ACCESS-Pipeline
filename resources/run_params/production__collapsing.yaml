@@ -2,9 +2,6 @@
 # Parameters for Collapsing (module 2.5) & QC steps #
 #####################################################
 
-############
-# Marianas #
-############
 marianas_collapsing__params:
   min_mapping_quality: 1
   min_base_quality: 20
@@ -12,9 +9,6 @@ marianas_collapsing__params:
   wobble: 2
   min_consensus_percent: 90
 
-#########
-# Waltz #
-#########
 waltz__params:
   coverage_threshold: 50
   min_mapping_quality: 20
