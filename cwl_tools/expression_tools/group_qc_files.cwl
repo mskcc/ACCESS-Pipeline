@@ -12,19 +12,17 @@ doc: |
 
 inputs:
 
-  standard_aggregate_bam_metrics_pool_a: Directory
-  unfiltered_aggregate_bam_metrics_pool_a: Directory
-  simplex_aggregate_bam_metrics_pool_a: Directory
-  duplex_aggregate_bam_metrics_pool_a: Directory
-  standard_aggregate_bam_metrics_pool_b: Directory
-  unfiltered_aggregate_bam_metrics_pool_b: Directory
-  simplex_aggregate_bam_metrics_pool_b: Directory
-  duplex_aggregate_bam_metrics_pool_b: Directory
+  standard_pool_a: Directory
+  unfiltered_pool_a: Directory
+  simplex_pool_a: Directory
+  duplex_pool_a: Directory
+  standard_pool_b: Directory
+  unfiltered_pool_b: Directory
+  simplex_pool_b: Directory
+  duplex_pool_b: Directory
 
   all_fp_results: Directory
   gender_table: File
-  noise_alt_percent: File
-  noise_contributing_sites: File
   family_sizes: File
   family_types_A: File
   family_types_B: File
@@ -38,18 +36,18 @@ expression: |
   ${
     var output_files = [];
 
-    output_files.push(inputs.standard_aggregate_bam_metrics_pool_a);
-    output_files.push(inputs.unfiltered_aggregate_bam_metrics_pool_a);
-    output_files.push(inputs.simplex_aggregate_bam_metrics_pool_a);
-    output_files.push(inputs.duplex_aggregate_bam_metrics_pool_a);
-    output_files.push(inputs.standard_aggregate_bam_metrics_pool_b);
-    output_files.push(inputs.unfiltered_aggregate_bam_metrics_pool_b);
-    output_files.push(inputs.simplex_aggregate_bam_metrics_pool_b);
-    output_files.push(inputs.duplex_aggregate_bam_metrics_pool_b);
+    output_files.push(inputs.standard_pool_a);
+    output_files.push(inputs.unfiltered_pool_a);
+    output_files.push(inputs.simplex_pool_a);
+    output_files.push(inputs.duplex_pool_a);
+    output_files.push(inputs.standard_pool_b);
+    output_files.push(inputs.unfiltered_pool_b);
+    output_files.push(inputs.simplex_pool_b);
+    output_files.push(inputs.duplex_pool_b);
+
     output_files.push(inputs.all_fp_results);
     output_files.push(inputs.gender_table);
-    output_files.push(inputs.noise_alt_percent);
-    output_files.push(inputs.noise_contributing_sites);
+
     output_files.push(inputs.family_sizes);
     output_files.push(inputs.family_types_A);
     output_files.push(inputs.family_types_B);
