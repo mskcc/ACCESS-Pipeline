@@ -321,7 +321,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         # Todo: should we use one or two barcodes in the PU field if they are different?
         'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
         'patient_id': title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist(),
-        'class_list': title_file[TITLE_FILE__CLASS_COLUMN].tolist(),
     }
 
     # Trim whitespace
@@ -648,8 +647,8 @@ def perform_validation(title_file):
     if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
-    if np.sum(title_file[TITLE_FILE__SEX_COLUMN].isin(['Male', 'M', 'Female', 'F'])) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F]')
+    if np.sum(title_file[TITLE_FILE__SEX_COLUMN].isin(['Male', 'M', 'Female', 'F', 'Unknown', '-'])) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F, Unknown, -]')
 
 
 def print_user_message():
