@@ -1,5 +1,5 @@
-# Inputs File itself
-inputs_yaml: {class: File, path: ./actual_inputs_val_5.yaml}
+# Inputs File to print in QC
+inputs_yaml: {class: File, path: ./ACCESS_pipeline_val_5.yaml}
 
 # Title File
 title_file: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/val_5-7_26-marianas-1.6.0/val_5_title_file--IGO_TEST.txt}
