@@ -135,19 +135,73 @@ steps:
   # Noise #
   #########
 
-  noise_tables:
+  standard_noise_tables_A:
     run: ../../cwl_tools/noise/calculate_noise.cwl
     in:
+      output_dir_name:
+        valueFrom: $('waltz_standard_pool_a')
+      waltz_directory: waltz_standard_pool_a
+      good_positions_A: noise__good_positions_A
+    out: [noise, noise_by_substitution, waltz_folder_with_noise]
+
+  unfiltered_noise_tables_A:
+    run: ../../cwl_tools/noise/calculate_noise.cwl
+    in:
+      output_dir_name:
+        valueFrom: $('waltz_unfiltered_pool_a')
+      waltz_directory: waltz_unfiltered_pool_a
+      good_positions_A: noise__good_positions_A
+    out: [noise, noise_by_substitution, waltz_folder_with_noise]
+
+  simplex_noise_tables_A:
+    run: ../../cwl_tools/noise/calculate_noise.cwl
+    in:
+      output_dir_name:
+        valueFrom: $('waltz_simplex_pool_a')
+      waltz_directory: waltz_simplex_pool_a
+      good_positions_A: noise__good_positions_A
+    out: [noise, noise_by_substitution, waltz_folder_with_noise]
+
+  duplex_noise_tables_A:
+    run: ../../cwl_tools/noise/calculate_noise.cwl
+    in:
+      output_dir_name:
+        valueFrom: $('waltz_duplex_pool_a')
       waltz_directory: waltz_duplex_pool_a
       good_positions_A: noise__good_positions_A
-    out: [noise, noise_by_substitution]
+    out: [noise, noise_by_substitution, waltz_folder_with_noise]
 
-  noise_plots:
+
+  standard_noise_plots_A:
     run: ../../cwl_tools/noise/plot_noise.cwl
     in:
       title_file: title_file
-      noise: noise_tables/noise
-      noise_by_substitution: noise_tables/noise_by_substitution
+      noise: standard_noise_tables_A/noise
+      noise_by_substitution: standard_noise_tables_A/noise_by_substitution
+    out: [noise_alt_percent, noise_contributing_sites]
+
+  unfiltered_noise_plots_A:
+    run: ../../cwl_tools/noise/plot_noise.cwl
+    in:
+      title_file: title_file
+      noise: unfiltered_noise_tables_A/noise
+      noise_by_substitution: unfiltered_noise_tables_A/noise_by_substitution
+    out: [noise_alt_percent, noise_contributing_sites]
+
+  simplex_noise_plots_A:
+    run: ../../cwl_tools/noise/plot_noise.cwl
+    in:
+      title_file: title_file
+      noise: simplex_noise_tables_A/noise
+      noise_by_substitution: simplex_noise_tables_A/noise_by_substitution
+    out: [noise_alt_percent, noise_contributing_sites]
+
+  duplex_noise_plots_A:
+    run: ../../cwl_tools/noise/plot_noise.cwl
+    in:
+      title_file: title_file
+      noise: duplex_noise_tables_A/noise
+      noise_by_substitution: duplex_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
   #################
@@ -222,8 +276,8 @@ steps:
       family_sizes_all: innovation_qc/family_sizes_all
       family_sizes_simplex: innovation_qc/family_sizes_simplex
       family_sizes_duplex: innovation_qc/family_sizes_duplex
-      noise_alt_percent: noise_plots/noise_alt_percent
-      noise_contributing_sites: noise_plots/noise_contributing_sites
+      noise_alt_percent: duplex_noise_plots_A/noise_alt_percent
+      noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
     out:
@@ -236,18 +290,19 @@ steps:
   group_qc_files:
     run: ../../cwl_tools/expression_tools/group_qc_files.cwl
     in:
-      standard_aggregate_bam_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
-      unfiltered_aggregate_bam_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
-      simplex_aggregate_bam_metrics_pool_a: simplex_aggregate_bam_metrics_pool_a/output_dir
-      duplex_aggregate_bam_metrics_pool_a: duplex_aggregate_bam_metrics_pool_a/output_dir
-      standard_aggregate_bam_metrics_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
-      unfiltered_aggregate_bam_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
-      simplex_aggregate_bam_metrics_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
-      duplex_aggregate_bam_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+      standard_pool_a: standard_noise_tables_A/waltz_folder_with_noise
+      unfiltered_pool_a: unfiltered_noise_tables_A/waltz_folder_with_noise
+      simplex_pool_a: simplex_noise_tables_A/waltz_folder_with_noise
+      duplex_pool_a: duplex_noise_tables_A/waltz_folder_with_noise
+
+      standard_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
+      unfiltered_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
+      simplex_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
+      duplex_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+
       all_fp_results: fingerprinting/all_fp_results
       gender_table: fingerprinting/gender_table
-      noise_alt_percent: noise_tables/noise
-      noise_contributing_sites: noise_tables/noise_by_substitution
+
       family_sizes: umi_qc_tables/family_sizes
       family_types_A: umi_qc_tables/family_types_A
       family_types_B: umi_qc_tables/family_types_B

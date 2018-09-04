@@ -8,11 +8,12 @@ baseCommand: [calculate_noise.sh]
 
 requirements:
   - class: InlineJavascriptRequirement
-#  - class: InitialWorkDirRequirement
-#    listing:
-#      - $(inputs.waltz_directory)
+  - class: InitialWorkDirRequirement
+    listing: $(inputs.waltz_directory.listing)
 
 inputs:
+
+  output_dir_name: string
 
   good_positions_A:
     type: File
@@ -35,3 +36,13 @@ outputs:
     type: File
     outputBinding:
       glob: $('noise-by-substitution.txt')
+
+  waltz_folder_with_noise:
+    type: Directory
+    outputBinding:
+      glob: .
+      outputEval: |
+        ${
+          self[0].basename = inputs.output_dir_name;
+          return self[0]
+        }
