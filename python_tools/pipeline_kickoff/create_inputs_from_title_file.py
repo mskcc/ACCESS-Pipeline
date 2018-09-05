@@ -551,7 +551,6 @@ def check_final_file(output_file_name):
         'add_rg_LB',
         'add_rg_PU',
         'add_rg_SM',
-        'class_list',
         'patient_id',
         'fastq1',
         'fastq2',
