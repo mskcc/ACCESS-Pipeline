@@ -40,7 +40,6 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
-  class_list: string[]
   add_rg_LB: int[]
   add_rg_ID: string[]
   add_rg_PU: string[]
