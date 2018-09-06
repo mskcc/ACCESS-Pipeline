@@ -13,7 +13,6 @@ trimgalore__params:
   gzip: true
   quality: 1
   stringency: 1
-  suppress_warn: true
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina
