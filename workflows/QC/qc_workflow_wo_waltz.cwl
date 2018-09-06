@@ -140,7 +140,7 @@ steps:
     in:
       output_dir_name:
         valueFrom: $('waltz_standard_pool_a')
-      waltz_directory: waltz_standard_pool_a
+      waltz_directory: standard_aggregate_bam_metrics_pool_a/output_dir
       good_positions_A: noise__good_positions_A
     out: [noise, noise_by_substitution, waltz_folder_with_noise]
 
@@ -149,7 +149,7 @@ steps:
     in:
       output_dir_name:
         valueFrom: $('waltz_unfiltered_pool_a')
-      waltz_directory: waltz_unfiltered_pool_a
+      waltz_directory: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       good_positions_A: noise__good_positions_A
     out: [noise, noise_by_substitution, waltz_folder_with_noise]
 
@@ -158,7 +158,7 @@ steps:
     in:
       output_dir_name:
         valueFrom: $('waltz_simplex_pool_a')
-      waltz_directory: waltz_simplex_pool_a
+      waltz_directory: simplex_aggregate_bam_metrics_pool_a/output_dir
       good_positions_A: noise__good_positions_A
     out: [noise, noise_by_substitution, waltz_folder_with_noise]
 
@@ -167,7 +167,7 @@ steps:
     in:
       output_dir_name:
         valueFrom: $('waltz_duplex_pool_a')
-      waltz_directory: waltz_duplex_pool_a
+      waltz_directory: duplex_aggregate_bam_metrics_pool_a/output_dir
       good_positions_A: noise__good_positions_A
     out: [noise, noise_by_substitution, waltz_folder_with_noise]
 
