@@ -75,10 +75,6 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
 
-#      adapter:
-#        valueFrom: $(inputs.params.adapter)
-#      adapter2:
-#        valueFrom: $(inputs.params.adapter2)
       length:
         valueFrom: $(inputs.params.length)
       paired:
