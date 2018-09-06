@@ -13,17 +13,14 @@ requirements:
 
 inputs:
 
+  waltz_directory: Directory
+
   output_dir_name: string
 
   good_positions_A:
     type: File
     inputBinding:
       position: 1
-
-  waltz_directory:
-    type: Directory
-    inputBinding:
-      position: 2
 
 outputs:
 

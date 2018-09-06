@@ -20,7 +20,7 @@ echo -e "Sample\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod"
 echo -e "Sample\tSubstitution\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise-by-substitution.txt
 
 
-for f in `ls $2/*-pileup.txt`
+for f in `ls *-pileup.txt`
 do
   sampleName=`basename $f`
   sampleName=${sampleName/-IGO*/}
