@@ -12,7 +12,7 @@ trimgalore__params:
   paired: true
   gzip: true
   quality: 1
-  stringency: 1
+  stringency: 3
   suppress_warn: false
 
 add_or_replace_read_groups__params:
