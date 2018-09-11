@@ -48,6 +48,17 @@ DELIMITER = '\n' + '*' * 20 + '\n'
 # Delimiter for inputs file sections
 INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
+# Static adapter sequences that surround the barcodes
+# Used by the Trimgalore step in the pipeline
+#
+# See notes/adapters for full descriptions across all cases
+ADAPTER_1_PART_1 = 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
+ADAPTER_1_PART_2 = 'ATCTCGTATGCCGTCTTCTGCTTG'
+
+ADAPTER_2_PART_1 = 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT'
+ADAPTER_2_PART_2 = 'GTGTAGATCTCGGTGGTCGCCGTATCATT'
+
+
 
 def load_fastqs(data_dir):
     """
@@ -87,6 +98,30 @@ def load_fastqs(data_dir):
     sample_sheet = [{'class': 'File', 'path': path} for path in sample_sheet]
 
     return fastq1, fastq2, sample_sheet
+
+
+def get_adapter_sequences(title_file):
+    """	
+    Adapter sequences need to be tailored to include each sample barcode from the title file
+
+    p7_end - bc_1 - primer_binding_site_7	
+    primer_binding_site_5 - bc_2 - p5_end
+
+    These will be used during the Trimgalore adapter trimming step
+
+    :param title_file:	
+    :return:	
+    """
+    # First, check that there are no duplicate barcodes
+    perform_duplicate_barcodes_check(title_file)
+
+    barcodes_one = title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN]
+    barcodes_two = title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN]
+
+    adapter = ADAPTER_1_PART_1 + barcodes_one + ADAPTER_1_PART_2
+    adapter2 = ADAPTER_2_PART_1 + barcodes_two + ADAPTER_2_PART_2
+
+    return adapter, adapter2
 
 
 def perform_duplicate_barcodes_check(title_file):
@@ -299,6 +334,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     # Sort everything based on the ordering in the title_file
     fastq1, fastq2, sample_sheets = sort_fastqs(fastq1, fastq2, sample_sheets, title_file)
 
+    adapter, adapter2 = get_adapter_sequences(title_file)
+
     if not force:
         # Check that we have the same number of everything
         perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
@@ -317,6 +354,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'add_rg_ID': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
         'add_rg_SM': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
         'add_rg_LB': title_file[TITLE_FILE__LANE_COLUMN].tolist(),
+        'adapter': adapter.tolist(),
+        'adapter2': adapter2,
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
         'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
@@ -553,6 +592,8 @@ def check_final_file(output_file_name):
         'add_rg_LB',
         'add_rg_PU',
         'add_rg_SM',
+        'adapter',
+        'adapter2',
         'patient_id',
         'fastq1',
         'fastq2',

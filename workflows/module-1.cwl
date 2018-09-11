@@ -26,6 +26,9 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
+  adapter: string
+  adapter2: string
+
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
   add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
   mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
@@ -74,6 +77,9 @@ steps:
 
       fastq1: fastq1
       fastq2: fastq2
+
+      adapter: adapter
+      adapter2: adapter2
 
       length:
         valueFrom: $(inputs.params.length)

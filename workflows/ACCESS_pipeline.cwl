@@ -51,6 +51,9 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
+  adapter: string[]
+  adapter2: string[]
+
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
   add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
@@ -126,6 +129,9 @@ steps:
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       patient_id: patient_id
+
+      adapter: adapter
+      adapter2: adapter2
 
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID

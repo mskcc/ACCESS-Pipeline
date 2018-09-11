@@ -51,6 +51,9 @@ inputs:
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
 
+  adapter: string[]
+  adapter2: string[]
+
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
   add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
@@ -148,11 +151,14 @@ steps:
       add_rg_PL:
         valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_PL)
 
+      adapter: adapter
+      adapter2: adapter2
+
       trimgalore__params: trimgalore__params
       add_or_replace_read_groups__params: add_or_replace_read_groups__params
       mark_duplicates__params: mark_duplicates__params
     out: [bam, bai, clstats1, clstats2, md_metrics]
-    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM, adapter, adapter2]
     scatterMethod: dotproduct
 
   ############################
