@@ -40,6 +40,8 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
+  adapter: string[]
+  adapter2: string[]
   add_rg_LB: int[]
   add_rg_ID: string[]
   add_rg_PU: string[]
@@ -126,6 +128,8 @@ steps:
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
       patient_id: patient_id
+      adapter: adapter
+      adapter2: adapter2
 
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
