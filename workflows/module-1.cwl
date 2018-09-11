@@ -22,6 +22,8 @@ inputs:
   tmp_dir: string
   fastq1: File
   fastq2: File
+  adapter: string
+  adapter2: string
 
   reference_fasta: string
   reference_fasta_fai: string
@@ -74,6 +76,8 @@ steps:
 
       fastq1: fastq1
       fastq2: fastq2
+      adapter: adapter
+      adapter2: adapter2
 
       length:
         valueFrom: $(inputs.params.length)

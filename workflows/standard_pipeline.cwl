@@ -37,6 +37,8 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
+  adapter: string[]
+  adapter2: string[]
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file,
   # so we need to use strings here instead of file types
@@ -136,6 +138,8 @@ steps:
       tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
+      adapter: adapter
+      adapter2: adapter2
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
 
@@ -152,7 +156,7 @@ steps:
       add_or_replace_read_groups__params: add_or_replace_read_groups__params
       mark_duplicates__params: mark_duplicates__params
     out: [bam, bai, clstats1, clstats2, md_metrics]
-    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM]
+    scatter: [fastq1, fastq2, add_rg_LB, add_rg_ID, add_rg_PU, add_rg_SM, adapter, adapter2]
     scatterMethod: dotproduct
 
   ############################

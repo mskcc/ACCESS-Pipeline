@@ -43,6 +43,9 @@ FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
 FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
+ADAPTER_1 = 'GATCGGAAGAGC'
+ADAPTER_2 = 'AGATCGGAAGAGC'
+
 # Delimiter for printing logs
 DELIMITER = '\n' + '*' * 20 + '\n'
 # Delimiter for inputs file sections
@@ -310,6 +313,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'fastq1': fastq1,
         'fastq2': fastq2,
         'sample_sheet': sample_sheets,
+        'adapter': [ADAPTER_1] * len(fastq1),
+        'adapter2': [ADAPTER_2] * len(fastq2),
 
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
@@ -557,6 +562,8 @@ def check_final_file(output_file_name):
         'fastq1',
         'fastq2',
         'sample_sheet',
+        'adapter',
+        'adapter2',
     ]
 
     try:
