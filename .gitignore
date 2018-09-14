@@ -1,10 +1,12 @@
 .DS_Store
 .idea
-runs
-notes
-.DS_Store
 *.pyc
 *.log
+
+build
+dist
+*.egg-info
+
 resources/bedfiles
 resources/fingerprinting
 test/test_data/test_data_val_5
