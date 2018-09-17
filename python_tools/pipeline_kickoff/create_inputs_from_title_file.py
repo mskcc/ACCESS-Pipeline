@@ -655,9 +655,6 @@ def perform_validation(title_file):
     if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
-    if np.sum(title_file[TITLE_FILE__SEX_COLUMN].isin(['Male', 'M', 'Female', 'F', 'Unknown', '-'])) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sex entries are in [Male, M, Female, F, Unknown, -]')
-
 
 def print_user_message():
     print(DELIMITER)
@@ -670,6 +667,7 @@ def print_user_message():
     print('6. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
     print('7. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
+    print('8. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries.')
 
 ########
 # Main #
