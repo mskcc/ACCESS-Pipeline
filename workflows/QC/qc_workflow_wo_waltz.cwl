@@ -223,15 +223,9 @@ steps:
   # Standard-QC #
   ###############
 
-  innovation_qc:
-    run: ../../cwl_tools/python/innovation_qc.cwl
+  main_tables_module:
+    run: ../../cwl_tools/python/tables_module.cwl
     in:
-      title_file: title_file
-      inputs_yaml: inputs_yaml
-      family_sizes: umi_qc_tables/family_sizes
-      family_types_A: umi_qc_tables/family_types_A
-      family_types_B: umi_qc_tables/family_types_B
-
       standard_waltz_metrics_pool_a: standard_aggregate_bam_metrics_pool_a/output_dir
       unfiltered_waltz_metrics_pool_a: unfiltered_aggregate_bam_metrics_pool_a/output_dir
       simplex_waltz_metrics_pool_a: simplex_aggregate_bam_metrics_pool_a/output_dir
@@ -240,6 +234,17 @@ steps:
       unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_waltz_metrics_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+    out: [tables]
+
+  main_plots_module:
+    run: ../../cwl_tools/python/plots_module.cwl
+    in:
+      title_file: title_file
+      inputs_yaml: inputs_yaml
+      tables: main_tables_module/tables
+      family_sizes: umi_qc_tables/family_sizes
+      family_types_A: umi_qc_tables/family_types_A
+      family_types_B: umi_qc_tables/family_types_B
     out: [
       read_counts,
       align_rate,
@@ -263,19 +268,19 @@ steps:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
     in:
       title_file: title_file
-      read_counts: innovation_qc/read_counts
-      align_rate: innovation_qc/align_rate
-      mean_cov: innovation_qc/mean_cov
-      on_target_rate: innovation_qc/on_target_rate
-      gc_cov_each_sample: innovation_qc/gc_cov_each_sample
-      insert_sizes: innovation_qc/insert_sizes
-      coverage_per_interval: innovation_qc/coverage_per_interval
-      title_page: innovation_qc/title_page
-      pipeline_inputs: innovation_qc/pipeline_inputs
-      family_types: innovation_qc/family_types
-      family_sizes_all: innovation_qc/family_sizes_all
-      family_sizes_simplex: innovation_qc/family_sizes_simplex
-      family_sizes_duplex: innovation_qc/family_sizes_duplex
+      read_counts: main_plots_module/read_counts
+      align_rate: main_plots_module/align_rate
+      mean_cov: main_plots_module/mean_cov
+      on_target_rate: main_plots_module/on_target_rate
+      gc_cov_each_sample: main_plots_module/gc_cov_each_sample
+      insert_sizes: main_plots_module/insert_sizes
+      coverage_per_interval: main_plots_module/coverage_per_interval
+      title_page: main_plots_module/title_page
+      pipeline_inputs: main_plots_module/pipeline_inputs
+      family_types: main_plots_module/family_types
+      family_sizes_all: main_plots_module/family_sizes_all
+      family_sizes_simplex: main_plots_module/family_sizes_simplex
+      family_sizes_duplex: main_plots_module/family_sizes_duplex
       noise_alt_percent: duplex_noise_plots_A/noise_alt_percent
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
       fingerprinting_qc: fingerprinting/FPFigures
@@ -283,9 +288,9 @@ steps:
     out:
       [combined_qc]
 
-  ####################
-  # Put in Directory #
-  ####################
+  ###################################
+  # Put everything in one Directory #
+  ###################################
 
   group_qc_files:
     run: ../../cwl_tools/expression_tools/group_qc_files.cwl
@@ -294,15 +299,12 @@ steps:
       unfiltered_pool_a: unfiltered_noise_tables_A/waltz_folder_with_noise
       simplex_pool_a: simplex_noise_tables_A/waltz_folder_with_noise
       duplex_pool_a: duplex_noise_tables_A/waltz_folder_with_noise
-
       standard_pool_b: standard_aggregate_bam_metrics_pool_b/output_dir
       unfiltered_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
-
       all_fp_results: fingerprinting/all_fp_results
       gender_table: fingerprinting/gender_table
-
       family_sizes: umi_qc_tables/family_sizes
       family_types_A: umi_qc_tables/family_types_A
       family_types_B: umi_qc_tables/family_types_B
