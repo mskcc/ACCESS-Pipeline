@@ -1,3 +1,3 @@
-Barcode	Pool	Sample	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Gender	Barcode_index	Lane
-bc412-bc412	Pool-05500_ET-Tube3_1	21642-N	21642-N	M15	Tumor	Plasma	10	732	500	PanCancer Panel V2.1(A:B=50:1)	F	AAAAAAAA-CCCCCCCC	1
-bc414-bc414	Pool-05500_ET-Tube3_1	1035-N	1035-N	M15	Normal	Buffy Coat	10	732	500	PanCancer Panel V2.1(A:B=50:1)	F	GGGGGGGG-TTTTTTTT	1
+Barcode	Pool	Sample	Collab_ID	Patient_ID	Class	Sample_type	Input_ng	Library_yield	Pool_input	Bait_version	Sex	Barcode_index_1 Barcode_index_2	Lane
+bc412-bc412	Pool-05500_ET-Tube3_1	21642-N	21642-N	M15	Tumor	Plasma	10	732	500	PanCancer Panel V2.1(A:B=50:1)	F	AAAAAAAA    CCCCCCCC	1
+bc414-bc414	Pool-05500_ET-Tube3_1	1035-N	1035-N	M15	Normal	Buffy Coat	10	732	500	PanCancer Panel V2.1(A:B=50:1)	F	GGGGGGGG    TTTTTTTT	1
