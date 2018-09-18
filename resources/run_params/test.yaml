@@ -1,6 +1,6 @@
-######################################################
-# Default Testing Parameters for Innovation-Pipeline #
-######################################################
+##################################################
+# Default Testing Parameters for ACCESS-Pipeline #
+##################################################
 tmp_dir: /scratch/
 
 process_loop_umi_fastq__params:

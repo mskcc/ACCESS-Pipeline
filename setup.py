@@ -46,7 +46,7 @@ setup(
         # if PyPi gives us ResourceConflict issues:
         # 'cwltest==1.0.20180209171722',
         # 'cwltool==1.0.20180403145700',
-        # 'subprocess32==3.5.2',
+        'subprocess32==3.5.2',
         'pandas==0.19.0',
         'xlrd==1.1.0',
         'numpy==1.14.2',
