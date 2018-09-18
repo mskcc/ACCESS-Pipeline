@@ -204,3 +204,6 @@ There is a script included to check that the correct samples are paired in the c
 
 # Issues
 Bug reports and questions are helpful, please report any issues, comments, or concerns to the [issues page](https://github.com/mskcc/Innovation-Pipeline/issues)
+
+# Documentation
+Additional information can be found in the [Wiki](https://github.com/mskcc/access-pipeline/wiki), including tips for CWL and Toil, and working with ACCESS log files.
