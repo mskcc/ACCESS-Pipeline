@@ -58,11 +58,11 @@ sort_df = function(df, sort_column, sort_list) {
   if (!missing(sort_list)) {
     sort_list = unique(unlist(sort_list))
     sort_list = as.factor(sort_list)
-    df[[sort_column]] <- factor(df[[sort_column]], levels=sort_list)
+    df$sort_column <- factor(df$sort_column, levels=sort_list)
   } else {
-    df[[sort_column]] <- factor(df[[sort_column]], levels=unique(df[[sort_column]]))
+    df$sort_column <- factor(df$sort_column, levels=unique(df$sort_column))
   }
-  df = df[order(df[[sort_column]]),]
+  df = df[order(df$sort_column),]
   return(df)
 }
 
@@ -82,6 +82,28 @@ readInputs = function(args) {
   
   opts = getopt(spec);
   return(opts)
+}
+
+
+#' Util function to merge various computed tables with original experiment title file
+#' @param data data.frame to be used
+#' @param title_df The title file as a data.frame
+mergeInTitleFileData = function(data, title_df) {
+  merged = merge(data, title_df, by.x='Sample', by.y='Sample')
+  merged
+}
+
+
+#' Extract actual sample names from full filenames
+#' Ex: sample_names = c('test_patient_T', 'test_patient_N')
+#' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
+cleanup_sample_names = function(data, sample_names) {
+  # Need to reverse sort to get longer matches first
+  sample_names[order(nchar(sample_names), sample_names, decreasing = TRUE)]
+  find.string <- paste(unlist(sample_names), collapse = "|")
+  find.string <- paste0('.*(', find.string, ').*', collapse='', sep='')
+  data = data %>% mutate(Sample = gsub(find.string, '\\1', Sample))
+  data
 }
 
 
@@ -243,12 +265,11 @@ plotInsertSizeDistribution = function(insertSizes) {
     mutate(sample_and_peak = paste(Sample, peak_insert_size, sep=', '))
 
   g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
-    #stat_smooth(size=.5, n=200, span=0.1, se=FALSE, method='loess', level=.01) +
     geom_line(size=0.5) +
     ggtitle('Insert Size Distribution (from All Unique reds, Pool A)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
-    labs(colour = "Sample, Peak Insert Size") +
+    labs(colour = 'Sample, Peak Insert Size') +
     theme(legend.position = c(.75, .5)) +
     MY_THEME
   
@@ -376,7 +397,6 @@ plot_family_types <- function(family_types_A, family_types_B) {
   family_types_all = bind_rows(family_types_A, family_types_B)
   family_types_all[is.na(family_types_all)] <- 0
   
-  family_types_all$Sample = factor(family_types_all$Sample)
   family_types_all$Type = factor(family_types_all$Type, levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons'))
   family_types_all = family_types_all %>% mutate(Sample = gsub('_IGO.*', '', Sample))
   family_types_all = family_types_all %>% mutate(Sample = gsub('-IGO.*', '', Sample))
@@ -386,6 +406,9 @@ plot_family_types <- function(family_types_A, family_types_B) {
   family_types_all = family_types_all %>%
     group_by(Pool, Sample) %>%
     mutate(CountPercent = Count / sum(Count))
+  
+  # Sort again by class after groupBy
+  family_types_all$Sample = factor(family_types_all$Sample, levels=unique(unlist(family_types_all$Sample)))
   
   g = ggplot(family_types_all, aes(x=Sample, y=CountPercent)) +
     geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
@@ -434,29 +457,6 @@ plot_family_curves <- function(data) {
     coord_cartesian(xlim = c(0, 40)) +
     MY_THEME
   ggsave(g, file='family_sizes_duplex.pdf', width=11, height=8.5)
-}
-
-
-
-#' Util function to merge various computed tables with original experiment title file
-#' @param data data.frame to be used
-#' @param title_df The title file as a data.frame
-mergeInTitleFileData = function(data, title_df) {
-  merged = merge(data, title_df, by.x='Sample', by.y='Sample')
-  merged
-}
-
-
-#' Extract actual sample names from full filenames
-#' Ex: sample_names = c('test_patient_T', 'test_patient_N')
-#' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
-cleanup_sample_names = function(data, sample_names) {
-  # Need to reverse sort to get longer matches first
-  sample_names[order(nchar(sample_names), sample_names, decreasing = TRUE)]
-  find.string <- paste(unlist(sample_names), collapse = "|")
-  find.string <- paste0('.*(', find.string, ').*', collapse='', sep='')
-  data = data %>% mutate(Sample = gsub(find.string, '\\1', Sample))
-  data
 }
 
 
