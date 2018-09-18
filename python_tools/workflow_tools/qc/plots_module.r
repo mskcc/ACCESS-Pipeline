@@ -49,16 +49,20 @@ gg_color_hue <- function(n) {
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
 
+
 #' Util function to sort data by arbitrary list
 #' @param df The data.frame to be sorted 
 #' @param sort_column String - column to sort on
-#' @param sort_list Vector of strings ordered in desired sort order for @df
+#' @param sort_list optional Vector of strings ordered in desired sort order for @df
 sort_df = function(df, sort_column, sort_list) {
-  sort_list = unique(unlist(sort_list))
-  sort_list = as.factor(sort_list)
-  df[[sort_column]] <- factor(df[[sort_column]], levels=sort_list)
+  if (!missing(sort_list)) {
+    sort_list = unique(unlist(sort_list))
+    sort_list = as.factor(sort_list)
+    df[[sort_column]] <- factor(df[[sort_column]], levels=sort_list)
+  } else {
+    df[[sort_column]] <- factor(df[[sort_column]], levels=unique(df[[sort_column]]))
+  }
   df = df[order(df[[sort_column]]),]
-  df[[sort_column]] <- factor(df[[sort_column]], levels=unique(as.character(df[[sort_column]])) )
   return(df)
 }
 
@@ -68,10 +72,12 @@ sort_df = function(df, sort_column, sort_list) {
 #' @return 
 readInputs = function(args) {
   spec = matrix(c(
-    'tablesOutputDir', 'i', 1, 'character',
-    'plotsOutputDir', 'o', 1, 'character',
-    'titleFilePath', 't', 1, 'character',
-    'inputs_yaml_path', 'y', 1, 'character'
+    'tables_output_dir', 'i', 1, 'character',
+    'title_file_path', 't', 1, 'character',
+    'inputs_yaml_path', 'y', 1, 'character',
+    'family_types_A_path', 'f', 1, 'character',
+    'family_types_B_path', 'g', 1, 'character',
+    'family_sizes_path', 'h', 1, 'character'
   ), byrow=TRUE, ncol=4);
   
   opts = getopt(spec);
@@ -441,20 +447,6 @@ mergeInTitleFileData = function(data, title_df) {
 }
 
 
-#' Read in the sort_order file, which looks like:
-#' sample_id
-#' sample_id
-#' sample_id
-#' ...
-#' @param groups_file Path to groups file
-#' @deprecated?
-parse_sort_order = function(groups_file) {
-  sort_order = read.table(groups_file, sep='\t', fill=FALSE, strip.white=TRUE)
-  sort_order = unlist(sort_order)
-  return(sort_order)
-}
-
-
 #' Extract actual sample names from full filenames
 #' Ex: sample_names = c('test_patient_T', 'test_patient_N')
 #' test_patient_T_001_aln_srt_MD_IR_FX_BR --> test_patient_T
@@ -470,7 +462,7 @@ cleanup_sample_names = function(data, sample_names) {
 
 #' Read in all tables for plots
 #' @param inDirTables location of tables from python tables_module
-read_tables = function(inDirTables) {
+read_tables = function(inDirTables, family_types_A_path, family_types_B_path, family_sizes_path) {
   readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
   covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
   insertSizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
@@ -479,9 +471,9 @@ read_tables = function(inDirTables) {
   gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
   
   # Todo: We are using initialWorkDirRequirement to put these in the current dir, for now
-  family_types_A = read.table('family-types-A.txt', sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
-  family_types_B = read.table('family-types-B.txt', sep = "\t", header = TRUE, colClasses = c('character', 'character', 'numeric'))
-  families = read.table('family-sizes.txt', sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
+  family_types_A = read.table(family_types_A_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
+  family_types_B = read.table(family_types_B_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
+  families = read.table(family_sizes_path, sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
   
   list(readCountsDataTotal, covPerInterval, insertSizes, meanCovData, gcEachSample, family_types_A, family_types_B, families)
 }
@@ -493,18 +485,17 @@ main = function(args) {
   # as well as where the plots should be put
   # todo - should return an object or named list, instead of this indexed list 
   args = readInputs(args)
-  inDirTables = args$tablesOutputDir
-  outDir = args$plotsOutputDir
-  title_file = args$titleFilePath
+  tables_output_dir = args$tables_output_dir
+  title_file_path = args$title_file_path
+  family_types_A_path = args$family_types_A_path
+  family_types_B_path = args$family_types_B_path
+  family_sizes_path = args$family_sizes_path
   # Load our pipeline inputs file for printing (and convert integers to strings)
   inputs_yaml = yaml.load_file(args$inputs_yaml_path, handlers = list('int'=toString))
 
   # Read title file
   # (careful with "Sex" column, R will try to coerce column of all "F" to logical)
-  title_df = read.table(title_file, sep='\t', header=TRUE, colClasses=c('Sex'='character'))
-  # Use only two class labels
-  # Todo: We need to handle "Primary", "Metastasis", "Normal", and "Normal Pool"
-  title_df$Class = ifelse(title_df$Class == 'Normal', 'Normal', 'Tumor')
+  title_df = read.table(title_file_path, sep='\t', header=TRUE, colClasses=c('Sex'='character'))
   title_df = cleanup_sample_names_2(title_df)
   # Title file sample colunn is used as sort order
   sort_order = unlist(title_df$Sample)
@@ -512,21 +503,27 @@ main = function(args) {
   print(title_df)
   
   # Read in tables
-  df_list = read_tables(inDirTables)
-  printhead = function(x) {print(head(x))}
+  df_list = read_tables(tables_output_dir, family_types_A_path, family_types_B_path, family_sizes_path)
   print("Dataframes:")
-  lapply(df_list, printhead)
+  lapply(df_list, function(x) {print(head(x))})
   
   # Fix sample names,
-  # optionally sort by ordering in the title file,
-  # merge in the title file data by sample id
   df_list = lapply(df_list, cleanup_sample_names, sort_order)
-  #df_list = lapply(df_list, sort_df, 'Sample', sort_order)
+  # Merge in the title file data by sample id
   df_list = lapply(df_list, mergeInTitleFileData, title_df)
+  # Sort by sample class
+  df_list = lapply(df_list, sort_df, 'Class')
+  # Now that we've sorted in the order we want,
+  # make the Sample column a factor in that order as well 
+  # (ggplot uses the X axis sort order if it is a factor)
+  df_list = lapply(df_list, function(x){ 
+    x$Sample = factor(x$Sample, levels = unique(x$Sample)) 
+    x
+  })
   
   # We have had problems here with sample names not matching between files and title_file entries
   print("Dataframes after processing:")
-  lapply(df_list, printhead)
+  lapply(df_list, function(x) {print(head(x))})
   
   readCountsDataTotal = df_list[[1]]
   covPerInterval = df_list[[2]]
