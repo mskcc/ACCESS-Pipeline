@@ -72,11 +72,13 @@ def load_fastqs(data_dir):
     folders_3 = filter(lambda folder: any([FASTQ_2_FILE_SEARCH in x for x in folder[2]]), folders_2)
     folders_4 = filter(lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]), folders_3)
 
-    # Issue a warning
-    if not len(folders) == len(folders_4):
-        # Todo: Inform user which samples might be missing
+    # Issue a warning if not all folders had necessary files (-1 to exclude topmost directory)
+    if not len(folders) - 1 == len(folders_4):
         print(DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. '
                           'Please manually check inputs.yaml')
+
+        print('All sample folders: ' + str(folders))
+        print('Sample folders with correct result files: ' + str(folders_4))
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -271,13 +273,17 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
+
         assert len(matching_sample_sheets) == 1
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
 
         # i7 Sequence should always match
         sample_sheet_i7 = sample_sheet_df['Index'].values[0]
-        assert sample_sheet_i7 == title_file_i7, 'i7 index does not match. Aborting.'
+
+        err_template = 'i7 index does not match for sample {}. Aborting. {} != {}'
+        err_string = err_template.format(sample_id, sample_sheet_i7, title_file_i7)
+        assert sample_sheet_i7 == title_file_i7, err_string
 
     # i5 index check is somewhat more involved
     perform_barcode_index_checks_i5(title_file, sample_sheets)
