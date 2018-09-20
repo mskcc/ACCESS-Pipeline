@@ -21,3 +21,10 @@ B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/re
 
 # Noise QC
 noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
+
+
+# Files used after standard Bam steps
+pool_a_bed_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
+pool_b_bed_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
+
+gene_list: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/juber-hg19-gene-list.bed}
