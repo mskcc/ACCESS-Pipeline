@@ -36,6 +36,7 @@ DEFAULT_TOIL_ARGS = {
     '--defaultMem'              : '10G',
     '--no-container'            : '',
     '--disableCaching'          : '',
+    '--stats'                   : '',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000',
 }
