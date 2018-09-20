@@ -1,11 +1,9 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
 
 class: CommandLineTool
 
 requirements:
-    - class: ShellCommandRequirement
+  - class: ShellCommandRequirement
 
 baseCommand: [mv]
 
@@ -26,4 +24,4 @@ outputs:
   renamed_file:
     type: File
     outputBinding:
-      glob: $( inputs.new_name )
+      glob: $(inputs.new_name)

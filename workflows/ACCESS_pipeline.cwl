@@ -1,5 +1,3 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -46,6 +44,7 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
+  investigator_sample_id: string[]
 
   # Todo: Open a ticket
   # bwa cannot read symlink for the fasta.fai file?
@@ -131,6 +130,7 @@ steps:
       adapter: adapter
       adapter2: adapter2
 
+      investigator_sample_id: investigator_sample_id
       add_rg_LB: add_rg_LB
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU

@@ -1,5 +1,3 @@
-#!/usr/bin/env cwl-runner
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -49,6 +47,7 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
+  investigator_sample_id: string[]
 
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
@@ -119,12 +118,16 @@ steps:
         valueFrom: $(inputs.params.umi_length)
       output_project_folder:
         valueFrom: $(inputs.params.output_project_folder)
+
+      investigator_sample_id: investigator_sample_id
+      add_rg_SM: add_rg_SM
+
     out: [
       processed_fastq_1,
       processed_fastq_2,
       clipping_info,
       clipping_dir]
-    scatter: [fastq1, fastq2, sample_sheet]
+    scatter: [fastq1, fastq2, sample_sheet, investigator_sample_id, add_rg_SM]
     scatterMethod: dotproduct
 
   ####################
