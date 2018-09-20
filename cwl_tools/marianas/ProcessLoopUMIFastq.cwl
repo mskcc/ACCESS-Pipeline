@@ -1,5 +1,3 @@
-#!/usr/bin/env/cwl-runner
-
 cwlVersion: v1.0
 
 class: CommandLineTool
@@ -47,6 +45,11 @@ inputs:
     inputBinding:
       position: 3
 
+  # Since IGO uses the INVESTIGATOR_SAMPLE_IDs,
+  # we need to change these to the CMO_SAMPLE_IDs
+  investigator_sample_id: string
+  add_rg_SM: string
+
 outputs:
 
   # Todo - We rely on the **/ because Marianas outputs to a folder
@@ -56,11 +59,21 @@ outputs:
     type: File
     outputBinding:
       glob: ${ return '**/' + inputs.fastq1.basename }
+      outputEval: |
+        ${
+          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM);
+          return self[0]
+        }
 
   processed_fastq_2:
     type: File
     outputBinding:
       glob: ${ return '**/' + inputs.fastq1.basename.replace('_R1_', '_R2_') }
+      outputEval: |
+        ${
+          self[0].basename = inputs.fastq1.basename.replace('_R1_', '_R2_').replace(inputs.investigator_sample_id, inputs.add_rg_SM);
+          return self[0]
+        }
 
   clipping_info:
     type: File
@@ -68,7 +81,7 @@ outputs:
       glob: ${ return '**/info.txt' }
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.split('_R1_')[0] + '_info.txt';
+          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM).split('_R1_')[0] + '_info.txt';
           return self[0]
         }
 
@@ -78,6 +91,6 @@ outputs:
       glob: '*/'
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.split('_R1_')[0] + '_umi_clipping_results';
+          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM).split('_R1_')[0] + '_umi_clipping_results';
           return self[0]
         }
