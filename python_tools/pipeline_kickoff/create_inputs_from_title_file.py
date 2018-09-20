@@ -1,4 +1,5 @@
 import sys
+import pprint
 import argparse
 import ruamel.yaml
 import numpy as np
@@ -39,6 +40,11 @@ from ..util import reverse_complement
 PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
 # Strings to target when looking for Illumina run files
+#
+# Todo: need to support multiple R1 / R2 fastqs per patient?
+# Or maybe not b/c "The last segment is always 001":
+# https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq2_guide_15051736_v2.pdf (Page 19)
+#
 FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
 FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
@@ -56,11 +62,6 @@ def load_fastqs(data_dir):
     """
     Recursively find files in `data_dir` with the given `file_regex`
 
-    Todo: need to support multiple R1 / R2 fastqs per patient?
-    Or maybe not b/c "The last segment is always 001":
-    https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq2_guide_15051736_v2.pdf
-    Page 19
-
     Note:
     os.walk yields a 3-list (dirpath, dirnames, filenames)
     """
@@ -77,8 +78,8 @@ def load_fastqs(data_dir):
         print(DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. '
                           'Please manually check inputs.yaml')
 
-        print('All sample folders: ' + str(folders))
-        print('Sample folders with correct result files: ' + str(folders_4))
+        print('All sample folders: ' + pprint.pprint(folders))
+        print('Sample folders with correct result files: ' + pprint.pprint(folders_4))
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -131,7 +132,8 @@ def get_pos(title_file, fastq_object):
         else:
             return 0
 
-    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, fastq=fastq_object)
+    # Samples from IGO will use the COLLAB_ID
+    boolv = title_file[TITLE_FILE__COLLAB_ID_COLUMN].apply(contained_in, fastq=fastq_object)
 
     if np.sum(boolv) > 1:
         raise Exception('More than one fastq found for patient, exiting.')
@@ -165,8 +167,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
     # Todo: Should we instead raise an error and not continue?
     """
-    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
@@ -185,9 +187,9 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
-    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
-    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq2)
-    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
 
@@ -322,6 +324,10 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'adapter': [ADAPTER_1] * len(fastq1),
         'adapter2': [ADAPTER_2] * len(fastq2),
 
+        # IGO uses the INVESTIGATOR_SAMPLE_ID for the fastq names,
+        # but we want to convert this to the CMO_SAMPLE_ID
+        'investigator_sample_id': title_file[TITLE_FILE__COLLAB_ID_COLUMN].tolist(),
+
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
         # or abbreviate it (might be the way they do it in Roslin)
@@ -454,38 +460,6 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
         print('title file length: {}'.format(title_file.shape[0]))
 
 
-def include_collapsing_params(fh, test=False, local=False):
-    """
-    Load and write our Collapsing & QC parameters
-
-    :param fh: File handle for pipeline yaml inputs
-    :param test: Whether to include test or production collapsing params
-    :param local:
-    """
-    if local:
-        # Local run params are same as Test params
-        collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
-        collapsing_files = RUN_FILES_LOCAL_COLLAPSING
-    elif test:
-        collapsing_parameters = RUN_PARAMS_TEST_COLLAPSING
-        collapsing_files = RUN_FILES_TEST_COLLAPSING
-    else:
-        collapsing_parameters = RUN_PARAMS_COLLAPSING
-        collapsing_files = RUN_FILES_COLLAPSING
-
-    with open(collapsing_parameters, 'r') as stream:
-        collapsing_parameters = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(collapsing_parameters))
-
-    with open(collapsing_files, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    file_resources = substitute_project_root(file_resources)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
 def write_inputs_file(args, title_file, output_file_name):
     """
     Main function to write our inputs.yaml file.
@@ -497,12 +471,7 @@ def write_inputs_file(args, title_file, output_file_name):
     """
     tool_resources_file_path = TOOL_RESOURCES_LUNA
 
-    if args.local:
-        # Local run params are same as Test params
-        run_params_path = RUN_PARAMS_TEST
-        run_files_path = RUN_FILES_LOCAL
-        tool_resources_file_path = TOOL_RESOURCES_LOCAL
-    elif args.test:
+    if args.test:
         run_params_path = RUN_PARAMS_TEST
         run_files_path = RUN_FILES_TEST
     else:
@@ -516,9 +485,6 @@ def write_inputs_file(args, title_file, output_file_name):
     include_run_params(fh, run_params_path)
     include_file_resources(fh, run_files_path)
     include_tool_resources(fh, tool_resources_file_path)
-
-    if args.collapsing:
-        include_collapsing_params(fh, args.test, args.local)
 
     # Optionally override ResourceRequirements with smaller values when testing
     # if args.include_resource_overrides:
@@ -607,20 +573,6 @@ def parse_arguments():
         action="store_true"
     )
     parser.add_argument(
-        "-c",
-        "--collapsing",
-        help="Whether to only generate inputs necessary for standard bams, or to run full pipeline with collapsing.",
-        required=False,
-        action="store_true"
-    )
-    parser.add_argument(
-        "-l",
-        "--local",
-        help="Whether to use paths to tool specified for local pipeline operation",
-        required=False,
-        action="store_true"
-    )
-    parser.add_argument(
         "-o",
         "--output_file_name",
         help="Name of yaml file for pipeline",
@@ -640,14 +592,17 @@ def perform_validation(title_file):
     """
     Make sure that we don't have any unacceptable entries in the title file:
 
-    1. Sample IDs must be unique
+    1. Sample IDs / Collab IDs must be unique
     2. Barcodes must be unique within each lane
     3. Sample_type is in ['Plasma', 'Buffy Coat']
     4. Sex is one of ['Male, 'M', 'Female', 'F']
     5. Sample Class is in ['Tumor', 'Normal']
     """
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
-        raise Exception(DELIMITER + 'Duplicate sample names. Exiting.')
+        raise Exception(DELIMITER + 'Duplicate sample IDs. Exiting.')
+
+    if np.sum(title_file[TITLE_FILE__COLLAB_ID_COLUMN].duplicated()) > 0:
+        raise Exception(DELIMITER + 'Duplicate collab IDs. Exiting.')
 
     for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
         lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
@@ -668,12 +623,12 @@ def print_user_message():
     print('Common mistakes include:')
     print('1. Trying to use test parameters on a real run (accidentally using the -t param)')
     print('2. Using the wrong bedfile for the capture')
-    print('3. Not specifying the \'-c\' parameter when collapsing steps are intended')
-    print('4. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
-    print('6. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
+    print('3. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
+    print('4. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
-    print('7. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
-    print('8. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries.')
+    print('5. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
+    print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries.')
+
 
 ########
 # Main #
