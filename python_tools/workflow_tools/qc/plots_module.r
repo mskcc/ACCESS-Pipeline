@@ -58,19 +58,18 @@ sort_df = function(df, sort_column, sort_list) {
   if (!missing(sort_list)) {
     sort_list = unique(unlist(sort_list))
     sort_list = as.factor(sort_list)
-    df$sort_column <- factor(df$sort_column, levels=sort_list)
+    df[[sort_column]] <- factor(df[[sort_column]], levels=sort_list)
   } else {
-    df$sort_column <- factor(df$sort_column, levels=unique(df$sort_column))
+    df[[sort_column]] <- factor(df[[sort_column]])
   }
-  df = df[order(df$sort_column),]
+  df = df[order(df[[sort_column]]),]
   return(df)
 }
 
 
-#' Function to read inputs
-#' @param args Arguments from argv
-#' @return 
-readInputs = function(args) {
+#' Function to read inputs from argv
+#' @return object with parsed arguments
+readInputs = function() {
   spec = matrix(c(
     'tables_output_dir', 'i', 1, 'character',
     'title_file_path', 't', 1, 'character',
@@ -161,7 +160,7 @@ plotMeanCov = function(data) {
   
   g = ggplot(data, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') +
-    geom_bar(position='dodge', stat='identity', aes_string(fill='method')) +
+    geom_bar(position='stack', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
@@ -484,7 +483,7 @@ main = function(args) {
   # Read arguments specifying where the required tables are
   # as well as where the plots should be put
   # todo - should return an object or named list, instead of this indexed list 
-  args = readInputs(args)
+  args = readInputs()
   tables_output_dir = args$tables_output_dir
   title_file_path = args$title_file_path
   family_types_A_path = args$family_types_A_path
@@ -504,15 +503,21 @@ main = function(args) {
   
   # Read in tables
   df_list = read_tables(tables_output_dir, family_types_A_path, family_types_B_path, family_sizes_path)
-  print("Dataframes:")
+  print("Dataframes0:")
   lapply(df_list, function(x) {print(head(x))})
   
   # Fix sample names,
   df_list = lapply(df_list, cleanup_sample_names, sort_order)
+  print("Dataframes1:")
+  lapply(df_list, function(x) {print(head(x))})
   # Merge in the title file data by sample id
   df_list = lapply(df_list, mergeInTitleFileData, title_df)
+  print("Dataframes2:")
+  lapply(df_list, function(x) {print(head(x))})
   # Sort by sample class
   df_list = lapply(df_list, sort_df, 'Class')
+  print("Dataframes3:")
+  lapply(df_list, function(x) {print(head(x))})
   # Now that we've sorted in the order we want,
   # make the Sample column a factor in that order as well 
   # (ggplot uses the X axis sort order if it is a factor)
