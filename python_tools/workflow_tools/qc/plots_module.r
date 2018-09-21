@@ -37,8 +37,6 @@ MY_THEME = theme(text = element_text(size=14),
 
 # Some title file columns will not be printed
 DROP_COLS = c('Pool', 'Pool_input', 'Barcode_index', 'PatientName', 'MAccession', 'Extracted_DNA_Yield', 'Barcode_index_1', 'Barcode_index_2')
-# Levels and sort order for collapsing methods
-LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex', 'Duplex')
 
 # Optional distinctive color palette
 #' @param n Number of distinct colors to be returned
@@ -106,6 +104,21 @@ cleanup_sample_names = function(data, sample_names) {
 }
 
 
+cleanup_sample_names_2 = function(data) {
+  data = data %>% mutate(Sample = gsub('_md', '', Sample))
+  data = data %>% mutate(Sample = gsub('-md', '', Sample))
+  data = data %>% mutate(Sample = gsub('.bam', '', Sample))
+  data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
+  data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
+  
+  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
+  #                                       ^^^^
+  # data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
+  data
+}
+
+
 #' Count of read pairs per sample
 #' @param data data.frame with Sample and total_reads columns
 plotReadPairsCount = function(data) {
@@ -145,6 +158,12 @@ plotAlignGenome = function(data) {
 }
 
 
+#' Helper method to compute Singleton + Simplex coverage from other coverage types
+calc_singleton_subsimplex_coverage = function(average_coverage, method) {
+  average_coverage[method == 'All Unique'] - average_coverage[method == 'Simplex']
+}
+
+
 #' Plot average coverage for each sample,
 #' for each collapsing method
 #' @param data data.frame with the usual columns
@@ -152,13 +171,33 @@ plotMeanCov = function(data) {
   # Define the output PDF file
   pdf(file = 'mean_cov.pdf', height=20, width=8.5, onefile=TRUE)
   
+  LEVEL_C = c('TotalCoverage', 'All Unique', 'Simplex', 'Duplex')
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
   data$total_or_collapsed = factor(ifelse(data$method == 'TotalCoverage', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
   data = data %>% arrange(total_or_collapsed, method)
   
-  g = ggplot(data, aes(x=Sample, y=average_coverage)) +
+  data_with_sing_subsimp = data %>%
+    group_by(Sample, pool) %>%
+    summarise(average_coverage = calc_singleton_subsimplex_coverage(average_coverage, method)) %>%
+    mutate(method = 'Sub Simplex + Singletons')
+   
+  # Take a view of the original data to combine with the new coverage values
+  view = data %>%
+    group_by(Sample, pool) %>%
+    filter(method == 'Duplex') %>%
+    ungroup()
+  view$average_coverage = data_with_sing_subsimp$average_coverage
+  view$method = data_with_sing_subsimp$method
+  full_coverage_df = bind_rows(data, view)
+  
+  # No need for All Unique values, ensure proper plotting sort order
+  desired_levels = c('TotalCoverage', 'Sub Simplex + Singletons', 'Simplex', 'Duplex')
+  full_coverage_df = filter(full_coverage_df, method %in% desired_levels)
+  full_coverage_df = transform(full_coverage_df, method=factor(method, levels=desired_levels))
+  
+  g = ggplot(full_coverage_df, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') +
     geom_bar(position='stack', stat='identity', aes_string(fill='method')) +
     ggtitle('Average Coverage per Sample') +
@@ -169,6 +208,7 @@ plotMeanCov = function(data) {
   par(mfrow=c(2, 1))
   tt = ttheme_default(base_size=12)
   
+  # Include a table of average coverage values across samples
   avg_cov_df = data %>% 
     group_by(Class, pool, method) %>% 
     summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
@@ -294,21 +334,6 @@ plotCovDistPerIntervalLine = function(data) {
     MY_THEME
   
   ggsave(g, file='coverage_per_interval.pdf', width=11, height=8.5)
-}
-
-
-cleanup_sample_names_2 = function(data) {
-  data = data %>% mutate(Sample = gsub('_md', '', Sample))
-  data = data %>% mutate(Sample = gsub('-md', '', Sample))
-  data = data %>% mutate(Sample = gsub('.bam', '', Sample))
-  data = data %>% mutate(Sample = gsub('_IGO.*', '', Sample))
-  data = data %>% mutate(Sample = gsub('-IGO.*', '', Sample))
-  data = data %>% mutate(Sample = gsub('_bc.*', '', Sample))
-  
-  # Ex: ZS-msi-4506-pl-T01_IGO_05500_EF_41_S41
-  #                                       ^^^^
-  # data = data %>% mutate(Sample = gsub('_.\\d\\d$', '', Sample))
-  data
 }
 
 
