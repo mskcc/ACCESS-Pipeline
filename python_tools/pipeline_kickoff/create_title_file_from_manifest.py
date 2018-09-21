@@ -9,8 +9,8 @@ from ..constants import *
 ##################################
 # Pipeline Kickoff Step #1
 #
-# This module is used to create a title file with the information needed for a pipeline run
-# It is derived from the manually-generated sample manifest
+# This module is used to create a title file with the information formatted for a pipeline run
+# It is derived from the manually-generated sample manifest (usually an .xlsx file)
 #
 # Usage example:
 #
@@ -30,9 +30,11 @@ def convert_to_title_file(manifest):
     sample_renames = manifest['SampleRenames']
 
     # Select the columns we want from the manifest & rename them
+    # Use .copy() to avoid SettingWithCopyWarning
     try:
         title_file = sample_info[columns_map.keys()]
     except KeyError as e:
+        logging.error('Error, missing manifest columns')
         logging.error('Existing manifest columns:')
         logging.error(sample_info.columns)
         raise e
@@ -40,12 +42,12 @@ def convert_to_title_file(manifest):
     title_file.columns = columns_map.values()
 
     # Use SampleRenames tab to convert CMO_SAMPLE_ID to proper CMO ID
-    # Todo: Better way to handle this
+    # Todo: Why doesn't IGO give CMO ID?
     sample_rename_map = dict(zip(sample_renames['OldName'], sample_renames['NewName']))
     sample_convert_func = lambda sample: sample_rename_map[sample]
-    title_file[TITLE_FILE__SAMPLE_ID_COLUMN] = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
+    title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
 
-    # Remove empty columns
+    # Remove empty rows
     title_file = title_file.dropna(axis=0, how='all')
 
     # Trim whitespace
