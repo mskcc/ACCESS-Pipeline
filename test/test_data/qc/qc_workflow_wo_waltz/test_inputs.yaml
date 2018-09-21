@@ -189,7 +189,7 @@ inputs_yaml: {class: File, path: inputs.yaml}
 
 # ------------------------------------------------------------
 
-version: 0.0.34-23-g76b9e13 
+version: pipeline_test
 # Pipeline Run Version Information: 
 # Version: 76b9e13daf6bf12588f6c5465c6952e51a72a98b 
 # Short Version: 76b9e13 
