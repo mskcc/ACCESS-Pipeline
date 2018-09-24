@@ -28,6 +28,17 @@ with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
 with open('python_tools/root.py', 'wb') as f:
     f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
 
+def req_file(filename):
+    """
+    We're using a requirements.txt file so that pyup.io can use this for security checks
+
+    :param filename:
+    :return:
+    """
+    with open(filename) as f:
+        content = f.readlines()
+    # you may also want to remove whitespace characters like `\n` at the end of each line
+    return [x.strip() for x in content]
 
 setup(
     name='access_pipeline',
@@ -37,26 +48,7 @@ setup(
     author='Ian Johnson',
     author_email='johnsoni@mskcc.org',
     license='MIT',
-    install_requires=[
-        'argparse',
-        'PyYAML==3.12',
-        'ruamel.yaml==0.14.0',
-        'toil-ionox0[cwl]==0.0.1',
-        # These dependencies may need to be explicitly specified,
-        # if PyPi gives us ResourceConflict issues:
-        # 'cwltest==1.0.20180209171722',
-        # 'cwltool==1.0.20180403145700',
-        'subprocess32==3.5.2',
-        'pandas==0.19.0',
-        'xlrd==1.1.0',
-        'numpy==1.14.2',
-        'pysam==0.14.1',
-        'pybedtools==0.7.10',
-        'PyPDF2==1.26.0',
-        'matplotlib==2.2.2',
-        'seaborn==0.8.1',
-        'mock==2.0.0',
-    ],
+    install_requires=req_file('requirements.txt'),
     dependency_links=[
         'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
     ],
