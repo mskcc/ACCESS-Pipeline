@@ -229,12 +229,11 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
     :return:
     """
     i5_sequencer_types = []
-    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
-        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
+    for sample_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
+        cur_sample = title_file[title_file[TITLE_FILE__COLLAB_ID_COLUMN] == sample_id]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
-        assert len(matching_sample_sheets) == 1
+        assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
 
@@ -244,6 +243,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
             print('Index2 not found in SampleSheet.csv. Skipping i5 barcode index validation.')
             return
 
+        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
         i5_sequencer_types.append(check_i5_index(title_file_i5, sample_sheet_i5))
 
     all_non_reverse_complemented = all([match_type == NON_REVERSE_COMPLEMENTED for match_type in i5_sequencer_types])
@@ -270,13 +270,13 @@ def perform_barcode_index_checks(title_file, sample_sheets):
     :return:
     """
     # i7 (Index1) checks
-    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
+    for sample_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
+        cur_sample = title_file[title_file[TITLE_FILE__COLLAB_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
 
-        assert len(matching_sample_sheets) == 1
+        assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
 
