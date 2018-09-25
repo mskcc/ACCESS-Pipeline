@@ -169,11 +169,11 @@ Right now the only supported options for the `--batch-system` parameter are `lsf
 
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_submit \
->   --project_name EJ_4-27_MarkDuplicatesTest \
->   --output_location /home/johnsoni/projects/EJ_4-27_MarkDuplicatesTest \
->   --inputs_file ./inputs.yaml \
->   --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
->   --batch_system lsf
+--project_name EJ_4-27_MarkDuplicatesTest \
+--output_location /home/johnsoni/projects/EJ_4-27_MarkDuplicatesTest \
+--inputs_file ./inputs.yaml \
+--workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
+--batch_system lsf
 ```
 
 Or alternatively, use `pipeline_runner` to make use of the `gridEngine`, `mesos`, `htcondor` or `slurm` options. 
@@ -182,11 +182,11 @@ This script can be run in the background with `&`, and will make use of worker n
 
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
->   --project_name EJ_4-27_MarkDuplicatesTest \
->   --output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
->   --inputs_file ./inputs.yaml \
->   --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
->   --batch_system gridEngine
+--project_name EJ_4-27_MarkDuplicatesTest \
+--output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
+--inputs_file ./inputs.yaml \
+--workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
+--batch_system gridEngine
 ```
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
