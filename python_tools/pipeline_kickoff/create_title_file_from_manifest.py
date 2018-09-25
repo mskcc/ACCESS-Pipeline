@@ -45,7 +45,7 @@ def convert_to_title_file(manifest):
     # Todo: Why doesn't IGO give CMO ID?
     sample_rename_map = dict(zip(sample_renames['OldName'], sample_renames['NewName']))
     sample_convert_func = lambda sample: sample_rename_map[sample]
-    title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
+    title_file.loc[:, TITLE_FILE__SAMPLE_ID_COLUMN] = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
 
     # Remove empty rows
     title_file = title_file.dropna(axis=0, how='all')
