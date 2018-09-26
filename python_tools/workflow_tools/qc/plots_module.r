@@ -160,7 +160,7 @@ plotAlignGenome = function(data) {
 
 #' Helper method to compute Singleton + Simplex coverage from other coverage types
 calc_singleton_subsimplex_coverage = function(average_coverage, method) {
-  average_coverage[method == 'All Unique'] - average_coverage[method == 'Simplex']
+  average_coverage[method == 'All Unique'] - (average_coverage[method == 'Simplex'] + average_coverage[method == 'Duplex'])
 }
 
 
@@ -199,7 +199,7 @@ plotMeanCov = function(data) {
   
   g = ggplot(full_coverage_df, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') +
-    geom_bar(position='stack', stat='identity', aes_string(fill='method')) +
+    geom_bar(position='stack', stat='identity', aes_string(fill='method')) + # remove quotes on method
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label=format_comma) +
     MY_THEME
