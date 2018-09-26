@@ -79,14 +79,10 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 /resources/run_tools/luna.yaml
 
 /resources/run_files/test.yaml
-/resources/run_files/test__collapsing.yaml
 /resources/run_files/production.yaml
-/resources/run_files/production__collapsing.yaml
 
 /resources/run_params/test.yaml
-/resources/run_params/test__collapsing.yaml
 /resources/run_params/production.yaml
-/resources/run_params/production__collapsing.yaml
 ```
 And then update the paths to these variables.
 
