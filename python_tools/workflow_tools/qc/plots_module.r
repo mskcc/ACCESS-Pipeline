@@ -9,13 +9,15 @@
 
 library(grid)
 library(yaml)
+library(tidyr)
 library(scales)
 library(gridBase)
 library(gridExtra)
 library(lattice)
 library(ggplot2)
-library('getopt');
 library(reshape2)
+library('getopt');
+library(data.table)
 suppressMessages(library(dplyr))
 
 
@@ -158,12 +160,6 @@ plotAlignGenome = function(data) {
 }
 
 
-#' Helper method to compute Singleton + Simplex coverage from other coverage types
-calc_singleton_subsimplex_coverage = function(average_coverage, method) {
-  average_coverage[method == 'All Unique'] - (average_coverage[method == 'Simplex'] + average_coverage[method == 'Duplex'])
-}
-
-
 #' Plot average coverage for each sample,
 #' for each collapsing method
 #' @param data data.frame with the usual columns
@@ -175,27 +171,32 @@ plotMeanCov = function(data) {
   data = filter(data, method %in% LEVEL_C)
   data = transform(data, method=factor(method, levels=LEVEL_C))
   data = transform(data, pool=factor(pool, levels=c('A Targets', 'B Targets')))
-  data$total_or_collapsed = factor(ifelse(data$method == 'TotalCoverage', 'Total', 'Collapsed'), levels=c('Total', 'Collapsed'))
-  data = data %>% arrange(total_or_collapsed, method)
   
-  data_with_sing_subsimp = data %>%
-    group_by(Sample, pool) %>%
-    summarise(average_coverage = calc_singleton_subsimplex_coverage(average_coverage, method)) %>%
-    mutate(method = 'Sub Simplex + Singletons')
-   
-  # Take a view of the original data to combine with the new coverage values
-  view = data %>%
-    group_by(Sample, pool) %>%
-    filter(method == 'Duplex') %>%
-    ungroup()
-  view$average_coverage = data_with_sing_subsimp$average_coverage
-  view$method = data_with_sing_subsimp$method
-  full_coverage_df = bind_rows(data, view)
+  full_coverage_df = data %>% data.table() %>%
+    # Convert collapsing method column to columns for each collapsing type
+    spread(key = method, value = average_coverage) %>% 
+    # For each sample and pool,
+    group_by(Sample, pool) %>% 
+    # Create a new colum for the Sub Simplex + Singletons coverage
+    mutate('Sub Simplex + Singletons' = `All Unique` - (Duplex + Simplex)) %>% 
+    # Grab just these new columns, along with Sample and pool
+    select(c('TotalCoverage', 'Sub Simplex + Singletons', 'Simplex', 'Duplex', 'All Unique', 'Sample', 'pool')) %>%
+    # Convert collapsing method types back to single column
+    melt(id = c('Sample', 'pool')) %>%
+    # Rename it to average_coverage
+    rename(method=variable, average_coverage=value)
   
-  # No need for All Unique values, ensure proper plotting sort order
+  # No need for All Unique values
   desired_levels = c('TotalCoverage', 'Sub Simplex + Singletons', 'Simplex', 'Duplex')
   full_coverage_df = filter(full_coverage_df, method %in% desired_levels)
+  # Ensure proper plotting sort order
   full_coverage_df = transform(full_coverage_df, method=factor(method, levels=desired_levels))
+  
+  # New variable for faceting on collapsed vs uncollapsed coverage
+  full_coverage_df$total_or_collapsed = factor(
+    ifelse(full_coverage_df$method == 'TotalCoverage', 'Total', 'Collapsed'), 
+    levels=c('Total', 'Collapsed'))
+  full_coverage_df = full_coverage_df %>% arrange(total_or_collapsed, method)
   
   g = ggplot(full_coverage_df, aes(x=Sample, y=average_coverage)) +
     facet_grid(pool + total_or_collapsed ~ . , scales='free') +
