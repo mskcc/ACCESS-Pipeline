@@ -68,6 +68,7 @@ def create_title_file(manifest_file_path, output_filename):
     :param output_filename:
     :return:
     """
+
     # Read as either csv or Excel file
     try:
         manifest = pd.read_excel(manifest_file_path, sheetname=['SampleInfo', 'SampleRenames'], sep='\t')
@@ -75,7 +76,6 @@ def create_title_file(manifest_file_path, output_filename):
         print(str(e))
         manifest = pd.read_csv(manifest_file_path, sep='\t')
 
-    # Convert
     title_file = convert_to_title_file(manifest)
 
     # Optionally split by lanes
