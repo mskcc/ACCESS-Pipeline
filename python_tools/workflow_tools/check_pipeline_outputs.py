@@ -5,7 +5,7 @@ import logging
 import argparse
 import unittest
 
-from ..util import *
+from util import *
 
 
 ########

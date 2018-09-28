@@ -22,12 +22,14 @@ class NoisePlotsTestCase(unittest.TestCase):
         noise_table = self.load_noise_table()
         noise_alt_percent_plot(noise_table)
         assert os.path.exists('NoiseAltPercent.pdf')
+        os.unlink('./NoiseAltPercent.pdf')
 
     # @image_comparison(baseline_images=['NoiseContributingSites'], extensions=['png'])
     def test_contributing_sites_plot(self):
         noise_table = self.load_noise_table()
         noise_contributing_sites_plot(noise_table)
         assert os.path.exists('NoiseContributingSites.pdf')
+        os.unlink('./NoiseContributingSites.pdf')
 
 
 if __name__ == '__main__':

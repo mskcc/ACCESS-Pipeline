@@ -22,32 +22,32 @@ class Tests(unittest.TestCase):
         self.good_title_file = load_good_title_file()
 
         self._fastq_objects = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_2_T/test_patient_1_test_sample_2_T_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_1_N/test_patient_1_test_sample_1_N_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_4_T/test_patient_2_test_sample_4_T_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_3_N/test_patient_2_test_sample_3_N_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_sample_6_T/test_patient_3_test_sample_6_T_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_5_N/test_patient_2_test_sample_5_N_R1_001.fastq.gz'}
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R1_001.fastq.gz'}
         ]
 
         self._fastq2_objects = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_2_T/test_patient_1_test_sample_2_T_R2_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_1_N/test_patient_1_test_sample_1_N_R2_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_4_T/test_patient_2_test_sample_4_T_R2_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_3_N/test_patient_2_test_sample_3_N_R2_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_sample_6_T/test_patient_3_test_sample_6_T_R2_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_5_N/test_patient_2_test_sample_5_N_R2_001.fastq.gz'}
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R2_001.fastq.gz'}
         ]
 
         self._patient_ids = ['test_patient_1', 'test_patient_1', 'test_patient_2', 'test_patient_2', 'test_patient_2', 'test_patient_3']
 
         self._sample_sheets = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_2_T/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_1_N/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_4_T/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_3_N/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_sample_6_T/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_5_N/SampleSheet.csv'}
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/SampleSheet.csv'}
         ]
 
 
@@ -61,12 +61,12 @@ class Tests(unittest.TestCase):
         )
 
         assert fastq1 == [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_2_T/test_patient_1_test_sample_2_T_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_sample_1_N/test_patient_1_test_sample_1_N_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_4_T/test_patient_2_test_sample_4_T_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_3_N/test_patient_2_test_sample_3_N_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_sample_5_N/test_patient_2_test_sample_5_N_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_sample_6_T/test_patient_3_test_sample_6_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
         ]
 
     def test_validate_title_file(self):
