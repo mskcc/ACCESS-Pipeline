@@ -264,6 +264,25 @@ GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', 'coverage', 'gc', 'method']
 GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
 GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']
 
+# Output file names
+read_counts_filename = 'read-counts-agg.txt'
+coverage_agg_filename = 'coverage-agg.txt'
+all_samples_coverage_filename = 'GC-bias-with-coverage-averages-over-all-samples.txt'
+each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
+gc_bias_with_coverage_filename = 'GC-bias-with-coverage.txt'
+read_counts_total_filename = 'read-counts-total.txt'
+coverage_per_interval_filename = 'coverage-per-interval.txt'
+
+ALL_TABLES_MODULE_OUTPUT_FILES = [
+    read_counts_filename,
+    coverage_agg_filename,
+    all_samples_coverage_filename,
+    each_sample_coverage_filename,
+    gc_bias_with_coverage_filename,
+    read_counts_total_filename,
+    coverage_per_interval_filename,
+]
+
 
 #########
 # Noise #

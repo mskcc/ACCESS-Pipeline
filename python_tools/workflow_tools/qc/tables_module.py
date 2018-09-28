@@ -259,6 +259,12 @@ def get_coverage_per_interval(tbl):
 ########
 
 def main():
+    """
+    This method is kept separate to allow for testing of the create_combined_qc_tables() method,
+    using a mock argparse object
+
+    :return:
+    """
     parser = argparse.ArgumentParser(description='MSK ACCESS QC module', formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-swa', '--standard_waltz_pool_a', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mua', '--unfiltered_waltz_pool_a', type=str, default=None, action=FullPaths)
@@ -269,17 +275,20 @@ def main():
     parser.add_argument('-mub', '--unfiltered_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-msb', '--simplex_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-mdb', '--duplex_waltz_pool_b', type=str, default=None, action=FullPaths)
+
     args = parser.parse_args()
+    create_combined_qc_tables(args)
 
-    # Output file names
-    read_counts_filename = 'read-counts-agg.txt'
-    coverage_agg_filename = 'coverage-agg.txt'
-    all_samples_coverage_filename = 'GC-bias-with-coverage-averages-over-all-samples.txt'
-    each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
-    gc_bias_with_coverage_filename = 'GC-bias-with-coverage.txt'
-    read_counts_total_filename = 'read-counts-total.txt'
-    coverage_per_interval_filename = 'coverage-per-interval.txt'
 
+def create_combined_qc_tables(args):
+    """
+    Read in and concatenate all the tables from their respective waltz output folders
+
+    Write these tables to the current directory
+
+    :param args: argparse.ArgumentParser with parsed arguments
+    :return:
+    """
     read_counts_total_pool_a_table = get_read_counts_total_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_total_table = pd.concat([read_counts_total_pool_a_table, read_counts_total_pool_b_table])
