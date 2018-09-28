@@ -31,22 +31,22 @@ inputs:
     inputBinding:
       position: 4
 
-  mean_cov:
+  gc_cov_each_sample:
     type: File
     inputBinding:
       position: 5
 
-  gc_cov_each_sample:
+  insert_sizes:
     type: File
     inputBinding:
       position: 6
 
-  insert_sizes:
+  coverage_per_interval:
     type: File
     inputBinding:
       position: 7
 
-  coverage_per_interval:
+  mean_cov:
     type: File
     inputBinding:
       position: 8
