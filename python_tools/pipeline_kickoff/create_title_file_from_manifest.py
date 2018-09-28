@@ -82,8 +82,7 @@ def create_title_file(manifest_file_path, output_filename):
     if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
         for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
             title_file_sub = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
-            # Write title file
-            title_file_sub.to_csv('lane-{}_'.format(lane) + output_filename, sep='\t', index=False)
+            title_file_sub.to_csv(output_filename + '_lane-{}'.format(lane), sep='\t', index=False)
     else:
         title_file.to_csv(output_filename, sep='\t', index=False)
 
