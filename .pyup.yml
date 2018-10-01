@@ -49,7 +49,7 @@ branch_prefix: pyup/
 
 # set a global prefix for PRs
 # default: empty
-pr_prefix: "Bug #12345"
+pr_prefix: "pyup"
 
 # allow to close stale PRs
 # default: True
