@@ -14,6 +14,7 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+  project_name: string
   title_file: File
   inputs_yaml: File
   FP_config_file: File
@@ -36,6 +37,10 @@ outputs:
   combined_qc:
     type: Directory
     outputSource: group_qc_files/qc_files
+
+  tables:
+    type: Directory
+    outputSource: main_tables_module/tables
 
 steps:
 
@@ -265,7 +270,7 @@ steps:
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
     in:
-      title_file: title_file
+      project_name: project_name
       read_counts: main_plots_module/read_counts
       align_rate: main_plots_module/align_rate
       mean_cov: main_plots_module/mean_cov

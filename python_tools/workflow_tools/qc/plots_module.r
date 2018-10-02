@@ -360,7 +360,7 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
   colnames(coverage_df) = c('Sample', 'RawCoverage_A', 'RawCoverage_B', 'DuplexCoverage_A')
   
   title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=22, col='black'))
-  pool = textGrob(paste('Pool:', title_df[1, 'Pool']), gp=gpar(fontsize=20, col='black'))
+  pool = textGrob(inputs_yaml$project_name, gp=gpar(fontsize=20, col='black'))
   date = textGrob(format(Sys.time(), '%a %b %d, %Y %H:%M'), gp=gpar(fontsize=20, col='black'))
   version = textGrob(paste('Pipeline Version: ', inputs_yaml$version), gp=gpar(fontsize=20, col='black'))
   line = linesGrob(unit(c(0.05, 0.95), 'npc'), unit(1, 'npc'), gp=gpar(col='lightgrey', lwd=4))

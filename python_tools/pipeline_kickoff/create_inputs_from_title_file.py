@@ -486,18 +486,17 @@ def write_inputs_file(args, title_file, output_file_name):
     include_file_resources(fh, run_files_path)
     include_tool_resources(fh, tool_resources_file_path)
 
-    # Optionally override ResourceRequirements with smaller values when testing
-    # if args.include_resource_overrides:
-    #     include_resource_overrides(fh)
-
+    fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
     title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
     fh.write(ruamel.yaml.dump(title_file_obj))
-
     # This file itself is an input to the pipeline,
     # to include version details in the QC PDF
     inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': output_file_name}}
     fh.write(ruamel.yaml.dump(inputs_yaml_object))
+    # Write the current project name for this run
+    fh.write('project_name: {}'.format(args.project_name))
+    # Write the current pipeline version for this pipeline
     include_version_info(fh)
 
     fh.close()
@@ -561,6 +560,12 @@ def parse_arguments():
         "-d",
         "--data_dir",
         help="Directory with fastqs and samplesheets",
+        required=True
+    )
+    parser.add_argument(
+        "-p",
+        "--project_name",
+        help="A name that describes the current data being run",
         required=True
     )
 

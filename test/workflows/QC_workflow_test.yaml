@@ -1,4 +1,6 @@
-# Inputs File to print in QC
+project_name: Pipeline_Test
+
+# The actual full (but fake) Inputs File to print in QC
 inputs_yaml: {class: File, path: ../test_data/qc/qc_workflow_wo_waltz/test_inputs.yaml}
 
 # Title File
