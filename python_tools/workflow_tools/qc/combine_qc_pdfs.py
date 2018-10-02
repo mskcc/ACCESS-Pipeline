@@ -1,19 +1,13 @@
 import argparse
 import datetime
-import pandas as pd
 from PyPDF2 import PdfFileMerger
-
-from ...constants import *
 
 
 def combine_pdfs(args):
     date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
-    # Grab the pool from the title file
-    title_file = pd.read_csv(args.title_file, sep='\t')
-    pool = title_file[TITLE_FILE__POOL_COLUMN].values[0]
-
-    FINAL_QC_FILENAME = pool + '_' + date + '.pdf'
+    project_name = args.project_name.replace(' ', '')
+    FINAL_QC_FILENAME = project_name + '_' + date + '.pdf'
 
     merger = PdfFileMerger()
 
@@ -27,8 +21,8 @@ def combine_pdfs(args):
 
 def main():
     parser = argparse.ArgumentParser(prog='Combine PDF files into one PDF', usage='%(prog)s [options]')
-    parser.add_argument('-t', '--title_file')
-    parser.add_argument('pdf_files', nargs='+', help='positional arguments for paths to PDF files')
+    parser.add_argument('-p', '--project_name', help='Project name')
+    parser.add_argument('pdf_files', nargs='+', help='Positional arguments for paths to PDF files')
     args = parser.parse_args()
     combine_pdfs(args)
 

@@ -1,5 +1,6 @@
 import argparse
 import subprocess
+import ruamel.yaml
 
 
 # This is a script to submit the leader toil-cwl-runner job to
@@ -50,9 +51,8 @@ def submit_to_lsf(params):
     :param batch_system:
     :return:
     '''
-    job_command = "{} {} {} {} {} {} {}".format(
+    job_command = ('{} ' * 6).format(
         'pipeline_runner',
-        '--project_name ' + params.project_name,
         '--workflow ' + params.workflow,
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
@@ -63,35 +63,33 @@ def submit_to_lsf(params):
     if params.restart:
         job_command += ' --restart '
 
+    # Grab the project name from the inputs file
+    with open(params.inputs_file, 'r') as stream:
+        inputs_yaml = ruamel.yaml.round_trip_load(stream)
+
+    project_name = inputs_yaml['project_name']
+
     bsubline = [
-        "bsub",
-        "-cwd", '.',
-        "-P", params.project_name,
-        "-J", params.project_name,
-        "-oo", params.project_name + "_stdout.log",
-        "-eo", params.project_name + "_stderr.log",
-        "-R", "select[hname={}]".format(LEADER_NODE),
-        "-R", "rusage[mem={}]".format(DEFAULT_MEM),
-        "-n", str(DEFAULT_CPU),
-        "-q", CONTROL_QUEUE,
-        "-Jd", params.project_name,
+        'bsub',
+        '-cwd', '.',
+        '-P', project_name,
+        '-J', project_name,
+        '-oo', project_name + "_stdout.log",
+        '-eo', project_name + "_stderr.log",
+        '-R', "select[hname={}]".format(LEADER_NODE),
+        '-R', "rusage[mem={}]".format(DEFAULT_MEM),
+        '-n', str(DEFAULT_CPU),
+        '-q', CONTROL_QUEUE,
+        '-Jd', project_name,
         job_command
     ]
 
     lsf_job_id = bsub(bsubline)
-    return params.project_name, lsf_job_id
+    return project_name, lsf_job_id
 
 
 def main():
     parser = argparse.ArgumentParser(description='Submit a pipeline leader job to the w01 node (specific for LUNA)')
-
-    parser.add_argument(
-        "--project_name",
-        action="store",
-        dest="project_name",
-        help="Name for Project (e.g. pipeline_test)",
-        required=True
-    )
 
     parser.add_argument(
         "--output_location",

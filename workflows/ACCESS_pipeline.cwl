@@ -30,8 +30,9 @@ inputs:
 
   title_file: File
   inputs_yaml: File
-  # Todo: This needs to exist in the inputs.yaml,
-  # so it needs to exist here, but it isn't used
+  # Todo: These need to exist in the inputs.yaml,
+  # so they need to exist here, but they aren't used
+  project_name: string
   version: string
 
   fastq1: File[]
@@ -109,6 +110,10 @@ outputs:
   combined_qc:
     type: Directory
     outputSource: qc_workflow/combined_qc
+
+  qc_tables:
+    type: Directory
+    outputSource: qc_workflow/tables
 
 steps:
 
@@ -320,11 +325,12 @@ steps:
       run_tools: run_tools
       waltz__params: waltz__params
 
+      project_name: project_name
+      title_file: title_file
       sample_directories: make_bam_output_directories/directory
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
       noise__good_positions_A: noise__good_positions_A
-      title_file: title_file
       inputs_yaml: inputs_yaml
       pool_a_bed_file: pool_a_bed_file
       pool_b_bed_file: pool_b_bed_file
@@ -337,4 +343,4 @@ steps:
       marianas_simplex_bams: separate_bams/simplex_bam
       marianas_duplex_bams: separate_bams/duplex_bam
       FP_config_file: FP_config_file
-    out: [combined_qc]
+    out: [combined_qc, tables]

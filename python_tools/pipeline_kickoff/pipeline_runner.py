@@ -2,6 +2,9 @@ import os
 import uuid
 import argparse
 import subprocess
+import ruamel.yaml
+
+import version
 
 
 ###################################################################
@@ -50,14 +53,6 @@ def parse_arguments():
     :return:
     """
     parser = argparse.ArgumentParser(description='submit toil job')
-
-    parser.add_argument(
-        '--project_name',
-        action='store',
-        dest='project_name',
-        help='Name for Project (e.g. pipeline_test)',
-        required=True
-    )
 
     parser.add_argument(
         '--output_location',
@@ -121,18 +116,22 @@ def create_directories(args):
     - Jobstore directories (deleted as per cleanWorkDir parameter?)
     """
 
-    project_name = args.project_name
     output_location = args.output_location
+    # Grab the project name from the inputs file
+    with open(args.inputs_file, 'r') as stream:
+        inputs_yaml = ruamel.yaml.round_trip_load(stream)
+    print(inputs_yaml)
+    project_name = inputs_yaml['project_name']
 
     # Set output directory
-    output_directory = "{}/{}".format(output_location, project_name)
+    output_directory = '{}/{}'.format(output_location, project_name)
     logdir = os.path.join(output_directory, 'log')
     tmpdir = '{}/tmp/'.format(output_directory)
 
     # Use existing jobstore, or create new one
     if args.restart:
         job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))[0]
-        jobstore_path = '{}/{}'.format(tmpdir, job_store_uuid)
+        jobstore_path = os.path.join(tmpdir, job_store_uuid)
     else:
         job_store_uuid = str(uuid.uuid1())
         jobstore_path = '{}/jobstore-{}'.format(tmpdir, job_store_uuid)
@@ -184,7 +183,8 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         args.inputs_file
     )
 
-    print("Running Toil with command: {}".format(cmd))
+    print('Running Toil with command: {}'.format(cmd))
+    print('ACCESS-Pipeline version: {}'.format(version.most_recent_tag))
     subprocess.check_call(cmd, shell=True)
 
 

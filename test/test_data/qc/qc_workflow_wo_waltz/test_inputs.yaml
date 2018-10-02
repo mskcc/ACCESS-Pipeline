@@ -185,7 +185,7 @@ pool_b_bed_file: {class: File, path: /home/johnsoni/test_reference/bed/MSK-ACCES
 gene_list: {class: File, path: /home/johnsoni/test_reference/bed/juber-hg19-gene-list.bed}
 title_file: {class: File, path: XX_title_file.txt}
 inputs_yaml: {class: File, path: inputs.yaml}
-
+project_name: Test_Run
 
 # ------------------------------------------------------------
 

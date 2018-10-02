@@ -15,6 +15,7 @@ inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
+  project_name: string
   title_file: File
   inputs_yaml: File
   pool_a_bed_file: File
@@ -41,6 +42,10 @@ outputs:
   combined_qc:
     type: Directory
     outputSource: qc_workflow_wo_waltz/combined_qc
+
+  tables:
+    type: Directory
+    outputSource: qc_workflow_wo_waltz/tables
 
 steps:
 
@@ -80,6 +85,7 @@ steps:
   qc_workflow_wo_waltz:
     run: ./qc_workflow_wo_waltz.cwl
     in:
+      project_name: project_name
       title_file: title_file
       inputs_yaml: inputs_yaml
       FP_config_file: FP_config_file
@@ -96,4 +102,4 @@ steps:
       waltz_unfiltered_pool_b: waltz_workflow/waltz_unfiltered_pool_b_files
       waltz_simplex_pool_b: waltz_workflow/waltz_simplex_pool_b_files
       waltz_duplex_pool_b: waltz_workflow/waltz_duplex_pool_b_files
-    out: [combined_qc]
+    out: [combined_qc, tables]
