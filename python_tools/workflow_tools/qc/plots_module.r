@@ -261,6 +261,7 @@ plotGCwithCovAllSamples = function(data) {
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
 plotGCwithCovEachSample = function(data, sort_order) {
+  # Only plot for Total and All Unique
   gc_bias_levels = c('TotalCoverage', 'All Unique')
   
   data = data[complete.cases(data[, 'coverage']),]
@@ -381,7 +382,7 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
 }
 
 
-#' Print the input files and run parameters to the durrect device
+#' Print the input files and run parameters to the current device
 #' @param inputs_yaml yaml file with inputs to pipeline
 print_inputs <- function(inputs_yaml) {
   # Define the output PDF file

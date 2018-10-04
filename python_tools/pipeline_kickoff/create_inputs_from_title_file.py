@@ -176,6 +176,7 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
         print('Please perform a manual check on the inputs file before running the pipeline.')
         print(samples_not_found)
 
+    # Todo: Refactor to put title_file info into inputs.yaml --> then no need to use original title_file in pipeline
     title_file = title_file.loc[found_boolv, :]
     title_file.to_csv(title_file_path, sep='\t', index=False)
     return title_file
