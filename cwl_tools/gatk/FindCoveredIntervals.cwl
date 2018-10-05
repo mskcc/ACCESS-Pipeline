@@ -16,7 +16,7 @@ requirements:
   ResourceRequirement:
     ramMin: 25000
     coresMin: 2
-    outdirMax: 60000
+    outdirMax: 80000
 
 inputs:
   tmp_dir: string
