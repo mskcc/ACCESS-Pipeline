@@ -30,9 +30,8 @@ def convert_to_title_file(manifest):
     sample_renames = manifest['SampleRenames']
 
     # Select the columns we want from the manifest & rename them
-    # Use .copy() to avoid SettingWithCopyWarning
     try:
-        title_file = sample_info[columns_map.keys()]
+        title_file = sample_info.loc[:, columns_map.keys()]
     except KeyError as e:
         logging.error('Error, missing manifest columns')
         logging.error('Existing manifest columns:')
@@ -42,7 +41,6 @@ def convert_to_title_file(manifest):
     title_file.columns = columns_map.values()
 
     # Use SampleRenames tab to convert CMO_SAMPLE_ID to proper CMO ID
-    # Todo: Why doesn't IGO give CMO ID?
     sample_rename_map = dict(zip(sample_renames['OldName'], sample_renames['NewName']))
     sample_convert_func = lambda sample: sample_rename_map[sample]
     title_file.loc[:, TITLE_FILE__SAMPLE_ID_COLUMN] = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
@@ -54,7 +52,7 @@ def convert_to_title_file(manifest):
     trim_func = lambda series: series.str.strip() if series.dtype == 'object' else series
     title_file = title_file.apply(trim_func)
 
-    # Fix overly-high precision values
+    # Fix overly-high precision values from Excel
     title_file = title_file.round(3)
 
     return title_file
@@ -80,9 +78,13 @@ def create_title_file(manifest_file_path, output_filename):
 
     # Optionally split by lanes
     if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
+        path, filename = os.path.split(output_filename)
+
         for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
             title_file_sub = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
-            title_file_sub.to_csv(output_filename + '_lane-{}'.format(lane), sep='\t', index=False)
+            output_filename = 'lane-{}_'.format(lane) + filename
+            output_file_path = os.path.join(path, output_filename)
+            title_file_sub.to_csv(output_file_path, sep='\t', index=False)
     else:
         title_file.to_csv(output_filename, sep='\t', index=False)
 
