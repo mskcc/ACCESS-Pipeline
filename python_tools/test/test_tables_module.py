@@ -45,6 +45,8 @@ class TablesModuleTest(unittest.TestCase):
         for f in ALL_TABLES_MODULE_OUTPUT_FILES:
             os.unlink(f)
 
+        os.unlink('./fragment-sizes.txt')
+
     def test_tables_module(self):
         """
         Test that the tables module runs without error
