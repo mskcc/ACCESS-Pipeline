@@ -120,7 +120,7 @@ def create_directories(args):
     # Grab the project name from the inputs file
     with open(args.inputs_file, 'r') as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
-    print(inputs_yaml)
+        
     project_name = inputs_yaml['project_name']
 
     # Set output directory
