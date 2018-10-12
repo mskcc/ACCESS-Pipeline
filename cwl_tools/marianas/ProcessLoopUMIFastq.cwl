@@ -61,7 +61,7 @@ outputs:
       glob: ${ return '**/' + inputs.fastq1.basename }
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM);
+          self[0].basename = inputs.add_rg_SM + '_R1_001.fastq.gz';
           return self[0]
         }
 
@@ -71,7 +71,7 @@ outputs:
       glob: ${ return '**/' + inputs.fastq1.basename.replace('_R1_', '_R2_') }
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.replace('_R1_', '_R2_').replace(inputs.investigator_sample_id, inputs.add_rg_SM);
+          self[0].basename = inputs.add_rg_SM + '_R2_001.fastq.gz';
           return self[0]
         }
 
@@ -81,7 +81,7 @@ outputs:
       glob: ${ return '**/info.txt' }
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM).split('_R1_')[0] + '_info.txt';
+          self[0].basename = inputs.add_rg_SM + '_info.txt';
           return self[0]
         }
 
@@ -91,6 +91,6 @@ outputs:
       glob: '*/'
       outputEval: |
         ${
-          self[0].basename = inputs.fastq1.basename.replace(inputs.investigator_sample_id, inputs.add_rg_SM).split('_R1_')[0] + '_umi_clipping_results';
+          self[0].basename = inputs.add_rg_SM + '_umi_clipping_results';
           return self[0]
         }
