@@ -82,12 +82,12 @@ def main():
     noise_table = noise_table[noise_table['Method'] == 'Total']
 
     # Cleanup sample IDs (in Noise table as well as Title File)
-    sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
+    sample_ids = title_file[SAMPLE_ID_COLUMN].tolist()
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
     title_file[SAMPLE_ID_COLUMN] = title_file[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
 
     # Filter to Plasma samples
-    plasma_samples = title_file[title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma'][TITLE_FILE__SAMPLE_ID_COLUMN]
+    plasma_samples = title_file[title_file[SAMPLE_ID_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
     boolv = noise_table[SAMPLE_ID_COLUMN].isin(plasma_samples)
     noise_table = noise_table.loc[boolv]
 

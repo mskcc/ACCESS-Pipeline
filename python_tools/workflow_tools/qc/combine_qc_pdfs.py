@@ -1,3 +1,4 @@
+import logging
 import argparse
 import datetime
 from PyPDF2 import PdfFileMerger
@@ -12,7 +13,7 @@ def combine_pdfs(args):
     merger = PdfFileMerger()
 
     for pdf in args.pdf_files:
-        print(pdf)
+        logging.info(pdf)
         merger.append(open(pdf), 'rb')
 
     with open('./' + FINAL_QC_FILENAME, 'wb') as fout:

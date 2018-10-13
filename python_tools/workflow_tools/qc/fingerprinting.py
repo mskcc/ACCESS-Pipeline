@@ -173,7 +173,7 @@ def find_fp_maf(listofpileups, fp_indices, fp_output_dir):
 
         if all_fp == []:
             header = [fp_indices[eachfp[0] + ':' + eachfp[1]][2] for eachfp in fp_raw]
-            header.insert(0, 'Sample')
+            header.insert(0, SAMPLE_ID_COLUMN)
             all_fp.append(header)
             all_geno.append(header)
 
@@ -217,8 +217,6 @@ def create_expected_file(titlefile, fpOutputdir):
     patient = {}
 
     for s in samples:
-        s = [sam.split('_IGO')[0] for sam in s]
-        s = [sam.split('-IGO')[0] for sam in s]
         if s[2] in patient.keys():
             patient[s[2]].append(s[0])
         else:
@@ -241,7 +239,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     expected = create_expected_file(titlefile, fp_output_dir)
     titlefile = read_df(titlefile, header='infer')
 
-    if all_geno[0][0] == 'Sample':
+    if all_geno[0][0] == SAMPLE_ID_COLUMN:
         all_geno = all_geno[1::]
 
     all_geno = [a for a in all_geno if 'CELLFREEPOOLEDNORMAL' not in a[0]]
@@ -265,8 +263,8 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
                 elif j != 0:
                     hm_mismatch = hm_mismatch + 1
 
-            sample_g = extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
-            sample_h = extract_sample_name(h[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
+            sample_g = extract_sample_name(g[0], titlefile[SAMPLE_ID_COLUMN])
+            sample_h = extract_sample_name(h[0], titlefile[SAMPLE_ID_COLUMN])
             geno_compare.append([sample_g, sample_h, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch])
 
     sort_index = np.argsort([x[2] for x in geno_compare])
@@ -299,8 +297,8 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
             else:
                 x.append('Unexpected Match')
 
-    geno_compare.insert(0, ["Sample1", "Sample2", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
-                            "HeterozygousMatch", "HeterozygousMismatch", "Status"])
+    geno_compare.insert(0, ['Sample1', 'Sample2', 'TotalMatch', 'HomozygousMatch', 'HomozygousMismatch',
+                            'HeterozygousMatch', 'HeterozygousMismatch', 'Status'])
 
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
@@ -316,7 +314,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     contamination = contamination_rate(all_fp)
     contamination = [x for x in contamination if x[1] != 'NaN']
     titlefile = read_df(titlefile, header='infer')
-    samplename = [extract_sample_name(c[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for c in contamination]
+    samplename = [extract_sample_name(c[0], titlefile[SAMPLE_ID_COLUMN]) for c in contamination]
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minor_contamination = [[samplename[i], meanContam[i]] for i in range(0, len(samplename))]
@@ -330,7 +328,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-    plt.xlabel('Sample Name')
+    plt.xlabel('Sample')
     plt.title('Minor Contamination Check (from all reads)')
     plt.xlim([0, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
@@ -338,10 +336,10 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
-    if all_geno[0][0] == 'Sample':
+    if all_geno[0][0] == SAMPLE_ID_COLUMN:
         all_geno = all_geno[1::]
     titlefile = read_df(titlefile, header='infer')
-    samples = [extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for g in all_geno]
+    samples = [extract_sample_name(g[0], titlefile[SAMPLE_ID_COLUMN]) for g in all_geno]
     x_pos = np.arange(len(all_geno))
     p_het = [sum([1 for a in g if a == 'Het']) / (len(g) - 1) for g in all_geno]
 
@@ -353,7 +351,7 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
     plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
     plt.ylabel('% of Heterozygous Position')
-    plt.xlabel('Sample Name')
+    plt.xlabel('Sample')
     plt.title('Major Contamination Check')
     plt.xlim([0, x_pos.size])
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
@@ -375,7 +373,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
 
         samplename = [c[0] for c in contamination]
         title_file = read_df(titlefile, header='infer')
-        samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
+        samplename = [extract_sample_name(s, title_file[SAMPLE_ID_COLUMN]) for s in samplename]
 
         y_pos = np.arange(len(samplename))
         mean_contam = [c[1] for c in contamination]
@@ -390,7 +388,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
         plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-        plt.xlabel('Sample Name')
+        plt.xlabel('Sample')
         plt.title('Minor Contamination Check (Duplex)')
         plt.xlim([0, y_pos.size])
         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
@@ -449,7 +447,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     if len(hm_compare) == 0:
         # Only had one sample, and thus no comparisons to make
         titlefile = pd.read_csv(title_file, sep='\t')
-        sample = titlefile[TITLE_FILE__SAMPLE_ID_COLUMN].values[0]
+        sample = titlefile[SAMPLE_ID_COLUMN].values[0]
         hm_compare = [[sample, sample, 0]]
 
     matrix = {}
@@ -464,40 +462,37 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     keys = sorted([k for k in matrix.keys()])
 
-    print('Keys before extracting sample IDs:')
-    print(keys)
+    logging.info('Keys before extracting sample IDs:')
+    logging.info(keys)
+    logging.info('Title file before extracting sample IDs:')
+    logging.info(title_file)
 
-    print('Title file before extracting sample IDs:')
-    print(title_file)
-
-    # titlefile = read_df(title_file, header='infer')
-    # keys = [extract_sample_name(s, titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in keys]
     list_matrix = [[matrix[k1][k2] for k2 in keys] for k1 in keys]
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
 
-    print('Samples for Genotyping Matrix:')
-    print(list_matrix)
+    logging.info('Samples for Genotyping Matrix:')
+    logging.info(list_matrix)
 
     ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.25,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'},
-                     annot_kws={'size': 7})
+                     annot_kws={'size': 5})
     ax.set_xticklabels(keys, rotation=90, fontsize=11)
     ax.set_yticklabels(keys, rotation=0, fontsize=11)
-    # ax.set_yticklabels(keys[::-1], rotation=0,fontsize=11)
+
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
     Match_status = [[x[0], x[1], x[7]] for x in geno_compare if
                     x[7] == 'Unexpected Mismatch' or x[7] == 'Unexpected Match']
 
-    df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
-    Match_status.insert(0, ["Sample1", "Sample2", "Status"])
+    df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
+    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
     write_csv(fp_output_dir + 'Match_status.txt', Match_status)
 
     plt.clf()
     fig, ax1 = plt.subplots()
-    # plt.title('Unexpected Matches and Mismatches')
+
     ax1.axis('off')
     ax1.axis('tight')
     if len(df.values):
@@ -530,9 +525,9 @@ def find_sex_from_pileup(waltz_dir, output_dir):
                         if int(row[3]) > 0:
                             data.append(row[3])
             if len(data) > 200:
-                sex.append([file[0:file.find('_bc')], "Male"])
+                sex.append([file[0:file.find('_bc')], 'Male'])
             else:
-                sex.append([file[0:file.find('_bc')], "Female"])
+                sex.append([file[0:file.find('_bc')], 'Female'])
     write_csv(output_dir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
@@ -555,9 +550,9 @@ def find_sex_from_interval(waltz_dir):
                     if row[3] == 'Tiling_SRY_Y:2655301' or row[3] == 'Tiling_USP9Y_Y:14891501':
                         data.append(int(row[5]))
             if sum(data) > 50:
-                sex.append([file, "Male"])
+                sex.append([file, 'Male'])
             else:
-                sex.append([file, "Female"])
+                sex.append([file, 'Female'])
     # writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
@@ -586,7 +581,7 @@ def check_sex(gender, sex, output_dir):
         if g[1] != sex[idx][1]:
             mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(mismatch_sex, columns=["Sample", "Reported Sex", "Inferred Sex"])
+    df = pd.DataFrame(mismatch_sex, columns=[SAMPLE_ID_COLUMN, 'Reported Sex', 'Inferred Sex'])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 
@@ -644,15 +639,15 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--output_dir", help="Directory to write the Output files to", required=True)
-    parser.add_argument("-a", "--waltz_dir_A", help="Directory with waltz pileup files for target set A", required=True)
-    parser.add_argument("-b", "--waltz_dir_B", help="Directory with waltz pileup files for target set B", required=True)
-    parser.add_argument("-da", "--waltz_dir_A_duplex", help="Directory with waltz pileup files for Duplex target set A",
+    parser.add_argument('-o', '--output_dir', help='Directory to write the Output files to', required=True)
+    parser.add_argument('-a', '--waltz_dir_A', help='Directory with waltz pileup files for target set A', required=True)
+    parser.add_argument('-b', '--waltz_dir_B', help='Directory with waltz pileup files for target set B', required=True)
+    parser.add_argument('-da', '--waltz_dir_A_duplex', help='Directory with waltz pileup files for Duplex target set A',
                         required=True)
-    parser.add_argument("-db", "--waltz_dir_B_duplex", help="Directory with waltz pileup files for Duplex target set B",
+    parser.add_argument('-db', '--waltz_dir_B_duplex', help='Directory with waltz pileup files for Duplex target set B',
                         required=True)
-    parser.add_argument("-c", "--fp_config", help="File with information about the SNPs for analysis", required=True)
-    parser.add_argument("-t", "--title_file", help="Title File for the run", required=False)
+    parser.add_argument('-c', '--fp_config', help='File with information about the SNPs for analysis', required=True)
+    parser.add_argument('-t', '--title_file', help='Title File for the run', required=False)
     args = parser.parse_args()
     return args
 

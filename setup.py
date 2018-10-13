@@ -49,9 +49,6 @@ setup(
     author_email='johnsoni@mskcc.org',
     license='MIT',
     install_requires=req_file('requirements.txt'),
-    dependency_links=[
-        'git://git@github.com/ionox0/toil.git@3.15.0#egg=toil-ionox0[cwl]-0.0.1',
-    ],
     packages = [
         'python_tools',
         'python_tools.pipeline_kickoff',
@@ -83,7 +80,10 @@ setup(
         ]
     },
     scripts=[
-        'python_tools/workflow_tools/qc/plots_module.r',
+        'python_tools/workflow_tools/qc/r_tools/plots_module.r',
+        'python_tools/workflow_tools/qc/r_tools/plots.r',
+        'python_tools/workflow_tools/qc/r_tools/util.r',
+        'python_tools/workflow_tools/qc/r_tools/constants.r',
         'python_tools/workflow_tools/qc/calculate_noise.sh',
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
         'python_tools/workflow_tools/qc/aggregate_bam_metrics.sh',

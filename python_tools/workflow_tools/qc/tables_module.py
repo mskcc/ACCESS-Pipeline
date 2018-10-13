@@ -39,7 +39,7 @@ def get_read_counts_table(path, pool):
     read_counts_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts = pd.read_csv(read_counts_path, sep='\t')
     # Melt our DF to get all values of the on target rate and duplicate rates as values
-    read_counts = pd.melt(read_counts, id_vars=[TITLE_FILE__SAMPLE_ID_COLUMN], var_name='Category')
+    read_counts = pd.melt(read_counts, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     # We only want the read counts-related row values
     read_counts = read_counts[~read_counts['Category'].isin(['bam', TOTAL_READS_COLUMN, UNMAPPED_READS_COLUMN, 'duplicate_fraction'])]
     read_counts['method'] = read_counts['Category'].apply(unique_or_tot)
@@ -84,7 +84,7 @@ def get_collapsed_waltz_tables(path, method, pool):
     """
     read_counts_table_path = os.path.join(path, AGBM_READ_COUNTS_FILENAME)
     read_counts_table = pd.read_csv(read_counts_table_path, sep='\t')
-    read_counts_table = pd.melt(read_counts_table, id_vars=[TITLE_FILE__SAMPLE_ID_COLUMN], var_name='Category')
+    read_counts_table = pd.melt(read_counts_table, id_vars=[SAMPLE_ID_COLUMN], var_name='Category')
     read_counts_table = read_counts_table.dropna(axis=0)
     read_counts_table['method'] = [method] * len(read_counts_table)
     read_counts_table['pool'] = pool
@@ -107,27 +107,21 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     gc_with_cov = pd.DataFrame(columns=GC_BIAS_HEADER)
     sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
-    logging.info(curr_method, intervals_filename_suffix, path)
-    logging.info(sample_files)
-    logging.info(os.listdir(path))
-
     for sample in sample_files:
         filename = '/'.join([path, sample])
         curr_table = pd.read_csv(filename, sep='\t')
-
-        # todo - consolidate / standardize sample names
         sample = sample.replace(intervals_filename_suffix, '')
 
         # todo - columns should be given constant labels:
         newDf = pd.DataFrame({
             'method': [curr_method] * len(curr_table),
-            'Sample': [sample] * len(curr_table),
+            SAMPLE_ID_COLUMN: [sample] * len(curr_table),
             'interval_name': curr_table.ix[:, 3],
             'coverage': curr_table.ix[:, 5],
             'gc': curr_table.ix[:, 7]
         })
 
-        gc_with_cov = pd.concat([gc_with_cov, newDf]).sort_values(['Sample', 'interval_name'])
+        gc_with_cov = pd.concat([gc_with_cov, newDf]).sort_values([SAMPLE_ID_COLUMN, 'interval_name'])
 
     return gc_with_cov
 
@@ -147,17 +141,6 @@ def get_bins(tbl):
     return all_bins
 
 
-def get_gc_table_average_over_all_samples(tbl):
-    """
-    Function to create GC content table: averaged over all samples
-    """
-    all_bins = get_bins(tbl)
-    tbl['gc_bin'] = pd.cut(tbl['gc'], all_bins)
-    means = tbl.groupby(['gc_bin', 'method']).transform(np.mean)
-    tbl['coverage_norm'] = np.divide(tbl['coverage'], means['coverage'] + EPSILON)
-    return tbl
-
-
 # def get_gc_table_average_for_each_sample(tbl):
 #     """
 #     Creates the GC content table, with each sample represented
@@ -174,7 +157,7 @@ def get_gc_table_average_for_each_sample(tbl):
     Creates the GC content table, with each sample represented
     """
     final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER)
-    all_samples = tbl['Sample'].unique()
+    all_samples = tbl[SAMPLE_ID_COLUMN].unique()
     all_methods = tbl['method'].unique()
     minGC = np.min(tbl['gc'])
     maxGC = np.max(tbl['gc'])
@@ -187,7 +170,7 @@ def get_gc_table_average_for_each_sample(tbl):
     for method in all_methods:
         for sample in all_samples:
             method_boolv = (tbl['method'] == method)
-            sample_boolv = (tbl['Sample'] == sample)
+            sample_boolv = (tbl[SAMPLE_ID_COLUMN] == sample)
             curr_table = tbl[method_boolv & sample_boolv].copy()
             curr_table['coverage_norm'] = curr_table['coverage'] / np.mean(curr_table['coverage'])
 
@@ -200,7 +183,7 @@ def get_gc_table_average_for_each_sample(tbl):
 
                 newDf = pd.DataFrame({
                     'method': [method.replace('Waltz', '')],
-                    'Sample': [sample],
+                    SAMPLE_ID_COLUMN: [sample],
                     'gc_bin': [all_bins[subset]],
                     'coverage': [avg_cov]
                 })
@@ -340,7 +323,6 @@ def create_combined_qc_tables(args):
 
 
     # Use base tables to create additional tables
-    gc_avg_table_all = get_gc_table_average_over_all_samples(gc_cov_int_table)
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
     coverage_per_interval_table = get_coverage_per_interval(gc_cov_int_table)
 
@@ -350,7 +332,6 @@ def create_combined_qc_tables(args):
     coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
     gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
     gc_avg_table_each.to_csv(each_sample_coverage_filename, sep='\t', index=False)
-    gc_avg_table_all.to_csv(all_samples_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
 
     # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets

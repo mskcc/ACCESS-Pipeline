@@ -39,7 +39,6 @@ def extract_sample_name(has_a_sample, sample_names):
     Note that we must sort the samples names by length in order to return the longest match:
     e.g. sample_abc123-IGO-XXX, [sample_abc123, sample_abc12] --> sample_abc123
     """
-    sample_names = [s.split('_IGO')[0] for s in sample_names]
     sample_names = sorted(sample_names, key=len, reverse=True)
     sample_name_search = r'|'.join(sample_names)
     sample_name_search = r'.*(' + sample_name_search + ').*'
@@ -124,7 +123,7 @@ def get_position_by_substring(tofind, list):
     :return: index in `list` where `tofind` is found as a substring
     '''
     for i, e in enumerate(list):
-        if tofind.split('_IGO')[0] in e:
+        if tofind in e:
             return i
 
 
@@ -147,5 +146,11 @@ def autolabel(bars, plt, text_format='%.5f'):
     """
     for bar in bars:
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., 1.05*height, text_format % height, ha='center', va='bottom',
-                 fontsize=5)
+        plt.text(
+            bar.get_x() + bar.get_width() / 2.,
+            1.05 * height,
+            text_format % height,
+            ha='center',
+            va='bottom',
+            fontsize=5
+        )
