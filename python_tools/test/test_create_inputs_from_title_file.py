@@ -1,8 +1,8 @@
 import unittest
 import pandas as pd
-from python_tools.pipeline_kickoff import create_inputs_from_title_file
 
 from constants import *
+from python_tools.pipeline_kickoff import create_inputs_from_title_file
 
 
 def load_bad_title_file():

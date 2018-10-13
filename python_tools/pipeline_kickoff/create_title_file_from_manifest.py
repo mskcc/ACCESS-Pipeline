@@ -31,19 +31,17 @@ def convert_to_title_file(manifest):
 
     # Select the columns we want from the manifest & rename them
     try:
-        title_file = sample_info.loc[:, columns_map.keys()]
+        title_file = sample_info.loc[:, relevant_title_file_columns]
     except KeyError as e:
         logging.error('Error, missing manifest columns')
         logging.error('Existing manifest columns:')
         logging.error(sample_info.columns)
         raise e
 
-    title_file.columns = columns_map.values()
-
     # Use SampleRenames tab to convert CMO_SAMPLE_ID to proper CMO ID
     sample_rename_map = dict(zip(sample_renames['OldName'], sample_renames['NewName']))
     sample_convert_func = lambda sample: sample_rename_map[sample]
-    title_file.loc[:, TITLE_FILE__SAMPLE_ID_COLUMN] = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(sample_convert_func)
+    title_file.loc[:, MANIFEST__CMO_SAMPLE_ID_COLUMN] = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(sample_convert_func)
 
     # Remove empty rows
     title_file = title_file.dropna(axis=0, how='all')
@@ -77,11 +75,11 @@ def create_title_file(manifest_file_path, output_filename):
     title_file = convert_to_title_file(manifest)
 
     # Optionally split by lanes
-    if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
+    if len(title_file[MANIFEST__LANE_COLUMN].unique()) > 1:
         path, filename = os.path.split(output_filename)
 
-        for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
-            title_file_sub = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
+        for lane in title_file[MANIFEST__LANE_COLUMN].unique():
+            title_file_sub = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
             output_filename = 'lane-{}_'.format(lane) + filename
             output_file_path = os.path.join(path, output_filename)
             title_file_sub.to_csv(output_file_path, sep='\t', index=False)

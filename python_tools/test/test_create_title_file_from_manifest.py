@@ -1,8 +1,6 @@
 import shutil
 import unittest
 
-import pandas as pd
-
 from constants import *
 from util import read_df
 from python_tools.pipeline_kickoff import create_title_file_from_manifest
@@ -41,4 +39,4 @@ class Tests(unittest.TestCase):
 
         title_file = read_df('./test_output/test_title_file.txt', header='infer')
         # Test that SampleRenames column was used correctly
-        assert title_file.ix[0, TITLE_FILE__SAMPLE_ID_COLUMN] == 'test_sample_2_T'
+        assert title_file.ix[0, SAMPLE_ID_COLUMN] == 'test_sample_2_T'

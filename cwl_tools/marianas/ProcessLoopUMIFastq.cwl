@@ -47,7 +47,7 @@ inputs:
 
   # Since IGO uses the INVESTIGATOR_SAMPLE_IDs,
   # we need to change these to the CMO_SAMPLE_IDs
-  investigator_sample_id: string
+  # (which are the same as our sample read group IDs)
   add_rg_SM: string
 
 outputs:

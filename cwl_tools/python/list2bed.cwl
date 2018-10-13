@@ -16,8 +16,6 @@ inputs:
     type:
     - string
     - File
-    - type: array
-      items: string
     inputBinding:
       prefix: --input_file
 
@@ -30,7 +28,7 @@ inputs:
 
   output_filename:
     type: string
-    doc: output bed file
+    doc: Name for the output bed file
     inputBinding:
       prefix: --output_file
 

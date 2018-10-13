@@ -6,6 +6,7 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_tools/schemas.yaml

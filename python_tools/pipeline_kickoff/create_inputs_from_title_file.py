@@ -102,10 +102,10 @@ def perform_duplicate_barcodes_check(title_file):
     Note that this only works when performing this check on an individual lane,
     as barcodes may be reused across lanes.
     """
-    if np.sum(title_file[TITLE_FILE__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
+    if np.sum(title_file[MANIFEST__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1. Exiting.')
 
-    if np.sum(title_file[TITLE_FILE__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
+    if np.sum(title_file[MANIFEST__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane.')
 
 
@@ -133,7 +133,7 @@ def get_pos(title_file, fastq_object):
             return 0
 
     # Samples from IGO will use the COLLAB_ID
-    boolv = title_file[TITLE_FILE__COLLAB_ID_COLUMN].apply(contained_in, fastq=fastq_object)
+    boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=fastq_object)
 
     if np.sum(boolv) > 1:
         raise Exception('More than one fastq found for patient, exiting.')
@@ -167,8 +167,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
     # Todo: Should we instead raise an error and not continue?
     """
-    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]])
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
@@ -188,9 +188,9 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
-    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq1)
-    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq2)
-    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), sample_sheet)
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
 
@@ -230,8 +230,8 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
     :return:
     """
     i5_sequencer_types = []
-    for sample_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__COLLAB_ID_COLUMN] == sample_id]
+    for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
@@ -244,7 +244,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
             print('Index2 not found in SampleSheet.csv. Skipping i5 barcode index validation.')
             return
 
-        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
+        title_file_i5 = cur_sample[MANIFEST__BARCODE_INDEX_2_COLUMN].values[0]
         i5_sequencer_types.append(check_i5_index(title_file_i5, sample_sheet_i5))
 
     all_non_reverse_complemented = all([match_type == NON_REVERSE_COMPLEMENTED for match_type in i5_sequencer_types])
@@ -271,9 +271,9 @@ def perform_barcode_index_checks(title_file, sample_sheets):
     :return:
     """
     # i7 (Index1) checks
-    for sample_id in title_file[TITLE_FILE__COLLAB_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__COLLAB_ID_COLUMN] == sample_id]
-        title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
+    for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
+        title_file_i7 = cur_sample[MANIFEST__BARCODE_INDEX_1_COLUMN].values[0]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
 
@@ -325,22 +325,18 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'adapter': [ADAPTER_1] * len(fastq1),
         'adapter2': [ADAPTER_2] * len(fastq2),
 
-        # IGO uses the INVESTIGATOR_SAMPLE_ID for the fastq names,
-        # but we want to convert this to the CMO_SAMPLE_ID
-        'investigator_sample_id': title_file[TITLE_FILE__COLLAB_ID_COLUMN].tolist(),
-
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
         # or abbreviate it (might be the way they do it in Roslin)
-        'add_rg_ID': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_SM': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_LB': title_file[TITLE_FILE__LANE_COLUMN].tolist(),
+        'add_rg_ID': title_file[SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_SM': title_file[SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_LB': title_file[MANIFEST__LANE_COLUMN].tolist(),
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
-        'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
+        'add_rg_PU': title_file[MANIFEST__BARCODE_ID_COLUMN].tolist(),
 
         # Patient ID needs to be a string, in case it is currently an integer
-        'patient_id': [str(p) for p in title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()]
+        'patient_id': [str(p) for p in title_file[SAMPLE_ID_COLUMN].tolist()]
     }
 
     # Trim whitespace
@@ -398,18 +394,6 @@ def include_run_params(fh, run_params_path):
         other_params = ruamel.yaml.round_trip_load(stream)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_resource_overrides(fh):
-    """
-    Load and write our ResourceRequirement overrides for testing
-
-    :param fh: File handle for pipeline yaml inputs
-    """
-    with open(RESOURCE_OVERRIDES_FILE_PATH, 'r') as stream:
-        resource_overrides = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(resource_overrides))
 
 
 def include_tool_resources(fh, tool_resources_file_path):
@@ -604,22 +588,22 @@ def perform_validation(title_file):
     4. Sex is one of ['Male, 'M', 'Female', 'F']
     5. Sample Class is in ['Tumor', 'Normal']
     """
-    if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
+    if np.sum(title_file[SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample IDs. Exiting.')
 
-    if np.sum(title_file[TITLE_FILE__COLLAB_ID_COLUMN].duplicated()) > 0:
-        raise Exception(DELIMITER + 'Duplicate collab IDs. Exiting.')
+    if np.sum(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].duplicated()) > 0:
+        raise Exception(DELIMITER + 'Duplicate investigator sample IDs. Exiting.')
 
-    for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
-        lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
+    for lane in title_file[MANIFEST__LANE_COLUMN].unique():
+        lane_subset = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
 
-        if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
+        if np.sum(lane_subset[MANIFEST__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
 
-    if np.sum(title_file[TITLE_FILE__CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
+    if np.sum(title_file[MANIFEST__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
+    if np.sum(title_file[MANIFEST__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
 
@@ -651,7 +635,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index(drop=True)
+    title_file = title_file.sort_values(MANIFEST__CMO_PATIENT_ID_COLUMN).reset_index(drop=True)
 
     # Perform some sanity checks on the title file
     if not args.force:

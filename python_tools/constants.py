@@ -18,30 +18,19 @@ RUN_TOOLS_FOLDER                    = os.path.join(RESOURCES_FOLDER, 'run_tools'
 TEST                                = 'test.yaml'
 LOCAL                               = 'local.yaml'
 PRODUCTION                          = 'production.yaml'
-TEST_COLLAPSING                     = 'test__collapsing.yaml'
-LOCAL_COLLAPSING                    = 'local__collapsing.yaml'
-PRODUCTION_COLLAPSING               = 'production__collapsing.yaml'
 
 # Run Files
 RUN_FILES                           = os.path.join(RUN_FILES_FOLDER, PRODUCTION)
-RUN_FILES_COLLAPSING                = os.path.join(RUN_FILES_FOLDER, PRODUCTION_COLLAPSING)
 RUN_FILES_TEST                      = os.path.join(RUN_FILES_FOLDER, TEST)
-RUN_FILES_TEST_COLLAPSING           = os.path.join(RUN_FILES_FOLDER, TEST_COLLAPSING)
 RUN_FILES_LOCAL                     = os.path.join(RUN_FILES_FOLDER, LOCAL)
-RUN_FILES_LOCAL_COLLAPSING          = os.path.join(RUN_FILES_FOLDER, LOCAL_COLLAPSING)
 
 # Run Parameters
 RUN_PARAMS                          = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION)
-RUN_PARAMS_COLLAPSING               = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION_COLLAPSING)
 RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
-RUN_PARAMS_TEST_COLLAPSING          = os.path.join(RUN_PARAMS_FOLDER, TEST_COLLAPSING)
 
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
-
-# Resource Overrides
-RESOURCE_OVERRIDES_FILE_PATH        = os.path.join(ROOT_DIR, 'resources/resource_overrides.cwl')
 
 
 ############################################
@@ -50,6 +39,9 @@ RESOURCE_OVERRIDES_FILE_PATH        = os.path.join(ROOT_DIR, 'resources/resource
 
 # Manifest Columns
 MANIFEST__BARCODE_ID_COLUMN                 = 'BARCODE_ID'
+# Todo: use "P5", "P7"
+MANIFEST__BARCODE_INDEX_1_COLUMN            = 'BARCODE_INDEX_1'
+MANIFEST__BARCODE_INDEX_2_COLUMN            = 'BARCODE_INDEX_2'
 MANIFEST__CAPTURE_NAME_COLUMN               = 'CAPTURE_NAME'
 MANIFEST__CMO_SAMPLE_ID_COLUMN              = 'CMO_SAMPLE_ID'
 MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN     = 'INVESTIGATOR_SAMPLE_ID'
@@ -61,54 +53,26 @@ MANIFEST__LIBRARY_YIELD_COLUMN              = 'LIBRARY_YIELD[ng]'
 MANIFEST__CAPTURE_INPUT_COLUMN              = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN           = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN                        = 'SEX'
-# Todo: Communicate to Xiaohong about including this column, in ALL CAPS like other columns
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
 
-# Use barcode index column as well,
-# for adapter sequences.
-# Todo: use "P5", "P7"
-MANIFEST__BARCODE_INDEX_1_COLUMN              = 'BARCODE_INDEX_1'
-MANIFEST__BARCODE_INDEX_2_COLUMN              = 'BARCODE_INDEX_2'
-
-# Title File columns
-TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
-TITLE_FILE__POOL_COLUMN                     = 'Pool'
-TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
-TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
-TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
-TITLE_FILE__CLASS_COLUMN                    = 'Class'
-TITLE_FILE__SAMPLE_TYPE_COLUMN              = 'Sample_type'
-TITLE_FILE__INPUT_NG_COLUMN                 = 'Input_ng'
-TITLE_FILE__LIBRARAY_YIELD_COLUMN           = 'Library_yield'
-TITLE_FILE__POOL_INPUT_COLUMN               = 'Pool_input'
-TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
-TITLE_FILE__SEX_COLUMN                      = 'Sex'
-
-TITLE_FILE__BARCODE_INDEX_1_COLUMN            = 'Barcode_index_1'
-TITLE_FILE__BARCODE_INDEX_2_COLUMN            = 'Barcode_index_2'
-
-# Todo: ok to have 'Lane' colunn?
-TITLE_FILE__LANE_COLUMN = 'Lane'
-
-# Map MANIFEST --> TITLE_FILE
-# Use OrderedDict to keep ordering for keys() and values()
-columns_map = OrderedDict([
-    (MANIFEST__BARCODE_ID_COLUMN                 , TITLE_FILE__BARCODE_ID_COLUMN),
-    (MANIFEST__CAPTURE_NAME_COLUMN               , TITLE_FILE__POOL_COLUMN),
-    (MANIFEST__CMO_SAMPLE_ID_COLUMN              , TITLE_FILE__SAMPLE_ID_COLUMN),
-    (MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN     , TITLE_FILE__COLLAB_ID_COLUMN),
-    (MANIFEST__CMO_PATIENT_ID_COLUMN             , TITLE_FILE__PATIENT_ID_COLUMN),
-    (MANIFEST__SAMPLE_CLASS_COLUMN               , TITLE_FILE__CLASS_COLUMN),
-    (MANIFEST__SAMPLE_TYPE_COLUMN                , TITLE_FILE__SAMPLE_TYPE_COLUMN),
-    (MANIFEST__LIBRARY_INPUT_COLUMN              , TITLE_FILE__INPUT_NG_COLUMN),
-    (MANIFEST__LIBRARY_YIELD_COLUMN              , TITLE_FILE__LIBRARAY_YIELD_COLUMN),
-    (MANIFEST__CAPTURE_INPUT_COLUMN              , TITLE_FILE__POOL_INPUT_COLUMN),
-    (MANIFEST__CAPTURE_BAIT_SET_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
-    (MANIFEST__SEX_COLUMN                        , TITLE_FILE__SEX_COLUMN),
-    (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
-    (MANIFEST__BARCODE_INDEX_2_COLUMN            , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
-    (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
-])
+# Only need these columns for pipeline
+relevant_title_file_columns = [
+    MANIFEST__BARCODE_ID_COLUMN,
+    MANIFEST__CAPTURE_NAME_COLUMN,
+    MANIFEST__CMO_SAMPLE_ID_COLUMN,
+    MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN,
+    MANIFEST__CMO_PATIENT_ID_COLUMN,
+    MANIFEST__SAMPLE_CLASS_COLUMN,
+    MANIFEST__SAMPLE_TYPE_COLUMN,
+    MANIFEST__LIBRARY_INPUT_COLUMN,
+    MANIFEST__LIBRARY_YIELD_COLUMN,
+    MANIFEST__CAPTURE_INPUT_COLUMN,
+    MANIFEST__CAPTURE_BAIT_SET_COLUMN,
+    MANIFEST__SEX_COLUMN,
+    MANIFEST__BARCODE_INDEX_1_COLUMN,
+    MANIFEST__BARCODE_INDEX_2_COLUMN,
+    MANIFEST__LANE_COLUMN,
+]
 
 
 ##############################
@@ -119,7 +83,6 @@ NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
 
 
-
 ##########################
 # Constants for QC files #
 ##########################
@@ -127,10 +90,10 @@ REVERSE_COMPLEMENTED = 1
 # Avoid division by zero errors
 EPSILON = 1e-9
 
-# WALTZ Metrics Files Constants
+# Shorter reference to sample ID column, to be used everywhere
+SAMPLE_ID_COLUMN = MANIFEST__CMO_SAMPLE_ID_COLUMN
 
-# Use same string for sample ID everywhere
-SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
+# WALTZ Metrics Files Constants
 
 # File suffixes
 WALTZ_READ_COUNTS_FILENAME_SUFFIX = '.read-counts'
@@ -267,7 +230,6 @@ GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_b
 # Output file names
 read_counts_filename = 'read-counts-agg.txt'
 coverage_agg_filename = 'coverage-agg.txt'
-all_samples_coverage_filename = 'GC-bias-with-coverage-averages-over-all-samples.txt'
 each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
 gc_bias_with_coverage_filename = 'GC-bias-with-coverage.txt'
 read_counts_total_filename = 'read-counts-total.txt'
@@ -276,7 +238,6 @@ coverage_per_interval_filename = 'coverage-per-interval.txt'
 ALL_TABLES_MODULE_OUTPUT_FILES = [
     read_counts_filename,
     coverage_agg_filename,
-    all_samples_coverage_filename,
     each_sample_coverage_filename,
     gc_bias_with_coverage_filename,
     read_counts_total_filename,
@@ -288,7 +249,7 @@ ALL_TABLES_MODULE_OUTPUT_FILES = [
 # Noise #
 #########
 
-NOISE_HEADER = ['Sample', 'GenotypeCount', 'AltCount', 'AltPercent', 'ContributingSites', 'Method']
+NOISE_HEADER = [SAMPLE_ID_COLUMN, 'GenotypeCount', 'AltCount', 'AltPercent', 'ContributingSites', 'Method']
 
 
 ########################

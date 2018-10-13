@@ -16,15 +16,13 @@ fi
 
 cutOffAF=0.02
 
-echo -e "Sample\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise.txt
-echo -e "Sample\tSubstitution\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise-by-substitution.txt
+echo -e "CMO_SAMPLE_ID\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise.txt
+echo -e "CMO_SAMPLE_ID\tSubstitution\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise-by-substitution.txt
 
 
 for f in `ls *-pileup.txt`
 do
   sampleName=`basename $f`
-  sampleName=${sampleName/-IGO*/}
-  sampleName=${sampleName/_IGO*/}
 
   awk -v sample=$sampleName -v goodPositionsFile="$goodPositionsFile" -v cutOffAF=$cutOffAF 'BEGIN{FS=OFS="\t"; if(goodPositionsFile!=""){while(getline < goodPositionsFile){goodPositions[$0]=$0}}}{if(length(goodPositions)>0 && goodPositions[$1"\t"$2]==null) next; max=-1; genotype=-1; total=$5+$6+$7+$8; for(i=5; i<=8; i++){if($i>max){max=$i; genotype=i}} for(i=5; i<=8; i++){if(i==genotype) continue; if($i>=total*cutOffAF) next} genotypeCount+=max; altCount+=(total-max); if(total-max>0){contributingSites++}}END{print sample, genotypeCount, altCount, 100*altCount/(genotypeCount+altCount), contributingSites, "Total" }' $f >> noise.txt
 
