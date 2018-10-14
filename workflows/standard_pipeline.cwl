@@ -47,7 +47,6 @@ inputs:
   add_rg_ID: string[]
   add_rg_PU: string[]
   add_rg_SM: string[]
-  investigator_sample_id: string[]
 
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File

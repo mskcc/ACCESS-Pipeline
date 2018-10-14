@@ -25,7 +25,7 @@ plot_read_pairs_count = function(data) {
   # Because the values for read counts are the same for both Pool A and Pool B, we just pick one
   data = filter(data, pool == 'A Targets')
   
-  g = ggplot(data, aes(x = paste(SAMPLE_ID_COLUMN), y = read_pairs)) + 
+  g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'read_pairs')) + 
     geom_bar(stat='identity') + 
     ggtitle('Read Pairs') +
     scale_y_continuous('Count', label=format_comma) +
@@ -40,15 +40,8 @@ plot_read_pairs_count = function(data) {
 plot_align_genome = function(data) {
   data$AlignFrac = as.numeric(data$AlignFrac)
   
-  # Choose the grouping variable
-  if (paste(TITLE_FILE__SAMPLE_CLASS_COLUMN) %in% colnames(data)) {
-    fill_var = paste(TITLE_FILE__SAMPLE_CLASS_COLUMN)
-  } else {
-    fill_var = paste(SAMPLE_ID_COLUMN)
-  }
-  
-  g = ggplot(data, aes(x=paste(SAMPLE_ID_COLUMN), y=AlignFrac)) +
-    geom_bar(position='dodge', stat='identity', aes_string(fill=fill_var)) +
+  g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'AlignFrac')) +
+    geom_bar(position='dodge', stat='identity', aes_string(fill = TITLE_FILE__SAMPLE_CLASS_COLUMN)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma) + 
     coord_cartesian(ylim=c(0.8, 1)) +
@@ -169,13 +162,14 @@ plot_gc_with_cov_each_sample = function(data, sort_order) {
 #' Plot the distribution of insert sizes (a.k.a. fragment lengths),
 #' as well as most frequent insert sizes
 #' @param insertSizes data.frame of Sample, FragmentSize, TotalFrequency, UniqueFrequency
-plot_insert_size_distribution = function(insertSizes) {
-  insertSizes = insertSizes %>%
+plot_insert_size_distribution = function(insert_sizes) {
+  
+  insert_sizes = insert_sizes %>%
     group_by_(SAMPLE_ID_COLUMN) %>%
     mutate(total_frequency_fraction = TotalFrequency / sum(TotalFrequency)) %>%
     ungroup()
   
-  peaks = insertSizes %>% 
+  peaks = insert_sizes %>% 
     group_by_(SAMPLE_ID_COLUMN) %>%
     filter(TotalFrequency == max(TotalFrequency))
   
@@ -185,13 +179,18 @@ plot_insert_size_distribution = function(insertSizes) {
   peaks = peaks[, c('peak', 'peak_insert_size', SAMPLE_ID_COLUMN)]
   
   # Put peak alongside Sample ID in legend
-  insertSizes = insertSizes %>%
-    inner_join(peaks, by=paste(SAMPLE_ID_COLUMN)) %>%
-    mutate(sample_and_peak = paste(SAMPLE_ID_COLUMN, peak_insert_size, sep=', '))
+  insert_sizes = insert_sizes %>%
+    inner_join(peaks, by = paste(SAMPLE_ID_COLUMN))
   
-  g = ggplot(insertSizes, aes(x=FragmentSize, y=total_frequency_fraction, colour=sample_and_peak)) +
-    geom_line(size=0.5) +
-    ggtitle('Insert Size Distribution (from All Unique reds, Pool A)') +
+  insert_sizes$sample_and_peak = paste(
+    insert_sizes[[SAMPLE_ID_COLUMN]],
+    insert_sizes$peak_insert_size,
+    sep=', '
+  )
+  
+  g = ggplot(insert_sizes, aes(x = FragmentSize, y = total_frequency_fraction, colour = sample_and_peak)) +
+    geom_line(size = 0.5) +
+    ggtitle('Insert Size Distribution (from All Unique reads, Pool A)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     labs(colour = 'Sample, Peak Insert Size') +
@@ -208,11 +207,11 @@ plot_insert_size_distribution = function(insertSizes) {
 #' @param data data.frame with Sample ID, and coverage columns (one entry for each interval)
 plot_cov_dist_per_interval_line = function(data) {
   data = data %>%
-    group_by(paste(SAMPLE_ID_COLUMN)) %>%
+    group_by_(SAMPLE_ID_COLUMN) %>%
     mutate(coverage_scaled = coverage / median(coverage))
   
   g = ggplot(data) +
-    geom_line(aes(x=coverage_scaled, colour=paste(SAMPLE_ID_COLUMN)), stat='density') +
+    geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +
     ggtitle('Distribution of Coverages per Target Interval (from All Unique Reads, Pool A)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
@@ -235,21 +234,24 @@ plot_family_types <- function(family_types_A, family_types_B) {
   family_types_all = bind_rows(family_types_A, family_types_B)
   family_types_all[is.na(family_types_all)] <- 0
   
-  family_types_all$Type = factor(family_types_all$Type, levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons'))
+  family_types_all$Type = factor(
+    family_types_all$Type, 
+    levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons')
+  )
   
   # Convert to % family sizes
   family_types_all = family_types_all %>%
-    group_by(paste(SAMPLE_ID_COLUMN, Pool)) %>%
+    group_by_(SAMPLE_ID_COLUMN, 'Pool') %>%
     mutate(CountPercent = Count / sum(Count))
   
   # Sort again by class after groupBy
-  family_types_all[SAMPLE_ID_COLUMN] = factor(
-    family_types_all[SAMPLE_ID_COLUMN],
-    levels=unique(unlist(family_types_all[SAMPLE_ID_COLUMN]))
+  family_types_all[[SAMPLE_ID_COLUMN]] = factor(
+    family_types_all[[SAMPLE_ID_COLUMN]],
+    levels = unique(unlist(family_types_all[[SAMPLE_ID_COLUMN]]))
   )
   
   g = ggplot(family_types_all, aes_string(x = SAMPLE_ID_COLUMN, y = 'CountPercent')) +
-    geom_bar(position=position_fill(reverse = TRUE), stat='identity', aes(fill=Type)) + 
+    geom_bar(position = position_fill(reverse = TRUE), stat='identity', aes(fill = Type)) + 
     facet_grid(Pool ~ ., scales='free') +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
     MAIN_PLOT_THEME
