@@ -94,16 +94,16 @@ print_title = function(title_df, coverage_df, inputs_yaml) {
 #' @param inputs_yaml yaml file with inputs to pipeline
 print_inputs <- function(inputs_yaml) {
   # Define the output PDF file
-  pdf(file = 'pipeline_inputs.pdf', height=26, width=8, onefile=TRUE)
+  pdf(file = 'pipeline_inputs.pdf', height = 26, width = 8, onefile = TRUE)
   
   inputs_theme = ttheme_default(
-    core=list(fg_params=list(hjust=0, x=0.05)),
-    rowhead=list(fg_params=list(hjust=0, x=0)),
-    base_size=5,
-    base_colour='black',
-    base_family='',
-    parse=FALSE,
-    padding=unit(c(4, 2), 'mm'))
+    core = list(fg_params = list(hjust = 0, x = 0.05)),
+    rowhead = list(fg_params  = list(hjust = 0, x = 0)),
+    base_size = 5,
+    base_colour = 'black',
+    base_family = '',
+    parse = FALSE,
+    padding = unit(c(4, 2), 'mm'))
   
   mat = matrix(ncol=2)
   for (name in names(inputs_yaml)) {
@@ -112,9 +112,7 @@ print_inputs <- function(inputs_yaml) {
     value = gsub('File\n', '', value)
     mat = rbind(mat, c(toString(name), value))
   }
-  # Todo: newpage shouldn't be necessary
-  grid.newpage()
-  grid.table(mat, theme=inputs_theme)
+  grid.table(mat, theme = inputs_theme)
   
   dev.off()
 }
