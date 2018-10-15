@@ -113,20 +113,18 @@ steps:
       fastq1: fastq1
       fastq2: fastq2
       sample_sheet: sample_sheet
+      add_rg_SM: add_rg_SM
       umi_length:
         valueFrom: $(inputs.params.umi_length)
       output_project_folder:
         valueFrom: $(inputs.params.output_project_folder)
-
-      investigator_sample_id: investigator_sample_id
-      add_rg_SM: add_rg_SM
 
     out: [
       processed_fastq_1,
       processed_fastq_2,
       clipping_info,
       clipping_dir]
-    scatter: [fastq1, fastq2, sample_sheet, investigator_sample_id, add_rg_SM]
+    scatter: [fastq1, fastq2, sample_sheet, add_rg_SM]
     scatterMethod: dotproduct
 
   ####################
