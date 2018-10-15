@@ -1,1 +1,0 @@
-Sample	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
