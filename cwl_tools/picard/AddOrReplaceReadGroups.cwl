@@ -29,13 +29,13 @@ inputs:
       separate: false
 
   O:
-    type: string?
+    type: string
     doc: Output file (bam or sam).
-    default: $(inputs.input_sam.basename.replace(".sam", "_srt.bam"))
+    default: $(inputs.input_sam.basename.replace('.sam', '_srt.bam'))
     inputBinding:
       prefix: O=
       separate: false
-      valueFrom: $(inputs.input_sam.basename.replace(".sam", "_srt.bam"))
+      valueFrom: $(inputs.input_sam.basename.replace('.sam', '_srt.bam'))
 
   sort_order:
     type: string
@@ -109,7 +109,7 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $(inputs.input_sam.basename.replace(".sam", "_srt.bam"))
+      glob: $(inputs.input_sam.basename.replace('.sam', '_srt.bam'))
 
   bai:
     type: File
