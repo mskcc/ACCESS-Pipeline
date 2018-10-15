@@ -138,7 +138,7 @@ plot_on_bait = function(data) {
 #' Plot Coverage vs %GC content, separately for each sample
 #' (for each collapsing method)
 #' @param data data.frame with the usual columns
-plot_gc_with_cov_each_sample = function(data, sort_order) {
+plot_gc_with_cov_each_sample = function(data) {
   data = data[complete.cases(data[, 'coverage']),]
   
   # Only plot for Total and All Unique

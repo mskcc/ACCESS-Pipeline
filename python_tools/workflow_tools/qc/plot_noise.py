@@ -10,7 +10,6 @@ import matplotlib
 matplotlib.use('Agg')
 
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 from ...util import read_df, extract_sample_name, autolabel
@@ -71,12 +70,12 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    noise_table = pd.read_csv(args.noise_file, sep='\t').fillna(0)
+    noise_table = read_df(args.noise_file, header='infer').fillna(0)
     title_file = read_df(args.title_file, header='infer')
 
-    logging.info('Plotting Noise:')
-    logging.info(noise_table)
-    logging.info(title_file)
+    print('Plotting Noise:')
+    print(noise_table)
+    print(title_file)
 
     # Filter to just Total reads noise counts
     noise_table = noise_table[noise_table['Method'] == 'Total']
@@ -84,12 +83,20 @@ def main():
     # Cleanup sample IDs (in Noise table as well as Title File)
     sample_ids = title_file[SAMPLE_ID_COLUMN].tolist()
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
-    title_file[SAMPLE_ID_COLUMN] = title_file[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
+
+    # Merge noise with title file
+    noise_and_title_file = noise_table.merge(title_file, on = SAMPLE_ID_COLUMN)
 
     # Filter to Plasma samples
-    plasma_samples = title_file[title_file[SAMPLE_ID_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
-    boolv = noise_table[SAMPLE_ID_COLUMN].isin(plasma_samples)
-    noise_table = noise_table.loc[boolv]
+    plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
+    boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+    noise_and_title_file = noise_and_title_file.loc[boolv]
 
-    noise_alt_percent_plot(noise_table)
-    noise_contributing_sites_plot(noise_table)
+    # Sort in same order as R code (by sample class)
+    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
+
+    print('Noise Table:')
+    print(noise_and_title_file)
+
+    noise_alt_percent_plot(noise_and_title_file)
+    noise_contributing_sites_plot(noise_and_title_file)
