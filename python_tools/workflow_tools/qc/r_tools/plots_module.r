@@ -155,20 +155,21 @@ main = function() {
     header = TRUE, 
     colClasses = c('SEX' = 'character')
   )
+  title_df = title_df[order(title_df[TITLE_FILE__SAMPLE_CLASS_COLUMN]),]
   print('Title dataframe:')
   print(title_df)
   
   # Title file sample colunn is used as sort order
-  sort_order = as.character(unlist(title_df[SAMPLE_ID_COLUMN]))
-  print('Sample Sort Order:')
-  print(sort_order)
+  sample_ids = as.character(unlist(title_df[SAMPLE_ID_COLUMN]))
+  print('Sample IDs Order:')
+  print(sample_ids)
   
   # Read in tables
   df_list = read_tables(tables_output_dir, family_types_A_path, family_types_B_path, family_sizes_path)
   print('Dataframes 0:')
   lapply(df_list, function(x) {print(head(x))})
   # Fix sample names
-  df_list = lapply(df_list, cleanup_sample_names, sort_order)
+  df_list = lapply(df_list, cleanup_sample_names, sample_ids)
   print("Dataframes 1:")
   lapply(df_list, function(x) {print(head(x))})
   # Merge in the title file data by sample id
@@ -176,7 +177,7 @@ main = function() {
   print('Dataframes 2:')
   lapply(df_list, function(x) {print(head(x))})
   # Sort by sample class
-  df_list = lapply(df_list, sort_df, paste(TITLE_FILE__SAMPLE_CLASS_COLUMN))
+  df_list = lapply(df_list, sort_df, TITLE_FILE__SAMPLE_CLASS_COLUMN)
   print('Dataframes 3:')
   lapply(df_list, function(x) {print(head(x))})
   
@@ -209,7 +210,7 @@ main = function() {
   plot_insert_size_distribution(insert_sizes)
   plot_cov_dist_per_interval_line(cov_per_interval)
   plot_mean_cov(mean_cov_data)
-  plot_gc_with_cov_each_sample(gc_each_sample, sort_order)
+  plot_gc_with_cov_each_sample(gc_each_sample)
   plot_family_types(family_types_A, family_types_B)
   plot_family_curves(families)
   
