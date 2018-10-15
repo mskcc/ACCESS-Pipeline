@@ -111,7 +111,7 @@ These steps should be run from a new directory, but still while inside your virt
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -o inputs.yaml -t -c
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../Innovation-Pipeline/test/test_data/umi-T_N-PanCancer -p TEST_run -o inputs.yaml -t
 ```
 
 ### 3. Run the test pipeline
@@ -154,7 +154,7 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`. Note that if there are multiple lanes in the manifest the first script will create multiple title files on a per-lane basis.
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
-(access_pipeline_0.0.26) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -c -o inputs_lane_5.yaml
+(access_pipeline_0.0.26) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -p 5500-ES_lane-5 -o inputs_lane_5.yaml
 ```
 
 ### 2. Use the pipeline runner/submit scripts
