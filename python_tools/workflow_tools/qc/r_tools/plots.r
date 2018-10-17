@@ -213,7 +213,7 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
   full_coverage_df = full_coverage_df %>% arrange(total_or_collapsed, method)
   
   avg_coverage_plot = ggplot(full_coverage_df, aes_string(x = SAMPLE_ID_COLUMN, y = 'average_coverage')) +
-    facet_grid(pool + total_or_collapsed ~ . , scales='free') +
+    facet_grid(total_or_collapsed ~ . , scales='free') +
     geom_bar(position = 'stack', stat = 'identity', aes(fill = method)) +
     ggtitle('Average Coverage per Sample') +
     scale_y_continuous('Average Coverage', label = format_comma) +
@@ -246,8 +246,7 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
   )
   
   family_types_plot = ggplot(family_types_data, aes_string(x = SAMPLE_ID_COLUMN, y = 'CountPercent')) +
-    geom_bar(position = position_fill(reverse = TRUE), stat = 'identity', aes(fill = Type)) + 
-    facet_grid(Pool ~ ., scales = 'free') +
+    geom_bar(position = position_fill(reverse = TRUE), stat = 'identity', aes(fill = Type)) +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
     MAIN_PLOT_THEME
   
