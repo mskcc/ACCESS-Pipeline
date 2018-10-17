@@ -251,17 +251,17 @@ steps:
     out: [
       read_counts,
       align_rate,
-      mean_cov,
       on_target_rate,
       gc_cov_each_sample,
       insert_sizes,
       coverage_per_interval,
       title_page,
-      pipeline_inputs,
-      family_types,
+      cov_and_family_type_A,
+      cov_and_family_type_B,
       family_sizes_all,
       family_sizes_simplex,
-      family_sizes_duplex]
+      family_sizes_duplex,
+      pipeline_inputs]
 
   #######################################
   # Combine FP, Noise, & Std qc results #
@@ -271,16 +271,15 @@ steps:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
     in:
       project_name: project_name
+      title_page: main_plots_module/title_page
       read_counts: main_plots_module/read_counts
       align_rate: main_plots_module/align_rate
-      mean_cov: main_plots_module/mean_cov
       on_target_rate: main_plots_module/on_target_rate
       gc_cov_each_sample: main_plots_module/gc_cov_each_sample
       insert_sizes: main_plots_module/insert_sizes
       coverage_per_interval: main_plots_module/coverage_per_interval
-      title_page: main_plots_module/title_page
-      pipeline_inputs: main_plots_module/pipeline_inputs
-      family_types: main_plots_module/family_types
+      cov_and_family_type_A: main_plots_module/cov_and_family_type_A
+      cov_and_family_type_B: main_plots_module/cov_and_family_type_B
       family_sizes_all: main_plots_module/family_sizes_all
       family_sizes_simplex: main_plots_module/family_sizes_simplex
       family_sizes_duplex: main_plots_module/family_sizes_duplex
@@ -288,6 +287,7 @@ steps:
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
+      pipeline_inputs: main_plots_module/pipeline_inputs
     out:
       [combined_qc]
 
