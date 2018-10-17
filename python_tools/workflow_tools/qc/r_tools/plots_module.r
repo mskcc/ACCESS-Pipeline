@@ -209,9 +209,11 @@ main = function() {
   plot_on_bait(read_counts_data)
   plot_insert_size_distribution(insert_sizes)
   plot_cov_dist_per_interval_line(cov_per_interval)
-  plot_mean_cov(mean_cov_data)
   plot_gc_with_cov_each_sample(gc_each_sample)
-  plot_family_types(family_types_A, family_types_B)
+  
+  plot_mean_cov_and_family_types(mean_cov_data, family_types_A, 'A Targets', 'a_targets')
+  plot_mean_cov_and_family_types(mean_cov_data, family_types_B, 'B Targets', 'b_targets')
+  
   plot_family_curves(families)
   
   # Print the inputs and parameters
