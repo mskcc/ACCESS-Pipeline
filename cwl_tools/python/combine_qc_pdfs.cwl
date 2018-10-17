@@ -46,12 +46,12 @@ inputs:
     inputBinding:
       position: 7
 
-  mean_cov:
+  cov_and_family_type_A:
     type: File
     inputBinding:
       position: 8
 
-  family_types:
+  cov_and_family_type_B:
     type: File
     inputBinding:
       position: 9

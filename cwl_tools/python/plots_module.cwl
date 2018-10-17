@@ -46,6 +46,11 @@ inputs:
 
 outputs:
 
+  title_page:
+    type: File
+    outputBinding:
+      glob: 'title_page.pdf'
+
   read_counts:
     type: File
     outputBinding:
@@ -55,11 +60,6 @@ outputs:
     type: File
     outputBinding:
       glob: 'align_rate.pdf'
-
-  mean_cov:
-    type: File
-    outputBinding:
-      glob: 'mean_cov.pdf'
 
   on_target_rate:
     type: File
@@ -81,20 +81,15 @@ outputs:
     outputBinding:
       glob: 'coverage_per_interval.pdf'
 
-  title_page:
+  cov_and_family_type_A:
     type: File
     outputBinding:
-      glob: 'title_page.pdf'
+      glob: 'a_targets_cov_and_family_types.pdf'
 
-  pipeline_inputs:
+  cov_and_family_type_B:
     type: File
     outputBinding:
-      glob: 'pipeline_inputs.pdf'
-
-  family_types:
-    type: File
-    outputBinding:
-      glob: 'family_types.pdf'
+      glob: 'b_targets_cov_and_family_types.pdf'
 
   family_sizes_all:
     type: File
@@ -110,3 +105,8 @@ outputs:
     type: File
     outputBinding:
       glob: 'family_sizes_duplex.pdf'
+
+  pipeline_inputs:
+    type: File
+    outputBinding:
+      glob: 'pipeline_inputs.pdf'
