@@ -39,7 +39,7 @@ source_local('constants.r')
 #' @param inputs_yaml pipeline inputs file
 print_title = function(title_df, coverage_df, inputs_yaml) {
   # Define the output PDF file
-  pdf(file = 'title_page.pdf', height=15, width=18, onefile=TRUE)
+  pdf(file = 'title_page.pdf', height=15, width=20, onefile=TRUE)
   
   # Round to one decimal place
   coverage_df$average_coverage = format(round(coverage_df$average_coverage, 1), nsmall = 1)
