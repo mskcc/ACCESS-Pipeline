@@ -9,7 +9,10 @@ dist
 
 resources/bedfiles
 resources/fingerprinting
-test/test_data/test_data_val_5
+
+# Ian's Local resources
+resources/run_files/local.yaml
+resources/run_tools/local.yaml
 
 # Ignore files that store current installation variables
 python_tools/root.py
