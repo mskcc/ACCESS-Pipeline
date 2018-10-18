@@ -54,9 +54,10 @@ MANIFEST__CAPTURE_INPUT_COLUMN              = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN           = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN                        = 'SEX'
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
+MANIFEST__PROJECT_ID_COLUMN                 = 'PROJECT_ID'
 
 # Only need these columns for pipeline
-relevant_title_file_columns = [
+manifest_columns = [
     MANIFEST__BARCODE_ID_COLUMN,
     MANIFEST__CAPTURE_NAME_COLUMN,
     MANIFEST__CMO_SAMPLE_ID_COLUMN,
@@ -72,6 +73,7 @@ relevant_title_file_columns = [
     MANIFEST__BARCODE_INDEX_1_COLUMN,
     MANIFEST__BARCODE_INDEX_2_COLUMN,
     MANIFEST__LANE_COLUMN,
+    MANIFEST__PROJECT_ID_COLUMN
 ]
 
 

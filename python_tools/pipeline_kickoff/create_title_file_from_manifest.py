@@ -31,7 +31,7 @@ def convert_to_title_file(manifest):
 
     # Select the columns we want from the manifest & rename them
     try:
-        title_file = sample_info.loc[:, relevant_title_file_columns]
+        title_file = sample_info.loc[:, manifest_columns]
     except KeyError as e:
         logging.error('Error, missing manifest columns')
         logging.error('Existing manifest columns:')
@@ -75,12 +75,12 @@ def create_title_file(manifest_file_path, output_filename):
     title_file = convert_to_title_file(manifest)
 
     # Optionally split by lanes
-    if len(title_file[MANIFEST__LANE_COLUMN].unique()) > 1:
+    if len(title_file[MANIFEST__PROJECT_ID_COLUMN].unique()) > 1:
         path, filename = os.path.split(output_filename)
 
-        for lane in title_file[MANIFEST__LANE_COLUMN].unique():
-            title_file_sub = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
-            output_filename = 'lane-{}_'.format(lane) + filename
+        for project_id in title_file[MANIFEST__PROJECT_ID_COLUMN].unique():
+            title_file_sub = title_file[title_file[MANIFEST__PROJECT_ID_COLUMN] == project_id]
+            output_filename = project_id + '_' + filename
             output_file_path = os.path.join(path, output_filename)
             title_file_sub.to_csv(output_file_path, sep='\t', index=False)
     else:

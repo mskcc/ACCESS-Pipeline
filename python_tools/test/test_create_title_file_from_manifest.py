@@ -28,8 +28,8 @@ class Tests(unittest.TestCase):
             './test_output/test_title_file.txt'
         )
 
-        assert os.path.exists('./test_output/lane-1_test_title_file.txt')
-        assert os.path.exists('./test_output/lane-2_test_title_file.txt')
+        assert os.path.exists('./test_output/Test_Project_test_title_file.txt')
+        assert os.path.exists('./test_output/Test_Project_test_title_file.txt')
 
     def test_sample_id_renaming(self):
         create_title_file_from_manifest.create_title_file(

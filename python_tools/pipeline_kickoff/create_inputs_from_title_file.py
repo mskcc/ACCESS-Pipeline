@@ -102,11 +102,14 @@ def perform_duplicate_barcodes_check(title_file):
     Note that this only works when performing this check on an individual lane,
     as barcodes may be reused across lanes.
     """
-    if np.sum(title_file[MANIFEST__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
-        raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1. Exiting.')
+    for lane in title_file[MANIFEST__LANE_COLUMN].unique():
+        lane_subset = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
 
-    if np.sum(title_file[MANIFEST__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
-        raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane.')
+        if np.sum(lane_subset[MANIFEST__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
+            raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
+
+        if np.sum(lane_subset[MANIFEST__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
+            raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
 def get_pos(title_file, fastq_object):
@@ -598,7 +601,7 @@ def perform_validation(title_file):
         lane_subset = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
 
         if np.sum(lane_subset[MANIFEST__BARCODE_ID_COLUMN].duplicated()) > 0:
-            raise Exception(DELIMITER + 'Duplicate barcode IDs. Exiting.')
+            raise Exception(DELIMITER + 'Duplicate barcode IDs in lane {}. Exiting.'.format(lane))
 
     if np.sum(title_file[MANIFEST__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')

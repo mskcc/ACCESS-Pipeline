@@ -106,6 +106,24 @@ def parse_arguments():
     return parser.parse_known_args()
 
 
+def get_project_name_and_pipeline_version_id(args):
+    """
+    Grab the project name and pipeline version from the run inputs file,
+    and return as dash-separated string.
+
+    :param args:
+    :return:
+    """
+    with open(args.inputs_file, 'r') as stream:
+        inputs_yaml = ruamel.yaml.round_trip_load(stream)
+
+    project_name = inputs_yaml['project_name']
+    pipeline_version = inputs_yaml['version']
+    project_and_version_id = '-'.join([project_name, pipeline_version])
+
+    return project_and_version_id
+
+
 def create_directories(args):
     """
     Create a simple output directory structure for the the pipeline, which will include:
@@ -115,21 +133,17 @@ def create_directories(args):
     - Temporary directories (deleted as per the cleanWorkDir parameter)
     - Jobstore directories (deleted as per cleanWorkDir parameter?)
     """
-
     output_location = args.output_location
-    # Grab the project name from the inputs file
-    with open(args.inputs_file, 'r') as stream:
-        inputs_yaml = ruamel.yaml.round_trip_load(stream)
-        
-    project_name = inputs_yaml['project_name']
+    project_and_version_id = get_project_name_and_pipeline_version_id(args)
 
     # Set output directory
-    output_directory = '{}/{}'.format(output_location, project_name)
+    output_directory = os.path.join(output_location, project_and_version_id)
     logdir = os.path.join(output_directory, 'log')
     tmpdir = '{}/tmp/'.format(output_directory)
 
     # Use existing jobstore, or create new one
     if args.restart:
+        print('Looking for existing jobstore directory to restart run...')
         job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))[0]
         jobstore_path = os.path.join(tmpdir, job_store_uuid)
     else:
