@@ -8,11 +8,7 @@ requirements:
   ResourceRequirement:
     # Todo: why does this step use so much disk?
     outdirMax: 300000
-<<<<<<< HEAD
     ramMin: 4000
-=======
-    ramMin: 1G
->>>>>>> ebf3eb3... ExpressionTool steps don't need 10G memory
 
 inputs:
 
