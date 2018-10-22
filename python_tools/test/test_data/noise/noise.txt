@@ -1,4 +1,4 @@
-Sample	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
+CMO_SAMPLE_ID	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
 XX-ntrk-001-pl-T30	116	10	.0004	1	Total
 XX-ntrk-001-pl-T31	116	15	.0003	2	Unique
 XX-ntrk-001-pl-T32	116	10	.0004	3	Total
