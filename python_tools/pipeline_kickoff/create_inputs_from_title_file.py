@@ -78,8 +78,10 @@ def load_fastqs(data_dir):
         print(DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. '
                           'Please manually check inputs.yaml')
 
-        print('All sample folders: ' + pprint.pprint(folders))
-        print('Sample folders with correct result files: ' + pprint.pprint(folders_4))
+        print('All sample folders:')
+        pprint.pprint(folders)
+        print('Sample folders with correct result files:')
+        pprint.pprint(folders_4)
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
@@ -608,6 +610,9 @@ def perform_validation(title_file):
 
     if np.sum(title_file[MANIFEST__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
+
+    if not np.issubdtype(title_file[MANIFEST__LANE_COLUMN], np.number):
+        raise Exception(DELIMITER + 'Lane column must be integers')
 
 
 def print_user_message():
