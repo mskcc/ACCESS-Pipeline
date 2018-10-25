@@ -7,7 +7,7 @@ import pandas as pd
 
 # constants include the paths to the config files
 from ..constants import *
-from ..util import reverse_complement
+from ..util import reverse_complement, strings_are_substrings
 
 
 ##################################
@@ -114,15 +114,42 @@ def perform_duplicate_barcodes_check(title_file):
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
+def check_multiple_sample_id_matches(title_file, boolv, fastq_object):
+    """
+    If we found multiple matching sample IDs in the path to a fastq, check that one is the "most correct" one, and
+    issue a warning to the user.
+
+    :return:
+    """
+    boolv = boolv.astype(bool)
+    matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
+
+    if strings_are_substrings(matching_sample_ids):
+        print(DELIMITER + 'Warning: There are two or more sample ids found in this fastq\'s path: {}'.format(
+            fastq_object))
+
+        print('Here are the suspicious sample IDs:')
+        print(matching_sample_ids)
+
+        print('We will choose the longest matching sample ID for this fastq, \
+                but please check that it is ordered with the correct RG_ID in the final inputs file.')
+
+        longest_match = max(matching_sample_ids, key=len)
+        return np.argmax(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == longest_match)
+
+    else:
+        raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(fastq_object['path']))
+
+
 def get_pos(title_file, fastq_object):
     """
-    Return position of `fastq_object` in 'Sample_ID' column of title_file
+    Return position of `fastq_object` in the Sample ID column of `title_file`
 
     Used for sorting the entries in the inputs file so that Scatter steps will pair the correct files
 
     :param: title_file pandas.DataFrame with all required title_file columns (see constants.py)
     :param: fastq_object dict with `class`: `File` and `path`: `path_to_fastq` as read in by ruamel.round_trip_load()
-    :raises: Exception if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
+    :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
             in the `title_file` match this fastq file
     """
     def contained_in(sample_id, fastq):
@@ -141,7 +168,7 @@ def get_pos(title_file, fastq_object):
     boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=fastq_object)
 
     if np.sum(boolv) > 1:
-        raise Exception('More than one fastq found for patient, exiting.')
+        return check_multiple_sample_id_matches(title_file, boolv, fastq_object)
 
     # If there are no matches, throw error
     if np.sum(boolv) < 1:
@@ -583,16 +610,18 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def perform_validation(title_file):
+def perform_validation(title_file, title_file_path, project_name):
     """
     Make sure that we don't have any unacceptable entries in the title file:
 
     1. Sample IDs / Collab IDs must be unique
     2. Barcodes must be unique within each lane
     3. Sample_type is in ['Plasma', 'Buffy Coat']
-    4. Sex is one of ['Male, 'M', 'Female', 'F']
-    5. Sample Class is in ['Tumor', 'Normal']
+    4. Sample Class is in ['Tumor', 'Normal']
     """
+    if not project_name in title_file_path:
+        print('WARNING: project ID not found in title file path. Are you sure you are using the correct title file?')
+
     if np.sum(title_file[SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample IDs. Exiting.')
 
@@ -647,7 +676,7 @@ def main():
 
     # Perform some sanity checks on the title file
     if not args.force:
-        perform_validation(title_file)
+        perform_validation(title_file, args.title_file_path, args.project_name)
     # Create the inputs file for the run
     write_inputs_file(args, title_file, args.output_file_name)
     # Perform some checks on the final yaml file that will be supplied to the pipeline

@@ -38,11 +38,40 @@ def extract_sample_name(has_a_sample, sample_names):
 
     Note that we must sort the samples names by length in order to return the longest match:
     e.g. sample_abc123-IGO-XXX, [sample_abc123, sample_abc12] --> sample_abc123
+
+    :param: has_a_sample String that has a Sample ID inside (usually a file path)
+    :param: sample_names String[] that contains all possible sample IDs to be found in `has_a_sample`
+            Note that if the target sample ID is not in this list, the wrong sample ID may be returned.
     """
     sample_names = sorted(sample_names, key=len, reverse=True)
     sample_name_search = r'|'.join(sample_names)
     sample_name_search = r'.*(' + sample_name_search + ').*'
     return re.sub(sample_name_search, r'\1', has_a_sample)
+
+
+def two_strings_are_substrings(string1, string2):
+    """
+    Check if either `string1` or `string2` is a substring of its partner.
+    Useful for checking if one Sample ID is a substring of another Sample ID or vice versa
+
+    :param string1: str
+    :param string2: str
+    :return:
+    """
+    return (string1 in string2) or (string2 in string1)
+
+
+def strings_are_substrings(strings):
+    """
+    Returns True if each string in `strings` is either a substring of or has a substring in one of the other strings
+
+    Useful for determining if a group of sample IDs that were found in a fastq file's path should be represented by
+    just a single one of the matches (the longest one), or whether there are two different matches, which would be incorrect.
+
+    :param strings: String[]
+    :return: True | False
+    """
+    return all([any([two_strings_are_substrings(s1, s2) for s2 in strings[:i + 1]]) for i, s1 in enumerate(strings)])
 
 
 def merge_files_across_samples(files, cols, sample_ids=None):
