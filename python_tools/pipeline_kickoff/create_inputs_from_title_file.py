@@ -7,7 +7,7 @@ import pandas as pd
 
 # constants include the paths to the config files
 from ..constants import *
-from ..util import reverse_complement, strings_are_substrings
+from ..util import reverse_complement, all_strings_are_substrings
 
 
 ##################################
@@ -60,10 +60,14 @@ INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
 def load_fastqs(data_dir):
     """
-    Recursively find files in `data_dir` with the given `file_regex`
+    Recursively find all sample files in `data_dir`
 
     Note:
     os.walk yields a 3-list (dirpath, dirnames, filenames)
+
+    Todo: Consider building a scalable Sample Class to hold all data related to each sample
+
+    :param data_dir: str - folder of Samples with fastqs and SampleSheet.csv
     """
     # Gather Sample Sub-directories (but leave out the parent dir)
     folders = list(os.walk(data_dir, followlinks=True))
@@ -77,7 +81,6 @@ def load_fastqs(data_dir):
     if not len(folders) - 1 == len(folders_4):
         print(DELIMITER + 'Warning, some samples may not have a Read 1, Read 2, or sample sheet. '
                           'Please manually check inputs.yaml')
-
         print('All sample folders:')
         pprint.pprint(folders)
         print('Sample folders with correct result files:')
@@ -119,12 +122,16 @@ def check_multiple_sample_id_matches(title_file, boolv, fastq_object):
     If we found multiple matching sample IDs in the path to a fastq, check that one is the "most correct" one, and
     issue a warning to the user.
 
+    :param title_file: pandas.DataFrame with all sample data
+    :param boolv: boolean array indicating which title_file Sample IDs were found in our `fastq_object`
     :return:
+    :raise Exception: if there is more than one matching sample ID for this fastq file, and they are not substrings of
+                        one another
     """
     boolv = boolv.astype(bool)
     matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
 
-    if strings_are_substrings(matching_sample_ids):
+    if all_strings_are_substrings(matching_sample_ids):
         print(DELIMITER + 'Warning: There are two or more sample ids found in this fastq\'s path: {}'.format(
             fastq_object))
 
@@ -293,7 +300,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
         print('HiSeq4000\nMiniSeq\nNextSeq')
 
 
-def perform_barcode_index_checks(title_file, sample_sheets):
+def perform_barcode_index_checks_i7(title_file, sample_sheets):
     """
     Confirm that the barcode indexes in the title file,
     match to what is listed in the Sample Sheet files from the Illumina Run
@@ -308,7 +315,6 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         title_file_i7 = cur_sample[MANIFEST__BARCODE_INDEX_1_COLUMN].values[0]
 
         matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
-
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
@@ -319,9 +325,6 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         err_template = 'i7 index does not match for sample {}. Aborting. {} != {}'
         err_string = err_template.format(sample_id, sample_sheet_i7, title_file_i7)
         assert sample_sheet_i7 == title_file_i7, err_string
-
-    # i5 index check is somewhat more involved
-    perform_barcode_index_checks_i5(title_file, sample_sheets)
 
 
 def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
@@ -346,9 +349,9 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     if not force:
         # Check that we have the same number of everything
         perform_length_checks(fastq1, fastq2, sample_sheets, title_file)
-        # Check that patient ids are found in fastq filenames
         # Check the barcode sequences in the title_file against the sequences in the sample_sheets
-        perform_barcode_index_checks(title_file, sample_sheets)
+        perform_barcode_index_checks_i7(title_file, sample_sheets)
+        perform_barcode_index_checks_i5(title_file, sample_sheets)
 
     samples_info = {
         'fastq1': fastq1,
