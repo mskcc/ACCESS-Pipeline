@@ -35,7 +35,7 @@ def ListToBed(inFile, outFile, sort):
     tmp.close()
 
     if sort:
-        print >>sys.stderr, "Sorting..."
+        print >> sys.stderr, "Sorting..."
         bedtool = pybedtools.BedTool(tmp_name)
         stbedtool = bedtool.sort()
         mbedtool = stbedtool.merge(d=50)
@@ -52,7 +52,7 @@ def main():
     parser.add_argument("-o", "--output_file", help="output bed file", required=True)
     parser.add_argument("-s", "--sort", help="sort bed file output", action='store_true')
     args = parser.parse_args()
-    print args
+    print(args)
 
     ListToBed(os.path.abspath(args.input_file), os.path.abspath(args.output_file), args.sort)
 
