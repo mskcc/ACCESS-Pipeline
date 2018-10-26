@@ -244,35 +244,49 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 
     all_geno = [a for a in all_geno if 'CELLFREEPOOLEDNORMAL' not in a[0]]
     geno_compare = []
-    for i, g in enumerate(all_geno):
-        for h in all_geno[i + 1::]:
+    for i, Ref in enumerate(all_geno):
+        for Query in all_geno:
+            hm_Ref=0
             hm_match = 0
             hm_mismatch = 0
             ht_match = 0
             ht_mismatch = 0
             total_match = 0
-            for j, element in enumerate(g):
-                if element == h[j]:
+            for j, element in enumerate(Ref):
+                if element != 'Het':
+                    hm_Ref= hm_Ref + 1
+                if element == Query[j]:
                     total_match = total_match + 1
                     if element == 'Het':
                         ht_match = ht_match + 1
                     else:
                         hm_match = hm_match + 1
-                elif element == 'Het' or h[j] == 'Het':
+                elif element == 'Het' or Query[j] == 'Het':
                     ht_mismatch = ht_mismatch + 1
                 elif j != 0:
                     hm_mismatch = hm_mismatch + 1
 
-            sample_g = extract_sample_name(g[0], titlefile[SAMPLE_ID_COLUMN])
-            sample_h = extract_sample_name(h[0], titlefile[SAMPLE_ID_COLUMN])
-            geno_compare.append([sample_g, sample_h, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch])
+            sample_Ref = extract_sample_name(Ref[0], titlefile[SAMPLE_ID_COLUMN])
+            sample_Query = extract_sample_name(Query[0], titlefile[SAMPLE_ID_COLUMN])
+            
+            ##To test            
+            #sample_Ref = Ref[0].split("_IGO")[0]
+            #sample_Query = Query[0].split("_IGO")[0]
+            
+            #Discordance rate between samples = Homozygous Mismatch/All Homozygous SNPs in Reference sample
+            #Check that there are more the 10 Homozygous sites, if not, there is probably a lack of coverage or a lot of contamination
+            if hm_Ref<10:
+                discordance=np.nan
+            else:
+                discordance=hm_mismatch/hm_Ref + EPSILON
+            
+            geno_compare.append([sample_Ref, sample_Query, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch, hm_Ref, discordance])
 
     sort_index = np.argsort([x[2] for x in geno_compare])
     geno_compare = [geno_compare[i] for i in sort_index]
 
-    # Homozygous Mismatch/All Homozygous SNPs
-    mlist = [i for i, x in enumerate([[int(g[4]), int(g[3]) + int(g[4])] for g in geno_compare]) if
-             x[0] / (x[1] + EPSILON) < .1]
+    # Samples are considered matching if the discordance rate is less than 0.05
+    mlist = [i for i, x in enumerate([g[8] for g in geno_compare]) if x < .05]
 
     if mlist != []:
         m = min(mlist)
@@ -297,8 +311,8 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
             else:
                 x.append('Unexpected Match')
 
-    geno_compare.insert(0, ['Sample1', 'Sample2', 'TotalMatch', 'HomozygousMatch', 'HomozygousMismatch',
-                            'HeterozygousMatch', 'HeterozygousMismatch', 'Status'])
+    geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
+                            "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef","DiscordanceRate", "Status"])
 
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
@@ -328,7 +342,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-    plt.xlabel('Sample')
+    plt.xlabel('Sample Name')
     plt.title('Minor Contamination Check (from all reads)')
     plt.xlim([0, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
@@ -351,7 +365,7 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
     plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
     plt.ylabel('% of Heterozygous Position')
-    plt.xlabel('Sample')
+    plt.xlabel('Sample Name')
     plt.title('Major Contamination Check')
     plt.xlim([0, x_pos.size])
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
@@ -388,7 +402,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
         plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-        plt.xlabel('Sample')
+        plt.xlabel('Sample Name')
         plt.title('Minor Contamination Check (Duplex)')
         plt.xlim([0, y_pos.size])
         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
@@ -396,53 +410,12 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
 
 
-def plot_geno_compare(geno_compare, n, fp_output_dir):
-    plt.clf()
-    if geno_compare[0][0] == "Sample1":
-        geno_compare = geno_compare[1::]
-    geno_compare = [x for x in geno_compare if x[7] != 'Expected Mismatch']
-    if geno_compare:
-        samples = [c[0] + ' : ' + c[1] for c in geno_compare]
-        y_pos = np.arange(len(geno_compare))
-
-        plt.figure(figsize=(5, 5))
-        for i, g in enumerate(geno_compare):
-            if g[7] == 'Unexpected Match':
-                plt.axhspan(i, i + 1, facecolor='.5', alpha=0.5)
-
-        plt.axvline(x=0, ymin=0, ymax=1, c='black', ls='-', linewidth=2)
-        plt.axvline(x=0.8, ymin=0, ymax=1, c='black', ls='--')
-
-        newmlist = [i for i, x in enumerate([g[2] for g in geno_compare]) if x / n > .8]
-        if newmlist:
-            newm = min(newmlist)
-            plt.axhline(y=newm - .15, xmin=0, xmax=1, c='red', ls=':', linewidth=3)
-
-        plt.barh(y_pos, [(g[3] + g[5]) / n for g in geno_compare], align='edge', color='#ff9b9b', alpha=0.5,
-                 label='Matched Homozygous')
-        plt.barh(y_pos, [g[5] / n for g in geno_compare], align='edge', color='#b9d6c8', label='Matched Heterozygous')
-        plt.barh(y_pos, [(-g[4] - g[6]) / n for g in geno_compare], align='edge', color='#d1909c',
-                 label='Mismatched Homozygous')
-        plt.barh(y_pos, [-g[6] / n for g in geno_compare], align='edge', color='#7f9990',
-                 label='Mismatched Heterozygous')
-        plt.yticks(y_pos, samples, va='bottom')
-        plt.axes().yaxis.grid()
-
-        plt.legend(bbox_to_anchor=(1.8, 0.5))
-        plt.xlabel('Fingerprint Comparision')
-        plt.ylabel('Samples Compared')
-        plt.title('Fraction of Matching Fingerprints', fontsize=16)
-        plt.savefig(fp_output_dir + 'Selectfpcompare.pdf', bbox_inches='tight')
-
-
 def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     plt.clf()
-    if geno_compare[0][0] == "Sample1":
+    if geno_compare[0][0] == "ReferenceSample":
         geno_compare = geno_compare[1::]
 
-    # Note: that if the coverage in all Homozygous Sites is less than 10 (failed sample), the mismatch rate is defaulted to 1.
-    hm_compare = [[g[0], g[1], int(g[4]) / (int(g[3]) + int(g[4])) if (int(g[3]) + int(g[4])) > 10 else 1] for g in
-                  geno_compare]
+    hm_compare = [[g[0],g[1],g[8]] for g in geno_compare]
 
     if len(hm_compare) == 0:
         # Only had one sample, and thus no comparisons to make
@@ -450,44 +423,27 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
         sample = titlefile[SAMPLE_ID_COLUMN].values[0]
         hm_compare = [[sample, sample, 0]]
 
-    matrix = {}
+        matrix ={}
 
-    for element in hm_compare:
-        if element[0] not in matrix.keys():
-            matrix[element[0]] = {}
-        if element[1] not in matrix.keys():
-            matrix[element[1]] = {}
-        matrix[element[0]].update({element[0]: 0, element[1]: element[2]})
-        matrix[element[1]].update({element[1]: 0, element[0]: element[2]})
+        for element in hm_compare:
+            if element[0] not in matrix.keys():
+                matrix[element[0]] = {element[1]: element[2]}
+            matrix[element[0]].update({element[1]: element[2]})
 
-    keys = sorted([k for k in matrix.keys()])
-
-    logging.info('Keys before extracting sample IDs:')
-    logging.info(keys)
-    logging.info('Title file before extracting sample IDs:')
-    logging.info(title_file)
-
-    list_matrix = [[matrix[k1][k2] for k2 in keys] for k1 in keys]
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
 
-    logging.info('Samples for Genotyping Matrix:')
-    logging.info(list_matrix)
-
-    ax = sns.heatmap(list_matrix, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.25,
+ 
+    ax = sns.heatmap(pd.DataFrame.from_dict(matrix), robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'},
                      annot_kws={'size': 5})
-    ax.set_xticklabels(keys, rotation=90, fontsize=11)
-    ax.set_yticklabels(keys, rotation=0, fontsize=11)
 
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
-    Match_status = [[x[0], x[1], x[7]] for x in geno_compare if
-                    x[7] == 'Unexpected Mismatch' or x[7] == 'Unexpected Match']
+    Match_status = [[x[0], x[1], x[9]] for x in geno_compare if
+                    x[9] == 'Unexpected Mismatch' or x[9] == 'Unexpected Match']
 
-    df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
-    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
     write_csv(fp_output_dir + 'Match_status.txt', Match_status)
 
     plt.clf()
@@ -525,9 +481,9 @@ def find_sex_from_pileup(waltz_dir, output_dir):
                         if int(row[3]) > 0:
                             data.append(row[3])
             if len(data) > 200:
-                sex.append([file[0:file.find('_bc')], 'Male'])
+                sex.append([file[0:file.find('_bc')], "Male"])
             else:
-                sex.append([file[0:file.find('_bc')], 'Female'])
+                sex.append([file[0:file.find('_bc')], "Female"])
     write_csv(output_dir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
@@ -550,9 +506,9 @@ def find_sex_from_interval(waltz_dir):
                     if row[3] == 'Tiling_SRY_Y:2655301' or row[3] == 'Tiling_USP9Y_Y:14891501':
                         data.append(int(row[5]))
             if sum(data) > 50:
-                sex.append([file, 'Male'])
+                sex.append([file, "Male"])
             else:
-                sex.append([file, 'Female'])
+                sex.append([file, "Female"])
     # writeCVS(OutputDir + '/Sample_sex_from_pileup.txt', sex)
     return sex
 
@@ -581,7 +537,7 @@ def check_sex(gender, sex, output_dir):
         if g[1] != sex[idx][1]:
             mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(mismatch_sex, columns=[SAMPLE_ID_COLUMN, 'Reported Sex', 'Inferred Sex'])
+    df = pd.DataFrame(mismatch_sex, columns=["Sample", "Reported Sex", "Inferred Sex"])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 
@@ -639,14 +595,12 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output_dir', help='Directory to write the Output files to', required=True)
-    parser.add_argument('-a', '--waltz_dir_A', help='Directory with waltz pileup files for target set A', required=True)
-    parser.add_argument('-b', '--waltz_dir_B', help='Directory with waltz pileup files for target set B', required=True)
-    parser.add_argument('-da', '--waltz_dir_A_duplex', help='Directory with waltz pileup files for Duplex target set A',
+    parser.add_argument("-o", "--output_dir", help="Directory to write the Output files to", required=True)
+    parser.add_argument("-a", "--waltz_dir_A", help="Directory with waltz pileup files for target set A", required=True)
+    parser.add_argument("-b", "--waltz_dir_B", help="Directory with waltz pileup files for target set B", required=True)
+    parser.add_argument("-da", "--waltz_dir_A_duplex", help="Directory with waltz pileup files for Duplex target set A",
                         required=True)
-    parser.add_argument('-db', '--waltz_dir_B_duplex', help='Directory with waltz pileup files for Duplex target set B',
                         required=True)
-    parser.add_argument('-c', '--fp_config', help='File with information about the SNPs for analysis', required=True)
     parser.add_argument('-t', '--title_file', help='Title File for the run', required=False)
     args = parser.parse_args()
     return args
