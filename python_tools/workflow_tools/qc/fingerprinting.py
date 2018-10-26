@@ -600,8 +600,10 @@ def parse_arguments():
     parser.add_argument("-b", "--waltz_dir_B", help="Directory with waltz pileup files for target set B", required=True)
     parser.add_argument("-da", "--waltz_dir_A_duplex", help="Directory with waltz pileup files for Duplex target set A",
                         required=True)
+    parser.add_argument("-db", "--waltz_dir_B_duplex", help="Directory with waltz pileup files for Duplex target set B",
                         required=True)
-    parser.add_argument('-t', '--title_file', help='Title File for the run', required=False)
+    parser.add_argument("-c", "--fp_config", help="File with information about the SNPs for analysis", required=True)
+    parser.add_argument("-t", "--title_file", help="Title File for the run", required=False)
     args = parser.parse_args()
     return args
 
