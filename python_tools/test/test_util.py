@@ -22,6 +22,7 @@ class Tests(unittest.TestCase):
         sample_2 = 'SampleABCD'
         sample_3 = 'SampleABCDE'
 
+        # Should return True because SampleABCDE is the longest match
         are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
         assert are_substrings == True
 
@@ -29,6 +30,7 @@ class Tests(unittest.TestCase):
         sample_2 = 'SampleABCD'
         sample_3 = 'SampleXABCD'
 
+        # Should return False because SampleXABCD is a totally separate match than the other two
         are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
         assert are_substrings == False
 
