@@ -423,12 +423,12 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
         sample = titlefile[SAMPLE_ID_COLUMN].values[0]
         hm_compare = [[sample, sample, 0]]
 
-        matrix ={}
+    matrix ={}
 
-        for element in hm_compare:
-            if element[0] not in matrix.keys():
-                matrix[element[0]] = {element[1]: element[2]}
-            matrix[element[0]].update({element[1]: element[2]})
+    for element in hm_compare:
+        if element[0] not in matrix.keys():
+            matrix[element[0]] = {element[1]: element[2]}
+        matrix[element[0]].update({element[1]: element[2]})
 
 
     plt.subplots(figsize=(8, 7))

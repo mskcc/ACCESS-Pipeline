@@ -3,7 +3,6 @@ azure==4.0.0
 toil-ionox0[cwl]==0.0.1
 codecov==2.0.15
 
-access-pipeline==0.0.42
 avro==1.8.1
 backports.functools-lru-cache==1.5
 backports.ssl-match-hostname==3.5.0.1
