@@ -17,6 +17,21 @@ class Tests(unittest.TestCase):
         sample = util.extract_sample_name('I_am_a_sample_name', ['I_am_a', 'I_am_a_sample'])
         assert sample == 'I_am_a_sample'
 
+    def test_all_strings_are_substrings(self):
+        sample_1 = 'SampleABC'
+        sample_2 = 'SampleABCD'
+        sample_3 = 'SampleABCDE'
+
+        are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
+        assert are_substrings == True
+
+        sample_1 = 'SampleABC'
+        sample_2 = 'SampleABCD'
+        sample_3 = 'SampleXABCD'
+
+        are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
+        assert are_substrings == False
+
 
 if __name__ == '__main__':
     unittest.main()

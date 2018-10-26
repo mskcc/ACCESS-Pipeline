@@ -61,7 +61,7 @@ def two_strings_are_substrings(string1, string2):
     return (string1 in string2) or (string2 in string1)
 
 
-def strings_are_substrings(strings):
+def all_strings_are_substrings(strings):
     """
     Returns True if each string in `strings` is either a substring of or has a substring in one of the other strings
 
@@ -71,7 +71,11 @@ def strings_are_substrings(strings):
     :param strings: String[]
     :return: True | False
     """
-    return all([any([two_strings_are_substrings(s1, s2) for s2 in strings[:i + 1]]) for i, s1 in enumerate(strings)])
+    return all([
+        any([
+            two_strings_are_substrings(s1, s2) for s2 in strings[i + 1 :]
+        ]) for i, s1 in enumerate(strings[ : len(strings) - 1])
+    ])
 
 
 def merge_files_across_samples(files, cols, sample_ids=None):
