@@ -449,9 +449,6 @@ def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     """
     Check whether the title file matches input fastqs
 
-    Todo: we might want an option to remove fastqs or rows from the title_file instead of throwing error,
-    in the event that we use this script on a subset of the fastqs in a pool
-
     :param fastq1: List[dict] where each dict is a ruamel file object with `class` and `path` keys,
             (`path` being the path to the read 1 fastq)
     :param fastq2: List[dict] where each dict is a ruamel file object with `class` and `path` keys,
