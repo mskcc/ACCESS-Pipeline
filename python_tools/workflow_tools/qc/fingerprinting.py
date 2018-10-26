@@ -537,7 +537,7 @@ def check_sex(gender, sex, output_dir):
         if g[1] != sex[idx][1]:
             mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(mismatch_sex, columns=["Sample", "Reported Sex", "Inferred Sex"])
+    df = pd.DataFrame(mismatch_sex, columns=[SAMPLE_ID_COLUMN, "Reported Sex", "Inferred Sex"])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 
