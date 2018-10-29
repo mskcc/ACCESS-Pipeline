@@ -13,6 +13,7 @@ Adapted newFP4.py to Luna
 from __future__ import division
 import csv
 import logging
+import itertools
 import numpy as np
 import argparse
 import pandas as pd
@@ -223,6 +224,11 @@ def create_expected_file(titlefile, fpOutputdir):
             patient[s[2]] = [s[0]]
 
     expected = []
+
+    # Include each sample ID mapped to itself
+    for sample in [t[0] for t in samples]:
+        expected.append([sample, sample])
+
     for key, samples_per_patient in patient.items():
         if len(samples_per_patient) == 2:
             expected.append(samples_per_patient)
@@ -430,10 +436,8 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
             matrix[element[0]] = {element[1]: element[2]}
         matrix[element[0]].update({element[1]: element[2]})
 
-
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
-
  
     ax = sns.heatmap(pd.DataFrame.from_dict(matrix), robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'},
@@ -443,6 +447,13 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     Match_status = [[x[0], x[1], x[9]] for x in geno_compare if
                     x[9] == 'Unexpected Mismatch' or x[9] == 'Unexpected Match']
+
+    # Deduplicate forward and reverse matches
+    Match_status = [sorted(match) for match in Match_status]
+    Match_status = list(match for match, _ in itertools.groupby(Match_status))
+
+    df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
+    Match_status.insert(0, ["Sample1", "Sample2", "Status"])
 
     write_csv(fp_output_dir + 'Match_status.txt', Match_status)
 
