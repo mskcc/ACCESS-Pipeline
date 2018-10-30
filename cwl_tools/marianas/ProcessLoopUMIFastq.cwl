@@ -58,7 +58,7 @@ outputs:
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: ${ return '**/' + inputs.fastq1.basename }
+      glob: $('*/' + inputs.fastq1.basename)
       outputEval: |
         ${
           self[0].basename = inputs.add_rg_SM + '_R1.fastq.gz';
@@ -68,7 +68,7 @@ outputs:
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: ${ return '**/' + inputs.fastq1.basename.replace('_R1_', '_R2_') }
+      glob: $('*/' + inputs.fastq1.basename.replace('_R1_', '_R2_'))
       outputEval: |
         ${
           self[0].basename = inputs.add_rg_SM + '_R2.fastq.gz';
@@ -78,7 +78,7 @@ outputs:
   clipping_info:
     type: File
     outputBinding:
-      glob: ${ return '**/info.txt' }
+      glob: '*/info.txt'
       outputEval: |
         ${
           self[0].basename = inputs.add_rg_SM + '_info.txt';
