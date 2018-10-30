@@ -54,7 +54,7 @@ MANIFEST__CAPTURE_INPUT_COLUMN              = 'CAPTURE_INPUT[ng]'
 MANIFEST__CAPTURE_BAIT_SET_COLUMN           = 'CAPTURE_BAIT_SET'
 MANIFEST__SEX_COLUMN                        = 'SEX'
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
-MANIFEST__PROJECT_ID_COLUMN                 = 'PROJECT_ID'
+MANIFEST__PROJECT_ID_COLUMN                 = 'STUDY_ID'
 
 # Only need these columns for pipeline
 manifest_columns = [

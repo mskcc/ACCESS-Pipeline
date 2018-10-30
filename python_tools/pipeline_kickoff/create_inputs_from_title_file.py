@@ -132,14 +132,14 @@ def check_multiple_sample_id_matches(title_file, boolv, fastq_object):
     matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
 
     if all_strings_are_substrings(matching_sample_ids):
-        print(DELIMITER + 'Warning: There are two or more sample ids found in this fastq\'s path: {}'.format(
+        print(DELIMITER + 'WARNING: There are two or more sample ids found in this fastq\'s path: {}'.format(
             fastq_object))
 
         print('Here are the suspicious sample IDs:')
         print(matching_sample_ids)
 
-        print('We will choose the longest matching sample ID for this fastq, \
-                but please check that it is ordered with the correct RG_ID in the final inputs file.')
+        print('We will choose the longest matching sample ID for this fastq, ' +
+                'but please check that it is ordered with the correct RG_ID in the final inputs file.')
 
         longest_match = max(matching_sample_ids, key=len)
         return np.argmax(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == longest_match)
