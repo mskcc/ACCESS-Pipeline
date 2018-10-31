@@ -178,7 +178,6 @@ This script can be run in the background with `&`, and will make use of worker n
 
 ```
 (access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
---project_name EJ_4-27_MarkDuplicatesTest \
 --output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
 --inputs_file ./inputs.yaml \
 --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
