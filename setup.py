@@ -37,7 +37,7 @@ def req_file(filename):
     """
     with open(filename) as f:
         content = f.readlines()
-    # you may also want to remove whitespace characters like `\n` at the end of each line
+
     return [x.strip() for x in content]
 
 setup(
@@ -49,6 +49,10 @@ setup(
     author_email='johnsoni@mskcc.org',
     license='MIT',
     install_requires=req_file('requirements.txt'),
+    classifiers=[
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'Programming Language :: Python :: 2.7',
+    ],
     packages = [
         'python_tools',
         'python_tools.pipeline_kickoff',
