@@ -371,7 +371,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'add_rg_PU': title_file[MANIFEST__BARCODE_ID_COLUMN].tolist(),
 
         # Patient ID needs to be a string, in case it is currently an integer
-        'patient_id': [str(p) for p in title_file[SAMPLE_ID_COLUMN].tolist()]
+        'patient_id': [str(p) for p in title_file[MANIFEST__CMO_PATIENT_ID_COLUMN].tolist()]
     }
 
     # Trim whitespace
@@ -654,7 +654,7 @@ def print_user_message():
     print('4. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
     print('5. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
-    print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries.')
+    print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries (although other entries will still be accepted).')
 
 
 ########
@@ -672,7 +672,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(MANIFEST__CMO_PATIENT_ID_COLUMN).reset_index(drop=True)
+    title_file = title_file.sort_values(SAMPLE_ID_COLUMN).reset_index(drop=True)
 
     # Perform some sanity checks on the title file
     if not args.force:
