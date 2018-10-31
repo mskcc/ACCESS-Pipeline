@@ -28,6 +28,11 @@ class Tests(unittest.TestCase):
         pipeline_postprocessing.symlink_bams(self.test_outputs_copied)
         directories = os.listdir(self.test_outputs_copied)
 
+        assert 'EDA-23Jd_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bai' in os.listdir('./test_outputs_copied/duplex_bams')
+        assert 'EDA-23Jd_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam' in os.listdir('./test_outputs_copied/duplex_bams')
+        assert 'FAC-2Je3_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bai' in os.listdir('./test_outputs_copied/duplex_bams')
+        assert 'FAC-2Je3_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam' in os.listdir('./test_outputs_copied/duplex_bams')
+
         assert STANDARD_BAM_DIR in directories
         assert UNFILTERED_BAM_DIR in directories
         assert SIMPLEX_BAM_DIR in directories

@@ -38,7 +38,7 @@ def symlink_bams(pipeline_outputs_folder):
                     bam_target_path = bam_target_path.replace('.bam', '-unfiltered.bam')
 
                 logging.info('Linking {} to {}'.format(bam_source_path, bam_target_path))
-                os.symlink(bam_source_path, bam_target_path)
+                os.link(bam_source_path, bam_target_path)
 
                 # Link index file
                 bai = bam.replace('.bam', '.bai')
@@ -50,7 +50,7 @@ def symlink_bams(pipeline_outputs_folder):
                     bai_target_path = bai_target_path.replace('.bai', '-unfiltered.bai')
 
                 logging.info('Linking {} to {}'.format(bai_source_path, bai_target_path))
-                os.symlink(bai_source_path, bai_target_path)
+                os.link(bai_source_path, bai_target_path)
 
 
 def move_trim_files(pipeline_outputs_folder):
