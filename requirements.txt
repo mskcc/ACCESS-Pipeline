@@ -13,7 +13,7 @@ chardet==3.0.4
 cwltest==1.0.20180601100346
 cwltool==1.0.20181012180214
 cycler==0.10.0
-dill==0.2.7.1
+dill==0.2.8.2
 docker==2.5.1
 docker-pycreds==0.3.0
 docutils==0.14
