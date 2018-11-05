@@ -288,6 +288,7 @@ steps:
 - id: make_bam_output_directories
   run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
   in:
+    sample_id: add_rg_ID
     standard_bam: standard_bam_generation/standard_bams
     # Collapsed, and after 2nd Indel Realignment:
     unfiltered_bam: flatten_array_bams/output_bams
@@ -300,6 +301,7 @@ steps:
     first_pass_alt_alleles: umi_collapsing/first_pass_alt_allele
     second_pass: umi_collapsing/second_pass_alt_alleles
   scatter: [
+    sample_id,
     standard_bam,
     unfiltered_bam,
     simplex_bam,

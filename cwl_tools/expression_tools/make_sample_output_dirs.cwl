@@ -13,6 +13,8 @@ doc: |
 
 inputs:
 
+  sample_id: string
+
   standard_bam:
     type: File
     secondaryFiles: [^.bai]
@@ -55,7 +57,7 @@ expression: |
     return {
       'directory': {
         'class': 'Directory',
-        'basename': 'Sample_' + inputs.standard_bam.basename.split('IGO')[0].split('_cl')[0],
+        'basename': inputs.sample_id,
         'listing': output_files
       }
     };
