@@ -1,5 +1,4 @@
 argparse==1.4.0
-azure==4.0.0
 toil-ionox0[cwl]==0.0.1
 codecov==2.0.15
 
@@ -42,7 +41,7 @@ pytz==2018.6
 PyYAML==3.12
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
-requests==2.20.0
+requests==2.18.4
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.0
 schema-salad==2.7.20181017120439
