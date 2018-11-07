@@ -5,6 +5,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Tool | Version |
 | --- | --- |
 | GCC | 4.4.7 |
+| glibc | 2.12 |
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python (must exist in PATH)| 2.7.10 |
