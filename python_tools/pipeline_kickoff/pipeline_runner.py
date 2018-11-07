@@ -34,7 +34,7 @@ LOG_FILE_NAME = 'cwltoil.log'
 
 # Defaults for our selection of Toil parameters
 DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : 'PATH PYTHONPATH',
+    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_LSF_ARGS',
     '--defaultDisk'             : '10G',
     '--defaultMem'              : '10G',
     '--no-container'            : '',
@@ -42,6 +42,7 @@ DEFAULT_TOIL_ARGS = {
     '--stats'                   : '',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000',
+    '--retryCount'              : 2,
 }
 
 
