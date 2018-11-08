@@ -5,7 +5,9 @@ cwlVersion: v1.0
 class: ExpressionTool
 
 requirements:
-  - class: InlineJavascriptRequirement
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 1G
 
 doc: |
   This tool groups files for one sample
