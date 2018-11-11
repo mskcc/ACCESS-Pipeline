@@ -1,2 +1,3 @@
-FCID,Lane,SampleID,SampleRef,Index,Index2,Description,Control,Recipe,Operator,SampleProject
-Test_Machine,1,super_small,na,AGGATAGC,GCTATCCT,Ian_Johnson,N,na,na,Test_XX
+Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,I5_Index_ID,index2,Sample_Project,Description
+1,TEST-SAMPLE,TEST_SAMPLE,,,IDT-DM-12,AGGATAGC,IDT-DM-12,AGGATAGC,TEST-PROJ,Tumor
+2,TEST-SAMPLE,TEST_SAMPLE,,,IDT-DM-12,AGGATAGC,IDT-DM-12,AGGATAGC,TEST-PROJ,Tumor
