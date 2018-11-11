@@ -1,5 +1,5 @@
 # Files used after standard Bam steps
-pool_a_bed_file: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
-pool_b_bed_file: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
+pool_a_bed_file: {class: File, path: $PIPELINE_ROOT/resources/test_bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
+pool_b_bed_file: {class: File, path: $PIPELINE_ROOT/resources/test_bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
 
-gene_list: {class: File, path: /home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-Pipeline_2018-Aug-16/resources/test_bedfiles/juber-hg19-gene-list.bed}
+gene_list: {class: File, path: $PIPELINE_ROOT/resources/test_bedfiles/juber-hg19-gene-list.bed}
