@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 
 from ..constants import *
+#from constants import *
 ##################################
 # Pipeline Kickoff Step #1
 #
@@ -33,9 +34,9 @@ from ..constants import *
 def create_title_file(samplesheet_file_path, output_filename):
     # Read samplesheet as either csv or Excel file
     try:
-        samplesheet = pd.read_csv(samplesheet_file_path, sep=',',skiprows=range(0,19),header=1)
+        samplesheet = pd.read_csv(samplesheet_file_path, sep=',')
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
-        samplesheet = pd.read_excel(samplesheet_file_path, sep=',',skiprows=range(0,19))
+        samplesheet = pd.read_excel(samplesheet_file_path, sep=',')
     
     samplesheet = samplesheet.dropna(axis=0, how='all')
     samplesheet = samplesheet.replace('\n','', regex=True)

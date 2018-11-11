@@ -7,7 +7,8 @@ import pandas as pd
 # constants include the paths to the config files
 from ..constants import *
 from ..util import reverse_complement
-
+#from constants import *
+#from util import reverse_complement
 
 ##################################
 # Pipeline Kickoff Step #2
@@ -232,7 +233,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
 
         try:
-            sample_sheet_i5 = sample_sheet_df['Index2'].values[0]
+            sample_sheet_i5 = sample_sheet_df['index2'].values[0]
         except KeyError:
             print('Index2 not found in SampleSheet.csv. Skipping i5 barcode index validation.')
             return
@@ -272,7 +273,7 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
         # i7 Sequence should always match
-        sample_sheet_i7 = sample_sheet_df['Index'].values[0]
+        sample_sheet_i7 = sample_sheet_df['index'].values[0]
         assert sample_sheet_i7 == title_file_i7, 'i7 index does not match between samplesheet ({}) and titlefile ({}). Aborting.'.format(sample_sheet_i7, title_file_i7)
 
     # i5 index check is somewhat more involved
