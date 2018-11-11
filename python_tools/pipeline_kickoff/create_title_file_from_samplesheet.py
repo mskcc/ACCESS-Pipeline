@@ -66,11 +66,17 @@ def create_title_file(samplesheet_file_path, output_filename):
 
     # Optionally split by lanes
     if len(title_file[TITLE_FILE__LANE_COLUMN].unique()) > 1:
+        duplicate_samples = []
         for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
-            title_file_sub = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
-            # Write title file
-            # title_file_sub.to_csv('lane-{}_'.format(lane) + output_filename, sep='\t', index=False)
-            title_file_sub.to_csv(output_filename, sep='\t', index=False)
+            duplicate_samples.extend(title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane][TITLE_FILE__SAMPLE_ID_COLUMN].tolist())
+        duplicate_samples = list(filter(lambda x: duplicate_samples.count(x)>1,duplicate_samples))
+        columns_to_consider = title_file.columns.tolist()
+        columns_to_consider.remove(TITLE_FILE__LANE_COLUMN)
+        title_file = title_file.drop_duplicates(subset=columns_to_consider)
+        title_file[TITLE_FILE__LANE_COLUMN].loc[title_file[TITLE_FILE__SAMPLE_ID_COLUMN].isin(duplicate_samples)] = 0
+        # Write title file
+        # title_file_sub.to_csv('lane-{}_'.format(lane) + output_filename, sep='\t', index=False)
+        title_file.to_csv(output_filename, sep='\t', index=False)
     else:
         title_file.to_csv(output_filename, sep='\t', index=False)
 
