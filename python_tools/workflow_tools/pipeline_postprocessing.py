@@ -1,9 +1,21 @@
+import os
 import shutil
 import logging
 import argparse
 
-# Todo: use explicit imports (enums?)
-from ..util import *
+from util import substring_in_list, listdir
+from constants import (
+    BAM_DIRS,
+    BAM_SEARCHES,
+    TRIM_FILE_SEARCH,
+    TRIM_FILES_DIR,
+    MARK_DUPLICATES_FILE_SEARCH,
+    MARK_DUPLICATES_FILES_DIR,
+    COVERED_INTERVALS_FILE_SEARCH,
+    COVERED_INTERVALS_DIR,
+    TMPDIR_SEARCH,
+    OUT_TMPDIR_SEARCH
+)
 
 
 def symlink_bams(pipeline_outputs_folder):
@@ -18,19 +30,20 @@ def symlink_bams(pipeline_outputs_folder):
         output_dir = os.path.join(pipeline_outputs_folder, bam_search[0])
         os.makedirs(output_dir)
 
-        dirlist = [filename for filename in os.listdir(pipeline_outputs_folder) if
+        all_folders = [filename for filename in os.listdir(pipeline_outputs_folder) if
                    os.path.isdir(os.path.join(pipeline_outputs_folder, filename))]
 
-        collapsed_folders = filter(lambda x: 'Sample' in x, dirlist)
+        # Find the output folders with bams inside
+        sample_folders = filter(lambda x: substring_in_list('.bam', listdir(pipeline_outputs_folder, x)), all_folders)
 
-        for collapsed_folder in collapsed_folders:
-            collapsed_folder = os.path.join(pipeline_outputs_folder, collapsed_folder)
+        for sample_folder in sample_folders:
+            sample_folder = os.path.join(pipeline_outputs_folder, sample_folder)
 
-            bams = filter(lambda x: bam_search[1].match(x), os.listdir(collapsed_folder))
+            bams = filter(lambda x: bam_search[1].match(x), os.listdir(sample_folder))
 
             for bam in bams:
                 # Link bam
-                bam_source_path = os.path.abspath(os.path.join(collapsed_folder, bam))
+                bam_source_path = os.path.abspath(os.path.join(sample_folder, bam))
                 bam_target_path = os.path.abspath(os.path.join(output_dir, bam))
 
                 # Todo: Give "-unfiltered" name to bam in collapsing step
@@ -42,7 +55,7 @@ def symlink_bams(pipeline_outputs_folder):
 
                 # Link index file
                 bai = bam.replace('.bam', '.bai')
-                bai_source_path = os.path.abspath(os.path.join(collapsed_folder, bai))
+                bai_source_path = os.path.abspath(os.path.join(sample_folder, bai))
                 bai_target_path = os.path.abspath(os.path.join(output_dir, bai))
 
                 # Todo: Give "-unfiltered" name to bam in collapsing step
@@ -95,7 +108,7 @@ def move_markduplicates_files(pipeline_outputs_folder):
 
 def move_covered_intervals_files(pipeline_outputs_folder):
     """
-    Move all MarkDuplicates-related files to a single folder
+    Move all FCI-related files to a single folder
 
     :param pipeline_outputs_folder:
     :return:
@@ -114,7 +127,7 @@ def move_covered_intervals_files(pipeline_outputs_folder):
 
 def delete_extraneous_output_folders(pipeline_outputs_folder):
     '''
-    Delete tmpXXXXXX and out_tmpdirXXXXXX directories.
+    Delete Toil's tmpXXXXXX and out_tmpdirXXXXXX directories.
 
     WARNING: this step will delete files
 
@@ -131,8 +144,13 @@ def delete_extraneous_output_folders(pipeline_outputs_folder):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                        help="Set the logging level")
     parser.add_argument("-d", "--directory", help="Toil outputs directory to be cleaned", required=True)
     args = parser.parse_args()
+
+    if args.logLevel:
+        logging.basicConfig(level=getattr(logging, args.logLevel))
 
     symlink_bams(args.directory)
     delete_extraneous_output_folders(args.directory)
