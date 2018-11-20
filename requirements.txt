@@ -10,7 +10,7 @@ CacheControl==0.12.5
 certifi==2018.10.15
 chardet==3.0.4
 cwltest==1.0.20180601100346
-cwltool==1.0.20180306140409
+cwltool==1.0.20181118133959
 cycler==0.10.0
 dill==0.2.7.1
 docker==2.5.1
