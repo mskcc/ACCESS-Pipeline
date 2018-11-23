@@ -57,7 +57,7 @@ def submit_to_lsf(params):
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
         '--batch_system ' + params.batch_system,
-        '--logLevel ' + params.logLevel,
+        '--logLevel ' + params.log_level,
     )
 
     if params.restart:
@@ -131,7 +131,7 @@ def main():
     )
 
     parser.add_argument(
-        '--logLevel',
+        '--log_level',
         action='store',
         dest='logLevel',
         default='INFO',
