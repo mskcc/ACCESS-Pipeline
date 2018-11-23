@@ -81,7 +81,7 @@ plot_gc_with_cov_each_sample = function(data) {
   g = ggplot(data, aes_string(x = 'gc_bin', y = 'coverage', group = SAMPLE_ID_COLUMN, color = SAMPLE_ID_COLUMN)) +
     geom_line() +
     facet_grid(method ~ ., scales='free') +
-    ggtitle('Average Coverage versus GC bias') +
+    ggtitle('Average Coverage versus GC bias (Pool A Targets)') +
     scale_y_continuous('Average Coverage', label = format_comma, limits = c(0, NA)) +
     xlab('GC Bias') +
     MAIN_PLOT_THEME
