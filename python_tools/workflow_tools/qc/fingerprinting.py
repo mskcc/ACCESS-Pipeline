@@ -349,7 +349,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
     plt.xlabel('Sample Name')
-    plt.title('Minor Contamination Check (from all reads)')
+    plt.title('Minor Contamination Check (from all unique reads)')
     plt.xlim([0, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 
@@ -446,7 +446,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     print(discordance_data_frame)
 
-    ax = sns.heatmap(discordance_data_frame, robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.15,
+    ax = sns.heatmap(discordance_data_frame, robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch Homozygous'},
                      annot_kws={'size': 5},
                      mask=mask)
