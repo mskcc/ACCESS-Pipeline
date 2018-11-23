@@ -121,17 +121,17 @@ print_inputs <- function(inputs_yaml) {
 #' Read in all tables for plots
 #' @param inDirTables location of tables from python tables_module
 read_tables = function(inDirTables, family_types_A_path, family_types_B_path, family_sizes_path) {
-  readCountsDataTotal = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
-  covPerInterval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-  insertSizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-  meanCovData = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
-  gcEachSample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
+  read_counts_data = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
+  cov_per_interval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
+  insert_sizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
+  mean_cov_data = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
+  gc_each_sample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
   
   family_types_A = read.table(family_types_A_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
   family_types_B = read.table(family_types_B_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
   families = read.table(family_sizes_path, sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
   
-  list(readCountsDataTotal, covPerInterval, insertSizes, meanCovData, gcEachSample, family_types_A, family_types_B, families)
+  list(read_counts_data, cov_per_interval, insert_sizes, mean_cov_data, gc_each_sample, family_types_A, family_types_B, families)
 }
 
 
