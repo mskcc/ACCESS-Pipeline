@@ -1,6 +1,5 @@
 import os
 import re
-from collections import OrderedDict
 
 from root import ROOT_DIR
 
@@ -33,11 +32,10 @@ TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tool
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
 
-############################################
-# Manifest & Title File Column Definitions #
-############################################
+###############################
+# Manifest Column Definitions #
+###############################
 
-# Manifest Columns
 MANIFEST__BARCODE_ID_COLUMN                 = 'BARCODE_ID'
 # Todo: use "P5", "P7"
 MANIFEST__BARCODE_INDEX_1_COLUMN            = 'BARCODE_INDEX_1'
@@ -56,7 +54,6 @@ MANIFEST__SEX_COLUMN                        = 'SEX'
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
 MANIFEST__PROJECT_ID_COLUMN                 = 'STUDY_ID'
 
-# Only need these columns for pipeline
 manifest_columns = [
     MANIFEST__BARCODE_ID_COLUMN,
     MANIFEST__CAPTURE_NAME_COLUMN,
