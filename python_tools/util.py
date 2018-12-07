@@ -197,3 +197,14 @@ def listdir(path, dirname):
     :return:
     """
     return os.listdir(os.path.join(path, dirname))
+
+
+class ArgparseMock():
+    """
+    Mock class to simply have keys and values that simulate the argparse object for testing purposes
+    """
+    def __init__(self, args):
+
+        for key, value in zip(args.keys(), args.values()):
+
+            setattr(self, key, value)
