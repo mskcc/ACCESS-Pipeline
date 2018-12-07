@@ -3,6 +3,11 @@ import re
 
 from root import ROOT_DIR
 
+# ACCESS-Variants
+# Todo: merge with other files paths
+RUN_FILES_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
+RUN_PARAMS_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+
 
 #############
 # Resources #
