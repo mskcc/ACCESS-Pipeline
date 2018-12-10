@@ -339,7 +339,8 @@ steps:
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
     standard_bams: standard_bam_generation/standard_bams
-    marianas_unfiltered_bams: umi_collapsing/collapsed_bams
+    # Collapsed, and after 2nd Indel Realignment:
+    marianas_unfiltered_bams: flatten_array_bams/output_bams
     marianas_simplex_bams: separate_bams/simplex_bam
     marianas_duplex_bams: separate_bams/duplex_bam
     FP_config_file: FP_config_file
