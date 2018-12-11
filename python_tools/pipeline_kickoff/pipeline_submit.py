@@ -133,7 +133,7 @@ def main():
     parser.add_argument(
         '--log_level',
         action='store',
-        dest='logLevel',
+        dest='log_level',
         default='INFO',
         help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
         required=False

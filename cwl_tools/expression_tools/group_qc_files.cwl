@@ -7,7 +7,7 @@ class: ExpressionTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 1G
+    ramMin: 1000
 
 doc: |
   This tool groups waltz qc files into a single directory
