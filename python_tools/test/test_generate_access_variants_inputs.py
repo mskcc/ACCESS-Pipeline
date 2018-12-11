@@ -24,7 +24,8 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
             'output_file_name':             './test_output/ACCESS_Variants_test_inputs.yaml',
             'tumor_bams_directory':         './test_data/tumor_bams',
             'normal_bams_directory':        './test_data/normal_bams',
-            'genotyping_bams_directory':    './test_data/genotyping_bams',
+            'simplex_bams_directory':       './test_data/simplex_bams',
+            'curated_bams_directory':       './test_data/curated_bams',
             'pairing_file_path':            './test_data/test_pairing.tsv',
             'default_normal_path':          './test_data/default_normal.bam',
         }
@@ -33,7 +34,8 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
             'output_file_name':             './test_output/ACCESS_Variants_test_inputs.yaml',
             'tumor_bams_directory':         './test_data/tumor_bams',
             'normal_bams_directory':        './test_data/normal_bams',
-            'genotyping_bams_directory':    './test_data/genotyping_bams',
+            'simplex_bams_directory':       './test_data/simplex_bams',
+            'curated_bams_directory':       './test_data/curated_bams',
             'pairing_file_path':            './test_data/test_pairing.tsv',
             'default_normal_path':           './test_data/default_normal.bam',
         }
@@ -67,7 +69,7 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         assert len(inputs_file['normal_bams']) == 3
         assert len(inputs_file['tumor_sample_names']) == 3
         assert len(inputs_file['normal_sample_names']) == 3
-        assert len(inputs_file['genotyping_bams']) == 8
+        assert len(inputs_file['genotyping_bams']) == 11
 
         assert inputs_file['tumor_bams'][0] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_1.bam'}
         assert inputs_file['tumor_bams'][1] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_2.bam'}
@@ -84,9 +86,12 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         assert inputs_file['genotyping_bams'][2] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_2.bam'}
         assert inputs_file['genotyping_bams'][3] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_3.bam'}
         assert inputs_file['genotyping_bams'][4] == {'class': 'File', 'path': './test_data/normal_bams/normal_bam_3.bam'}
-        assert inputs_file['genotyping_bams'][5] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_1.bam'}
-        assert inputs_file['genotyping_bams'][6] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_2.bam'}
-        assert inputs_file['genotyping_bams'][7] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_3.bam'}
+        assert inputs_file['genotyping_bams'][5] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_1.bam'}
+        assert inputs_file['genotyping_bams'][6] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_2.bam'}
+        assert inputs_file['genotyping_bams'][7] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_3.bam'}
+        assert inputs_file['genotyping_bams'][8] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_1.bam'}
+        assert inputs_file['genotyping_bams'][9] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_2.bam'}
+        assert inputs_file['genotyping_bams'][10] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_3.bam'}
 
 
     def test_unmatched_mode(self):
@@ -105,7 +110,7 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         assert len(inputs_file['normal_bams']) == 3
         assert len(inputs_file['tumor_sample_names']) == 3
         assert len(inputs_file['normal_sample_names']) == 3
-        assert len(inputs_file['genotyping_bams']) == 8
+        assert len(inputs_file['genotyping_bams']) == 11
 
         assert inputs_file['tumor_bams'][0] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_1.bam'}
         assert inputs_file['tumor_bams'][1] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_2.bam'}
@@ -121,6 +126,9 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         assert inputs_file['genotyping_bams'][2] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_2.bam'}
         assert inputs_file['genotyping_bams'][3] == {'class': 'File', 'path': './test_data/tumor_bams/tumor_bam_3.bam'}
         assert inputs_file['genotyping_bams'][4] == {'class': 'File', 'path': './test_data/normal_bams/normal_bam_3.bam'}
-        assert inputs_file['genotyping_bams'][5] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_1.bam'}
-        assert inputs_file['genotyping_bams'][6] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_2.bam'}
-        assert inputs_file['genotyping_bams'][7] == {'class': 'File', 'path': './test_data/genotyping_bams/genotyping_bam_3.bam'}
+        assert inputs_file['genotyping_bams'][5] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_1.bam'}
+        assert inputs_file['genotyping_bams'][6] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_2.bam'}
+        assert inputs_file['genotyping_bams'][7] == {'class': 'File', 'path': './test_data/simplex_bams/simplex_bam_3.bam'}
+        assert inputs_file['genotyping_bams'][8] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_1.bam'}
+        assert inputs_file['genotyping_bams'][9] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_2.bam'}
+        assert inputs_file['genotyping_bams'][10] == {'class': 'File', 'path': './test_data/curated_bams/curated_bam_3.bam'}
