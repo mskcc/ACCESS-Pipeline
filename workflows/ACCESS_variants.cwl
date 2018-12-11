@@ -45,6 +45,7 @@ inputs:
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
+  genotyping_bams_ids: string[]
 
   bed_file: File
   refseq: File
@@ -161,6 +162,7 @@ steps:
       gbcms_params: gbcms_params
       combine_vcf: module_3/concatenated_vcf
       genotyping_bams: genotyping_bams
+      genotyping_bams_ids: genotyping_bams_ids
       tumor_sample_name: tumor_sample_names
       normal_sample_name: normal_sample_names
       ref_fasta: ref_fasta

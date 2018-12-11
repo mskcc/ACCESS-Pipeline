@@ -22,6 +22,8 @@ inputs:
 
   gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
 
+  genotyping_bams_ids: string[]
+
   maf:
     type: File
     doc: MAF file on which to fillout

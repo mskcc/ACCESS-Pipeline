@@ -27,6 +27,7 @@ inputs:
     type: File[]
     secondaryFiles:
       - ^.bai
+  genotyping_bams_ids: string[]
 
   hotspot_list: File
   ref_fasta:
@@ -118,10 +119,11 @@ steps:
     in:
       gbcms_params: gbcms_params
       maf: remove_variants/consolidated_maf
+      genotyping_bams_ids: genotyping_bams_ids
       bams:
         source: genotyping_bams
         # Todo: Why doesn't b.path work? Because of --linkImports?
-        valueFrom: $(self.map(function(b) {return b.basename.split('_cl')[0] + ':' + b.location.replace('file://', '')}))
+        valueFrom: $(self.map(function(b, i) {return inputs.genotyping_bams_ids[i] + ':' + b.location.replace('file://', '')}))
       ref_fasta: ref_fasta
       output:
         valueFrom: $(inputs.maf.basename.replace('.maf', '_fillout.maf'))
