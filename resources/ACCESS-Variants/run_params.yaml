@@ -67,7 +67,7 @@ vcf2maf_params:
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
 
 gbcms_params:
-  omaf: false
+  omaf: true
   filter_duplicate: 0
   thread: 10
   maq: 20
