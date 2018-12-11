@@ -15,42 +15,42 @@ inputs:
   standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: --standard_waltz_metrics_pool_a
+      prefix: --standard_waltz_pool_a
 
   unfiltered_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: --unfiltered_waltz_metrics_pool_a
+      prefix: --unfiltered_waltz_pool_a
 
   simplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: --simplex_waltz_metrics_pool_a
+      prefix: --simplex_waltz_pool_a
 
   duplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: --duplex_waltz_metrics_pool_a
+      prefix: --duplex_waltz_pool_a
 
   standard_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: --standard_waltz_metrics_pool_b
+      prefix: --standard_waltz_pool_b
 
   unfiltered_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: --unfiltered_waltz_metrics_pool_b
+      prefix: --unfiltered_waltz_pool_b
 
   simplex_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: --simplex_waltz_metrics_pool_b
+      prefix: --simplex_waltz_pool_b
 
   duplex_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: --duplex_waltz_metrics_pool_b
+      prefix: --duplex_waltz_pool_b
 
 outputs:
 
