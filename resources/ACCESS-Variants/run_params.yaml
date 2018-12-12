@@ -1,4 +1,4 @@
-tmp_dir: {class: Directory, path: /scratch/johnsoni}
+tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 
 ############
 # Module 3 #
