@@ -15,6 +15,7 @@ requirements:
 
 inputs:
 
+  tmp_dir: Directory
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
 
@@ -30,6 +31,12 @@ inputs:
   genotyping_bams_ids: string[]
 
   hotspot_list: File
+
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+
   ref_fasta:
     type: File
     secondaryFiles: [.fai]
@@ -59,6 +66,7 @@ steps:
     in:
       vcf2maf_params: vcf2maf_params
       input_vcf: combine_vcf
+      tmp_dir: tmp_dir
 
       # Todo: are these right?
       vcf_tumor_id: tumor_sample_name
@@ -77,8 +85,9 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.max_filter_ac)
       min_hom_vaf:
         valueFrom: $(inputs.vcf2maf_params.min_hom_vaf)
-      filter_vcf:
-        valueFrom: $(inputs.vcf2maf_params.filter_vcf)
+#      filter_vcf:
+#        valueFrom: $(inputs.vcf2maf_params.filter_vcf)
+      filter_vcf: exac_filter
       vep_path:
         valueFrom: $(inputs.vcf2maf_params.vep_path)
       vep_data:
@@ -93,7 +102,7 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.custom_enst)
 
       output_maf:
-        valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '_combinedVariants_vep.maf')
+        valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '.combined-variants.vep.maf')
     out: [output]
 
   tag_hotspots:

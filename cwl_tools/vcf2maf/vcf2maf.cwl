@@ -10,7 +10,7 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 2
 
 inputs:
@@ -123,7 +123,7 @@ inputs:
       prefix: --custom-enst
 
   tmp_dir:
-    type: string?
+    type: Directory
     doc: Folder to retain intermediate VCFs after runtime
     inputBinding:
       prefix: --tmp-dir

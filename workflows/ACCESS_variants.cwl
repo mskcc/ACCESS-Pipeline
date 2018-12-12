@@ -75,10 +75,10 @@ inputs:
 #    type: File
 #    secondaryFiles:
 #      - .idx
-#  exac_filter:
-#    type: File
-#    secondaryFiles:
-#      - .tbi
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
 #  conpair_markers: File
 #  conpair_markers_bed: File
 #################
@@ -158,6 +158,7 @@ steps:
     run: ./module-4.cwl
     in:
       vcf2maf_params: vcf2maf_params
+      tmp_dir: tmp_dir
       hotspots: hotspots
       gbcms_params: gbcms_params
       combine_vcf: module_3/concatenated_vcf
@@ -166,7 +167,7 @@ steps:
       tumor_sample_name: tumor_sample_names
       normal_sample_name: normal_sample_names
       ref_fasta: ref_fasta
-#      exac_filter: exac_filter
+      exac_filter: exac_filter
       hotspot_list: hotspot_list
     out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
