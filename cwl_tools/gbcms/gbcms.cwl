@@ -2,6 +2,16 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
+requirements:
+  InlineJavascriptRequirement: {}
+  ShellCommandRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
+  ResourceRequirement:
+    ramMin: 32000
+    coresMin: 2
+
 # Todo items:
 # - cmo_fillout has a section to create Portal fillout
 # - cmo_fillout creates "a temporary MAF with events deduplicated by genomic loci and ref/alt alleles"
@@ -9,34 +19,28 @@ class: CommandLineTool
 
 baseCommand: /ifs/work/bergerm1/Innovation/software/maysun/GetBaseCountsMultiSample/GetBaseCountsMultiSample
 
-requirements:
-  InlineJavascriptRequirement: {}
-  SchemaDefRequirement:
-    types:
-      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
-  ResourceRequirement:
-    ramMin: 32
-    coresMin: 2
+arguments:
+# Todo: try without shellQuote: false
+- shellQuote: false
+  valueFrom: |
+    ${
+      return inputs.genotyping_bams_ids.map(function(b, i) {
+        return '--bam ' + b + ':' + inputs.genotyping_bams[i].path
+      }).join(' ')
+    }
 
 inputs:
 
   gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
 
   genotyping_bams_ids: string[]
+  genotyping_bams: File[]
 
   maf:
     type: File
     doc: MAF file on which to fillout
     inputBinding:
       prefix: --maf
-
-  bams:
-    doc: BAM files to fillout with, with format SAMPLE_ID:/Bam/Path
-    type:
-      type: array
-      items: string
-      inputBinding:
-        prefix: --bam
 
   ref_fasta:
     type: File

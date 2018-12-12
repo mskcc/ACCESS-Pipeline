@@ -129,10 +129,7 @@ steps:
       gbcms_params: gbcms_params
       maf: remove_variants/consolidated_maf
       genotyping_bams_ids: genotyping_bams_ids
-      bams:
-        source: genotyping_bams
-        # Todo: Why doesn't b.path work? Because of --linkImports?
-        valueFrom: $(self.map(function(b, i) {return inputs.genotyping_bams_ids[i] + ':' + b.location.replace('file://', '')}))
+      genotyping_bams: genotyping_bams
       ref_fasta: ref_fasta
       output:
         valueFrom: $(inputs.maf.basename.replace('.maf', '_fillout.maf'))
