@@ -55,14 +55,14 @@ def main():
 
 def read_maf(args):
     """
-    Read the input maf to be filtered
+    Read the input maf to be filtered. Create additional data frame of Complex variants
 
     :param args:
     :return:
     """
-    dataDF = pd.read_table(args.input_maf, comment="#", low_memory=False)
-    complex_variant_dataDF = dataDF.loc[dataDF['TYPE'] == "Complex"]
-    return (complex_variant_dataDF, dataDF)
+    df = pd.read_table(args.input_maf, comment='#', low_memory=False)
+    complex_variant_df = df.loc[df['TYPE'] == 'Complex']
+    return complex_variant_df, df
 
 
 def make_coordinate_for_complex_variants(cvDF):
@@ -72,7 +72,7 @@ def make_coordinate_for_complex_variants(cvDF):
     :param cvDF:
     :return:
     """
-    positions_to_check = pd.DataFrame(columns=["Chromosome", "Start"])
+    positions_to_check = pd.DataFrame(columns=['Chromosome', 'Start'])
 
     count = 0
     for index, row in cvDF.iterrows():
@@ -81,7 +81,7 @@ def make_coordinate_for_complex_variants(cvDF):
         end = row.loc['End_Position']
 
         for i in range(start, end + 1):
-            positions_to_check.loc[count, ["Chromosome", "Start"]] = [chr, i]
+            positions_to_check.loc[count, ['Chromosome', 'Start']] = [chr, i]
             count += 1
 
     return positions_to_check
@@ -89,7 +89,7 @@ def make_coordinate_for_complex_variants(cvDF):
 
 def remove_variants(positions_to_check, all_variants_df):
     """
-    Remove variants in one of two cases:
+    Remove variants in two cases:
         1. based on overlapping events (I.E. a variant is found to overlap with a complex variant)
         2. Variants intergenic regions (based on Variant_Classification column)
 
@@ -139,5 +139,5 @@ if __name__ == "__main__":
     end_time = time.time()
 
     totaltime = end_time - start_time
-    logging.info("remove_variants: Elapsed time was %g seconds", totaltime)
+    logging.info('remove_variants: Elapsed time was %g seconds', totaltime)
     sys.exit(0)

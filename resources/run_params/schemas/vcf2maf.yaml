@@ -27,8 +27,8 @@ fields:
   any_allele: string?
   tmp_dir: string?
   vep_forks: int?
-  filter_vcf:
-  - 'null'
-  - string
-  - File
+#  filter_vcf:
+#  - 'null'
+#  - string
+#  - File
   retain_info: string?
