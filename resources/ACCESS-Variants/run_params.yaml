@@ -58,12 +58,12 @@ vcf2maf_params:
   vep_path: /opt/common/CentOS_6-dev/vep/v91/
   vep_data: /opt/common/CentOS_6-dev/vep/cache/
   vep_forks: 4
-  filter_vcf: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
   retain_info: 'set,TYPE,FAILURE_REASON'
   buffer_size: 5000
   # Todo: consolidate
   custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
 
+exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
 
 gbcms_params:

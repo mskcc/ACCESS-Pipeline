@@ -4,10 +4,9 @@ class: CommandLineTool
 
 requirements:
   MultipleInputFeatureRequirement: {}
-# Todo:
-#  ResourceRequirement:
-#    ramMin: 32
-#    coresMin: 2
+  ResourceRequirement:
+    ramMin: 8000
+    coresMin: 1
 
 baseCommand: remove_variants
 
