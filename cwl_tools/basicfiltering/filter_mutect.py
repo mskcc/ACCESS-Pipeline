@@ -103,7 +103,7 @@ def run_std_filter(args):
 
         tdp = trd + tad
         # Calculate Tumor Variant Fraction
-        if(tdp != 0):
+        if tdp != 0:
             tvf = int(tad) / float(tdp)
         else:
             tvf = 0
@@ -124,8 +124,8 @@ def run_std_filter(args):
         nvfRF = int(args.tnr) * nvf
 
         # This will help in filtering VCF
-        key_for_tracking = str(chr) + ":" + str(pos) + ":" + str(ref_allele) + ":" + str(alt_allele)
-        locus = str(chr) + ":" + str(pos)
+        key_for_tracking = str(chr) + ':' + str(pos) + ':' + str(ref_allele) + ':' + str(alt_allele)
+        locus = str(chr) + ':' + str(pos)
 
         if judgement == "KEEP":
             if key_for_tracking in keepDict:
