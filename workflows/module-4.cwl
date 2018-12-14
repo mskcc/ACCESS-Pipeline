@@ -74,6 +74,7 @@ steps:
       tumor_id: tumor_sample_name
       normal_id: normal_sample_name
       ref_fasta: ref_fasta
+      filter_vcf: exac_filter
 
       species:
         valueFrom: $(inputs.vcf2maf_params.species)
@@ -85,9 +86,6 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.max_filter_ac)
       min_hom_vaf:
         valueFrom: $(inputs.vcf2maf_params.min_hom_vaf)
-#      filter_vcf:
-#        valueFrom: $(inputs.vcf2maf_params.filter_vcf)
-      filter_vcf: exac_filter
       vep_path:
         valueFrom: $(inputs.vcf2maf_params.vep_path)
       vep_data:
