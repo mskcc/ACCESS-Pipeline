@@ -47,7 +47,9 @@ def parse_arguments():
     parser.add_argument('-nb', '--normal_bams_directory', help='Directory that contains all normal bams to be used in variant calling and genotyping '
                                                                '(if using matched mode, otherwise only used for genotyping)', required=True)
     parser.add_argument('-sb', '--simplex_bams_directory', help='Directory that contains additional simplex bams to be used for genotyping', required=True)
-    parser.add_argument('-cb', '--curated_bams_directory', help='Directory that contains additional curated bams to be used for genotyping', required=True)
+    # Note: For ACCESS, we will often genotype from the same folders of curated bams
+    parser.add_argument('-cbd', '--curated_bams_duplex_directory', help='Directory that contains additional duplex curated bams to be used for genotyping', required=True)
+    parser.add_argument('-cbs', '--curated_bams_simplex_directory', help='Directory that contains additional simplex curated bams to be used for genotyping', required=True)
     args = parser.parse_args()
     return args
 
@@ -98,7 +100,6 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
 
     for i, tn_pair in pairing_file.iterrows():
         tumor_id = tn_pair['tumor_id']
-        # Todo: not working for matched mode?
         normal_id = tn_pair['normal_id']
 
         # Find the path to the bam that contains this tumor sample ID
@@ -155,7 +156,8 @@ def create_inputs_file(args):
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory)
     normal_bam_paths = find_bams_in_directory(args.normal_bams_directory)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
-    curated_bam_paths = find_bams_in_directory(args.curated_bams_directory)
+    curated_bam_duplex_paths = find_bams_in_directory(args.curated_bams_duplex_directory)
+    curated_bam_simplex_paths = find_bams_in_directory(args.curated_bams_simplex_directory)
 
     # Todo: move to Main()
     validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
@@ -167,7 +169,8 @@ def create_inputs_file(args):
         tumor_bam_paths,
         normal_bam_paths,
         simplex_bam_paths,
-        curated_bam_paths
+        curated_bam_duplex_paths,
+        curated_bam_simplex_paths,
     )
 
     include_file_resources(fh, RUN_FILES_PATH)
@@ -175,7 +178,16 @@ def create_inputs_file(args):
     fh.close()
 
 
-def write_yaml_bams(fh, args, pairing_file, tumor_bam_paths, normal_bam_paths, simplex_bam_paths, curated_bam_paths):
+def write_yaml_bams(
+        fh,
+        args,
+        pairing_file,
+        tumor_bam_paths,
+        normal_bam_paths,
+        simplex_bam_paths,
+        curated_bam_duplex_paths,
+        curated_bam_simplex_paths
+    ):
     """
     Write the lists of tumor and normal bams to the inputs file
 
@@ -198,20 +210,23 @@ def write_yaml_bams(fh, args, pairing_file, tumor_bam_paths, normal_bam_paths, s
     if args.matched_mode:
         # Use pairing file for matched normal sample IDs
         # Todo: horrible
-        normal_sample_ids = [n if n else args.default_normal_path.split('/')[-1].split('_cl_aln')[0]for n in pairing_file['normal_id']]
+        normal_sample_ids = [n if n else args.default_normal_path.split('/')[-1].split('_cl_aln')[0] for n in pairing_file['normal_id']]
     else:
         # Use default normal for normal sample IDs
         # Todo: Better way of doing this
         normal_sample_ids = [args.default_normal_path.split('/')[-1].split('_cl_aln')[0]] * len(tumor_sample_ids)
 
     simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
-    curated_genotyping_bams = create_yaml_file_objects(curated_bam_paths)
+    curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
+    curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
+
     # Also genotype the T/N samples that were initially used for variant calling
     tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_samples)
-    genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_genotyping_bams
+    genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_duplex_genotyping_bams + curated_simplex_genotyping_bams
 
     simplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-SIMPLEX' for b in simplex_genotyping_bams]
-    curated_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-CURATED' for b in curated_genotyping_bams]
+    curated_duplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-CURATED' for b in curated_duplex_genotyping_bams]
+    curated_simplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
 
     tumor_bam_paths = {'tumor_bams': tumor_bams}
     normal_bam_paths = {'normal_bams': normal_bams}
@@ -221,7 +236,13 @@ def write_yaml_bams(fh, args, pairing_file, tumor_bam_paths, normal_bam_paths, s
 
     # Todo: Find a (much) better way
     merged_tn_sample_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] for b in tn_genotyping_bams]
-    genotyping_bams_ids = {'genotyping_bams_ids': merged_tn_sample_ids + simplex_genotyping_ids + curated_genotyping_ids}
+
+    genotyping_bams_ids = {
+        'genotyping_bams_ids': merged_tn_sample_ids +
+                               simplex_genotyping_ids +
+                               curated_duplex_genotyping_ids +
+                               curated_simplex_genotyping_ids
+    }
 
     # Write them to the inputs yaml file
     fh.write(ruamel.yaml.dump(tumor_bam_paths))
