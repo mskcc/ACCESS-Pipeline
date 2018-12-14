@@ -8,9 +8,10 @@ arguments:
 - -Xmx28g # must be less than ramMin
 - -Xms256m
 - -XX:-UseGCOverheadLimit
+# Todo: try inputs.tmp_dir
 - -Djava.io.tmpdir=$(inputs.tmp_dir.path)
 - -jar
-- /home/johnsoni/ACCESS-Variants/Docker/muTect-1.1.5.jar
+- /home/johnsoni/vendor_tools/muTect-1.1.5.jar
 - --analysis_type
 - MuTect
 
