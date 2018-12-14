@@ -28,6 +28,10 @@ logging.basicConfig(
 
 logger = logging.getLogger('filter_mutect')
 
+# Variants with ONLY these tags in their failure_reason column should still be considered to pass
+ACCEPTED_TAGS = ['alt_allele_in_normal', 'nearby_gap_events', 'triallelic_site', 'possible_contamination',
+                 'clustered_read_position']
+
 
 def main():
     parser = argparse.ArgumentParser(prog='filter_mutect.py', description='Filter snps from the output of muTect v1.1.4', usage='%(prog)s [options]')
@@ -101,19 +105,32 @@ def run_std_filter(args):
         trd = int(row.loc['t_ref_count'])
         tad = int(row.loc['t_alt_count'])
 
+        ##############################
+        # Tumor Variant Calculations #
+        ##############################
+
+        # Total Depth
+        # Todo: Does this include indels? soft clipping?
         tdp = trd + tad
-        # Calculate Tumor Variant Fraction
+
+        # Variant Fraction
         if tdp != 0:
             tvf = int(tad) / float(tdp)
         else:
             tvf = 0
 
+        ###############################
+        # Normal Variant Calculations #
+        ###############################
+
         nrd = int(row.loc['n_ref_count'])
         nad = int(row.loc['n_alt_count'])
 
+        # Total Depth
         ndp = nrd + nad
-        # Calculate Normal Variant Fraction
-        if(ndp != 0):
+
+        # Variant Fraction
+        if ndp != 0:
             nvf = int(nad) / float(ndp)
         else:
             nvf = 0
@@ -121,32 +138,40 @@ def run_std_filter(args):
         # Get REJECT or PASS
         judgement = row.loc['judgement']
         failure_reason = row.loc['failure_reasons']
+
+        # nvfRF is one of the thresholds that the tumor variant fraction must exceed
+        # in order to pass filtering.
+        #
+        # This threshold is based on the normal variant fraction, multiplied by
+        # the number of times greater we must see the mutation in the tumor (args.tnr):
+        #
         nvfRF = int(args.tnr) * nvf
 
         # This will help in filtering VCF
         key_for_tracking = str(chr) + ':' + str(pos) + ':' + str(ref_allele) + ':' + str(alt_allele)
         locus = str(chr) + ':' + str(pos)
 
-        if judgement == "KEEP":
+        # Actual filtering section
+        # Writes passing mutations to text file
+        if judgement == 'KEEP':
             if key_for_tracking in keepDict:
                 print('MutectStdFilter: There is a repeat ', key_for_tracking)
             else:
                 keepDict[key_for_tracking] = judgement
-                txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(judgement) + "\n")
+                txt_fh.write(args.tsampleName + '\t' + str(chr) + '\t' + str(pos) + '\t' + str(ref_allele) + '\t' + str(alt_allele) + '\t' + str(judgement) + '\n')
 
         else:
-            accepted_tags = ['alt_allele_in_normal', 'nearby_gap_events', 'triallelic_site', 'possible_contamination', 'clustered_read_position']
-            failure_tags = failure_reason.split(",")
+            # Check the failure reasons to determine if we should still consider this variant
+            failure_tags = failure_reason.split(',')
             tag_count = 0
             for tag in failure_tags:
-                if tag in accepted_tags:
-                    tag_count = tag_count + 1
-                else:
-                    continue
-
+                if tag in ACCEPTED_TAGS:
+                    tag_count += 1
+            # All failure_reasons should be found in accepted tags
             if tag_count != len(failure_tags):
                 continue
 
+            # Filtering section not considering hotspots
             if tvf > nvfRF:
                 if (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
                     if key_for_tracking in keepDict:
@@ -155,16 +180,18 @@ def run_std_filter(args):
                         keepDict[key_for_tracking] = failure_reason
                     txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
 
-            else:
-                if locus in hotspot:
-                    if ((tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf))):
-                        if key_for_tracking in keepDict:
-                            print('MutectStdFilter: There is a repeat ', key_for_tracking)
-                        else:
-                            keepDict[key_for_tracking] = failure_reason
-                        txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
+            # Filtering section considering hotspots
+            elif locus in hotspot:
+                if ((tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf))):
+                    if key_for_tracking in keepDict:
+                        print('MutectStdFilter: There is a repeat ', key_for_tracking)
+                    else:
+                        keepDict[key_for_tracking] = failure_reason
+                    txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
+
     txt_fh.close()
 
+    # This section uses the keepDict to write all passed mutations to the new VCF file
     vcf_writer = vcf.Writer(open(vcf_out, 'w'), vcf_reader)
     for record in vcf_reader:
         key_for_tracking = str(record.CHROM) + ':' + str(record.POS) + ':' + str(record.REF) + ':' + str(record.ALT[0])
