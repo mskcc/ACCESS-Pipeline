@@ -120,7 +120,7 @@ def get_pos(title_file, fastq_object):
         Helper method to sort list of fastqs.
         Returns 1 if `sample_id` contained in `fastq`'s path, 0 otherwise
         """
-        found = sample_id in fastq['path']
+        found = sample_id + "_" in fastq['path']
 
         if found:
             return 1
@@ -227,7 +227,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
         cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
         title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id + "_" in s.get('path')]
         assert len(matching_sample_sheets) == 1
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
@@ -268,7 +268,7 @@ def perform_barcode_index_checks(title_file, sample_sheets):
         cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id + "_" in s.get('path')]
         assert len(matching_sample_sheets) == 1
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
