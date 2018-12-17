@@ -3,8 +3,8 @@ import shutil
 import logging
 import argparse
 
-from util import substring_in_list, listdir
-from constants import (
+from ..util import substring_in_list, listdir
+from ..constants import (
     BAM_DIRS,
     BAM_SEARCHES,
     TRIM_FILE_SEARCH,
