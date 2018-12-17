@@ -7,7 +7,8 @@ class: ExpressionTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 1000
+    # Note: 1024 is the lowest value possible here because Toil will use `floor(ramMin / 1024)`
+    ramMin: 2000
 
 doc: |
   This tool groups files for one sample
