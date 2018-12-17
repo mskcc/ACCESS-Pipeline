@@ -5,7 +5,8 @@ class: ExpressionTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 1000
+    # Note: 1024 is the lowest value possible here because Toil will use `floor(ramMin / 1024)`
+    ramMin: 2000
 
 inputs:
 
@@ -20,7 +21,6 @@ outputs:
       items:
         type: array
         items: File
-#      secondaryFiles: ['^.bai']
 
   grouped_patient_ids:
     type:
