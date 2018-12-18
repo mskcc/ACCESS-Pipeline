@@ -15,6 +15,7 @@ np.seterr(divide='ignore', invalid='ignore')
 ##inputs
 mutation_key=['Chromosome', 'Start_Position','End_Position','Reference_Allele','Tumor_Seq_Allele2']
 
+
 def convert_annomaf_to_df(arg):
     if os.path.isfile(arg.anno_maf):
         annotation_file=arg.anno_maf
@@ -172,11 +173,12 @@ def parse_arguments():
 
 
 def apply_filter_maf (df_pre_filter, args):
-
+    ##FILTERS
     def tag_germline(mut, status, args):
         #if there is a matched normal and it has sufficient coverage
-        if 'n_vaf_fragment' in mut.index.tolist() and mut['n_ref_count_fragment']+mut['n_alt_count_fragment']>args.normal_TD_min and mut['n_vaf_fragment']>args.normal_vaf_germline_thres:
-            status=status+'Germline;'
+        if 'n_vaf_fragment' in mut.index.tolist() and mut['n_ref_count_fragment']+mut['n_alt_count_fragment']>args.normal_TD_min: 
+            if mut['n_vaf_fragment']>args.normal_vaf_germline_thres:
+                status=status+'Germline;'
         elif 'common_variant' in mut['FILTER'] and mut['t_ref_count_fragment']+mut['t_alt_count_fragment']>args.tumor_TD_min and mut['t_vaf_fragment']>args.tumor_vaf_germline_thres:
             status=status+'LikelyGermline;'
         return status
@@ -193,11 +195,16 @@ def apply_filter_maf (df_pre_filter, args):
     
     def occurate_in_normal (mut, status, args):
         #if normal and tumor coverage is greater than the minimal
-        if mut['t_ref_count_fragment']+mut['t_alt_count_fragment']>args.tumor_TD_min and mut['n_ref_count_fragment']+mut['n_alt_count_fragment']>args.normal_TD_min:
-            if mut['t_vaf_fragment']/mut['CURATED_median_VAF']>args.tn_ratio_thres:
-                status=status+'TNRatio-curatedmedian;'
-            elif mut['hotspot_whitelist']==False and mut['t_vaf_fragment']/mut['n_vaf_fragment']>args.tn_ratio_thres:
-                status=status+'TNRatio-hotspot;'
+        if mut['t_ref_count_fragment']+mut['t_alt_count_fragment']>args.tumor_TD_min:
+            if mut['CURATED_median_VAF']!=0:
+                if mut['t_vaf_fragment']/mut['CURATED_median_VAF']>args.tn_ratio_thres:
+                    status=status+'TNRatio-curatedmedian;'
+            
+            if 'n_vaf_fragment' in mut.index.tolist() and mut['hotspot_whitelist']==False:
+                if mut['n_ref_count_fragment']+mut['n_alt_count_fragment']>args.normal_TD_min and mut['n_vaf_fragment']!=0:
+                    if mut['t_vaf_fragment']/mut['n_vaf_fragment']>args.tn_ratio_thres:
+                        status=status+'TNRatio-matchnorm;'
+        return status
     
     def non_exonic (mut, status):
         keep_exonic=['Missense_Mutation', 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del', 'In_Frame_Ins', 'In_Frame_Del']
@@ -210,7 +217,8 @@ def apply_filter_maf (df_pre_filter, args):
         else:
             status=status+'NonExonic;'
         return status
-        
+    
+    #RUN
     df_post_filter=df_pre_filter.copy()
     df_post_filter['Status'] = ''
     for i, mut in df_post_filter.iterrows():
@@ -222,13 +230,13 @@ def apply_filter_maf (df_pre_filter, args):
         status=non_exonic (mut, status)
         df_post_filter.loc[i, 'Status'] = status
     return df_post_filter
-"""
+   
 def main():
     args = parse_arguments()
     df_pre_filter=make_per_filtered_maf (args)
     df_post_filter=apply_filter_maf (df_pre_filter, args)
     #saves to the same directory as the annotation file.
-    df_post_filter.to_csv(args.anno_maf[:-4]+"_filtered.maf", header=True, index=None, sep='\t', mode='a')
+    df_post_filter.to_csv(args.fillout_maf[:-4]+"_filtered.maf", header=True, index=None, sep='\t', mode='a')
 
 if __name__ == '__main__':
     main()
@@ -271,3 +279,4 @@ def debug_args():
 args=debug_args()
 df_pre_filter=make_per_filtered_maf (args)
 df_post_filter=apply_filter_maf (df_pre_filter, args)
+"""
