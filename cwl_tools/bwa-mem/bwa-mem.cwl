@@ -28,7 +28,7 @@ arguments:
 - mem
 - -t
 - $(inputs.t)
-- -PM
+- -M
 - -R
 - '@RG	ID:$(inputs.ID)	LB:$(inputs.LB)	SM:$(inputs.SM)	PL:$(inputs.PL)	PU:$(inputs.PU)	CN:$(inputs.CN)'
 - $(inputs.reference_fasta)
