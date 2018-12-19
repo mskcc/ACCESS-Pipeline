@@ -27,15 +27,13 @@ inputs:
     secondaryFiles: [^.bai]
 
   all_regions:
-    type: boolean
-#    default: false
+    type: boolean?
     doc: include regions marked in this genome
     inputBinding:
       prefix: --all_regions
 
   sv_type:
     type: string
-#    default: DEL
     doc: SV type (DEL, DUP, INV, BND, INS)
     inputBinding:
       prefix: --type
@@ -55,41 +53,36 @@ inputs:
 
   output_filename:
     type: string?
-#    default: sv.bcf
     doc: SV BCF output file
     inputBinding:
       prefix: --outfile
 
   min_paired_end_mapping_quality:
     type: int?
-#    default: 1
     doc: min. paired-end mapping quality
     inputBinding:
       prefix: --map-qual
 
   insert_size_cutoff:
     type: int?
-#    default: 9
     doc: insert size cutoff, median+s*MAD (deletions only)
     inputBinding:
       prefix: --mad-cutoff
 
   no_small_indels:
     type: boolean?
-#    default: false
     doc: no small InDel calling
     inputBinding:
       prefix: --noindels
 
   vcf_input:
     type: string?
-#    doc: input VCF/BCF file for re-genotyping
+    doc: input VCF/BCF file for re-genotyping
     inputBinding:
       prefix: --vcffile
 
   min_genotyping_map_quality:
     type: int?
-#    default: 5
     doc: min. mapping quality for genotyping
     inputBinding:
       prefix: --geno-qual
