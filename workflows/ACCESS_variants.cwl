@@ -127,6 +127,10 @@ outputs:
 
 steps:
 
+  ###################
+  # Variant Calling #
+  ###################
+
   module_3:
     run: ./module-3.cwl
     in:
@@ -154,6 +158,10 @@ steps:
       mutect_normalized_vcf,
       vardict_normalized_vcf]
 
+  ##############
+  # Genotyping #
+  ##############
+
   module_4:
     run: ./module-4.cwl
     in:
@@ -171,4 +179,23 @@ steps:
       hotspot_list: hotspot_list
     out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
+    scatterMethod: dotproduct
+
+  #######################
+  # Structural Variants #
+  #######################
+
+  structural_variants:
+    run: ./module-6.cwl
+    in:
+      vcf2maf_params: vcf2maf_params
+      tumor_bam: tumor_bams
+      normal_bam: normal_bams
+      genome: pairing/genome
+      normal_sample_name: tumor_sample_names
+      tumor_sample_name: normal_sample_names
+      delly_type: #pairing/delly_type
+        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
+    out: [merged_file, merged_file_unfiltered, maf_file, portal_file]
+    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name] #, delly_type, vep_data]
     scatterMethod: dotproduct
