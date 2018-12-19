@@ -1,45 +1,7 @@
-#!/usr/bin/env cwl-runner
-
-$namespaces:
-  dct: http://purl.org/dc/terms/
-  foaf: http://xmlns.com/foaf/0.1/
-  doap: http://usefulinc.com/ns/doap#
-
-$schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
-
-doap:release:
-- class: doap:Version
-  doap:name: cmo-delly.merge
-  doap:revision: 0.7.7
-- class: doap:Version
-  doap:name: cwl-wrapper
-  doap:revision: 1.0.0
-
-dct:creator:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org
-
-dct:contributor:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_delly.py -b cmo_delly.py --version default --cmd merge --generate_cwl_tool
-# Help: $ cmo_delly.py  --help_arg2cwl
-
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
+
 baseCommand:
 - cmo_delly
 - --version

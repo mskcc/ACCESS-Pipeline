@@ -195,7 +195,7 @@ steps:
       normal_sample_name: tumor_sample_names
       tumor_sample_name: normal_sample_names
       delly_type: #pairing/delly_type
-        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'TRA'])
+        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
     out: [merged_file, merged_file_unfiltered, maf_file, portal_file]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name] #, delly_type, vep_data]
     scatterMethod: dotproduct
