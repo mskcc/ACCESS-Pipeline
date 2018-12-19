@@ -1,115 +1,110 @@
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 7
+    ramMin: 7000
     coresMin: 2
 
-baseCommand:
-- cmo_delly
-- --version
-- 0.7.7
-- --cmd
-- call
+baseCommand: [/opt/common/CentOS_6-dev/delly/0.7.7/delly, call]
 
 inputs:
-  t:
-    type: ['null', string]
-    default: DEL
-    doc: SV type (DEL, DUP, INV, BND, INS)
-    inputBinding:
-      prefix: --type
 
-  g:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
-    doc: genome fasta file
+  tumor_bam:
+    type: File
+    doc: Sorted tumor bam
     inputBinding:
-      prefix: --genome
-
-  x:
-    type: ['null', string]
-    doc: file with regions to exclude
-    inputBinding:
-      prefix: --exclude_file
-
-  o:
-    type: ['null', string]
-    default: sv.bcf
-    doc: SV BCF output file
-    inputBinding:
-      prefix: --outfile
-
-  q:
-    type: ['null', int]
-    default: 1
-    doc: min. paired-end mapping quality
-    inputBinding:
-      prefix: --map-qual
-
-  s:
-    type: ['null', int]
-    default: 9
-    doc: insert size cutoff, median+s*MAD (deletions only)
-    inputBinding:
-      prefix: --mad-cutoff
-
-  n:
-    type: ['null', boolean]
-    default: false
-    doc: no small InDel calling
-    inputBinding:
-      prefix: --noindels
-
-  v:
-    type: ['null', string]
-    doc: input VCF/BCF file for re-genotyping
-    inputBinding:
-      prefix: --vcffile
-
-  u:
-    type: ['null', int]
-    default: 5
-    doc: min. mapping quality for genotyping
-    inputBinding:
-      prefix: --geno-qual
+      position: 999
+    secondaryFiles: [^.bai]
 
   normal_bam:
     type: File
     doc: Sorted normal bam
     inputBinding:
-      prefix: --normal_bam
-    secondaryFiles: [.bai]
-  tumor_bam:
-    type: File
-    doc: Sorted tumor bam
-    inputBinding:
-      prefix: --tumor_bam
-    secondaryFiles: [.bai]
+      position: 1000
+    secondaryFiles: [^.bai]
+
   all_regions:
-    type: ['null', boolean]
-    default: false
+    type: boolean
+#    default: false
     doc: include regions marked in this genome
     inputBinding:
       prefix: --all_regions
 
+  sv_type:
+    type: string
+#    default: DEL
+    doc: SV type (DEL, DUP, INV, BND, INS)
+    inputBinding:
+      prefix: --type
+
+  reference_fasta:
+    # Todo: make File
+    type: string
+    doc: genome fasta file
+    inputBinding:
+      prefix: --genome
+
+  excluded_regions:
+    type: string?
+    doc: file with regions to exclude
+    inputBinding:
+      prefix: --exclude_file
+
+  output_filename:
+    type: string?
+#    default: sv.bcf
+    doc: SV BCF output file
+    inputBinding:
+      prefix: --outfile
+
+  min_paired_end_mapping_quality:
+    type: int?
+#    default: 1
+    doc: min. paired-end mapping quality
+    inputBinding:
+      prefix: --map-qual
+
+  insert_size_cutoff:
+    type: int?
+#    default: 9
+    doc: insert size cutoff, median+s*MAD (deletions only)
+    inputBinding:
+      prefix: --mad-cutoff
+
+  no_small_indels:
+    type: boolean?
+#    default: false
+    doc: no small InDel calling
+    inputBinding:
+      prefix: --noindels
+
+  vcf_input:
+    type: string?
+#    doc: input VCF/BCF file for re-genotyping
+    inputBinding:
+      prefix: --vcffile
+
+  min_genotyping_map_quality:
+    type: int?
+#    default: 5
+    doc: min. mapping quality for genotyping
+    inputBinding:
+      prefix: --geno-qual
+
   stderr:
-    type: ['null', string]
+    type: string?
     doc: log stderr to file
     inputBinding:
       prefix: --stderr
 
   stdout:
-    type: ['null', string]
+    type: string?
     doc: log stdout to file
     inputBinding:
       prefix: --stdout
-
 
 outputs:
   sv_file:
