@@ -19,7 +19,6 @@ inputs:
   tumor_bam:
     type: File
     secondaryFiles: [^.bai]
-
   normal_bam:
     type: File
     secondaryFiles: [^.bai]
@@ -69,7 +68,6 @@ steps:
   #######################
 
   createTNPair:
-
     in:
       tumor_sample_name: tumor_sample_name
       normal_sample_name: normal_sample_name
@@ -82,11 +80,8 @@ steps:
 
     run:
       class: CommandLineTool
-
       baseCommand: [echo, -e]
-
       stdout: $(inputs.output_filename)
-
       requirements:
         InlineJavascriptRequirement: {}
         MultipleInputFeatureRequirement: {}
@@ -108,7 +103,6 @@ steps:
 
   call_sv_by_delly:
     scatter: [delly_type]
-
     scatterMethod: dotproduct
 
     in:
@@ -172,9 +166,9 @@ steps:
               valueFrom: $(inputs.i.basename.replace('.bcf', '.pass.bcf'))
           out: [sv_file]
 
-  ##############
-  # Merge bcfs #
-  ##############
+  #########################
+  # Merge unfiltered bcfs #
+  #########################
 
   merge_with_bcftools_unfiltered:
     in:
@@ -188,9 +182,7 @@ steps:
 
     run:
       class: CommandLineTool
-
       baseCommand: [bcftools, concat, -a]
-
       stdout: $(inputs.output_filename)
 
       inputs:
@@ -214,6 +206,10 @@ steps:
         merged_file_unfiltered:
           type: stdout
 
+  #######################
+  # Merge filtered bcfs #
+  #######################
+
   merge_with_bcftools:
     in:
       tumor_sample_name: tumor_sample_name
@@ -226,9 +222,7 @@ steps:
 
     run:
       class: CommandLineTool
-
       baseCommand: [bcftools, concat, -a]
-
       stdout: $(inputs.output_filename)
 
       inputs:
