@@ -52,7 +52,7 @@ inputs:
       prefix: --exclude_file
 
   output_filename:
-    type: string?
+    type: string
     doc: SV BCF output file
     inputBinding:
       prefix: --outfile
@@ -100,14 +100,10 @@ inputs:
       prefix: --stdout
 
 outputs:
+
   sv_file:
     type: File
     secondaryFiles: 
       - ^.bcf.csi
     outputBinding:
-      glob: |
-        ${
-          if (inputs.o)
-            return inputs.o;
-          return null;
-        }
+      glob: $(inputs.output_filename)
