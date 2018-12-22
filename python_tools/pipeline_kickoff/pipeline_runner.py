@@ -1,4 +1,5 @@
 import os
+import sys
 import uuid
 import argparse
 import subprocess
@@ -200,6 +201,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
 
     print('Running Toil with command: {}'.format(cmd))
     print('ACCESS-Pipeline version: {}'.format(version.most_recent_tag))
+    sys.stdout.flush()
     subprocess.check_call(cmd, shell=True)
 
 
