@@ -39,8 +39,7 @@ inputs:
       prefix: --type
 
   reference_fasta:
-    # Todo: make File
-    type: string
+    type: File
     doc: genome fasta file
     inputBinding:
       prefix: --genome

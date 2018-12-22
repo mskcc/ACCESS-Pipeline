@@ -8,14 +8,15 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
-#  SchemaDefRequirement:
-#    types:
-#      - $import: ../resources/run_params/schemas/vcf2maf.yaml
+  SchemaDefRequirement:
+    types:
+      - $import: ../resources/run_params/schemas/vcf2maf.yaml
 
 inputs:
 
-#  vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
+  vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
 
+  tmp_dir: Directory
   tumor_bam:
     type: File
     secondaryFiles: [^.bai]
@@ -27,7 +28,12 @@ inputs:
   tumor_sample_name: string
   delly_type: string[]
   vep_data: string
-  reference_fasta: string
+  reference_fasta: File
+
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
 
 outputs:
 
@@ -53,13 +59,13 @@ outputs:
     type: File
     outputSource: merge_with_bcftools_unfiltered/merged_file_unfiltered
 
-#  maf_file:
-#    type: File
-#    outputSource: vcf2maf/output
+  maf_file:
+    type: File
+    outputSource: vcf2maf/output
 
-#  portal_file:
-#    type: File
-#    outputSource: portal_format_output/portal_file
+  portal_file:
+    type: File
+    outputSource: portal_format_output/portal_file
 
 steps:
 
@@ -125,7 +131,7 @@ steps:
         tumor_sample_name: string
         delly_type: string
         pairfile: File
-        reference_fasta: string
+        reference_fasta: File
 
       outputs:
         delly_sv:
@@ -153,7 +159,7 @@ steps:
             tumor_sample_name: tumor_sample_name
             reference_fasta: reference_fasta
             output_filename:
-              valueFrom: $(inputs.tumor_sample_name + '.' + inputs.normal_sample_name + '.' + inputs.t + '.bcf')
+              valueFrom: $(inputs.tumor_sample_name + '.' + inputs.normal_sample_name + '.' + inputs.sv_type + '.bcf')
           out: [sv_file]
 
         delly_filter:
@@ -163,7 +169,7 @@ steps:
             sample_file: pairfile
             sv_type: delly_type
             output_filename:
-              valueFrom: $(inputs.i.basename.replace('.bcf', '.pass.bcf'))
+              valueFrom: $(inputs.input_bcf.basename.replace('.bcf', '.pass.bcf'))
           out: [sv_file]
 
   #########################
@@ -242,23 +248,52 @@ steps:
         merged_file:
           type: stdout
 
-#  vcf2maf:
-#    run: ../cwl_tools/vcf2maf/vcf2maf.cwl
-#    in:
-##        vcf2maf_params: vcf2maf_params
-#      vep_data: vep_data
-#      normal_id: normal_sample_name
-#      tumor_id: tumor_sample_name
-#      # Todo: Ask Allan what these are for:
-#      vcf_normal_id: normal_sample_name
-#      vcf_tumor_id: tumor_sample_name
-#      input_vcf: merge_with_bcftools/merged_file
-#      output_maf:
-#        valueFrom: $(inputs.input_vcf.basename.replace('vcf','vep.maf'))
-#    out: [output]
+#WorkflowException: File 'R/P/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz.tbi' does not exist
+  vcf2maf:
+    run: ../cwl_tools/vcf2maf/vcf2maf.cwl
+    in:
+      vcf2maf_params: vcf2maf_params
+      input_vcf: merge_with_bcftools/merged_file
+      tmp_dir: tmp_dir
+      vep_data: vep_data
+      normal_id: normal_sample_name
+      tumor_id: tumor_sample_name
+      # Todo: Ask Allan what these are for:
+      vcf_normal_id: normal_sample_name
+      vcf_tumor_id: tumor_sample_name
 
-#    portal_format_output:
-#      run: portal-formatting.cli/1.0.0/format-maf.cwl
-#      in:
-#        input_maf: convert_vcf2maf/output
-#      out: [portal_file]
+      ref_fasta: reference_fasta
+      filter_vcf: exac_filter
+
+      species:
+        valueFrom: $(inputs.vcf2maf_params.species)
+      ncbi_build:
+        valueFrom: $(inputs.vcf2maf_params.ncbi_build)
+      maf_center:
+        valueFrom: $(inputs.vcf2maf_params.maf_center)
+      max_filter_ac:
+        valueFrom: $(inputs.vcf2maf_params.max_filter_ac)
+      min_hom_vaf:
+        valueFrom: $(inputs.vcf2maf_params.min_hom_vaf)
+      vep_path:
+        valueFrom: $(inputs.vcf2maf_params.vep_path)
+      vep_data:
+        valueFrom: $(inputs.vcf2maf_params.vep_data)
+      vep_forks:
+        valueFrom: $(inputs.vcf2maf_params.vep_forks)
+      retain_info:
+        valueFrom: $(inputs.vcf2maf_params.retain_info)
+      buffer_size:
+        valueFrom: $(inputs.vcf2maf_params.buffer_size)
+      custom_enst:
+        valueFrom: $(inputs.vcf2maf_params.custom_enst)
+
+      output_maf:
+        valueFrom: $(inputs.input_vcf.basename.replace('.vcf','_vep.maf'))
+    out: [output]
+
+  portal_format_output:
+    run: ../cwl_tools/portal_format/portal_format.cwl
+    in:
+      input_maf: vcf2maf/output
+    out: [portal_file]

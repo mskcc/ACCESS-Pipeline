@@ -165,9 +165,4 @@ outputs:
   output:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.output_maf)
-            return inputs.output_maf;
-          return null;
-        }
+      glob: $(inputs.output_maf)
