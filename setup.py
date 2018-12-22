@@ -85,7 +85,7 @@ setup(
             # Postprocessing
             'pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main',
             # Test Utilities
-            'test_outputs = python_tools.test.test_pipeline_outputs:main',
+            'test_outputs = python_tools.workflow_tools.check_pipeline_outputs:main',
 
             # ACCESS-Variants
             # Todo: next line is necessary?
