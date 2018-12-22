@@ -1,11 +1,10 @@
-import os
-import re
 import sys
 import logging
 import argparse
 import unittest
+import subprocess
 
-from util import *
+from ..util import *
 
 
 ########
@@ -18,7 +17,7 @@ from util import *
 
 
 # Set up logging
-logger = logging.getLogger('outputs_test')
+logger = logging.getLogger('ACCESS_test')
 
 
 class TestPipelineOutputs(unittest.TestCase):
@@ -42,43 +41,63 @@ class TestPipelineOutputs(unittest.TestCase):
         subfolders = [x for x in subfolders if os.path.isdir(os.path.join(self.output_dir, x))]
         subfolders = [x for x in subfolders if not 'log' in x]
 
-        for folder in subfolders:
+        # Find the output folders with bams inside
+        sample_folders = filter(lambda x: substring_in_list(BAM_FILE_REGEX, listdir(self.output_dir, x)),
+                                subfolders)
+
+        for folder in sample_folders:
             files = os.listdir(os.path.join(self.output_dir, folder))
+            # Standard + Collapsed bams folder
+            sample_id = folder.split('/')[-1]
 
-            logger.info('Testing results folder: {}'.format(folder))
-            logger.info('With files: {}'.format(files))
+            logger.info(folder)
+            assert 'collapsed_R1_.fastq.gz' in files
+            assert 'collapsed_R2_.fastq.gz' in files
+            assert 'first-pass-alt-alleles.txt' in files
+            assert 'first-pass.mate-position-sorted.txt' in files
+            assert 'first-pass.txt' in files
+            assert 'second-pass-alt-alleles.txt' in files
 
-            if 'umi_clipping_results' in folder:
-                # UMI Clipping results folder
-                assert 'composite-umi-frequencies.txt' in files
-                assert 'info.txt' in files
-                assert 'SampleSheet.csv' in files
-                assert 'umi-frequencies.txt' in files
+            # All bams should be found, with correct sample_ids
+            self.assertTrue(substrings_in_list([STANDARD_BAM_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([STANDARD_BAI_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([UNFILTERED_BAM_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([UNFILTERED_BAI_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([SIMPLEX_BAM_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([SIMPLEX_BAI_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([DUPLEX_BAM_SEARCH, sample_id], files))
+            self.assertTrue(substrings_in_list([DUPLEX_BAI_SEARCH, sample_id], files))
 
-                self.assertTrue(substring_in_list('_R1_001.fastq.gz', files))
-                self.assertTrue(substring_in_list('_R2_001.fastq.gz', files))
+    def test_rg_id_matches_sample_id(self):
+        """
+        Read group IDs from bams must match the file names and folder in which they are found
 
-            if re.compile(r'^Sample_').match(folder.replace('./', '')):
-                # Standard + Collapsed bams folder
-                sample_id = folder.split('/')[-1]
-                sample_id = re.sub(r'^Sample_', '', sample_id)
+        :return:
+        """
+        # Find the output folders with bams inside
+        subfolders = [x for x in os.listdir(self.output_dir)]
+        subfolders = [x for x in subfolders if os.path.isdir(os.path.join(self.output_dir, x))]
+        subfolders = [x for x in subfolders if not 'log' in x]
+        sample_folders = filter(lambda x: substring_in_list('.bam', listdir(self.output_dir, x)),
+                                subfolders)
 
-                assert 'collapsed_R1_.fastq.gz' in files
-                assert 'collapsed_R2_.fastq.gz' in files
-                assert 'first-pass-alt-alleles.txt' in files
-                assert 'first-pass.mate-position-sorted.txt' in files
-                assert 'first-pass.txt' in files
-                assert 'second-pass-alt-alleles.txt' in files
+        for folder in sample_folders:
+            # Find the bam files in this sample folder
+            sample_files = os.listdir(os.path.join(self.output_dir, folder))
+            bam_files = [f for f in sample_files if '.bam' in f]
 
-                # All bams should be found, with correct sample_ids
-                self.assertTrue(substrings_in_list([STANDARD_BAM_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([STANDARD_BAI_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([UNFILTERED_BAM_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([UNFILTERED_BAI_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([SIMPLEX_BAM_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([SIMPLEX_BAI_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([DUPLEX_BAM_SEARCH, sample_id], files))
-                self.assertTrue(substrings_in_list([DUPLEX_BAI_SEARCH, sample_id], files))
+            for bam_file in bam_files:
+                # Compare the bam's read group ID to the folder name and the file name
+                bam_full_path = os.path.join(*[self.output_dir, folder, bam_file])
+                rg_id = subprocess.check_output('samtools view -H {} | grep \"@RG\" | cut -f2'.format(bam_full_path), shell=True)
+                rg_id = rg_id.split(':')[1]
+                rg_id = rg_id.strip()
+
+                logger.info(rg_id)
+                logger.info(bam_full_path)
+
+                assert rg_id in bam_full_path
+                assert rg_id in folder
 
 
 def parse_arguments():
@@ -122,6 +141,7 @@ def main():
     args = parse_arguments()
     setup_logging(args)
 
+    # Todo: hack to get unittest to work with commandline args
     for i in range(len(sys.argv)):
         if i > 0:
             sys.argv.pop()
