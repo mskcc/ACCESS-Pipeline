@@ -10,6 +10,7 @@ requirements:
         entry: "$({class: 'Directory', listing: []})"
         writable: true
 
+# Todo: how to make CWL without arguments or baseCommand?
 arguments: [touch, empty_dir/placeholder]
 
 inputs: []
