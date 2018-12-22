@@ -2,7 +2,7 @@ argparse==1.4.0
 toil-ionox0[cwl]==0.0.1
 codecov==2.0.15
 
-avro==1.8.1
+avro==1.8.2
 backports.functools-lru-cache==1.5
 backports.ssl-match-hostname==3.5.0.1
 bd2k-python-lib==1.14a1.dev48
