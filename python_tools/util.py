@@ -114,13 +114,12 @@ def substring_in_list(substring, list):
     :param list: str[] - elements to find substring in
     :return: True / False if found / not found
     """
-
     for elem in list:
         if type(substring) == str:
             if substring in elem:
                 return True
         elif type(substring) == RETYPE:
-            if substring.match(elem):
+            if substring.search(elem):
                 return True
     return False
 

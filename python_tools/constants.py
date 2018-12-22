@@ -271,6 +271,7 @@ TRIM_FILES_DIR = 'trimming_results'
 MARK_DUPLICATES_FILES_DIR = 'mark_duplicates_results'
 COVERED_INTERVALS_DIR = 'covered_intervals_results'
 
+BAM_FILE_REGEX = re.compile(r'\.bam$')
 STANDARD_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR.bam$')
 UNFILTERED_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam$')
 SIMPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam$')
