@@ -63,10 +63,6 @@ outputs:
     type: File
     outputSource: vcf2maf/output
 
-  portal_file:
-    type: File
-    outputSource: portal_format_output/portal_file
-
 steps:
 
   #######################
@@ -248,7 +244,6 @@ steps:
         merged_file:
           type: stdout
 
-#WorkflowException: File 'R/P/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz.tbi' does not exist
   vcf2maf:
     run: ../cwl_tools/vcf2maf/vcf2maf.cwl
     in:
@@ -291,9 +286,3 @@ steps:
       output_maf:
         valueFrom: $(inputs.input_vcf.basename.replace('.vcf','_vep.maf'))
     out: [output]
-
-  portal_format_output:
-    run: ../cwl_tools/portal_format/portal_format.cwl
-    in:
-      input_maf: vcf2maf/output
-    out: [portal_file]
