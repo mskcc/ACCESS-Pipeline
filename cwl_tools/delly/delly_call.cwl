@@ -4,6 +4,9 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/delly.yaml
   ResourceRequirement:
     ramMin: 7000
     coresMin: 2
@@ -11,6 +14,8 @@ requirements:
 baseCommand: [/opt/common/CentOS_6-dev/delly/0.7.7/delly, call]
 
 inputs:
+
+  delly_params: ../../resources/run_params/schemas/delly.yaml#delly_params
 
   tumor_bam:
     type: File
@@ -45,10 +50,10 @@ inputs:
       prefix: --genome
 
   excluded_regions:
-    type: string?
+    type: File?
     doc: file with regions to exclude
     inputBinding:
-      prefix: --exclude_file
+      prefix: --exclude
 
   output_filename:
     type: string

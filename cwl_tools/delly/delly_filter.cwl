@@ -4,6 +4,9 @@ class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/delly.yaml
   ResourceRequirement:
     ramMin: 7000
     coresMin: 2
@@ -11,6 +14,8 @@ requirements:
 baseCommand: [/opt/common/CentOS_6-dev/delly/0.7.7/delly, filter]
 
 inputs:
+
+  delly_params: ../../resources/run_params/schemas/delly.yaml#delly_params
 
   input_bcf:
     type: File
@@ -50,19 +55,19 @@ inputs:
       prefix: --minsize
 
   max_sv_size:
-    type: ['null', int]
+    type: int?
     doc: max. SV size
     inputBinding:
       prefix: --maxsize
 
   min_genotype_fraction:
-    type: ['null', float]
+    type: float?
     doc: min. fraction of genotyped samples
     inputBinding:
       prefix: --ratiogeno
 
   passing_filter_sites:
-    type: ['null', boolean]
+    type: boolean?
     doc: Filter sites for PASS
     inputBinding:
       prefix: --pass

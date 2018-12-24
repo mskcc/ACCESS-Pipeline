@@ -79,82 +79,11 @@ gbcms_params:
 # Module 6 #
 ############
 
-delly_call_params:
-  exclude_regions: /opt/common/CentOS_6-dev/delly/master/excludeTemplates/human.hg19.excl.tsv
-
-delly_filter_params:
-  filter: somatic
-  altaf: ???
-  ratiogeno: ???
-  minsize: ???
-  pass: true?
-
-#vcf2maf_params:
-#  vep_release: 88
-#  vep_path:
-#  input_vcf:
-#  tumor_id:
-#  normal_id:
-#  vcf_tumor_id:
-#  vcf_normal_id:
-#  output_maf:
-
-# No params actually needed
-#bcftools_concat_params:
-
-# No params actually needed
-#portal_output_format_params:
-
-
-#--type
-#$SVTYPE
-#--genome
-#$referenceFasta
-#--exclude
-#/opt/common/CentOS_6-dev/delly/master/excludeTemplates/human.hg19.excl.tsv
-#--outfile
-#$sampleName.$SVTYPE.bcf
-#$tumorBam
-#$normalBam
-
-
-#--type
-#$SVTYPE
-#--filter
-#somatic
-#--altaf
-#$altaf
-#--ratiogeno
-#0
-#--minsize
-#$minsize
-#--pass
-#--samples
-#$sampleName.tn_pair.txt
-#--outfile
-#$sampleName.$SVTYPE.pass.bcf
-#$sampleName.$SVTYPE.bcf
-
-
-# VEP doesn't support breakends (VCF v4.1+), so vcf2maf will now split the large SVs into two
-# breakpoints each, to annotate the genes to pair up into a cBioPortal-friendly format:
-#cmo_vcf2maf
-#--version
-#1.6.15
-#--vep-release
-#88
-#--vep-path
-#/opt/common/CentOS_6-dev/vep/v88
-#--input-vcf
-#$sampleName.all.pass.vcf
-#--tumor-id
-#$sampleName
-#--normal-id
-#ML-fgfr2-041-DMP-GB961648-N
-#--vcf-tumor-id
-#$vcfTumorID
-#--vcf-normal-id
-#$vcfNormalID
-#--output-maf
-#$sampleName.all.pass.vep.maf
-
+delly_params:
+  excluded_regions: {class: File, path: /opt/common/CentOS_6-dev/delly/master/excludeTemplates/human.hg19.excl.tsv}
+  # For filtering
+  filter_mode: somatic
+  min_genotype_fraction: 0
+  min_fraction_alt_support: 0.01
+  min_sv_size: 500
+  passing_filter_sites: true

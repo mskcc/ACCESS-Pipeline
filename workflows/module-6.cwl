@@ -11,10 +11,12 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
+      - $import: ../resources/run_params/schemas/delly.yaml
 
 inputs:
 
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
+  delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
 
   tmp_dir: Directory
   tumor_bam:
@@ -51,15 +53,15 @@ outputs:
       - ^.bcf.csi
     outputSource: call_sv_by_delly/delly_filtered_sv
 
-  merged_file:
+  merged_structural_variants:
     type: File
     outputSource: merge_with_bcftools/merged_file
 
-  merged_file_unfiltered:
+  merged_structural_variants_unfiltered:
     type: File
     outputSource: merge_with_bcftools_unfiltered/merged_file_unfiltered
 
-  maf_file:
+  structural_variants_maf:
     type: File
     outputSource: vcf2maf/output
 
@@ -108,6 +110,7 @@ steps:
     scatterMethod: dotproduct
 
     in:
+      delly_params: delly_params
       tumor_bam: tumor_bam
       normal_bam: normal_bam
       normal_sample_name: normal_sample_name
@@ -121,6 +124,7 @@ steps:
       class: Workflow
 
       inputs:
+        delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
         tumor_bam: File
         normal_bam: File
         normal_sample_name: string
@@ -148,12 +152,17 @@ steps:
         delly_call:
           run: ../cwl_tools/delly/delly_call.cwl
           in:
+            delly_params: delly_params
             sv_type: delly_type
             tumor_bam: tumor_bam
             normal_bam: normal_bam
             normal_sample_name: normal_sample_name
             tumor_sample_name: tumor_sample_name
             reference_fasta: reference_fasta
+
+            excluded_regions:
+              valueFrom: $(inputs.delly_params.excluded_regions)
+
             output_filename:
               valueFrom: $(inputs.tumor_sample_name + '.' + inputs.normal_sample_name + '.' + inputs.sv_type + '.bcf')
           out: [sv_file]
@@ -161,9 +170,22 @@ steps:
         delly_filter:
           run: ../cwl_tools/delly/delly_filter.cwl
           in:
+            delly_params: delly_params
             input_bcf: delly_call/sv_file
             sample_file: pairfile
             sv_type: delly_type
+
+            filter_mode:
+              valueFrom: $(inputs.delly_params.filter_mode)
+            min_genotype_fraction:
+              valueFrom: $(inputs.delly_params.min_genotype_fraction)
+            min_fraction_alt_support:
+              valueFrom: $(inputs.delly_params.min_fraction_alt_support)
+            min_sv_size:
+              valueFrom: $(inputs.delly_params.min_sv_size)
+            passing_filter_sites:
+              valueFrom: $(inputs.delly_params.passing_filter_sites)
+
             output_filename:
               valueFrom: $(inputs.input_bcf.basename.replace('.bcf', '.pass.bcf'))
           out: [sv_file]
