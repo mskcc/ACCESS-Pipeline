@@ -39,19 +39,81 @@ def parse_arguments():
     :return: argparse.ArgumentParser object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output_file_name', help='Filename for yaml file to be used as pipeline inputs', required=True)
-    parser.add_argument('-m', '--matched_mode', action='store_true', help='Create inputs from matched T/N pairs (True), or use default Normal (False)', required=False)
-    parser.add_argument('-p', '--pairing_file_path', help='tsv file with tumor sample IDs mapped to normal sample IDs', required=True)
-    parser.add_argument('-dn', '--default_normal_path', help='Normal used in unmatched mode, or in matched mode if no matching normal found for tumor sample', required=True)
-    parser.add_argument('-tb', '--tumor_bams_directory', help='Directory that contains all tumor bams to be used in variant calling', required=True)
-    parser.add_argument('-nb', '--normal_bams_directory', help='Directory that contains all normal bams to be used in variant calling and genotyping '
-                                                               '(if using matched mode, otherwise only used for genotyping)', required=True)
-    parser.add_argument('-sb', '--simplex_bams_directory', help='Directory that contains additional simplex bams to be used for genotyping', required=True)
+
+    parser.add_argument(
+        '-o',
+        '--output_file_name',
+        help='Filename for yaml file to be used as pipeline inputs',
+        required=True
+    )
+
+    parser.add_argument(
+        '-pn',
+        '--project_name',
+        help='Project name for this run',
+        required=True
+    )
+
+    parser.add_argument(
+        '-m',
+        '--matched_mode',
+        action='store_true',
+        help='Create inputs from matched T/N pairs (True), or use default Normal (False)',
+        required=False
+    )
+
+    parser.add_argument(
+        '-p',
+        '--pairing_file_path',
+        help='tsv file with tumor sample IDs mapped to normal sample IDs',
+        required=True
+    )
+
+    parser.add_argument(
+        '-dn',
+        '--default_normal_path',
+        help='Normal used in unmatched mode, or in matched mode if no matching normal found for tumor sample',
+        required=True
+    )
+
+    parser.add_argument(
+        '-tb',
+        '--tumor_bams_directory',
+        help='Directory that contains all tumor bams to be used in variant calling',
+        required=True
+    )
+
+    parser.add_argument(
+        '-nb',
+        '--normal_bams_directory',
+        help='Directory that contains all normal bams to be used in variant calling and genotyping '
+                                                               '(if using matched mode, otherwise only used for genotyping)',
+        required=True
+    )
+
+    parser.add_argument(
+        '-sb',
+        '--simplex_bams_directory',
+        help='Directory that contains additional simplex bams to be used for genotyping',
+        required=True
+    )
+
     # Note: For ACCESS, we will often genotype from the same folders of curated bams
-    parser.add_argument('-cbd', '--curated_bams_duplex_directory', help='Directory that contains additional duplex curated bams to be used for genotyping', required=True)
-    parser.add_argument('-cbs', '--curated_bams_simplex_directory', help='Directory that contains additional simplex curated bams to be used for genotyping', required=True)
-    args = parser.parse_args()
-    return args
+    parser.add_argument(
+        '-cbd',
+        '--curated_bams_duplex_directory',
+        help='Directory that contains additional duplex curated bams to be used for genotyping',
+        required=True
+    )
+
+    parser.add_argument(
+        '-cbs',
+        '--curated_bams_simplex_directory',
+        help='Directory that contains additional simplex curated bams to be used for genotyping',
+        required=True
+    )
+
+    return parser.parse_args()
 
 
 def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
@@ -175,6 +237,9 @@ def create_inputs_file(args):
 
     include_file_resources(fh, RUN_FILES_PATH)
     include_run_params(fh, RUN_PARAMS_PATH)
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('project_name: {}'.format(args.project_name))
+    include_version_info(fh)
     fh.close()
 
 
@@ -206,27 +271,28 @@ def write_yaml_bams(
     tumor_bams = create_yaml_file_objects(ordered_tumor_samples)
     normal_bams = create_yaml_file_objects(ordered_normal_samples)
 
-    tumor_sample_ids = [t for t in pairing_file['tumor_id']]
-    if args.matched_mode:
-        # Use pairing file for matched normal sample IDs
-        # Todo: horrible
-        normal_sample_ids = [n if n else args.default_normal_path.split('/')[-1].split('_cl_aln')[0] for n in pairing_file['normal_id']]
-    else:
-        # Use default normal for normal sample IDs
-        # Todo: Better way of doing this
-        normal_sample_ids = [args.default_normal_path.split('/')[-1].split('_cl_aln')[0]] * len(tumor_sample_ids)
-
     simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
     curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
     curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
+
+    tumor_sample_ids = [t for t in pairing_file['tumor_id']]
+    if args.matched_mode:
+        # Use pairing file for matched normal sample IDs
+        # Todo: Better way of doing this
+        normal_sample_ids = [n if n else extract_sample_id_from_bam_path(args.default_normal_path) for n in pairing_file['normal_id']]
+    else:
+        # Use default normal for normal sample IDs
+        # Todo: Better way of doing this
+        normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
+
 
     # Also genotype the T/N samples that were initially used for variant calling
     tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_samples)
     genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_duplex_genotyping_bams + curated_simplex_genotyping_bams
 
-    simplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-SIMPLEX' for b in simplex_genotyping_bams]
-    curated_duplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-CURATED' for b in curated_duplex_genotyping_bams]
-    curated_simplex_genotyping_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
+    simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-SIMPLEX' for b in simplex_genotyping_bams]
+    curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED' for b in curated_duplex_genotyping_bams]
+    curated_simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
 
     tumor_bam_paths = {'tumor_bams': tumor_bams}
     normal_bam_paths = {'normal_bams': normal_bams}
@@ -234,8 +300,8 @@ def write_yaml_bams(
     normal_sample_ids = {'normal_sample_names': normal_sample_ids}
     genotyping_bams_paths = {'genotyping_bams': genotyping_bams}
 
-    # Todo: Find a (much) better way
-    merged_tn_sample_ids = [b['path'].split('/')[-1].split('_cl_aln')[0] for b in tn_genotyping_bams]
+    # Todo: Better way of doing this
+    merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
 
     genotyping_bams_ids = {
         'genotyping_bams_ids': merged_tn_sample_ids +
@@ -251,6 +317,16 @@ def write_yaml_bams(
     fh.write(ruamel.yaml.dump(normal_sample_ids))
     fh.write(ruamel.yaml.dump(genotyping_bams_paths))
     fh.write(ruamel.yaml.dump(genotyping_bams_ids))
+
+
+def extract_sample_id_from_bam_path(bam_path):
+    """
+    ACCESS-specific bams will have their sample IDs followed by _cl_aln...
+
+    :param path:
+    :return:
+    """
+    return bam_path.split('/')[-1].split('_cl_aln')[0]
 
 
 def include_file_resources(fh, file_resources_path):
@@ -277,6 +353,20 @@ def include_run_params(fh, run_params_path):
         other_params = ruamel.yaml.round_trip_load(stream)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
+
+
+def include_version_info(fh):
+    """
+    Todo: Include indentifier to indicate if commit == tag
+    """
+    import version
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('version: {} \n'.format(version.most_recent_tag))
+    fh.write('# Pipeline Run Version Information: \n')
+    fh.write('# Version: {} \n'.format(version.version))
+    fh.write('# Short Version: {} \n'.format(version.short_version))
+    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
 def find_bams_in_directory(dir):
