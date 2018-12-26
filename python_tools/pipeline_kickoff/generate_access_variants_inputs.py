@@ -6,7 +6,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 
 
 ##########
@@ -20,7 +20,8 @@ from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 # Usage:
 #
 # generate_access_variants_inputs \
-# -pn Variants_Test-FUSION_SAMPLES \
+# -pn \
+# Variant_Calling_Project \
 # -o \
 # inputs.yaml \
 # -dn /home/patelju1/projects/Juber/HiSeq/5500-FF-new/run-5500-FF/FinalBams/DA-ret-004-pl-T01-IGO-05500-FF-18_bc427_Pool-05500-FF-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam \
@@ -109,7 +110,7 @@ def parse_arguments():
         '--normal_bams_directory',
         help='Directory that contains all normal bams to be used in variant calling and genotyping '
                                                                '(if using matched mode, otherwise only used for genotyping)',
-        required=True
+        required=False
     )
 
     parser.add_argument(
@@ -139,6 +140,10 @@ def parse_arguments():
     # Pairing file is required in matched mode
     if args.matched_mode and args.pairing_file_path is None:
         parser.error('--matched_mode requires --pairing_file_path')
+
+    # Normal bams folder is required in matched mode
+    if args.matched_mode and args.normal_bams_directory is None:
+        parser.error('--matched_mode requires --normal_bams_directory')
 
     return args
 
@@ -194,32 +199,30 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
         tumor_sample = filter(lambda t: tumor_id in t, tumor_samples)[0]
 
         # Use default normal for all tumor samples
+        # Matched normal will still be used for genotyping (if found)
         if not matched:
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
-
             ordered_fillout_samples.append(tumor_sample)
-            # Matched normal will still be used for genotyping (if found)
+
             normal_sample = filter(lambda n: normal_id in n, normal_samples)
             if len(normal_sample) == 1:
                 normal_sample = normal_sample[0]
                 ordered_fillout_samples.append(normal_sample)
 
         # Leaving the normal ID blank will cause the default normal to be used
+        # Only tumor is used for genotyping
         elif normal_id == '':
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
-            # Only add tumor bam to genotyping list
             ordered_fillout_samples.append(tumor_sample)
 
         # Use the matching normal bam that contains this normal sample ID
+        # Both samples are added for genotyping
         elif any(normal_id in n for n in normal_samples):
             normal_sample = filter(lambda n: normal_id in n, normal_samples)[0]
-
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(normal_sample)
-
-            # Add both matched bams to genotyping list
             ordered_fillout_samples.append(tumor_sample)
             ordered_fillout_samples.append(normal_sample)
 
@@ -238,21 +241,20 @@ def create_inputs_file(args):
     """
     fh = open(args.output_file_name, 'w')
 
-    pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
-
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory)
-    normal_bam_paths = find_bams_in_directory(args.normal_bams_directory)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
     curated_bam_duplex_paths = find_bams_in_directory(args.curated_bams_duplex_directory)
     curated_bam_simplex_paths = find_bams_in_directory(args.curated_bams_simplex_directory)
 
-    # Todo: move to Main()
-    validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
+    # Normal bams paths are either from the bams directory, or repeating the default normal
+    if args.normal_bams_directory:
+        normal_bam_paths = find_bams_in_directory(args.normal_bams_directory)
+    else:
+        normal_bam_paths = [args.default_normal_path] * len(tumor_bam_paths)
 
     write_yaml_bams(
         fh,
         args,
-        pairing_file,
         tumor_bam_paths,
         normal_bam_paths,
         simplex_bam_paths,
@@ -271,7 +273,6 @@ def create_inputs_file(args):
 def write_yaml_bams(
         fh,
         args,
-        pairing_file,
         tumor_bam_paths,
         normal_bam_paths,
         simplex_bam_paths,
@@ -285,28 +286,40 @@ def write_yaml_bams(
     :param args: argparse.ArgumentParser object with bam directory attribute
     :return:
     """
-    ordered_tumor_samples, ordered_normal_samples, ordered_tn_genotyping_samples = parse_tumor_normal_pairing(
-        pairing_file,
-        tumor_bam_paths,
-        normal_bam_paths,
-        args.default_normal_path,
-        matched=args.matched_mode
-    )
+
+    # Use the pairing function to pair samples in matched mode
+    if args.matched_mode:
+        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+        validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
+
+        ordered_tumor_samples, ordered_normal_samples, ordered_tn_genotyping_samples = parse_tumor_normal_pairing(
+            pairing_file,
+            tumor_bam_paths,
+            normal_bam_paths,
+            args.default_normal_path,
+            matched=args.matched_mode
+        )
+
+    # In unmatched mode, the sample pairing is much simpler (just use the supplied default normal)
+    else:
+        ordered_tumor_samples = tumor_bam_paths
+        ordered_normal_samples = [args.default_normal_path] * len(tumor_bam_paths)
+        ordered_tn_genotyping_samples = ordered_tumor_samples + ordered_normal_samples
 
     tumor_bams = create_yaml_file_objects(ordered_tumor_samples)
     normal_bams = create_yaml_file_objects(ordered_normal_samples)
-
     simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
     curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
     curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
 
-    tumor_sample_ids = [t for t in pairing_file['tumor_id']]
     if args.matched_mode:
-        # Use pairing file for matched normal sample IDs
+        # Use pairing file for sample IDs
+        tumor_sample_ids = [t for t in pairing_file['tumor_id']]
         # Todo: Better way of doing this
         normal_sample_ids = [n if n else extract_sample_id_from_bam_path(args.default_normal_path) for n in pairing_file['normal_id']]
     else:
         # Use default normal for normal sample IDs
+        tumor_sample_ids = [extract_sample_id_from_bam_path(b) for b in tumor_bam_paths]
         # Todo: Better way of doing this
         normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
 
