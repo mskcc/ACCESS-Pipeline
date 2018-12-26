@@ -6,7 +6,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 
 
 ##########
