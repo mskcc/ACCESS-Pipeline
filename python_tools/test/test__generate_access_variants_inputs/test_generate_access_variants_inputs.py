@@ -21,7 +21,8 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         :return:
         """
         # Allow us to use paths relative to the current directory's tests
-        os.chdir('test__generate_access_variants_inputs')
+        print(os.getcwd())
+        # os.chdir('test__generate_access_variants_inputs')
 
         self.matched_testing_parameters = {
             'project_name':                     'test_project',
@@ -64,7 +65,7 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         shutil.rmtree('./test_output')
 
         # Move back up to main test dir
-        os.chdir('..')
+        # os.chdir('..')
 
 
     def test_matched_mode(self):

@@ -1,32 +1,33 @@
 tumor_bams:
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3__cl_aln_srt_MD_IR_FX_BR.bam}
 normal_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
-tumor_sample_names: [tumor_bam_1, tumor_bam_2, tumor_bam_3]
+tumor_sample_names: [tumor_bam_1_, tumor_bam_2_, tumor_bam_3_]
 normal_sample_names: [default_normal.bam, default_normal.bam, default_normal.bam]
 genotyping_bams:
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_3.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_2.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_3.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_2.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_3.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_2.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_3.bam}
-genotyping_bams_ids: [tumor_bam_1.bam, normal_bam_1.bam, tumor_bam_2.bam, tumor_bam_3.bam,
-  normal_bam_3.bam, simplex_bam_1.bam-SIMPLEX, simplex_bam_2.bam-SIMPLEX, simplex_bam_3.bam-SIMPLEX,
-  curated_bam_1.bam-CURATED, curated_bam_2.bam-CURATED, curated_bam_3.bam-CURATED,
-  curated_bam_1.bam-CURATED-SIMPLEX, curated_bam_2.bam-CURATED-SIMPLEX, curated_bam_3.bam-CURATED-SIMPLEX]
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_1__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_2__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_3__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_1__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_2__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_3__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_1__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_2__cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_3__cl_aln_srt_MD_IR_FX_BR.bam}
+genotyping_bams_ids: [tumor_bam_1_, tumor_bam_2_, tumor_bam_3_, default_normal.bam,
+  default_normal.bam, default_normal.bam, simplex_bam_1_-SIMPLEX, simplex_bam_2_-SIMPLEX,
+  simplex_bam_3_-SIMPLEX, curated_bam_1_-CURATED, curated_bam_2_-CURATED, curated_bam_3_-CURATED,
+  curated_bam_1_-CURATED-SIMPLEX, curated_bam_2_-CURATED-SIMPLEX, curated_bam_3_-CURATED-SIMPLEX]
 
 
 # ------------------------------------------------------------
