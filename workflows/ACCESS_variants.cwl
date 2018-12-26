@@ -92,43 +92,43 @@ outputs:
 
   concatenated_vcf:
     type: File[]
-    outputSource: module_3/concatenated_vcf
+    outputSource: snps_and_indels/concatenated_vcf
 
   mutect_vcf:
     type: File[]
-    outputSource: module_3/mutect_vcf
+    outputSource: snps_and_indels/mutect_vcf
 
   mutect_callstats:
     type: File[]
-    outputSource: module_3/mutect_callstats
+    outputSource: snps_and_indels/mutect_callstats
 
   vardict_vcf:
     type: File[]
-    outputSource: module_3/vardict_vcf
+    outputSource: snps_and_indels/vardict_vcf
 
   mutect_normalized_vcf:
     type: File[]
-    outputSource: module_3/mutect_normalized_vcf
+    outputSource: snps_and_indels/mutect_normalized_vcf
 
   vardict_normalized_vcf:
     type: File[]
-    outputSource: module_3/vardict_normalized_vcf
+    outputSource: snps_and_indels/vardict_normalized_vcf
 
   final_maf:
     type: File[]
-    outputSource: module_4/maf
+    outputSource: snps_and_indels/maf
 
   hotspots_filtered_maf:
     type: File[]
-    outputSource: module_4/hotspots_filtered_maf
+    outputSource: snps_and_indels/hotspots_filtered_maf
 
   consolidated_maf:
     type: File[]
-    outputSource: module_4/consolidated_maf
+    outputSource: snps_and_indels/consolidated_maf
 
   fillout_maf:
     type: File[]
-    outputSource: module_4/fillout_maf
+    outputSource: snps_and_indels/fillout_maf
 
   delly_sv:
     type:
@@ -158,15 +158,14 @@ outputs:
     type: File[]
     outputSource: structural_variants/structural_variants_maf
 
-
 steps:
 
   ###################
-  # Variant Calling #
+  # SNPs and Indels #
   ###################
 
-  module_3:
-    run: ./module-3.cwl
+  snps_and_indels:
+    run: ./subworkflows/snps_and_indels.cwl
     in:
       tmp_dir: tmp_dir
       tumor_bams: tumor_bams
@@ -184,21 +183,6 @@ steps:
       basicfiltering_vardict_params: basicfiltering_vardict_params
       basicfiltering_mutect_params: basicfiltering_mutect_params
       bcftools_params: bcftools_params
-    out: [
-      concatenated_vcf,
-      mutect_vcf,
-      mutect_callstats,
-      vardict_vcf,
-      mutect_normalized_vcf,
-      vardict_normalized_vcf]
-
-  ##############
-  # Genotyping #
-  ##############
-
-  module_4:
-    run: ./module-4.cwl
-    in:
       vcf2maf_params: vcf2maf_params
       tmp_dir: tmp_dir
       hotspots: hotspots
@@ -211,9 +195,17 @@ steps:
       ref_fasta: ref_fasta
       exac_filter: exac_filter
       hotspot_list: hotspot_list
-    out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
-    scatterMethod: dotproduct
+    out: [
+      concatenated_vcf,
+      mutect_vcf,
+      mutect_callstats,
+      vardict_vcf,
+      mutect_normalized_vcf,
+      vardict_normalized_vcf,
+      maf,
+      hotspots_filtered_maf,
+      consolidated_maf,
+      fillout_maf]
 
   #######################
   # Structural Variants #
@@ -233,7 +225,6 @@ steps:
       exac_filter: exac_filter
       delly_type:
         valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
-
       vep_data:
         valueFrom: $(inputs.vcf2maf_params.vep_data)
     out: [
