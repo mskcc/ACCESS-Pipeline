@@ -6,7 +6,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 
 
 ##########
@@ -16,6 +16,27 @@ from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 # - better way to ensure proper sort order of samples
 # - combine this with create_ scripts
 # - singularity
+#
+# Usage:
+#
+# generate_access_variants_inputs \
+# -pn Variants_Test-FUSION_SAMPLES \
+# -o \
+# inputs.yaml \
+# -dn /home/patelju1/projects/Juber/HiSeq/5500-FF-new/run-5500-FF/FinalBams/DA-ret-004-pl-T01-IGO-05500-FF-18_bc427_Pool-05500-FF-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam \
+# -p \
+# ./test_pairs.tsv \
+# -tb \
+# ~/PROJECT_tumor_bams/duplex_bams \
+# -nb \
+# ~/PROJECT_normal_bams/duplex_bams \
+# -sb \
+# ~/PROJECT_normal_bams/simplex_bams \
+# -cbd \
+# ~/ACCESSv1-VAL-20180003_curated_bams \
+# -cbs \
+# ~/ACCESSv1-VAL-20180003_curated_bams_simplex
+# -m
 
 
 # Regex for finding bam files
@@ -66,7 +87,7 @@ def parse_arguments():
         '-p',
         '--pairing_file_path',
         help='tsv file with tumor sample IDs mapped to normal sample IDs',
-        required=True
+        required=False
     )
 
     parser.add_argument(
@@ -113,7 +134,13 @@ def parse_arguments():
         required=True
     )
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    # Pairing file is required in matched mode
+    if args.matched_mode and args.pairing_file_path is None:
+        parser.error('--matched_mode requires --pairing_file_path')
+
+    return args
 
 
 def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
@@ -134,9 +161,7 @@ def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
     for i, tn_pair in pairing_file.iterrows():
         tumor_id = tn_pair['tumor_id']
         normal_id = tn_pair['normal_id']
-
         assert tumor_id
-        assert tumor_id != ''
 
         # Find the path to the bam that contains this tumor sample ID
         tumor_sample = filter(lambda t: tumor_id in t, tumor_samples)
@@ -165,11 +190,11 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
         normal_id = tn_pair['normal_id']
 
         # Find the path to the bam that contains this tumor sample ID
-        # (after validation this should return exactly 1 result)
+        # (after pairing file validation this should return exactly 1 result)
         tumor_sample = filter(lambda t: tumor_id in t, tumor_samples)[0]
 
+        # Use default normal for all tumor samples
         if not matched:
-            # Use default normal for all tumor samples
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
 
@@ -180,15 +205,15 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
                 normal_sample = normal_sample[0]
                 ordered_fillout_samples.append(normal_sample)
 
+        # Leaving the normal ID blank will cause the default normal to be used
         elif normal_id == '':
-            # Leaving the normal ID blank will cause the default normal to be used
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
             # Only add tumor bam to genotyping list
             ordered_fillout_samples.append(tumor_sample)
 
+        # Use the matching normal bam that contains this normal sample ID
         elif any(normal_id in n for n in normal_samples):
-            # Find the path to the matching normal bam that contains this normal sample ID
             normal_sample = filter(lambda n: normal_id in n, normal_samples)[0]
 
             ordered_tumor_samples.append(tumor_sample)
