@@ -189,6 +189,8 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
     ordered_tumor_samples = []
     ordered_normal_samples = []
     ordered_fillout_samples = []
+    # This flag will prevent us from trying to genotype the default normal more than once
+    default_added_for_genotyping = False
 
     for i, tn_pair in pairing_file.iterrows():
         tumor_id = tn_pair['tumor_id']
@@ -216,6 +218,10 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
             ordered_fillout_samples.append(tumor_sample)
+
+            if not default_added_for_genotyping:
+                ordered_fillout_samples.append(default_normal_path)
+                default_added_for_genotyping = True
 
         # Use the matching normal bam that contains this normal sample ID
         # Both samples are added for genotyping
@@ -304,7 +310,8 @@ def write_yaml_bams(
     else:
         ordered_tumor_samples = tumor_bam_paths
         ordered_normal_samples = [args.default_normal_path] * len(tumor_bam_paths)
-        ordered_tn_genotyping_samples = ordered_tumor_samples + ordered_normal_samples
+        # Only add the default normal once
+        ordered_tn_genotyping_samples = ordered_tumor_samples + [ordered_normal_samples[0]]
 
     tumor_bams = create_yaml_file_objects(ordered_tumor_samples)
     normal_bams = create_yaml_file_objects(ordered_normal_samples)
@@ -332,12 +339,7 @@ def write_yaml_bams(
     curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED' for b in curated_duplex_genotyping_bams]
     curated_simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
 
-    tumor_bam_paths = {'tumor_bams': tumor_bams}
-    normal_bam_paths = {'normal_bams': normal_bams}
-    tumor_sample_ids = {'tumor_sample_names': tumor_sample_ids}
-    normal_sample_ids = {'normal_sample_names': normal_sample_ids}
-    genotyping_bams_paths = {'genotyping_bams': genotyping_bams}
-
+    # Note: This list must be sorted in the same order as tn_genotyping_bams
     # Todo: Better way of doing this
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
 
@@ -347,6 +349,12 @@ def write_yaml_bams(
                                curated_duplex_genotyping_ids +
                                curated_simplex_genotyping_ids
     }
+
+    tumor_bam_paths = {'tumor_bams': tumor_bams}
+    normal_bam_paths = {'normal_bams': normal_bams}
+    tumor_sample_ids = {'tumor_sample_names': tumor_sample_ids}
+    normal_sample_ids = {'normal_sample_names': normal_sample_ids}
+    genotyping_bams_paths = {'genotyping_bams': genotyping_bams}
 
     # Write them to the inputs yaml file
     fh.write(ruamel.yaml.dump(tumor_bam_paths))
