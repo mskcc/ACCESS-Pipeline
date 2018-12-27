@@ -21,7 +21,6 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         :return:
         """
         # Allow us to use paths relative to the current directory's tests
-        print(os.getcwd())
         # os.chdir('test__generate_access_variants_inputs')
 
         self.matched_testing_parameters = {
