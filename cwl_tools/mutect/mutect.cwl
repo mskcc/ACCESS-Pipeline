@@ -26,7 +26,7 @@ requirements:
 
 inputs:
 
-  gbcms_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
+  mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   tmp_dir: Directory
 
   tumor_sample_name:
