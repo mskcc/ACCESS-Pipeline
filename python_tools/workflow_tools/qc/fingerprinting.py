@@ -349,7 +349,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
     plt.xlabel('Sample Name')
-    plt.title('Minor Contamination Check (from all reads)')
+    plt.title('Minor Contamination Check (from all unique reads)')
     plt.xlim([0, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 
@@ -436,13 +436,20 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
             matrix[element[0]] = {element[1]: element[2]}
         matrix[element[0]].update({element[1]: element[2]})
 
+    discordance_data_frame = pd.DataFrame.from_dict(matrix)
+    if all(discordance_data_frame.isnull()):
+        discordance_data_frame[:] = 0
+    mask = discordance_data_frame.isnull()
+
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
- 
-    ax = sns.heatmap(pd.DataFrame.from_dict(matrix), robust=True, annot=True, fmt='.3f', cmap="Blues_r", vmax=.15,
-                     cbar_kws={'label': 'Fraction Mismatch Homozygous'},
-                     annot_kws={'size': 5})
 
+    print(discordance_data_frame)
+
+    ax = sns.heatmap(discordance_data_frame, robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
+                     cbar_kws={'label': 'Fraction Mismatch Homozygous'},
+                     annot_kws={'size': 5},
+                     mask=mask)
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
     Match_status = [[x[0], x[1], x[9]] for x in geno_compare if

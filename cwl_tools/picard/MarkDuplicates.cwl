@@ -14,7 +14,7 @@ requirements:
   ResourceRequirement:
     ramMin: 30000
     coresMin: 2
-    outdirMax: 60000
+    outdirMax: 100000
 
 doc: |
   None

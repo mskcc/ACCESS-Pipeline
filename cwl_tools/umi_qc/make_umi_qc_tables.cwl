@@ -8,6 +8,7 @@ requirements:
   ResourceRequirement:
     # Todo: why does this step use so much disk?
     outdirMax: 300000
+    ramMin: 1000
 
 inputs:
 

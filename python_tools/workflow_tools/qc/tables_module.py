@@ -198,8 +198,7 @@ def get_gc_table_average_for_each_sample(tbl):
 
 
 def get_gene_and_probe(interval):
-    # todo - should be more specific
-    interval_regex = re.compile(r'^.*_.*_.*_.*$')
+    gene_interval_regex = re.compile(r'^.*_.*_.*_.*$')
 
     # Example interval string: exon_AKT1_4a_1
     if interval[0:4] == 'exon':
@@ -207,28 +206,30 @@ def get_gene_and_probe(interval):
         return split[1], split[2] + '_' + split[3]
 
     # Another example I've encountered: 426_2903_324(APC)_1a
-    elif interval_regex.match(interval):
+    elif gene_interval_regex.match(interval):
         split = interval.split('_')
         return '_'.join(split[0:2]), '_'.join(split[2:4])
 
     else:
-        curr = interval.split('_exon_')
-        return curr[0], curr[1]
+        gene, exon = interval.split('_exon_')
+        return gene, exon
 
 
 def get_coverage_per_interval(tbl):
     """
-    Creates table of (un-collapsed) coverage per interval
+    Creates table of collapsed coverage per interval
     """
+    # Coverage per interval Graph comes from unfiltered Bam, Pool A Targets
     total_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
-    # todo - why is this needed:
+
+    # Filter out MSI & Fingerprinting intervals
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
     relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
     final_tbl = tbl[total_boolv & exon_boolv][relevant_coverage_columns]
 
+    # Add on new gene and probe columns
     gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
     gene_probe_df = pd.DataFrame(gene_probe, columns=['Gene', 'Probe'])
-
     # Todo: most likely, the reset_index() calls are unnecessary
     final_tbl = final_tbl.reset_index()
     final_tbl = pd.concat([final_tbl, gene_probe_df], axis=1)
@@ -258,7 +259,6 @@ def main():
     parser.add_argument('-mub', '--unfiltered_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-msb', '--simplex_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-mdb', '--duplex_waltz_pool_b', type=str, default=None, action=FullPaths)
-
     args = parser.parse_args()
     create_combined_qc_tables(args)
 
@@ -276,47 +276,48 @@ def create_combined_qc_tables(args):
     read_counts_total_pool_b_table = get_read_counts_total_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_total_table = pd.concat([read_counts_total_pool_a_table, read_counts_total_pool_b_table])
 
-    # Std, Pool A and B
-    read_counts_table = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
-    coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
-    # GC Bias & Coverage Distribution per Interval graphs come from Standard Bam, A Targets
+    # Standard, Pools A and B
+    pool_a_read_counts = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
+    pool_a_coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     gc_cov_int_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_pool_a)
 
-    read_counts_table = pd.concat([get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL), read_counts_table])
-    coverage_table = pd.concat([get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL), coverage_table])
+    pool_b_read_counts = get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL)
+    read_counts_table = pd.concat([pool_b_read_counts, pool_a_read_counts])
+    pool_b_coverage = get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL)
+    coverage_table = pd.concat([pool_b_coverage, pool_a_coverage_table])
 
 
-    ###### Pool A #######
-    # Add in the Marianas Unfiltered tables
+    # Pool A
+    # Unfiltered
     mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
     gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
-    # Add in the Marianas Simplex tables
+    # Simplex
     mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
     gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
-    # Add in the Marianas Duplex tables
+    # Duplex
     mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
     gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
 
-    ###### Pool B #######
-    # Add in the Marianas Unfiltered tables
+    # Pool B
+    # Unfiltered
     mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
 
-    # Add in the Marianas Simplex tables
+    # Simplex
     mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])
 
-    # Add in the Marianas Duplex tables
+    # Duplex
     mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
     read_counts_table = pd.concat([read_counts_table, mw[0]])
     coverage_table = pd.concat([coverage_table, mw[1]])

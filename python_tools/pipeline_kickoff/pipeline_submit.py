@@ -18,11 +18,12 @@ import ruamel.yaml
 
 DEFAULT_MEM = 1
 DEFAULT_CPU = 1
-LEADER_NODE = "w01"
-CONTROL_QUEUE = "control"
+LEADER_NODE = 'w01'
+CONTROL_QUEUE = 'control'
 
 
 def bsub(bsubline):
+    # type: (str) -> int
     '''
     Execute lsf bsub
 
@@ -57,7 +58,7 @@ def submit_to_lsf(params):
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
         '--batch_system ' + params.batch_system,
-        '--logLevel ' + params.logLevel,
+        '--logLevel ' + params.log_level,
     )
 
     if params.restart:
@@ -131,9 +132,9 @@ def main():
     )
 
     parser.add_argument(
-        '--logLevel',
+        '--log_level',
         action='store',
-        dest='logLevel',
+        dest='log_level',
         default='INFO',
         help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
         required=False

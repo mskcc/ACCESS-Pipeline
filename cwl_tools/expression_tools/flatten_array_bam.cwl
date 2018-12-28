@@ -1,8 +1,12 @@
 cwlVersion: v1.0
 
 class: ExpressionTool
+
 requirements:
-  - class: InlineJavascriptRequirement
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    # Note: 1024 is the lowest value possible here because Toil will use `floor(ramMin / 1024)`
+    ramMin: 2000
 
 inputs:
 

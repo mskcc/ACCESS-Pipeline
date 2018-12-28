@@ -1,8 +1,16 @@
 import os
 import re
-from collections import OrderedDict
 
 from root import ROOT_DIR
+
+# ACCESS-Variants
+# Todo: merge with other files paths
+# RUN_FILES_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
+# RUN_PARAMS_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+# RUN_PARAMS_DELLY_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
+RUN_FILES_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
+RUN_PARAMS_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+RUN_PARAMS_DELLY_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
 
 
 #############
@@ -33,11 +41,10 @@ TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tool
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
 
-############################################
-# Manifest & Title File Column Definitions #
-############################################
+###############################
+# Manifest Column Definitions #
+###############################
 
-# Manifest Columns
 MANIFEST__BARCODE_ID_COLUMN                 = 'BARCODE_ID'
 # Todo: use "P5", "P7"
 MANIFEST__BARCODE_INDEX_1_COLUMN            = 'BARCODE_INDEX_1'
@@ -56,7 +63,6 @@ MANIFEST__SEX_COLUMN                        = 'SEX'
 MANIFEST__LANE_COLUMN                       = 'LANE_NUMBER'
 MANIFEST__PROJECT_ID_COLUMN                 = 'STUDY_ID'
 
-# Only need these columns for pipeline
 manifest_columns = [
     MANIFEST__BARCODE_ID_COLUMN,
     MANIFEST__CAPTURE_NAME_COLUMN,
@@ -269,6 +275,7 @@ TRIM_FILES_DIR = 'trimming_results'
 MARK_DUPLICATES_FILES_DIR = 'mark_duplicates_results'
 COVERED_INTERVALS_DIR = 'covered_intervals_results'
 
+BAM_FILE_REGEX = re.compile(r'\.bam$')
 STANDARD_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR.bam$')
 UNFILTERED_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam$')
 SIMPLEX_BAM_SEARCH = re.compile(r'^.*_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam$')

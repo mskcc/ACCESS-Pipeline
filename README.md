@@ -5,6 +5,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Tool | Version |
 | --- | --- |
 | GCC | 4.4.7 |
+| glibc | 2.12 |
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python (must exist in PATH)| 2.7.10 |
@@ -100,7 +101,7 @@ These are used by the QC module at the end of the pipeline. You can check if the
 ```
 
 # Running the test pipeline
-These steps should be run from a new directory, but still while inside your virtual environment. 
+NOTE: These steps should be run from a new directory, but still while inside your virtual environment, and after sourcing the `workspace_init.sh` script. 
 
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
@@ -130,7 +131,9 @@ Or, to run with the Toil batch system runner:
 ```
 
 # Running a real run
-I usually start pipeline runs from a fresh directory, with ample storage space. This is where the lsf log files will be written. However, these logs are different from the Toil log files, which will be placed alongside the pipeline outputs as specified by the `output_location` parameter. Both sets of log files can be quite large (up to ~50GB if running in debug mode on a large pool). 
+NOTE: These steps should be run from a new directory, but still while inside your virtual environment, and after sourcing the `workspace_init.sh` script. 
+
+I usually start pipeline runs from a fresh directory, with ample storage space. This is where the batch system log files will be written. However, these logs are different from the Toil log files, which will be placed alongside the pipeline outputs as specified by the `output_location` parameter. Both sets of log files can be quite large (up to ~50GB if running in debug mode on a large pool). 
 
 Note that there are several valiation requirements when running on your own data (use the example manifests in `test/test_data` for examples):
 1. The header names that are found in the sample manifest should matched with the examples in `test/test_data`

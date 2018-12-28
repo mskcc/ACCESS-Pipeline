@@ -59,6 +59,11 @@ setup(
         'python_tools.workflow_tools',
         'python_tools.workflow_tools.qc',
         'python_tools.test',
+        # ACCESS-Variants
+        'cwl_tools',
+        'cwl_tools.basicfiltering',
+        'cwl_tools.remove_variants',
+        'cwl_tools.hotspots',
     ],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
@@ -80,7 +85,18 @@ setup(
             # Postprocessing
             'pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main',
             # Test Utilities
-            'test_outputs = python_tools.test.test_pipeline_outputs:main',
+            'test_outputs = python_tools.workflow_tools.check_pipeline_outputs:main',
+
+            # ACCESS-Variants
+            # Todo: next line is necessary?
+            'cmo_util = cwl_tools.basicfiltering.cmo_util:main',
+            # Pipeline Kickoff
+            'generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main',
+            # Workflow tools
+            'filter_mutect = cwl_tools.basicfiltering.filter_mutect:main',
+            'filter_vardict = cwl_tools.basicfiltering.filter_vardict:main',
+            'tag_hotspots = cwl_tools.hotspots.tag_hotspots:main',
+            'remove_variants = cwl_tools.remove_variants.remove_variants:main',
         ]
     },
     scripts=[

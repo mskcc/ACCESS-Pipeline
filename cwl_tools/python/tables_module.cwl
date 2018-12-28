@@ -1,5 +1,3 @@
-#!/usr/bin/env/cwl-runner
-
 cwlVersion: v1.0
 
 class: CommandLineTool
@@ -17,42 +15,42 @@ inputs:
   standard_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -swa
+      prefix: --standard_waltz_pool_a
 
   unfiltered_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -mua
+      prefix: --unfiltered_waltz_pool_a
 
   simplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -msa
+      prefix: --simplex_waltz_pool_a
 
   duplex_waltz_metrics_pool_a:
     type: Directory
     inputBinding:
-      prefix: -mda
+      prefix: --duplex_waltz_pool_a
 
   standard_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: -swb
+      prefix: --standard_waltz_pool_b
 
   unfiltered_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: -mub
+      prefix: --unfiltered_waltz_pool_b
 
   simplex_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: -msb
+      prefix: --simplex_waltz_pool_b
 
   duplex_waltz_metrics_pool_b:
     type: Directory
     inputBinding:
-      prefix: -mdb
+      prefix: --duplex_waltz_pool_b
 
 outputs:
 

@@ -1,6 +1,6 @@
 BARCODE_ID	CAPTURE_NAME	CMO_SAMPLE_ID	INVESTIGATOR_SAMPLE_ID	CMO_PATIENT_ID	SAMPLE_CLASS	SAMPLE_TYPE	LIBRARY_INPUT[ng]	LIBRARY_YIELD[ng]	CAPTURE_INPUT[ng]	CAPTURE_BAIT_SET	SEX	BARCODE_INDEX_1	BARCODE_INDEX_2	LANE_NUMBER
-bc405-bc405	Test_Pool-Tube1_1	test_sample_2_T	test_investigator_sample_2_T	test_patient_1	Tumor	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	TCGACAAG	CTTGTCGA	1
-bc406-bc406	Test_Pool-Tube1_1	test_sample_1_N	test_investigator_sample_1_N	test_patient_1	Normal	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	AGTCCTGA	TCAGGACT	1
+bc405-bc405	Test_Pool-Tube1_1	test_sample_1_T	test_investigator_sample_1_T	test_patient_1	Tumor	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	TCGACAAG	CTTGTCGA	1
+bc406-bc406	Test_Pool-Tube1_1	test_sample_2_N	test_investigator_sample_2_N	test_patient_1	Normal	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	AGTCCTGA	TCAGGACT	1
 bc407-bc407	Test_Pool-Tube1_1	test_sample_4_T	test_investigator_sample_4_T	test_patient_2	Tumor	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	TCGTCAAG	CTTGACGA	1
 bc408-bc408	Test_Pool-Tube2_1	test_sample_3_N	test_investigator_sample_3_N	test_patient_2	Normal	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	CGTCCTGA	TCAGGACG	1
 bc410-bc410	Test_Pool-Tube2_1	test_sample_5_N	test_investigator_sample_5_N	test_patient_2	Normal	Plasma	10	798	500	panpanel V2.1 pool A:B 50:1	F	AATCCTGA	TCAGGATT	1

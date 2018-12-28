@@ -1,4 +1,5 @@
 import os
+import sys
 import uuid
 import argparse
 import subprocess
@@ -34,7 +35,7 @@ LOG_FILE_NAME = 'cwltoil.log'
 
 # Defaults for our selection of Toil parameters
 DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : 'PATH PYTHONPATH',
+    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_LSF_ARGS',
     '--defaultDisk'             : '10G',
     '--defaultMem'              : '10G',
     '--no-container'            : '',
@@ -42,6 +43,7 @@ DEFAULT_TOIL_ARGS = {
     '--stats'                   : '',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000',
+    '--retryCount'              : 2,
 }
 
 
@@ -199,6 +201,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
 
     print('Running Toil with command: {}'.format(cmd))
     print('ACCESS-Pipeline version: {}'.format(version.most_recent_tag))
+    sys.stdout.flush()
     subprocess.check_call(cmd, shell=True)
 
 

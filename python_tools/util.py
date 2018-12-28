@@ -1,4 +1,3 @@
-import re
 import logging
 import pandas as pd
 
@@ -112,16 +111,15 @@ def substring_in_list(substring, list):
     Look for `substring` in each element in `list`
 
     :param substring: str or compiled regex object - the substring to look for
-    :param list: elements to find substring in
+    :param list: str[] - elements to find substring in
     :return: True / False if found / not found
     """
-
     for elem in list:
         if type(substring) == str:
             if substring in elem:
                 return True
         elif type(substring) == RETYPE:
-            if substring.match(elem):
+            if substring.search(elem):
                 return True
     return False
 
@@ -187,3 +185,25 @@ def autolabel(bars, plt, text_format='%.5f'):
             va='bottom',
             fontsize=5
         )
+
+
+def listdir(path, dirname):
+    """
+    List the contents of `dirname` folder, under `path`.
+
+    :param path:
+    :param dirname:
+    :return:
+    """
+    return os.listdir(os.path.join(path, dirname))
+
+
+class ArgparseMock():
+    """
+    Mock class to simply have keys and values that simulate the argparse object for testing purposes
+    """
+    def __init__(self, args):
+
+        for key, value in zip(args.keys(), args.values()):
+
+            setattr(self, key, value)
