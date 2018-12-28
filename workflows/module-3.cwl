@@ -41,10 +41,10 @@ inputs:
     secondaryFiles: [.fai, ^.dict]
   dbsnp:
     type: File
-    secondaryFiles: ['^.vcf.idx']
+    secondaryFiles: [.idx]
   cosmic:
     type: File
-    secondaryFiles: ['^.vcf.idx']
+    secondaryFiles: [.idx]
 
 outputs:
 

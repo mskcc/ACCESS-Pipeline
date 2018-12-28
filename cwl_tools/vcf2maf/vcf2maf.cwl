@@ -12,8 +12,13 @@ requirements:
   ResourceRequirement:
     ramMin: 8000
     coresMin: 2
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/vcf2maf.yaml
 
 inputs:
+
+  vcf2maf_params: ../../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
 
   input_vcf:
     type:
