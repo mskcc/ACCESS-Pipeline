@@ -59,7 +59,6 @@ def parse_arguments():
     parser.add_argument(
         '--output_location',
         action='store',
-        dest='output_location',
         help='Path to CMO Project outputs location',
         required=True
     )
@@ -67,7 +66,6 @@ def parse_arguments():
     parser.add_argument(
         '--inputs_file',
         action='store',
-        dest='inputs_file',
         help='CWL Inputs file (e.g. inputs.yaml)',
         required=True
     )
@@ -75,7 +73,6 @@ def parse_arguments():
     parser.add_argument(
         '--workflow',
         action='store',
-        dest='workflow',
         help='Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)',
         required=True
     )
@@ -83,7 +80,6 @@ def parse_arguments():
     parser.add_argument(
         '--batch_system',
         action='store',
-        dest='batch_system',
         help='e.g. lsf, sge or singleMachine',
         required=True
     )
@@ -91,15 +87,13 @@ def parse_arguments():
     parser.add_argument(
         '--restart',
         action='store_true',
-        dest='restart',
         help='include this if we are restarting from an existing output directory',
         required=False
     )
 
     parser.add_argument(
-        '--logLevel',
+        '--log_level',
         action='store',
-        dest='logLevel',
         default='INFO',
         help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
         required=False
@@ -180,7 +174,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         '--workDir', tmpdir,
         '--outdir', output_directory,
         '--writeLogs', logdir,
-        '--logLevel', args.logLevel,
+        '--logLevel', args.log_level,
     ])
 
     ARG_TEMPLATE = ' {} {} '

@@ -15,24 +15,24 @@ requirements:
 arguments:
 - /opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict
 - -E
-- $(inputs.E)
+- $(inputs.column_for_region_end)
 - -G
-- $(inputs.G)
+- $(inputs.reference_fasta)
 # Todo: Should be T|N or just T? Why?
 - -N
-- $(inputs.N)
+- $(inputs.tumor_sample_name)
 - -c
-- $(inputs.c)
+- $(inputs.column_for_chromosome)
 - -b
-- $(inputs.b.path + '|' + inputs.b2.path)
+- $(inputs.tumor_bam.path + '|' + inputs.normal_bam.path)
 - -g
-- $(inputs.g)
+- $(inputs.column_for_gene_name)
 - -f
-- $(inputs.f)
+- $(inputs.allele_freq_thres)
 - -S
-- $(inputs.S)
+- $(inputs.column_for_region_start)
 - -r
-- $(inputs.r)
+- $(inputs.min_num_variant_reads)
 - $(inputs.bed_file)
 - shellQuote: false
   valueFrom: $('|')
@@ -41,9 +41,9 @@ arguments:
   valueFrom: $('|')
 - /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
 - -N
-- $(inputs.N + '|' + inputs.N2)
+- $(inputs.tumor_sample_name + '|' + inputs.normal_sample_name)
 - -f
-- $(inputs.f)
+- $(inputs.allele_freq_thres)
 
 stdout: $(inputs.output_file_name)
 
@@ -51,51 +51,53 @@ inputs:
 
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
   output_file_name: string
+  bed_file: File
 
-  b:
+  reference_fasta:
+    type: File
+    doc: Reference fasta
+
+  tumor_bam:
     type: File
     doc: Tumor bam
     secondaryFiles: [^.bai]
 
-  b2:
+  normal_bam:
     type: File
     doc: Normal bam
     secondaryFiles: [^.bai]
 
-  bed_file:
-    type: File
-
-  c:
-    type: int
-    doc: The column for chromosome
-
-  S:
-    type: int
-    doc: The column for region start, e.g. gene start
-
-  E:
-    type: int
-    doc: The column for region end, e.g. gene end
-
-  f:
-    type: string
-    doc: The threshold for allele frequency
-
-  N:
+  tumor_sample_name:
     type: string
     doc: Tumor Sample Name
 
-  N2:
+  normal_sample_name:
     type: string
     doc: Normal Sample Name
 
-  g:
+  allele_freq_thres:
+    type: float
+    doc: The threshold for allele frequency
+
+  min_num_variant_reads:
+    type: int
+    doc: The minimum number of reads to call a variant
+
+  column_for_gene_name:
     type: int
     doc: The column for gene name, or segment annotation
 
-  G:
-    type: File
-    doc: Reference fasta
+  column_for_chromosome:
+    type: int
+    doc: The column for chromosome
+
+  column_for_region_end:
+    type: int
+    doc: The column for region end, e.g. gene end
+
+  column_for_region_start:
+    type: int
+    doc: The column for region start, e.g. gene start
 
   # Optional:
 
