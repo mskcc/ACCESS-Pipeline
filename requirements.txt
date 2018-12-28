@@ -9,8 +9,6 @@ bd2k-python-lib==1.14a1.dev48
 CacheControl==0.11.7
 certifi==2018.10.15
 chardet==3.0.4
-cwltest==1.0.20180601100346
-cwltool==1.0.20180306140409
 cycler==0.10.0
 dill==0.2.7.1
 docker==2.5.1
@@ -50,7 +48,6 @@ seaborn==0.8.1
 shellescape==3.4.1
 six==1.11.0
 subprocess32==3.5.2
-toil-ionox0==0.0.1
 typing==3.6.6
 typing-extensions==3.6.6
 urllib3==1.22
