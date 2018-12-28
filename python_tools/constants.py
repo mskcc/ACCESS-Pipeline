@@ -3,16 +3,6 @@ import re
 
 from root import ROOT_DIR
 
-# ACCESS-Variants
-# Todo: merge with other files paths
-# RUN_FILES_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
-# RUN_PARAMS_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
-# RUN_PARAMS_DELLY_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
-RUN_FILES_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
-RUN_PARAMS_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
-RUN_PARAMS_DELLY_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
-
-
 #############
 # Resources #
 #############
@@ -39,6 +29,11 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
+
+# ACCESS-Variants Resources
+ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
+ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
+ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
 
 ###############################

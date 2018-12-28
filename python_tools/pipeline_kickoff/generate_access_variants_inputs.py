@@ -6,7 +6,11 @@ import ruamel.yaml
 
 import pandas as pd
 
-from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from ..constants import (
+    ACCESS_VARIANTS_RUN_FILES_PATH,
+    ACCESS_VARIANTS_RUN_PARAMS_PATH,
+    ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
+)
 
 
 ##########
@@ -277,10 +281,10 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_file_resources(fh, RUN_FILES_PATH)
-    include_run_params(fh, RUN_PARAMS_PATH)
+    include_file_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
+    include_run_params(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
     if args.structural_variants:
-        include_run_params_delly(fh, RUN_PARAMS_DELLY_PATH)
+        include_run_params_delly(fh, ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH)
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
     include_version_info(fh)
