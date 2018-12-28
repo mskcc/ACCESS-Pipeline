@@ -24,7 +24,7 @@ def convert_annomaf_to_df(arg):
         df_annotation.rename(columns ={'Matched_Norm_Sample_Barcode':'caller_Norm_Sample_Barcode','t_depth':'caller_t_depth', 't_ref_count':'caller_t_ref_count', 't_alt_count':'caller_t_alt_count', 'n_depth':'caller_n_depth', 'n_ref_count':'caller_n_ref_count', 'n_alt_count':'caller_n_alt_count'}, inplace=True)
         return df_annotation
     else:
-        raise "The path to the annotation MAF file does not exist"
+        raise Exception('The path to the annotation MAF file does not exist')
     
 def convert_fillout_to_df(args):
     '''extract and stanardize a fillout file'''
@@ -36,10 +36,9 @@ def convert_fillout_to_df(args):
         df_full_fillout.set_index(mutation_key, drop=False, inplace=True)
         return df_full_fillout
     else:
-        raise "The path to the annotation MAF file does not exist"
+        raise Exception('The path to the annotation MAF file does not exist')
 
 
-        
 def extract_fillout_type(df_full_fillout):
     def find_VAFandsummary(df_fillout): 
         df_fillout=df_fillout.copy()
@@ -112,6 +111,10 @@ def create_fillout_summary (df_fillout, alt_thres):
 
 def extract_tn_genotypes(df_pool, df_ds_tumor, t_samplename, n_samplename):
     df_tn_genotype=df_pool[df_pool['Tumor_Sample_Barcode']==t_samplename][['t_alt_count_fragment', 't_ref_count_fragment','t_vaf_fragment']]
+
+    if df_tn_genotype.shape[0] == 0:
+        raise Exception('Tumor Sample ID {} not found in maf file'.format(t_samplename))
+
     df_ds_genotype=df_ds_tumor[df_ds_tumor['Tumor_Sample_Barcode']==t_samplename+'-SIMPLEX-DUPLEX'][['t_alt_count_fragment', 't_ref_count_fragment','t_vaf_fragment']]
     df_ds_genotype.rename(columns = {'t_alt_count_fragment':'DS_t_alt_count_fragment', 't_ref_count_fragment':'DS_t_ref_count_fragment','t_vaf_fragment':'DS_t_vaf_fragment'}, inplace=True)
     df_tn_genotype = df_tn_genotype.merge(df_ds_genotype, left_index=True, right_index=True)
@@ -121,6 +124,7 @@ def extract_tn_genotypes(df_pool, df_ds_tumor, t_samplename, n_samplename):
         df_n_genotype.insert(0, 'Matched_Norm_Sample_Barcode', n_samplename)        
         df_tn_genotype = df_tn_genotype.merge(df_n_genotype, left_index=True, right_index=True)
     return df_tn_genotype
+
 
 def make_per_filtered_maf (args):
     
@@ -137,6 +141,7 @@ def make_per_filtered_maf (args):
     df_tn_geno=extract_tn_genotypes(df_pool, df_ds_tumor, args.tumor_samplename, args.normal_samplename)   
     df_per_filter = df_annotation.merge(df_tn_geno, left_index=True, right_index=True).merge(df_pool_summary, left_index=True, right_index=True).merge(df_ds_tumor_summary, left_index=True, right_index=True).merge(df_curated_summary, left_index=True, right_index=True).merge(df_ds_curated_summary, left_index=True, right_index=True)
     return df_per_filter
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -159,7 +164,7 @@ def parse_arguments():
     
     #Tiering Parameters #tier_one_alt_min=3, tier_two_alt_min=5
     parser.add_argument("--tier_one_alt_min", default=3, type=int, help="The Minimum Alt Depth required in hotspots")
-    parser.add_argument("--tier_one_alt_min", default=5, type=int, help="The Minimum Alt Depth required in non-hotspots")
+    parser.add_argument("--tier_two_alt_min", default=5, type=int, help="The Minimum Alt Depth required in non-hotspots")
     
     #Occurance in curated  n_fillout_sample_detect_min)
     parser.add_argument("--min_n_curated_samples_alt_detected", default=2, type=int, help="The Minimum number of curated samples variant is detected to be flagged")
@@ -169,7 +174,6 @@ def parse_arguments():
     
     args = parser.parse_args()
     return args
-    
 
 
 def apply_filter_maf (df_pre_filter, args):
@@ -230,16 +234,21 @@ def apply_filter_maf (df_pre_filter, args):
         status=non_exonic (mut, status)
         df_post_filter.loc[i, 'Status'] = status
     return df_post_filter
-   
+
+
 def main():
     args = parse_arguments()
+
     df_pre_filter=make_per_filtered_maf (args)
     df_post_filter=apply_filter_maf (df_pre_filter, args)
-    #saves to the same directory as the annotation file.
-    df_post_filter.to_csv(args.fillout_maf[:-4]+"_filtered.maf", header=True, index=None, sep='\t', mode='a')
+
+    output_file_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered.maf')
+    df_post_filter.to_csv(output_file_name, header=True, index=None, sep='\t', mode='a')
+
 
 if __name__ == '__main__':
     main()
+
 """
 #DEBUGGING args
 

@@ -15,6 +15,7 @@ requirements:
       - $import: ../../resources/run_params/schemas/bcftools.yaml
       - $import: ../../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../../resources/run_params/schemas/gbcms_params.yaml
+      - $import: ../../resources/run_params/schemas/access_filters.yaml
 
 inputs:
 
@@ -29,6 +30,7 @@ inputs:
   bcftools_params: ../../resources/run_params/schemas/bcftools.yaml#bcftools_params
   vcf2maf_params: ../../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  access_filters_params: ../../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
 
@@ -128,6 +130,10 @@ outputs:
     type: File[]
     outputSource: module_4/fillout_maf
 
+  final_filtered_maf:
+    type: File[]
+    outputSource: module_4/final_filtered_maf
+
 steps:
 
   ################################
@@ -169,6 +175,7 @@ steps:
     run: ../module-4.cwl
     in:
       vcf2maf_params: vcf2maf_params
+      access_filters_params: access_filters_params
       tmp_dir: tmp_dir
       hotspots: hotspots
       gbcms_params: gbcms_params
@@ -180,6 +187,6 @@ steps:
       ref_fasta: ref_fasta
       exac_filter: exac_filter
       hotspot_list: hotspot_list
-    out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf]
+    out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf, final_filtered_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
     scatterMethod: dotproduct
