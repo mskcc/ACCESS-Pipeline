@@ -6,7 +6,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 
 
 ##########
@@ -60,7 +60,8 @@ def parse_arguments():
 
     :return: argparse.ArgumentParser object
     """
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(usage='Generate inputs for either the snps_and_indels.cwl or ACCESS_variants.cwl \
+                                           workflow.')
 
     parser.add_argument(
         '-o',
@@ -74,6 +75,14 @@ def parse_arguments():
         '--project_name',
         help='Project name for this run',
         required=True
+    )
+
+    parser.add_argument(
+        '-sv',
+        '--structural_variants',
+        help='Whether to include SV calling. (This will include the Delly params in the inputs file. \
+            Inputs should be paired with full ACCESS_variants.cwl workflow.',
+        required=False
     )
 
     parser.add_argument(
@@ -270,6 +279,8 @@ def create_inputs_file(args):
 
     include_file_resources(fh, RUN_FILES_PATH)
     include_run_params(fh, RUN_PARAMS_PATH)
+    if args.structural_variants:
+        include_run_params_delly(fh, RUN_PARAMS_DELLY_PATH)
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
     include_version_info(fh)
@@ -399,6 +410,19 @@ def include_run_params(fh, run_params_path):
         other_params = ruamel.yaml.round_trip_load(stream)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
+
+
+def include_run_params_delly(fh, run_params_delly_path):
+    """
+    Load and write our default run parameters to the pipeline inputs file
+
+    :param fh: File Handle to the pipeline inputs yaml file
+    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
+    """
+    with open(run_params_delly_path, 'r') as stream:
+        run_params_delly = ruamel.yaml.round_trip_load(stream)
+
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(run_params_delly))
 
 
 def include_version_info(fh):

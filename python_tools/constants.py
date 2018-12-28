@@ -5,8 +5,12 @@ from root import ROOT_DIR
 
 # ACCESS-Variants
 # Todo: merge with other files paths
-RUN_FILES_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
-RUN_PARAMS_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+# RUN_FILES_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
+# RUN_PARAMS_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+# RUN_PARAMS_DELLY_PATH = '/home/johnsoni/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
+RUN_FILES_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_files.yaml'
+RUN_PARAMS_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params.yaml'
+RUN_PARAMS_DELLY_PATH = '/Users/johnsoni/Desktop/code/Innovation-Pipeline/resources/ACCESS-Variants/run_params_delly.yaml'
 
 
 #############
