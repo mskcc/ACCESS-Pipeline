@@ -36,7 +36,7 @@ inputs:
   bed_file: File
   refseq: File
   hotspot_vcf: File
-  ref_fasta: File
+  reference_fasta: File
 
 outputs:
 
@@ -53,30 +53,32 @@ outputs:
     outputSource: vardict/output
 
 steps:
+
   vardict:
     run: ../../cwl_tools/vardict/vardict_paired.cwl
     in:
       vardict_params: vardict_params
-      G: ref_fasta
-      b: tumor_bam
-      b2: normal_bam
-      N: tumor_sample_name
-      N2: normal_sample_name
+      reference_fasta: reference_fasta
       bed_file: bed_file
-      E:
-        valueFrom: $(inputs.vardict_params.E)
-      S:
-        valueFrom: $(inputs.vardict_params.S)
-      c:
-        valueFrom: $(inputs.vardict_params.c)
-      g:
-        valueFrom: $(inputs.vardict_params.g)
-      f:
-        valueFrom: $(inputs.vardict_params.f)
-      r:
-        valueFrom: $(inputs.vardict_params.r)
+      tumor_bam: tumor_bam
+      normal_bam: normal_bam
+      tumor_sample_name: tumor_sample_name
+      normal_sample_name: normal_sample_name
+
+      column_for_region_end:
+        valueFrom: $(inputs.vardict_params.column_for_region_end)
+      column_for_region_start:
+        valueFrom: $(inputs.vardict_params.column_for_region_start)
+      column_for_chromosome:
+        valueFrom: $(inputs.vardict_params.column_for_chromosome)
+      column_for_gene_name:
+        valueFrom: $(inputs.vardict_params.column_for_gene_name)
+      allele_freq_thres:
+        valueFrom: $(inputs.vardict_params.allele_freq_thres)
+      min_num_variant_reads:
+        valueFrom: $(inputs.vardict_params.min_num_variant_reads)
       output_file_name:
-        valueFrom: $(inputs.N + '.' + inputs.N2 + '.vardict.vcf')
+        valueFrom: $(inputs.tumor_sample_name + '.' + inputs.normal_sample_name + '.vardict.vcf')
     out: [output]
 
   mutect:
@@ -84,14 +86,15 @@ steps:
     in:
       tmp_dir: tmp_dir
       mutect_params: mutect_params
+      reference_sequence: reference_fasta
+      dbsnp: dbsnp
+      cosmic: cosmic
+      intervals: bed_file
       input_file_normal: normal_bam
       input_file_tumor: tumor_bam
       tumor_sample_name: tumor_sample_name
       normal_sample_name: normal_sample_name
-      reference_sequence: ref_fasta
-      dbsnp: dbsnp
-      cosmic: cosmic
-      intervals: bed_file
+
       read_filter:
         valueFrom: $(inputs.mutect_params.rf)
       downsample_to_coverage:

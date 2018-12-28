@@ -89,7 +89,7 @@ steps:
       cosmic: cosmic
       refseq: refseq
       hotspot_vcf: hotspot_vcf
-      ref_fasta: ref_fasta
+      reference_fasta: ref_fasta
     out: [mutect_vcf, vardict_vcf, mutect_callstats]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
     scatterMethod: dotproduct
