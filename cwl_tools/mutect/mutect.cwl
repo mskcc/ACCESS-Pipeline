@@ -26,6 +26,7 @@ requirements:
 
 inputs:
 
+  mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   tmp_dir: Directory
 
   tumor_sample_name:
@@ -809,7 +810,7 @@ outputs:
         }
 
   callstats_output:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

@@ -8,6 +8,9 @@ stdout: $(inputs.output)
 
 requirements:
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/bcftools.yaml
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
@@ -16,6 +19,10 @@ doc: |
   concatenate VCF/BCF files from the same set of samples
 
 inputs:
+
+  bcftools_params: ../../resources/run_params/schemas/bcftools.yaml#bcftools_params
+  tumor_sample_name: string
+  normal_sample_name: string
  
   threads:
     type: ["null", string]

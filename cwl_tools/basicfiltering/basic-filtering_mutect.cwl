@@ -9,11 +9,17 @@ requirements:
   ResourceRequirement:
     ramMin: 16000
     coresMin: 2
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/basic-filtering-mutect.yaml
 
 doc: |
   Filter snps from the output of muTect
 
 inputs:
+
+  basicfiltering_mutect_params: ../../resources/run_params/schemas/basic-filtering-mutect.yaml#basicfiltering_mutect_params
+
   verbose:
     type: ['null', boolean]
     default: false

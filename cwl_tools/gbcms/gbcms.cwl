@@ -32,7 +32,6 @@ arguments:
 inputs:
 
   gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
-
   genotyping_bams_ids: string[]
   genotyping_bams: File[]
 
