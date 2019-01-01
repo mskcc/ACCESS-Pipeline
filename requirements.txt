@@ -33,7 +33,7 @@ pbr==5.1.1
 pybedtools==0.8.0
 pyparsing==2.3.0
 PyPDF2==1.26.0
-pysam==0.14.1
+pysam==0.15.1
 python-dateutil==2.7.4
 pytz==2018.6
 PyYAML==3.12
