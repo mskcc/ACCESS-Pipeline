@@ -116,7 +116,7 @@ outputs:
 
   final_maf:
     type: File[]
-    outputSource: snps_and_indels/maf
+    outputSource: snps_and_indels/final_maf
 
   hotspots_filtered_maf:
     type: File[]
@@ -183,10 +183,10 @@ steps:
       basicfiltering_vardict_params: basicfiltering_vardict_params
       basicfiltering_mutect_params: basicfiltering_mutect_params
       bcftools_params: bcftools_params
+      gbcms_params: gbcms_params
       vcf2maf_params: vcf2maf_params
       tmp_dir: tmp_dir
       hotspots: hotspots
-      gbcms_params: gbcms_params
       combine_vcf: module_3/concatenated_vcf
       genotyping_bams: genotyping_bams
       genotyping_bams_ids: genotyping_bams_ids
@@ -202,10 +202,11 @@ steps:
       vardict_vcf,
       mutect_normalized_vcf,
       vardict_normalized_vcf,
-      maf,
+      final_maf,
       hotspots_filtered_maf,
       consolidated_maf,
-      fillout_maf]
+      fillout_maf,
+      final_filtered_maf]
 
   #######################
   # Structural Variants #
