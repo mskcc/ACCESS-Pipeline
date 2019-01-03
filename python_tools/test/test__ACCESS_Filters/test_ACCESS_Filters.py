@@ -23,10 +23,6 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         # os.chdir('test__ACCESS_Filters')
 
         self.testing_parameters = {
-            # 'anno_maf':                                 './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv.maf',
-            # 'fillout_maf':                              './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv_fillout.maf',
-            # 'tumor_samplename':                         'MSK-L-115_T_S1_001',
-            # 'normal_samplename':                        'MSK-L-115_N_S7_001',
             'anno_maf':                                 './test_data/test.maf',
             'fillout_maf':                              './test_data/test_fillout.maf',
             'tumor_samplename':                         't_sample',
@@ -82,9 +78,15 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         df_pre_filter = make_per_filtered_maf(mock_args)
         df_post_filter = apply_filter_maf(df_pre_filter, mock_args)
 
-        # assert df_post_filter['some_passing_mutation', 'status'] == 'Tier 1'
-        # assert df_post_filter['another_passing_mutation', 'status'] == 'Tier 2'
-
+        # Todo: Validate this test data
+        assert df_post_filter.loc[('1', 8080157, 8080157, 'T', 'A',)]['Status'] == 'TNRatio-curatedmedian;TNRatio-matchnorm;NonExonic;'
+        assert df_post_filter.loc[('17', 37882882, 37882882, 'C', 'A',)]['Status'] == 'NotTiered;NonExonic;'
+        assert df_post_filter.loc[('18', 48584855, 48584855, 'A', 'TTT',)]['Status'] == 'NonExonic;'
+        assert df_post_filter.loc[('18', 48584872, 48584872, 'G', 'T',)]['Status'] == 'NotTiered;NonExonic;'
+        assert df_post_filter.loc[('18', 48586244, 48586244, 'C', 'T',)]['Status'] == 'NotTiered;'
+        assert df_post_filter.loc[('18', 57571783, 57571783, 'T', '-',)]['Status'] == 'NotTiered;TNRatio-curatedmedian;TNRatio-matchnorm;NonExonic;'
+        assert df_post_filter.loc[('18', 57571784, 57571784, 'C', '-',)]['Status'] == 'NonExonic;'
+        assert df_post_filter.loc[('19', 10273379, 10273379, 'A', 'T',)]['Status'] == 'TNRatio-curatedmedian;TNRatio-matchnorm;'
 
     def test_mismatching_tumor_sample_id(self):
         """

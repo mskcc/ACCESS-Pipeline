@@ -20,6 +20,7 @@ def convert_annomaf_to_df(arg):
     if os.path.isfile(arg.anno_maf):
         annotation_file=arg.anno_maf
         df_annotation=pd.read_csv(annotation_file,sep='\t', header=0)
+        df_annotation['Chromosome'] = df_annotation['Chromosome'].astype(str)
         df_annotation.set_index(mutation_key, drop=False, inplace=True)
         df_annotation.rename(columns ={'Matched_Norm_Sample_Barcode':'caller_Norm_Sample_Barcode','t_depth':'caller_t_depth', 't_ref_count':'caller_t_ref_count', 't_alt_count':'caller_t_alt_count', 'n_depth':'caller_n_depth', 'n_ref_count':'caller_n_ref_count', 'n_alt_count':'caller_n_alt_count'}, inplace=True)
         return df_annotation
@@ -31,6 +32,7 @@ def convert_fillout_to_df(args):
     if os.path.isfile(args.fillout_maf):
         fillout_file=args.fillout_maf
         df_full_fillout=pd.read_csv(fillout_file, sep='\t', header=0)
+        df_full_fillout['Chromosome'] = df_full_fillout['Chromosome'].astype(str)
         df_full_fillout.drop('Tumor_Seq_Allele2', axis=1, inplace=True)
         df_full_fillout.rename(columns = {'Tumor_Seq_Allele1':'Tumor_Seq_Allele2'}, inplace=True)
         df_full_fillout.set_index(mutation_key, drop=False, inplace=True)
