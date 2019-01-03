@@ -1,9 +1,7 @@
-import os
-import shutil
 import unittest
 
 from workflow_tools.ACCESS_filters import (
-    make_per_filtered_maf,
+    make_pre_filtered_maf,
     apply_filter_maf
 )
 
@@ -75,7 +73,7 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         """
         mock_args = ArgparseMock(self.testing_parameters)
 
-        df_pre_filter = make_per_filtered_maf(mock_args)
+        df_pre_filter = make_pre_filtered_maf(mock_args)
         df_post_filter = apply_filter_maf(df_pre_filter, mock_args)
 
         # Todo: Validate this test data
@@ -97,5 +95,5 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         mock_args = ArgparseMock(self.testing_parameters_mismatching_sample_id)
 
         with self.assertRaises(Exception):
-            df_pre_filter = make_per_filtered_maf(mock_args)
+            df_pre_filter = make_pre_filtered_maf(mock_args)
             df_post_filter = apply_filter_maf(df_pre_filter, mock_args)
