@@ -84,6 +84,7 @@ def parse_arguments():
     parser.add_argument(
         '-sv',
         '--structural_variants',
+        action='store_true',
         help='Whether to include SV calling. (This will include the Delly params in the inputs file. \
             Inputs should be paired with full ACCESS_variants.cwl workflow.',
         required=False

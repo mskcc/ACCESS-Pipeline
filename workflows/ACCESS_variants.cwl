@@ -118,7 +118,7 @@ outputs:
 
   final_maf:
     type: File[]
-    outputSource: snps_and_indels/maf
+    outputSource: snps_and_indels/final_maf
 
   hotspots_filtered_maf:
     type: File[]
@@ -211,10 +211,11 @@ steps:
       vardict_vcf,
       mutect_normalized_vcf,
       vardict_normalized_vcf,
-      maf,
+      final_maf,
       hotspots_filtered_maf,
       consolidated_maf,
-      fillout_maf]
+      fillout_maf,
+      final_filtered_maf]
 
   #######################
   # Structural Variants #

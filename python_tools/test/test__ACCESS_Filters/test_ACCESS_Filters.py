@@ -23,10 +23,14 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         # os.chdir('test__ACCESS_Filters')
 
         self.testing_parameters = {
-            'anno_maf':                                 './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv.maf',
-            'fillout_maf':                              './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv_fillout.maf',
-            'tumor_samplename':                         'MSK-L-115_T_S1_001',
-            'normal_samplename':                        'MSK-L-115_N_S7_001',
+            # 'anno_maf':                                 './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv.maf',
+            # 'fillout_maf':                              './test_data/MSK-L-115_T.MSK-L-115_N.combined-variants.vep_taggedHotspots_rmv_fillout.maf',
+            # 'tumor_samplename':                         'MSK-L-115_T_S1_001',
+            # 'normal_samplename':                        'MSK-L-115_N_S7_001',
+            'anno_maf':                                 './test_data/test.maf',
+            'fillout_maf':                              './test_data/test_fillout.maf',
+            'tumor_samplename':                         't_sample',
+            'normal_samplename':                        'n_sample',
             'tumor_detect_alt_thres':                   2,
             'curated_detect_alt_thres':                 2,
             'DS_tumor_detect_alt_thres':                2,
