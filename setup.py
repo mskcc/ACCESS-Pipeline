@@ -97,6 +97,7 @@ setup(
             'filter_vardict = cwl_tools.basicfiltering.filter_vardict:main',
             'tag_hotspots = cwl_tools.hotspots.tag_hotspots:main',
             'remove_variants = cwl_tools.remove_variants.remove_variants:main',
+            'ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main',
         ]
     },
     scripts=[

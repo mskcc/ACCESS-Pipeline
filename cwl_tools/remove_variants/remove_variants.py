@@ -1,7 +1,7 @@
 #!python
 
 """
-@Description : Given a MAF, consolidate events that overlap, and remove IGR events
+@Description : Given a MAF, consolidate complex events that overlap, and remove IGR events
 @Created :  05/02/2017
 @Updated : 09/12/2018
 @author : Ronak H Shah

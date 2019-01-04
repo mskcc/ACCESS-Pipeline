@@ -15,6 +15,7 @@ requirements:
       - $import: ../resources/run_params/schemas/bcftools.yaml
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
+      - $import: ../resources/run_params/schemas/access_filters.yaml
       - $import: ../resources/run_params/schemas/delly.yaml
 
 inputs:
@@ -30,6 +31,7 @@ inputs:
   bcftools_params: ../resources/run_params/schemas/bcftools.yaml#bcftools_params
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
   delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
 
   hotspots: File
@@ -116,7 +118,7 @@ outputs:
 
   final_maf:
     type: File[]
-    outputSource: snps_and_indels/maf
+    outputSource: snps_and_indels/final_maf
 
   hotspots_filtered_maf:
     type: File[]
@@ -129,6 +131,10 @@ outputs:
   fillout_maf:
     type: File[]
     outputSource: snps_and_indels/fillout_maf
+
+  final_filtered_maf:
+    type: File[]
+    outputSource: snps_and_indels/final_filtered_maf
 
   delly_sv:
     type:
@@ -168,6 +174,16 @@ steps:
     run: ./subworkflows/snps_and_indels.cwl
     in:
       tmp_dir: tmp_dir
+
+      mutect_params: mutect_params
+      vardict_params: vardict_params
+      basicfiltering_vardict_params: basicfiltering_vardict_params
+      basicfiltering_mutect_params: basicfiltering_mutect_params
+      bcftools_params: bcftools_params
+      vcf2maf_params: vcf2maf_params
+      gbcms_params: gbcms_params
+      access_filters_params: access_filters_params
+
       tumor_bams: tumor_bams
       normal_bams: normal_bams
       tumor_sample_names: tumor_sample_names
@@ -178,15 +194,8 @@ steps:
       ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic
-      mutect_params: mutect_params
-      vardict_params: vardict_params
-      basicfiltering_vardict_params: basicfiltering_vardict_params
-      basicfiltering_mutect_params: basicfiltering_mutect_params
-      bcftools_params: bcftools_params
-      vcf2maf_params: vcf2maf_params
       tmp_dir: tmp_dir
       hotspots: hotspots
-      gbcms_params: gbcms_params
       combine_vcf: module_3/concatenated_vcf
       genotyping_bams: genotyping_bams
       genotyping_bams_ids: genotyping_bams_ids
@@ -202,10 +211,11 @@ steps:
       vardict_vcf,
       mutect_normalized_vcf,
       vardict_normalized_vcf,
-      maf,
+      final_maf,
       hotspots_filtered_maf,
       consolidated_maf,
-      fillout_maf]
+      fillout_maf,
+      final_filtered_maf]
 
   #######################
   # Structural Variants #
@@ -232,6 +242,7 @@ steps:
       delly_filtered_sv,
       merged_structural_variants,
       merged_structural_variants_unfiltered,
-      structural_variants_maf]
+      structural_variants_maf,
+      final_filtered_maf]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
     scatterMethod: dotproduct
