@@ -12,12 +12,14 @@ requirements:
     types:
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
+      - $import: ../resources/run_params/schemas/access_filters.yaml
 
 inputs:
 
   tmp_dir: Directory
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
   combine_vcf: File
@@ -58,6 +60,10 @@ outputs:
   fillout_maf:
     type: File
     outputSource: fillout/fillout_out
+
+  final_filtered_maf:
+    type: File
+    outputSource: access_filters/filtered_maf
 
 steps:
 
@@ -143,14 +149,37 @@ steps:
         valueFrom: $(inputs.gbcms_params.fragment_count)
     out: [fillout_out]
 
-#  ngs_filters:
-#    run: ngs-filters/1.3/ngs-filters.cwl
-#    in:
-#      tumor_sample_name: tumor_sample_name
-#      normal_sample_name: normal_sample_name
-#      inputMaf: fillout_tumor_normal/portal_fillout
-#      outputMaf:
-#        valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".muts.maf" }
-#      NormalPanelMaf: fillout_second/fillout_curated_bams
-#      inputHSP: hotspot_list
-#    out: [output]
+  access_filters:
+    run: ../cwl_tools/python/ACCESS_filters.cwl
+    in:
+      access_filters_params: access_filters_params
+      anno_maf: remove_variants/consolidated_maf
+      fillout_maf: fillout/fillout_out
+      tumor_samplename: tumor_sample_name
+      normal_samplename: normal_sample_name
+
+      tumor_detect_alt_thres:
+        valueFrom: $(inputs.access_filters_params.tumor_detect_alt_thres)
+      curated_detect_alt_thres:
+        valueFrom: $(inputs.access_filters_params.curated_detect_alt_thres)
+      DS_tumor_detect_alt_thres:
+        valueFrom: $(inputs.access_filters_params.DS_tumor_detect_alt_thres)
+      DS_curated_detect_alt_thres:
+        valueFrom: $(inputs.access_filters_params.DS_curated_detect_alt_thres)
+      normal_TD_min:
+        valueFrom: $(inputs.access_filters_params.normal_TD_min)
+      normal_vaf_germline_thres:
+        valueFrom: $(inputs.access_filters_params.normal_vaf_germline_thres)
+      tumor_TD_min:
+        valueFrom: $(inputs.access_filters_params.tumor_TD_min)
+      tumor_vaf_germline_thres:
+        valueFrom: $(inputs.access_filters_params.tumor_vaf_germline_thres)
+      tier_one_alt_min:
+        valueFrom: $(inputs.access_filters_params.tier_one_alt_min)
+      tier_two_alt_min:
+        valueFrom: $(inputs.access_filters_params.tier_two_alt_min)
+      min_n_curated_samples_alt_detected:
+        valueFrom: $(inputs.access_filters_params.min_n_curated_samples_alt_detected)
+      tn_ratio_thres:
+        valueFrom: $(inputs.access_filters_params.tn_ratio_thres)
+    out: [filtered_maf]

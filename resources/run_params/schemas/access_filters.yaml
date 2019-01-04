@@ -1,0 +1,27 @@
+name: access_filters__params
+type: record
+fields:
+- name: tumor_detect_alt_thres
+  type: int
+- name: curated_detect_alt_thres
+  type: int
+- name: DS_tumor_detect_alt_thres
+  type: int
+- name: DS_curated_detect_alt_thres
+  type: int
+- name: normal_TD_min
+  type: int
+- name: normal_vaf_germline_thres
+  type: float
+- name: tumor_TD_min
+  type: int
+- name: tumor_vaf_germline_thres
+  type: float
+- name: tier_one_alt_min
+  type: int
+- name: tier_two_alt_min
+  type: int
+- name: min_n_curated_samples_alt_detected
+  type: int
+- name: tn_ratio_thres
+  type: int
