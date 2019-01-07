@@ -7,6 +7,7 @@
 @author : Ronak H Shah
 @author : Tim Song
 @author : Cyriac Kandoth
+@author : Ian Johnson
 """
 
 from __future__ import division

@@ -102,6 +102,7 @@ def create_fillout_summary(df_fillout, alt_thres):
     #Make the dataframe with the fragment count summary of all the samples per mutation
     summary_table = df_fillout.pivot_table(index=mutation_key, columns='Tumor_Sample_Barcode', values='summary_fragment', aggfunc=lambda x: ' '.join(x))
     #find the median VAF for the set
+    # Todo: handle case where t_vaf_fragment contains numpy.nan
     summary_table[fillout_type + 'median_VAF'] = df_fillout.groupby(mutation_key)['t_vaf_fragment'].median()
     #find the number of samples with alt count above the threshold (alt_thres)
     summary_table[fillout_type + 'n_fillout_sample_alt_detect'] = df_fillout.groupby(mutation_key)['t_alt_count_fragment'].aggregate(lambda x :(x>alt_thres).sum())
