@@ -51,6 +51,7 @@ inputs:
   tumor_sample_names: string[]
   normal_sample_names: string[]
   genotyping_bams_ids: string[]
+  matched_normal_ids: string[]
 
   bed_file: File
   refseq: File
@@ -184,9 +185,10 @@ steps:
       genotyping_bams_ids: genotyping_bams_ids
       tumor_sample_name: tumor_sample_names
       normal_sample_name: normal_sample_names
+      matched_normal_sample_name: matched_normal_ids
       ref_fasta: ref_fasta
       exac_filter: exac_filter
       hotspot_list: hotspot_list
     out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf, final_filtered_maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
+    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct

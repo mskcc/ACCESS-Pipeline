@@ -52,6 +52,7 @@ inputs:
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
+  matched_normal_ids: string[]
   genotyping_bams_ids: string[]
 
   bed_file: File
@@ -188,6 +189,7 @@ steps:
       normal_bams: normal_bams
       tumor_sample_names: tumor_sample_names
       normal_sample_names: normal_sample_names
+      matched_normal_ids: matched_normal_ids
       bed_file: bed_file
       refseq: refseq
       hotspot_vcf: hotspot_vcf

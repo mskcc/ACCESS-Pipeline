@@ -85,6 +85,11 @@ manifest_columns = [
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
 
+# Delimiter for printing logs
+DELIMITER = '\n' + '*' * 20 + '\n'
+# Delimiter for inputs file sections
+INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
+
 
 ##########################
 # Constants for QC files #

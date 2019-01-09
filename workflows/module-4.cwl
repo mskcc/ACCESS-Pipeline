@@ -25,12 +25,13 @@ inputs:
   combine_vcf: File
   tumor_sample_name: string
   normal_sample_name: string
+  matched_normal_sample_name: string
 
+  genotyping_bams_ids: string[]
   genotyping_bams:
     type: File[]
     secondaryFiles:
       - ^.bai
-  genotyping_bams_ids: string[]
 
   hotspot_list: File
 
@@ -156,7 +157,7 @@ steps:
       anno_maf: remove_variants/consolidated_maf
       fillout_maf: fillout/fillout_out
       tumor_samplename: tumor_sample_name
-      normal_samplename: normal_sample_name
+      normal_samplename: matched_normal_sample_name
 
       tumor_detect_alt_thres:
         valueFrom: $(inputs.access_filters_params.tumor_detect_alt_thres)

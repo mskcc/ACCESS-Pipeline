@@ -7,10 +7,12 @@ import pandas as pd
 
 # constants include the paths to the config files
 from ..constants import *
-from ..util import reverse_complement, all_strings_are_substrings
+from ..util import (
+    reverse_complement,
+    all_strings_are_substrings,
+    include_version_info
+)
 
-
-##################################
 # Pipeline Kickoff Step #2
 #
 # Usage Example:
@@ -51,11 +53,6 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 ADAPTER_1 = 'GATCGGAAGAGC'
 ADAPTER_2 = 'AGATCGGAAGAGC'
-
-# Delimiter for printing logs
-DELIMITER = '\n' + '*' * 20 + '\n'
-# Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
 
 def load_fastqs(data_dir):

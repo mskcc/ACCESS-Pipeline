@@ -207,3 +207,17 @@ class ArgparseMock():
         for key, value in zip(args.keys(), args.values()):
 
             setattr(self, key, value)
+
+
+def include_version_info(fh):
+    """
+    Todo: Include indentifier to indicate if commit == tag
+    """
+    import version
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('version: {} \n'.format(version.most_recent_tag))
+    fh.write('# Pipeline Run Version Information: \n')
+    fh.write('# Version: {} \n'.format(version.version))
+    fh.write('# Short Version: {} \n'.format(version.short_version))
+    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    fh.write('# Dirty? {} \n'.format(str(version.dirty)))

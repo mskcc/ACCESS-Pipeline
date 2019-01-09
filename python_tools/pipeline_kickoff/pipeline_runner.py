@@ -5,10 +5,9 @@ import argparse
 import subprocess
 import ruamel.yaml
 
-import version
+from ..version import most_recent_tag
 
 
-###################################################################
 # This script is used to run workflows from the command line using toil-cwl-runner.
 #
 # It is a simple wrapper that creates the output directory structure,
@@ -194,7 +193,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     )
 
     print('Running Toil with command: {}'.format(cmd))
-    print('ACCESS-Pipeline version: {}'.format(version.most_recent_tag))
+    print('ACCESS-Pipeline version: {}'.format(most_recent_tag))
     sys.stdout.flush()
     subprocess.check_call(cmd, shell=True)
 

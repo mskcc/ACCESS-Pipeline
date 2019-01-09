@@ -6,12 +6,12 @@ import ruamel.yaml
 
 import pandas as pd
 
-from constants import (
+from ..util import include_version_info
+from ..constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
 )
-
 
 ##########
 # Pipeline Inputs generation for the ACCESS-Variants pipeline
@@ -86,7 +86,7 @@ def parse_arguments():
         '--structural_variants',
         action='store_true',
         help='Whether to include SV calling. (This will include the Delly params in the inputs file. \
-            Inputs should be paired with full ACCESS_variants.cwl workflow.',
+            Inputs file will then be paired with ACCESS_variants.cwl workflow.',
         required=False
     )
 
@@ -182,7 +182,7 @@ def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
             assert len(normal_sample) == 1, 'Incorrect # of matches for paired normal for tumor sample {}'.format(tumor_sample)
 
 
-def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, default_normal_path, matched=True):
+def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, default_normal_path):
     """
     Build tumor-normal pairs from pairing file and tumor / normal bam directories.
 
@@ -234,16 +234,7 @@ def create_inputs_file(args):
 
     :param args: argparse.ArgumentParser object
     """
-
-    # Pairing file is required in matched mode
-    if args.matched_mode and args.pairing_file_path is None:
-        raise Exception('--matched_mode requires --pairing_file_path')
-
-    # Normal bams folder is required in matched mode
-    if args.matched_mode and args.normal_bams_directory is None:
-        raise Exception('--matched_mode requires --normal_bams_directory')
-
-    fh = open(args.output_file_name, 'w')
+    validate_args(args)
 
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
@@ -251,12 +242,13 @@ def create_inputs_file(args):
     curated_bam_simplex_paths = find_bams_in_directory(args.curated_bams_simplex_directory)
 
     # Normal bams paths are either from the bams directory, or repeating the default normal
-    # Todo: remove! this logive should be based on the args.matched_mode param
+    # Todo: remove! this logic should be based on the args.matched_mode param
     if args.normal_bams_directory:
         normal_bam_paths = find_bams_in_directory(args.normal_bams_directory)
     else:
         normal_bam_paths = [args.default_normal_path] * len(tumor_bam_paths)
 
+    fh = open(args.output_file_name, 'w')
     write_yaml_bams(
         fh,
         args,
@@ -269,11 +261,14 @@ def create_inputs_file(args):
 
     include_file_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
     include_run_params(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
+
     if args.structural_variants:
         include_run_params_delly(fh, ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH)
+
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
     include_version_info(fh)
+
     fh.close()
 
 
@@ -287,70 +282,59 @@ def write_yaml_bams(
         curated_bam_simplex_paths
     ):
     """
-    Write the lists of tumor and normal bams to the inputs file
+    Write the lists of tumor, normal, and genotyping bams to the inputs file, along with their sample IDs
 
     :param fh: inputs file file handle
     :param args: argparse.ArgumentParser object with bam directory attribute
     :return:
     """
+
+    # 1. Build lists of bams
     if args.pairing_file_path:
         pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
-        ordered_tumor_samples, ordered_normal_samples, ordered_tn_genotyping_samples = parse_tumor_normal_pairing(
+        ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
             pairing_file,
             tumor_bam_paths,
             normal_bam_paths,
-            args.default_normal_path,
-            matched=args.matched_mode
+            args.default_normal_path
         )
 
         if not args.matched_mode:
-            ordered_normal_samples = [args.default_normal_path] * len(tumor_bam_paths)
-            ordered_tn_genotyping_samples = ordered_tn_genotyping_samples #+ [args.default_normal_path]
+            ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
+            # Todo: Need to add default normal?
+            # ordered_tn_genotyping_bams = ordered_tn_genotyping_bams + [args.default_normal_path]
 
         matched_normal_ids = [n for n in pairing_file['normal_id']]
-
-        new_matched_normal_ids = []
-        for n in matched_normal_ids:
-            if n != '':
-                new_matched_normal_id = correct_sample_id(n, normal_bam_paths)
-            else:
-                new_matched_normal_id = ''
-            new_matched_normal_ids.append(new_matched_normal_id)
-        matched_normal_ids = new_matched_normal_ids
-
-    # In unmatched mode, the sample pairing is much simpler (just use the supplied default normal)
+        matched_normal_ids = [correct_sample_id(n, normal_bam_paths) if n else '' for n in matched_normal_ids]
     else:
-        ordered_tumor_samples = tumor_bam_paths
-        ordered_normal_samples = [args.default_normal_path] * len(tumor_bam_paths)
+        # In unmatched mode, the sample pairing is much simpler (just use the supplied default normal)
+        ordered_tumor_bams = tumor_bam_paths
+        ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
         # Only add the default normal once
-        ordered_tn_genotyping_samples = ordered_tumor_samples + [ordered_normal_samples[0]]
+        ordered_tn_genotyping_bams = ordered_tumor_bams + [ordered_normal_bams[0]]
+        matched_normal_ids = [''] * len(ordered_tumor_bams)
 
-        matched_normal_ids = [''] * len(ordered_tumor_samples)
+    # 2. Build lists of Sample IDs
+    if args.matched_mode:
+        # Use pairing file in matched mode
+        tumor_sample_ids = [correct_sample_id(t, ordered_tumor_bams) for t in pairing_file['tumor_id']]
+        normal_sample_ids = [n if n else extract_sample_id_from_bam_path(args.default_normal_path) for n in pairing_file['normal_id']]
+    else:
+        # Otherwise use default normal
+        tumor_sample_ids = [extract_sample_id_from_bam_path(b) for b in tumor_bam_paths]
+        normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
 
-    tumor_bams = create_yaml_file_objects(ordered_tumor_samples)
-    normal_bams = create_yaml_file_objects(ordered_normal_samples)
+    # 3. Convert bam paths to CWL File objects
+    tumor_bams = create_yaml_file_objects(ordered_tumor_bams)
+    normal_bams = create_yaml_file_objects(ordered_normal_bams)
     simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
     curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
     curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
-    tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_samples)
+    tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_bams)
 
-    if args.matched_mode:
-        # Use pairing file for sample IDs
-        tumor_sample_ids = [t for t in pairing_file['tumor_id']]
-        tumor_sample_ids = [correct_sample_id(t, ordered_tumor_samples) for t in tumor_sample_ids]
-
-        # Todo: Better way of doing this
-        normal_sample_ids = [n if n else extract_sample_id_from_bam_path(args.default_normal_path) for n in pairing_file['normal_id']]
-
-    else:
-        # Use default normal for normal sample IDs
-        tumor_sample_ids = [extract_sample_id_from_bam_path(b) for b in tumor_bam_paths]
-        # Todo: Better way of doing this
-        normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
-
-    # Todo: edit this so that sample names to genotyper are same as access filters
+    # 4. Genotyping sample IDs must be extracted from the bams themselves
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
     simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-SIMPLEX' for b in simplex_genotyping_bams]
     curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED' for b in curated_duplex_genotyping_bams]
@@ -358,7 +342,6 @@ def write_yaml_bams(
 
     genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_duplex_genotyping_bams + curated_simplex_genotyping_bams
     genotyping_bams_ids = merged_tn_sample_ids + simplex_genotyping_ids + curated_duplex_genotyping_ids + curated_simplex_genotyping_ids
-
 
     genotyping_bams_ids = {'genotyping_bams_ids': genotyping_bams_ids}
     tumor_bam_paths = {'tumor_bams': tumor_bams}
@@ -382,8 +365,8 @@ def correct_sample_id(query_sample_id, bam_paths):
     """
     Compare `query_sample_id` to each element in bam_paths, and extract the actual sample ID from that bam's path
 
-    :param query_sample_id:
-    :param bam_paths:
+    :param query_sample_id: str - sample ID to be found in exactly one entry from `bam_paths`
+    :param bam_paths: str[] - bam file paths to search through
     :return:
     """
     matches = filter(lambda b: query_sample_id in b, bam_paths)
@@ -442,20 +425,6 @@ def include_run_params_delly(fh, run_params_delly_path):
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(run_params_delly))
 
 
-def include_version_info(fh):
-    """
-    Todo: Include indentifier to indicate if commit == tag
-    """
-    import version
-    fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
-    fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
-
-
 def find_bams_in_directory(dir):
     """
     Filter to just bam files found in `dir`
@@ -481,7 +450,20 @@ def create_yaml_file_objects(bam_paths):
     return [{'class': 'File', 'path': b} for b in bam_paths]
 
 
+def validate_args(args):
+    """Arguments sanity check"""
+
+    # Pairing file is required in matched mode
+    if args.matched_mode and args.pairing_file_path is None:
+        raise Exception('--matched_mode requires --pairing_file_path')
+
+    # Normal bams folder is required in matched mode
+    if args.matched_mode and args.normal_bams_directory is None:
+        raise Exception('--matched_mode requires --normal_bams_directory')
+
+
 def main():
+    """ Main """
     args = parse_arguments()
     create_inputs_file(args)
 
