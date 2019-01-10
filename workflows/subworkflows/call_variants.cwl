@@ -96,7 +96,7 @@ steps:
       normal_sample_name: normal_sample_name
 
       read_filter:
-        valueFrom: $(inputs.mutect_params.rf)
+        valueFrom: $(inputs.mutect_params.read_filter)
       downsample_to_coverage:
         valueFrom: $(inputs.mutect_params.dcov)
       fraction_contamination:

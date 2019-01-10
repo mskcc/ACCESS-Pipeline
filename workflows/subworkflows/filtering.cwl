@@ -65,8 +65,6 @@ steps:
     run: ../../cwl_tools/basicfiltering/basic-filtering_vardict.cwl
     in:
       basicfiltering_vardict_params: basicfiltering_vardict_params
-      verbose:
-        valueFrom: $(inputs.basicfiltering_vardict_params.verbose)
       total_depth:
         valueFrom: $(inputs.basicfiltering_vardict_params.total_depth)
       allele_depth:
