@@ -35,7 +35,7 @@ pyparsing==2.3.0
 PyPDF2==1.26.0
 pysam==0.15.2
 python-dateutil==2.7.5
-pytz==2018.6
+pytz==2018.9
 PyYAML==3.12
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
