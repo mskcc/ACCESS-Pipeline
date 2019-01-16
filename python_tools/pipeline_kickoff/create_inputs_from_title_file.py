@@ -515,20 +515,6 @@ def write_inputs_file(args, title_file, output_file_name):
     fh.close()
 
 
-def include_version_info(fh):
-    """
-    Todo: Include indentifier to indicate if commit == tag
-    """
-    import version
-    fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
-    fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
-
-
 def check_final_file(output_file_name):
     """
     Check that lengths of these fields in the final file are equal:
