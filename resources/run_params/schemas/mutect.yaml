@@ -21,7 +21,6 @@ fields:
   phone_home: string?
   gatk_key: string?
   tag: string?
-  read_filter: string?
   intervals: string?
   excludeIntervals: string?
   interval_set_rule: string?
