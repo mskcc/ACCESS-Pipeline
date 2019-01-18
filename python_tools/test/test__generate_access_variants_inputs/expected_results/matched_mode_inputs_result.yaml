@@ -64,7 +64,7 @@ tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 
 mutect_params:
   dcov: 50000
-  rf: [BadCigar]
+  read_filter: [BadCigar]
 # Todo: whats the difference when using these?
   fraction_contamination: 0.0005
 # Todo: Check if needs to be changed
@@ -79,7 +79,6 @@ vardict_params:
   column_for_region_start: 2
 
 basicfiltering_mutect_params:
-  verbose: true
   total_depth: 20              # Todo: Too high?
   allele_depth: 1
   tumor_normal_ratio: 1        # Todo: Too high? (may not allow true variants to pass tnfRF filter)
@@ -87,7 +86,6 @@ basicfiltering_mutect_params:
   outdir: .
 
 basicfiltering_vardict_params:
-  verbose: true
   total_depth: 20
   allele_depth: 1
   tumor_normal_ratio: 1
@@ -152,9 +150,9 @@ project_name: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test
 
 # ------------------------------------------------------------
 
-version: 0.0.50-14-g9b3cff6 
+version: 0.0.44-3-gb4ba768 
 # Pipeline Run Version Information: 
-# Version: 9b3cff6d59f6eac13db62fc371a95be073f941e8-dirty 
-# Short Version: 9b3cff6-dirty 
-# Most Recent Tag: 0.0.50-14-g9b3cff6 
+# Version: b4ba76857ce12355e782b58fb4d8b2fb707f7a64-dirty 
+# Short Version: b4ba768-dirty 
+# Most Recent Tag: 0.0.44-3-gb4ba768 
 # Dirty? True 

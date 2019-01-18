@@ -5,7 +5,6 @@ import ruamel.yaml
 
 from pipeline_kickoff.generate_access_variants_inputs import (
     create_inputs_file,
-    create_yaml_file_objects
 )
 from util import ArgparseMock
 
@@ -20,9 +19,6 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests when running all test suites
-        os.chdir('test__generate_access_variants_inputs')
-
         self.matched_testing_parameters = {
             'project_name':                     'test_project',
             'matched_mode':                     'True',
@@ -48,6 +44,18 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         self.missing_normal_testing_parameters = dict(self.matched_testing_parameters)
         self.missing_normal_testing_parameters['pairing_file_path']  = './test_data/test_pairing_missing_normal.tsv'
 
+        # Check bam & ID-related fields
+        # Todo: include unittests for parameters & tools
+        self._fields_to_check = [
+            'tumor_bams',
+            'normal_bams',
+            'tumor_sample_names',
+            'normal_sample_names',
+            'matched_normal_ids',
+            'genotyping_bams',
+            'genotyping_bams_ids',
+        ]
+
         # Set up test outputs directory
         os.mkdir('./test_output')
 
@@ -59,9 +67,6 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         :return:
         """
         shutil.rmtree('./test_output')
-
-        # Move back up to main test dir
-        os.chdir('..')
 
 
     def test_matched_mode(self):
@@ -78,7 +83,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
         expected_result = open('./expected_results/matched_mode_inputs_result.yaml', 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
-        assert inputs_file == expected_result
+
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
 
 
     def test_unmatched_mode(self):
@@ -99,7 +106,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
         expected_result = open('./expected_results/unmatched_mode_inputs_result.yaml', 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
-        assert inputs_file == expected_result
+
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
 
 
     def test_matched_mode_without_pairing_file(self):
@@ -135,7 +144,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
         expected_result = open('./expected_results/unmatched_mode_no_pairing_file_inputs_result.yaml', 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
-        assert inputs_file == expected_result
+
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
 
 
     def test_missing_tumor_bam_throws_error(self):

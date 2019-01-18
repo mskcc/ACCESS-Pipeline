@@ -6,8 +6,8 @@ import ruamel.yaml
 
 import pandas as pd
 
-from ..util import include_version_info
-from ..constants import (
+from python_tools.util import include_version_info
+from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
@@ -295,15 +295,17 @@ def write_yaml_bams(
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
         ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
-            pairing_file,
+            args.pairing_file_path,
             tumor_bam_paths,
             normal_bam_paths,
             args.default_normal_path
         )
 
         if not args.matched_mode:
+            # If we aren't in matched mode, do variant calling with default normal
+            # (pairing file is only used for genotyping)
             ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
-            # Todo: Need to add default normal?
+            # Todo: Need to genotype default normal?
             # ordered_tn_genotyping_bams = ordered_tn_genotyping_bams + [args.default_normal_path]
 
         matched_normal_ids = [n for n in pairing_file['normal_id']]
@@ -313,7 +315,7 @@ def write_yaml_bams(
         ordered_tumor_bams = tumor_bam_paths
         ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
         # Only add the default normal once
-        ordered_tn_genotyping_bams = ordered_tumor_bams + [ordered_normal_bams[0]]
+        ordered_tn_genotyping_bams = ordered_tumor_bams + [args.default_normal_path]
         matched_normal_ids = [''] * len(ordered_tumor_bams)
 
     # 2. Build lists of Sample IDs
@@ -329,10 +331,10 @@ def write_yaml_bams(
     # 3. Convert bam paths to CWL File objects
     tumor_bams = create_yaml_file_objects(ordered_tumor_bams)
     normal_bams = create_yaml_file_objects(ordered_normal_bams)
+    tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_bams)
     simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
     curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
     curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
-    tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_bams)
 
     # 4. Genotyping sample IDs must be extracted from the bams themselves
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
