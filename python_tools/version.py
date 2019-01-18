@@ -1,5 +1,5 @@
-most_recent_tag = '0.0.44-3-gb4ba768'
+most_recent_tag = '0.1.0-rc2'
 dirty = True
-version = 'b4ba76857ce12355e782b58fb4d8b2fb707f7a64-dirty'
-short_version = 'b4ba768-dirty'
-current_commit = 'b4ba76857ce12355e782b58fb4d8b2fb707f7a64'
+version = '2e20b5dd3dc7a7e6d454bc9d3aa3f70aecbb7a32-dirty'
+short_version = '2e20b5d-dirty'
+current_commit = '2e20b5dd3dc7a7e6d454bc9d3aa3f70aecbb7a32'

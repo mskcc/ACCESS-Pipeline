@@ -295,7 +295,7 @@ def write_yaml_bams(
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
         ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
-            args.pairing_file_path,
+            pairing_file,
             tumor_bam_paths,
             normal_bam_paths,
             args.default_normal_path
