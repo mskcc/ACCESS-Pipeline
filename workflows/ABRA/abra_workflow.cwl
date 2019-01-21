@@ -97,7 +97,7 @@ steps:
     out: [output_file]
 
   make_abra_tmp_dir:
-    run: ../../cwl_tools/python/make_directory.cwl
+    run: ../../cwl_tools/util/make_directory.cwl
     in: []
     out: [empty_dir]
 
