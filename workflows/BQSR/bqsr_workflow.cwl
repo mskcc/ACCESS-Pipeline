@@ -29,12 +29,10 @@ inputs:
 
   bqsr__knownSites_dbSNP:
     type: File
-    secondaryFiles:
-      - .idx
+    secondaryFiles: [.idx]
   bqsr__knownSites_millis:
     type: File
-    secondaryFiles:
-      - .idx
+    secondaryFiles: [.idx]
 
   base_recalibrator__params: ../../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
   print_reads__params: ../../resources/run_params/schemas/print_reads.yaml#print_reads__params
