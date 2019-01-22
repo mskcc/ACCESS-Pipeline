@@ -19,17 +19,19 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         :return:
         """
+        self.test_path = os.path.abspath(os.path.dirname(__file__))
+
         self.matched_testing_parameters = {
             'project_name':                     'test_project',
             'matched_mode':                     'True',
-            'output_file_name':                 './test_output/_',
-            'tumor_bams_directory':             './test_data/tumor_bams',
-            'normal_bams_directory':            './test_data/normal_bams',
-            'simplex_bams_directory':           './test_data/simplex_bams',
-            'curated_bams_duplex_directory':    './test_data/curated_bams_duplex',
-            'curated_bams_simplex_directory':   './test_data/curated_bams_simplex',
-            'pairing_file_path':                './test_data/test_pairing.tsv',
-            'default_normal_path':              './test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam',
+            'output_file_name':                 self.test_path + '/test_output/_',
+            'tumor_bams_directory':             self.test_path + '/test_data/tumor_bams',
+            'normal_bams_directory':            self.test_path + '/test_data/normal_bams',
+            'simplex_bams_directory':           self.test_path + '/test_data/simplex_bams',
+            'curated_bams_duplex_directory':    self.test_path + '/test_data/curated_bams_duplex',
+            'curated_bams_simplex_directory':   self.test_path + '/test_data/curated_bams_simplex',
+            'pairing_file_path':                self.test_path + '/test_data/test_pairing.tsv',
+            'default_normal_path':              self.test_path + '/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam',
             'structural_variants':              False,
         }
 
@@ -39,10 +41,10 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         }
 
         self.missing_tumor_testing_parameters = dict(self.matched_testing_parameters)
-        self.missing_tumor_testing_parameters['pairing_file_path']  = './test_data/test_pairing_missing_tumor.tsv'
+        self.missing_tumor_testing_parameters['pairing_file_path']  = self.test_path + '/test_data/test_pairing_missing_tumor.tsv'
 
         self.missing_normal_testing_parameters = dict(self.matched_testing_parameters)
-        self.missing_normal_testing_parameters['pairing_file_path']  = './test_data/test_pairing_missing_normal.tsv'
+        self.missing_normal_testing_parameters['pairing_file_path']  = self.test_path + '/test_data/test_pairing_missing_normal.tsv'
 
         # Check bam & ID-related fields
         # Todo: include unittests for parameters & tools
@@ -81,7 +83,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         inputs_file = open(self.matched_testing_parameters['output_file_name'], 'r').read()
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
-        expected_result = open('./expected_results/matched_mode_inputs_result.yaml', 'r').read()
+
+        expected_result_path = self.test_path + '/expected_results/matched_mode_inputs_result.yaml'
+        expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
 
         for key in self._fields_to_check:
@@ -104,7 +108,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         inputs_file = open(self.unmatched_testing_parameters['output_file_name'], 'r').read()
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
-        expected_result = open('./expected_results/unmatched_mode_inputs_result.yaml', 'r').read()
+
+        expected_result_path = self.test_path + '/expected_results/unmatched_mode_inputs_result.yaml'
+        expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
 
         for key in self._fields_to_check:
@@ -142,7 +148,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         inputs_file = open(self.unmatched_testing_parameters['output_file_name'], 'r').read()
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
-        expected_result = open('./expected_results/unmatched_mode_no_pairing_file_inputs_result.yaml', 'r').read()
+
+        expected_result_path = self.test_path + '/expected_results/unmatched_mode_no_pairing_file_inputs_result.yaml'
+        expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
 
         for key in self._fields_to_check:

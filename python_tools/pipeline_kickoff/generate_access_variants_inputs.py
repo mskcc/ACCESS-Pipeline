@@ -283,6 +283,7 @@ def write_yaml_bams(
     ):
     """
     Write the lists of tumor, normal, and genotyping bams to the inputs file, along with their sample IDs
+    Todo: clean this up a bit
 
     :param fh: inputs file file handle
     :param args: argparse.ArgumentParser object with bam directory attribute
@@ -353,7 +354,7 @@ def write_yaml_bams(
     matched_normal_ids = {'matched_normal_ids': matched_normal_ids}
     genotyping_bams_paths = {'genotyping_bams': genotyping_bams}
 
-    # Write them to the inputs yaml file
+    # 5. Write them to the inputs yaml file
     fh.write(ruamel.yaml.dump(tumor_bam_paths))
     fh.write(ruamel.yaml.dump(normal_bam_paths))
     fh.write(ruamel.yaml.dump(tumor_sample_ids))

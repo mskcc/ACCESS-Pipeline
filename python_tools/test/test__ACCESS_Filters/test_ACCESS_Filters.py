@@ -8,7 +8,7 @@ from workflow_tools.ACCESS_filters import (
 from util import ArgparseMock
 
 
-class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
+class ACCESSFiltersTestCase(unittest.TestCase):
 
 
     def setUp(self):
