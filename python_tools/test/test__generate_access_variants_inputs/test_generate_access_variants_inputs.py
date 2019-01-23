@@ -12,7 +12,6 @@ from util import ArgparseMock
 
 class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
-
     def setUp(self):
         """
         Set some constants used for testing
@@ -37,7 +36,7 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         # Convert to absolute paths
         self.matched_testing_parameters = {
-            k: os.path.abspath(v) if type(v) == str else v for k, v in self.matched_testing_parameters.items()
+            k: os.path.abspath(v) if (type(v) == str) and ('/test' in v) else v for k, v in self.matched_testing_parameters.items()
         }
 
         self.missing_tumor_testing_parameters = dict(self.matched_testing_parameters)
