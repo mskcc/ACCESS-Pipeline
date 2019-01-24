@@ -10,7 +10,7 @@ CacheControl==0.12.5
 certifi==2018.11.29
 chardet==3.0.4
 cycler==0.10.0
-dill==0.2.7.1
+dill==0.2.9
 docker==2.5.1
 docker-pycreds==0.3.0
 docutils==0.14
