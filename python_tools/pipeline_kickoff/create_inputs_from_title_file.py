@@ -86,6 +86,9 @@ def load_fastqs(data_dir):
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
 
+    # Convert to absolute paths
+    files_flattened = [os.path.abspath(p) for p in files_flattened]
+
     # Separate into three lists
     fastq1 = filter(lambda x: FASTQ_1_FILE_SEARCH in x, files_flattened)
     fastq1 = [{'class': 'File', 'path': path} for path in fastq1]
