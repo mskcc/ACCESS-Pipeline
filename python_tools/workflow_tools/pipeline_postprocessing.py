@@ -3,8 +3,8 @@ import shutil
 import logging
 import argparse
 
-from ..util import substring_in_list, listdir
-from ..constants import (
+from python_tools.util import substring_in_list, listdir
+from python_tools.constants import (
     BAM_DIRS,
     BAM_SEARCHES,
     TRIM_FILE_SEARCH,
@@ -152,8 +152,8 @@ def main():
     if args.logLevel:
         logging.basicConfig(level=getattr(logging, args.logLevel))
 
-    symlink_bams(args.directory)
     delete_extraneous_output_folders(args.directory)
+    symlink_bams(args.directory)
     move_trim_files(args.directory)
     move_markduplicates_files(args.directory)
     move_covered_intervals_files(args.directory)
