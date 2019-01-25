@@ -96,9 +96,9 @@ print_reads__params:
 
 # ------------------------------------------------------------
 
-#############################################
-# Files required to run Innovation Pipeline #
-#############################################
+#########################################
+# Files required to run ACCESS Pipeline #
+#########################################
 
 # Used in multiple steps
 reference_fasta: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta
