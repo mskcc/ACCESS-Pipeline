@@ -4,7 +4,7 @@ codecov==2.0.15
 
 avro==1.8.2
 backports.functools-lru-cache==1.5
-backports.ssl-match-hostname==3.5.0.1
+backports.ssl-match-hostname==3.7.0.1
 bd2k-python-lib==1.14a1.dev48
 CacheControl==0.11.7
 certifi==2018.10.15
