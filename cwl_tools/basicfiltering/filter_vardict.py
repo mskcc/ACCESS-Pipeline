@@ -4,7 +4,47 @@
 @Description : This tool helps to filter vardict version 1.4.6 vcf
 @Created : 04/22/2016
 @Updated : 03/26/2018
-@author : Ronak H Shah, Cyriac Kandoth
+@Updated : 01/xx/2019
+@author : Ronak H Shah, Cyriac Kandoth, Ian Johnson
+
+
+Visual representation of how this module works:
+
+"Somatic" not in record['STATUS'] and args.filter_germline ?
+|
+yes --> DONT KEEP
+|
+no --> tumor_variant_fraction > nvfRF ?
+        |
+        yes --> tmq >= int(args.mq) and
+                nmq >= int(args.mq) and
+                tdp >= int(args.dp) and
+                tad >= int(args.ad) and
+                tvf >= float(args.vf) ?
+                |
+                yes --> KEEP
+                |
+                no --> DONT KEEP
+        |
+        no --> locus is hotspot?
+                |
+                yes --> tmq >= int(args.mq) and
+                        nmq >= int(args.mq) and
+                        tdp >= int(args.dp) and
+                        tad >= int(args.ad) and
+                        tvf >= float(args.vf) ?
+                        |
+                        yes --> KEEP
+                        |
+                        no --> DONT KEEP
+                |
+                no --> DONT KEEP
+
+
+Note: BasicFiltering VarDict's additional filters over MuTect include:
+1. Tumor variant quality threshold
+2. Normal variant quality threshold
+3. Somatic filter (MuTect does not report germline events)
 """
 
 from __future__ import division
@@ -35,8 +75,8 @@ def main():
     parser.add_argument('-rf', '--refFasta', action='store', dest='refFasta', required=True, type=str, metavar='ref.fa', help="Reference genome in fasta format")
     parser.add_argument('-dp', '--totaldepth', action='store', dest='dp', required=True, type=int, metavar='5',help="Tumor total depth threshold")
     parser.add_argument('-ad', '--alleledepth', action='store', dest='ad', required=True, type=int, metavar='3',help="Tumor allele depth threshold")
-    parser.add_argument('-tnr', '--tnRatio', action='store', dest='tnr', required=True, type=int, metavar='5',help="Tumor-Normal variant fraction ratio threshold ")
-    parser.add_argument('-vf', '--variantfraction', action='store', dest='vf', required=True, type=float, metavar='0.01',help="Tumor variant fraction threshold ")
+    parser.add_argument('-tnr', '--tnRatio', action='store', dest='tnr', required=True, type=int, metavar='5',help="Tumor-Normal variant fraction ratio threshold")
+    parser.add_argument('-vf', '--variantfraction', action='store', dest='vf', required=True, type=float, metavar='0.01',help="Tumor variant fraction threshold")
     parser.add_argument('-mq', '--minqual', action='store', dest='mq', required=True, type=int, metavar='20',help="Minimum variant call quality")
     parser.add_argument('-hvcf', '--hotspotVcf', action='store', dest='hotspotVcf', required=False, type=str, metavar='hotspot.vcf',help="Input vcf file with hotspots that skip VAF ratio filter")
     parser.add_argument('-fg', '--filter_germline', action='store', dest='filter_germline', type=bool, help="Whether to remove calls without 'somatic' status")
@@ -101,37 +141,38 @@ def run_std_filter(args):
         if "Somatic" not in record.INFO['STATUS'] and args.filter_germline:
             keep_based_on_status = False
 
-        if(tcall['QUAL'] is not None):
+        if tcall['QUAL'] is not None:
             tmq = int(tcall['QUAL'])
         else:
             tmq = 0
-        if(tcall['DP'] is not None):
+        if tcall['DP'] is not None:
             tdp = int(tcall['DP'])
         else:
             tdp = 0
-        if(tcall['VD'] is not None):
+        if tcall['VD'] is not None:
             tad = int(tcall['VD'])
         else:
             tad = 0
-        if(tdp != 0):
+        if tdp != 0:
             tvf = int(tad) / float(tdp)
         else:
             tvf = 0
+
         ncall = record.genotype(nsampleName)
-        if(ncall):
-            if(ncall['QUAL'] is not None):
+        if ncall:
+            if ncall['QUAL'] is not None:
                 nmq = int(ncall['QUAL'])
             else:
                 nmq = 0
-            if(ncall['DP'] is not None):
+            if ncall['DP'] is not None:
                 ndp = int(ncall['DP'])
             else:
                 ndp = 0
-            if(ncall['VD'] is not None):
+            if ncall['VD'] is not None:
                 nad = int(ncall['VD'])
             else:
                 nad = 0
-            if(ndp != 0):
+            if ndp != 0:
                 nvf = nad / ndp
             else:
                 nvf = 0

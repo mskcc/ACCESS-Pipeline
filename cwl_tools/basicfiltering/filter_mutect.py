@@ -4,7 +4,37 @@
 @Description : This tool helps to filter muTect v1.1.4 txt and vcf
 @Created : 07/17/2016
 @Updated : 03/26/2018
-@author : Ronak H Shah, Cyriac Kandoth
+@Updated : 01/xx/2019
+@author : Ronak H Shah, Cyriac Kandoth, Ian Johnson
+
+
+Visual representation of how this module works:
+
+judgement == 'KEEP' ?
+|
+yes --> KEEP
+|
+no --> any([not (t in ACCEPTED_TAGS) for t in failure_reason_tags]) ?
+        |
+        yes --> DONT KEEP
+        |
+        no --> tumor_variant_fraction > (normal_variant_fraction * args.tumor_normal_ratio) ?
+                |
+                no --> locus is hotspot ?
+                        |
+                        no --> DONT KEEP
+                        |
+                        yes --> (tumor_depth >= args.dp) and (tumor_alt_dept >= args.ad) and (tumor_variant_fraction >= args.vf) ?
+                |
+                yes --> (tumor_depth >= args.dp) and (tumor_alt_dept >= args.ad) and (tumor_variant_fraction >= args.vf) ?
+                        |
+                        yes --> KEEP
+                        |
+                        no --> DONT KEEP
+
+
+Note: BasicFiltering MuTect's additional filters over VarDict include:
+1. Logic for de-filtering based on failure reasons that we would like to keep
 """
 
 from __future__ import division
@@ -29,8 +59,13 @@ logging.basicConfig(
 logger = logging.getLogger('filter_mutect')
 
 # Variants with ONLY these tags in their failure_reason column should still be considered to pass
-ACCEPTED_TAGS = ['alt_allele_in_normal', 'nearby_gap_events', 'triallelic_site', 'possible_contamination',
-                 'clustered_read_position']
+ACCEPTED_TAGS = [
+    'alt_allele_in_normal',
+    'nearby_gap_events',
+    'triallelic_site',
+    'possible_contamination',
+    'clustered_read_position'
+]
 
 
 def main():
@@ -153,6 +188,8 @@ def run_std_filter(args):
 
         # Actual filtering section
         # Writes passing mutations to text file
+        #
+        # Keep all Mutect "KEEP" calls - Note: These calls are essentially bypassing all filtering in this module
         if judgement == 'KEEP':
             if key_for_tracking in keepDict:
                 print('MutectStdFilter: There is a repeat ', key_for_tracking)
@@ -160,6 +197,7 @@ def run_std_filter(args):
                 keepDict[key_for_tracking] = judgement
                 txt_fh.write(args.tsampleName + '\t' + str(chr) + '\t' + str(pos) + '\t' + str(ref_allele) + '\t' + str(alt_allele) + '\t' + str(judgement) + '\n')
 
+        # Otherwise, check the failure_reason field, and our own filters
         else:
             # Check the failure reasons to determine if we should still consider this variant
             failure_tags = failure_reason.split(',')
@@ -180,7 +218,7 @@ def run_std_filter(args):
                         keepDict[key_for_tracking] = failure_reason
                     txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
 
-            # Filtering section considering hotspots
+            # Filtering section considering hotspots (tumor-normal ratio filter is ignored)
             elif locus in hotspot:
                 if ((tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf))):
                     if key_for_tracking in keepDict:
@@ -198,6 +236,8 @@ def run_std_filter(args):
 
         if key_for_tracking in keepDict:
             failure_reason = keepDict.get(key_for_tracking)
+            # There was no failure reason for calls that had "KEEP" in their judgement column,
+            # but this code uses "KEEP" as the key when they are encountered
             if failure_reason == 'KEEP':
                 failure_reason = 'None'
 
@@ -212,6 +252,7 @@ def run_std_filter(args):
             if record.FILTER == 'PASS':
                 vcf_writer.write_record(record)
 
+            # Change the failure reason to PASS, for mutations for which we want to override MuTect's assessment
             else:
                 record.FILTER = 'PASS'
                 vcf_writer.write_record(record)
