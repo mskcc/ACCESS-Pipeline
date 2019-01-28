@@ -29,6 +29,9 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 - dbSNP & Millis_100G vcf + .vcf.idx files
 - [Virtualenv](https://virtualenv.pypa.io/en/stable/)
 
+# Provenance
+These CWL modules and python script originated from the [Roslin pipeline](https://github.com/mskcc/roslin-variant) at MSKCC. 
+
 # Installation
 
 Note: In these instructions, please replace *0.0.26* with the *latest stable version* of the pipeline (see the Releases page). 
