@@ -99,14 +99,18 @@ def create_fillout_summary(df_fillout, alt_thres):
         print("The fillout provided to summarize was not run through extract_fillout_type")
         fillout_type = ''
         
-    #Make the dataframe with the fragment count summary of all the samples per mutation
+    # Make the dataframe with the fragment count summary of all the samples per mutation
     summary_table = df_fillout.pivot_table(index=mutation_key, columns='Tumor_Sample_Barcode', values='summary_fragment', aggfunc=lambda x: ' '.join(x))
-    #find the median VAF for the set
+
+    # Find the median VAF for the set
     # Todo: handle case where t_vaf_fragment contains numpy.nan
     summary_table[fillout_type + 'median_VAF'] = df_fillout.groupby(mutation_key)['t_vaf_fragment'].median()
-    #find the number of samples with alt count above the threshold (alt_thres)
+
+    # Find the number of samples with alt count above the threshold (alt_thres)
     summary_table[fillout_type + 'n_fillout_sample_alt_detect'] = df_fillout.groupby(mutation_key)['t_alt_count_fragment'].aggregate(lambda x :(x>alt_thres).sum())
-    #find the number of sample with the Total Depth is >0
+
+    # Find the number of sample with the Total Depth is >0
+    # 't_vaf_fragment' column is NA for samples where mutation had no coverage, so count() will exclude it
     summary_table[fillout_type + 'n_fillout_sample'] = df_fillout.groupby(mutation_key)['t_vaf_fragment'].count()
     return summary_table
  
