@@ -15,7 +15,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
 
@@ -28,15 +27,8 @@ inputs:
     type: File[]
     secondaryFiles:
       - ^.bai
-  genotyping_bams_ids: string[]
 
   hotspot_list: File
-
-  exac_filter:
-    type: File
-    secondaryFiles:
-      - .tbi
-
   ref_fasta:
     type: File
     secondaryFiles: [.fai]
@@ -66,7 +58,6 @@ steps:
     in:
       vcf2maf_params: vcf2maf_params
       input_vcf: combine_vcf
-      tmp_dir: tmp_dir
 
       # Todo: are these right?
       vcf_tumor_id: tumor_sample_name
@@ -74,7 +65,6 @@ steps:
       tumor_id: tumor_sample_name
       normal_id: normal_sample_name
       ref_fasta: ref_fasta
-      filter_vcf: exac_filter
 
       species:
         valueFrom: $(inputs.vcf2maf_params.species)
@@ -86,6 +76,9 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.max_filter_ac)
       min_hom_vaf:
         valueFrom: $(inputs.vcf2maf_params.min_hom_vaf)
+#      filter_vcf:
+#        valueFrom: $(inputs.vcf2maf_params.filter_vcf)
+      filter_vcf: exac_filter
       vep_path:
         valueFrom: $(inputs.vcf2maf_params.vep_path)
       vep_data:
@@ -100,7 +93,7 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.custom_enst)
 
       output_maf:
-        valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '.combined-variants.vep.maf')
+        valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '_combinedVariants_vep.maf')
     out: [output]
 
   tag_hotspots:
@@ -126,8 +119,10 @@ steps:
     in:
       gbcms_params: gbcms_params
       maf: remove_variants/consolidated_maf
-      genotyping_bams_ids: genotyping_bams_ids
-      genotyping_bams: genotyping_bams
+      bams:
+        source: genotyping_bams
+        # Todo: Why doesn't b.path work? Because of --linkImports?
+        valueFrom: $(self.map(function(b) {return b.basename.split('_cl')[0] + ':' + b.location.replace('file://', '')}))
       ref_fasta: ref_fasta
       output:
         valueFrom: $(inputs.maf.basename.replace('.maf', '_fillout.maf'))

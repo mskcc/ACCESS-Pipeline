@@ -13,54 +13,44 @@ def load_good_title_file_similar_sample_names():
     title_file = pd.read_csv('test_data/good_title_file_similar_sample_names.txt', sep='\t')
     return title_file
 
-def load_good_title_file_with_difficult_sample_ids():
-    title_file = pd.read_csv('test_data/good_title_file_difficult_sample_ids.txt', sep='\t')
-    return title_file
-
 def load_good_title_file():
     title_file = pd.read_csv('test_data/good_title_file.txt', sep='\t')
     return title_file
 
 
-class CIFTTests(unittest.TestCase):
+class Tests(unittest.TestCase):
 
     def setUp(self):
         self.bad_title_file = load_bad_title_file()
         self.good_title_file = load_good_title_file()
-        self.good_title_file_with_difficult_sample_ids = load_good_title_file_with_difficult_sample_ids()
 
         self._fastq_objects = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/test_patient_1_test_investigator_sample_1a_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/test_patient_1_test_investigator_sample_1_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R1_001.fastq.gz'}
         ]
 
-        # Use absolute paths
-        self._fastq_objects = [
-            {'class': 'File', 'path': os.path.abspath(p['path'])} for p in self._fastq_objects
-        ]
-
         self._fastq2_objects = [
-            {'class': 'File', 'path': p['path'].replace('_R1', '_R2')} for p in self._fastq_objects
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R2_001.fastq.gz'}
         ]
 
         self._patient_ids = ['test_patient_1', 'test_patient_1', 'test_patient_2', 'test_patient_2', 'test_patient_2', 'test_patient_3']
 
         self._sample_sheets = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/SampleSheet.csv'}
-        ]
-
-        # Use absolute paths
-        self._sample_sheets = [
-            {'class': 'File', 'path': os.path.abspath(p['path'])} for p in self._sample_sheets
         ]
 
 
@@ -73,17 +63,13 @@ class CIFTTests(unittest.TestCase):
             self.bad_title_file
         )
 
-        expected = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/test_patient_1_test_investigator_sample_1a_R1_001.fastq.gz'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/test_patient_1_test_investigator_sample_1_R1_001.fastq.gz'},
+        assert fastq1 == [
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_2_T/test_patient_1_test_investigator_sample_2_T_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/test_patient_1_test_investigator_sample_1_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
-        ]
-
-        assert fastq1 == [
-            {'class': 'File', 'path': os.path.abspath(p['path'])} for p in expected
         ]
 
     def test_two_sample_ids_found_in_fastq(self):
@@ -134,6 +120,7 @@ class CIFTTests(unittest.TestCase):
         ])
 
 
+
     def test_validate_title_file(self):
         """
 
@@ -163,15 +150,7 @@ class CIFTTests(unittest.TestCase):
 
     def test_barcodes_check(self):
         """
-        Standalone test for barcodes validation
 
         :return:
         """
-        with self.assertRaises(AssertionError):
-            create_inputs_from_title_file.perform_barcode_index_checks_i7(
-                self.good_title_file_with_difficult_sample_ids, self._sample_sheets)
-
-        with self.assertRaises(AssertionError):
-            create_inputs_from_title_file.perform_barcode_index_checks_i5(
-                self.good_title_file_with_difficult_sample_ids, self._sample_sheets)
-
+        create_inputs_from_title_file.perform_barcode_index_checks(self.good_title_file, self._sample_sheets)

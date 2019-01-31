@@ -7,8 +7,7 @@ class: ExpressionTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    # Note: 1024 is the lowest value possible here because Toil will use `floor(ramMin / 1024)`
-    ramMin: 2000
+    ramMin: 1000
 
 doc: |
   This tool groups waltz qc files into a single directory

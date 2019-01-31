@@ -1,113 +1,123 @@
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
 requirements:
   InlineJavascriptRequirement: {}
-  SchemaDefRequirement:
-    types:
-      - $import: ../../resources/run_params/schemas/delly.yaml
   ResourceRequirement:
-    ramMin: 7000
+    ramMin: 7
     coresMin: 2
 
-baseCommand: [/opt/common/CentOS_6-dev/delly/0.7.7/delly, call]
+baseCommand:
+- cmo_delly
+- --version
+- 0.7.7
+- --cmd
+- call
 
 inputs:
-
-  delly_params: ../../resources/run_params/schemas/delly.yaml#delly_params
-
-  tumor_bam:
-    type: File
-    doc: Sorted tumor bam
-    inputBinding:
-      position: 999
-    secondaryFiles: [^.bai]
-
-  normal_bam:
-    type: File
-    doc: Sorted normal bam
-    inputBinding:
-      position: 1000
-    secondaryFiles: [^.bai]
-
-  all_regions:
-    type: boolean?
-    doc: include regions marked in this genome
-    inputBinding:
-      prefix: --all_regions
-
-  sv_type:
-    type: string
+  t:
+    type: ['null', string]
+    default: DEL
     doc: SV type (DEL, DUP, INV, BND, INS)
     inputBinding:
       prefix: --type
 
   reference_fasta:
-    type: File
+    # Todo: make File
+    type: string
     doc: genome fasta file
     inputBinding:
       prefix: --genome
 
-  excluded_regions:
-    type: File?
+  x:
+    type: ['null', string]
     doc: file with regions to exclude
     inputBinding:
-      prefix: --exclude
+      prefix: --exclude_file
 
-  output_filename:
-    type: string
+  o:
+    type: ['null', string]
+    default: sv.bcf
     doc: SV BCF output file
     inputBinding:
       prefix: --outfile
 
-  min_paired_end_mapping_quality:
-    type: int?
+  q:
+    type: ['null', int]
+    default: 1
     doc: min. paired-end mapping quality
     inputBinding:
       prefix: --map-qual
 
-  insert_size_cutoff:
-    type: int?
+  s:
+    type: ['null', int]
+    default: 9
     doc: insert size cutoff, median+s*MAD (deletions only)
     inputBinding:
       prefix: --mad-cutoff
 
-  no_small_indels:
-    type: boolean?
+  n:
+    type: ['null', boolean]
+    default: false
     doc: no small InDel calling
     inputBinding:
       prefix: --noindels
 
-  vcf_input:
-    type: string?
+  v:
+    type: ['null', string]
     doc: input VCF/BCF file for re-genotyping
     inputBinding:
       prefix: --vcffile
 
-  min_genotyping_map_quality:
-    type: int?
+  u:
+    type: ['null', int]
+    default: 5
     doc: min. mapping quality for genotyping
     inputBinding:
       prefix: --geno-qual
 
+  normal_bam:
+    type: File
+    doc: Sorted normal bam
+    inputBinding:
+      prefix: --normal_bam
+    secondaryFiles: [.bai]
+  tumor_bam:
+    type: File
+    doc: Sorted tumor bam
+    inputBinding:
+      prefix: --tumor_bam
+    secondaryFiles: [.bai]
+  all_regions:
+    type: ['null', boolean]
+    default: false
+    doc: include regions marked in this genome
+    inputBinding:
+      prefix: --all_regions
+
   stderr:
-    type: string?
+    type: ['null', string]
     doc: log stderr to file
     inputBinding:
       prefix: --stderr
 
   stdout:
-    type: string?
+    type: ['null', string]
     doc: log stdout to file
     inputBinding:
       prefix: --stdout
 
-outputs:
 
+outputs:
   sv_file:
     type: File
-    secondaryFiles: 
+    secondaryFiles:
       - ^.bcf.csi
     outputBinding:
-      glob: $(inputs.output_filename)
+      glob: |
+        ${
+          if (inputs.o)
+            return inputs.o;
+          return null;
+        }
