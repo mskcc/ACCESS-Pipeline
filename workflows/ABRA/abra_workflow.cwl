@@ -96,22 +96,18 @@ steps:
         valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
     out: [output_file]
 
-  make_abra_tmp_dir:
-    run: ../../cwl_tools/python/make_directory.cwl
-    in: []
-    out: [empty_dir]
-
   abra:
     run: ../../cwl_tools/abra/abra.cwl
     in:
       run_tools: run_tools
       params: abra__params
       java:
-        valueFrom: $(inputs.run_tools.java_8)
+        valueFrom: $(inputs.run_tools.java_7)
       abra:
         valueFrom: $(inputs.run_tools.abra_path)
       input_bams: bams
       targets: list2bed/output_file
+      tmp_dir: tmp_dir
       patient_id: patient_id
       reference_fasta: reference_fasta
 
@@ -121,10 +117,13 @@ steps:
         valueFrom: $(inputs.params.mad)
 
       threads:
-        valueFrom: $(12)
-      working_directory: make_abra_tmp_dir/empty_dir
+        valueFrom: ${return 12}
+      # Todo: Find a cleaner way
+      working_directory:
+        valueFrom: ${return inputs.tmp_dir + '/Abra_workdir__' + inputs.patient_id + '_' + Date.now()}
       out:
-        valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
+        valueFrom: |
+          ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}
     out:
       [bams]
 
