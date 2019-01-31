@@ -5,13 +5,13 @@ class: CommandLineTool
 baseCommand: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
 
 arguments:
-# Note: must be less than ramMin
-- -Xmx28g
+- -Xmx28g # must be less than ramMin
 - -Xms256m
 - -XX:-UseGCOverheadLimit
+# Todo: try inputs.tmp_dir
 - -Djava.io.tmpdir=$(inputs.tmp_dir.path)
 - -jar
-- /home/johnsoni/vendor_tools/muTect-1.1.5.jar
+- /home/johnsoni/ACCESS-Variants/Docker/muTect-1.1.5.jar
 - --analysis_type
 - MuTect
 

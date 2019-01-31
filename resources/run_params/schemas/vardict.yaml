@@ -1,8 +1,0 @@
-name: vardict_params
-type: record
-fields:
-  E: int
-  c: int
-  g: int
-  f: string
-  S: int

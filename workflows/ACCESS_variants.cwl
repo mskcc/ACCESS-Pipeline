@@ -5,7 +5,6 @@ class: Workflow
 requirements:
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
-  InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
       - $import: ../resources/run_params/schemas/mutect.yaml
@@ -15,13 +14,10 @@ requirements:
       - $import: ../resources/run_params/schemas/bcftools.yaml
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../resources/run_params/schemas/delly.yaml
 
 inputs:
 
   tmp_dir: Directory
-  project_name: string
-  version: string
 
   mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -30,7 +26,6 @@ inputs:
   bcftools_params: ../resources/run_params/schemas/bcftools.yaml#bcftools_params
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
-  delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
 
   hotspots: File
 
@@ -50,7 +45,6 @@ inputs:
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
-  genotyping_bams_ids: string[]
 
   bed_file: File
   refseq: File
@@ -80,10 +74,10 @@ inputs:
 #    type: File
 #    secondaryFiles:
 #      - .idx
-  exac_filter:
-    type: File
-    secondaryFiles:
-      - .tbi
+#  exac_filter:
+#    type: File
+#    secondaryFiles:
+#      - .tbi
 #  conpair_markers: File
 #  conpair_markers_bed: File
 #################
@@ -92,80 +86,52 @@ outputs:
 
   concatenated_vcf:
     type: File[]
-    outputSource: snps_and_indels/concatenated_vcf
+    outputSource: module_3/concatenated_vcf
 
   mutect_vcf:
     type: File[]
-    outputSource: snps_and_indels/mutect_vcf
+    outputSource: module_3/mutect_vcf
 
   mutect_callstats:
     type: File[]
-    outputSource: snps_and_indels/mutect_callstats
+    outputSource: module_3/mutect_callstats
 
   vardict_vcf:
     type: File[]
-    outputSource: snps_and_indels/vardict_vcf
+    outputSource: module_3/vardict_vcf
 
   mutect_normalized_vcf:
     type: File[]
-    outputSource: snps_and_indels/mutect_normalized_vcf
+    outputSource: module_3/mutect_normalized_vcf
 
   vardict_normalized_vcf:
     type: File[]
-    outputSource: snps_and_indels/vardict_normalized_vcf
+    outputSource: module_3/vardict_normalized_vcf
 
   final_maf:
     type: File[]
-    outputSource: snps_and_indels/maf
+    outputSource: module_4/maf
 
   hotspots_filtered_maf:
     type: File[]
-    outputSource: snps_and_indels/hotspots_filtered_maf
+    outputSource: module_4/hotspots_filtered_maf
 
   consolidated_maf:
     type: File[]
-    outputSource: snps_and_indels/consolidated_maf
+    outputSource: module_4/consolidated_maf
 
   fillout_maf:
     type: File[]
-    outputSource: snps_and_indels/fillout_maf
-
-  delly_sv:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: structural_variants/delly_sv
-
-  delly_filtered_sv:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: structural_variants/delly_filtered_sv
-
-  merged_structural_variants:
-    type: File[]
-    outputSource: structural_variants/merged_structural_variants
-
-  merged_structural_variants_unfiltered:
-    type: File[]
-    outputSource: structural_variants/merged_structural_variants_unfiltered
-
-  structural_variants_maf:
-    type: File[]
-    outputSource: structural_variants/structural_variants_maf
+    outputSource: module_4/fillout_maf
 
 steps:
 
   ###################
-  # SNPs and Indels #
+  # Variant Calling #
   ###################
 
-  snps_and_indels:
-    run: ./subworkflows/snps_and_indels.cwl
+  module_3:
+    run: ./module-3.cwl
     in:
       tmp_dir: tmp_dir
       tumor_bams: tumor_bams
@@ -183,29 +149,34 @@ steps:
       basicfiltering_vardict_params: basicfiltering_vardict_params
       basicfiltering_mutect_params: basicfiltering_mutect_params
       bcftools_params: bcftools_params
-      vcf2maf_params: vcf2maf_params
-      tmp_dir: tmp_dir
-      hotspots: hotspots
-      gbcms_params: gbcms_params
-      combine_vcf: module_3/concatenated_vcf
-      genotyping_bams: genotyping_bams
-      genotyping_bams_ids: genotyping_bams_ids
-      tumor_sample_name: tumor_sample_names
-      normal_sample_name: normal_sample_names
-      ref_fasta: ref_fasta
-      exac_filter: exac_filter
-      hotspot_list: hotspot_list
     out: [
       concatenated_vcf,
       mutect_vcf,
       mutect_callstats,
       vardict_vcf,
       mutect_normalized_vcf,
-      vardict_normalized_vcf,
-      maf,
-      hotspots_filtered_maf,
-      consolidated_maf,
-      fillout_maf]
+      vardict_normalized_vcf]
+
+  ##############
+  # Genotyping #
+  ##############
+
+  module_4:
+    run: ./module-4.cwl
+    in:
+      vcf2maf_params: vcf2maf_params
+      hotspots: hotspots
+      gbcms_params: gbcms_params
+      combine_vcf: module_3/concatenated_vcf
+      genotyping_bams: genotyping_bams
+      tumor_sample_name: tumor_sample_names
+      normal_sample_name: normal_sample_names
+      ref_fasta: ref_fasta
+#      exac_filter: exac_filter
+      hotspot_list: hotspot_list
+    out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf]
+    scatter: [combine_vcf, tumor_sample_name, normal_sample_name]
+    scatterMethod: dotproduct
 
   #######################
   # Structural Variants #
@@ -214,24 +185,14 @@ steps:
   structural_variants:
     run: ./module-6.cwl
     in:
-      tmp_dir: tmp_dir
-      delly_params: delly_params
       vcf2maf_params: vcf2maf_params
       tumor_bam: tumor_bams
       normal_bam: normal_bams
+      genome: pairing/genome
       normal_sample_name: tumor_sample_names
       tumor_sample_name: normal_sample_names
-      reference_fasta: ref_fasta
-      exac_filter: exac_filter
-      delly_type:
-        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
-      vep_data:
-        valueFrom: $(inputs.vcf2maf_params.vep_data)
-    out: [
-      delly_sv,
-      delly_filtered_sv,
-      merged_structural_variants,
-      merged_structural_variants_unfiltered,
-      structural_variants_maf]
-    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
+      delly_type: #pairing/delly_type
+        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'TRA'])
+    out: [merged_file, merged_file_unfiltered, maf_file, portal_file]
+    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name] #, delly_type, vep_data]
     scatterMethod: dotproduct

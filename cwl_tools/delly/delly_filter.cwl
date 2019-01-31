@@ -1,135 +1,194 @@
-cwlVersion: v1.0
+#!/usr/bin/env cwl-runner
+
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  doap: http://usefulinc.com/ns/doap#
+
+$schemas:
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
+
+doap:release:
+- class: doap:Version
+  doap:name: cmo-delly.filter
+  doap:revision: 0.7.7
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
+
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
+
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
+
+# This tool description was generated automatically by argparse2cwl ver. 0.3.1
+# To generate again: $ cmo_delly.py -b cmo_delly.py --version default --cmd filter --generate_cwl_tool
+# Help: $ cmo_delly.py  --help_arg2cwl
+
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
+baseCommand:
+- cmo_delly
+- --version
+- 0.7.7
+- --cmd
+- filter
 
 requirements:
   InlineJavascriptRequirement: {}
-  SchemaDefRequirement:
-    types:
-      - $import: ../../resources/run_params/schemas/delly.yaml
   ResourceRequirement:
-    ramMin: 7000
+    ramMin: 7
     coresMin: 2
 
-baseCommand: [/opt/common/CentOS_6-dev/delly/0.7.7/delly, filter]
+doc: |
+  None
 
 inputs:
-
-  delly_params: ../../resources/run_params/schemas/delly.yaml#delly_params
-
-  input_bcf:
-    type: File
-    doc: Input file (.bcf)
-    inputBinding:
-      # Todo:
-      position: 999
-
-  sv_type:
-    type: string?
+  t:
+    type: ['null', string]
+    default: DEL
     doc: SV type (DEL, DUP, INV, BND, INS)
     inputBinding:
       prefix: --type
 
-  filter_mode:
-    type: string?
+  f:
+    type: ['null', string]
+    default: somatic
     doc: Filter mode (somatic, germline)
     inputBinding:
       prefix: --filter
 
   output_filename:
-    type: string
+    type: string?
     doc: Filtered SV BCF output file
     inputBinding:
       prefix: --outfile
 
-  min_fraction_alt_support:
-    type: float?
+  a:
+    type: ['null', float]
+    default: 0.1
     doc: min. fractional ALT support
     inputBinding:
       prefix: --altaf
 
-  min_sv_size:
-    type: int?
+  m:
+    type: ['null', int]
+    default: 500
     doc: min. SV size
     inputBinding:
       prefix: --minsize
 
-  max_sv_size:
-    type: int?
+  n:
+    type: ['null', int]
+    default: 500000000
     doc: max. SV size
     inputBinding:
       prefix: --maxsize
 
-  min_genotype_fraction:
-    type: float?
+  r:
+    type: ['null', float]
+    default: 0.0
     doc: min. fraction of genotyped samples
     inputBinding:
       prefix: --ratiogeno
 
-  passing_filter_sites:
-    type: boolean?
+  p:
+    type: ['null', boolean]
+    default: true
     doc: Filter sites for PASS
     inputBinding:
       prefix: --pass
 
-  sample_file:
+  s:
     type: File
     doc: Two-column sample file listing sample name and tumor or control
     inputBinding:
       prefix: --samples
 
-  min_coverage_in_tumor:
-    type: int?
+  v:
+    type: ['null', int]
+    default: 10
     doc: min. coverage in tumor
     inputBinding:
       prefix: --coverage
 
-  max_fractional_alt_support:
-    type: int?
+  c:
+    type: ['null', int]
+    default: 0
     doc: max. fractional ALT support in control
     inputBinding:
       prefix: --controlcontamination
 
-  min_median_gq:
-    type: int?
+  q:
+    type: ['null', int]
+    default: 15
     doc: min. median GQ for carriers and non-carriers
     inputBinding:
       prefix: --gq
 
-  max_read_depth_ratio:
-    type: float?
+  e:
+    type: ['null', float]
+    default: 0.800000012
     doc: max. read-depth ratio of carrier vs. non-carrier for a deletion
     inputBinding:
       prefix: --rddel
 
-  min_read_depth_ratio:
-    type: float?
+  u:
+    type: ['null', float]
+    default: 1.20000005
     doc: min. read-depth ratio of carrier vs. non-carrier for a duplication
     inputBinding:
       prefix: --rddup
 
+  i:
+    type: File
+    inputBinding:
+      prefix: --input
+    doc: Input file (.bcf)
+
   all_regions:
-    type: boolean?
+    type: ['null', boolean]
+    default: false
     doc: include regions marked in this genome
     inputBinding:
       prefix: --all_regions
 
   stderr:
-    type: string?
+    type: ['null', string]
     doc: log stderr to file
     inputBinding:
       prefix: --stderr
 
   stdout:
-    type: string?
+    type: ['null', string]
     doc: log stdout to file
     inputBinding:
       prefix: --stdout
 
+
 outputs:
   sv_file:
     type: File
-    secondaryFiles: 
+    secondaryFiles:
       - ^.bcf.csi
     outputBinding:
-      glob: $(inputs.output_filename)
+      glob: |
+        ${
+          if (inputs.o)
+            return inputs.o;
+          return null;
+        }
