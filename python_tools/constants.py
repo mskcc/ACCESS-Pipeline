@@ -282,6 +282,7 @@ NOISE_HEADER = [SAMPLE_ID_COLUMN, 'GenotypeCount', 'AltCount', 'AltPercent', 'Co
 
 TMPDIR_SEARCH = re.compile(r'^tmp......$')
 OUT_TMPDIR_SEARCH = re.compile(r'^out_tmpdir......$')
+TMPDIR_SEARCH_2 = re.compile(r'^tmp$')
 
 STANDARD_BAM_DIR = 'standard_bams'
 UNFILTERED_BAM_DIR = 'unfiltered_bams'
