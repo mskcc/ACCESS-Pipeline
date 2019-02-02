@@ -14,7 +14,8 @@ from python_tools.constants import (
     COVERED_INTERVALS_FILE_SEARCH,
     COVERED_INTERVALS_DIR,
     TMPDIR_SEARCH,
-    OUT_TMPDIR_SEARCH
+    OUT_TMPDIR_SEARCH,
+    TMPDIR_SEARCH_2
 )
 
 
@@ -127,19 +128,24 @@ def move_covered_intervals_files(pipeline_outputs_folder):
 
 def delete_extraneous_output_folders(pipeline_outputs_folder):
     '''
-    Delete Toil's tmpXXXXXX and out_tmpdirXXXXXX directories.
+    Delete Toil's tmp, tmpXXXXXX, and out_tmpdirXXXXXX directories.
 
-    WARNING: this step will delete files
+    WARNING: this step will delete files. A failed workflow cannot be restarted after this action.
 
     :param pipeline_outputs_folder: Toil outputs directory with tempdirs to remove
     :return:
     '''
+    logging.warn('Deleting Toil temporary files, workflow can no longer be restarted after this action.')
     tempdirs = filter(lambda x: TMPDIR_SEARCH.match(x), os.listdir(pipeline_outputs_folder))
     tempdirs += filter(lambda x: OUT_TMPDIR_SEARCH.match(x), os.listdir(pipeline_outputs_folder))
 
     for tempdir in tempdirs:
         logging.info('Removing temporary directory {}'.format(tempdir))
         shutil.rmtree(os.path.join(pipeline_outputs_folder, tempdir))
+
+    tmpdir = filter(lambda x: TMPDIR_SEARCH_2.match(x), os.listdir(pipeline_outputs_folder))
+    assert len(tmpdir) == 1
+    shutil.rmtree(os.path.join(pipeline_outputs_folder, tmpdir[0]))
 
 
 def main():
