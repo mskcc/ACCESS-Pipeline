@@ -37,7 +37,3 @@ class CTFMTests(unittest.TestCase):
         title_file = read_df('./test_output/test_title_file.txt', header='infer')
         # Test that SampleRenames column was used correctly
         assert title_file.ix[0, SAMPLE_ID_COLUMN] == 'test_sample_1a'
-
-
-if __name__ == '__main__':
-    unittest.main()
