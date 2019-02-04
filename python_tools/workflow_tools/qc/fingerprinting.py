@@ -284,7 +284,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
             if hm_Ref<10:
                 discordance=np.nan
             else:
-                discordance=hm_mismatch/hm_Ref + EPSILON
+                discordance=hm_mismatch/(hm_Ref + EPSILON)
             
             geno_compare.append([sample_Ref, sample_Query, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch, hm_Ref, discordance])
 
@@ -370,7 +370,7 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.axhline(y=0.6, xmin=0, xmax=1, c='r', ls='--')
     plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
     plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
-    plt.ylabel('% of Heterozygous Position')
+    plt.ylabel('Fraction of Heterozygous Position')
     plt.xlabel('Sample Name')
     plt.title('Major Contamination Check')
     plt.xlim([0, x_pos.size])
@@ -447,7 +447,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     print(discordance_data_frame)
 
     ax = sns.heatmap(discordance_data_frame, robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
-                     cbar_kws={'label': 'Fraction Mismatch Homozygous'},
+                     cbar_kws={'label': 'Fraction Mismatch'},
                      annot_kws={'size': 5},
                      mask=mask)
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
