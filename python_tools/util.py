@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 
-from constants import *
+from python_tools.constants import *
 
 
 # We look for the regex class at runtime:

@@ -1,7 +1,7 @@
 import os
 import re
 
-from root import ROOT_DIR
+from python_tools.root import ROOT_DIR
 
 #############
 # Resources #
