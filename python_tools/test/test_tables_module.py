@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from constants import ALL_TABLES_MODULE_OUTPUT_FILES
+from python_tools.constants import ALL_TABLES_MODULE_OUTPUT_FILES
 from python_tools.workflow_tools.qc import tables_module
 
 
