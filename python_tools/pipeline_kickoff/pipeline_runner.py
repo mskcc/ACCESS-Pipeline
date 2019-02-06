@@ -42,7 +42,7 @@ DEFAULT_TOIL_ARGS = {
     '--disableCaching'          : '',
     '--stats'                   : '',
     '--cleanWorkDir'            : 'onSuccess',
-    '--maxLogFileSize'          : '20000000',
+    '--maxLogFileSize'          : '20000000000',
     '--retryCount'              : 2,
 }
 
