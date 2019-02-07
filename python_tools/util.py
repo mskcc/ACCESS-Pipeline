@@ -221,3 +221,16 @@ def include_version_info(fh):
     fh.write('# Short Version: {} \n'.format(version.short_version))
     fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
     fh.write('# Dirty? {} \n'.format(str(version.dirty)))
+
+
+def create_yaml_file_objects(bam_paths):
+    """
+    Turn a list of paths into a list of cwl-compatible and ruamel-compatible file objects.
+
+    Additionally, convert the paths to absolute paths.
+
+    :param bam_names: file basenames
+    :param folder: file folder
+    :return:
+    """
+    return [{'class': 'File', 'path': os.path.abspath(b)} for b in bam_paths]

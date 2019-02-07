@@ -6,7 +6,10 @@ import ruamel.yaml
 
 import pandas as pd
 
-from python_tools.util import include_version_info
+from python_tools.util import (
+    include_version_info,
+    create_yaml_file_objects
+)
 from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
@@ -438,19 +441,6 @@ def find_bams_in_directory(dir):
     files_found = os.listdir(dir)
     bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
     return bams_found
-
-
-def create_yaml_file_objects(bam_paths):
-    """
-    Turn a list of paths into a list of cwl-compatible and ruamel-compatible file objects.
-
-    Additionally, sort the files in lexicographical order.
-
-    :param bam_names: file basenames
-    :param folder: file folder
-    :return:
-    """
-    return [{'class': 'File', 'path': b} for b in bam_paths]
 
 
 def validate_args(args):
