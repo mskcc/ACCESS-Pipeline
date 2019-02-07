@@ -48,9 +48,10 @@ def main():
 
     cvDF, mafDF = read_maf(args)
     posToCheck = make_coordinate_for_complex_variants(cvDF)
-    cleanDF = remove_variants(posToCheck, mafDF)
-    write_output(args, cleanDF)
+    cleanDF = consolidate_overlapping_complex_variants(posToCheck, mafDF)
+    cleanDF = remove_intergenic_variants(cleanDF)
 
+    write_output(args, cleanDF)
     logger.info("remove_variants: Finished the run for removing simple variants.")
 
 
@@ -88,11 +89,9 @@ def make_coordinate_for_complex_variants(cvDF):
     return positions_to_check
 
 
-def remove_variants(positions_to_check, all_variants_df):
+def consolidate_overlapping_complex_variants(positions_to_check, all_variants_df):
     """
-    Remove variants in two cases:
-        1. based on overlapping events (I.E. a variant is found to overlap with a complex variant)
-        2. Variants intergenic regions (based on Variant_Classification column)
+    Remove variants based on overlapping events (i.e. a variant is found to overlap with a complex variant)
 
     :param positions_to_check:
     :param all_variants_df:
@@ -111,10 +110,17 @@ def remove_variants(positions_to_check, all_variants_df):
                 drop_index.append(i_index)
 
     muts.drop(muts.index[drop_index], inplace=True)
+    return muts
 
-    # Drop mutations in intergenic regions
+
+def remove_intergenic_variants(all_variants_df):
+    """
+    Remove variants in intergenic regions (based on Variant_Classification column)
+
+    :return:
+    """
+    muts = all_variants_df.copy()
     muts.drop(muts[muts.Variant_Classification == 'IGR'].index, inplace=True)
-
     return muts
 
 
