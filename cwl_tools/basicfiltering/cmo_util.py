@@ -20,7 +20,6 @@ TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
 BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools'
-VT_LOCATION = '/opt/common/CentOS_6-dev/vt/vt-0.5772/vt'
 
 
 def sort_vcf(vcf):
@@ -109,9 +108,9 @@ def fix_contig_tag_in_vcf_by_line(vcf_file):
     subprocess.call(cmd)
 
 
-def normalize_vcf(vcf_file, ref_fasta, version="default", method='bcf'):
+def normalize_vcf(vcf_file, ref_fasta):
     """
-    Use vt and bcftools for VCF normalization
+    Use bcftools for VCF normalization
 
     :param vcf_file:
     :param ref_fasta:
@@ -123,15 +122,10 @@ def normalize_vcf(vcf_file, ref_fasta, version="default", method='bcf'):
     # sort_vcf(vcf_file)
     vcf_gz_file = bgzip(vcf_file)
     tabix_file(vcf_gz_file)
-    cmd = ''
 
-    if method == 'vt':
-        cmd = [VT_LOCATION, 'normalize', '-r', ref_fasta, vcf_gz_file, '-o', output_vcf, '-q', '-n']
-        logger.debug('VT Command: %s' % (' '.join(cmd)))
-    elif method == 'bcf':
-        cmd = [BCFTOOLS_LOCATION, 'norm', '--check-ref', 's', '--fasta-ref', ref_fasta, '--multiallelics',
-               '+any', '--output-type', 'z', '--output', output_vcf, vcf_gz_file]
-        logger.debug('bcftools norm Command: %s' % (' '.join(cmd)))
+    cmd = [BCFTOOLS_LOCATION, 'norm', '--check-ref', 's', '--fasta-ref', ref_fasta, '--multiallelics',
+           '+any', '--output-type', 'z', '--output', output_vcf, vcf_gz_file]
+    logger.debug('bcftools norm Command: %s' % (' '.join(cmd)))
 
     subprocess.check_call(cmd)
     # fix_contig_tag_in_vcf_by_line(output_vcf)
