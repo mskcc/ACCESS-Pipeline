@@ -123,10 +123,17 @@ def normalize_vcf(vcf_file, ref_fasta):
     vcf_gz_file = bgzip(vcf_file)
     tabix_file(vcf_gz_file)
 
-    cmd = [BCFTOOLS_LOCATION, 'norm', '--check-ref', 's', '--fasta-ref', ref_fasta, '--multiallelics',
-           '+any', '--output-type', 'z', '--output', output_vcf, vcf_gz_file]
-    logger.debug('bcftools norm Command: %s' % (' '.join(cmd)))
+    cmd = [
+        BCFTOOLS_LOCATION, 'norm',
+        '--check-ref', 's',
+        '--fasta-ref', ref_fasta,
+        '--multiallelics', '+any',
+        '--output-type', 'z',
+        '--output', output_vcf,
+        vcf_gz_file
+    ]
 
+    logger.debug('bcftools norm Command: %s' % (' '.join(cmd)))
     subprocess.check_call(cmd)
     # fix_contig_tag_in_vcf_by_line(output_vcf)
     # fix_contig_tag_in_vcf(output_vcf)
