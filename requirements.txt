@@ -40,7 +40,7 @@ pytz==2018.9
 PyYAML==3.13
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
-requests==2.18.4
+requests==2.21.0
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.0
 schema-salad==2.7.20181017120439
