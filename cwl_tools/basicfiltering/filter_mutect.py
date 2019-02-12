@@ -12,23 +12,23 @@ Visual representation of how this module works:
 
 judgement == 'KEEP' ?
 |
-yes --> KEEP
-|
 no --> any([not (t in ACCEPTED_TAGS) for t in failure_reason_tags]) ?
         |
         yes --> DONT KEEP
         |
-        no --> tumor_variant_fraction > (normal_variant_fraction * args.tumor_normal_ratio) ?
+        no -->  go to (2)
+|
+yes --> (2) tumor_variant_fraction > (normal_variant_fraction * args.tumor_normal_ratio) ?
+        |
+        no --> DONT KEEP
+        |
+        yes --> tumor_depth >= args.dp and
+                tumor_alt_dept >= args.ad and
+                tumor_variant_fraction >= args.vf ?
+                |
+                yes --> KEEP
                 |
                 no --> DONT KEEP
-                |
-                yes --> tumor_depth >= args.dp and
-                        tumor_alt_dept >= args.ad and
-                        tumor_variant_fraction >= args.vf ?
-                        |
-                        yes --> KEEP
-                        |
-                        no --> DONT KEEP
 
 Note: BasicFiltering MuTect's additional filters over VarDict include:
 1. Logic for filtering based on failure reasons
