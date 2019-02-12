@@ -16,30 +16,17 @@ yes --> DONT KEEP
 |
 no --> tumor_variant_fraction > nvfRF ?
         |
-        yes --> tmq >= int(args.mq) and
-                nmq >= int(args.mq) and
-                tdp >= int(args.dp) and
-                tad >= int(args.ad) and
-                tvf >= float(args.vf) ?
+        no --> DONT KEEP
+        |
+        yes --> tmq >= args.mq and
+                nmq >= args.mq and
+                tdp >= args.dp and
+                tad >= args.ad and
+                tvf >= args.vf ?
+                |
+                no --> DONT KEEP
                 |
                 yes --> KEEP
-                |
-                no --> DONT KEEP
-        |
-        no --> locus is hotspot?
-                |
-                yes --> tmq >= int(args.mq) and
-                        nmq >= int(args.mq) and
-                        tdp >= int(args.dp) and
-                        tad >= int(args.ad) and
-                        tvf >= float(args.vf) ?
-                        |
-                        yes --> KEEP
-                        |
-                        no --> DONT KEEP
-                |
-                no --> DONT KEEP
-
 
 Note: BasicFiltering VarDict's additional filters over MuTect include:
 1. Tumor variant quality threshold
@@ -78,7 +65,6 @@ def main():
     parser.add_argument('-tnr', '--tnRatio', action='store', dest='tnr', required=True, type=int, metavar='5',help="Tumor-Normal variant fraction ratio threshold")
     parser.add_argument('-vf', '--variantfraction', action='store', dest='vf', required=True, type=float, metavar='0.01',help="Tumor variant fraction threshold")
     parser.add_argument('-mq', '--minqual', action='store', dest='mq', required=True, type=int, metavar='20',help="Minimum variant call quality")
-    parser.add_argument('-hvcf', '--hotspotVcf', action='store', dest='hotspotVcf', required=False, type=str, metavar='hotspot.vcf',help="Input vcf file with hotspots that skip VAF ratio filter")
     parser.add_argument('-fg', '--filter_germline', action='store', dest='filter_germline', type=bool, help="Whether to remove calls without 'somatic' status")
     parser.add_argument('-o', '--outDir', action='store', dest='outdir', required=False, type=str, metavar='/somepath/output',help="Full Path to the output dir.")
     args = parser.parse_args()
@@ -122,14 +108,6 @@ def run_std_filter(args):
         vcf_reader.samples[1] = allsamples[0]
 
     nsampleName = vcf_reader.samples[1]
-
-    # If provided, load hotspots into a dictionary for quick lookup
-    hotspot = {}
-    if args.hotspotVcf:
-        hvcf_reader = vcf.Reader(open(args.hotspotVcf, 'r'))
-        for record in hvcf_reader:
-            genomic_locus = str(record.CHROM) + ":" + str(record.POS)
-            hotspot[genomic_locus] = True
 
     vcf_writer = vcf.Writer(open(vcf_out, 'w'), vcf_reader)
     txt_fh = open(txt_out, "wb")
@@ -181,6 +159,7 @@ def run_std_filter(args):
             logger.critical("filter_vardict: There are no genotype values for Normal. We will exit.")
             sys.exit(1)
 
+        # Todo: Used for what?
         locus = str(record.CHROM) + ":" + str(record.POS)
         record.add_info('set', 'VarDict')
 
@@ -195,13 +174,6 @@ def run_std_filter(args):
                 vcf_writer.write_record(record)
                 txt_fh.write(args.tsampleName + "\t" + record.CHROM + "\t" + str(record.POS) +
                     "\t" + str(record.REF) + "\t" + str(record.ALT[0]) + "\t" + "." + "\n")
-
-        else:
-            if locus in hotspot:
-                if keep_based_on_status & (tmq >= int(args.mq)) & (nmq >= int(args.mq)) & (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
-                    vcf_writer.write_record(record)
-                    txt_fh.write(args.tsampleName + "\t" + record.CHROM + "\t" + str(record.POS) +
-                        "\t" + str(record.REF) + "\t" + str(record.ALT[0]) + "\t" + "." + "\n")
 
     vcf_writer.close()
     txt_fh.close()

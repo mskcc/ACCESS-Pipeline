@@ -20,21 +20,18 @@ no --> any([not (t in ACCEPTED_TAGS) for t in failure_reason_tags]) ?
         |
         no --> tumor_variant_fraction > (normal_variant_fraction * args.tumor_normal_ratio) ?
                 |
-                no --> locus is hotspot ?
-                        |
-                        no --> DONT KEEP
-                        |
-                        yes --> (tumor_depth >= args.dp) and (tumor_alt_dept >= args.ad) and (tumor_variant_fraction >= args.vf) ?
+                no --> DONT KEEP
                 |
-                yes --> (tumor_depth >= args.dp) and (tumor_alt_dept >= args.ad) and (tumor_variant_fraction >= args.vf) ?
+                yes --> tumor_depth >= args.dp and
+                        tumor_alt_dept >= args.ad and
+                        tumor_variant_fraction >= args.vf ?
                         |
                         yes --> KEEP
                         |
                         no --> DONT KEEP
 
-
 Note: BasicFiltering MuTect's additional filters over VarDict include:
-1. Logic for de-filtering based on failure reasons that we would like to keep
+1. Logic for filtering based on failure reasons
 """
 
 from __future__ import division
@@ -79,7 +76,6 @@ def main():
     parser.add_argument('-ad', '--alleledepth', action='store', dest='ad', required=False, type=int, default=3, metavar='3', help='Tumor allele depth threshold')
     parser.add_argument('-tnr', '--tnRatio', action='store', dest='tnr', required=False, type=int, default=5, metavar='5', help='Tumor-Normal variant fraction ratio threshold')
     parser.add_argument('-vf', '--variantfraction', action='store', dest='vf', required=False, type=float, default=0.01, metavar='0.01', help='Tumor variant fraction threshold')
-    parser.add_argument('-hvcf', '--hotspotVcf', action='store', dest='hotspotVcf', required=False, type=str, metavar='hotspot.vcf', help='Input vcf file with hotspots that skip VAF ratio filter')
     parser.add_argument('-o', '--outDir', action='store', dest='outdir', required=False, type=str, metavar='/somepath/output', help='Full Path to the output dir.')
     args = parser.parse_args()
 
@@ -121,13 +117,6 @@ def run_std_filter(args):
     # Dictionary to store records to keep
     keepDict = {}
 
-    # If provided, load hotspots into a dictionary for quick lookup
-    hotspot = {}
-    if args.hotspotVcf:
-        hvcf_reader = vcf.Reader(open(args.hotspotVcf, 'r'))
-        for record in hvcf_reader:
-            genomic_locus = str(record.CHROM) + ":" + str(record.POS)
-            hotspot[genomic_locus] = True
 
     # Filter each row (Mutation)
     txtDF = pd.read_table(args.inputTxt, skiprows=1, dtype=str)
@@ -177,55 +166,34 @@ def run_std_filter(args):
         # nvfRF is one of the thresholds that the tumor variant fraction must exceed
         # in order to pass filtering.
         #
-        # This threshold is based on the normal variant fraction, multiplied by
+        # This threshold is equal to the normal variant fraction, multiplied by
         # the number of times greater we must see the mutation in the tumor (args.tnr):
-        #
         nvfRF = int(args.tnr) * nvf
 
         # This will help in filtering VCF
         key_for_tracking = str(chr) + ':' + str(pos) + ':' + str(ref_allele) + ':' + str(alt_allele)
         locus = str(chr) + ':' + str(pos)
 
-        # Actual filtering section
-        # Writes passing mutations to text file
-        #
-        # Keep all Mutect "KEEP" calls - Note: These calls are essentially bypassing all filtering in this module
-        if judgement == 'KEEP':
-            if key_for_tracking in keepDict:
-                print('MutectStdFilter: There is a repeat ', key_for_tracking)
-            else:
-                keepDict[key_for_tracking] = judgement
-                txt_fh.write(args.tsampleName + '\t' + str(chr) + '\t' + str(pos) + '\t' + str(ref_allele) + '\t' + str(alt_allele) + '\t' + str(judgement) + '\n')
-
-        # Otherwise, check the failure_reason field, and our own filters
-        else:
+        if judgement != 'KEEP':
             # Check the failure reasons to determine if we should still consider this variant
             failure_tags = failure_reason.split(',')
             tag_count = 0
             for tag in failure_tags:
                 if tag in ACCEPTED_TAGS:
                     tag_count += 1
-            # All failure_reasons should be found in accepted tags
+            # All failure_reasons should be found in accepted tags to continue
             if tag_count != len(failure_tags):
                 continue
+        else:
+            failure_reason = 'KEEP'
 
-            # Filtering section not considering hotspots
-            if tvf > nvfRF:
-                if (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
-                    if key_for_tracking in keepDict:
-                        print('MutectStdFilter: There is a repeat ', key_for_tracking)
-                    else:
-                        keepDict[key_for_tracking] = failure_reason
-                    txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
-
-            # Filtering section considering hotspots (tumor-normal ratio filter is ignored)
-            elif locus in hotspot:
-                if ((tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf))):
-                    if key_for_tracking in keepDict:
-                        print('MutectStdFilter: There is a repeat ', key_for_tracking)
-                    else:
-                        keepDict[key_for_tracking] = failure_reason
-                    txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
+        if tvf > nvfRF:
+            if (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
+                if key_for_tracking in keepDict:
+                    print('MutectStdFilter: There is a repeat ', key_for_tracking)
+                else:
+                    keepDict[key_for_tracking] = failure_reason
+                txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
 
     txt_fh.close()
 
