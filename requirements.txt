@@ -44,7 +44,7 @@ requests==2.21.0
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.15.88
 schema-salad==4.0.20190130225346
-scipy==1.1.0
+scipy==1.2.1
 seaborn==0.8.1
 shellescape==3.4.1
 six==1.11.0
