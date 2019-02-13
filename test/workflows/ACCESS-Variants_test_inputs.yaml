@@ -19,6 +19,7 @@ genotyping_bams:
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-L002-d/C-4PU567-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-N002-d/C-4PU567-N002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-L002-d/C-4PU567-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-N002-d/C-4PU567-N002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
 - {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/Maysun/VariantCallingTeam/ValidationRedo/Bams/curated-duplex-bams/Donor-F14_S1_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/Maysun/VariantCallingTeam/ValidationRedo/Bams/curated-simplex-bams/F16_S4_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
 
