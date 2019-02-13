@@ -123,10 +123,6 @@ outputs:
     type: File[]
     outputSource: module_4/hotspots_filtered_maf
 
-  consolidated_maf:
-    type: File[]
-    outputSource: module_4/consolidated_maf
-
   fillout_maf:
     type: File[]
     outputSource: module_4/fillout_maf
@@ -137,9 +133,9 @@ outputs:
 
 steps:
 
-  ################################
-  # Variant Calling & Genotyping #
-  ################################
+  ###################
+  # Variant Calling #
+  ###################
 
   module_3:
     run: ../module-3.cwl
@@ -189,6 +185,6 @@ steps:
       ref_fasta: ref_fasta
       exac_filter: exac_filter
       hotspot_list: hotspot_list
-    out: [maf, hotspots_filtered_maf, consolidated_maf, fillout_maf, final_filtered_maf]
+    out: [maf, hotspots_filtered_maf, fillout_maf, final_filtered_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct

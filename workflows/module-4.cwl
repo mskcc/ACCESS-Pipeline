@@ -54,10 +54,6 @@ outputs:
     type: File
     outputSource: tag_hotspots/hotspot_tagged_maf
 
-  consolidated_maf:
-    type: File
-    outputSource: remove_variants/consolidated_maf
-
   fillout_maf:
     type: File
     outputSource: fillout/fillout_out
@@ -146,7 +142,7 @@ steps:
     run: ../cwl_tools/python/ACCESS_filters.cwl
     in:
       access_filters_params: access_filters_params
-      anno_maf: remove_variants/consolidated_maf
+      anno_maf: tag_hotspots/hotspot_tagged_maf
       fillout_maf: fillout/fillout_out
       tumor_samplename: tumor_sample_name
       normal_samplename: matched_normal_sample_name
