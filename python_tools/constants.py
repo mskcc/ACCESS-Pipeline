@@ -81,6 +81,14 @@ manifest_columns = [
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
 
+# Delimiter for printing logs
+DELIMITER = '\n' + '*' * 20 + '\n'
+# Delimiter for inputs file sections
+INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
+
+# Template identifier string that will get replaced with the project root location
+PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
+
 
 ##########################
 # Constants for QC files #

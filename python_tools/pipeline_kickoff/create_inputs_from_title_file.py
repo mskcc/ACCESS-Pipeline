@@ -6,8 +6,14 @@ import numpy as np
 import pandas as pd
 
 # constants include the paths to the config files
-from ..constants import *
-from ..util import reverse_complement, all_strings_are_substrings
+from python_tools.constants import *
+from python_tools.util import (
+    DELIMITER,
+    INPUTS_FILE_DELIMITER,
+    reverse_complement,
+    all_strings_are_substrings,
+    include_yaml_resources
+)
 
 
 ##################################
@@ -36,8 +42,6 @@ from ..util import reverse_complement, all_strings_are_substrings
 # Todo: This file is too large
 
 
-# Template identifier string that will get replaced with the project root location
-PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
 # Strings to target when looking for Illumina run files
 #
@@ -51,11 +55,6 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 ADAPTER_1 = 'GATCGGAAGAGC'
 ADAPTER_2 = 'AGATCGGAAGAGC'
-
-# Delimiter for printing logs
-DELIMITER = '\n' + '*' * 20 + '\n'
-# Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
 
 def load_fastqs(data_dir):
@@ -380,70 +379,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     fh.write(ruamel.yaml.dump(samples_info))
 
 
-def substitute_project_root(yaml_file):
-    """
-    Substitute in the ROOT_PATH variable based on our current installation directory
-
-    The purpose of this method is to support referencing resources in the resources folder
-
-    :param: yaml_file A yaml file read in by ruamel's round_trip_load() method
-    """
-    for key in yaml_file.keys():
-        # If we are dealing with a File object
-        if 'path' in yaml_file[key]:
-            new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            yaml_file[key]['path'] = new_value
-
-        # If we are dealing with a string
-        # Todo: these should be replaced with File types
-        if type(yaml_file[key]) == str:
-            new_value = yaml_file[key].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            yaml_file[key] = new_value
-
-    return yaml_file
-
-
-def include_file_resources(fh, file_resources_path):
-    """
-    Write the paths to the resource files that the pipeline needs into the inputs yaml file.
-
-    :param: fh File Handle to the inputs file for the pipeline
-    :param: file_resources_path String representing full path to our resources file
-    """
-    with open(file_resources_path, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    file_resources = substitute_project_root(file_resources)
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
-def include_run_params(fh, run_params_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_path, 'r') as stream:
-        other_params = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_tool_resources(fh, tool_resources_file_path):
-    """
-    Load and write our ResourceRequirement overrides for testing
-
-    :param fh: File handle for pipeline yaml inputs
-    :param tool_resources_file_path: path to file that contains paths to tools
-    """
-    with open(tool_resources_file_path, 'r') as stream:
-        tool_resources = ruamel.yaml.round_trip_load(stream)
-        tool_resources = substitute_project_root(tool_resources)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(tool_resources))
-
-
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     """
     Check whether the title file matches input fastqs
@@ -498,9 +433,9 @@ def write_inputs_file(args, title_file, output_file_name):
     fh = open(output_file_name, 'wb')
 
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path, args.force)
-    include_run_params(fh, run_params_path)
-    include_file_resources(fh, run_files_path)
-    include_tool_resources(fh, tool_resources_file_path)
+    include_yaml_resources(fh, run_params_path)
+    include_yaml_resources(fh, run_files_path)
+    include_yaml_resources(fh, tool_resources_file_path)
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
