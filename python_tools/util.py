@@ -333,7 +333,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
         raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(sample_object['path']))
 
 
-def get_pos(title_file, sample_object):
+def get_pos(title_file, sample_object, use_cmo_sample_id=False):
     """
     Return position of `fastq_object` in the Sample ID column of `title_file`
 
@@ -341,6 +341,7 @@ def get_pos(title_file, sample_object):
 
     :param: title_file pandas.DataFrame with all required title_file columns (see constants.py)
     :param: sample_object dict with `class`: `File` and `path`: string as read in by ruamel.round_trip_load()
+    :param use_cmo_sample_id: Whether to use the use_cmo_sample_id column instead of investigator_sample_id
     :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
             in the `title_file` match this fastq file
     """
@@ -356,8 +357,11 @@ def get_pos(title_file, sample_object):
         else:
             return 0
 
-    # Samples from IGO will use the COLLAB_ID
-    boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
+    if use_cmo_sample_id:
+        boolv = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
+    else:
+        # Samples from IGO will use the COLLAB_ID
+        boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)

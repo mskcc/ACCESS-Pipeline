@@ -58,7 +58,7 @@ def write_bams(fh, title_file, standard_bams_directory):
     """
     bams = find_bams_in_directory(standard_bams_directory)
     bams = create_yaml_file_objects(bams)
-    bams = sorted(bams, key=lambda b: get_pos(title_file, b))
+    bams = sorted(bams, key=lambda b: get_pos(title_file, b, True))
     fh.write(ruamel.yaml.round_trip_dump({'standard_bams': bams}))
 
 
