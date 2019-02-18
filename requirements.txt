@@ -43,7 +43,7 @@ rdflib-jsonld==0.4.0
 requests==2.21.0
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.15.88
-schema-salad==2.7.20181017120439
+schema-salad==4.0.20190130225346
 scipy==1.1.0
 seaborn==0.8.1
 shellescape==3.4.1
