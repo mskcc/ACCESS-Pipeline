@@ -37,6 +37,7 @@ inputs:
 
   title_file: File
   inputs_yaml: File
+  project_name: string
 
   patient_id: string[]
   add_rg_LB: int[]

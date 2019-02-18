@@ -180,7 +180,7 @@ steps:
 
     standard_bams: standard_bam_generation/standard_bams
 
-    patient_ids: patient_id
+    patient_id: patient_id
     fci__basq_fix: fci_2__basq_fix
     gene_list: gene_list
     reference_fasta: reference_fasta
