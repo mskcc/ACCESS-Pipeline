@@ -1,7 +1,9 @@
 import logging
+import ruamel.yaml
 import pandas as pd
 
 from constants import *
+
 
 
 # We look for the regex class at runtime:
@@ -196,3 +198,91 @@ def listdir(path, dirname):
     :return:
     """
     return os.listdir(os.path.join(path, dirname))
+
+
+def extract_sample_id_from_bam_path(bam_path):
+    """
+    ACCESS-specific bams will have their sample IDs followed by _cl_aln...
+
+    :param path:
+    :return:
+    """
+    return bam_path.split('/')[-1].split('_cl_aln')[0]
+
+
+def include_version_info(fh):
+    """
+    Todo: Include indentifier to indicate if commit == tag
+    """
+    import version
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write('version: {} \n'.format(version.most_recent_tag))
+    fh.write('# Pipeline Run Version Information: \n')
+    fh.write('# Version: {} \n'.format(version.version))
+    fh.write('# Short Version: {} \n'.format(version.short_version))
+    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
+
+
+def find_bams_in_directory(dir):
+    """
+    Filter to just bam files found in `dir`
+
+    :param dir: string - directory to be searched
+    :return:
+    """
+    files_found = os.listdir(dir)
+    bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
+    return bams_found
+
+
+def create_yaml_file_objects(bam_paths):
+    """
+    Turn a list of paths into a list of cwl-compatible and ruamel-compatible file objects.
+
+    Additionally, sort the files in lexicographical order.
+
+    :param bam_names: file basenames
+    :param folder: file folder
+    :return:
+    """
+    return [{'class': 'File', 'path': b} for b in bam_paths]
+
+
+def substitute_project_root(yaml_file):
+    """
+    Substitute in the ROOT_PATH variable based on our current installation directory
+
+    The purpose of this method is to support referencing resources in the resources folder
+
+    :param: yaml_file A yaml file read in by ruamel's round_trip_load() method
+    """
+    for key in yaml_file.keys():
+        # If we are dealing with a File object
+        if 'path' in yaml_file[key]:
+            new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
+            yaml_file[key]['path'] = new_value
+
+        # If we are dealing with a string
+        # Todo: these should be replaced with File types
+        if type(yaml_file[key]) == str:
+            new_value = yaml_file[key].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
+            yaml_file[key] = new_value
+
+    return yaml_file
+
+
+def include_yaml_resources(fh, yaml_resources_path):
+    """
+    Insert yaml file contents into yaml file referenced by `fh` file handle.
+
+    Additionally substitute the root directory for the pipeline installation
+
+    :param: fh File Handle to the inputs file for the pipeline
+    :param: file_resources_path String representing full path to our resources file
+    """
+    with open(yaml_resources_path, 'r') as stream:
+        resources = ruamel.yaml.round_trip_load(stream)
+        resources = substitute_project_root(resources)
+
+    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(resources))
