@@ -127,13 +127,3 @@ run_tools:
 
 title_file: {class: File, path: ./title_file.txt}
 inputs_yaml: {class: File, path: ./standard_bam_to_collapsed_qc.yaml}
-project_name: Abra_Paired
-
-# ------------------------------------------------------------
-
-version: 0.0.57
-# Pipeline Run Version Information:
-# Version: 7f1e6dd86360d1ab4a3c12f3a95afdb1bb48545c
-# Short Version: 7f1e6dd
-# Most Recent Tag: 0.0.57
-# Dirty? False
