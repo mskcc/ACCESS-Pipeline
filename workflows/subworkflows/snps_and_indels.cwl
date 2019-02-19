@@ -67,27 +67,10 @@ inputs:
   ref_fasta:
     type: File
     secondaryFiles: [.fai, ^.dict]
-
-############### Todo: section not finished:
-#  hapmap:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  indels_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  snps_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
   exac_filter:
     type: File
     secondaryFiles:
       - .tbi
-#  conpair_markers: File
-#  conpair_markers_bed: File
-#################
 
 outputs:
 
