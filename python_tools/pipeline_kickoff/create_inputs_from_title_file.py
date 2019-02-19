@@ -309,6 +309,7 @@ def perform_barcode_index_checks_i7(title_file, sample_sheets):
     :param sample_sheets:
     :return:
     """
+    # i7 (Index1) checks
     for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
         cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[MANIFEST__BARCODE_INDEX_1_COLUMN].values[0]

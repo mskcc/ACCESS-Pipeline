@@ -18,12 +18,11 @@ import ruamel.yaml
 
 DEFAULT_MEM = 1
 DEFAULT_CPU = 1
-LEADER_NODE = 'w01'
-CONTROL_QUEUE = 'control'
+LEADER_NODE = "w01"
+CONTROL_QUEUE = "control"
 
 
 def bsub(bsubline):
-    # type: (str) -> int
     '''
     Execute lsf bsub
 

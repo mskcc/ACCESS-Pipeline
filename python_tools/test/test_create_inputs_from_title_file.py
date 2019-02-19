@@ -63,11 +63,6 @@ class CIFTTests(unittest.TestCase):
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/SampleSheet.csv'}
         ]
 
-        # Use absolute paths
-        self._sample_sheets = [
-            {'class': 'File', 'path': os.path.abspath(p['path'])} for p in self._sample_sheets
-        ]
-
 
     def test_get_fastq_positions(self):
 
@@ -171,11 +166,4 @@ class CIFTTests(unittest.TestCase):
 
         :return:
         """
-        with self.assertRaises(AssertionError):
-            create_inputs_from_title_file.perform_barcode_index_checks_i7(
-                self.good_title_file_with_difficult_sample_ids, self._sample_sheets)
-
-        with self.assertRaises(AssertionError):
-            create_inputs_from_title_file.perform_barcode_index_checks_i5(
-                self.good_title_file_with_difficult_sample_ids, self._sample_sheets)
-
+        create_inputs_from_title_file.perform_barcode_index_checks(self.good_title_file, self._sample_sheets)

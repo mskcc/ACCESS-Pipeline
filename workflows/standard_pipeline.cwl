@@ -26,6 +26,7 @@ requirements:
       - $import: ../resources/run_params/schemas/base_recalibrator.yaml
       - $import: ../resources/run_params/schemas/print_reads.yaml
 
+
 inputs:
   run_tools: ../resources/run_tools/schemas.yaml#run_tools
 

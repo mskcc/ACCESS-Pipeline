@@ -6,7 +6,7 @@ from python_tools.util import read_df
 from python_tools.pipeline_kickoff import create_title_file_from_manifest
 
 
-class CTFMTests(unittest.TestCase):
+class Tests(unittest.TestCase):
 
     def setUp(self):
         os.mkdir('./test_output')
@@ -39,4 +39,8 @@ class CTFMTests(unittest.TestCase):
 
         title_file = read_df('./test_output/test_title_file.txt', header='infer')
         # Test that SampleRenames column was used correctly
-        assert title_file.ix[0, SAMPLE_ID_COLUMN] == 'test_sample_1a'
+        assert title_file.ix[0, SAMPLE_ID_COLUMN] == 'test_sample_2_T'
+
+
+if __name__ == '__main__':
+    unittest.main()

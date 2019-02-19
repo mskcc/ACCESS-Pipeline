@@ -67,8 +67,7 @@ def parse_arguments():
 
     :return: argparse.ArgumentParser object
     """
-    parser = argparse.ArgumentParser(usage='Generate inputs for either the snps_and_indels.cwl or ACCESS_variants.cwl \
-                                           workflow.')
+    parser = argparse.ArgumentParser()
 
     parser.add_argument(
         '-o',
