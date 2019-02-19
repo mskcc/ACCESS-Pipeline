@@ -33,7 +33,9 @@ inputs:
   waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
   # Standard Bams
-  standard_bams: File[]
+  standard_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
   title_file: File
   inputs_yaml: File
   project_name: string
