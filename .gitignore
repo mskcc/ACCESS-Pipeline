@@ -17,3 +17,5 @@ resources/run_tools/local.yaml
 # Ignore files that store current installation variables
 python_tools/root.py
 python_tools/version.py
+python_tools/pipeline_kickoff/version.py
+.coverage

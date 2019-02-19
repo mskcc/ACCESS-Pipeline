@@ -86,10 +86,6 @@ outputs:
     type: File[]
     outputSource: standard_bam_generation/clipping_info
 
-  bam_dirs:
-    type: Directory[]
-    outputSource: make_bam_output_directories/directory
-
   clstats1:
     type: File[]
     outputSource: standard_bam_generation/clstats1
@@ -110,13 +106,17 @@ outputs:
     type: File[]
     outputSource: standard_bam_generation/covint_bed
 
+  bam_dirs:
+    type: Directory[]
+    outputSource: standard_bam_to_collapsed_qc/bam_dirs
+
   combined_qc:
     type: Directory
-    outputSource: qc_workflow/combined_qc
+    outputSource: standard_bam_to_collapsed_qc/combined_qc
 
   qc_tables:
     type: Directory
-    outputSource: qc_workflow/tables
+    outputSource: standard_bam_to_collapsed_qc/qc_tables
 
 steps:
 
@@ -166,172 +166,41 @@ steps:
     covint_list,
     covint_bed]
 
-  ##############################
-  # Get pileups for collapsing #
-  ##############################
+  ################################
+  # Generate Collapsed Bams & QC #
+  ################################
 
-- id: waltz_standard_pool_a
-  run: ./waltz/waltz-workflow.cwl
+- id: standard_bam_to_collapsed_qc
+  run: ./subworkflows/standard_bam_to_collapsed_qc.cwl
   in:
+    tmp_dir: tmp_dir
     run_tools: run_tools
+    marianas_collapsing__params: marianas_collapsing__params
+    add_or_replace_read_groups__params: add_or_replace_read_groups__params
     waltz__params: waltz__params
-    input_bam: standard_bam_generation/standard_bams
-    bed_file: pool_a_bed_file
+    find_covered_intervals__params: find_covered_intervals__params
+    abra__params: abra__params
+    fix_mate_information__params: fix_mate_information__params
+
+    standard_bams: standard_bam_generation/standard_bams
+
+    patient_id: patient_id
+    fci__basq_fix: fci_2__basq_fix
     gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
-  out: [pileup, waltz_output_files]
-  scatter: [input_bam]
-  scatterMethod: dotproduct
-
-  #####################
-  # Collapse Std Bams #
-  #####################
-
-- id: umi_collapsing
-  run: ./marianas/marianas_collapsing_workflow.cwl
-  in:
-    run_tools: run_tools
-    input_bam: standard_bam_generation/standard_bams
-    pileup: waltz_standard_pool_a/pileup
-    reference_fasta: reference_fasta
-    reference_fasta_fai: reference_fasta_fai
-    tmp_dir: tmp_dir
-
-    marianas_collapsing__params: marianas_collapsing__params
-    add_or_replace_read_groups__params: add_or_replace_read_groups__params
 
     add_rg_LB: add_rg_LB
     add_rg_ID: add_rg_ID
     add_rg_PU: add_rg_PU
     add_rg_SM: add_rg_SM
-
     add_rg_PL:
       valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_PL)
     add_rg_CN:
       valueFrom: $(inputs.add_or_replace_read_groups__params.add_rg_CN)
 
-  out: [
-    collapsed_bams,
-    first_pass_output_file,
-    first_pass_alt_allele,
-    first_pass_alt_allele_sorted,
-    second_pass_alt_alleles,
-    collapsed_fastq_1,
-    collapsed_fastq_2]
-  scatter: [
-    input_bam,
-    pileup,
-    add_rg_LB,
-    add_rg_ID,
-    add_rg_PU,
-    add_rg_SM]
-  scatterMethod: dotproduct
-
-  ############################
-  # Group Bams by Patient ID #
-  # and run Abra a 2nd time  #
-  ############################
-
-- id: group_bams_by_patient
-  run: ../cwl_tools/expression_tools/group_bams.cwl
-  in:
-    bams: umi_collapsing/collapsed_bams
-    patient_ids: patient_id
-  out:
-    [grouped_bams, grouped_patient_ids]
-
-- id: abra_workflow
-  run: ABRA/abra_workflow.cwl
-  in:
-    run_tools: run_tools
-    reference_fasta: reference_fasta
-    tmp_dir: tmp_dir
-    bams: group_bams_by_patient/grouped_bams
-    patient_id: group_bams_by_patient/grouped_patient_ids
-
-    fci__basq_fix: fci_2__basq_fix
-    find_covered_intervals__params: find_covered_intervals__params
-    abra__params: abra__params
-    fix_mate_information__params: fix_mate_information__params
-  out: [ir_bams]
-  scatter: [bams, patient_id]
-  scatterMethod: dotproduct
-
-  ################################
-  # Return to flat array of bams #
-  ################################
-
-- id: flatten_array_bams
-  run: ../cwl_tools/expression_tools/flatten_array_bam.cwl
-  in:
-    bams: abra_workflow/ir_bams
-  out: [output_bams]
-
-  ################
-  # SeparateBams #
-  ################
-
-- id: separate_bams
-  run: ../cwl_tools/marianas/SeparateBams.cwl
-  in:
-    run_tools: run_tools
-    java_8:
-      valueFrom: ${return inputs.run_tools.java_8}
-    marianas_path:
-      valueFrom: ${return inputs.run_tools.marianas_path}
-    collapsed_bam: flatten_array_bams/output_bams
-  out: [simplex_bam, duplex_bam]
-  scatter: [collapsed_bam]
-  scatterMethod: dotproduct
-
-  ##################################
-  # Make sample output directories #
-  ##################################
-
-- id: make_bam_output_directories
-  run: ../cwl_tools/expression_tools/make_sample_output_dirs.cwl
-  in:
-    sample_id: add_rg_ID
-    standard_bam: standard_bam_generation/standard_bams
-    # Collapsed, and after 2nd Indel Realignment:
-    unfiltered_bam: flatten_array_bams/output_bams
-    simplex_bam: separate_bams/simplex_bam
-    duplex_bam: separate_bams/duplex_bam
-    r1_fastq: umi_collapsing/collapsed_fastq_1
-    r2_fastq: umi_collapsing/collapsed_fastq_2
-    first_pass_file: umi_collapsing/first_pass_output_file
-    first_pass_sorted: umi_collapsing/first_pass_alt_allele_sorted
-    first_pass_alt_alleles: umi_collapsing/first_pass_alt_allele
-    second_pass: umi_collapsing/second_pass_alt_alleles
-  scatter: [
-    sample_id,
-    standard_bam,
-    unfiltered_bam,
-    simplex_bam,
-    duplex_bam,
-    r1_fastq,
-    r2_fastq,
-    first_pass_file,
-    first_pass_sorted,
-    first_pass_alt_alleles,
-    second_pass]
-  scatterMethod: dotproduct
-  out: [directory]
-
-  ######
-  # QC #
-  ######
-
-- id: qc_workflow
-  run: ./QC/qc_workflow.cwl
-  in:
-    run_tools: run_tools
-    waltz__params: waltz__params
-
     project_name: project_name
     title_file: title_file
-    sample_directories: make_bam_output_directories/directory
     A_on_target_positions: A_on_target_positions
     B_on_target_positions: B_on_target_positions
     noise__good_positions_A: noise__good_positions_A
@@ -339,13 +208,10 @@ steps:
     pool_a_bed_file: pool_a_bed_file
     pool_b_bed_file: pool_b_bed_file
     gene_list: gene_list
-
-    reference_fasta: reference_fasta
-    reference_fasta_fai: reference_fasta_fai
-    standard_bams: standard_bam_generation/standard_bams
-    # Collapsed, and after 2nd Indel Realignment:
-    marianas_unfiltered_bams: flatten_array_bams/output_bams
-    marianas_simplex_bams: separate_bams/simplex_bam
-    marianas_duplex_bams: separate_bams/duplex_bam
     FP_config_file: FP_config_file
-  out: [combined_qc, tables]
+
+  out: [
+    bam_dirs,
+    combined_qc,
+    qc_tables
+  ]
