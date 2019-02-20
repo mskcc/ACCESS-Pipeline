@@ -52,11 +52,6 @@ Note: If on LUNA, use the following verison of virtualenv:
 ```
 (access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
 ```
-Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
-```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
-(access_pipeline_0.0.26) ~$ git fetch --tags
-```
 
 ### 3. Update your environment variables:
 Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
