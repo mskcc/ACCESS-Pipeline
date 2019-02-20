@@ -61,7 +61,8 @@ ACCEPTED_TAGS = [
     'nearby_gap_events',
     'triallelic_site',
     'possible_contamination',
-    'clustered_read_position'
+    'clustered_read_position',
+
 ]
 
 

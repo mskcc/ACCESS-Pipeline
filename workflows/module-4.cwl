@@ -116,11 +116,19 @@ steps:
     out:
       [hotspot_tagged_maf]
 
+  remove_variants:
+    run: ../cwl_tools/remove_variants/remove_variants.cwl
+    in:
+      input_maf: tag_hotspots/hotspot_tagged_maf
+      output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_rmv.maf'))
+    out: [consolidated_maf]
+
   fillout:
     run: ../cwl_tools/gbcms/gbcms.cwl
     in:
       gbcms_params: gbcms_params
-      maf: tag_hotspots/hotspot_tagged_maf
+      maf: remove_variants/consolidated_maf
       genotyping_bams_ids: genotyping_bams_ids
       genotyping_bams: genotyping_bams
       ref_fasta: ref_fasta
