@@ -31,6 +31,8 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+
 
 ###############################
 # Manifest Column Definitions #
@@ -80,6 +82,16 @@ manifest_columns = [
 
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
+
+# Delimiter for printing logs
+DELIMITER = '\n' + '*' * 20 + '\n'
+# Delimiter for inputs file sections
+INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
+
+# Template identifier string that will get replaced with the project root location
+PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
+
+BAM_REGEX = re.compile(r'.*\.bam$')
 
 
 ##########################

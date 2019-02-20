@@ -33,8 +33,9 @@ inputs:
   waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
   # Standard Bams
-  standard_bams: File[]
-
+  standard_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
   title_file: File
   inputs_yaml: File
   project_name: string
@@ -50,7 +51,6 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
