@@ -57,7 +57,6 @@ inputs:
 
   bed_file: File
   refseq: File
-  hotspot_vcf: File
   hotspot_list: File
 
   dbsnp:
@@ -192,7 +191,6 @@ steps:
       matched_normal_ids: matched_normal_ids
       bed_file: bed_file
       refseq: refseq
-      hotspot_vcf: hotspot_vcf
       ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic

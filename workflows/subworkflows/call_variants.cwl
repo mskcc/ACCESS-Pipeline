@@ -35,7 +35,6 @@ inputs:
     secondaryFiles: [.idx]
   bed_file: File
   refseq: File
-  hotspot_vcf: File
   reference_fasta: File
 
 outputs:

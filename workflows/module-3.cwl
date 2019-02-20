@@ -34,7 +34,6 @@ inputs:
 
   bed_file: File
   refseq: File
-  hotspot_vcf: File
 
   ref_fasta:
     type: File
@@ -88,7 +87,6 @@ steps:
       dbsnp: dbsnp
       cosmic: cosmic
       refseq: refseq
-      hotspot_vcf: hotspot_vcf
       reference_fasta: ref_fasta
     out: [mutect_vcf, vardict_vcf, mutect_callstats]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
@@ -104,7 +102,6 @@ steps:
       tumor_sample_name: tumor_sample_names
       normal_sample_name: normal_sample_names
       ref_fasta: ref_fasta
-      hotspot_vcf: hotspot_vcf
       # Todo: is this needed?: For what?
       mutect_callstats: call_variants/mutect_callstats
     out: [vardict_norm_vcf, mutect_norm_vcf]

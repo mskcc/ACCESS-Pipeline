@@ -55,7 +55,6 @@ inputs:
 
   bed_file: File
   refseq: File
-  hotspot_vcf: File
   hotspot_list: File
 
   dbsnp:
@@ -130,7 +129,6 @@ steps:
       normal_sample_names: normal_sample_names
       bed_file: bed_file
       refseq: refseq
-      hotspot_vcf: hotspot_vcf
       ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic

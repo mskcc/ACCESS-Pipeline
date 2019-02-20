@@ -24,7 +24,6 @@ inputs:
   tumor_sample_name: string
   normal_sample_name: string
 
-  hotspot_vcf: File
   ref_fasta: File
 
 outputs:
@@ -57,7 +56,6 @@ steps:
       inputVcf: mutect_vcf
       inputTxt: mutect_callstats
       tsampleName: tumor_sample_name
-      hotspotVcf: hotspot_vcf
       refFasta: ref_fasta
     out: [vcf]
 
@@ -80,6 +78,5 @@ steps:
 
       inputVcf: vardict_vcf
       tsampleName: tumor_sample_name
-      hotspotVcf: hotspot_vcf
       refFasta: ref_fasta
     out: [vcf]
