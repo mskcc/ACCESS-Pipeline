@@ -64,7 +64,29 @@ From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
-
+Note: if you receive this error
+```
+Searching for networkx==2.1
+Reading https://pypi.org/simple/networkx/
+Downloading https://files.pythonhosted.org/packages/11/42/f951cc6838a4dff6ce57211c4d7f8444809ccbe2134179950301e5c4c83c/networkx-2.1.zip#sha256=64272ca418972b70a196cb15d9c85a5a6041f09a2f32e0d30c0255f25d458bb1
+Best match: networkx 2.1
+Processing networkx-2.1.zip
+Writing /scratch/easy_install-kpR3aF/networkx-2.1/setup.cfg
+Running networkx-2.1/setup.py -q bdist_egg --dist-dir /scratch/easy_install-kpR3aF/networkx-2.1/egg-dist-tmp-2T5RdI
+/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/dist.py:484: UserWarning: The version specified (<function version at 0x7f20062667d0>) is an invalid version, this may not work as expected with newer versions of setuptools, pip, and PyPI. Please see PEP 440 for more details.
+  "details." % self.metadata.version
+Traceback (most recent call last):
+  File "setup.py", line 115, in <module>
+    'clean': CleanCommand,
+self.egg_version = self.tagged_version()
+  File "/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/command/egg_info.py", line 133, in tagged_version
+    return safe_version(version + self.vtags)
+TypeError: unsupported operand type(s) for +: 'function' and 'str'```
+```
+This dependency sometimes needs to be installed manually:
+```
+pip install networkx==2.1
+```
 ## Additional setup steps, if not on LUNA:
 
 ### 1. Copy the test data
