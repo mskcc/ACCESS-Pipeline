@@ -10,7 +10,7 @@ normal_bams:
 - {class: File, path: /ifs/work/bergerm1/brannona/ACCESS/ACCESSv1-VAL-20180034/duplex_bams/F22_S2_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 
 tumor_sample_names:
-- SeraCare_0-5_TEST-VARIANTS
+- SeraCare_0-5
 
 normal_sample_names:
 - F22
@@ -31,7 +31,7 @@ genotyping_bams:
 
 genotyping_bams_ids:
 # Tumor
-- SeraCare_0-5_TEST-VARIANTS
+- SeraCare_0-5
 # Tumor Simplex
 - SeraCare_0-5-SIMPLEX
 # Normal
