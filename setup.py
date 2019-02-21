@@ -63,6 +63,7 @@ setup(
         'cwl_tools',
         'cwl_tools.basicfiltering',
         'cwl_tools.hotspots',
+        'cwl_tools.remove_variants',
     ],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
