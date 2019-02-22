@@ -20,7 +20,7 @@ class CleanCommand(Command):
 
 # Write version info to version.py on setup
 version_number = version.expand_()
-with open('python_tools/version.py', 'wb') as f:
+with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
     f.write(version_number)
 
 # Write current path as path to project root
