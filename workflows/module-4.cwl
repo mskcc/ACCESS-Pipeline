@@ -121,7 +121,7 @@ steps:
     out: [output]
   
   remove_variants_by_annotation:
-    run: ../cwl_tools/remove_variants_by_annotation/remove_variants_by_annotation.cwl
+    run: ../cwl_tools/remove_variants_by_anno/remove_variants_by_annotation.cwl
     in:
       input_maf: vcf2maf/output
       input_interval: custom_enst_file

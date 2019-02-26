@@ -3,6 +3,8 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  StepInputExpressionRequirement: {}
+  InlineJavascriptRequirement: {}
   MultipleInputFeatureRequirement: {}
   ResourceRequirement:
     ramMin: 4000
@@ -49,7 +51,7 @@ outputs:
     outputBinding:
       glob: $(inputs.dropped_output_maf)
 
-   dropped_NGR_rmvbyanno_maf:
+  dropped_NGR_rmvbyanno_maf:
     type: File
     outputBinding:
       glob: $(inputs.dropped_NGR_output_maf)
