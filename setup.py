@@ -63,7 +63,8 @@ setup(
         'cwl_tools',
         'cwl_tools.basicfiltering',
         'cwl_tools.hotspots',
-        'cwl_tools.remove_variants',
+        #'cwl_tools.remove_variants',
+        'cwl_tools.remove_variants_by_anno',
     ],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
@@ -96,8 +97,9 @@ setup(
             'filter_mutect = cwl_tools.basicfiltering.filter_mutect:main',
             'filter_vardict = cwl_tools.basicfiltering.filter_vardict:main',
             'tag_hotspots = cwl_tools.hotspots.tag_hotspots:main',
-            'remove_variants = cwl_tools.remove_variants.remove_variants:main',
+            #'remove_variants = cwl_tools.remove_variants.remove_variants:main',
             'ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main',
+            'remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main',
         ]
     },
     scripts=[

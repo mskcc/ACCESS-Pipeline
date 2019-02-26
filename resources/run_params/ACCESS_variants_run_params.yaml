@@ -47,6 +47,8 @@ bcftools_params:
 
 exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
+custom_enst_file: {class: File, path: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc}
 
 # (Also used for Module-6)
 vcf2maf_params:

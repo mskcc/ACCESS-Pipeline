@@ -33,6 +33,7 @@ inputs:
   access_filters_params: ../../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
+  custom_enst_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -101,6 +102,18 @@ outputs:
     type: File[]
     outputSource: module_4/maf
 
+  kept_rmvbyanno_maf:
+    type: File[]
+    outputSource: module_4/kept_rmvbyanno_maf
+
+  dropped_rmvbyanno_maf:
+    type: File[]
+    outputSource: module_4/dropped_rmvbyanno_maf
+
+  dropped_NGR_rmvbyanno_maf:
+    type: File[]
+    outputSource: module_4/dropped_NGR_rmvbyanno_maf
+
   hotspots_filtered_maf:
     type: File[]
     outputSource: module_4/hotspots_filtered_maf
@@ -156,6 +169,7 @@ steps:
       access_filters_params: access_filters_params
       tmp_dir: tmp_dir
       hotspots: hotspots
+      custom_enst_file: custom_enst_file
       gbcms_params: gbcms_params
       combine_vcf: module_3/concatenated_vcf
       genotyping_bams: genotyping_bams
@@ -166,6 +180,6 @@ steps:
       ref_fasta: ref_fasta
       exac_filter: exac_filter
       hotspot_list: hotspot_list
-    out: [maf, hotspots_filtered_maf, fillout_maf, final_filtered_maf]
+    out: [maf, kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf, hotspots_filtered_maf, fillout_maf, final_filtered_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct
