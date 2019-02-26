@@ -123,14 +123,14 @@ steps:
   remove_variants_by_annotation:
     run: ../cwl_tools/remove_variants_by_annotation/remove_variants_by_annotation.cwl
     in:
-        input_maf: vcf2maf/output
-        input_interval: isoform_override
-        kept_output_maf:
-          valueFrom: $(inputs.input_maf.basename.replace('.maf', '_keptrmv.maf'))
-        dropped_output_maf:
-          valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedrmv.maf'))
-        dropped_NGR_output_maf:
-          valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedNGRrmv.maf'))
+      input_maf: vcf2maf/output
+      input_interval: custom_enst_file
+      kept_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_keptrmv.maf'))
+      dropped_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedrmv.maf'))
+      dropped_NGR_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedNGRrmv.maf'))
     out:
       [kept_maf, dropped_maf, dropped_NGR_maf]
 
