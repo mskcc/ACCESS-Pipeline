@@ -54,15 +54,15 @@ outputs:
 
   kept_rmvbyanno_maf:
     type: File
-    outputSource: remove_variants_by_annotation/kept_maf
+    outputSource: remove_variants_by_annotation/kept_rmvbyanno_maf
 
   dropped_rmvbyanno_maf:
     type: File
-    outputSource: remove_variants_by_annotation/dropped_maf
+    outputSource: remove_variants_by_annotation/dropped_rmvbyanno_maf
 
   dropped_NGR_rmvbyanno_maf:
     type: File
-    outputSource: remove_variants_by_annotation/dropped_NGR_maf
+    outputSource: remove_variants_by_annotation/dropped_NGR_rmvbyanno_maf
 
   hotspots_filtered_maf:
     type: File
@@ -132,7 +132,7 @@ steps:
       dropped_NGR_output_maf:
         valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedNGRrmv.maf'))
     out:
-      [kept_maf, dropped_maf, dropped_NGR_maf]
+      [kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf]
 
 
   tag_hotspots:
