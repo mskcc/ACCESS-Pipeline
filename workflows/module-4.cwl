@@ -138,7 +138,7 @@ steps:
   tag_hotspots:
     run: ../cwl_tools/hotspots/tag_hotspots.cwl
     in:
-      input_maf: remove_variants_by_annotation/kept_maf
+      input_maf: remove_variants_by_annotation/kept_rmvbyanno_maf
       input_hotspot: hotspots
       output_maf:
         valueFrom: $(inputs.input_maf.basename.replace('.maf', '_taggedHotspots.maf'))
