@@ -48,7 +48,7 @@ bcftools_params:
 exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
 ##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
-custom_enst_file: {class: File, path: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc}
+custom_enst_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/dmp_ACCESS-panelA-v1-isoform-overrides-rmENS}
 
 # (Also used for Module-6)
 vcf2maf_params:
@@ -65,7 +65,7 @@ vcf2maf_params:
   retain_info: 'set,TYPE,FAILURE_REASON'
   buffer_size: 5000
   # Todo: consolidate
-  custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
+  custom_enst: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/dmp_ACCESS-panelA-v1-isoform-overrides
 
 gbcms_params:
   omaf: true
