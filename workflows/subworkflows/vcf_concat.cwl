@@ -24,11 +24,17 @@ inputs:
   tumor_sample_name: string
   normal_sample_name: string
 
+  annotate_concat_input_header: File
+
 outputs:
 
   combined_vcf:
     type: File
     outputSource: concat/concat_vcf_output_file
+
+  annotated_combined_vcf:
+    type: File
+    outputSource: annotate_concat/annotate_concat_vcf_output_file
 
 steps:
 
@@ -82,3 +88,11 @@ steps:
       output:
         valueFrom: $(inputs.tumor_sample_name + '.' + inputs.normal_sample_name + '.combined-variants.vcf')
     out: [concat_vcf_output_file]
+
+  annotate_concat:
+    run: ../../cwl_tools/concatVCF/annotate_concat.cwl
+    in:
+      combined_vcf: concat/concat_vcf_output_file
+      anno_with_vcf: inputs/vcf_mutect
+      anno_header: input/annotate_concat_input_header
+    out: [annotated_concat_vcf_output_file]

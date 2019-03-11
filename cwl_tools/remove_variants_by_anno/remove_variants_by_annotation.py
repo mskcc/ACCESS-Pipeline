@@ -11,6 +11,7 @@ import pandas as pd
 import logging
 import argparse
 import time
+import re
 #import sys
         
 logging.basicConfig(
@@ -19,18 +20,17 @@ logging.basicConfig(
         level=logging.DEBUG)
 logger = logging.getLogger('remove_variants_by_annotation_w_hotspots')        
         
-#Check Hotspot List
+#Can add here: Check Hotspot List
 
 #Check RefSeq list
 def check_interval(input_interval):
     try:
         df_intervals=pd.read_csv(input_interval,sep='\t', header=0)
-        #Check that there is a column called RefSeq and all entries are in the format NM_\d{1,}(\.\d{1,}), (no ? at end for optional .d) raise error 
-        ##FIX ME
+        #Takes the first column and checks that there is any ensembl transcript ids or refseq ids with version
         import warnings
         warnings.filterwarnings("ignore", 'This pattern has match groups')
-        if df_intervals['refseq_tx_version'].str.contains('^(NM_\d{1,}\.\d{1,})$', case=True, regex=True).all():
-            return df_intervals['refseq_tx_version'].unique().tolist()
+        if df_intervals.iloc[:,0].str.contains('^(NM_\d{1,}\.\d{1,})$|^(ENST\d{1,})$', case=True, regex=True).all():
+            return df_intervals.iloc[:,0].unique().tolist()
         else:
             raise ValueError 
     except KeyError:
@@ -43,15 +43,16 @@ def check_interval(input_interval):
         raise
     except ValueError:
         #print('Inputted interval file does not contain only RefSeq IDs or the version numbers for canonical transcripts is missing (decimal in RefSeqIDs)')
-        logging.error('Inputted interval file does not contain only RefSeq IDs or the version numbers for canonical transcripts is missing (decimal in RefSeqIDs)')
+        logging.error('Inputted interval file does not contain only RefSeq or Ensembl transcript IDs or the version numbers for canonical transcripts is missing (decimal in RefSeqIDs)')
         raise
-#Tag Hotspots
+
+#TO DO: Can add Tag Hotspots here
 #def tag_hotspots(df_maf,args):
-#    hotspots=pd.read_csv(args.input__hotspot,sep='\t', header=0)
+
     
 #Filter my Annotation: Input: vep.maf, flag_create_dropped_variants_maf,
 #optional Input: RefSeq file
-#output: kept.maf optional: Dropped.maf
+#output: kept.maf, Dropped.maf, notingenomicrange.maf
 def filter_by_annotation(args):
     df_input = pd.read_csv(args.input_maf,sep='\t', header=1)
     keep_exonic = ['Missense_Mutation', 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del', 'In_Frame_Ins', 'In_Frame_Del', 'Translation_Start_Site', 'Nonstop_Mutation', 'Silent']
@@ -59,26 +60,19 @@ def filter_by_annotation(args):
     Bool_exon = df_input['Variant_Classification'].isin(keep_exonic)   
     Bool_MET = (df_input['Variant_Classification']=='Intron') & (df_input['Hugo_Symbol']=='MET')
     Bool_TERT = (df_input['Variant_Classification']=="5'Flank") & (df_input['Hugo_Symbol']== 'TERT')
-    #Remove based on Annotations
+    #Removes based on Annotations
     df_kept = df_input[Bool_exon|Bool_MET|Bool_TERT]
     df_drop = df_input[~(Bool_exon|Bool_MET|Bool_TERT)]
     
     df_notinGenomicRange=pd.DataFrame()
-    #Remove based on genomic Range
+    #Removes based on genomic Range
     if args.input_interval:
         intervals=check_interval(args.input_interval)
-        Bool_inGenomicRange = df_kept['RefSeq'].fillna('NA').apply(lambda x: any([y in intervals for y in x.split(',')]))
+        Bool_inGenomicRange = df_kept['all_effects'].fillna('NA').apply(lambda x: any([y in intervals for y in re.split(',|;',x)]))
         df_notinGenomicRange = df_kept[~Bool_inGenomicRange]
         df_kept=df_kept[Bool_inGenomicRange]
 
     return df_drop, df_notinGenomicRange, df_kept
-
-
-    #if RefSeq file exists, Filter by RefSeq.
-    #Write files
-
-
-#Main
 
 
 def mock_arguments():
@@ -90,8 +84,8 @@ def mock_arguments():
     parser = argparse.ArgumentParser(prog='Remove_by_Annotation_w_hotspots.py', description=' This tool helps to remove variant by annotation and genomic region, and tag hotspot events', usage='%(prog)s [options]')
     parser.add_argument('-i', '--input_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/ValidationRedo/testSteps/testset/309-cfDNA1-T_S2_001.F22_S2_001.combined-variants.vep.maf',  type=str, help='Input maf file which needs to be tagged')
     #parser.add_argument('-hotspots', '--input_hotspot', required=True, type=str, help='Input txt file which has hotspots')
-    #parser.add_argument('-interval', '--input_interval', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/dmp_ACCESS-panelA-v1-isoform-overrides_editted.txt', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
-    parser.add_argument('-interval', '--input_interval', required=False, default='', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
+    parser.add_argument('-interval', '--input_interval', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/dmp_ACCESS-panelA-v1-isoform-overrides.txt', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
+    #parser.add_argument('-interval', '--input_interval', required=False, default='', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
         
     parser.add_argument('-kept','--kept_output_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/testRmvVariants/kept.maf', type=str, help='Output maf of kept variants file name')
     parser.add_argument('-dropped','--dropped_output_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/testRmvVariants/drop.maf', type=str, help='Output maf file name of dropped variants that are nonexonic')

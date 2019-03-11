@@ -34,6 +34,7 @@ inputs:
 
   hotspots: File
   custom_enst_file: File
+  annotate_concat_header_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -77,6 +78,10 @@ outputs:
   concatenated_vcf:
     type: File[]
     outputSource: module_3/concatenated_vcf
+
+  annotated_concatenated_vcf
+    type: File[]
+    outputSource: module_3/annotated_concatenated_vcf
 
   mutect_vcf:
     type: File[]
@@ -152,6 +157,7 @@ steps:
       bcftools_params: bcftools_params
     out: [
       concatenated_vcf,
+      annotated_concatenated_vcf,
       mutect_vcf,
       mutect_callstats,
       vardict_vcf,
