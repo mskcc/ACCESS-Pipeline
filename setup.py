@@ -103,7 +103,7 @@ setup(
             'remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main',
             'annotate_concat = cwl_tools.concatVCF.annotate_concat:main',
             # Todo: next line is necessary?,
-            'annotate_concat = cwl_tools.concatVCF.concat_util:main',
+            'annotate_concat_util = cwl_tools.concatVCF.concat_util:main',
 
         ]
     },

@@ -79,7 +79,7 @@ outputs:
     type: File[]
     outputSource: module_3/concatenated_vcf
 
-  annotated_concatenated_vcf
+  annotated_concatenated_vcf:
     type: File[]
     outputSource: module_3/annotated_concatenated_vcf
 

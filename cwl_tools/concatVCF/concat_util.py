@@ -19,7 +19,7 @@ logger.setLevel(logging.DEBUG)
 TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools'
+BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'#note the difference in version from cmo_util
 
 
 def sort_vcf(vcf):
@@ -65,7 +65,7 @@ def bgzip_decompress(vcf):
       raise ValueError
 
     outfile = vcf.replace('.vcf.gz', '.vcf')
-    cmd = [BGZIP_LOCATION, '-d', vcf]
+    cmd = [BGZIP_LOCATION, '-d','-f', vcf]
     subprocess.call(cmd, stdout=open(outfile, 'w'))
     return outfile
 
@@ -162,7 +162,7 @@ def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
         :param tmp_header
         :return:
         """
-    output_vcf=combined_vcf.replace('.vcf.gz', '_anno.vcf')
+    output_vcf=combined_vcf.replace('.vcf.gz', '_anno.vcf.gz')
     
     cmd = [
            BCFTOOLS_LOCATION, 'annotate', 
@@ -174,12 +174,12 @@ def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
            combined_vcf
            ]
         
-           logger.debug('bcftools annotate Command: %s' % (' '.join(cmd)))
-           subprocess.check_call(cmd)
-           # fix_contig_tag_in_vcf_by_line(output_vcf)
-           # fix_contig_tag_in_vcf(output_vcf)
+    logger.debug('bcftools annotate Command: %s' % (' '.join(cmd)))
+    subprocess.check_call(cmd)
+    # fix_contig_tag_in_vcf_by_line(output_vcf)
+    # fix_contig_tag_in_vcf(output_vcf)
            
-           os.unlink(combined_vcf)
-           os.unlink('%s.tbi' % (combined_vcf))
+    os.unlink(combined_vcf)
+    os.unlink('%s.tbi' % (combined_vcf))
            
     return output_vcf
