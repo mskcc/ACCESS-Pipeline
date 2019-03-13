@@ -34,7 +34,7 @@ outputs:
 
   annotated_combined_vcf:
     type: File
-    outputSource: annotate_concat/annotate_concat_vcf_output_file
+    outputSource: annotate_concat/annotated_concat_vcf_output_file
 
 steps:
 
@@ -93,6 +93,6 @@ steps:
     run: ../../cwl_tools/concatVCF/annotate_concat.cwl
     in:
       combined_vcf: concat/concat_vcf_output_file
-      anno_with_vcf: inputs/vcf_mutect
-      anno_header: input/annotate_concat_input_header
+      anno_with_vcf: vcf_mutect
+      anno_header: annotate_concat_input_header
     out: [annotated_concat_vcf_output_file]

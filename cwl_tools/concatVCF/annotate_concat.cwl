@@ -25,7 +25,7 @@ inputs:
     inputBinding:
       prefix: --combined_vcf
 
-  anno_with_vcf
+  anno_with_vcf:
     type:
     - string
     - File
@@ -41,10 +41,9 @@ inputs:
     inputBinding:
       prefix: --anno_header
 
-
 outputs:
 
-  annotated_concat_vcf:
+  annotated_concat_vcf_output_file:
     type: File
     outputBinding:
       glob: |

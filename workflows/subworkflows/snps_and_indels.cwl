@@ -155,6 +155,7 @@ steps:
       basicfiltering_vardict_params: basicfiltering_vardict_params
       basicfiltering_mutect_params: basicfiltering_mutect_params
       bcftools_params: bcftools_params
+      annotate_concat_header_file: annotate_concat_header_file
     out: [
       concatenated_vcf,
       annotated_concatenated_vcf,
