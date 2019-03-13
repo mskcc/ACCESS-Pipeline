@@ -90,8 +90,6 @@ setup(
             'test_outputs = python_tools.workflow_tools.check_pipeline_outputs:main',
 
             # ACCESS-Variants
-            # Todo: next line is necessary?
-            'cmo_util = cwl_tools.basicfiltering.cmo_util:main',
             # Pipeline Kickoff
             'generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main',
             # Workflow tools
@@ -102,9 +100,6 @@ setup(
             'ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main',
             'remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main',
             'annotate_concat = cwl_tools.concatVCF.annotate_concat:main',
-            # Todo: next line is necessary?,
-            'annotate_concat_util = cwl_tools.concatVCF.concat_util:main',
-
         ]
     },
     scripts=[

@@ -3,7 +3,7 @@
 ##############
 
 # Module 3
-bed_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
+bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
 dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
 cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
 refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}

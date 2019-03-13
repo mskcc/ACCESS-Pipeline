@@ -48,8 +48,8 @@ bcftools_params:
 exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
 ##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
-custom_enst_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/dmp_ACCESS-panelA-v1-isoform-overrides}
-annotate_concat_header_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/mutect_annotate_concat_header.txt}
+custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
+annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_files/mutect_annotate_concat_header.txt}
 
 # (Also used for Module-6)
 vcf2maf_params:
@@ -66,7 +66,7 @@ vcf2maf_params:
   retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
   buffer_size: 5000
   # Todo: consolidate
-  custom_enst: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/dmp_ACCESS-panelA-v1-isoform-overrides
+  custom_enst: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides
 
 gbcms_params:
   omaf: true
