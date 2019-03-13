@@ -56,13 +56,19 @@ logging.basicConfig(
 logger = logging.getLogger('filter_mutect')
 
 # Variants with ONLY these tags in their failure_reason column should still be considered to pass
+# Todo: waiting for comprehensive list from Gowtham
 ACCEPTED_TAGS = [
     'alt_allele_in_normal',
-    'nearby_gap_events',
-    'triallelic_site',
-    'possible_contamination',
     'clustered_read_position',
-
+    # Todo: should have underscore?
+    # 'DBSNP Site',
+    'fstar_tumor_lod',
+    'nearby_gap_events',
+    'normal_lod',
+    'poor_mapping_region_alternate_allele_mapq',
+    'possible_contamination',
+    'strand_artifact',
+    'triallelic_site',
 ]
 
 
