@@ -273,7 +273,7 @@ def substitute_project_root(yaml_file):
     for key in yaml_file.keys():
         current_key = yaml_file[key]
         # If we are dealing with a File object
-        if type(current_key) == dict and current_key['class'] == 'File':
+        if 'class' in current_key and current_key['class'] == 'File':
             new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
             yaml_file[key]['path'] = new_value
 
