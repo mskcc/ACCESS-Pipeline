@@ -178,7 +178,7 @@ steps:
       hotspots: hotspots
       custom_enst_file: custom_enst_file
       gbcms_params: gbcms_params
-      combine_vcf: module_3/concatenated_vcf
+      combine_vcf: module_3/annotated_concatenated_vcf
       genotyping_bams: genotyping_bams
       genotyping_bams_ids: genotyping_bams_ids
       tumor_sample_name: tumor_sample_names

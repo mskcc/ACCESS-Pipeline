@@ -124,7 +124,7 @@ vcf2maf_params:
   vep_path: /opt/common/CentOS_6-dev/vep/v91/
   vep_data: /opt/common/CentOS_6-dev/vep/cache/
   vep_forks: 4
-  retain_info: 'set,TYPE,FAILURE_REASON'
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
   buffer_size: 5000
   # Todo: consolidate
   custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc

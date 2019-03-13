@@ -64,8 +64,10 @@ def bgzip_decompress(vcf):
       logging.error('non-compressed file %s passed to bgzip_decompress' %vcf)
       raise ValueError
 
-    outfile = vcf.replace('.vcf.gz', '.vcf')
-    cmd = [BGZIP_LOCATION, '-d','-f', vcf]
+    # Need to write the final file to current step's working directory so that CWL runner can find it
+    basename = os.path.basename(vcf)
+    outfile = basename.replace('.vcf.gz', '.vcf')
+    cmd = [BGZIP_LOCATION, '-d', '-c', '-f', vcf]
     subprocess.call(cmd, stdout=open(outfile, 'w'))
     return outfile
 

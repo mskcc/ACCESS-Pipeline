@@ -48,7 +48,5 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_anno.vcf");
-          return null;
+          return inputs.combined_vcf.basename.replace(".vcf","_anno.vcf")
         }

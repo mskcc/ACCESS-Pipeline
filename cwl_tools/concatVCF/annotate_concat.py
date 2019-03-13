@@ -42,8 +42,8 @@ def main():
     args = parse_arguments()
 
     logger.info('Started the run for annotating concated vcf.')
-    annotate_concat_vcf(args)
-    logger.info('Finished the run for annotating concated vcf.')
+    final_file_path = annotate_concat_vcf(args)
+    logger.info('Finished the run for annotating concatenated vcf: {}'.format(final_file_path))
 
 
 def annotate_concat_vcf(args):

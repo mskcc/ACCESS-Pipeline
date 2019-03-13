@@ -384,45 +384,6 @@ def correct_sample_id(query_sample_id, bam_paths):
     return extract_sample_id_from_bam_path(matching_bam_path)
 
 
-def include_file_resources(fh, file_resources_path):
-    """
-    Write the paths to the resource files that the pipeline needs into the inputs yaml file.
-
-    :param: fh File Handle to the inputs file for the pipeline
-    :param: file_resources_path String representing full path to our resources file
-    """
-    with open(file_resources_path, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
-def include_run_params(fh, run_params_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_path, 'r') as stream:
-        other_params = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_run_params_delly(fh, run_params_delly_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_delly_path, 'r') as stream:
-        run_params_delly = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(run_params_delly))
-
-
 def validate_args(args):
     """Arguments sanity check"""
 
