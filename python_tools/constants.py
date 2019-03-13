@@ -35,6 +35,8 @@ ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants
 ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
 ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+
 
 ###############################
 # Manifest Column Definitions #
@@ -89,6 +91,11 @@ REVERSE_COMPLEMENTED = 1
 DELIMITER = '\n' + '*' * 20 + '\n'
 # Delimiter for inputs file sections
 INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
+
+# Template identifier string that will get replaced with the project root location
+PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
+
+BAM_REGEX = re.compile(r'.*\.bam$')
 
 
 ##########################

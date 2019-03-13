@@ -23,6 +23,10 @@ version_number = version.expand_()
 with open('python_tools/version.py', 'wb') as f:
     f.write(version_number)
 
+# Todo: need to come up with a better way to retain version info
+with open('python_tools/version.py', 'wb') as f:
+    f.write(version_number)
+
 # Write current path as path to project root
 # (used to include references to the static resource files in inputs.yaml)
 with open('python_tools/root.py', 'wb') as f:
@@ -72,6 +76,7 @@ setup(
         'console_scripts': [
             # Pipeline Kickoff
             'create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main',
+            'create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main',
             'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
             'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
