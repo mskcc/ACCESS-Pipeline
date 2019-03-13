@@ -192,18 +192,22 @@ def apply_filter_maf (df_pre_filter, args):
         elif 'common_variant' in mut['FILTER'] and mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min and mut['t_vaf_fragment'] > args.tumor_vaf_germline_thres:
             status = status + 'LikelyGermline;'
         return status
-            
-    def tag_tiers(mut, status, args):
+    #TODO:TEST        
+    def tag_below_alt_threshold(mut, status, args):
         if mut['t_alt_count_fragment'] < args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['t_alt_count_fragment'] < args.tier_two_alt_min):
-            status = status+'NotTiered;'
+            if mut['caller_t_alt_count']>= args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['caller_t_alt_count'] >= args.tier_two_alt_min):
+                status = status+'LostbyGenotyper;'
+            else:
+                status = status+'BelowAltThreshold;'
         return status
+        # ASK MIKE: add truncated mutaions to below threshold 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del'
         
-    def occurance_in_curated (mut, status, args):
+    def occurence_in_curated (mut, status, args):
         if mut['CURATED_n_fillout_sample_alt_detect'] > args.min_n_curated_samples_alt_detected:
             status = status + 'InCurated;'
         return status
     
-    def occurate_in_normal (mut, status, args):
+    def occurence_in_normal (mut, status, args):
         #if normal and tumor coverage is greater than the minimal
         if mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min:
             if mut['CURATED_median_VAF'] != 0:
@@ -216,6 +220,7 @@ def apply_filter_maf (df_pre_filter, args):
                         status = status + 'TNRatio-matchnorm;'
         return status
     
+ #Can eliminate, no longer needed as of 02/2019
     def non_exonic (mut, status):
         keep_exonic = ['Missense_Mutation', 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del', 'In_Frame_Ins', 'In_Frame_Del']
 
@@ -228,7 +233,7 @@ def apply_filter_maf (df_pre_filter, args):
         else:
             status = status+'NonExonic;'
         return status
-    
+
     # RUN
     df_post_filter = df_pre_filter.copy()
 
@@ -236,10 +241,10 @@ def apply_filter_maf (df_pre_filter, args):
     for i, mut in df_post_filter.iterrows():
         status = ''
         status = tag_germline(mut, status, args)
-        status = tag_tiers(mut, status, args)
-        status = occurance_in_curated(mut, status, args)
-        status = occurate_in_normal(mut, status, args)
-        status = non_exonic(mut, status)
+        status = tag_below_alt_threshold(mut, status, args)
+        status = occurence_in_curated(mut, status, args)
+        status = occurence_in_normal(mut, status, args)
+        #status = non_exonic(mut, status)
         df_post_filter.loc[i, 'Status'] = status
 
     return df_post_filter

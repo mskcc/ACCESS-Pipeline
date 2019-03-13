@@ -6,15 +6,21 @@ import ruamel.yaml
 
 import pandas as pd
 
-from python_tools.util import (
-    include_version_info,
-    create_yaml_file_objects
-)
 from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
 )
+
+from python_tools.util import (
+    find_bams_in_directory,
+    include_yaml_resources,
+    include_version_info,
+    create_yaml_file_objects,
+    create_yaml_file_objects,
+    extract_sample_id_from_bam_path
+)
+
 
 ##########
 # Pipeline Inputs generation for the ACCESS-Variants pipeline
@@ -261,11 +267,8 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_file_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
-    include_run_params(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
-
-    if args.structural_variants:
-        include_run_params_delly(fh, ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH)
+    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
+    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
@@ -379,67 +382,6 @@ def correct_sample_id(query_sample_id, bam_paths):
 
     matching_bam_path = matches[0]
     return extract_sample_id_from_bam_path(matching_bam_path)
-
-
-def extract_sample_id_from_bam_path(bam_path):
-    """
-    ACCESS-specific bams will have their sample IDs followed by _cl_aln...
-
-    :param path:
-    :return:
-    """
-    return bam_path.split('/')[-1].split('_cl_aln')[0]
-
-
-def include_file_resources(fh, file_resources_path):
-    """
-    Write the paths to the resource files that the pipeline needs into the inputs yaml file.
-
-    :param: fh File Handle to the inputs file for the pipeline
-    :param: file_resources_path String representing full path to our resources file
-    """
-    with open(file_resources_path, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
-def include_run_params(fh, run_params_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_path, 'r') as stream:
-        other_params = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_run_params_delly(fh, run_params_delly_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_delly_path, 'r') as stream:
-        run_params_delly = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(run_params_delly))
-
-
-def find_bams_in_directory(dir):
-    """
-    Filter to just bam files found in `dir`
-
-    :param dir: string - directory to be searched
-    :return:
-    """
-    files_found = os.listdir(dir)
-    bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
-    return bams_found
 
 
 def validate_args(args):

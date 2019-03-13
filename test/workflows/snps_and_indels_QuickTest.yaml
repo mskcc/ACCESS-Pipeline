@@ -58,6 +58,10 @@ hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-li
 ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt}
 
+##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
+custom_enst_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/dmp_ACCESS-panelA-v1-isoform-overrides}
+annotate_concat_header_file: {class: File, path: /home/hasanm/variant-calling/MSK-ACCESS-v1_0_addtionaldocs/mutect_annotate_concat_header.txt}
+
 tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 
 ############
@@ -120,7 +124,7 @@ vcf2maf_params:
   vep_path: /opt/common/CentOS_6-dev/vep/v91/
   vep_data: /opt/common/CentOS_6-dev/vep/cache/
   vep_forks: 4
-  retain_info: 'set,TYPE,FAILURE_REASON'
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
   buffer_size: 5000
   # Todo: consolidate
   custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc

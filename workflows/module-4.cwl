@@ -23,6 +23,8 @@ inputs:
 
   hotspots: File
   combine_vcf: File
+  #TO DO: (waitforian) this file is also used by vep, remove vcf2maf_params.custom_enst and use this.
+  custom_enst_file: File
   tumor_sample_name: string
   normal_sample_name: string
   matched_normal_sample_name: string
@@ -49,6 +51,18 @@ outputs:
   maf:
     type: File
     outputSource: vcf2maf/output
+
+  kept_rmvbyanno_maf:
+    type: File
+    outputSource: remove_variants_by_annotation/kept_rmvbyanno_maf
+
+  dropped_rmvbyanno_maf:
+    type: File
+    outputSource: remove_variants_by_annotation/dropped_rmvbyanno_maf
+
+  dropped_NGR_rmvbyanno_maf:
+    type: File
+    outputSource: remove_variants_by_annotation/dropped_NGR_rmvbyanno_maf
 
   hotspots_filtered_maf:
     type: File
@@ -105,30 +119,37 @@ steps:
       output_maf:
         valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '.combined-variants.vep.maf')
     out: [output]
+  
+  remove_variants_by_annotation:
+    run: ../cwl_tools/remove_variants_by_anno/remove_variants_by_annotation.cwl
+    in:
+      input_maf: vcf2maf/output
+      input_interval: custom_enst_file
+      kept_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_keptrmv.maf'))
+      dropped_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedrmv.maf'))
+      dropped_NGR_output_maf:
+        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_droppedNGRrmv.maf'))
+    out:
+      [kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf]
+
 
   tag_hotspots:
     run: ../cwl_tools/hotspots/tag_hotspots.cwl
     in:
-      input_maf: vcf2maf/output
+      input_maf: remove_variants_by_annotation/kept_rmvbyanno_maf
       input_hotspot: hotspots
       output_maf:
         valueFrom: $(inputs.input_maf.basename.replace('.maf', '_taggedHotspots.maf'))
     out:
       [hotspot_tagged_maf]
 
-  remove_variants:
-    run: ../cwl_tools/remove_variants/remove_variants.cwl
-    in:
-      input_maf: tag_hotspots/hotspot_tagged_maf
-      output_maf:
-        valueFrom: $(inputs.input_maf.basename.replace('.maf', '_rmv.maf'))
-    out: [consolidated_maf]
-
   fillout:
     run: ../cwl_tools/gbcms/gbcms.cwl
     in:
       gbcms_params: gbcms_params
-      maf: remove_variants/consolidated_maf
+      maf: tag_hotspots/hotspot_tagged_maf
       genotyping_bams_ids: genotyping_bams_ids
       genotyping_bams: genotyping_bams
       ref_fasta: ref_fasta

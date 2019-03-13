@@ -23,6 +23,10 @@ version_number = version.expand_()
 with open('python_tools/version.py', 'wb') as f:
     f.write(version_number)
 
+# Todo: need to come up with a better way to retain version info
+with open('python_tools/version.py', 'wb') as f:
+    f.write(version_number)
+
 # Write current path as path to project root
 # (used to include references to the static resource files in inputs.yaml)
 with open('python_tools/root.py', 'wb') as f:
@@ -63,13 +67,16 @@ setup(
         'cwl_tools',
         'cwl_tools.basicfiltering',
         'cwl_tools.hotspots',
-        'cwl_tools.remove_variants',
+        #'cwl_tools.remove_variants',
+        'cwl_tools.remove_variants_by_anno',
+        'cwl_tools.concatVCF',
     ],
     package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
     entry_points = {
         'console_scripts': [
             # Pipeline Kickoff
             'create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main',
+            'create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main',
             'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
             'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
@@ -88,16 +95,16 @@ setup(
             'test_outputs = python_tools.workflow_tools.check_pipeline_outputs:main',
 
             # ACCESS-Variants
-            # Todo: next line is necessary?
-            'cmo_util = cwl_tools.basicfiltering.cmo_util:main',
             # Pipeline Kickoff
             'generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main',
             # Workflow tools
             'filter_mutect = cwl_tools.basicfiltering.filter_mutect:main',
             'filter_vardict = cwl_tools.basicfiltering.filter_vardict:main',
             'tag_hotspots = cwl_tools.hotspots.tag_hotspots:main',
-            'remove_variants = cwl_tools.remove_variants.remove_variants:main',
+            #'remove_variants = cwl_tools.remove_variants.remove_variants:main',
             'ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main',
+            'remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main',
+            'annotate_concat = cwl_tools.concatVCF.annotate_concat:main',
         ]
     },
     scripts=[

@@ -45,11 +45,17 @@ inputs:
     type: File
     secondaryFiles: [.idx]
 
+  annotate_concat_header_file: File
+
 outputs:
 
   concatenated_vcf:
     type: File[]
     outputSource: concatenate/combined_vcf
+
+  annotated_concatenated_vcf:
+    type: File[]
+    outputSource: concatenate/annotated_combined_vcf
 
   mutect_vcf:
     type: File[]
@@ -116,6 +122,7 @@ steps:
       vcf_mutect: filtering/mutect_norm_vcf
       tumor_sample_name: tumor_sample_names
       normal_sample_name: normal_sample_names
-    out: [combined_vcf]
+      annotate_concat_input_header: annotate_concat_header_file
+    out: [combined_vcf, annotated_combined_vcf]
     scatter: [vcf_vardict, vcf_mutect, tumor_sample_name, normal_sample_name]
     scatterMethod: dotproduct

@@ -49,6 +49,7 @@ ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VE
 # Todo: Move to viral reference genome
 #ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
 
+
 # Module 4
 hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt}
 
@@ -64,6 +65,7 @@ tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 mutect_params:
   dcov: 50000
   read_filter: [BadCigar]
+
 # Todo: whats the difference when using these?
   fraction_contamination: 0.0005
 # Todo: Check if needs to be changed
@@ -121,6 +123,9 @@ vcf2maf_params:
   # Todo: consolidate
   custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
 
+exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+
 gbcms_params:
   omaf: true
   filter_duplicate: 0
@@ -153,5 +158,4 @@ version: 0.0.44-3-gb4ba768
 # Pipeline Run Version Information: 
 # Version: b4ba76857ce12355e782b58fb4d8b2fb707f7a64-dirty 
 # Short Version: b4ba768-dirty 
-# Most Recent Tag: 0.0.44-3-gb4ba768 
-# Dirty? True 
+# Dirty? True
