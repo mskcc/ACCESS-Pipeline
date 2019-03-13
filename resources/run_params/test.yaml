@@ -65,7 +65,7 @@ print_reads__params:
 marianas_collapsing__params:
   min_mapping_quality: 1
   min_base_quality: 20
-  mismatches: 1
+  mismatches: 0
   wobble: 2
   min_consensus_percent: 90
 
