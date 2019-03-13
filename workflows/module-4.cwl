@@ -23,7 +23,7 @@ inputs:
 
   hotspots: File
   combine_vcf: File
-  #TO DO: (waitforian) this file is also used by vep, remove vcf2maf_params.custom_enst and use this.
+  # TODO: This file is also used by vep, remove vcf2maf_params.custom_enst and use this.
   custom_enst_file: File
   tumor_sample_name: string
   normal_sample_name: string
