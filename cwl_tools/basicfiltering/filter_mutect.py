@@ -46,7 +46,8 @@ import pandas as pd
 
 from vcf.parser import _Info as VcfInfo, _Format as VcfFormat
 
-import cwl_tools.basicfiltering.cmo_util
+from python_tools import cmo_util
+
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -237,8 +238,8 @@ def run_std_filter(args):
     vcf_writer.close()
 
     # Normalize the events in the VCF, produce a bgzipped VCF, then tabix index it
-    norm_gz_vcf = cwl_tools.basicfiltering.cmo_util.normalize_vcf(vcf_out, args.refFasta)
-    cwl_tools.basicfiltering.cmo_util.tabix_file(norm_gz_vcf)
+    norm_gz_vcf = cmo_util.normalize_vcf(vcf_out, args.refFasta)
+    cmo_util.tabix_file(norm_gz_vcf)
 
     return norm_gz_vcf
 

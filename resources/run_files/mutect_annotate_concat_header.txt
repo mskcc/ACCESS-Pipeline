@@ -1,1 +1,1 @@
-##INFO=<ID=set_MUTECT,Number=0,Type=Flag,Description="Variant was called by MuTect">
+##INFO=<ID=MUTECT,Number=0,Type=Flag,Description="Variant was called by MuTect">

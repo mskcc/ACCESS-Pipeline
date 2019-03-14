@@ -134,7 +134,6 @@ steps:
     out:
       [kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf]
 
-
   tag_hotspots:
     run: ../cwl_tools/hotspots/tag_hotspots.cwl
     in:

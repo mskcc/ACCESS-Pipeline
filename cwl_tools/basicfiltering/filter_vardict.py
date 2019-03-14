@@ -44,7 +44,9 @@ import logging
 import argparse
 
 from vcf.parser import _Info as VcfInfo, _Format as VcfFormat
-import cmo_util
+
+from python_tools import cmo_util
+
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

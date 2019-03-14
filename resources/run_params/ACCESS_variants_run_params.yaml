@@ -63,7 +63,7 @@ vcf2maf_params:
   vep_path: /opt/common/CentOS_6-dev/vep/v91/
   vep_data: /opt/common/CentOS_6-dev/vep/cache/
   vep_forks: 4
-  retain_info: 'set,TYPE,FAILURE_REASON,set_MUTECT'
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
   buffer_size: 5000
   # Todo: consolidate
   custom_enst: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides

@@ -12,7 +12,7 @@ import time
 import logging
 import argparse
 
-import cwl_tools.concatVCF.concat_util
+from python_tools import cmo_util
 
 
 logging.basicConfig(
@@ -40,17 +40,17 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    logger.info('Started the run for annotating concated vcf.')
+    logger.info('Started the run for annotating concatenated vcf.')
     final_file_path = annotate_concat_vcf(args)
     logger.info('Finished the run for annotating concatenated vcf: {}'.format(final_file_path))
 
 
 def annotate_concat_vcf(args):
     # Normalize the events in the VCF, produce a bgzipped VCF, then tabix index it
-    combined_gz_vcf = cwl_tools.concatVCF.concat_util.bgzip(args.combined_vcf)
-    cwl_tools.concatVCF.concat_util.tabix_file(combined_gz_vcf)
-    annotated_concat_gz_vcf = cwl_tools.concatVCF.concat_util.annotate_vcf(combined_gz_vcf, args.anno_with_vcf, args.anno_header)
-    annotated_concat_vcf = cwl_tools.concatVCF.concat_util.bgzip_decompress(annotated_concat_gz_vcf)
+    combined_gz_vcf = cmo_util.bgzip(args.combined_vcf)
+    cmo_util.tabix_file(combined_gz_vcf)
+    annotated_concat_gz_vcf = cmo_util.annotate_vcf(combined_gz_vcf, args.anno_with_vcf, args.anno_header)
+    annotated_concat_vcf = cmo_util.bgzip_decompress(annotated_concat_gz_vcf)
     return annotated_concat_vcf
 
 

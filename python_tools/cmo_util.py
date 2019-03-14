@@ -23,6 +23,8 @@ TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
 BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools'
+# Note: different version from cmo_util:
+BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'
 
 
 def sort_vcf(vcf):
@@ -52,6 +54,25 @@ def bgzip(vcf):
 
     outfile = '%s.gz' % (vcf)
     cmd = [BGZIP_LOCATION, '-c', vcf]
+    subprocess.call(cmd, stdout=open(outfile, 'w'))
+    return outfile
+
+
+def bgzip_decompress(vcf):
+    """
+    Decompresses a gzipped VCF file
+
+    :param vcf: str - VCF file name
+    :return:
+    """
+    if not re.search(r'.gz$', vcf):
+      logging.error('non-compressed file %s passed to bgzip_decompress' %vcf)
+      raise ValueError
+
+    # Need to write the final file to current step's working directory so that CWL runner can find it
+    basename = os.path.basename(vcf)
+    outfile = basename.replace('.vcf.gz', '.vcf')
+    cmd = [BGZIP_LOCATION, '-d', '-c', '-f', vcf]
     subprocess.call(cmd, stdout=open(outfile, 'w'))
     return outfile
 
@@ -140,4 +161,35 @@ def normalize_vcf(vcf_file, ref_fasta):
 
     os.unlink(vcf_gz_file)
     os.unlink('%s.tbi' % (vcf_gz_file))
+    return output_vcf
+
+
+def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
+    """
+    Use bcftools to annotate combined vcf with mutect
+
+    :param combined_vcf:
+    :param anno_with_vcf:
+    :param tmp_header
+    :return:
+    """
+    output_vcf = combined_vcf.replace('.vcf.gz', '_anno.vcf.gz')
+
+    cmd = [
+        BCFTOOLS_LOCATION_1_6, 'annotate',
+        '--annotations', anno_with_vcf,
+        '--header-lines', tmp_header,
+        '--mark-sites', '+MUTECT',
+        '--output-type', 'z',
+        '--output', output_vcf,
+        combined_vcf
+    ]
+
+    logger.debug('bcftools annotate Command: %s' % (' '.join(cmd)))
+    subprocess.check_call(cmd)
+    # fix_contig_tag_in_vcf_by_line(output_vcf)
+    # fix_contig_tag_in_vcf(output_vcf)
+
+    os.unlink(combined_vcf)
+    os.unlink('%s.tbi' % (combined_vcf))
     return output_vcf
