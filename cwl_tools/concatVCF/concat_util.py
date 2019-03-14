@@ -19,7 +19,8 @@ logger.setLevel(logging.DEBUG)
 TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'#note the difference in version from cmo_util
+# Note: different version from cmo_util:
+BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'
 
 
 def sort_vcf(vcf):
@@ -55,7 +56,7 @@ def bgzip(vcf):
 
 def bgzip_decompress(vcf):
     """
-    decompresses a gzipped VCF file
+    Decompresses a gzipped VCF file
 
     :param vcf: str - VCF file name
     :return:
@@ -157,24 +158,24 @@ def fix_contig_tag_in_vcf_by_line(vcf_file):
 
 def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
     """
-        Use bcftools to annotate combined vcf with mutect
-        
-        :param combined_vcf:
-        :param anno_with_vcf:
-        :param tmp_header
-        :return:
-        """
-    output_vcf=combined_vcf.replace('.vcf.gz', '_anno.vcf.gz')
+    Use bcftools to annotate combined vcf with mutect
+
+    :param combined_vcf:
+    :param anno_with_vcf:
+    :param tmp_header
+    :return:
+    """
+    output_vcf = combined_vcf.replace('.vcf.gz', '_anno.vcf.gz')
     
     cmd = [
-           BCFTOOLS_LOCATION, 'annotate', 
-           '--annotations', anno_with_vcf,
-           '--header-lines', tmp_header,
-           '--mark-sites', '+MUTECT',
-           '--output-type', 'z',
-           '--output', output_vcf,
-           combined_vcf
-           ]
+        BCFTOOLS_LOCATION, 'annotate',
+        '--annotations', anno_with_vcf,
+        '--header-lines', tmp_header,
+        '--mark-sites', '+MUTECT',
+        '--output-type', 'z',
+        '--output', output_vcf,
+        combined_vcf
+    ]
         
     logger.debug('bcftools annotate Command: %s' % (' '.join(cmd)))
     subprocess.check_call(cmd)
@@ -183,5 +184,4 @@ def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
            
     os.unlink(combined_vcf)
     os.unlink('%s.tbi' % (combined_vcf))
-           
     return output_vcf

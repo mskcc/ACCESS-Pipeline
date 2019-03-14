@@ -2,8 +2,6 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: filter_mutect
-
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
@@ -15,6 +13,8 @@ requirements:
 
 doc: |
   Filter snps from the output of muTect
+
+baseCommand: filter_mutect
 
 inputs:
 

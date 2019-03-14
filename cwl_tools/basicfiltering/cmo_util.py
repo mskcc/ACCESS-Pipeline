@@ -6,6 +6,9 @@ import logging
 import subprocess
 
 
+# Todo: Move this file to top level util module
+
+# Set up logging
 FORMAT = '%(asctime)-15s %(funcName)-8s %(levelname)s %(message)s'
 out_hdlr = logging.StreamHandler(sys.stdout)
 out_hdlr.setFormatter(logging.Formatter(FORMAT))
@@ -26,7 +29,7 @@ def sort_vcf(vcf):
     """
     Sort the VCF file, and add .sorted extension
 
-    :param vcf: VCF file
+    :param vcf: VCF file path
     """
     outfile = vcf.replace('.vcf', '.sorted.vcf')
 
@@ -41,7 +44,7 @@ def bgzip(vcf):
     """
     gzip a VCF file
 
-    :param vcf: str - VCF file name
+    :param vcf: str VCF file path
     :return:
     """
     if re.search(r'.gz$', vcf):
@@ -50,7 +53,6 @@ def bgzip(vcf):
     outfile = '%s.gz' % (vcf)
     cmd = [BGZIP_LOCATION, '-c', vcf]
     subprocess.call(cmd, stdout=open(outfile, 'w'))
-
     return outfile
 
 
@@ -75,7 +77,7 @@ def fix_contig_tag_in_vcf(vcf_file):
     """
     Works for small files only
 
-    :param vcf_file:
+    :param vcf_file: str Path to VCF file
     :return:
     """
     process_one = subprocess.Popen([BCFTOOLS_LOCATION, 'view', '%s' % (vcf_file)], stdout=subprocess.PIPE)
@@ -86,7 +88,7 @@ def fix_contig_tag_in_vcf(vcf_file):
 
 def fix_contig_tag_in_vcf_by_line(vcf_file):
     """
-    ?
+    Appears to add a contig "length=0" tag to the header of the VCF
 
     :param vcf_file:
     :return:
@@ -112,10 +114,8 @@ def normalize_vcf(vcf_file, ref_fasta):
     """
     Use bcftools for VCF normalization
 
-    :param vcf_file:
-    :param ref_fasta:
-    :param version:
-    :param method:
+    :param vcf_file: str Path to VCF file
+    :param ref_fasta: str Path to reference fasta file
     :return:
     """
     output_vcf = vcf_file.replace('.vcf', '.norm.vcf.gz')
@@ -140,5 +140,4 @@ def normalize_vcf(vcf_file, ref_fasta):
 
     os.unlink(vcf_gz_file)
     os.unlink('%s.tbi' % (vcf_gz_file))
-
     return output_vcf

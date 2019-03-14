@@ -2,8 +2,6 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: filter_vardict
-
 requirements:
   SchemaDefRequirement:
     types:
@@ -15,6 +13,8 @@ requirements:
 
 doc: |
   Filter snps/indels from the output of vardict
+
+baseCommand: filter_vardict
 
 inputs:
 

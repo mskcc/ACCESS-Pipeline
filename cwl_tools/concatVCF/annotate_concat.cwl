@@ -13,7 +13,7 @@ requirements:
     coresMin: 1
 
 doc: |
-  Annotes common variants in concatenate vcf and another vcf with tag from inputted header file
+  Annotates common variants in concatenated vcf and another vcf with tag from inputted header file
 
 inputs:
 
@@ -48,5 +48,5 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.combined_vcf.basename.replace(".vcf","_anno.vcf")
+          return inputs.combined_vcf.basename.replace('.vcf', '_anno.vcf')
         }
