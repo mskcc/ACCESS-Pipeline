@@ -92,7 +92,12 @@ outputs:
     outputBinding:
       glob: ${return 'collapsed_R2_.fastq'}
 
+  second_pass_insertions:
+    type: File
+    outputBinding:
+      glob: ${return 'second-pass-insertions.txt'}
+
   second_pass_alt_alleles:
     type: File
     outputBinding:
-      glob: ${ return 'second-pass-alt-alleles.txt' }
+      glob: ${return 'second-pass-alt-alleles.txt'}
