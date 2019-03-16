@@ -1,7 +1,7 @@
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-tmp_dir: /scratch/
+tmp_dir: /dmp/analysis/SCRATCH
 
 process_loop_umi_fastq__params:
   umi_length: 3
@@ -17,7 +17,7 @@ trimgalore__params:
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina
-  add_rg_CN: BergerLab_MSKCC
+  add_rg_CN: DMP_MSKCC
   sort_order: coordinate
   validation_stringency: LENIENT
   compression_level: 0
