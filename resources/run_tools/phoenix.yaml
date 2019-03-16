@@ -1,0 +1,25 @@
+############################
+# Tool Resource File Paths #
+############################
+
+run_tools:
+  perl_5: /dmp/resources/prod/tools/system/perl/bin/perl
+  java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
+  java_8: /dmp/resources/prod/tools/system/java/jdk1.8.0_121/bin/java
+
+  # PLUF & Collapsing
+  marianas_path: /home/jayakumg/software/ACCESS_tools/Marianas-1.8.0.jar
+
+  # Module 1
+  trimgalore_path: /dmp/resources/prod/tools/bio/trim_galore/production/trim_galore
+  bwa_path: /dmp/resources/prod/tools/bio/bwa/production/bwa
+  arrg_path: /home/jayakumg/software/ACCESS_tools/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /home/jayakumg/software/ACCESS_tools/picard-2.8.1.jar
+
+  # Module 2
+  gatk_path: /dmp/resources/prod/tools/bio/gatk/VERSIONS/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /home/jayakumg/software/ACCESS_tools/abra2-2.17.jar
+  fx_path: /dmp/resources/prod/tools/bio/picard/VERSIONS/picard-tools-1.96/FixMateInformation.jar
+
+  waltz_path: /home/jayakumg/software/ACCESS_tools/Waltz-2.0.jar
+
