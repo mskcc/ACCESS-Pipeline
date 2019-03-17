@@ -71,6 +71,7 @@ setup(
             'create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main',
             'create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main',
             'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
+            'create_title_file_from_samplesheet = python_tools.pipeline_kickoff.create_title_file_from_samplesheet:main',
             'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
             # Workflow Tools

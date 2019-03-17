@@ -6,6 +6,7 @@ import subprocess
 import ruamel.yaml
 
 import version
+from python_tools.constants import TOIL_BATCHSYSTEM
 
 
 ###################################################################
@@ -60,7 +61,7 @@ def parse_arguments():
         '--output_location',
         action='store',
         dest='output_location',
-        help='Path to CMO Project outputs location',
+        help='Path to Project outputs location',
         required=True
     )
 
@@ -86,6 +87,31 @@ def parse_arguments():
         dest='batch_system',
         help='e.g. lsf, sge or singleMachine',
         required=True
+    )
+
+    parser.add_argument(
+        '--batch_system_pe',
+        action='store',
+        dest='batch_system_pe',
+        help='batch system parallel environment. e.g. smp for SGE',
+        required=False
+    )
+
+    parser.add_argument(
+        '--batch_system_args',
+        action='store',
+        dest='batch_system_args',
+        help='batch system arguments',
+        required=False
+    )
+
+    parser.add_argument(
+        '--user_Rlibs',
+        action='store_true',
+        dest='user_Rlibs',
+        help='set if environment variable R_LIBS is defined and to be used \
+                in addition to the R site library',
+        required=False
     )
 
     parser.add_argument(
@@ -168,6 +194,40 @@ def create_directories(args):
     return output_directory, jobstore_path, logdir, tmpdir
 
 
+def set_batch_system_env(args, TOIL_BATCHSYSTEM):
+    """
+    Set environmental variables for batch system
+    """
+    if args.batch_system == "gridEngine":
+        BATCH_SYSTEM_PARAMETERS = TOIL_BATCHSYSTEM["GRIDENGINE"]
+        if args.batch_system_pe:
+            os.environ["TOIL_GRIDENGINE_PE"] = args.batch_system_pe
+        else:
+            os.environ["TOIL_GRIDENGINE_PE"] = BATCH_SYSTEM_PARAMETERS["PE"]
+
+        if args.batch_system_args:
+            os.environ["TOIL_GRIDENGINE_ARGS"] = args.batch_system_args
+        elif BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]:
+            os.environ["TOIL_GRIDENGINE_ARGS"] =\
+                BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]
+        else:
+            pass
+            # Use whatever deault queue avalable
+    else:
+        pass
+        # To-Do set LSF variables
+    return
+
+
+def configure_miscellaneous(args):
+    """
+    configure minor settings and variables
+    """
+    if args.user_Rlibs is not True:
+        os.environ['R_LIBS'] = ""
+    return
+
+
 def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     """
     Format and call the command to run CWL Toil
@@ -182,6 +242,13 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         '--writeLogs', logdir,
         '--logLevel', args.logLevel,
     ])
+
+    # Update environment variables if batch system is set
+    if args.batch_system:
+        set_batch_system_env(args, TOIL_BATCHSYSTEM)
+    
+    # miscellaneous settings
+    configure_miscellaneous(args)
 
     ARG_TEMPLATE = ' {} {} '
 
