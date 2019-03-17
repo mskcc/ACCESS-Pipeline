@@ -11,7 +11,7 @@ dist
 resources/bedfiles
 resources/fingerprinting
 
-# Ian's Local resources
+# Local resources
 resources/run_files/local.yaml
 resources/run_tools/local.yaml
 
