@@ -211,7 +211,7 @@ This script can be run in the background with `&`, and will make use of worker n
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
 ### 3. Cleanup the output files
-There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
+Note: Do not run this step until the pipeline has completed. The way to ensure that the run has finished is to download and review the QC report PDF, which can be found the the QC_Results folder. Once you've confired that the run is completed, and all files have been copied to the final outputs folder, there is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
 (access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```
