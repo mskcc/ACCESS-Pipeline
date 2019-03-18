@@ -207,7 +207,8 @@ PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
 BAM_REGEX = re.compile(r'.*\.bam$')
 
-SAMPLE_SEP_DELIMETER = "_"
+SAMPLE_SEP_FASTQ_DELIMETER = "_"
+SAMPLE_SEP_DIR_DELIMETER = "/"
 
 
 ##########################

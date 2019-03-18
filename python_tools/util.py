@@ -345,20 +345,24 @@ def get_pos(title_file, sample_object):
     :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
             in the `title_file` match this fastq file
     """
-    def contained_in(sample_id, fastq):
+    def contained_in(sample_id, file_path):
         """
         Helper method to sort list of fastqs.
         Returns 1 if `sample_id` contained in `fastq`'s path, 0 otherwise
         """
-        found = sample_id + SAMPLE_SEP_DELIMETER in fastq['path']
+        if file_path.endswith(".fastq.gz"):
+            found = sample_id + SAMPLE_SEP_FASTQ_DELIMETER in file_path
+        elif file_path.endswith("SampleSheet.csv"):
+            found = sample_id + SAMPLE_SEP_DIR_DELIMETER in file_path
+        else:
+            raise Exception("Unrecognized file type {}. File type should be either fastq.qz or SampleSheet.csv.".format(file_path))
 
         if found:
             return 1
         else:
             return 0
 
-
-    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
+    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, file_path=sample_object['path'])
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)

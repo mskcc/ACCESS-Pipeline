@@ -203,7 +203,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
     for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
         cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DELIMETER in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DIR_DELIMETER in s.get('path')]
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
@@ -244,7 +244,7 @@ def perform_barcode_index_checks_i7(title_file, sample_sheets):
         cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DELIMETER in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DIR_DELIMETER in s.get('path')]
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
