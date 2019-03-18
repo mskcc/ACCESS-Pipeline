@@ -19,7 +19,7 @@ requirements:
       - $(inputs.fastq2)
       - $(inputs.sample_sheet)
   - class: ResourceRequirement
-    ramMin: 10000
+    ramMin: 30000
     coresMin: 1
     outdirMax: 30000
 
