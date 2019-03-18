@@ -1,0 +1,2 @@
+Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,I5_Index_ID,index2,Sample_Project,Description
+1,12345678-T,12345678-T,,,bc405,TCGACAAG,bc405,TCGACAAG,DMP-ACCESS-TEST-PROJECT,Tumor
