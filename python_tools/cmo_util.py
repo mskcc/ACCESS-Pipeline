@@ -66,8 +66,8 @@ def bgzip_decompress(vcf):
     :return:
     """
     if not re.search(r'.gz$', vcf):
-      logging.error('non-compressed file %s passed to bgzip_decompress' %vcf)
-      raise ValueError
+        logging.error('non-compressed file %s passed to bgzip_decompress' %vcf)
+        raise ValueError
 
     # Need to write the final file to current step's working directory so that CWL runner can find it
     basename = os.path.basename(vcf)
@@ -109,7 +109,7 @@ def fix_contig_tag_in_vcf(vcf_file):
 
 def fix_contig_tag_in_vcf_by_line(vcf_file):
     """
-    Appears to add a contig "length=0" tag to the header of the VCF
+    Appears to add a "length=0" tag to the header of the VCF?
 
     :param vcf_file:
     :return:

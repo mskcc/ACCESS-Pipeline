@@ -25,7 +25,6 @@ logger = logging.getLogger('anno_concat')
 
 
 def parse_arguments():
-    # TODO
     parser = argparse.ArgumentParser(
         prog='annotate_concat.py',
         description='Annotates the common variants in the combined vcf and another vcf with an additional column',

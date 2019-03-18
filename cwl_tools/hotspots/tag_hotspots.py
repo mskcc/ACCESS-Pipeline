@@ -38,7 +38,7 @@ def parse_arguments():
 
     :return:
     """
-    parser = argparse.ArgumentParser(prog='tag_hotspots.py', description=' This tool helps to tag hotspot events', usage='%(prog)s [options]')
+    parser = argparse.ArgumentParser(prog='tag_hotspots.py', description='This tool helps to tag hotspot events', usage='%(prog)s [options]')
     parser.add_argument('-m', '--input_maf', action='store', dest='input_maf', required=True, type=str, help='Input maf file which needs to be tagged')
     parser.add_argument('-itxt', '--input_hotspot', action='store', dest='input_txt', required=True, type=str, help='Input txt file which has hotspots')
     parser.add_argument('-o','--output_maf', action='store', dest='output_maf', required=True, type=str, help='Output maf file name')
