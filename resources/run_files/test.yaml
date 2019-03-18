@@ -3,29 +3,29 @@
 #############################################
 
 # Used in multiple steps
-reference_fasta: /home/jayakumg/data/ACCESS/test_reference/fasta/chr14_chr16.fasta
-reference_fasta_fai: /home/jayakumg/data/ACCESS/test_reference/fasta/chr14_chr16.fasta.fai
+reference_fasta: /home/jayakumg/data/ACCESS-data/test_reference/fasta/chr14_chr16.fasta
+reference_fasta_fai: /home/jayakumg/data/ACCESS-data/test_reference/fasta/chr14_chr16.fasta.fai
 
 # BaseRecalibrator
 # Todo: Consolidate
-bqsr__knownSites_dbSNP: {class: File, path: /home/jayakumg/data/ACCESS/test_reference/vcf/dbsnp_137_14_16.b37.vcf}
-bqsr__knownSites_millis: {class: File, path: /home/jayakumg/data/ACCESS/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
+bqsr__knownSites_dbSNP: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/vcf/dbsnp_137_14_16.b37.vcf}
+bqsr__knownSites_millis: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
 
 # Fingerprinting
-FP_config_file: {class: File, path: /home/jayakumg/data/ACCESS/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+FP_config_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
 
 # UMI QC
-A_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+A_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
 
 # Noise QC
-noise__good_positions_A: {class: File, path: /home/jayakumg/data/ACCESS/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
+noise__good_positions_A: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
 
 
 # Files used in collapsing steps
 
 # Todo: Use $PIPELINE_ROOT
-pool_a_bed_file: {class: File, path: /home/jayakumg/data/ACCESS/test_reference/bed/MSK-ACCESS-v1_0-probe-A-14.bed}
-pool_b_bed_file: {class: File, path: /home/jayakumg/data/ACCESS/test_reference/bed/MSK-ACCESS-v1_0-probe-B-16.bed}
+pool_a_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/MSK-ACCESS-v1_0-probe-A-14.bed}
+pool_b_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/MSK-ACCESS-v1_0-probe-B-16.bed}
 
-gene_list: {class: File, path: /home/jayakumg/data/ACCESS/test_reference/bed/juber-hg19-gene-list.bed}
+gene_list: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/juber-hg19-gene-list.bed}

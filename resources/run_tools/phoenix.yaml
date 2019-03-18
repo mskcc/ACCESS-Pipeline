@@ -18,7 +18,7 @@ run_tools:
 
   # Module 2
   gatk_path: /dmp/resources/prod/tools/bio/gatk/VERSIONS/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
-  abra_path: /home/jayakumg/software/ACCESS_tools/abra2-2.17.jar
+  abra_path: /home/jayakumg/software/bio/abra2-2.17/target/abra2-2.17-jar-with-dependencies.jar
   fx_path: /dmp/resources/prod/tools/bio/picard/VERSIONS/picard-tools-1.96/FixMateInformation.jar
 
   waltz_path: /home/jayakumg/software/ACCESS_tools/Waltz-2.0.jar
