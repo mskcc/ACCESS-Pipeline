@@ -180,7 +180,6 @@ def run_std_filter(args):
 
         # This will help in filtering VCF
         key_for_tracking = str(chr) + ':' + str(pos) + ':' + str(ref_allele) + ':' + str(alt_allele)
-        locus = str(chr) + ':' + str(pos)
 
         if judgement != 'KEEP':
             # Check the failure reasons to determine if we should still consider this variant

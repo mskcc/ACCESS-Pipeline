@@ -161,8 +161,6 @@ def run_std_filter(args):
             logger.critical("filter_vardict: There are no genotype values for Normal. We will exit.")
             sys.exit(1)
 
-        # Todo: Used for what?
-        locus = str(record.CHROM) + ":" + str(record.POS)
         record.add_info('set', 'VarDict')
 
         if if_swap_sample:
