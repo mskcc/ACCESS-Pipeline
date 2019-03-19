@@ -40,7 +40,4 @@ outputs:
   annotated_concat_vcf_output_file:
     type: File
     outputBinding:
-      glob: |
-        ${
-          return inputs.combined_vcf.basename.replace('.vcf', '_anno.vcf')
-        }
+      glob: ${return inputs.combined_vcf.basename.replace('.vcf', '_anno.vcf')}

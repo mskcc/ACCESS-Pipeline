@@ -16,14 +16,12 @@ inputs:
   vcf_vardict:
     type: File
     secondaryFiles: [.tbi]
-
   vcf_mutect:
     type: File
     secondaryFiles: [.tbi]
 
   tumor_sample_name: string
   normal_sample_name: string
-
   annotate_concat_input_header: File
 
 outputs:
@@ -42,12 +40,9 @@ steps:
     in:
       vcf_vardict: vcf_vardict
       vcf_mutect: vcf_mutect
-
     out: [vcf_files]
-
     run:
       class: ExpressionTool
-
       requirements:
         - class: InlineJavascriptRequirement
 

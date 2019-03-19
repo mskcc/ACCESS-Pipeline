@@ -6,8 +6,6 @@ import logging
 import subprocess
 
 
-# Todo: Move this file to top level util module
-
 # Set up logging
 FORMAT = '%(asctime)-15s %(funcName)-8s %(levelname)s %(message)s'
 out_hdlr = logging.StreamHandler(sys.stdout)
@@ -22,8 +20,6 @@ logger.setLevel(logging.DEBUG)
 TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-BCFTOOLS_LOCATION = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools'
-# Note: different version from cmo_util:
 BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'
 
 
@@ -101,7 +97,7 @@ def fix_contig_tag_in_vcf(vcf_file):
     :param vcf_file: str Path to VCF file
     :return:
     """
-    process_one = subprocess.Popen([BCFTOOLS_LOCATION, 'view', '%s' % (vcf_file)], stdout=subprocess.PIPE)
+    process_one = subprocess.Popen([BCFTOOLS_LOCATION_1_6, 'view', '%s' % (vcf_file)], stdout=subprocess.PIPE)
     vcf = re.sub(r'(?P<id>##contig=<ID=[^>]+)', r'\1,length=0', process_one.communicate()[0])
     process_two = subprocess.Popen([BGZIP_LOCATION, '-c'], stdin=subprocess.PIPE, stdout=open(vcf_file, 'w'))
     process_two.communicate(input=vcf)
@@ -114,7 +110,7 @@ def fix_contig_tag_in_vcf_by_line(vcf_file):
     :param vcf_file:
     :return:
     """
-    cmd_array = [BCFTOOLS_LOCATION, 'view', '%s' % (vcf_file)]
+    cmd_array = [BCFTOOLS_LOCATION_1_6, 'view', '%s' % (vcf_file)]
     process_one = subprocess.Popen(cmd_array, stdout=subprocess.PIPE)
     process_two = subprocess.Popen([BGZIP_LOCATION, '-c'], stdin=subprocess.PIPE, stdout=open('fixed.vcf', 'w'))
 
@@ -145,7 +141,7 @@ def normalize_vcf(vcf_file, ref_fasta):
     tabix_file(vcf_gz_file)
 
     cmd = [
-        BCFTOOLS_LOCATION, 'norm',
+        BCFTOOLS_LOCATION_1_6, 'norm',
         '--check-ref', 's',
         '--fasta-ref', ref_fasta,
         '--multiallelics', '+any',
