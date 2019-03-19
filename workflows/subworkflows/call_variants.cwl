@@ -12,10 +12,12 @@ requirements:
     types:
       - $import: ../../resources/run_params/schemas/mutect.yaml
       - $import: ../../resources/run_params/schemas/vardict.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
   tmp_dir: Directory
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
   mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
 
@@ -56,6 +58,14 @@ steps:
   vardict:
     run: ../../cwl_tools/vardict/vardict_paired.cwl
     in:
+      run_tools: run_tools
+      vardict:
+        valueFrom: $(inputs.run_tools.vardict)
+      testsomatic:
+        valueFrom: $(inputs.run_tools.vardict_testsomatic)
+      var2vcf_paired:
+        valueFrom: $(inputs.run_tools.vardict_var2vcf_paired)
+
       vardict_params: vardict_params
       reference_fasta: reference_fasta
       bed_file: bed_file
@@ -84,6 +94,12 @@ steps:
     run: ../../cwl_tools/mutect/mutect.cwl
     in:
       tmp_dir: tmp_dir
+      run_tools: run_tools
+      java_7:
+        valueFrom: $(inputs.run_tools.java_7)
+      mutect:
+        valueFrom: $(inputs.run_tools.mutect)
+
       mutect_params: mutect_params
       reference_sequence: reference_fasta
       dbsnp: dbsnp

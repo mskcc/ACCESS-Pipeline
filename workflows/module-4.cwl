@@ -13,10 +13,13 @@ requirements:
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../resources/run_params/schemas/access_filters.yaml
+      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
   tmp_dir: Directory
+  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
@@ -81,10 +84,15 @@ steps:
   vcf2maf:
     run: ../cwl_tools/vcf2maf/vcf2maf.cwl
     in:
-      vcf2maf_params: vcf2maf_params
-      input_vcf: combine_vcf
       tmp_dir: tmp_dir
+      run_tools: run_tools
+      perl:
+        valueFrom: $(inputs.run_tools.perl)
+      vcf2maf:
+        valueFrom: $(inputs.run_tools.vcf2maf)
+      vcf2maf_params: vcf2maf_params
 
+      input_vcf: combine_vcf
       # Todo: are these right?
       vcf_tumor_id: tumor_sample_name
       vcf_normal_id: normal_sample_name
@@ -147,6 +155,9 @@ steps:
   fillout:
     run: ../cwl_tools/gbcms/gbcms.cwl
     in:
+      run_tools: run_tools
+      gbcms:
+        valueFrom: $(inputs.run_tools.gbcms)
       gbcms_params: gbcms_params
       maf: tag_hotspots/hotspot_tagged_maf
       genotyping_bams_ids: genotyping_bams_ids

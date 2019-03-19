@@ -8,9 +8,11 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_params/schemas/bcftools.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
   bcftools_params: ../../resources/run_params/schemas/bcftools.yaml#bcftools_params
 
   vcf_vardict:
@@ -72,6 +74,9 @@ steps:
   concat:
     run: ../../cwl_tools/bcftools/bcftools_concat.cwl
     in:
+      run_tools: run_tools
+      bcftools:
+        valueFrom: $(inputs.run_tools.bcftools)
       bcftools_params: bcftools_params
       vcf_files: create_vcf_file_array/vcf_files
       tumor_sample_name: tumor_sample_name

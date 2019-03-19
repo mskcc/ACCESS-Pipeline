@@ -2,10 +2,9 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-baseCommand: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
-
 arguments:
-- /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
+- $(inputs.perl)
+- $(inputs.vcf2maf)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -15,9 +14,13 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_params/schemas/vcf2maf.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  perl: string
+  vcf2maf: string
   vcf2maf_params: ../../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
 
   input_vcf:

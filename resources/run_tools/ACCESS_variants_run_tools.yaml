@@ -1,0 +1,29 @@
+type: record
+name: run_tools
+fields:
+  - name: bcftools
+    type: string
+
+  - name: gbcms
+    type: string
+
+  - name: java_7
+    type: string
+
+  - name: mutect
+    type: string
+
+  - name: vardict
+    type: string
+
+  - name: vardict_testsomatic
+    type: string
+
+  - name: vardict_var2vcf_paired
+    type: string
+
+  - name: perl
+    type: string
+
+  - name: vcf2maf
+    type: string

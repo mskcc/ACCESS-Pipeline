@@ -12,10 +12,13 @@ requirements:
       - $import: ../resources/run_params/schemas/basic-filtering-vardict.yaml
       - $import: ../resources/run_params/schemas/basic-filtering-mutect.yaml
       - $import: ../resources/run_params/schemas/bcftools.yaml
+      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
   tmp_dir: Directory
+  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+
   mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../resources/run_params/schemas/vardict.yaml#vardict_params
   basicfiltering_vardict_params: ../resources/run_params/schemas/basic-filtering-vardict.yaml#basicfiltering_vardict_params
@@ -83,6 +86,7 @@ steps:
     run: ./subworkflows/call_variants.cwl
     in:
       tmp_dir: tmp_dir
+      run_tools: run_tools
       mutect_params: mutect_params
       vardict_params: vardict_params
       tumor_bam: tumor_bams
@@ -117,6 +121,7 @@ steps:
   concatenate:
     run: ./subworkflows/vcf_concat.cwl
     in:
+      run_tools: run_tools
       bcftools_params: bcftools_params
       vcf_vardict: filtering/vardict_norm_vcf
       vcf_mutect: filtering/mutect_norm_vcf

@@ -2,16 +2,15 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 
-baseCommand: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
-
 arguments:
+- $(inputs.java_7)
 # Note: must be less than ramMin
 - -Xmx28g
 - -Xms256m
 - -XX:-UseGCOverheadLimit
 - -Djava.io.tmpdir=$(inputs.tmp_dir.path)
 - -jar
-- /home/johnsoni/vendor_tools/muTect-1.1.5.jar
+- $(inputs.mutect)
 - --analysis_type
 - MuTect
 
@@ -20,6 +19,7 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_params/schemas/mutect.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
   ResourceRequirement:
     ramMin: 32000
     coresMin: 1
@@ -27,8 +27,11 @@ requirements:
 
 inputs:
 
-  mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   tmp_dir: Directory
+  java_7: string
+  mutect: string
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
 
   tumor_sample_name:
     type: string

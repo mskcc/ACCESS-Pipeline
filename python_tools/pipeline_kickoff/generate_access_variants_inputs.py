@@ -1,4 +1,3 @@
-import os
 import re
 import logging
 import argparse
@@ -9,6 +8,7 @@ import pandas as pd
 from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
+    ACCESS_VARIANTS_RUN_TOOLS_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
 )
 
@@ -16,7 +16,6 @@ from python_tools.util import (
     find_bams_in_directory,
     include_yaml_resources,
     include_version_info,
-    create_yaml_file_objects,
     create_yaml_file_objects,
     extract_sample_id_from_bam_path
 )
@@ -269,6 +268,7 @@ def create_inputs_file(args):
 
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
+    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))

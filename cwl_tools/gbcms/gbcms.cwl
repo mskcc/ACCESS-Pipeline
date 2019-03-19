@@ -5,21 +5,21 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
-  SchemaDefRequirement:
-    types:
-      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
   ResourceRequirement:
     ramMin: 32000
     coresMin: 2
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 # Todo items:
 # - cmo_fillout has a section to create Portal fillout
 # - cmo_fillout creates "a temporary MAF with events deduplicated by genomic loci and ref/alt alleles"
 # - cmo_fillout has "Check if MAF has right genome"
 
-baseCommand: /ifs/work/bergerm1/Innovation/software/maysun/GetBaseCountsMultiSample/GetBaseCountsMultiSample
-
 arguments:
+- $(inputs.gbcms)
 # Todo: try without shellQuote: false
 - shellQuote: false
   valueFrom: |
@@ -31,7 +31,10 @@ arguments:
 
 inputs:
 
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
   gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  gbcms: string
+
   genotyping_bams_ids: string[]
   genotyping_bams: File[]
 

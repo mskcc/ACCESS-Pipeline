@@ -16,12 +16,14 @@ requirements:
       - $import: ../../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../../resources/run_params/schemas/access_filters.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
 
   tmp_dir: Directory
   project_name: string
   version: string
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -141,6 +143,7 @@ steps:
     run: ../module-3.cwl
     in:
       tmp_dir: tmp_dir
+      run_tools: run_tools
       tumor_bams: tumor_bams
       normal_bams: normal_bams
       tumor_sample_names: tumor_sample_names
@@ -172,6 +175,7 @@ steps:
   module_4:
     run: ../module-4.cwl
     in:
+      run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       access_filters_params: access_filters_params
       tmp_dir: tmp_dir

@@ -6,6 +6,7 @@ requirements:
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_params/schemas/vardict.yaml
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
   ResourceRequirement:
@@ -14,7 +15,7 @@ requirements:
     outdirMax: 20000
 
 arguments:
-- /opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict
+- $(inputs.vardict)
 - -E
 - $(inputs.column_for_region_end)
 - -G
@@ -37,10 +38,10 @@ arguments:
 - $(inputs.bed_file)
 - shellQuote: false
   valueFrom: $('|')
-- /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/testsomatic.R
+- $(inputs.testsomatic)
 - shellQuote: false
   valueFrom: $('|')
-- /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
+- $(inputs.var2vcf_paired)
 - -N
 - $(inputs.tumor_sample_name + '|' + inputs.normal_sample_name)
 - -f
@@ -50,7 +51,12 @@ stdout: $(inputs.output_file_name)
 
 inputs:
 
+  vardict: string
+  testsomatic: string
+  var2vcf_paired: string
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
+
   output_file_name: string
   bed_file: File
 
