@@ -13,9 +13,9 @@ run_tools:
   perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
   vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
 
-###############
-# Test Inputs #
-###############
+###################
+# Test Run Inputs #
+###################
 
 tumor_bams:
 - {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5.bam}
@@ -79,9 +79,9 @@ annotate_concat_header_file: {class: File, path: /home/johnsoni/Innovation-Pipel
 
 tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 
-############
-# Module 3 #
-############
+###################
+# Module 3 Params #
+###################
 
 mutect_params:
   dcov: 50000
@@ -120,9 +120,9 @@ bcftools_params:
   rm_dups: all
 
 
-############
-# Module 4 #
-############
+###################
+# Module 4 Params #
+###################
 
 exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
 hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
