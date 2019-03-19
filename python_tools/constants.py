@@ -33,7 +33,7 @@ TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tool
 # ACCESS-Variants Resources
 ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
 ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
-ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants_run_tools.yaml')
+ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants.yaml')
 ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
