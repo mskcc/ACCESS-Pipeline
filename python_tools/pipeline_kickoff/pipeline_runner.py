@@ -131,6 +131,10 @@ def create_directories(args):
     output_location = args.output_location
     project_and_version_id = get_project_name_and_pipeline_version_id(args)
 
+    # Export TOIL_LSF_PROJECT for this run
+    # which will be passed to subsequent jobs with -P
+    os.environ['TOIL_LSF_PROJECT'] = project_and_version_id
+
     # Set output directory
     output_directory = os.path.join(output_location, project_and_version_id)
     logdir = os.path.join(output_directory, 'log')
@@ -157,7 +161,6 @@ def create_directories(args):
 
     print('Output Dir: ' + output_directory)
     print('Jobstore Base: ' + tmpdir)
-
     return output_directory, jobstore_path, logdir, tmpdir
 
 
