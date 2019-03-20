@@ -57,7 +57,6 @@ inputs:
 
   bed_file: File
   refseq: File
-  hotspot_list: File
 
   dbsnp:
     type: File
@@ -203,7 +202,6 @@ steps:
       normal_sample_name: normal_sample_names
       ref_fasta: ref_fasta
       exac_filter: exac_filter
-      hotspot_list: hotspot_list
     out: [
       concatenated_vcf,
       mutect_vcf,

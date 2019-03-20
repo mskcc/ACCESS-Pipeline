@@ -10,7 +10,3 @@ refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sort
 ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 # Todo: Move to viral reference genome
 #ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
-
-# Module 4
-# Todo: out of date
-hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt}

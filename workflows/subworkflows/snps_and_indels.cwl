@@ -59,7 +59,6 @@ inputs:
 
   bed_file: File
   refseq: File
-  hotspot_list: File
 
   dbsnp:
     type: File
@@ -190,7 +189,6 @@ steps:
       matched_normal_sample_name: matched_normal_ids
       ref_fasta: ref_fasta
       exac_filter: exac_filter
-      hotspot_list: hotspot_list
     out: [maf, kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf, hotspots_filtered_maf, fillout_maf, final_filtered_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct

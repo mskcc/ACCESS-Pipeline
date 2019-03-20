@@ -38,8 +38,6 @@ inputs:
     secondaryFiles:
       - ^.bai
 
-  hotspot_list: File
-
   exac_filter:
     type: File
     secondaryFiles:
