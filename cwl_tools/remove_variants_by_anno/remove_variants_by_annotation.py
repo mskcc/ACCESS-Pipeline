@@ -75,24 +75,6 @@ def filter_by_annotation(args):
     return df_drop, df_notinGenomicRange, df_kept
 
 
-def mock_arguments():
-    """
-    Parse arguments for remove variants by annoation and hotspot tagging module
-
-    :return:
-    """
-    parser = argparse.ArgumentParser(prog='Remove_by_Annotation_w_hotspots.py', description=' This tool helps to remove variant by annotation and genomic region, and tag hotspot events', usage='%(prog)s [options]')
-    parser.add_argument('-i', '--input_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/ValidationRedo/testSteps/testset/309-cfDNA1-T_S2_001.F22_S2_001.combined-variants.vep.maf',  type=str, help='Input maf file which needs to be tagged')
-    #parser.add_argument('-hotspots', '--input_hotspot', required=True, type=str, help='Input txt file which has hotspots')
-    parser.add_argument('-interval', '--input_interval', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/dmp_ACCESS-panelA-v1-isoform-overrides.txt', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
-    #parser.add_argument('-interval', '--input_interval', required=False, default='', type=str, help='Optional: Input txt file which has RefSeq IDs for desired intervals')
-        
-    parser.add_argument('-kept','--kept_output_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/testRmvVariants/kept.maf', type=str, help='Output maf of kept variants file name')
-    parser.add_argument('-dropped','--dropped_output_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/testRmvVariants/drop.maf', type=str, help='Output maf file name of dropped variants that are nonexonic')
-    parser.add_argument('-dropped_NGR','--dropped_NGR_output_maf', required=False, default='/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/testRmvVariants/dropNGR.maf', type=str, help='Output maf file name of dropped variants not in Genomic Range')        
-    args = parser.parse_args() 
-    return args
-    
 def parse_arguments():
     """
     Parse arguments for remove variants by annoation and hotspot tagging module
@@ -111,7 +93,6 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    #args=  mock_arguments()   
     df_drop, df_notinGenomicRange, df_kept = filter_by_annotation(args)
     
     df_notinGenomicRange.to_csv(args.dropped_NGR_output_maf, sep='\t', index=False)

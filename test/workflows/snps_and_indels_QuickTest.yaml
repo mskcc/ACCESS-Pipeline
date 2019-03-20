@@ -63,7 +63,7 @@ genotyping_bams_ids:
 # Test Files #
 ##############
 
-bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-A.sorted.no_fp_snp.bed}
+bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
 # Todo: need to consolidate these
 dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
 cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
