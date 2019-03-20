@@ -87,4 +87,4 @@ access_filters_params:
   tier_one_alt_min: 3
   tier_two_alt_min: 5
   min_n_curated_samples_alt_detected: 2
-  tn_ratio_thres: 5
+  tn_ratio_thres: 2
