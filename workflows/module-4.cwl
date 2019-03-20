@@ -26,7 +26,6 @@ inputs:
 
   hotspots: File
   combine_vcf: File
-  # TODO: This file is also used by vep, remove vcf2maf_params.custom_enst and use this.
   custom_enst_file: File
   tumor_sample_name: string
   normal_sample_name: string
@@ -84,11 +83,15 @@ steps:
     in:
       tmp_dir: tmp_dir
       run_tools: run_tools
+      vcf2maf_params: vcf2maf_params
       perl:
         valueFrom: $(inputs.run_tools.perl)
       vcf2maf:
         valueFrom: $(inputs.run_tools.vcf2maf)
-      vcf2maf_params: vcf2maf_params
+      vep_path:
+        valueFrom: $(inputs.run_tools.vep_path)
+      vep_data:
+        valueFrom: $(inputs.run_tools.vep_data)
 
       input_vcf: combine_vcf
       # Todo: are these right?
@@ -98,6 +101,7 @@ steps:
       normal_id: normal_sample_name
       ref_fasta: ref_fasta
       filter_vcf: exac_filter
+      custom_enst: custom_enst_file
 
       species:
         valueFrom: $(inputs.vcf2maf_params.species)
@@ -109,18 +113,12 @@ steps:
         valueFrom: $(inputs.vcf2maf_params.max_filter_ac)
       min_hom_vaf:
         valueFrom: $(inputs.vcf2maf_params.min_hom_vaf)
-      vep_path:
-        valueFrom: $(inputs.vcf2maf_params.vep_path)
-      vep_data:
-        valueFrom: $(inputs.vcf2maf_params.vep_data)
       vep_forks:
         valueFrom: $(inputs.vcf2maf_params.vep_forks)
       retain_info:
         valueFrom: $(inputs.vcf2maf_params.retain_info)
       buffer_size:
         valueFrom: $(inputs.vcf2maf_params.buffer_size)
-      custom_enst:
-        valueFrom: $(inputs.vcf2maf_params.custom_enst)
 
       output_maf:
         valueFrom: $(inputs.tumor_id + '.' + inputs.normal_id + '.combined-variants.vep.maf')

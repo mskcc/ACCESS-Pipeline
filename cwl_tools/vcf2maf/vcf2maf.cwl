@@ -125,7 +125,7 @@ inputs:
       prefix: --buffer-size
 
   custom_enst:
-    type: string
+    type: File
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst

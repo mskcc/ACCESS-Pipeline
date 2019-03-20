@@ -21,7 +21,6 @@ fields:
   min_hom_vaf: float?
   remap_chain: string?
   buffer_size: int?
-  custom_enst: string?
   vep_path: string?
   vep_data: string?
   any_allele: string?

@@ -174,10 +174,10 @@ steps:
   module_4:
     run: ../module-4.cwl
     in:
+      tmp_dir: tmp_dir
       run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       access_filters_params: access_filters_params
-      tmp_dir: tmp_dir
       hotspots: hotspots
       custom_enst_file: custom_enst_file
       gbcms_params: gbcms_params
@@ -189,6 +189,13 @@ steps:
       matched_normal_sample_name: matched_normal_ids
       ref_fasta: ref_fasta
       exac_filter: exac_filter
-    out: [maf, kept_rmvbyanno_maf, dropped_rmvbyanno_maf, dropped_NGR_rmvbyanno_maf, hotspots_filtered_maf, fillout_maf, final_filtered_maf]
+    out: [
+      maf,
+      kept_rmvbyanno_maf,
+      dropped_rmvbyanno_maf,
+      dropped_NGR_rmvbyanno_maf,
+      hotspots_filtered_maf,
+      fillout_maf,
+      final_filtered_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct
