@@ -24,7 +24,10 @@ noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/
 
 
 # Files used after standard Bam steps
-pool_a_bed_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
-pool_b_bed_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
-
-gene_list: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/juber-hg19-gene-list.bed}
+#
+# Main Bed files (Probe-level)
+pool_a_bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-A.sorted.bed}
+pool_b_bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-B.sorted.bed}
+gene_list: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/juber-hg19-gene-list.bed}
+# Exon-level Bed file
+pool_a_bed_file_exonlevel: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed}
