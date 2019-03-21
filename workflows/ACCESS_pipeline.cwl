@@ -70,6 +70,7 @@ inputs:
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
+  pool_a_bed_file_exonlevel: File
   A_on_target_positions: File
   B_on_target_positions: File
   noise__good_positions_A: File
@@ -203,11 +204,11 @@ steps:
     inputs_yaml: inputs_yaml
     pool_a_bed_file: pool_a_bed_file
     pool_b_bed_file: pool_b_bed_file
+    pool_a_bed_file_exonlevel: pool_a_bed_file_exonlevel
     gene_list: gene_list
     FP_config_file: FP_config_file
 
   out: [
     bam_dirs,
     combined_qc,
-    qc_tables
-  ]
+    qc_tables]

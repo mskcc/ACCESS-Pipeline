@@ -32,6 +32,11 @@ inputs:
   waltz_simplex_pool_b: Directory
   waltz_duplex_pool_b: Directory
 
+  waltz_standard_a_exon_level_files: Directory
+  waltz_unfiltered_a_exon_level_files: Directory
+  waltz_simplex_a_exon_level_files: Directory
+  waltz_duplex_a_exon_level_files: Directory
+
 outputs:
 
   combined_qc:
@@ -112,6 +117,39 @@ steps:
       output_dir_name:
         valueFrom: $('waltz_duplex_pool_b')
     out: [output_dir]
+
+  standard_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_standard_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_standard_a_exon_level_files')
+    out: [output_dir]
+
+  unfiltered_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_unfiltered_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_unfiltered_a_exon_level_files')
+    out: [output_dir]
+
+  simplex_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_simplex_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_simplex_a_exon_level_files')
+    out: [output_dir]
+
+  duplex_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_duplex_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_duplex_a_exon_level_files')
+    out: [output_dir]
+
 
   ##################
   # Fingerprinting #
@@ -263,9 +301,9 @@ steps:
       family_sizes_duplex,
       pipeline_inputs]
 
-  #######################################
-  # Combine FP, Noise, & Std qc results #
-  #######################################
+  ####################################################
+  # Combine FP, Noise, & Std qc result PDFs into one #
+  ####################################################
 
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
@@ -288,8 +326,7 @@ steps:
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
       pipeline_inputs: main_plots_module/pipeline_inputs
-    out:
-      [combined_qc]
+    out: [combined_qc]
 
   ###################################
   # Put everything in one Directory #
@@ -306,6 +343,13 @@ steps:
       unfiltered_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+
+      standard_pool_a_exon_level: standard_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      unfiltered_pool_a_exon_level: unfiltered_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      simplex_pool_a_exon_level: simplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      duplex_pool_a_exon_level: duplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
+
+      qc_tables: main_tables_module/tables
       all_fp_results: fingerprinting/all_fp_results
       gender_table: fingerprinting/gender_table
       family_sizes: umi_qc_tables/family_sizes
