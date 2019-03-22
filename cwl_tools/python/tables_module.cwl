@@ -58,3 +58,8 @@ outputs:
     type: Directory
     outputBinding:
       glob: '.'
+      outputEval: |
+        ${
+          self[0].basename = 'aggregate_tables';
+          return self[0]
+        }

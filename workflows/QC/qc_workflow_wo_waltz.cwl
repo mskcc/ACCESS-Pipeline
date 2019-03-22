@@ -52,6 +52,7 @@ steps:
   ########################################
   # Aggregate Bam Metrics across samples #
   # for each collapsing method           #
+  # (and 2x with Exon-level bedfile)     #
   ########################################
 
   standard_aggregate_bam_metrics_pool_a:
