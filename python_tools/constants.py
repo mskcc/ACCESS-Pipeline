@@ -219,7 +219,7 @@ SAMPLE_SEP_DIR_DELIMETER = "/"
 EPSILON = 1e-9
 
 # Shorter reference to sample ID column, to be used everywhere
-SAMPLE_ID_COLUMN = MANIFEST__CMO_SAMPLE_ID_COLUMN
+SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
 
 # WALTZ Metrics Files Constants
 

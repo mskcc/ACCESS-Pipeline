@@ -17,7 +17,7 @@ from ...constants import *
 
 
 def noise_alt_percent_plot(noise_table):
-    samples = noise_table[SAMPLE_ID_COLUMN].tolist()
+    samples = noise_table[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
     alt_percent = noise_table['AltPercent']
     y_pos = np.arange(len(samples))
 
@@ -39,7 +39,7 @@ def noise_alt_percent_plot(noise_table):
 
 
 def noise_contributing_sites_plot(noise_table):
-    samples = noise_table[SAMPLE_ID_COLUMN].tolist()
+    samples = noise_table[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
     contributing_sites = noise_table['ContributingSites']
     y_pos = np.arange(len(samples))
 
@@ -81,19 +81,19 @@ def main():
     noise_table = noise_table[noise_table['Method'] == 'Total']
 
     # Cleanup sample IDs (in Noise table as well as Title File)
-    sample_ids = title_file[SAMPLE_ID_COLUMN].tolist()
-    noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
+    sample_ids = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist()
+    noise_table[TITLE_FILE__SAMPLE_ID_COLUMN] = noise_table[TITLE_FILE__SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
 
     # Merge noise with title file
-    noise_and_title_file = noise_table.merge(title_file, on = SAMPLE_ID_COLUMN)
+    noise_and_title_file = noise_table.merge(title_file, on = TITLE_FILE__SAMPLE_ID_COLUMN)
 
     # Filter to Plasma samples
-    plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
-    boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+    plasma_samples = noise_and_title_file[noise_and_title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma'][TITLE_FILE__SAMPLE_ID_COLUMN]
+    boolv = noise_and_title_file[TITLE_FILE__SAMPLE_ID_COLUMN].isin(plasma_samples)
     noise_and_title_file = noise_and_title_file.loc[boolv]
 
     # Sort in same order as R code (by sample class)
-    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
+    noise_and_title_file = noise_and_title_file.sort_values(TITLE_FILE__CLASS_COLUMN).reset_index(drop=True)
 
     print('Noise Table:')
     print(noise_and_title_file)
