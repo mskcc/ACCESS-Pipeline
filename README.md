@@ -15,7 +15,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Perl (must exist in PATH)| 5.20.2 |
 | Node (must exist in PATH)| v6.10.1 |
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
-| [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
+| [BWA](https://github.com/lh3/bwa) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | 1.1 | 
 | [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | v0.10.1 |
