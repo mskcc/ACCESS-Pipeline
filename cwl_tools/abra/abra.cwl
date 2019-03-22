@@ -4,8 +4,6 @@ class: CommandLineTool
 
 arguments:
 - $(inputs.java)
-- -Xmx60g
-- -Djava.io.tmpdir=$(inputs.working_directory.path)
 - -jar
 - $(inputs.abra)
 
@@ -63,15 +61,45 @@ inputs:
     inputBinding:
       prefix: --threads
 
-  kmer:
+  #kmer:
+  #  type: string
+  #  inputBinding:
+  #    prefix: --kmer
+
+  #mad:
+  #  type: int
+  #  inputBinding:
+  #    prefix: --mad
+  
+  sc:
     type: string
     inputBinding:
-      prefix: --kmer
-
-  mad:
-    type: int
+      prefix: --sc
+  
+  mmr:
+    type: float
     inputBinding:
-      prefix: --mad
+      prefix: --mmr
+  
+  ca:
+    type: string
+    inputBinding:
+      prefix: --ca
+  
+  sga:
+    type: string
+    inputBinding:
+      prefix: --sga
+  
+  index:
+    type: boolean
+    inputBinding:
+      prefix: --index
+
+  cons:
+    type: boolean
+    inputBinding:
+      prefix: --cons
 
   out:
     type:

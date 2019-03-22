@@ -115,13 +115,25 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
-      kmer:
-        valueFrom: $(inputs.params.kmers)
-      mad:
-        valueFrom: $(inputs.params.mad)
-
+      sc:
+        valueFrom: $(inputs.params.sc)
+      mmr:
+        valueFrom: $(inputs.params.mmr)
+      ca:
+        valueFrom: $(inputs.params.ca)
+      sga:
+        valueFrom: $(inputs.params.sga)
+      index:
+        valueFrom: $(inputs.params.index)
+      cons:
+        valueFrom: $(inputs.params.cons)
+      #kmer:
+      #  valueFrom: $(inputs.params.kmers)
+      #mad:
+      #  valueFrom: $(inputs.params.mad)
       threads:
-        valueFrom: $(12)
+        valueFrom: $(inputs.params.threads)
+        
       working_directory: make_abra_tmp_dir/empty_dir
       out:
         valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
