@@ -25,7 +25,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
 | Picard FixMateInformation | FixMateInformation.jar (1.96) |
 | [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 |
-| [Abra](https://github.com/mozack/abra/) | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
+| [Abra](https://github.com/mozack/abra2) | 2.17 |
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
