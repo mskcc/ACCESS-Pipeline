@@ -131,6 +131,24 @@ def parse_arguments():
         required=False
     )
 
+    parser.add_argument(
+        '--project_name',
+        action='store',
+        dest='project_name',
+        default='INFO',
+        help='Name for the processed data directory',
+        required=False
+    )
+
+    parser.add_argument(
+        '--include_version',
+        action='store_false',
+        dest='include_version',
+        default='INFO',
+        help='Include pipeline git version in the project directory name',
+        required=False
+    )
+
     return parser.parse_known_args()
 
 
@@ -144,12 +162,16 @@ def get_project_name_and_pipeline_version_id(args):
     """
     with open(args.inputs_file, 'r') as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
+    
+    if args.project_name:
+        project_name = args.project_name
+    else:
+        project_name = inputs_yaml['project_name']
+    if args.include_version:
+        pipeline_version = inputs_yaml['version']
+        project_name = '-'.join([project_name, pipeline_version])
 
-    project_name = inputs_yaml['project_name']
-    pipeline_version = inputs_yaml['version']
-    project_and_version_id = '-'.join([project_name, pipeline_version])
-
-    return project_and_version_id
+    return project_name
 
 
 def create_directories(args):
@@ -244,11 +266,11 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     ])
 
     # Update environment variables if batch system is set
-    if args.batch_system:
-        set_batch_system_env(args, TOIL_BATCHSYSTEM)
+    #if args.batch_system:
+    #    set_batch_system_env(args, TOIL_BATCHSYSTEM)
     
     # miscellaneous settings
-    configure_miscellaneous(args)
+    #configure_miscellaneous(args)
 
     ARG_TEMPLATE = ' {} {} '
 

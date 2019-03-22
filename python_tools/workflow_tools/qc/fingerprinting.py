@@ -174,7 +174,7 @@ def find_fp_maf(listofpileups, fp_indices, fp_output_dir):
 
         if all_fp == []:
             header = [fp_indices[eachfp[0] + ':' + eachfp[1]][2] for eachfp in fp_raw]
-            header.insert(0, SAMPLE_ID_COLUMN)
+            header.insert(0, TITLE_FILE__SAMPLE_ID_COLUMN)
             all_fp.append(header)
             all_geno.append(header)
 
@@ -245,7 +245,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     expected = create_expected_file(titlefile, fp_output_dir)
     titlefile = read_df(titlefile, header='infer')
 
-    if all_geno[0][0] == SAMPLE_ID_COLUMN:
+    if all_geno[0][0] == TITLE_FILE__SAMPLE_ID_COLUMN:
         all_geno = all_geno[1::]
 
     all_geno = [a for a in all_geno if 'CELLFREEPOOLEDNORMAL' not in a[0]]
@@ -272,8 +272,8 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
                 elif j != 0:
                     hm_mismatch = hm_mismatch + 1
 
-            sample_Ref = extract_sample_name(Ref[0], titlefile[SAMPLE_ID_COLUMN])
-            sample_Query = extract_sample_name(Query[0], titlefile[SAMPLE_ID_COLUMN])
+            sample_Ref = extract_sample_name(Ref[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
+            sample_Query = extract_sample_name(Query[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN])
             
             ##To test            
             #sample_Ref = Ref[0].split("_IGO")[0]
@@ -334,7 +334,7 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     contamination = contamination_rate(all_fp)
     contamination = [x for x in contamination if x[1] != 'NaN']
     titlefile = read_df(titlefile, header='infer')
-    samplename = [extract_sample_name(c[0], titlefile[SAMPLE_ID_COLUMN]) for c in contamination]
+    samplename = [extract_sample_name(c[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for c in contamination]
     y_pos = np.arange(len(samplename))
     meanContam = [c[1] for c in contamination]
     minor_contamination = [[samplename[i], meanContam[i]] for i in range(0, len(samplename))]
@@ -356,10 +356,10 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
-    if all_geno[0][0] == SAMPLE_ID_COLUMN:
+    if all_geno[0][0] == TITLE_FILE__SAMPLE_ID_COLUMN:
         all_geno = all_geno[1::]
     titlefile = read_df(titlefile, header='infer')
-    samples = [extract_sample_name(g[0], titlefile[SAMPLE_ID_COLUMN]) for g in all_geno]
+    samples = [extract_sample_name(g[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for g in all_geno]
     x_pos = np.arange(len(all_geno))
     p_het = [sum([1 for a in g if a == 'Het']) / (len(g) - 1) for g in all_geno]
 
@@ -393,7 +393,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
 
         samplename = [c[0] for c in contamination]
         title_file = read_df(titlefile, header='infer')
-        samplename = [extract_sample_name(s, title_file[SAMPLE_ID_COLUMN]) for s in samplename]
+        samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
 
         y_pos = np.arange(len(samplename))
         mean_contam = [c[1] for c in contamination]
@@ -426,7 +426,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     if len(hm_compare) == 0:
         # Only had one sample, and thus no comparisons to make
         titlefile = pd.read_csv(title_file, sep='\t')
-        sample = titlefile[SAMPLE_ID_COLUMN].values[0]
+        sample = titlefile[TITLE_FILE__SAMPLE_ID_COLUMN].values[0]
         hm_compare = [[sample, sample, 0]]
 
     matrix ={}
@@ -438,10 +438,15 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
-    print(matrix)
-    ax = sns.heatmap(pd.DataFrame.from_dict(matrix).astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
-                     cbar_kws={'label': 'Fraction Mismatch'},
-                     annot_kws={'size': 5})
+    
+    #print(matrix)
+    try:
+        ax = sns.heatmap(pd.DataFrame.from_dict(matrix).astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15, 
+                cbar_kws={'label': 'Fraction Mismatch'}, 
+                annot_kws={'size': 5})
+    except IndexError:
+        print "NaN fraction mismatch values for all samples."
+        pass
 
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
@@ -548,7 +553,7 @@ def check_sex(gender, sex, output_dir):
         if g[1] != sex[idx][1]:
             mismatch_sex.append([g[0], g[1], sex[idx][1]])
 
-    df = pd.DataFrame(mismatch_sex, columns=[SAMPLE_ID_COLUMN, "Reported Sex", "Inferred Sex"])
+    df = pd.DataFrame(mismatch_sex, columns=[TITLE_FILE__SAMPLE_ID_COLUMN, "Reported Sex", "Inferred Sex"])
     if not len(df):
         df.loc[0] = ['No mismatches present', 'No mismatches present', 'No mismatches present']
 
