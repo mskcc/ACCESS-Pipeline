@@ -19,7 +19,7 @@ import ruamel.yaml
 DEFAULT_MEM = 5
 DEFAULT_CPU = 1
 LEADER_NODE = "w01"
-CONTROL_QUEUE = "control"
+CONTROL_QUEUE = "sol"
 
 
 def bsub(bsubline):
