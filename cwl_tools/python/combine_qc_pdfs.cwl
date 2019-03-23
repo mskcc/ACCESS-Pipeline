@@ -84,7 +84,7 @@ inputs:
   noise_by_substitution:
     type: File
     inputBinding:
-      position: 14
+      position: 15
 
   fingerprinting_qc:
     type: File
