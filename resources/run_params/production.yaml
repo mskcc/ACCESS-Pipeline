@@ -39,6 +39,7 @@ find_covered_intervals__params:
 abra__params:
   kmers: 43,53,63,83,93
   mad: 1000
+  threads: 12
   sc: 100,30,80,15
   mmr: 0.1
   ca: 10,1

@@ -1,6 +1,8 @@
 name: abra__params
 type: record
 fields:
+- name: threads
+  type: int
 - name: kmers
   type: string
 - name: mad
