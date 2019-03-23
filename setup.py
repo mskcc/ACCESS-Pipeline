@@ -8,7 +8,8 @@ import version
 while True and len(sys.argv) >= 2 and sys.argv[1] == "install":
     try:
         prefix = sys.prefix
-        user_input = raw_input("Current python environment is: {}\nProceed with setup install? (y/n) ".format(prefix))
+        user_input = raw_input("Current python environment is: {}\n"
+            "Proceed with setup install? (y/n) ".format(prefix))
         if user_input == "n":
             sys.exit()
         elif user_input == "y":
@@ -148,4 +149,5 @@ def start_setup():
         }
     )
 
+set_version_and_root()
 start_setup()
