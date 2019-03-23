@@ -81,20 +81,25 @@ inputs:
     inputBinding:
       position: 14
 
-  fingerprinting_qc:
+  noise_by_substitution:
     type: File
     inputBinding:
-      position: 15
+      position: 14
 
-  gender_check:
+  fingerprinting_qc:
     type: File
     inputBinding:
       position: 16
 
-  pipeline_inputs:
+  gender_check:
     type: File
     inputBinding:
       position: 17
+
+  pipeline_inputs:
+    type: File
+    inputBinding:
+      position: 18
 
 outputs:
 

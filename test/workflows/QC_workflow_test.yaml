@@ -25,6 +25,11 @@ waltz_standard_pool_b: {class: Directory, path: ../test_data/qc/qc_workflow_wo_w
 waltz_unfiltered_pool_b: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_unfiltered_pool_b}
 waltz_simplex_pool_b: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_simplex_pool_b}
 waltz_duplex_pool_b: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_duplex_pool_b}
+# Todo: spoofing with same waltz runs as above, for now
+waltz_standard_a_exon_level_files: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_standard_pool_b}
+waltz_unfiltered_a_exon_level_files: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_unfiltered_pool_b}
+waltz_simplex_a_exon_level_files: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_simplex_pool_b}
+waltz_duplex_a_exon_level_files: {class: Directory, path: ../test_data/qc/qc_workflow_wo_waltz/waltz_duplex_pool_b}
 
 # Bam directories
 sample_directories:

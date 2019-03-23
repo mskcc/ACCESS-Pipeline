@@ -436,10 +436,15 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
             matrix[element[0]] = {element[1]: element[2]}
         matrix[element[0]].update({element[1]: element[2]})
 
+    # Just print matrix of 0's when testing
+    discordance_data_frame = pd.DataFrame.from_dict(matrix)
+    if discordance_data_frame.isnull().all().all():
+        discordance_data_frame[:] = 0
+
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
     print(matrix)
-    ax = sns.heatmap(pd.DataFrame.from_dict(matrix).astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
+    ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch'},
                      annot_kws={'size': 5})
 
