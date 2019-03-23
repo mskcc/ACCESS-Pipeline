@@ -244,7 +244,7 @@ steps:
       title_file: title_file
       noise: duplex_noise_tables_A/noise
       noise_by_substitution: duplex_noise_tables_A/noise_by_substitution
-    out: [noise_alt_percent, noise_contributing_sites]
+    out: [noise_alt_percent, noise_contributing_sites, noise_by_substitution]
 
   #################
   # UMI QC tables #
@@ -324,6 +324,7 @@ steps:
       family_sizes_duplex: main_plots_module/family_sizes_duplex
       noise_alt_percent: duplex_noise_plots_A/noise_alt_percent
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
+      noise_by_substitution: duplex_noise_plots_A/noise_by_substitution
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
       pipeline_inputs: main_plots_module/pipeline_inputs

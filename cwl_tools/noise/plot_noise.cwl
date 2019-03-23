@@ -35,3 +35,8 @@ outputs:
     type: File
     outputBinding:
       glob: $('NoiseContributingSites.pdf')
+
+  noise_by_substitution:
+    type: File
+    outputBinding:
+      glob: $('noise_by_substitution.pdf')
