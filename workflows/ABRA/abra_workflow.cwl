@@ -115,10 +115,26 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
-      kmer:
-        valueFrom: $(inputs.params.kmers)
+#      kmer:
+#        valueFrom: $(inputs.params.kmers)
       mad:
         valueFrom: $(inputs.params.mad)
+
+      # Params currently being tested:
+      sc:
+        valueFrom: $(inputs.params.sc)
+      mmr:
+        valueFrom: $(inputs.params.mmr)
+      sga:
+        valueFrom: $(inputs.params.sga)
+      ca:
+        valueFrom: $(inputs.params.ca)
+      ws:
+        valueFrom: $(inputs.params.ws)
+      index:
+        valueFrom: $(inputs.params.index)
+      cons:
+        valueFrom: $(inputs.params.cons)
 
       threads:
         valueFrom: $(12)
