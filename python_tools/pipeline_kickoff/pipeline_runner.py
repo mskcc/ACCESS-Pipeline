@@ -36,7 +36,7 @@ LOG_FILE_NAME = 'cwltoil.log'
 
 # Defaults for our selection of Toil parameters
 DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_LSF_ARGS',
+    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_GRIDENGINE_ARGS',
     '--defaultDisk'             : '10G',
     '--defaultMem'              : '10G',
     '--no-container'            : '',
@@ -142,7 +142,7 @@ def parse_arguments():
 
     parser.add_argument(
         '--include_version',
-        action='store_false',
+        action='store_true',
         dest='include_version',
         default='INFO',
         help='Include pipeline git version in the project directory name',
@@ -245,6 +245,8 @@ def configure_miscellaneous(args):
     """
     configure minor settings and variables
     """
+
+    # Don't use user Rlibs unless specified
     if args.user_Rlibs is not True:
         os.environ['R_LIBS'] = ""
     return
