@@ -1,5 +1,6 @@
 import os
 import re
+from collections import OrderedDict
 
 from python_tools.root import ROOT_DIR
 
@@ -28,7 +29,7 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
-TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
+TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tools/phoenix.yaml')
 
 # ACCESS-Variants Resources
 ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
@@ -37,6 +38,7 @@ ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants
 ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+
 
 
 ###############################
@@ -81,6 +83,118 @@ manifest_columns = [
 ]
 
 
+##################################
+# SampleSheet Column Definitions #
+##################################
+
+SAMPLE_SHEET__BARCODE_ID_COLUMN               = 'I5_Index_ID'
+# Todo: Use a single barcode ID instead of I5 and I7
+SAMPLE_SHEET__PROJECT_ID_COLUMN               = 'Sample_Project'
+SAMPLE_SHEET__SAMPLE_ID_COLUMN                = 'Sample_ID'
+SAMPLE_SHEET__COLLAB_ID_COLUMN                = 'Collab_ID'
+SAMPLE_SHEET__PATIENT_ID_COLUMN               = 'Sample_Name'
+SAMPLE_SHEET__CLASS_COLUMN                    = 'Description'
+SAMPLE_SHEET__SAMPLE_TYPE_COLUMN              = 'Sample_type'
+SAMPLE_SHEET__INPUT_NG_COLUMN                 = 'Input_ng'
+SAMPLE_SHEET__LIBRARY_INPUT_COLUMN            = 'LIBRARY_INPUT[ng]'
+SAMPLE_SHEET__LIBRARY_YIELD_COLUMN            = 'Library_yield'
+SAMPLE_SHEET__POOL_INPUT_COLUMN               = 'Pool_input'
+SAMPLE_SHEET__BAIT_VERSION_COLUMN             = 'Bait_version'
+SAMPLE_SHEET__CAPTURE_INPUT_COLUMN            = 'CAPTURE_INPUT[ng]'
+SAMPLE_SHEET__CAPTURE_BAIT_SET_COLUMN         = 'CAPTURE_BAIT_SET'
+SAMPLE_SHEET__SEX_COLUMN                      = 'Sex'
+SAMPLE_SHEET__BARCODE_INDEX_1_COLUMN          = 'index'
+SAMPLE_SHEET__BARCODE_INDEX_2_COLUMN          = 'index2'
+SAMPLE_SHEET__LANE_COLUMN                     = 'Lane'
+
+# samplesheet_columns = [
+#     SAMPLE_SHEET__BARCODE_ID_COLUMN,
+#     SAMPLE_SHEET__PROJECT_ID_COLUMN,
+#     SAMPLE_SHEET__SAMPLE_ID_COLUMN,
+#     SAMPLE_SHEET__COLLAB_ID_COLUMN,
+#     SAMPLE_SHEET__PATIENT_ID_COLUMN,
+#     SAMPLE_SHEET__CLASS_COLUMN,
+#     SAMPLE_SHEET__SAMPLE_TYPE_COLUMN,
+#     SAMPLE_SHEET__INPUT_NG_COLUMN,
+#     SAMPLE_SHEET__LIBRARY_INPUT_COLUMN,
+#     SAMPLE_SHEET__LIBRARY_YIELD_COLUMN,
+#     SAMPLE_SHEET__POOL_INPUT_COLUMN,
+#     SAMPLE_SHEET__BAIT_VERSION_COLUMN,
+#     SAMPLE_SHEET__CAPTURE_INPUT_COLUMN,
+#     SAMPLE_SHEET__CAPTURE_BAIT_SET_COLUMN,
+#     SAMPLE_SHEET__SEX_COLUMN,
+#     SAMPLE_SHEET__BARCODE_INDEX_1_COLUMN,
+#     SAMPLE_SHEET__BARCODE_INDEX_2_COLUMN,
+#     SAMPLE_SHEET__LANE_COLUMN
+# ]
+
+
+################################
+# TitleFile Column Definitions #
+################################
+
+TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
+TITLE_FILE__POOL_COLUMN                     = 'Pool'
+TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
+TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
+TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
+TITLE_FILE__CLASS_COLUMN                    = 'Class'
+TITLE_FILE__SAMPLE_TYPE_COLUMN              = 'Sample_type'
+TITLE_FILE__INPUT_NG_COLUMN                 = 'Input_ng'
+TITLE_FILE__LIBRARY_YIELD_COLUMN            = 'Library_yield'
+TITLE_FILE__POOL_INPUT_COLUMN               = 'Pool_input'
+TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
+TITLE_FILE__SEX_COLUMN                      = 'Sex'
+TITLE_FILE__BARCODE_INDEX_1_COLUMN          = 'Barcode_index_1'
+TITLE_FILE__BARCODE_INDEX_2_COLUMN          = 'Barcode_index_2'
+TITLE_FILE__LANE_COLUMN                     = 'Lane'
+
+
+##########################
+# Map Column Definitions #
+##########################
+
+# Use OrderedDict to keep ordering for keys() and values()
+columns_map_manifest = OrderedDict([
+    (MANIFEST__BARCODE_ID_COLUMN                 , TITLE_FILE__BARCODE_ID_COLUMN),
+    (MANIFEST__CAPTURE_NAME_COLUMN               , TITLE_FILE__POOL_COLUMN),
+    (MANIFEST__CMO_SAMPLE_ID_COLUMN              , TITLE_FILE__SAMPLE_ID_COLUMN),
+    (MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN     , TITLE_FILE__COLLAB_ID_COLUMN),
+    (MANIFEST__CMO_PATIENT_ID_COLUMN             , TITLE_FILE__PATIENT_ID_COLUMN),
+    (MANIFEST__SAMPLE_CLASS_COLUMN               , TITLE_FILE__CLASS_COLUMN),
+    (MANIFEST__SAMPLE_TYPE_COLUMN                , TITLE_FILE__SAMPLE_TYPE_COLUMN),
+    (MANIFEST__LIBRARY_INPUT_COLUMN              , TITLE_FILE__INPUT_NG_COLUMN),
+    (MANIFEST__LIBRARY_YIELD_COLUMN              , TITLE_FILE__LIBRARY_YIELD_COLUMN),
+    (MANIFEST__CAPTURE_INPUT_COLUMN              , TITLE_FILE__POOL_INPUT_COLUMN),
+    (MANIFEST__CAPTURE_BAIT_SET_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
+    (MANIFEST__SEX_COLUMN                        , TITLE_FILE__SEX_COLUMN),
+    (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
+    (MANIFEST__BARCODE_INDEX_2_COLUMN            , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
+    (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
+])
+
+# Map SAMPLESHEET --> TITLE_FILE
+# Use OrderedDict to keep ordering for keys() and values()
+columns_map_samplesheet = OrderedDict([
+    (SAMPLE_SHEET__BARCODE_ID_COLUMN             , TITLE_FILE__BARCODE_ID_COLUMN),
+    (SAMPLE_SHEET__PROJECT_ID_COLUMN             , TITLE_FILE__POOL_COLUMN),
+    (SAMPLE_SHEET__SAMPLE_ID_COLUMN              , TITLE_FILE__SAMPLE_ID_COLUMN),
+    (SAMPLE_SHEET__COLLAB_ID_COLUMN              , TITLE_FILE__COLLAB_ID_COLUMN),
+    (SAMPLE_SHEET__PATIENT_ID_COLUMN             , TITLE_FILE__PATIENT_ID_COLUMN),
+    (SAMPLE_SHEET__CLASS_COLUMN                  , TITLE_FILE__CLASS_COLUMN),
+    (SAMPLE_SHEET__SAMPLE_TYPE_COLUMN            , TITLE_FILE__SAMPLE_TYPE_COLUMN),
+    (SAMPLE_SHEET__LIBRARY_INPUT_COLUMN          , TITLE_FILE__INPUT_NG_COLUMN),
+    (SAMPLE_SHEET__LIBRARY_YIELD_COLUMN          , TITLE_FILE__LIBRARY_YIELD_COLUMN),
+    (SAMPLE_SHEET__CAPTURE_INPUT_COLUMN          , TITLE_FILE__POOL_INPUT_COLUMN),
+    (SAMPLE_SHEET__BAIT_VERSION_COLUMN           , TITLE_FILE__BAIT_VERSION_COLUMN),
+    (SAMPLE_SHEET__SEX_COLUMN                    , TITLE_FILE__SEX_COLUMN),
+    (SAMPLE_SHEET__BARCODE_INDEX_1_COLUMN        , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
+    (SAMPLE_SHEET__BARCODE_INDEX_2_COLUMN        , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
+    (SAMPLE_SHEET__LANE_COLUMN                   , TITLE_FILE__LANE_COLUMN),
+])
+
+
+
 ##############################
 # Pipeline Kickoff Constants #
 ##############################
@@ -98,6 +212,9 @@ PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
 BAM_REGEX = re.compile(r'.*\.bam$')
 
+SAMPLE_SEP_FASTQ_DELIMETER = "_"
+SAMPLE_SEP_DIR_DELIMETER = "/"
+
 
 ##########################
 # Constants for QC files #
@@ -107,7 +224,7 @@ BAM_REGEX = re.compile(r'.*\.bam$')
 EPSILON = 1e-9
 
 # Shorter reference to sample ID column, to be used everywhere
-SAMPLE_ID_COLUMN = MANIFEST__CMO_SAMPLE_ID_COLUMN
+SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
 
 # WALTZ Metrics Files Constants
 
@@ -311,3 +428,22 @@ BAM_SEARCHES = [
     SIMPLEX_BAM_SEARCH,
     DUPLEX_BAM_SEARCH
 ]
+
+
+#################
+# HPC variables #
+#################
+# To-do define for LSF???
+TOIL_BATCHSYSTEM = {
+    "GRIDENGINE" : {
+        "PE" : "smp",
+        "ARGS_HOST" : {
+            "phoenix-h1": "-q test.q",
+            "phoenix-h2": "-q clin2.q"
+        }
+    },
+    "LSF" : {
+        "PE" : "",
+        "ARGS_HOST" : {}
+    }
+}

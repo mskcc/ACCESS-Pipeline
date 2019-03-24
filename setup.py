@@ -1,7 +1,46 @@
 import os
+import sys
 from setuptools import setup, Command
+from setuptools.command.install import install
 
 import version
+
+while True and len(sys.argv) >= 2 and sys.argv[1] == "install":
+    try:
+        prefix = sys.prefix
+        user_input = raw_input("Current python environment is: {}\n"
+            "Proceed with setup install? (y/n) ".format(prefix))
+        if user_input == "n":
+            sys.exit()
+        elif user_input == "y":
+            break
+        else:
+            print "Incorrect input."
+    except (AttributeError, KeyboardInterrupt):
+        # if sys.prefix cannot be determined.
+        raise
+
+
+class install_access(install):
+    """
+    Override the standard install
+    """
+    user_options = [
+        ('keep-setup-files=', None, 'keep setup install output files')
+    ]
+    
+    def initialize_options(self):
+        self.keep_setup_files = False
+
+    def finalize_options(self):
+        if self.keep_setup_files is None:
+            pass
+
+    def run(self):
+        install.run(self)
+    
+    if True:
+        os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
 
 
 class CleanCommand(Command):
@@ -23,14 +62,15 @@ version_number = version.expand_()
 with open('python_tools/version.py', 'wb') as f:
     f.write(version_number)
 
-# Todo: need to come up with a better way to retain version info
-with open('python_tools/version.py', 'wb') as f:
-    f.write(version_number)
+    # Todo: need to come up with a better way to retain version info
+    with open('python_tools/version.py', 'wb') as f:
+        f.write(version_number)
 
-# Write current path as path to project root
-# (used to include references to the static resource files in inputs.yaml)
-with open('python_tools/root.py', 'wb') as f:
-    f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
+    # Write current path as path to project root
+    # (used to include references to the static resource files in inputs.yaml)
+    with open('python_tools/root.py', 'wb') as f:
+        f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
+
 
 def req_file(filename):
     """
@@ -49,7 +89,7 @@ setup(
     version=version.most_recent_tag(),
     description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
     url='http://github.com/mskcc/ACCESS-Pipeline',
-    author='Ian Johnson, Maysun Hasan, Juber Patel',
+    author='Ian Johnson, Maysun Hasan, Juber Patel, Gowtham Jayakumaran',
     author_email='johnsoni@mskcc.org',
     license='MIT',
     install_requires=req_file('requirements.txt'),

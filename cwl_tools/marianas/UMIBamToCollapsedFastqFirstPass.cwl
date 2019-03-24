@@ -84,6 +84,11 @@ outputs:
     outputBinding:
       glob: ${return 'first-pass-alt-alleles.txt'}
 
+  first_pass_insertions:
+    type: File
+    outputBinding:
+      glob: ${return 'first-pass-insertions.txt'}
+
   first_pass_output_dir:
     type: Directory
     outputBinding:

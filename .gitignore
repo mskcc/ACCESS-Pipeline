@@ -1,3 +1,4 @@
+.gitignore
 .DS_Store
 .idea
 .coverage
@@ -11,7 +12,7 @@ dist
 resources/bedfiles
 resources/fingerprinting
 
-# Ian's Local resources
+# Local resources
 resources/run_files/local.yaml
 resources/run_tools/local.yaml
 
@@ -20,3 +21,9 @@ python_tools/root.py
 python_tools/version.py
 python_tools/pipeline_kickoff/version.py
 .coverage
+
+# Temporary files
+python_tools/pipeline_kickoff/constants.py
+python_tools/pipeline_kickoff/root.py
+python_tools/pipeline_kickoff/util.py
+resources/run_params/___standard_bams_to_collapsed_qc.yaml___

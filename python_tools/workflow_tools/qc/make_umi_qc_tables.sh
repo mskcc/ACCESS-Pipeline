@@ -14,10 +14,10 @@ ln -s `readlink -e $2` B-positions.txt
 
 
 # make output files
-echo -e 'FamilySize\tFamilyType\tFrequency\tCMO_SAMPLE_ID' > family-sizes.txt
+echo -e 'FamilySize\tFamilyType\tFrequency\tSample' > family-sizes.txt
 #echo -e "Clusters\tSample" > families-per-position.txt
-echo -e 'CMO_SAMPLE_ID\tType\tCount' > family-types-A.txt
-echo -e 'CMO_SAMPLE_ID\tType\tCount' > family-types-B.txt
+echo -e 'Sample\tType\tCount' > family-types-A.txt
+echo -e 'Sample\tType\tCount' > family-types-B.txt
 
 
 # process samples

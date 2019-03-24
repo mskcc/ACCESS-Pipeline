@@ -13,14 +13,14 @@ cp $1/* .
 
 # process *.read-counts files to get on-target vs off-target
 cat *.read-counts > read-counts.txt
-printf "Bam\tCMO_SAMPLE_ID\tTotalReads\tUnmappedReads\tTotalMapped\tUniqueMapped\tDuplicateFraction\tTotalOnTarget\tUniqueOnTarget\tTotalOnTargetFraction\tUniqueOnTargetFraction\n" > t
+printf "Bam\tSample\tTotalReads\tUnmappedReads\tTotalMapped\tUniqueMapped\tDuplicateFraction\tTotalOnTarget\tUniqueOnTarget\tTotalOnTargetFraction\tUniqueOnTargetFraction\n" > t
 # add ID
 awk 'BEGIN{FS=OFS="\t"}{ split($1, a, "_bc"); $1=$1"\t"a[1]; print }' read-counts.txt >> t
 mv t read-counts.txt
 
 
 # process *.fragment-sizes files
-printf "FragmentSize\tTotalFrequency\tUniqueFrequency\tCMO_SAMPLE_ID\n" > t
+printf "FragmentSize\tTotalFrequency\tUniqueFrequency\tSample\n" > t
 for f in `ls *.fragment-sizes`
 do
   sample="${f/.bam.fragment-sizes/}"
@@ -34,7 +34,7 @@ mv t fragment-sizes.txt
 
 
 # process coverage
-printf "CMO_SAMPLE_ID\tTotalCoverage\tUniqueCoverage\n" > waltz-coverage.txt
+printf "Sample\tTotalCoverage\tUniqueCoverage\n" > waltz-coverage.txt
 
 # collect mean coverage from Waltz Metrics output
 for f in `ls *-intervals.txt`
@@ -61,8 +61,8 @@ awk 'BEGIN{FS=OFS="\t"; OFMT = "%.0f"}{getline line < "t1"; print line, $2}' t2 
 rm t1 t2
 
 # collect per sample per interval coverage from LocusPocus Metrics output
-printf "Interval\tCMO_SAMPLE_ID\tTotalCoverage\tGC\n" > t5
-printf "Interval\tCMO_SAMPLE_ID\tUniqueCoverage\tGC\n" > t6
+printf "Interval\tSample\tTotalCoverage\tGC\n" > t5
+printf "Interval\tSample\tUniqueCoverage\tGC\n" > t6
 
 for f in `ls *-intervals.txt`
 do
@@ -75,8 +75,8 @@ done
 
 ######### Normalize coverage within sample and across samples and create R-friendly files
 
-printf "Interval\tGene\tCMO_SAMPLE_ID\tTotalCoverage\n" > t7
-printf "Interval\tGene\tCMO_SAMPLE_ID\tUniqueCoverage\n" > t8
+printf "Interval\tGene\tSample\tTotalCoverage\n" > t7
+printf "Interval\tGene\tSample\tUniqueCoverage\n" > t8
 
 for f in `ls *-intervals.txt`
 do

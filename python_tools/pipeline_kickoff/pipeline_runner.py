@@ -6,7 +6,7 @@ import subprocess
 import ruamel.yaml
 
 from ..version import most_recent_tag
-
+from python_tools.constants import TOIL_BATCHSYSTEM
 
 # This script is used to run workflows from the command line using toil-cwl-runner.
 #
@@ -34,7 +34,7 @@ LOG_FILE_NAME = 'cwltoil.log'
 
 # Defaults for our selection of Toil parameters
 DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_LSF_ARGS TMPDIR',
+    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_GRIDENGINE_ARGS TMPDIR',
     '--defaultDisk'             : '10G',
     '--defaultMem'              : '10G',
     '--no-container'            : '',
@@ -58,7 +58,8 @@ def parse_arguments():
     parser.add_argument(
         '--output_location',
         action='store',
-        help='Path to CMO Project outputs location',
+        dest='output_location',
+        help='Path to Project outputs location',
         required=True
     )
 
@@ -84,6 +85,31 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        '--batch_system_pe',
+        action='store',
+        dest='batch_system_pe',
+        help='batch system parallel environment. e.g. smp for SGE',
+        required=False
+    )
+
+    parser.add_argument(
+        '--batch_system_args',
+        action='store',
+        dest='batch_system_args',
+        help='batch system arguments',
+        required=False
+    )
+
+    parser.add_argument(
+        '--user_Rlibs',
+        action='store_true',
+        dest='user_Rlibs',
+        help='set if environment variable R_LIBS is defined and to be used \
+                in addition to the R site library',
+        required=False
+    )
+
+    parser.add_argument(
         '--restart',
         action='store_true',
         help='include this if we are restarting from an existing output directory',
@@ -95,6 +121,24 @@ def parse_arguments():
         action='store',
         default='INFO',
         help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
+        required=False
+    )
+
+    parser.add_argument(
+        '--project_name',
+        action='store',
+        dest='project_name',
+        default='INFO',
+        help='Name for the processed data directory',
+        required=False
+    )
+
+    parser.add_argument(
+        '--include_version',
+        action='store_true',
+        dest='include_version',
+        default='INFO',
+        help='Include pipeline git version in the project directory name',
         required=False
     )
 
@@ -111,12 +155,16 @@ def get_project_name_and_pipeline_version_id(args):
     """
     with open(args.inputs_file, 'r') as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
+    
+    if args.project_name:
+        project_name = args.project_name
+    else:
+        project_name = inputs_yaml['project_name']
+    if args.include_version:
+        pipeline_version = inputs_yaml['version']
+        project_name = '-'.join([project_name, pipeline_version])
 
-    project_name = inputs_yaml['project_name']
-    pipeline_version = inputs_yaml['version']
-    project_and_version_id = '-'.join([project_name, pipeline_version])
-
-    return project_and_version_id
+    return project_name
 
 
 def create_directories(args):
@@ -164,6 +212,42 @@ def create_directories(args):
     return output_directory, jobstore_path, logdir, tmpdir
 
 
+def set_batch_system_env(args, TOIL_BATCHSYSTEM):
+    """
+    Set environmental variables for batch system
+    """
+    if args.batch_system == "gridEngine":
+        BATCH_SYSTEM_PARAMETERS = TOIL_BATCHSYSTEM["GRIDENGINE"]
+        if args.batch_system_pe:
+            os.environ["TOIL_GRIDENGINE_PE"] = args.batch_system_pe
+        else:
+            os.environ["TOIL_GRIDENGINE_PE"] = BATCH_SYSTEM_PARAMETERS["PE"]
+
+        if args.batch_system_args:
+            os.environ["TOIL_GRIDENGINE_ARGS"] = args.batch_system_args
+        elif BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]:
+            os.environ["TOIL_GRIDENGINE_ARGS"] =\
+                BATCH_SYSTEM_PARAMETERS["ARGS_HOST"][os.environ["HOSTNAME"]]
+        else:
+            pass
+            # Use whatever deault queue avalable
+    else:
+        pass
+        # To-Do set LSF variables
+    return
+
+
+def configure_miscellaneous(args):
+    """
+    configure minor settings and variables
+    """
+
+    # Don't use user Rlibs unless specified
+    if args.user_Rlibs is not True:
+        os.environ['R_LIBS'] = ""
+    return
+
+
 def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     """
     Format and call the command to run CWL Toil
@@ -178,6 +262,13 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
         '--writeLogs', logdir,
         '--logLevel', args.log_level,
     ])
+
+    # Update environment variables if batch system is set
+    #if args.batch_system:
+    #    set_batch_system_env(args, TOIL_BATCHSYSTEM)
+    
+    # miscellaneous settings
+    #configure_miscellaneous(args)
 
     ARG_TEMPLATE = ' {} {} '
 

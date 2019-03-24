@@ -1,7 +1,21 @@
 name: abra__params
 type: record
 fields:
+- name: threads
+  type: int
 - name: kmers
   type: string
 - name: mad
   type: int
+- name: sc
+  type: string
+- name: mmr
+  type: float
+- name: ca
+  type: string
+- name: sga
+  type: string
+- name: index
+  type: boolean
+- name: cons
+  type: boolean

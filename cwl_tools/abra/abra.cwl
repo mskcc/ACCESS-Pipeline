@@ -4,15 +4,13 @@ class: CommandLineTool
 
 arguments:
 - $(inputs.java)
-- -Xmx60g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
 - $(inputs.abra)
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 60000
+    ramMin: 30000
     coresMin: 8
     outdirMax: 90000
 
@@ -29,7 +27,6 @@ requirements:
 inputs:
   java: string
   abra: string
-  tmp_dir: string
 
   input_bams:
     type:
@@ -45,9 +42,9 @@ inputs:
     type: string
 
   working_directory:
-    type: string
+    type: Directory
     inputBinding:
-      prefix: --working
+      prefix: --tmpdir
 
   reference_fasta:
     type: string
@@ -64,15 +61,45 @@ inputs:
     inputBinding:
       prefix: --threads
 
-  kmer:
+  #kmer:
+  #  type: string
+  #  inputBinding:
+  #    prefix: --kmer
+
+  #mad:
+  #  type: int
+  #  inputBinding:
+  #    prefix: --mad
+  
+  sc:
     type: string
     inputBinding:
-      prefix: --kmer
-
-  mad:
-    type: int
+      prefix: --sc
+  
+  mmr:
+    type: float
     inputBinding:
-      prefix: --mad
+      prefix: --mmr
+  
+  ca:
+    type: string
+    inputBinding:
+      prefix: --ca
+  
+  sga:
+    type: string
+    inputBinding:
+      prefix: --sga
+  
+  index:
+    type: boolean
+    inputBinding:
+      prefix: --index
+
+  cons:
+    type: boolean
+    inputBinding:
+      prefix: --cons
 
   out:
     type:
