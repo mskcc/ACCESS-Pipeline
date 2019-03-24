@@ -100,10 +100,12 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             combined_class_genotype_count = float(subset['GenotypeCount'].sum())
             class_noise = combined_class_altcount / (combined_class_altcount + combined_class_genotype_count)
 
+            # Change from fraction to percent
+            class_noise = class_noise * 100.0
             new = pd.DataFrame({'Sample': [sample], 'Class': final_label, 'AltPercent': class_noise})
+
             six_class_noise_by_substitution = six_class_noise_by_substitution.append(new)
 
-    print(six_class_noise_by_substitution)
     sns.set_style("darkgrid", {"axes.facecolor": ".9", 'ytick.left': True, 'ytick.right': False})
     plt.clf()
     plt.figure(figsize=(10, 5))
@@ -139,31 +141,20 @@ def main():
     print('Plotting Noise:')
     print(noise_table)
     print(title_file)
-
-    print('zero')
     print(noise_by_substitution_table)
 
     # Filter to just Total reads noise counts
     noise_table = noise_table[noise_table['Method'] == 'Total']
     noise_by_substitution_table = noise_by_substitution_table[noise_by_substitution_table['Method'] == 'Total']
 
-    print('one')
-    print(noise_by_substitution_table)
-
     # Cleanup sample IDs (in Noise table as well as Title File)
     sample_ids = title_file[SAMPLE_ID_COLUMN].tolist()
     noise_table[SAMPLE_ID_COLUMN] = noise_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
     noise_by_substitution_table[SAMPLE_ID_COLUMN] = noise_by_substitution_table[SAMPLE_ID_COLUMN].apply(extract_sample_name, args=(sample_ids,))
 
-    print('two')
-    print(noise_by_substitution_table)
-
     # Merge noise with title file
     noise_and_title_file = noise_table.merge(title_file, on = SAMPLE_ID_COLUMN)
     noise_by_substitution_table = noise_by_substitution_table.merge(title_file, on = SAMPLE_ID_COLUMN)
-
-    print('three')
-    print(noise_by_substitution_table)
 
     # Filter to Plasma samples
     plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
@@ -174,18 +165,9 @@ def main():
     noise_and_title_file = noise_and_title_file.loc[boolv]
     noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
 
-    print('four')
-    print(noise_by_substitution_table)
-
     # Sort in same order as R code (by sample class)
     noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
     noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
-
-    print('five')
-    print(noise_by_substitution_table)
-
-    print('Noise Table:')
-    print(noise_and_title_file)
 
     noise_alt_percent_plot(noise_and_title_file)
     noise_contributing_sites_plot(noise_and_title_file)
