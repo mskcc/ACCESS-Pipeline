@@ -72,7 +72,6 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         Method: string
     :return:
     """
-    print(noise_by_substitution_table)
     substitution_classes = [
         [['T>A', 'A>T'], 'T/A>A/T'],
         [['A>G', 'T>C'], 'A/T>G/C'],
@@ -103,7 +102,6 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             # Change from fraction to percent
             class_noise = class_noise * 100.0
             new = pd.DataFrame({'Sample': [sample], 'Class': final_label, 'AltPercent': class_noise})
-
             six_class_noise_by_substitution = six_class_noise_by_substitution.append(new)
 
     sns.set_style("darkgrid", {"axes.facecolor": ".9", 'ytick.left': True, 'ytick.right': False})
