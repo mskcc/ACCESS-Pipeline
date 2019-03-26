@@ -82,6 +82,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
     ]
     all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
 
+    # Loop through samples and combine substitutions into 6 classes
     six_class_noise_by_substitution = pd.DataFrame(columns=['Sample', 'Class', 'AltPercent'])
     for sample in all_samples:
         for class_pair in substitution_classes:
@@ -91,8 +92,6 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             substitution_class_boolv = noise_by_substitution_table['Substitution'].isin(original_classes)
             sample_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN] == sample
             subset = noise_by_substitution_table[substitution_class_boolv & sample_boolv]
-
-            # Todo: should be (alt / (alt + geno)) or (alt / geno)?
             combined_class_altcount = float(subset['AltCount'].sum())
             combined_class_genotype_count = float(subset['GenotypeCount'].sum())
             class_noise = combined_class_altcount / (combined_class_altcount + combined_class_genotype_count)
@@ -105,6 +104,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
     sns.set_style('darkgrid', {'axes.facecolor': '.9'})
     plt.clf()
     plt.figure(figsize=(10, 5))
+
     g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=4, sharey=True)\
         .set_titles('{col_name}')
     g = g.map(plt.bar, 'Class', 'AltPercent')
@@ -158,9 +158,9 @@ def main():
     plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
     plasma_noise_by_substitution = noise_by_substitution_table[noise_by_substitution_table[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
 
-    boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+    noise_boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+    noise_and_title_file = noise_and_title_file.loc[noise_boolv]
     noise_by_substitution_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN].isin(plasma_noise_by_substitution)
-    noise_and_title_file = noise_and_title_file.loc[boolv]
     noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
 
     # Sort in same order as R code (by sample class)

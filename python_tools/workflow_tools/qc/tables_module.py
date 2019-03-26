@@ -220,12 +220,12 @@ def get_coverage_per_interval(tbl):
     Creates table of collapsed coverage per interval
     """
     # Coverage per interval Graph comes from unfiltered Bam, Pool A Targets
-    total_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
+    unfiltered_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
 
     # Filter out MSI & Fingerprinting intervals
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
     relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
-    final_tbl = tbl[total_boolv & exon_boolv][relevant_coverage_columns]
+    final_tbl = tbl[unfiltered_boolv & exon_boolv][relevant_coverage_columns]
 
     # Add on new gene and probe columns
     gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
@@ -240,23 +240,10 @@ def get_coverage_per_interval(tbl):
 
 def get_coverage_per_interval_exon_level(tbl):
     """
-    Creates table of collapsed coverage per interval
+    Exon-Level Coverage per Interval Graph comes from Duplex Bam, Pool A Targets
     """
-    # Coverage per interval Graph comes from unfiltered Bam, Pool A Targets
     total_boolv = (tbl['method'] == DUPLEX_COLLAPSING_METHOD)
-
-    relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
-    final_tbl = tbl[total_boolv][relevant_coverage_columns]
-
-    # Todo: Remove: or, combine with get_coverage_per_interval()
-    # Add on new gene and probe columns
-    # gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
-    # gene_probe_df = pd.DataFrame(gene_probe, columns=['Gene', 'Probe'])
-    # # Todo: most likely, the reset_index() calls are unnecessary
-    # final_tbl = final_tbl.reset_index()
-    # final_tbl = pd.concat([final_tbl, gene_probe_df], axis=1)
-    # final_tbl = final_tbl.reset_index()
-
+    final_tbl = tbl[total_boolv]
     return final_tbl
 
 

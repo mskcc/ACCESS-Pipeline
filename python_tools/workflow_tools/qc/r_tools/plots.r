@@ -169,9 +169,9 @@ plot_cov_dist_per_interval_line_exon_level = function(data) {
   
   g = ggplot(data) +
     geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +
-    ggtitle('Distribution of Coverages per Target Interval (from All Unique Reads, Pool A, Exon-Level)') +
+    ggtitle('Distribution of Coverages per Target Exon (from Duplex Reads, Pool A)') +
     scale_y_continuous('Frequency', label=format_comma) +
-    scale_x_continuous('Coverage (median scaled)') + 
+    scale_x_continuous('Coverage') + 
     coord_cartesian(xlim=c(0, 2)) +
     theme(legend.position = c(.75, .5)) +
     MAIN_PLOT_THEME
