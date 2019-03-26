@@ -77,8 +77,8 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         [['A>G', 'T>C'], 'A>G/T>C'],
         [['G>A', 'C>T'], 'G>A/C>T'],
         [['C>G', 'G>C'], 'C>G/G>C'],
-        [['T>G', 'A>C'], 'T>A/G>C'],
-        [['G>T', 'C>A'], 'G>C/T>A']
+        [['T>G', 'A>C'], 'T>G/A>C'],
+        [['G>T', 'C>A'], 'G>T/C>A']
     ]
     all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
 

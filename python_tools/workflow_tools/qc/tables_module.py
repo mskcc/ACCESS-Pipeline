@@ -312,56 +312,31 @@ def create_combined_qc_tables(args):
     pool_a_read_counts = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     pool_a_coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     gc_cov_int_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_pool_a)
-
     pool_b_read_counts = get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_table = pd.concat([pool_b_read_counts, pool_a_read_counts])
     pool_b_coverage_table = get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     coverage_table = pd.concat([pool_b_coverage_table, pool_a_coverage_table])
 
-
     ##############
     # Pool-Level #
     # A Targets  #
     ##############
-
-    # Unfiltered
-    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
-
-    # Simplex
-    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
-
-    # Duplex
-    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
+    unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
+    simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, unfilt[2], simplex[2], duplex[2]])
 
     ##############
     # Pool-Level #
     # B Targets  #
     ##############
-
-    # Unfiltered
-    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
-    # Simplex
-    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
-    # Duplex
-    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
+    unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
+    simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
 
     # Use base tables to create additional tables
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
@@ -371,13 +346,11 @@ def create_combined_qc_tables(args):
     # Exon-Level #
     # A Targets  #
     ##############
-
     gc_cov_int_table_exon_level = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_metrics_pool_a_exon_level)
 
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_metrics_pool_a_exon_level, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_metrics_pool_a_exon_level, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_metrics_pool_a_exon_level, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-
     read_counts_table_exon_level = pd.concat([unfilt[0], simplex[0], duplex[0]])
     coverage_table_exon_level = pd.concat([unfilt[1], simplex[1], duplex[1]])
     gc_cov_int_table_exon_level = pd.concat([gc_cov_int_table_exon_level, unfilt[2], simplex[2], duplex[2]])
@@ -386,14 +359,15 @@ def create_combined_qc_tables(args):
     gc_avg_table_each_exon_level = get_gc_table_average_for_each_sample(gc_cov_int_table_exon_level)
     coverage_per_interval_table_exon_level = get_coverage_per_interval_exon_level(gc_cov_int_table_exon_level)
 
-    # Write all tables
+    ####################
+    # Write all tables #
+    ###################3
     read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
     read_counts_total_table.to_csv(read_counts_total_filename, sep='\t', index=False)
     coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
     gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
     gc_avg_table_each.to_csv(gc_avg_each_sample_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
-
     read_counts_table_exon_level.to_csv(read_counts_table_exon_level_filename, sep='\t', index=False)
     coverage_table_exon_level.to_csv(coverage_table_exon_level_filename, sep='\t', index=False)
     gc_cov_int_table_exon_level.to_csv(gc_cov_int_table_exon_level_filename, sep='\t', index=False)
