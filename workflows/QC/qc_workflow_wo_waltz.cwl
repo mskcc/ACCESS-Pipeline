@@ -127,7 +127,7 @@ steps:
     in:
       waltz_input_files: waltz_standard_a_exon_level_files
       output_dir_name:
-        valueFrom: $('waltz_standard_a_exon_level')
+        valueFrom: $('waltz_standard_a_exon_level_files')
     out: [output_dir]
 
   unfiltered_aggregate_bam_metrics_pool_a_exon_level:
@@ -135,7 +135,7 @@ steps:
     in:
       waltz_input_files: waltz_unfiltered_a_exon_level_files
       output_dir_name:
-        valueFrom: $('waltz_unfiltered_a_exon_level')
+        valueFrom: $('waltz_unfiltered_a_exon_level_files')
     out: [output_dir]
 
   simplex_aggregate_bam_metrics_pool_a_exon_level:
@@ -143,7 +143,7 @@ steps:
     in:
       waltz_input_files: waltz_simplex_a_exon_level_files
       output_dir_name:
-        valueFrom: $('waltz_simplex_a_exon_level')
+        valueFrom: $('waltz_simplex_a_exon_level_files')
     out: [output_dir]
 
   duplex_aggregate_bam_metrics_pool_a_exon_level:
@@ -151,7 +151,7 @@ steps:
     in:
       waltz_input_files: waltz_duplex_a_exon_level_files
       output_dir_name:
-        valueFrom: $('waltz_duplex_a_exon_level')
+        valueFrom: $('waltz_duplex_a_exon_level_files')
     out: [output_dir]
 
 
