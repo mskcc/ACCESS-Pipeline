@@ -52,6 +52,27 @@ inputs:
     inputBinding:
       prefix: --duplex_waltz_pool_b
 
+
+  standard_waltz_metrics_pool_a_exon_level:
+    type: Directory
+    inputBinding:
+      prefix: --standard_waltz_metrics_pool_a_exon_level
+
+  unfiltered_waltz_metrics_pool_a_exon_level:
+    type: Directory
+    inputBinding:
+      prefix: --unfiltered_waltz_metrics_pool_a_exon_level
+
+  simplex_waltz_metrics_pool_a_exon_level:
+    type: Directory
+    inputBinding:
+      prefix: --simplex_waltz_metrics_pool_a_exon_level
+
+  duplex_waltz_metrics_pool_a_exon_level:
+    type: Directory
+    inputBinding:
+      prefix: --duplex_waltz_metrics_pool_a_exon_level
+
 outputs:
 
   tables:

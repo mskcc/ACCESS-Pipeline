@@ -73,18 +73,16 @@ def noise_by_substitution_plot(noise_by_substitution_table):
     :return:
     """
     substitution_classes = [
-        [['T>A', 'A>T'], 'T/A>A/T'],
-        [['A>G', 'T>C'], 'A/T>G/C'],
-        [['G>A', 'C>T'], 'G/C>A/T'],
-        [['C>G', 'G>C'], 'C/G>G/C'],
-        [['T>G', 'A>C'], 'T/A>G/C'],
-        [['G>T', 'C>A'], 'G/C>T/A']
+        [['T>A', 'A>T'], 'T>A/A>T'],
+        [['A>G', 'T>C'], 'A>G/T>C'],
+        [['G>A', 'C>T'], 'G>A/C>T'],
+        [['C>G', 'G>C'], 'C>G/G>C'],
+        [['T>G', 'A>C'], 'T>A/G>C'],
+        [['G>T', 'C>A'], 'G>C/T>A']
     ]
     all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
 
     six_class_noise_by_substitution = pd.DataFrame(columns=['Sample', 'Class', 'AltPercent'])
-    # Todo: Iteratively appending rows to a DataFrame can be more computationally intensive than a single concatenate.
-    # A better solution is to append those rows to a list and then concatenate the list with the original DataFrame all at once.
     for sample in all_samples:
         for class_pair in substitution_classes:
             original_classes = class_pair[0]
@@ -104,19 +102,21 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             new = pd.DataFrame({'Sample': [sample], 'Class': final_label, 'AltPercent': class_noise})
             six_class_noise_by_substitution = six_class_noise_by_substitution.append(new)
 
-    sns.set_style("darkgrid", {"axes.facecolor": ".9", 'ytick.left': True, 'ytick.right': False})
+    sns.set_style('darkgrid', {'axes.facecolor': '.9'})
     plt.clf()
     plt.figure(figsize=(10, 5))
-    g = sns.FacetGrid(six_class_noise_by_substitution, col='Class', col_wrap=3, sharey=True)
-    g = g.map(plt.bar, 'Sample', 'AltPercent')
+    g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=4, sharey=True)\
+        .set_titles('{col_name}')
+    g = g.map(plt.bar, 'Class', 'AltPercent')
 
+    # Remove annoying "Sample =" and "Class =" labels
+    g.set_titles(row_template='{row_name}', col_template='{col_name}')
     for ax in g.axes.flat:
-        ax.yaxis.set_label_position('left')
-        plt.setp(ax.xaxis.get_majorticklabels(), ha='left')
-        ax.yaxis.tick_left()
+        ax.set_xlabel('')
 
-    g.set_xticklabels(rotation=90)
-    g.fig.subplots_adjust(wspace=.1, hspace=.15)
+    g.set_xticklabels(rotation = 45, ha = 'right')
+    g.fig.subplots_adjust(top = 0.9, wspace = .1, hspace = .4)
+    g.fig.suptitle('Noise by Substitution Class')
     plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
     return six_class_noise_by_substitution
 
