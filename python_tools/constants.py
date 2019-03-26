@@ -241,18 +241,28 @@ GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_b
 # Output file names
 read_counts_filename = 'read-counts-agg.txt'
 coverage_agg_filename = 'coverage-agg.txt'
-each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
+gc_avg_each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
 gc_bias_with_coverage_filename = 'GC-bias-with-coverage.txt'
 read_counts_total_filename = 'read-counts-total.txt'
 coverage_per_interval_filename = 'coverage-per-interval.txt'
+read_counts_table_exon_level_filename = 'read-counts-agg_exon_level.txt'
+coverage_table_exon_level_filename = 'coverage-agg_exon_level.txt'
+gc_cov_int_table_exon_level_filename = 'GC-bias-with-coverage_exon_level.txt'
+gc_avg_each_sample_coverage_exon_level_filename = 'GC-bias-with-coverage-averages-over-each-sample_exon_level.txt'
+coverage_per_interval_table_exon_level_filename = 'coverage-per-interval_exon_level.txt'
 
 ALL_TABLES_MODULE_OUTPUT_FILES = [
     read_counts_filename,
     coverage_agg_filename,
-    each_sample_coverage_filename,
+    gc_avg_each_sample_coverage_filename,
     gc_bias_with_coverage_filename,
     read_counts_total_filename,
     coverage_per_interval_filename,
+    read_counts_table_exon_level_filename,
+    coverage_table_exon_level_filename,
+    gc_cov_int_table_exon_level_filename,
+    gc_avg_each_sample_coverage_exon_level_filename,
+    coverage_per_interval_table_exon_level_filename
 ]
 
 

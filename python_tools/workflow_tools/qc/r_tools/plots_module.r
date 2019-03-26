@@ -130,8 +130,9 @@ read_tables = function(inDirTables, family_types_A_path, family_types_B_path, fa
   family_types_A = read.table(family_types_A_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
   family_types_B = read.table(family_types_B_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
   families = read.table(family_sizes_path, sep = '\t', header = TRUE, colClasses = c('numeric', 'character', 'numeric', 'character'))
+  coverage_per_interval_exon_level = read.table(paste(inDirTables, 'coverage-per-interval_exon_level.txt', sep='/'), sep='\t', head=TRUE)
   
-  list(read_counts_data, cov_per_interval, insert_sizes, mean_cov_data, gc_each_sample, family_types_A, family_types_B, families)
+  list(read_counts_data, cov_per_interval, insert_sizes, mean_cov_data, gc_each_sample, family_types_A, family_types_B, families, coverage_per_interval_exon_level)
 }
 
 
@@ -201,6 +202,7 @@ main = function() {
   family_types_A = df_list[[6]]
   family_types_B = df_list[[7]]
   families = df_list[[8]]
+  coverage_per_interval_exon_level = df_list[[9]]
   
   # Print PDFs
   print_title(title_df, mean_cov_data, inputs_yaml)
@@ -209,6 +211,7 @@ main = function() {
   plot_on_bait(read_counts_data)
   plot_insert_size_distribution(insert_sizes)
   plot_cov_dist_per_interval_line(cov_per_interval)
+  plot_cov_dist_per_interval_line_exon_level(coverage_per_interval_exon_level)
   plot_gc_with_cov_each_sample(gc_each_sample)
   
   plot_mean_cov_and_family_types(mean_cov_data, family_types_A, 'A Targets', 'a_targets')

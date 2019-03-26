@@ -79,6 +79,11 @@ outputs:
     outputBinding:
       glob: 'coverage_per_interval.pdf'
 
+  coverage_per_interval_exon_level:
+    type: File
+    outputBinding:
+      glob: 'coverage_per_interval_exon_level.pdf'
+
   cov_and_family_type_A:
     type: File
     outputBinding:
