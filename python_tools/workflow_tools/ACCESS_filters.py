@@ -172,10 +172,10 @@ def parse_arguments():
     parser.add_argument("--tier_one_alt_min", default=3, type=int, help="The Minimum Alt Depth required in hotspots")
     parser.add_argument("--tier_two_alt_min", default=5, type=int, help="The Minimum Alt Depth required in non-hotspots")
     
-    #Occurance in curated  n_fillout_sample_detect_min)
+    #Occurrence in curated  n_fillout_sample_detect_min)
     parser.add_argument("--min_n_curated_samples_alt_detected", default=2, type=int, help="The Minimum number of curated samples variant is detected to be flagged")
     
-    #Occurance in curated  n_fillout_sample_detect_min)
+    #Occurence in curated  n_fillout_sample_detect_min)
     parser.add_argument("--tn_ratio_thres", default=5, type=int, help="Tumor-Normal variant fraction ratio threshold")
     
     args = parser.parse_args()
@@ -202,12 +202,12 @@ def apply_filter_maf (df_pre_filter, args):
         return status
         # ASK MIKE: add truncated mutaions to below threshold 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del'
         
-    def occurence_in_curated (mut, status, args):
+    def occurrence_in_curated (mut, status, args):
         if mut['CURATED_n_fillout_sample_alt_detect'] > args.min_n_curated_samples_alt_detected:
             status = status + 'InCurated;'
         return status
     
-    def occurence_in_normal (mut, status, args):
+    def occurrence_in_normal (mut, status, args):
         #if normal and tumor coverage is greater than the minimal
         if mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min:
             if mut['CURATED_median_VAF'] != 0:
@@ -242,8 +242,8 @@ def apply_filter_maf (df_pre_filter, args):
         status = ''
         status = tag_germline(mut, status, args)
         status = tag_below_alt_threshold(mut, status, args)
-        status = occurence_in_curated(mut, status, args)
-        status = occurence_in_normal(mut, status, args)
+        status = occurrence_in_curated(mut, status, args)
+        status = occurrence_in_normal(mut, status, args)
         #status = non_exonic(mut, status)
         df_post_filter.loc[i, 'Status'] = status
 
