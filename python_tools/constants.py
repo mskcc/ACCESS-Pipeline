@@ -249,7 +249,7 @@ read_counts_table_exon_level_filename = 'read-counts-agg_exon_level.txt'
 coverage_table_exon_level_filename = 'coverage-agg_exon_level.txt'
 gc_cov_int_table_exon_level_filename = 'GC-bias-with-coverage_exon_level.txt'
 gc_avg_each_sample_coverage_exon_level_filename = 'GC-bias-with-coverage-averages-over-each-sample_exon_level.txt'
-coverage_per_interval_table_exon_level_filename = 'coverage-per-interval_exon_level.txt'
+average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
 
 ALL_TABLES_MODULE_OUTPUT_FILES = [
     read_counts_filename,
@@ -262,7 +262,7 @@ ALL_TABLES_MODULE_OUTPUT_FILES = [
     coverage_table_exon_level_filename,
     gc_cov_int_table_exon_level_filename,
     gc_avg_each_sample_coverage_exon_level_filename,
-    coverage_per_interval_table_exon_level_filename
+    average_coverage_across_exon_targets_filename
 ]
 
 

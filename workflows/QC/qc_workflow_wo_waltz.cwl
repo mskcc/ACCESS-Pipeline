@@ -309,7 +309,7 @@ steps:
       family_sizes_simplex,
       family_sizes_duplex,
       pipeline_inputs,
-      coverage_per_interval_exon_level]
+      average_coverage_exon_level_A]
 
   ####################################################
   # Combine FP, Noise, & Std qc result PDFs into one #
@@ -326,7 +326,7 @@ steps:
       gc_cov_each_sample: main_plots_module/gc_cov_each_sample
       insert_sizes: main_plots_module/insert_sizes
       coverage_per_interval: main_plots_module/coverage_per_interval
-      coverage_per_interval_exon_level: main_plots_module/coverage_per_interval_exon_level
+      average_coverage_exon_level_A: main_plots_module/average_coverage_exon_level_A
       cov_and_family_type_A: main_plots_module/cov_and_family_type_A
       cov_and_family_type_B: main_plots_module/cov_and_family_type_B
       family_sizes_all: main_plots_module/family_sizes_all
