@@ -46,12 +46,12 @@ inputs:
     inputBinding:
       position: 7
 
-  coverage_per_interval_exon_level:
+  cov_and_family_type_A:
     type: File
     inputBinding:
       position: 8
 
-  cov_and_family_type_A:
+  average_coverage_exon_level_A:
     type: File
     inputBinding:
       position: 9
@@ -89,7 +89,7 @@ inputs:
   noise_contributing_sites:
     type: File
     inputBinding:
-      position: 16
+      position: 15
 
   fingerprinting_qc:
     type: File

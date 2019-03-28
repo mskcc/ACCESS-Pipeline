@@ -344,7 +344,7 @@ def create_combined_qc_tables(args):
 
     # Use base tables to create additional tables
     gc_avg_table_each_exon_level = get_gc_table_average_for_each_sample(gc_cov_int_table_exon_level)
-    coverage_per_interval_table_exon_level = get_coverage_per_interval_exon_level(gc_cov_int_table_exon_level)
+    # coverage_per_interval_table_exon_level = get_coverage_per_interval_exon_level(gc_cov_int_table_exon_level)
 
     ####################
     # Write all tables #
@@ -359,13 +359,15 @@ def create_combined_qc_tables(args):
     coverage_table_exon_level.to_csv(coverage_table_exon_level_filename, sep='\t', index=False)
     gc_cov_int_table_exon_level.to_csv(gc_cov_int_table_exon_level_filename, sep='\t', index=False)
     gc_avg_table_each_exon_level.to_csv(gc_avg_each_sample_coverage_exon_level_filename, sep='\t', index=False)
-    coverage_per_interval_table_exon_level.to_csv(coverage_per_interval_table_exon_level_filename, sep='\t', index=False)
 
     # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
+    # Also need waltz-coverage.txt from Duplex A
     # todo: not clean
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
-    shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', frag_sizes_path.split('/')[-1]))
+    shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', 'fragment-sizes.txt'))
+    average_coverage_across_exon_targets_path = os.path.join(args.duplex_waltz_pool_a, 'waltz-coverage.txt')
+    shutil.copyfile(average_coverage_across_exon_targets_path, '%s/%s' % ('.', 'average_coverage_across_exon_targets_duplex_A.txt'))
 
 
 class FullPaths(argparse.Action):

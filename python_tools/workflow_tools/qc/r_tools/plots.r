@@ -146,7 +146,7 @@ plot_cov_dist_per_interval_line = function(data) {
   
   g = ggplot(data) +
     geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +
-    ggtitle('Distribution of Coverages per Target Interval (from All Unique Reads, Pool A, Probe-Level)') +
+    ggtitle('Distribution of Coverages per Probe Interval (from all unique reads, A Targets)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
     coord_cartesian(xlim=c(0, 2)) +
@@ -157,28 +157,38 @@ plot_cov_dist_per_interval_line = function(data) {
 }
 
 
-#' Distribution of coverage across targets (total and unique)
-#' Function to plot histogram of coverage per target interval distribution
-#' Coverage values are scaled by the mean of the distribution
-#' Todo: Make shared with previous function
-#' @param data data.frame with Sample ID, and coverage columns (one entry for each interval)
-plot_cov_dist_per_interval_line_exon_level = function(data) {
-  data = data %>%
-    group_by_(SAMPLE_ID_COLUMN) %>%
-    mutate(coverage_scaled = coverage / median(coverage))
+#' Average coverage for Exon-level Targets (as opposed to baits)
+#' @param data data.frame with Sample ID and average_coverage columns.
+#' For ACCESS, this will be plotted from duplex reads from Pool A
+plot_average_target_coverage = function(data) {
+  pdf(file = 'average_coverage_duplex_A_exon.pdf', width=11, height=8, onefile=TRUE)
   
-  g = ggplot(data) +
-    geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +
-    ggtitle('Distribution of Coverages per Target Exon (from Duplex Reads, Pool A)') +
-    scale_y_continuous('Frequency', label=format_comma) +
-    scale_x_continuous('Coverage') + 
-    coord_cartesian(xlim=c(0, 2)) +
-    theme(legend.position = c(.75, .5)) +
+  avg_cov_df = data %>% 
+    group_by_(TITLE_FILE__SAMPLE_CLASS_COLUMN) %>%
+    summarise_at(vars(TotalCoverage), funs(mean(., na.rm=TRUE)))
+  
+  # Round to one decimal place
+  avg_cov_df$TotalCoverage = round(avg_cov_df$TotalCoverage, 1)
+  
+  g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'TotalCoverage')) +
+    geom_bar(stat='identity') +
+    ggtitle('Average Coverage across Target Exons (from duplex reads, A Targets)') +
+    scale_y_continuous('Count', label=format_comma) +
+    guides(fill = guide_legend(reverse = TRUE)) +
+    scale_fill_manual(values=c('#D14124')) +
     MAIN_PLOT_THEME
   
-  ggsave(g, file='coverage_per_interval_exon_level.pdf', width=11, height=8.5)
+  # Print table and plot
+  table_theme = ttheme_default(base_size=12)
+  avg_cov_tbl = tableGrob(avg_cov_df, theme=table_theme, rows = NULL)
+  
+  layout(matrix(c(1,2,2,2), nrow=4, ncol=2, byrow=TRUE))
+  par(mfrow=c(2, 1))
+  grob_list = list(avg_cov_tbl, g)
+  grid.arrange(grobs = grob_list, nrow=2, as.table=FALSE, heights=c(1, 3))
+  
+  dev.off()
 }
-
 
 
 #' Plot three things:
@@ -251,7 +261,8 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
   #******* FAMILY TYPES PLOT ********#
   # family_types_data$Count = as.numeric(family_types_data$Count)
   
-  family_types_data[is.na(family_types_data)] <- 0
+  # family_types_data[is.na(family_types_data)] <- 0
+  
   family_types_data$Type = factor(
     family_types_data$Type, 
     levels=c('Duplex', 'Simplex', 'Sub-Simplex', 'Singletons')
@@ -265,7 +276,7 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
     mutate(CountPercent = Count / sum(Count)) %>%
     ungroup()
   
-  family_types_data[is.na(family_types_data)] <- 0
+  # family_types_data[is.na(family_types_data)] <- 0
   
   # Sort again by class after groupBy
   family_types_data[[SAMPLE_ID_COLUMN]] = factor(
@@ -277,10 +288,11 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
     geom_bar(position = position_fill(reverse = TRUE), stat = 'identity', aes(fill = Type)) +
     scale_y_continuous('UMI Family Proportion', labels = percent_format()) +
     scale_fill_manual(values=c('#D14124', '#0076A8', '#4492C6', '#B3B3A1')) +
+    guides(fill = guide_legend(reverse = TRUE)) +
     MAIN_PLOT_THEME
   
   #******* PRINT GROBS *********#
-  table_theme = ttheme_default(base_size=12) 
+  table_theme = ttheme_default(base_size=12)
   avg_cov_tbl = tableGrob(avg_cov_df, theme=table_theme, rows = NULL)
   
   print(avg_cov_tbl)
@@ -307,11 +319,11 @@ plot_family_curves <- function(data) {
   
   g = ggplot(
     filter(data, FamilyType=='All'),
-    aes_string('FamilySize', 'Frequency', color = SAMPLE_ID_COLUMN)) + 
-    geom_point(size=.5) + 
-    geom_line() + 
+    aes_string('FamilySize', 'Frequency', color = SAMPLE_ID_COLUMN)) +
+    geom_point(size=.5) +
+    geom_line() +
     ggtitle('All Unique Family Sizes') +
-    xlab('Family Size') + 
+    xlab('Family Size') +
     scale_y_continuous('Frequency', label = format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
     MAIN_PLOT_THEME
