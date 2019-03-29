@@ -39,6 +39,11 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
             k: os.path.abspath(v) if (type(v) == str) and ('/test' in v) else v for k, v in self.matched_testing_parameters.items()
         }
 
+        # New copies of the arguments dict for different tests
+        self.unmatched_testing_parameters = dict(self.matched_testing_parameters)
+        self.unmatched_testing_parameters['matched_mode'] = ''
+        self.unmatched_testing_parameters['pairing_file_path'] = ''
+
         self.missing_tumor_testing_parameters = dict(self.matched_testing_parameters)
         self.missing_tumor_testing_parameters['pairing_file_path']  = self.test_path + '/test_data/test_pairing_missing_tumor.tsv'
 
@@ -56,6 +61,9 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
             'genotyping_bams',
             'genotyping_bams_ids',
         ]
+
+        self.unmatched_testing_parameters_with_pairing_file = dict(self.matched_testing_parameters)
+        self.unmatched_testing_parameters_with_pairing_file['matched_mode'] = ''
 
         # Set up test outputs directory
         os.mkdir('./test_output')
@@ -93,7 +101,7 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
     def test_unmatched_mode(self):
         """
-        e2e test for unmatched mode
+        Test for unmatched mode
 
         :return:
         """
@@ -152,6 +160,27 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
 
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
+
+
+    def test_unmatched_mode_with_pairing_file(self):
+        """
+        Test for unmatched mode with pairing file. i.e. with "-p" param, but without "-m".
+
+        Variant calling with default normal, but genotyping in matched normal.
+
+        :return:
+        """
+        self.unmatched_testing_parameters_with_pairing_file['output_file_name'] = './test_output/unmatched_mode_with_pairing_file_inputs_result.yaml'
+        mock_args = ArgparseMock(self.unmatched_testing_parameters_with_pairing_file)
+        create_inputs_file(mock_args)
+
+        inputs_file = open(self.unmatched_testing_parameters_with_pairing_file['output_file_name'], 'r').read()
+        inputs_file = ruamel.yaml.round_trip_load(inputs_file)
+
+        expected_result = open('./expected_results/unmatched_mode_with_pairing_file_inputs_result.yaml', 'r').read()
+        expected_result = ruamel.yaml.round_trip_load(expected_result)
         for key in self._fields_to_check:
             assert inputs_file[key] == expected_result[key]
 

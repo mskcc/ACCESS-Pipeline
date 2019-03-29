@@ -160,9 +160,9 @@ project_name: test_project
 
 # ------------------------------------------------------------
 
-version: <function most_recent_tag at 0x108c59de8>
+version: <function most_recent_tag at 0x110a83de8>
 # Pipeline Run Version Information:
-# Version: <function version at 0x105d22500>
-# Short Version: <function short_version at 0x108c59f50>
-# Most Recent Tag: <function most_recent_tag at 0x108c59de8>
-# Dirty? <function dirty at 0x108cb3140>
+# Version: <function version at 0x10db4c500>
+# Short Version: <function short_version at 0x110a83f50>
+# Most Recent Tag: <function most_recent_tag at 0x110a83de8>
+# Dirty? <function dirty at 0x110add140>
