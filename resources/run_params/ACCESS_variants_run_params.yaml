@@ -76,9 +76,9 @@ access_filters_params:
   DS_tumor_detect_alt_thres: 2
   DS_curated_detect_alt_thres: 2
   normal_TD_min: 20
-  normal_vaf_germline_thres: 0.4
+  normal_vaf_germline_thres: 0.3
   tumor_TD_min: 20
-  tumor_vaf_germline_thres: 0.4
+  tumor_vaf_germline_thres: 0
   tier_one_alt_min: 3
   tier_two_alt_min: 5
   min_n_curated_samples_alt_detected: 2
