@@ -18,25 +18,23 @@ inputs:
   project_name: string
   title_file: File
   inputs_yaml: File
+
+  standard_bams: File[]
+  marianas_unfiltered_bams: File[]
+  marianas_simplex_bams: File[]
+  marianas_duplex_bams: File[]
+  sample_directories: Directory[]
+
+  A_on_target_positions: File
+  B_on_target_positions: File
+  noise__good_positions_A: File
   pool_a_bed_file: File
   pool_b_bed_file: File
   pool_a_bed_file_exonlevel: File
   gene_list: File
   reference_fasta: string
   reference_fasta_fai: string
-
-  # Fingerprinting
   FP_config_file: File
-
-  sample_directories: Directory[]
-  A_on_target_positions: File
-  B_on_target_positions: File
-  noise__good_positions_A: File
-
-  standard_bams: File[]
-  marianas_unfiltered_bams: File[]
-  marianas_simplex_bams: File[]
-  marianas_duplex_bams: File[]
 
 outputs:
 

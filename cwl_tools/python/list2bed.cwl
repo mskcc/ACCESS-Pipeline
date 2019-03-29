@@ -13,16 +13,14 @@ requirements:
 inputs:
 
   input_file:
-    type:
-    - string
-    - File
+    type: [string, File]
     inputBinding:
       prefix: --input_file
 
   sort:
     type: ['null', boolean]
     default: true
-    doc: sort bed file output
+    doc: Whether to sort bed file output
     inputBinding:
       prefix: --sort
 
@@ -37,9 +35,4 @@ outputs:
   output_file:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.output_filename)
-            return inputs.output_filename;
-          return null;
-        }
+      glob: ${return inputs.output_filename}

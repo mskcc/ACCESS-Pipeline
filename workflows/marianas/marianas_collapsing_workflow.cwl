@@ -186,7 +186,4 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      # Todo: this is not used
-      output_suffix:
-        valueFrom: ${return '_MC_'}
     out: [bam, bai]
