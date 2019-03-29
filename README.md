@@ -15,7 +15,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Perl (must exist in PATH)| 5.20.2 |
 | Node (must exist in PATH)| v6.10.1 |
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
-| [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
+| [BWA](https://github.com/lh3/bwa) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | 1.1 | 
 | [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | v0.10.1 |
@@ -25,7 +25,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
 | Picard FixMateInformation | FixMateInformation.jar (1.96) |
 | [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 |
-| [Abra](https://github.com/mozack/abra/) | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
+| [Abra](https://github.com/mozack/abra2) | 2.17 |
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
@@ -211,7 +211,7 @@ This script can be run in the background with `&`, and will make use of worker n
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
 ### 3. Cleanup the output files
-There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
+Note: Do not run this step until the pipeline has completed. The way to ensure that the run has finished is to download and review the QC report PDF, which can be found the the QC_Results folder. Once you've confired that the run is completed, and all files have been copied to the final outputs folder, there is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
 (access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```

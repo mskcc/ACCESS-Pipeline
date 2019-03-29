@@ -45,7 +45,7 @@ inputs:
       position: 4
 
 outputs:
-
+  # Todo: We should be able to use "glob: ." and then skip the group_waltz_files step
   covered_regions:
     type: File
     outputBinding:

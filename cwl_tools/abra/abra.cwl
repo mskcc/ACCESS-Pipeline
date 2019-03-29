@@ -5,7 +5,7 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx60g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
+- -Djava.io.tmpdir=$(inputs.working_directory.path)
 - -jar
 - $(inputs.abra)
 
@@ -29,12 +29,9 @@ requirements:
 inputs:
   java: string
   abra: string
-  tmp_dir: string
 
   input_bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     inputBinding:
       prefix: --in
       itemSeparator: ','
@@ -45,9 +42,9 @@ inputs:
     type: string
 
   working_directory:
-    type: string
+    type: Directory
     inputBinding:
-      prefix: --working
+      prefix: --tmpdir
 
   reference_fasta:
     type: string
@@ -75,9 +72,7 @@ inputs:
       prefix: --mad
 
   out:
-    type:
-      type: array
-      items: string
+    type: string[]
     inputBinding:
       itemSeparator: ','
       prefix: --out

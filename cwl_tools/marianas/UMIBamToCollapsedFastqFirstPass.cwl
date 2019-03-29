@@ -77,12 +77,17 @@ outputs:
   first_pass_output_file:
     type: File
     outputBinding:
-      glob: ${return 'first-pass.txt'}
+      glob: 'first-pass.txt'
 
   alt_allele_file:
     type: File
     outputBinding:
-      glob: ${return 'first-pass-alt-alleles.txt'}
+      glob: 'first-pass-alt-alleles.txt'
+
+  first_pass_insertions:
+    type: File
+    outputBinding:
+      glob: 'first-pass-insertions.txt'
 
   first_pass_output_dir:
     type: Directory
