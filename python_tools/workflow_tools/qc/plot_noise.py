@@ -98,7 +98,11 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
             # Change from fraction to percent
             class_noise = class_noise * 100.0
-            new = pd.DataFrame({'Sample': [sample], 'Class': final_label, 'AltPercent': class_noise})
+            new = pd.DataFrame({
+                'Sample': [sample],
+                'Class': final_label,
+                'AltPercent': class_noise
+            })
             six_class_noise_by_substitution = six_class_noise_by_substitution.append(new)
 
     sns.set_style('darkgrid', {'axes.facecolor': '.9'})
@@ -120,6 +124,9 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
     g.fig.subplots_adjust(top=0.8, wspace=0.1, hspace=0.35)
     g.fig.suptitle('Noise by Substitution Class')
+
+    # Save table and figure
+    six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False, )
     plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
     return six_class_noise_by_substitution
 
