@@ -366,7 +366,7 @@ def create_combined_qc_tables(args):
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
     shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', 'fragment-sizes.txt'))
-    average_coverage_across_exon_targets_path = os.path.join(args.duplex_waltz_pool_a, 'waltz-coverage.txt')
+    average_coverage_across_exon_targets_path = os.path.join(args.duplex_waltz_metrics_pool_a_exon_level, 'waltz-coverage.txt')
     shutil.copyfile(average_coverage_across_exon_targets_path, '%s/%s' % ('.', 'average_coverage_across_exon_targets_duplex_A.txt'))
 
 
