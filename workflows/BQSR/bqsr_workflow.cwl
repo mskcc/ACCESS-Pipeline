@@ -60,7 +60,6 @@ steps:
       tmp_dir: tmp_dir
       bam: bams
       reference_fasta: reference_fasta
-
       rf:
         valueFrom: $(inputs.params.rf)
       nct:
@@ -110,7 +109,6 @@ steps:
     in:
       run_tools: run_tools
       params: print_reads__params
-
       java:
         valueFrom: ${return inputs.run_tools.java_7}
       gatk:

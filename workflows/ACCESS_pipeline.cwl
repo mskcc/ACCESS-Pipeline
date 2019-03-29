@@ -124,17 +124,17 @@ steps:
 - id: standard_bam_generation
   run: ./standard_pipeline.cwl
   in:
+    tmp_dir: tmp_dir
     run_tools: run_tools
     fastq1: fastq1
     fastq2: fastq2
     sample_sheet: sample_sheet
-    tmp_dir: tmp_dir
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
+
     patient_id: patient_id
     adapter: adapter
     adapter2: adapter2
-
     add_rg_LB: add_rg_LB
     add_rg_ID: add_rg_ID
     add_rg_PU: add_rg_PU
