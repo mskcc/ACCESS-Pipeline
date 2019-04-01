@@ -16,16 +16,14 @@ requirements:
       - $import: ../../resources/run_params/schemas/fix_mate_information.yaml
 
 inputs:
+  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     secondaryFiles:
       - ^.bai
 
-  tmp_dir: string
   reference_fasta: string
   patient_id: string
 
@@ -56,15 +54,14 @@ steps:
   find_covered_intervals:
     run: ../../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
+      tmp_dir: tmp_dir
       run_tools: run_tools
       params: find_covered_intervals__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       gatk:
         valueFrom: $(inputs.run_tools.gatk_path)
 
-      tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
       reference_sequence: reference_fasta
@@ -78,11 +75,7 @@ steps:
       read_filters:
         valueFrom: $(inputs.params.rf)
       intervals:
-        valueFrom: |
-          ${
-            return inputs.params.intervals ? inputs.params.intervals : null
-          }
-
+        valueFrom: ${return inputs.params.intervals ? inputs.params.intervals : null}
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
         valueFrom: ${return inputs.patient_id + '.fci.list'}
@@ -93,7 +86,7 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
+        valueFrom: ${return inputs.input_file.basename.replace('.list', '.bed.srt')}
     out: [output_file]
 
   make_abra_tmp_dir:

@@ -273,7 +273,7 @@ def substitute_project_root(yaml_file):
     for key in yaml_file.keys():
         current_key = yaml_file[key]
         # If we are dealing with a File object
-        if 'class' in current_key and current_key['class'] == 'File':
+        if type(current_key) == dict and 'class' in current_key and current_key['class'] == 'File':
             new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
             yaml_file[key]['path'] = new_value
 
@@ -300,17 +300,6 @@ def include_yaml_resources(fh, yaml_resources_path):
         resources = substitute_project_root(resources)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(resources))
-
-
-class ArgparseMock():
-    """
-    Mock class to simply have keys and values that simulate the argparse object for testing purposes
-    """
-    def __init__(self, args):
-
-        for key, value in zip(args.keys(), args.values()):
-
-            setattr(self, key, value)
 
 
 def check_multiple_sample_id_matches(title_file, boolv, sample_object):

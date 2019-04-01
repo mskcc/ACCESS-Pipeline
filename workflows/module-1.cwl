@@ -16,20 +16,18 @@ requirements:
 
 inputs:
   run_tools: ../resources/run_tools/schemas.yaml#run_tools
+  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
+  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
+
+  reference_fasta: string
+  reference_fasta_fai: string
 
   tmp_dir: string
   fastq1: File
   fastq2: File
   adapter: string
   adapter2: string
-
-  reference_fasta: string
-  reference_fasta_fai: string
-
-  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
-  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
-  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
-
   add_rg_LB: int
   add_rg_PL: string
   add_rg_ID: string
@@ -76,7 +74,6 @@ steps:
       fastq2: fastq2
       adapter: adapter
       adapter2: adapter2
-
       length:
         valueFrom: $(inputs.params.length)
       paired:
@@ -89,7 +86,6 @@ steps:
         valueFrom: $(inputs.params.stringency)
       suppress_warn:
         valueFrom: $(inputs.params.suppress_warn)
-
     out: [clfastq1, clfastq2, clstats1, clstats2]
 
   bwa_mem:
@@ -117,7 +113,6 @@ steps:
       tmp_dir: tmp_dir
       run_tools: run_tools
       params: add_or_replace_read_groups__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       arrg:
@@ -143,15 +138,14 @@ steps:
   picard.MarkDuplicates:
     run: ../cwl_tools/picard/MarkDuplicates.cwl
     in:
+      tmp_dir: tmp_dir
       run_tools: run_tools
       params: mark_duplicates__params
-
       java:
         valueFrom: $(inputs.run_tools.java_8)
       picard:
         valueFrom: $(inputs.run_tools.picard_path)
       input_bam: picard.AddOrReplaceReadGroups/bam
-      tmp_dir: tmp_dir
 
       assume_sorted:
         valueFrom: $(inputs.params.assume_sorted)
@@ -163,5 +157,4 @@ steps:
         valueFrom: $(inputs.params.validation_stringency)
       duplicate_scoring_strategy:
         valueFrom: $(inputs.params.duplicate_scoring_strategy)
-
     out: [bam, bai, mdmetrics]

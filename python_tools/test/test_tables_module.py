@@ -24,7 +24,6 @@ class TablesModuleTest(unittest.TestCase):
 
         :return:
         """
-
         self.tables_module_params = {
             'standard_waltz_pool_a':        './test_data/test_waltz_output/waltz_standard_pool_a',
             'unfiltered_waltz_pool_a':      './test_data/test_waltz_output/waltz_unfiltered_pool_a',
@@ -34,6 +33,11 @@ class TablesModuleTest(unittest.TestCase):
             'unfiltered_waltz_pool_b':      './test_data/test_waltz_output/waltz_unfiltered_pool_b',
             'simplex_waltz_pool_b':         './test_data/test_waltz_output/waltz_simplex_pool_b',
             'duplex_waltz_pool_b':          './test_data/test_waltz_output/waltz_duplex_pool_b',
+
+            'standard_waltz_metrics_pool_a_exon_level':        './test_data/test_waltz_output/waltz_standard_pool_a_exon_level',
+            'unfiltered_waltz_metrics_pool_a_exon_level':      './test_data/test_waltz_output/waltz_unfiltered_pool_a_exon_level',
+            'simplex_waltz_metrics_pool_a_exon_level':         './test_data/test_waltz_output/waltz_simplex_pool_a_exon_level',
+            'duplex_waltz_metrics_pool_a_exon_level':          './test_data/test_waltz_output/waltz_duplex_pool_a_exon_level',
         }
 
     def tearDown(self):

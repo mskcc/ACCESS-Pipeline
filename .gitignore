@@ -23,7 +23,6 @@ python_tools/pipeline_kickoff/version.py
 .coverage
 
 # Temporary files
-python_tools/pipeline_kickoff/constants.py
 python_tools/pipeline_kickoff/root.py
-python_tools/pipeline_kickoff/util.py
 resources/run_params/___standard_bams_to_collapsed_qc.yaml___
+test/

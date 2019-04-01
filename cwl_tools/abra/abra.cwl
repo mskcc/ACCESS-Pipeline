@@ -29,9 +29,7 @@ inputs:
   abra: string
 
   input_bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     inputBinding:
       prefix: --in
       itemSeparator: ','
@@ -102,9 +100,7 @@ inputs:
       prefix: --cons
 
   out:
-    type:
-      type: array
-      items: string
+    type: string[]
     inputBinding:
       itemSeparator: ','
       prefix: --out

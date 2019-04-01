@@ -89,15 +89,15 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bam') )
+      glob: $(inputs.input_bam.basename.replace('.bam', '_MD.bam'))
 
   # Todo: unnecessary output
   bai:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '_MD.bai') )
+      glob: $(inputs.input_bam.basename.replace('.bam', '_MD.bai'))
 
   mdmetrics:
     type: File
     outputBinding:
-      glob: $( inputs.input_bam.basename.replace('.bam', '.md_metrics') )
+      glob: $(inputs.input_bam.basename.replace('.bam', '.md_metrics'))

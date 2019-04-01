@@ -51,50 +51,60 @@ inputs:
     inputBinding:
       position: 8
 
-  cov_and_family_type_B:
+  average_coverage_exon_level_A:
     type: File
     inputBinding:
       position: 9
 
-  family_sizes_all:
+  cov_and_family_type_B:
     type: File
     inputBinding:
       position: 10
 
-  family_sizes_simplex:
+  family_sizes_all:
     type: File
     inputBinding:
       position: 11
 
-  family_sizes_duplex:
+  family_sizes_simplex:
     type: File
     inputBinding:
       position: 12
 
-  noise_alt_percent:
+  family_sizes_duplex:
     type: File
     inputBinding:
       position: 13
 
-  noise_contributing_sites:
+  noise_alt_percent:
     type: File
     inputBinding:
       position: 14
 
-  fingerprinting_qc:
+  noise_by_substitution:
     type: File
     inputBinding:
       position: 15
 
+  noise_contributing_sites:
+    type: File
+    inputBinding:
+      position: 15
+
+  fingerprinting_qc:
+    type: File
+    inputBinding:
+      position: 17
+
   gender_check:
     type: File
     inputBinding:
-      position: 16
+      position: 18
 
   pipeline_inputs:
     type: File
     inputBinding:
-      position: 17
+      position: 19
 
 outputs:
 

@@ -436,6 +436,11 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
             matrix[element[0]] = {element[1]: element[2]}
         matrix[element[0]].update({element[1]: element[2]})
 
+    # Just print matrix of 0's when testing
+    discordance_data_frame = pd.DataFrame.from_dict(matrix)
+    if discordance_data_frame.isnull().all().all():
+        discordance_data_frame[:] = 0
+
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
     
