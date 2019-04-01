@@ -47,6 +47,11 @@ TITLE_PAGE_THEME <- gridExtra::ttheme_default(
   rowhead = list(fg_params=list(cex = 0.5))
 )
 
+MSK_ORANGE = '#D14124'
+MSK_BLUE = '#0076A8'
+MSK_LIGHT_BLUE = '#4492C6'
+MSK_GREY = '#B3B3A1'
+
 # Title file columns
 TITLE_FILE__BARCODE_ID_COLUMN = 'BARCODE_ID'
 TITLE_FILE__CAPTURE_NAME_COLUMN = 'CAPTURE_NAME'

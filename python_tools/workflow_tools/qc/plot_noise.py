@@ -70,6 +70,9 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         AltPercent: float
         ContributingSites: int
         Method: string
+
+        The input table will be converted from 12 noise classes, to 6
+        (see `substitution_classes` groupings).
     :return:
     """
     substitution_classes = [
