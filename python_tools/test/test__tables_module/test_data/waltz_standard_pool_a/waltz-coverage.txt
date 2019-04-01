@@ -1,0 +1,6 @@
+CMO_SAMPLE_ID	TotalCoverage	UniqueCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	28677.6	2016.39
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	26371.7	1876.66
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	21315.4	2194.56
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	17335.2	2004.07
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	22822	1741.1

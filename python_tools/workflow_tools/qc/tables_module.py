@@ -231,9 +231,9 @@ def get_coverage_per_interval(tbl):
     gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
     gene_probe_df = pd.DataFrame(gene_probe, columns=['Gene', 'Probe'])
     # Todo: most likely, the reset_index() calls are unnecessary
-    final_tbl = final_tbl.reset_index()
+    final_tbl = final_tbl.reset_index(drop=True)
     final_tbl = pd.concat([final_tbl, gene_probe_df], axis=1)
-    final_tbl = final_tbl.reset_index()
+    final_tbl = final_tbl.reset_index(drop=True)
 
     return final_tbl
 
@@ -311,9 +311,9 @@ def create_combined_qc_tables(args):
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
-    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, unfilt[2], simplex[2], duplex[2]])
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]]).reset_index(drop=True)
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]]).reset_index(drop=True)
+    gc_cov_int_table = pd.concat([gc_cov_int_table, unfilt[2], simplex[2], duplex[2]]).reset_index(drop=True)
 
     ##############
     # Pool-Level #
@@ -322,8 +322,8 @@ def create_combined_qc_tables(args):
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
-    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]]).reset_index(drop=True)
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]]).reset_index(drop=True)
 
     # Use base tables to create additional tables
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
@@ -338,9 +338,9 @@ def create_combined_qc_tables(args):
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_metrics_pool_a_exon_level, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_metrics_pool_a_exon_level, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_metrics_pool_a_exon_level, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table_exon_level = pd.concat([unfilt[0], simplex[0], duplex[0]])
-    coverage_table_exon_level = pd.concat([unfilt[1], simplex[1], duplex[1]])
-    gc_cov_int_table_exon_level = pd.concat([gc_cov_int_table_exon_level, unfilt[2], simplex[2], duplex[2]])
+    read_counts_table_exon_level = pd.concat([unfilt[0], simplex[0], duplex[0]]).reset_index(drop=True)
+    coverage_table_exon_level = pd.concat([unfilt[1], simplex[1], duplex[1]]).reset_index(drop=True)
+    gc_cov_int_table_exon_level = pd.concat([gc_cov_int_table_exon_level, unfilt[2], simplex[2], duplex[2]]).reset_index(drop=True)
 
     # Use base tables to create additional tables
     gc_avg_table_each_exon_level = get_gc_table_average_for_each_sample(gc_cov_int_table_exon_level)
