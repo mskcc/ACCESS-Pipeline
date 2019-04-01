@@ -1,4 +1,4 @@
-tmp_dir: {class: Directory, path: /scratch/johnsoni/}
+tmp_dir: {class: Directory, path: /dmp/analysis/SCRATCH/}
 
 ############
 # Module 3 #
@@ -45,10 +45,10 @@ bcftools_params:
 # Module 4 #
 ############
 
-exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
-hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+exac_filter: {class: File, path: /dmp/hot/jayakumg/data/ACCESS-data/variant_calling/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+hotspots: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/hotspot-list-union-v1-v2.txt}
 ##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
-custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
+custom_enst_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/dmp_ACCESS-panelA-v1-isoform-overrides}
 annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_files/mutect_annotate_concat_header.txt}
 
 # (Also used for Module-6)

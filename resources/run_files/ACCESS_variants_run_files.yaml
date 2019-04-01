@@ -3,10 +3,10 @@
 ##############
 
 # Module 3
-bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
-dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
-cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
-refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
-ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
+dbsnp: {class: File, path: /dmp/data/pubdata/dbSNP/production/dbsnp_137.b37.vcf}
+cosmic: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
+refseq: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/refGene_b37.sorted.txt}
+ref_fasta: {class: File, path: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 # Todo: Move to viral reference genome
 #ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
