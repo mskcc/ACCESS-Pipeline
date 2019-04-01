@@ -348,20 +348,21 @@ def create_combined_qc_tables(args):
 
     ####################
     # Write all tables #
-    ###################3
+    ####################
     read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
     read_counts_total_table.to_csv(read_counts_total_filename, sep='\t', index=False)
     coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
     gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
     gc_avg_table_each.to_csv(gc_avg_each_sample_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
+
     read_counts_table_exon_level.to_csv(read_counts_table_exon_level_filename, sep='\t', index=False)
     coverage_table_exon_level.to_csv(coverage_table_exon_level_filename, sep='\t', index=False)
     gc_cov_int_table_exon_level.to_csv(gc_cov_int_table_exon_level_filename, sep='\t', index=False)
     gc_avg_table_each_exon_level.to_csv(gc_avg_each_sample_coverage_exon_level_filename, sep='\t', index=False)
 
     # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
-    # Also need waltz-coverage.txt from Duplex A
+    # Also need waltz-coverage.txt from Duplex A, exon-level metrics
     # todo: not clean
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')

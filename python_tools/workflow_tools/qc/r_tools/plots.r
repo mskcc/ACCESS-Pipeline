@@ -167,8 +167,12 @@ plot_average_target_coverage = function(data) {
     group_by_(TITLE_FILE__SAMPLE_CLASS_COLUMN) %>%
     summarise_at(vars(TotalCoverage), funs(mean(., na.rm=TRUE)))
   
+  # TotalCoverage column from aggregate bam metrics script is actually duplex in this case
+  avg_cov_df = avg_cov_df %>%
+    rename(DuplexCoverage = TotalCoverage)
+  
   # Round to one decimal place
-  avg_cov_df$TotalCoverage = round(avg_cov_df$TotalCoverage, 1)
+  avg_cov_df$DuplexCoverage = round(avg_cov_df$DuplexCoverage, 1)
   
   g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'TotalCoverage')) +
     geom_bar(stat='identity') +
@@ -203,7 +207,7 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
   
   #******* COVERAGE TABLE ********#
   # Include a table of average coverage values across samples
-  avg_cov_df = coverage_data %>% 
+  avg_cov_df = coverage_data %>%
     group_by_(TITLE_FILE__SAMPLE_CLASS_COLUMN, 'pool', 'method') %>%
     summarise_at(vars(average_coverage), funs(mean(., na.rm=TRUE)))
   
@@ -293,18 +297,14 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
   
   #******* PRINT GROBS *********#
   table_theme = ttheme_default(base_size=12)
-  avg_cov_tbl = tableGrob(avg_cov_df, theme=table_theme, rows = NULL)
+  title_grob = textGrob(pool_name, gp = gpar(fontsize = 16))
+  avg_cov_tbl = tableGrob(avg_cov_df, theme=table_theme, rows=NULL)
   
-  print(avg_cov_tbl)
-  print(full_coverage_df)
-  print(family_types_data, ncol=100)
+  layout(matrix(c(1,2,3,3,3,4,4,4), nrow=8, ncol=2, byrow=TRUE))
+  par(mfrow=c(4, 1))
   
-  layout(matrix(c(1,2,2,2,3,3,3), nrow=7, ncol=2, byrow=TRUE))
-  par(mfrow=c(3, 1))
-  
-  grob_list = list(avg_cov_tbl, avg_coverage_plot, family_types_plot)
-  grid.arrange(grobs = grob_list, nrow=3, as.table=FALSE, heights=c(1, 3, 3))
-  
+  grob_list = list(title_grob, avg_cov_tbl, avg_coverage_plot, family_types_plot)
+  grid.arrange(grobs = grob_list, nrow=4, as.table=FALSE, heights=c(1, 2, 9, 9))
   dev.off()
 }
 
