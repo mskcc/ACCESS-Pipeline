@@ -4,6 +4,7 @@ import sys
 import magic
 import logging
 import subprocess
+from yaml import load as yload
 
 
 # Set up logging
@@ -16,11 +17,23 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 
+# Get tools from configuration
 # Todo: Containerize
-TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
-BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
-SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'
+with open("../resources/run_tools/ACCESS_variants_phoenix.yaml", 'r') as y:
+    tools_config = yload(y)
+
+    try:
+        TABIX_LOCATION, BGZIP_LOCATION, SORTBED_LOCATION, BCFTOOLS_LOCATION_1_6 = \
+            map(lambda x: tools_config['run_tools'][x],
+                ('tabix', 'bgzip', 'sortbed', 'bcftools_1_6'))
+    except KeyError as e:
+        raise Exception(
+            "{} path is not defined in yaml config file.".format(e))
+
+# TABIX_LOCATION = '/dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/tabix'
+# BGZIP_LOCATION = '/dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/bgzip'
+# SORTBED_LOCATION = '/dmp/resources/prod/tools/bio/bedtools/VERSIONS/bedtools-2.27.1/bin/sortBed'
+# BCFTOOLS_LOCATION_1_6 = '/dmp/resources/prod/tools/bio/bcftools/VERSIONS/bcftools-1.3.1/bcftools'
 
 
 def sort_vcf(vcf):
