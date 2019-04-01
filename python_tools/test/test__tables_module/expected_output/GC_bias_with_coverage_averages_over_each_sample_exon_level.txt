@@ -1,0 +1,801 @@
+CMO_SAMPLE_ID	coverage	gc_bin	method
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	0.6855596438543095	0.3	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	0.7669445045153517	0.35	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	0.8441014015849084	0.39999999999999997	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	0.9527558520728275	0.44999999999999996	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	1.061987498407641	0.49999999999999994	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	1.3003437434668776	0.5499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	1.3098234877563484	0.5999999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	1.288213858849875	0.6499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	1.337279719179567	0.7	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	0.9193081563622415	0.7499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	0.7541555771767481	0.3	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	0.8205150278806893	0.35	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	0.8612864509348529	0.39999999999999997	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	0.9409640834213628	0.44999999999999996	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.0247446630284398	0.49999999999999994	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.2561858434368935	0.5499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.2539042674843244	0.5999999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.2781802643337024	0.6499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.398399023304862	0.7	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1.1388396125393547	0.7499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	0.7052062665614073	0.3	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	0.7858050324417218	0.35	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	0.8373925003914461	0.39999999999999997	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	0.9344315016424307	0.44999999999999996	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.0165178935207024	0.49999999999999994	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.3441933344232293	0.5499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.2797266239652683	0.5999999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.2898852255823559	0.6499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.4073708875558675	0.7	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1.1145850527406502	0.7499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	0.6741401330674586	0.3	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	0.7965567460098598	0.35	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	0.8357584102455191	0.39999999999999997	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	0.948106895445994	0.44999999999999996	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	0.9846199807153918	0.49999999999999994	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1.4267834221609366	0.5499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1.2180111959418858	0.5999999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1.2009434631872846	0.6499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1.3064894035631116	0.7	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1.1416293539273832	0.7499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	0.7152689600695947	0.3	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	0.7855039011286652	0.35	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	0.8622388731054489	0.39999999999999997	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	0.9623606622551332	0.44999999999999996	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1.0555513261026344	0.49999999999999994	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1.2464738107956876	0.5499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1.2903616128380946	0.5999999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1.2824321234942413	0.6499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1.348395907279324	0.7	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	0.9872264012264091	0.7499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	TotalCoverage
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	TotalCoverage
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	TotalCoverage
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	TotalCoverage
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	TotalCoverage
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.3	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.35	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.3	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.35	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.3	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.35	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.3	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.35	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.3	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.35	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8148767821601236	0.3	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8872137534684128	0.35	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9278119138501248	0.39999999999999997	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0124050672691027	0.44999999999999996	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0612282057050981	0.49999999999999994	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.138517956514885	0.5499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.1285618754325921	0.5999999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.058276375231271	0.6499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0303158297233335	0.7	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.7492522328837283	0.7499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9023146367831063	0.3	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9434380274687172	0.35	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9492077954410939	0.39999999999999997	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9968339524784381	0.44999999999999996	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.02158297856514	0.49999999999999994	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.095519593296918	0.5499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0744292763539336	0.5999999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.037777090203336	0.6499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0601647046791445	0.7	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8731537816328365	0.7499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.839346649790462	0.3	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9131727482126512	0.35	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9264792017257014	0.39999999999999997	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9926051648144839	0.44999999999999996	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.01593866508237	0.49999999999999994	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.1706329355091718	0.5499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.105672699681401	0.5999999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0540504400818134	0.6499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.073661470433343	0.7	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8724601742480433	0.7499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8005593853832674	0.3	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9290553602492087	0.35	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9289252407231086	0.39999999999999997	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0043504133917456	0.44999999999999996	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9809143630585289	0.49999999999999994	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.231496864309799	0.5499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0553795223372893	0.5999999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9956217161880158	0.6499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0166590384616412	0.7	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.866585230904965	0.7499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.853787869798936	0.3	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9055861768123517	0.35	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.9442761635794009	0.39999999999999997	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0188325426947988	0.44999999999999996	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0495840434036507	0.49999999999999994	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.094154342568021	0.5499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.1106548580463231	0.5999999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.050855529393237	0.6499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1.0388119509204483	0.7	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	0.8023525760535367	0.7499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	All Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	All Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	All Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	All Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	All Unique
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.3	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.35	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.3	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.35	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8290611459902926	0.3	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9091635788081522	0.35	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9490766796376451	0.39999999999999997	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0315654956831004	0.44999999999999996	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0592460615138715	0.49999999999999994	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.1066255811109005	0.5499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0699749994927696	0.5999999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0147069954750993	0.6499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.006321655739946	0.7	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.6913456467815546	0.7499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9156892859357337	0.3	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9621631573819098	0.35	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9686601255038516	0.39999999999999997	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0147801225527437	0.44999999999999996	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0206555865936098	0.49999999999999994	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0676844965660726	0.5499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0148406516795185	0.5999999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0119115498803468	0.6499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.038959180655936	0.7	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.7846670069016832	0.7499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8560720290279493	0.3	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9325760896002658	0.35	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9462190278262148	0.39999999999999997	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.006564299624493	0.44999999999999996	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0152153083543216	0.49999999999999994	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.1431406942877618	0.5499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0487805049229804	0.5999999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.017780273450983	0.6499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0530342789802623	0.7	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8370676678720348	0.7499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8005279526351755	0.3	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9489803582328321	0.35	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9448319249660523	0.39999999999999997	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0213374029718227	0.44999999999999996	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9815305113079816	0.49999999999999994	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.1967191530032177	0.5499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0179184133722017	0.5999999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.97099690338323	0.6499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.999921870391776	0.7	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8345587436345066	0.7499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.8591439394892835	0.3	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9247538343196173	0.35	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.9689529731243587	0.39999999999999997	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0283484867826083	0.44999999999999996	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0530843843327322	0.49999999999999994	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0703016472204245	0.5499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0473046117986147	0.5999999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.0150548362159675	0.6499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	1.022421831035295	0.7	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	0.730143347974376	0.7499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	Simplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	Simplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	Simplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.3	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.35	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.39999999999999997	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.44999999999999996	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.49999999999999994	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.5999999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.6499999999999999	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7	Simplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex		0.7499999999999999	Simplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.3	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.35	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.3	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.35	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.3	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.35	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.39999999999999997	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.44999999999999996	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.49999999999999994	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.5999999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.6499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR		0.7499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.3	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.35	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.39999999999999997	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.44999999999999996	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.49999999999999994	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.5999999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.6499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX		0.7499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.3	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.35	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.39999999999999997	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.44999999999999996	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.49999999999999994	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.5999999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.6499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex		0.7499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.7790870943277016	0.3	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8595098125693532	0.35	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9135842541253819	0.39999999999999997	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9996426119985803	0.44999999999999996	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0679147630538384	0.49999999999999994	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1709553470834508	0.5499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1745092648497841	0.5999999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1020144547111166	0.6499999999999999	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0519073717994982	0.7	Duplex
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.7842775162628962	0.7499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8699118133824357	0.3	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9199495343632462	0.35	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9359307069190704	0.39999999999999997	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9874192069983561	0.44999999999999996	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0260179899721515	0.49999999999999994	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1242928763271964	0.5499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1147975894726678	0.5999999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0716616729913062	0.6499999999999999	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0836699685548734	0.7	Duplex
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.906851189498078	0.7499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.7755012704933361	0.3	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8651713987067704	0.35	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8985658852461553	0.39999999999999997	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9757760433687314	0.44999999999999996	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0243785370460694	0.49999999999999994	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.2312512746994395	0.5499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1757105968510868	0.5999999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.121441315864579	0.6499999999999999	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1423860849494054	0.7	Duplex
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9267804271513852	0.7499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.7355342812209635	0.3	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8677469453385869	0.35	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8908598109691317	0.39999999999999997	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9804072867489299	0.44999999999999996	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9930439609013859	0.49999999999999994	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.3176237787753493	0.5499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1306399560275886	0.5999999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0747971558488074	0.6499999999999999	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0952026536305368	0.7	Duplex
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9501256809546487	0.7499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8171184766663929	0.3	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8787635927453776	0.35	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.9293870675526275	0.39999999999999997	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.009809474961388	0.44999999999999996	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.05681613021007	0.49999999999999994	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.1250837972350751	0.5499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.156236403695099	0.5999999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.0847835976001754	0.6499999999999999	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1.056518254875342	0.7	Duplex
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	0.8322233844488691	0.7499999999999999	Duplex

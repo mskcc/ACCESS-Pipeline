@@ -1,0 +1,151 @@
+CMO_SAMPLE_ID	Category	value	method	pool
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	Bam	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	Bam	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	Bam	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	Bam	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	Bam	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalReads	34952436	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalReads	28483963	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalReads	27049229	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalReads	40046538	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalReads	32019480	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UnmappedReads	641754	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UnmappedReads	568222	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UnmappedReads	509602	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UnmappedReads	832106	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UnmappedReads	697607	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalMapped	34310682	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalMapped	27915741	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalMapped	26539627	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalMapped	39214432	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalMapped	31321873	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueMapped	34310682	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueMapped	27915741	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueMapped	26539623	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueMapped	39214432	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueMapped	31321873	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	DuplicateFraction	0.0	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	DuplicateFraction	0.0	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	DuplicateFraction	0.0	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	DuplicateFraction	0.0	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	DuplicateFraction	0.0	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTarget	5833493	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTarget	5274243	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTarget	6297760	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTarget	6659667	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTarget	5173080	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTarget	5833493	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTarget	5274243	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTarget	6297760	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTarget	6659667	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTarget	5173080	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTargetFraction	0.19	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTargetFraction	0.24	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	TotalOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTargetFraction	0.19	All Unique	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTargetFraction	0.24	All Unique	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX.bam	UniqueOnTargetFraction	0.17	All Unique	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Bam	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Bam	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Bam	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Bam	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Bam	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalReads	6427793	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalReads	4864399	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalReads	4520336	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalReads	7392187	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalReads	5077095	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UnmappedReads	169425	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UnmappedReads	133188	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UnmappedReads	117740	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UnmappedReads	229176	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UnmappedReads	159359	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalMapped	6258368	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalMapped	4731211	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalMapped	4402596	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalMapped	7163011	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalMapped	4917736	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueMapped	6258368	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueMapped	4731211	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueMapped	4402596	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueMapped	7163011	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueMapped	4917736	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	DuplicateFraction	0.0	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	DuplicateFraction	0.0	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	DuplicateFraction	0.0	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	DuplicateFraction	0.0	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	DuplicateFraction	0.0	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTarget	1263440	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTarget	1138025	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTarget	1411779	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTarget	1681555	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTarget	1113160	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTarget	1263440	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTarget	1138025	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTarget	1411779	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTarget	1681555	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTarget	1113160	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTargetFraction	0.2	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTargetFraction	0.24	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTargetFraction	0.32	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTargetFraction	0.23	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TotalOnTargetFraction	0.23	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTargetFraction	0.2	Simplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTargetFraction	0.24	Simplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTargetFraction	0.32	Simplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTargetFraction	0.23	Simplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	UniqueOnTargetFraction	0.23	Simplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Bam	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Bam	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Bam	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Bam	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Bam	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalReads	7315223	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalReads	6636329	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalReads	6912965	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalReads	6128664	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalReads	6356453	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UnmappedReads	1743	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UnmappedReads	1789	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UnmappedReads	1976	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UnmappedReads	1714	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UnmappedReads	2139	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalMapped	7313480	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalMapped	6634540	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalMapped	6910989	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalMapped	6126950	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalMapped	6354314	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueMapped	7313480	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueMapped	6634540	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueMapped	6910989	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueMapped	6126950	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueMapped	6354314	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	DuplicateFraction	0.0	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	DuplicateFraction	0.0	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	DuplicateFraction	0.0	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	DuplicateFraction	0.0	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	DuplicateFraction	0.0	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTarget	3985521	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTarget	3588901	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTarget	3980833	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTarget	3782273	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTarget	3510606	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTarget	3985521	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTarget	3588901	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTarget	3980833	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTarget	3782273	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTarget	3510606	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTargetFraction	0.54	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTargetFraction	0.54	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTargetFraction	0.58	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTargetFraction	0.62	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	TotalOnTargetFraction	0.55	Duplex	A Targets
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTargetFraction	0.54	Duplex	A Targets
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTargetFraction	0.54	Duplex	A Targets
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTargetFraction	0.58	Duplex	A Targets
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTargetFraction	0.62	Duplex	A Targets
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam	UniqueOnTargetFraction	0.55	Duplex	A Targets
