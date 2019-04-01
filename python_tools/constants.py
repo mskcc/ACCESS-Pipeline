@@ -34,7 +34,7 @@ TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tool
 # ACCESS-Variants Resources
 ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
 ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
-ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants.yaml')
+ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants_phoenix.yaml')
 ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
@@ -389,7 +389,7 @@ NOISE_HEADER = [SAMPLE_ID_COLUMN, 'GenotypeCount', 'AltCount', 'AltPercent', 'Co
 # Cleanup Outputs Step #
 ########################
 
-TMPDIR_SEARCH = re.compile(r'^tmp......$')
+TMPDIR_SEARCH = re.compile(r'(^tmp$|^tmp......$)')
 OUT_TMPDIR_SEARCH = re.compile(r'^out_tmpdir......$')
 TMPDIR_SEARCH_2 = re.compile(r'^tmp$')
 
