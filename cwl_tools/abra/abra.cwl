@@ -26,22 +26,6 @@ requirements:
 #    envDef:
 #      PATH: $(inputs.bwa + ':' + PATH)
 
-#abra2-2.13-jar-with-dependencies.jar
-#--in <in BAM>
-#--out <out BAM>
-#--ref /dmp/data/pubdata/hg-fasta/production/Homo_sapiens_assembly19fasta
-#--targets <targetsToRealign_covered_srt.bed>
-#--threads 8
-#--mad 1000
-#--sc 100,30,80,15
-#--mmr 0.1
-#--sga 8,32,48,1
-#--ca 10,1
-#--ws 800,700
-#--index
-#--cons
-#--tmpdir /scratch
-
 inputs:
   java: string
   abra: string
@@ -87,39 +71,40 @@ inputs:
     inputBinding:
       prefix: --mad
 
-
-
-  # Params currently being tested:
   sc:
     type: string
     inputBinding:
       prefix: --sc
+
   mmr:
     type: float
     inputBinding:
       prefix: --mmr
+
   sga:
     type: string
     inputBinding:
       prefix: --sga
+
   ca:
     type: string
     inputBinding:
       prefix: --ca
+
   ws:
     type: string
     inputBinding:
       prefix: --ws
+
   index:
     type: boolean
     inputBinding:
       prefix: --index
+
   cons:
     type: boolean
     inputBinding:
       prefix: --cons
-
-
 
   out:
     type: string[]

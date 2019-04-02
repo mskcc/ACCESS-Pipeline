@@ -5,7 +5,6 @@ fields:
   type: string?
 - name: mad
   type: int
-
 - name: sc
   type: string
 - name: mmr
