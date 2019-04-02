@@ -1,4 +1,4 @@
-coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
+peak_coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2749.0	exon_AKT1_10a.1_1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	AKT1	10a.1_1
 2586.0	exon_AKT1_11a_1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	AKT1	11a_1
 2594.0	exon_AKT1_12a_1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	AKT1	12a_1
@@ -1078,6 +1078,7 @@ coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2955.0	exon_MTOR_45a_2	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 2955.0	exon_MTOR_45a_2_r1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 1691.0	exon_MTOR_48a.1_1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_1
+2193.0	exon_MTOR_48a.1_2	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_2
 2429.0	exon_MYCN_2a.1_1	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_1
 2601.0	exon_MYCN_2a.1_2	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_2
 2529.0	exon_MYCN_2a.1_3	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_3
@@ -2802,6 +2803,7 @@ coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2578.0	exon_MTOR_45a_2	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 2578.0	exon_MTOR_45a_2_r1	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 1229.0	exon_MTOR_48a.1_1	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_1
+1765.0	exon_MTOR_48a.1_2	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_2
 2193.0	exon_MYCN_2a.1_1	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_1
 2356.0	exon_MYCN_2a.1_2	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_2
 2227.0	exon_MYCN_2a.1_3	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_3
@@ -4526,6 +4528,7 @@ coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2946.0	exon_MTOR_45a_2	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 2946.0	exon_MTOR_45a_2_r1	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 1235.0	exon_MTOR_48a.1_1	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_1
+1906.0	exon_MTOR_48a.1_2	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_2
 2886.0	exon_MYCN_2a.1_1	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_1
 3037.0	exon_MYCN_2a.1_2	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_2
 2740.0	exon_MYCN_2a.1_3	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_3
@@ -6250,6 +6253,7 @@ coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2811.0	exon_MTOR_45a_2	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 2811.0	exon_MTOR_45a_2_r1	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 1859.0	exon_MTOR_48a.1_1	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_1
+1989.0	exon_MTOR_48a.1_2	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_2
 2306.0	exon_MYCN_2a.1_1	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_1
 2606.0	exon_MYCN_2a.1_2	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_2
 2563.0	exon_MYCN_2a.1_3	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_3
@@ -7974,6 +7978,7 @@ coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2554.0	exon_MTOR_45a_2	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 2554.0	exon_MTOR_45a_2_r1	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	45a_2
 1479.0	exon_MTOR_48a.1_1	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_1
+1763.0	exon_MTOR_48a.1_2	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MTOR	48a.1_2
 2054.0	exon_MYCN_2a.1_1	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_1
 2184.0	exon_MYCN_2a.1_2	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_2
 2043.0	exon_MYCN_2a.1_3	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	MYCN	2a.1_3

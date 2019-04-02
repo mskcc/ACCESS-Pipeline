@@ -108,20 +108,14 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     sample_files = [f for f in os.listdir(path) if intervals_filename_suffix in f]
 
     for sample in sample_files:
-        filename = '/'.join([path, sample])
-        curr_table = pd.read_csv(filename, sep='\t')
+        filename = os.path.join(path, sample)
+        curr_table = pd.read_csv(filename, names=WALTZ_INTERVALS_FILE_HEADER, sep='\t')
         sample = sample.replace(intervals_filename_suffix, '')
 
-        # todo - columns should be given constant labels:
-        newDf = pd.DataFrame({
-            'method': [curr_method] * len(curr_table),
-            SAMPLE_ID_COLUMN: [sample] * len(curr_table),
-            'interval_name': curr_table.ix[:, 3],
-            'coverage': curr_table.ix[:, 5],
-            'gc': curr_table.ix[:, 7]
-        })
-
-        gc_with_cov = pd.concat([gc_with_cov, newDf]).sort_values([SAMPLE_ID_COLUMN, 'interval_name'])
+        newDf = curr_table[[WALTZ_INTERVAL_NAME_COLUMN, WALTZ_PEAK_COVERAGE_COLUMN, WALTZ_GC_CONTENT_COLUMN]].copy()
+        newDf['method'] = curr_method
+        newDf[SAMPLE_ID_COLUMN] = sample
+        gc_with_cov = pd.concat([gc_with_cov, newDf]).sort_values([SAMPLE_ID_COLUMN, WALTZ_INTERVAL_NAME_COLUMN])
 
     return gc_with_cov
 
@@ -164,7 +158,6 @@ def get_gc_table_average_for_each_sample(tbl):
 
     low_bin = round(minGC - np.mod(minGC, 0.05), 2)
     high_bin = round(maxGC + 0.1 - np.mod(maxGC, 0.05), 2)
-
     all_bins = np.arange(low_bin, high_bin, 0.05)
 
     for method in all_methods:
@@ -172,7 +165,7 @@ def get_gc_table_average_for_each_sample(tbl):
             method_boolv = (tbl['method'] == method)
             sample_boolv = (tbl[SAMPLE_ID_COLUMN] == sample)
             curr_table = tbl[method_boolv & sample_boolv].copy()
-            curr_table['coverage_norm'] = curr_table['coverage'] / np.mean(curr_table['coverage'])
+            curr_table['coverage_norm'] = curr_table[WALTZ_PEAK_COVERAGE_COLUMN] / np.mean(curr_table[WALTZ_PEAK_COVERAGE_COLUMN])
 
             for subset in range(0, len(all_bins) - 1):
                 low_bin_boolv = (curr_table['gc'] >= all_bins[subset])
@@ -223,12 +216,12 @@ def get_coverage_per_interval(tbl):
     unfiltered_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
 
     # Filter out MSI & Fingerprinting intervals
-    exon_boolv = ['exon' in y for y in tbl['interval_name']]
-    relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
+    exon_boolv = ['exon' in y for y in tbl[WALTZ_INTERVAL_NAME_COLUMN]]
+    relevant_coverage_columns = [WALTZ_PEAK_COVERAGE_COLUMN, WALTZ_INTERVAL_NAME_COLUMN, SAMPLE_ID_COLUMN]
     final_tbl = tbl[unfiltered_boolv & exon_boolv][relevant_coverage_columns]
 
     # Add on new gene and probe columns
-    gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
+    gene_probe = [get_gene_and_probe(val) for val in final_tbl[WALTZ_INTERVAL_NAME_COLUMN]]
     gene_probe_df = pd.DataFrame(gene_probe, columns=['Gene', 'Probe'])
     # Todo: most likely, the reset_index() calls are unnecessary
     final_tbl = final_tbl.reset_index(drop=True)
