@@ -51,7 +51,6 @@ class TablesModuleTest(unittest.TestCase):
 
         :return:
         """
-        return
         for f in ALL_TABLES_MODULE_OUTPUT_FILES:
             os.unlink(f)
 
