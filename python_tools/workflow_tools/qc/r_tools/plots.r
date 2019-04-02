@@ -142,7 +142,7 @@ plot_insert_size_distribution = function(insert_sizes) {
 plot_cov_dist_per_interval_line = function(data) {
   data = data %>%
     group_by_(SAMPLE_ID_COLUMN) %>%
-    mutate(coverage_scaled = coverage / median(coverage))
+    mutate(coverage_scaled = peak_coverage / median(peak_coverage))
   
   g = ggplot(data) +
     geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +

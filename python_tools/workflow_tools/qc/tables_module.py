@@ -110,7 +110,7 @@ def get_gc_table(curr_method, intervals_filename_suffix, path):
     for sample in sample_files:
         filename = os.path.join(path, sample)
         curr_table = pd.read_csv(filename, names=WALTZ_INTERVALS_FILE_HEADER, sep='\t')
-        sample = sample.replace(intervals_filename_suffix, '')
+        sample = sample.split('_cl_aln_srt')[0]
 
         newDf = curr_table[[WALTZ_INTERVAL_NAME_COLUMN, WALTZ_PEAK_COVERAGE_COLUMN, WALTZ_GC_CONTENT_COLUMN]].copy()
         newDf['method'] = curr_method
@@ -135,59 +135,32 @@ def get_bins(tbl):
     return all_bins
 
 
-# def get_gc_table_average_for_each_sample(tbl):
-#     """
-#     Creates the GC content table, with each sample represented
-#     """
-#     all_bins = get_bins(tbl)
-#     tbl['gc_bin'] = pd.cut(tbl['gc'], all_bins)
-#     means = tbl.groupby(['gc_bin', 'method', SAMPLE_ID_COLUMN]).mean()
-#     tbl['coverage_norm'] = np.divide(tbl['coverage'], means['coverage'] + EPSILON)
-#     return tbl
-# Todo: replace v with ^
-
 def get_gc_table_average_for_each_sample(tbl):
     """
     Creates the GC content table, with each sample represented
     """
-    final_bins_table = pd.DataFrame(columns=GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER)
-    all_samples = tbl[SAMPLE_ID_COLUMN].unique()
-    all_methods = tbl['method'].unique()
-    minGC = np.min(tbl['gc'])
-    maxGC = np.max(tbl['gc'])
+    tbl = tbl.copy()
 
-    low_bin = round(minGC - np.mod(minGC, 0.05), 2)
-    high_bin = round(maxGC + 0.1 - np.mod(maxGC, 0.05), 2)
-    all_bins = np.arange(low_bin, high_bin, 0.05)
+    # Restrict to just 0.3 --> 0.8 %GC
+    all_bins = np.arange(0.3, 0.85, 0.05)
+    tbl[GC_BIN_COLUMN] = pd.cut(tbl['gc'], all_bins)
 
-    for method in all_methods:
-        for sample in all_samples:
-            method_boolv = (tbl['method'] == method)
-            sample_boolv = (tbl[SAMPLE_ID_COLUMN] == sample)
-            curr_table = tbl[method_boolv & sample_boolv].copy()
-            curr_table['coverage_norm'] = curr_table[WALTZ_PEAK_COVERAGE_COLUMN] / np.mean(curr_table[WALTZ_PEAK_COVERAGE_COLUMN])
+    # Create new column of normalized coverage across intervals, for each combination of sample and method
+    groups = [METHOD_COLUMN, SAMPLE_ID_COLUMN]
+    grouped = tbl.groupby(groups)['peak_coverage']
+    tbl['coverage_norm'] = grouped.transform(lambda x: x / x.mean())
 
-            for subset in range(0, len(all_bins) - 1):
-                low_bin_boolv = (curr_table['gc'] >= all_bins[subset])
-                high_bin_boolv = (curr_table['gc'] < all_bins[subset + 1])
+    # Calculate mean coverage within each GC bin, after standardizing coverage across whole sample
+    groups = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN]
+    grouped = tbl.groupby(groups)['coverage_norm']
+    tbl['coverage_norm_2'] = grouped.transform(lambda x: x.mean())
 
-                cur_gc_values = curr_table[low_bin_boolv & high_bin_boolv]['coverage_norm']
-                avg_cov = np.mean(cur_gc_values)
+    tbl = tbl[[SAMPLE_ID_COLUMN, 'coverage_norm_2', GC_BIN_COLUMN, METHOD_COLUMN]].copy()
+    tbl = tbl.drop_duplicates()
+    tbl = tbl.rename(index=str, columns={'coverage_norm_2': 'coverage'})
 
-                newDf = pd.DataFrame({
-                    'method': [method.replace('Waltz', '')],
-                    SAMPLE_ID_COLUMN: [sample],
-                    'gc_bin': [all_bins[subset]],
-                    'coverage': [avg_cov]
-                })
-                final_bins_table = pd.concat([final_bins_table, newDf])
-
-    # Restrict to .3 < GC content < .8
-    low_gc_boolv = (final_bins_table['gc_bin'] >= .3)
-    high_gc_boolv = (final_bins_table['gc_bin'] <= .8)
-    final_bins_table = final_bins_table[low_gc_boolv & high_gc_boolv]
-
-    return final_bins_table
+    tbl = tbl[~tbl.isnull().any(axis=1)]
+    return tbl
 
 
 def get_gene_and_probe(interval):
