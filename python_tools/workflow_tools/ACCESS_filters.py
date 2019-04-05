@@ -258,7 +258,7 @@ def main():
     df_post_filter = apply_filter_maf(df_pre_filter, args)
 
     output_file_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered.maf')
-    df_post_filter.to_csv(output_file_name, header=True, index=None, sep='\t', mode='a')
+    df_post_filter.to_csv(output_file_name, header=True, index=None, sep='\t')
 
 
 if __name__ == '__main__':
