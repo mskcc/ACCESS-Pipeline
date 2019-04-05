@@ -98,6 +98,7 @@ def create_fillout_summary(df_fillout, alt_thres):
     except:
         print("The fillout provided to summarize was not run through extract_fillout_type")
         fillout_type = ''
+        raise
         
     # Make the dataframe with the fragment count summary of all the samples per mutation
     summary_table = df_fillout.pivot_table(index=mutation_key, columns='Tumor_Sample_Barcode', values='summary_fragment', aggfunc=lambda x: ' '.join(x))
