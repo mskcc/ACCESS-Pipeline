@@ -242,8 +242,10 @@ def create_inputs_file(args):
     :param args: argparse.ArgumentParser object
     """
     validate_args(args)
-
-    tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory)
+    if args.pairing_file_path:
+        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+    tumor_ids, normal_ids = pairing_file['tumor_id'].tolist(), pairing_file['normal_id'].tolist()
+    tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
     curated_bam_duplex_paths = find_bams_in_directory(args.curated_bams_duplex_directory)
     curated_bam_simplex_paths = find_bams_in_directory(args.curated_bams_simplex_directory)
@@ -251,7 +253,7 @@ def create_inputs_file(args):
     # Normal bams paths are either from the bams directory, or repeating the default normal
     # Todo: remove! this logic should be based on the args.matched_mode param
     if args.normal_bams_directory:
-        normal_bam_paths = find_bams_in_directory(args.normal_bams_directory)
+        normal_bam_paths = find_bams_in_directory(args.normal_bams_directory, normal_ids)
     else:
         normal_bam_paths = [args.default_normal_path] * len(tumor_bam_paths)
 
@@ -266,9 +268,13 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
+    map(include_yaml_resources, [fh]*3,
+            [ACCESS_VARIANTS_RUN_FILES_PATH,
+                ACCESS_VARIANTS_RUN_PARAMS_PATH,
+                ACCESS_VARIANTS_RUN_TOOLS_PATH])
+    #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
+    #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
+    #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
@@ -339,12 +345,7 @@ def write_yaml_bams(
         normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
 
     # 3. Convert bam paths to CWL File objects
-    tumor_bams = create_yaml_file_objects(ordered_tumor_bams)
-    normal_bams = create_yaml_file_objects(ordered_normal_bams)
-    tn_genotyping_bams = create_yaml_file_objects(ordered_tn_genotyping_bams)
-    simplex_genotyping_bams = create_yaml_file_objects(simplex_bam_paths)
-    curated_duplex_genotyping_bams = create_yaml_file_objects(curated_bam_duplex_paths)
-    curated_simplex_genotyping_bams = create_yaml_file_objects(curated_bam_simplex_paths)
+    tumor_bams, normal_bams, tn_genotyping_bams, simplex_genotyping_bams, curated_duplex_genotyping_bams, curated_simplex_genotyping_bams = map(create_yaml_file_objects, [ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams, simplex_bam_paths, curated_bam_duplex_paths, curated_bam_simplex_paths])
 
     # 4. Genotyping sample IDs must be extracted from the bams themselves
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
