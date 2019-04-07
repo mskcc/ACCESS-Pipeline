@@ -4,8 +4,8 @@ import sys
 import magic
 import logging
 import subprocess
-from yaml import load as yload
-
+import ruamel.yaml
+from python_tools.constants import ACCESS_VARIANTS_RUN_TOOLS_PATH
 
 # Set up logging
 FORMAT = '%(asctime)-15s %(funcName)-8s %(levelname)s %(message)s'
@@ -19,8 +19,8 @@ logger.setLevel(logging.DEBUG)
 
 # Get tools from configuration
 # Todo: Containerize
-with open("../resources/run_tools/ACCESS_variants_phoenix.yaml", 'r') as y:
-    tools_config = yload(y)
+with open(ACCESS_VARIANTS_RUN_TOOLS_PATH, 'r') as stream:
+    tools_config = ruamel.yaml.round_trip_load(stream)
 
     try:
         TABIX_LOCATION, BGZIP_LOCATION, SORTBED_LOCATION, BCFTOOLS_LOCATION_1_6 = \
