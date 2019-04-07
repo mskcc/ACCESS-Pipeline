@@ -1,4 +1,5 @@
-tmp_dir: {class: Directory, path: /dmp/analysis/SCRATCH/}
+user_defined_tmp_dir: {class: Directory, path: /dmp/analysis/SCRATCH/}
+tmp_dir: 
 
 ############
 # Module 3 #
@@ -49,11 +50,11 @@ exac_filter: {class: File, path: /dmp/hot/jayakumg/data/ACCESS-data/variant_call
 hotspots: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/hotspot-list-union-v1-v2.txt}
 ##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
 custom_enst_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/dmp_ACCESS-panelA-v1-isoform-overrides}
-annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_files/mutect_annotate_concat_header.txt}
+annotate_concat_header_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/mutect_annotate_concat_header.txt}
 
 # (Also used for Module-6)
 vcf2maf_params:
-  species: homo_sapiens
+  species: homo_sapiens_merged
   ncbi_build: GRCh37
   maf_center: mskcc.org
   max_filter_ac: 10

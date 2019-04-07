@@ -160,9 +160,24 @@ def get_project_name_and_pipeline_version_id(args):
         project_name = args.project_name
     else:
         project_name = inputs_yaml['project_name']
+    
     if args.include_version:
         pipeline_version = inputs_yaml['version']
         project_name = '-'.join([project_name, pipeline_version])
+
+    yaml_tmpdir = inputs_yaml['user_defined_tmp_dir']['path']
+    if os.path.isdir(yaml_tmpdir):
+        pid = str(os.getpid())
+        child_dir = ".".join([project_name, pid])
+        os.mkdir("/".join([yaml_tmpdir, child_dir]))
+        yaml_tmpdir = "/".join([yaml_tmpdir, child_dir]) + "/"
+        inputs_file['tmp_dir']['class'] = "Directory"
+        inputs_yaml['tmp_dir']['path'] = yaml_tmpdir
+        os.environ['TMPDIR'] = yaml_tmpdir
+        with open(args.inputs_file, 'w') as y:
+            ruamel.yaml.round_trip_dump(inputs_yaml, y)
+    else:
+        raise Exception("ERROR: user_defined_tmp_dir is not defined in the inputs file.")
 
     return project_name
 
