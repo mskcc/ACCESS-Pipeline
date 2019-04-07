@@ -1,7 +1,8 @@
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-tmp_dir: /dmp/analysis/SCRATCH
+user_defined_tmp_dir: /dmp/analysis/SCRATCH
+tmp_dir:
 
 process_loop_umi_fastq__params:
   umi_length: 3
