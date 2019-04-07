@@ -243,7 +243,7 @@ def create_inputs_file(args):
     """
     validate_args(args)
     if args.pairing_file_path:
-        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', comment = '#', header='infer').fillna('')
     tumor_ids, normal_ids = pairing_file['tumor_id'].tolist(), pairing_file['normal_id'].tolist()
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
@@ -303,7 +303,7 @@ def write_yaml_bams(
 
     # 1. Build lists of bams
     if args.pairing_file_path:
-        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', comment = '#', header='infer').fillna('')
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
         ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
