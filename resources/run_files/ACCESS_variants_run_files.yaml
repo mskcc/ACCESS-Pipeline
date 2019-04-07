@@ -4,7 +4,7 @@
 
 # Module 3
 bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
-dbsnp: {class: File, path: /dmp/data/pubdata/dbSNP/production/dbsnp_137.b37.vcf}
+dbsnp: {class: File, path: /home/jayakumg/data/ACCESS-data/dbsnp_137.b37.vcf}
 cosmic: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
 refseq: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/refGene_b37.sorted.txt}
 ref_fasta: {class: File, path: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
