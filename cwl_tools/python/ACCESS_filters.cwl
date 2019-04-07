@@ -77,10 +77,10 @@ inputs:
     inputBinding:
       prefix: --tier_one_alt_min
 
-  tier_one_alt_min:
+  tier_two_alt_min:
     type: int
     inputBinding:
-      prefix: --tier_one_alt_min
+      prefix: --tier_two_alt_min
 
   min_n_curated_samples_alt_detected:
     type: int
