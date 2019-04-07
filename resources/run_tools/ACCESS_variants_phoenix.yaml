@@ -1,16 +1,16 @@
 run_tools:
   bcftools: /dmp/resources/prod/tools/bio/bcftools/VERSIONS/bcftools-1.3.1/bcftools
-  gbcms: /dmp/resources/dev2/tools/bio/GetBaseCountsMultiSample/GetBaseCounts
+  gbcms: /home/jayakumg/software/bio/GetBaseCountsMultiSample/GetBaseCountsMultiSample
   java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
   mutect: /home/jayakumg/software/ACCESS_tools/muTect-1.1.5.jar
   vardict: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/build/install/VarDict/bin/VarDict
   vardict_testsomatic: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/testsomatic.R
   vardict_var2vcf_paired: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/var2vcf_paired.pl
   perl: /dmp/resources/prod/tools/system/perl/bin/perl
-  vcf2maf: dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/vcf2maf.pl
+  vcf2maf: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/vcf2maf.pl
   vep_path: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
   vep_data: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
   tabix: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/tabix
   bgzip: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/bgzip
   sortbed: /dmp/resources/prod/tools/bio/bedtools/VERSIONS/bedtools-2.27.1/bin/sortBed
-  bcftools_1_6: /dmp/resources/prod/tools/bio/bcftools/VERSIONS/bcftools-1.3.1/bcftools 
+  bcftools_1_6: /home/jayakumg/software/system/anaconda2/envs/ACCESS_VC/bin/bcftools
