@@ -32,6 +32,11 @@ inputs:
   waltz_simplex_pool_b: Directory
   waltz_duplex_pool_b: Directory
 
+  waltz_standard_a_exon_level_files: Directory
+  waltz_unfiltered_a_exon_level_files: Directory
+  waltz_simplex_a_exon_level_files: Directory
+  waltz_duplex_a_exon_level_files: Directory
+
 outputs:
 
   combined_qc:
@@ -44,10 +49,14 @@ outputs:
 
 steps:
 
-  ########################################
-  # Aggregate Bam Metrics across samples #
-  # for each collapsing method           #
-  ########################################
+  #############################################
+  # Aggregate Bam Metrics across samples      #
+  #                                           #
+  # For each combination of collapsing method #
+  # and pool (8x)                             #
+  #                                           #
+  # As well as 4x with Exon-level bedfile     #
+  #############################################
 
   standard_aggregate_bam_metrics_pool_a:
     run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
@@ -112,6 +121,39 @@ steps:
       output_dir_name:
         valueFrom: $('waltz_duplex_pool_b')
     out: [output_dir]
+
+  standard_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_standard_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_standard_a_exon_level_files')
+    out: [output_dir]
+
+  unfiltered_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_unfiltered_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_unfiltered_a_exon_level_files')
+    out: [output_dir]
+
+  simplex_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_simplex_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_simplex_a_exon_level_files')
+    out: [output_dir]
+
+  duplex_aggregate_bam_metrics_pool_a_exon_level:
+    run: ../../cwl_tools/python/aggregate_bam_metrics.cwl
+    in:
+      waltz_input_files: waltz_duplex_a_exon_level_files
+      output_dir_name:
+        valueFrom: $('waltz_duplex_a_exon_level_files')
+    out: [output_dir]
+
 
   ##################
   # Fingerprinting #
@@ -205,7 +247,7 @@ steps:
       title_file: title_file
       noise: duplex_noise_tables_A/noise
       noise_by_substitution: duplex_noise_tables_A/noise_by_substitution
-    out: [noise_alt_percent, noise_contributing_sites]
+    out: [noise_alt_percent, noise_contributing_sites, noise_by_substitution]
 
   #################
   # UMI QC tables #
@@ -237,6 +279,11 @@ steps:
       unfiltered_waltz_metrics_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_waltz_metrics_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_waltz_metrics_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+
+      standard_waltz_metrics_pool_a_exon_level: standard_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      unfiltered_waltz_metrics_pool_a_exon_level: unfiltered_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      simplex_waltz_metrics_pool_a_exon_level: simplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      duplex_waltz_metrics_pool_a_exon_level: duplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
     out: [tables]
 
   main_plots_module:
@@ -261,11 +308,12 @@ steps:
       family_sizes_all,
       family_sizes_simplex,
       family_sizes_duplex,
-      pipeline_inputs]
+      pipeline_inputs,
+      average_coverage_exon_level_A]
 
-  #######################################
-  # Combine FP, Noise, & Std qc results #
-  #######################################
+  ####################################################
+  # Combine FP, Noise, & Std qc result PDFs into one #
+  ####################################################
 
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
@@ -278,6 +326,7 @@ steps:
       gc_cov_each_sample: main_plots_module/gc_cov_each_sample
       insert_sizes: main_plots_module/insert_sizes
       coverage_per_interval: main_plots_module/coverage_per_interval
+      average_coverage_exon_level_A: main_plots_module/average_coverage_exon_level_A
       cov_and_family_type_A: main_plots_module/cov_and_family_type_A
       cov_and_family_type_B: main_plots_module/cov_and_family_type_B
       family_sizes_all: main_plots_module/family_sizes_all
@@ -285,11 +334,11 @@ steps:
       family_sizes_duplex: main_plots_module/family_sizes_duplex
       noise_alt_percent: duplex_noise_plots_A/noise_alt_percent
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
+      noise_by_substitution: duplex_noise_plots_A/noise_by_substitution
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
       pipeline_inputs: main_plots_module/pipeline_inputs
-    out:
-      [combined_qc]
+    out: [combined_qc]
 
   ###################################
   # Put everything in one Directory #
@@ -306,6 +355,13 @@ steps:
       unfiltered_pool_b: unfiltered_aggregate_bam_metrics_pool_b/output_dir
       simplex_pool_b: simplex_aggregate_bam_metrics_pool_b/output_dir
       duplex_pool_b: duplex_aggregate_bam_metrics_pool_b/output_dir
+
+      standard_pool_a_exon_level: standard_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      unfiltered_pool_a_exon_level: unfiltered_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      simplex_pool_a_exon_level: simplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
+      duplex_pool_a_exon_level: duplex_aggregate_bam_metrics_pool_a_exon_level/output_dir
+
+      qc_tables: main_tables_module/tables
       all_fp_results: fingerprinting/all_fp_results
       gender_table: fingerprinting/gender_table
       family_sizes: umi_qc_tables/family_sizes

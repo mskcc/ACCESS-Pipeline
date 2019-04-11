@@ -85,14 +85,19 @@ outputs:
       # Todo: This filename will become ..._cl_aln_srt_MD_IR_FX_BR__aln_srt.bam
       # Because the bwa step does not expect an extra underscore at the end
       # Could possibly specify output filename as an input paramter
-      glob: ${return 'collapsed_R1_.fastq'}
+      glob: 'collapsed_R1_.fastq'
 
   collapsed_fastq_2:
     type: File
     outputBinding:
-      glob: ${return 'collapsed_R2_.fastq'}
+      glob: 'collapsed_R2_.fastq'
+
+  second_pass_insertions:
+    type: File
+    outputBinding:
+      glob: 'second-pass-insertions.txt'
 
   second_pass_alt_alleles:
     type: File
     outputBinding:
-      glob: ${ return 'second-pass-alt-alleles.txt' }
+      glob: 'second-pass-alt-alleles.txt'

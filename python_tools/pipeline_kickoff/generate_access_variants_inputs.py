@@ -186,7 +186,7 @@ def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
 
         if normal_id and normal_id != '':
             normal_sample = filter(lambda n: normal_id in n, normal_samples)
-            assert len(normal_sample) == 1, 'Incorrect # of matches for paired normal for tumor sample {}'.format(tumor_sample)
+            assert len(normal_sample) == 1, 'Incorrect # of matches ({}) for paired normal for tumor sample {}'.format(len(normal_sample), tumor_sample)
 
 
 def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, default_normal_path):
@@ -329,6 +329,10 @@ def write_yaml_bams(
         # Use pairing file in matched mode
         tumor_sample_ids = [correct_sample_id(t, ordered_tumor_bams) for t in pairing_file['tumor_id']]
         normal_sample_ids = [n if n else extract_sample_id_from_bam_path(args.default_normal_path) for n in pairing_file['normal_id']]
+    elif args.pairing_file_path:
+        # Use pairing file in matched mode
+        tumor_sample_ids = [correct_sample_id(t, ordered_tumor_bams) for t in pairing_file['tumor_id']]
+        normal_sample_ids = [extract_sample_id_from_bam_path(args.default_normal_path)] * len(tumor_sample_ids)
     else:
         # Otherwise use default normal
         tumor_sample_ids = [extract_sample_id_from_bam_path(b) for b in tumor_bam_paths]

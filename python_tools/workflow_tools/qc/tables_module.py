@@ -220,12 +220,12 @@ def get_coverage_per_interval(tbl):
     Creates table of collapsed coverage per interval
     """
     # Coverage per interval Graph comes from unfiltered Bam, Pool A Targets
-    total_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
+    unfiltered_boolv = (tbl['method'] == UNFILTERED_COLLAPSING_METHOD)
 
     # Filter out MSI & Fingerprinting intervals
     exon_boolv = ['exon' in y for y in tbl['interval_name']]
     relevant_coverage_columns = ['coverage', 'interval_name', SAMPLE_ID_COLUMN]
-    final_tbl = tbl[total_boolv & exon_boolv][relevant_coverage_columns]
+    final_tbl = tbl[unfiltered_boolv & exon_boolv][relevant_coverage_columns]
 
     # Add on new gene and probe columns
     gene_probe = [get_gene_and_probe(val) for val in final_tbl['interval_name']]
@@ -235,6 +235,15 @@ def get_coverage_per_interval(tbl):
     final_tbl = pd.concat([final_tbl, gene_probe_df], axis=1)
     final_tbl = final_tbl.reset_index()
 
+    return final_tbl
+
+
+def get_coverage_per_interval_exon_level(tbl):
+    """
+    Exon-Level Coverage per Interval Graph comes from Duplex Bam, Pool A Targets
+    """
+    total_boolv = (tbl['method'] == DUPLEX_COLLAPSING_METHOD)
+    final_tbl = tbl[total_boolv]
     return final_tbl
 
 
@@ -250,15 +259,25 @@ def main():
     :return:
     """
     parser = argparse.ArgumentParser(description='MSK ACCESS QC module', formatter_class=argparse.RawTextHelpFormatter)
+
+    # Probe-level QC files, A-Targets
     parser.add_argument('-swa', '--standard_waltz_pool_a', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mua', '--unfiltered_waltz_pool_a', type=str, default=None, action=FullPaths)
     parser.add_argument('-msa', '--simplex_waltz_pool_a', type=str, default=None, action=FullPaths)
     parser.add_argument('-mda', '--duplex_waltz_pool_a', type=str, default=None, action=FullPaths)
 
+    # Probe-level QC files, B-Targets
     parser.add_argument('-swb', '--standard_waltz_pool_b', type=str, default=None, required=True, action=FullPaths)
     parser.add_argument('-mub', '--unfiltered_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-msb', '--simplex_waltz_pool_b', type=str, default=None, action=FullPaths)
     parser.add_argument('-mdb', '--duplex_waltz_pool_b', type=str, default=None, action=FullPaths)
+
+    # Exon-level QC files, A-Targets
+    parser.add_argument('-swael', '--standard_waltz_metrics_pool_a_exon_level', type=str, default=None, action=FullPaths)
+    parser.add_argument('-muael', '--unfiltered_waltz_metrics_pool_a_exon_level', type=str, default=None, action=FullPaths)
+    parser.add_argument('-msael', '--simplex_waltz_metrics_pool_a_exon_level', type=str, default=None, action=FullPaths)
+    parser.add_argument('-mdael', '--duplex_waltz_metrics_pool_a_exon_level', type=str, default=None, action=FullPaths)
+
     args = parser.parse_args()
     create_combined_qc_tables(args)
 
@@ -280,66 +299,75 @@ def create_combined_qc_tables(args):
     pool_a_read_counts = get_read_counts_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     pool_a_coverage_table = get_coverage_table(args.standard_waltz_pool_a, POOL_A_LABEL)
     gc_cov_int_table = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_pool_a)
-
     pool_b_read_counts = get_read_counts_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     read_counts_table = pd.concat([pool_b_read_counts, pool_a_read_counts])
-    pool_b_coverage = get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL)
-    coverage_table = pd.concat([pool_b_coverage, pool_a_coverage_table])
+    pool_b_coverage_table = get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL)
+    coverage_table = pd.concat([pool_b_coverage_table, pool_a_coverage_table])
 
+    ##############
+    # Pool-Level #
+    # A Targets  #
+    ##############
+    unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
+    simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
+    gc_cov_int_table = pd.concat([gc_cov_int_table, unfilt[2], simplex[2], duplex[2]])
 
-    # Pool A
-    # Unfiltered
-    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
-
-    # Simplex
-    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
-
-    # Duplex
-    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-    gc_cov_int_table = pd.concat([gc_cov_int_table, mw[2]])
-
-    # Pool B
-    # Unfiltered
-    mw = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
-    # Simplex
-    mw = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
-    # Duplex
-    mw = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
-    read_counts_table = pd.concat([read_counts_table, mw[0]])
-    coverage_table = pd.concat([coverage_table, mw[1]])
-
+    ##############
+    # Pool-Level #
+    # B Targets  #
+    ##############
+    unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
+    simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
+    read_counts_table = pd.concat([read_counts_table, unfilt[0], simplex[0], duplex[0]])
+    coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]])
 
     # Use base tables to create additional tables
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
     coverage_per_interval_table = get_coverage_per_interval(gc_cov_int_table)
 
-    # Write all tables
+    ##############
+    # Exon-Level #
+    # A Targets  #
+    ##############
+    gc_cov_int_table_exon_level = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_metrics_pool_a_exon_level)
+
+    unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_metrics_pool_a_exon_level, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
+    simplex = get_collapsed_waltz_tables(args.simplex_waltz_metrics_pool_a_exon_level, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    duplex = get_collapsed_waltz_tables(args.duplex_waltz_metrics_pool_a_exon_level, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
+    read_counts_table_exon_level = pd.concat([unfilt[0], simplex[0], duplex[0]])
+    coverage_table_exon_level = pd.concat([unfilt[1], simplex[1], duplex[1]])
+    gc_cov_int_table_exon_level = pd.concat([gc_cov_int_table_exon_level, unfilt[2], simplex[2], duplex[2]])
+
+    # Use base tables to create additional tables
+    gc_avg_table_each_exon_level = get_gc_table_average_for_each_sample(gc_cov_int_table_exon_level)
+    # coverage_per_interval_table_exon_level = get_coverage_per_interval_exon_level(gc_cov_int_table_exon_level)
+
+    ####################
+    # Write all tables #
+    ###################3
     read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
     read_counts_total_table.to_csv(read_counts_total_filename, sep='\t', index=False)
     coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
     gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
-    gc_avg_table_each.to_csv(each_sample_coverage_filename, sep='\t', index=False)
+    gc_avg_table_each.to_csv(gc_avg_each_sample_coverage_filename, sep='\t', index=False)
     coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
+    read_counts_table_exon_level.to_csv(read_counts_table_exon_level_filename, sep='\t', index=False)
+    coverage_table_exon_level.to_csv(coverage_table_exon_level_filename, sep='\t', index=False)
+    gc_cov_int_table_exon_level.to_csv(gc_cov_int_table_exon_level_filename, sep='\t', index=False)
+    gc_avg_table_each_exon_level.to_csv(gc_avg_each_sample_coverage_exon_level_filename, sep='\t', index=False)
 
     # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
+    # Also need waltz-coverage.txt from Duplex A
     # todo: not clean
     import shutil
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
-    shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', frag_sizes_path.split('/')[-1]))
+    shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', 'fragment-sizes.txt'))
+    average_coverage_across_exon_targets_path = os.path.join(args.duplex_waltz_pool_a, 'waltz-coverage.txt')
+    shutil.copyfile(average_coverage_across_exon_targets_path, '%s/%s' % ('.', 'average_coverage_across_exon_targets_duplex_A.txt'))
 
 
 class FullPaths(argparse.Action):
