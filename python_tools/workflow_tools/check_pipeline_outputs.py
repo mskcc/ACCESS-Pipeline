@@ -8,7 +8,8 @@ from ..util import *
 # This TestCase is meant to be run after a successful Toil run,
 # to check that all output files are found, and located in the correct sample folders
 #
-# Usage: python test_pipeline_outputs.py /path/to/toil/outputs
+# Usage:
+# python -m python_tools.workflow_tools.check_pipeline_outputs -o . -l debug
 #
 # Todo: Set up end-to-end test that calls this script automatically
 
