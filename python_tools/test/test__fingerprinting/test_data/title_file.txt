@@ -1,0 +1,7 @@
+BARCODE_ID	CAPTURE_NAME	CMO_SAMPLE_ID	INVESTIGATOR_SAMPLE_ID	CMO_PATIENT_ID	SAMPLE_CLASS	SAMPLE_TYPE	LIBRARY_INPUT[ng]	LIBRARY_YIELD[ng]	CAPTURE_INPUT[ng]	CAPTURE_BAIT_SET	SEX	BARCODE_INDEX_1	BARCODE_INDEX_2	LANE_NUMBER	STUDY_ID
+-	-	s_C_67RDP9_L007_d	MSK-MB-0069-06-5002803C	patient6	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail
+-	-	s_C_67RDP9_L009_d	MSK-MB-0067-07-5002307C	patient5	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail
+-	-	s_C_67RDP9_L013_d	17021402642_IGO_06302_R_194	patient4	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail
+-	-	s_C_67RDP9_L014_d	17011704168_IGO_06302_R_193	patient3	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail
+-	-	s_SeraCare_0_5VAF_06302R	SeraCare_0-5VAF_IGO_06302_R_191	patient1	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail
+-	-	s_SeraCare_2_5VAF_06302R	SeraCare_2-5VAF_IGO_06302_R_192	patient2	Tumor	Plasma	-	-	-	-	M	-	-	1	MB-grail

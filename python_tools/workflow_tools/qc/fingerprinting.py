@@ -19,8 +19,8 @@ import argparse
 import pandas as pd
 from PyPDF2 import PdfFileMerger
 
-from ...constants import *
-from ...util import extract_sample_name, read_df, get_position_by_substring
+from python_tools.constants import *
+from python_tools.util import extract_sample_name, read_df, get_position_by_substring
 
 import matplotlib
 
@@ -342,15 +342,13 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     write_csv(fp_output_dir + 'minorContamination.txt', minor_contamination)
 
     plt.figure(figsize=(10, 5))
-    plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
-
-    plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
-    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+    plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
     plt.xlabel('Sample Name')
     plt.title('Minor Contamination Check (from all unique reads)')
-    plt.xlim([0, y_pos.size])
+    plt.xlim([-1, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -368,12 +366,12 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     write_csv(fp_output_dir + 'majorContamination.txt', major_contamination)
 
     plt.axhline(y=0.6, xmin=0, xmax=1, c='r', ls='--')
-    plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
-    plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
+    plt.bar(x_pos, [m[1] for m in major_contamination], align='center', color='black')
+    plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='center')
     plt.ylabel('Fraction of Heterozygous Position')
     plt.xlabel('Sample Name')
     plt.title('Major Contamination Check')
-    plt.xlim([0, x_pos.size])
+    plt.xlim([-1, x_pos.size])
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -402,15 +400,13 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
 
         plt.figure(figsize=(10, 5))
-        plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
-        plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
-
-        plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
-        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
+        plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+        plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
         plt.xlabel('Sample Name')
         plt.title('Minor Contamination Check (Duplex)')
-        plt.xlim([0, y_pos.size])
+        plt.xlim([-1, y_pos.size])
         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
     else:
         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
@@ -454,21 +450,21 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
                     x[9] == 'Unexpected Mismatch' or x[9] == 'Unexpected Match']
 
     # Deduplicate forward and reverse matches
-    Match_status = [sorted(match) for match in Match_status]
+    Match_status = [sorted([match[0], match[1]]) + [match[2]] for match in Match_status]
     Match_status = list(match for match, _ in itertools.groupby(Match_status))
 
-    df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
-    Match_status.insert(0, ["Sample1", "Sample2", "Status"])
+    df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
+    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
 
     write_csv(fp_output_dir + 'Match_status.txt', Match_status)
 
     plt.clf()
     fig, ax1 = plt.subplots()
-
+    fig.suptitle('Unexpected Matches and Mismatches', fontsize=10)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df.values):
-        ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+        ax1.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No mismatches present', 'No mismatches present', 'No mismatches present']]
         ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
