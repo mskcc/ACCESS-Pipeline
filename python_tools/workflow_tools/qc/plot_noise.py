@@ -13,8 +13,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from ...util import read_df, extract_sample_name, autolabel
-from ...constants import *
+from python_tools.util import read_df, extract_sample_name, autolabel
+from python_tools.constants import *
 
 
 def noise_alt_percent_plot(noise_table):
@@ -25,8 +25,7 @@ def noise_alt_percent_plot(noise_table):
     plt.clf()
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, alt_percent, align='center', color='black')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.0004, xmin=0, xmax=1, c='y', ls='--')
+    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
@@ -47,7 +46,7 @@ def noise_contributing_sites_plot(noise_table):
     plt.clf()
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, contributing_sites, align='center', color='black')
-    plt.axhline(y=400, xmin=0, xmax=1, c='y', ls='--')
+    plt.axhline(y=1000, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
@@ -129,7 +128,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
     g.fig.suptitle('Noise by Substitution Class')
 
     # Save table and figure
-    six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False, )
+    six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False)
     plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
     return six_class_noise_by_substitution
 
@@ -177,8 +176,9 @@ def main():
     noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
 
     # Sort in same order as R code (by sample class)
-    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
-    noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
+    # Use a stable mergesort instead of quicksort default
+    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
+    noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
 
     noise_alt_percent_plot(noise_and_title_file)
     noise_contributing_sites_plot(noise_and_title_file)
