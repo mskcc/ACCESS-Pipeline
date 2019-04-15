@@ -12,9 +12,6 @@ run_tools:
   vardict_var2vcf_paired: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
   perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
   vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
-  # Todo: consolidate
-  vep_path: /opt/common/CentOS_6-dev/vep/v91/
-  vep_data: /opt/common/CentOS_6-dev/vep/cache/
 
 ###################
 # Test Run Inputs #
