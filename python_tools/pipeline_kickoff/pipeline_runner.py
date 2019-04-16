@@ -212,6 +212,9 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
 def main():
     args, unknowns = parse_arguments()
 
+    # Set SLA environment variable
+    os.environ['TOIL_LSF_ARGS'] = ' -sla Berger '
+
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
     run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
