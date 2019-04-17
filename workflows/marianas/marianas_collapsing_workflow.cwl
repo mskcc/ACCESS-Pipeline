@@ -15,7 +15,6 @@ requirements:
 inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
-  tmp_dir: string
   input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
@@ -175,7 +174,6 @@ steps:
     in:
       run_tools: run_tools
       add_or_replace_read_groups__params: add_or_replace_read_groups__params
-      tmp_dir: tmp_dir
       fastq1: rename_fastq_1/renamed_file
       fastq2: rename_fastq_2/renamed_file
       reference_fasta: reference_fasta

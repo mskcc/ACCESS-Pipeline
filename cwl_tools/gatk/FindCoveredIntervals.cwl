@@ -5,7 +5,6 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx20g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
 - $(inputs.gatk)
 - -T
@@ -19,7 +18,6 @@ requirements:
     outdirMax: 90000
 
 inputs:
-  tmp_dir: string
   java: string
   gatk: string
 

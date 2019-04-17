@@ -29,7 +29,6 @@ requirements:
 inputs:
   run_tools: ../resources/run_tools/schemas.yaml#run_tools
 
-  tmp_dir: string
   fastq1: File[]
   fastq2: File[]
   sample_sheet: File[]
@@ -134,7 +133,6 @@ steps:
     run: ./module-1.cwl
     in:
       run_tools: run_tools
-      tmp_dir: tmp_dir
       fastq1: umi_clipping/processed_fastq_1
       fastq2: umi_clipping/processed_fastq_2
       adapter: adapter
@@ -178,7 +176,6 @@ steps:
     run: ./module-2.cwl
     in:
       run_tools: run_tools
-      tmp_dir: tmp_dir
       reference_fasta: reference_fasta
       bams: group_bams_by_patient/grouped_bams
       patient_id: group_bams_by_patient/grouped_patient_ids

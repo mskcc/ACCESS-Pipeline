@@ -16,7 +16,6 @@ requirements:
       - $import: ../../resources/run_params/schemas/fix_mate_information.yaml
 
 inputs:
-  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
@@ -54,7 +53,6 @@ steps:
   find_covered_intervals:
     run: ../../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       params: find_covered_intervals__params
       java:
@@ -142,14 +140,12 @@ steps:
     in:
       run_tools: run_tools
       params: fix_mate_information__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       fix_mate_information:
         valueFrom: $(inputs.run_tools.fx_path)
-      bam: abra/bams
-      tmp_dir: tmp_dir
 
+      bam: abra/bams
       sort_order:
         valueFrom: $(inputs.params.sort_order)
       create_index:
@@ -169,7 +165,6 @@ steps:
         java: string
         fix_mate_information: string
         bam: File
-        tmp_dir: string
         sort_order: string
         create_index: boolean
         compression_level: int
@@ -185,7 +180,6 @@ steps:
             java: java
             fix_mate_information: fix_mate_information
             input_bam: bam
-            tmp_dir: tmp_dir
             sort_order: sort_order
             create_index: create_index
             compression_level: compression_level

@@ -33,9 +33,21 @@ BASE_TOIL_RUNNER = 'toil-cwl-runner'
 # Name for log file output by Toil
 LOG_FILE_NAME = 'cwltoil.log'
 
+# Environment variables needed to be preserved across nodes
+PRESERVE_ENV_VARS = [
+    'PATH',
+    'PYTHONPATH',
+    'TOIL_LSF_ARGS'
+    'TMPDIR',
+    'TMP_DIR',
+    'TEMP',
+    'TMP',
+    '_JAVA_OPTIONS',
+]
+
 # Defaults for our selection of Toil parameters
 DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : 'PATH PYTHONPATH TOIL_LSF_ARGS',
+    '--preserve-environment'    : ' '.join(PRESERVE_ENV_VARS),
     '--defaultDisk'             : '10G',
     '--defaultMem'              : '10G',
     '--no-container'            : '',
@@ -205,6 +217,21 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     subprocess.check_call(cmd, shell=True)
 
 
+def set_temp_dir_env_vars(tmpdir):
+    """
+    Set environment variables for temporary directories
+    Try to cover all possibilities for every tool
+
+    :param tmpdir:
+    :return:
+    """
+    os.environ['TMPDIR'] = tmpdir
+    os.environ['TMP_DIR'] = tmpdir
+    os.environ['TEMP'] = tmpdir
+    os.environ['TMP'] = tmpdir
+    os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + tmpdir
+
+
 ########
 # Main #
 ########
@@ -216,5 +243,7 @@ def main():
     os.environ['TOIL_LSF_ARGS'] = ' -sla Berger '
 
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
+
+    set_temp_dir_env_vars(tmpdir)
 
     run_toil(args, output_directory, jobstore_path, logdir, tmpdir)

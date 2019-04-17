@@ -1,7 +1,6 @@
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-tmp_dir: /scratch/
 
 process_loop_umi_fastq__params:
   umi_length: 3

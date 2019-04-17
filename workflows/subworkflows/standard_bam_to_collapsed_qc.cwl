@@ -23,7 +23,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
   find_covered_intervals__params: ../../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
@@ -102,7 +101,6 @@ steps:
 - id: umi_collapsing
   run: ../marianas/marianas_collapsing_workflow.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
@@ -159,7 +157,6 @@ steps:
   in:
     run_tools: run_tools
     reference_fasta: reference_fasta
-    tmp_dir: tmp_dir
     bams: group_bams_by_patient/grouped_bams
     patient_id: group_bams_by_patient/grouped_patient_ids
 
