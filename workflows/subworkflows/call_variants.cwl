@@ -16,7 +16,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
   mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -93,7 +92,6 @@ steps:
   mutect:
     run: ../../cwl_tools/mutect/mutect.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       java_7:
         valueFrom: $(inputs.run_tools.java_7)

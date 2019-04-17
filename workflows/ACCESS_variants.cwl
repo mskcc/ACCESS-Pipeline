@@ -20,7 +20,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   project_name: string
   version: string
 
@@ -172,8 +171,6 @@ steps:
   snps_and_indels:
     run: ./subworkflows/snps_and_indels.cwl
     in:
-      tmp_dir: tmp_dir
-
       mutect_params: mutect_params
       vardict_params: vardict_params
       basicfiltering_vardict_params: basicfiltering_vardict_params
@@ -193,7 +190,6 @@ steps:
       ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic
-      tmp_dir: tmp_dir
       hotspots: hotspots
       combine_vcf: module_3/concatenated_vcf
       genotyping_bams: genotyping_bams
@@ -222,7 +218,6 @@ steps:
   structural_variants:
     run: ./module-6.cwl
     in:
-      tmp_dir: tmp_dir
       delly_params: delly_params
       vcf2maf_params: vcf2maf_params
       tumor_bam: tumor_bams

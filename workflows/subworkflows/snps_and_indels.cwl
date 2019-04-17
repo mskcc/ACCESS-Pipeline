@@ -20,7 +20,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   project_name: string
   version: string
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
@@ -141,7 +140,6 @@ steps:
   module_3:
     run: ../module-3.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       tumor_bams: tumor_bams
       normal_bams: normal_bams
@@ -174,7 +172,6 @@ steps:
   module_4:
     run: ../module-4.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       access_filters_params: access_filters_params

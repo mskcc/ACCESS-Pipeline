@@ -17,7 +17,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
@@ -81,7 +80,6 @@ steps:
   vcf2maf:
     run: ../cwl_tools/vcf2maf/vcf2maf.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       perl:

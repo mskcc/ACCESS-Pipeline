@@ -50,8 +50,6 @@ ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VE
 
 # ------------------------------------------------------------
 
-tmp_dir: {class: Directory, path: /scratch/johnsoni/}
-
 ############
 # Module 3 #
 ############
