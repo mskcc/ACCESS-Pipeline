@@ -8,7 +8,6 @@ arguments:
 - -Xmx28g
 - -Xms256m
 - -XX:-UseGCOverheadLimit
-- -Djava.io.tmpdir=$(inputs.tmp_dir.path)
 - -jar
 - $(inputs.mutect)
 - --analysis_type
@@ -27,7 +26,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   java_7: string
   mutect: string
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools

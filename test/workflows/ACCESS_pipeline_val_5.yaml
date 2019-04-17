@@ -77,7 +77,6 @@ sample_sheet:
 ##############################################
 # Default Parameters for Innovation-Pipeline #
 ##############################################
-tmp_dir: /scratch
 
 ##########################
 # Process Loop UMI Fastq #

@@ -41,7 +41,6 @@ sample_sheet:
 ######################################################
 # Default Testing Parameters for Innovation-Pipeline #
 ######################################################
-tmp_dir: /tmp
 
 ##########################
 # Process Loop UMI Fastq #

@@ -25,7 +25,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: string
   run_tools: ../resources/run_tools/schemas.yaml#run_tools
 
   title_file: File
@@ -128,7 +127,6 @@ steps:
 - id: standard_bam_generation
   run: ./standard_pipeline.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     fastq1: fastq1
     fastq2: fastq2
@@ -174,7 +172,6 @@ steps:
 - id: standard_bam_to_collapsed_qc
   run: ./subworkflows/standard_bam_to_collapsed_qc.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     marianas_collapsing__params: marianas_collapsing__params
     add_or_replace_read_groups__params: add_or_replace_read_groups__params
