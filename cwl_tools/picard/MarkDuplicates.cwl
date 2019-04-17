@@ -48,7 +48,7 @@ inputs:
       separate: false
 
   tmp_dir:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: TMP_DIR=
       separate: false

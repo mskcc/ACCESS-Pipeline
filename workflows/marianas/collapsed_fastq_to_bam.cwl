@@ -16,7 +16,6 @@ inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
-  tmp_dir: string
   fastq1: File
   fastq2: File
   reference_fasta: string
@@ -62,7 +61,6 @@ steps:
   add_or_replace_read_groups:
     run: ../../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       add_or_replace_read_groups__params: add_or_replace_read_groups__params
       java:

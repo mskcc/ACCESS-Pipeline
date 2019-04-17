@@ -23,7 +23,6 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
 
-  tmp_dir: string
   fastq1: File
   fastq2: File
   adapter: string
@@ -110,7 +109,6 @@ steps:
   picard.AddOrReplaceReadGroups:
     run: ../cwl_tools/picard/AddOrReplaceReadGroups.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       params: add_or_replace_read_groups__params
       java:
@@ -138,7 +136,6 @@ steps:
   picard.MarkDuplicates:
     run: ../cwl_tools/picard/MarkDuplicates.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       params: mark_duplicates__params
       java:
