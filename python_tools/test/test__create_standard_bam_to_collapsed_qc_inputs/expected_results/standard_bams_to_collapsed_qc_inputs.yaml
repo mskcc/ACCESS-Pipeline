@@ -17,7 +17,6 @@ patient_id: [patient_1, patient_1, patient_2]
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-tmp_dir: /scratch/
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina

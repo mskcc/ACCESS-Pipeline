@@ -131,7 +131,7 @@ inputs:
       prefix: --custom-enst
 
   tmp_dir:
-    type: Directory
+    type: Directory?
     doc: Folder to retain intermediate VCFs after runtime
     inputBinding:
       prefix: --tmp-dir

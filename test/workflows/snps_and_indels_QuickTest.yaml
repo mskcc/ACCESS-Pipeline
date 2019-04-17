@@ -12,6 +12,8 @@ run_tools:
   vardict_var2vcf_paired: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
   perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
   vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
+  vep_path: /opt/common/CentOS_6-dev/vep/v91/
+  vep_data: /opt/common/CentOS_6-dev/vep/cache/
 
 ###################
 # Test Run Inputs #
@@ -22,7 +24,7 @@ tumor_bams:
 
 normal_bams:
 # Todo: Create smaller normal reference with just the SeraCare regions
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS/ACCESSv1-VAL-20180034/duplex_bams/F22_S2_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/duplex_bams/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 
 tumor_sample_names:
 - SeraCare_0-5
@@ -37,12 +39,12 @@ genotyping_bams:
 # T/N Bams from variant calling
 - {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5.bam}
 - {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5-SIMPLEX.bam}
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS/ACCESSv1-VAL-20180034/duplex_bams/F22_S2_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/Maysun/VariantCallingTeam/ValidationRedo/Bams/curated-simplex-bams/F22_S2_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/duplex_bams/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/simplex_bams/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
 # Curated Bams
 # Todo: Move to test reference folder
-- {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/Maysun/VariantCallingTeam/ValidationRedo/Bams/curated-duplex-bams/M15_S4_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/Maysun/VariantCallingTeam/ValidationRedo/Bams/curated-simplex-bams/M15_S4_001_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180031/duplex_bams/M15_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180031/simplex_bams/M15_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
 
 genotyping_bams_ids:
 # Tumor
@@ -75,7 +77,6 @@ ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VE
 custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
 annotate_concat_header_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/run_files/mutect_annotate_concat_header.txt}
 
-tmp_dir: {class: Directory, path: /scratch/johnsoni/}
 
 ###################
 # Module 3 Params #

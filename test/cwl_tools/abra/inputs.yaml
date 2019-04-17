@@ -15,7 +15,6 @@ out:
 targets: {class: File, path: ./test_patient_2.fci.bed.srt}
 patient_id: test_patient_2
 
-tmp_dir: /scratch/
 working_directory: /scratch/Abra_workdir__test_patient_2_78768809
 reference_fasta: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta
 threads: 12
