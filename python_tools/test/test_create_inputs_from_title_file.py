@@ -142,15 +142,18 @@ class CIFTTests(unittest.TestCase):
         with self.assertRaises(Exception):
             create_inputs_from_title_file.perform_validation(self.bad_title_file)
 
+        # Fix missing lane number
+        self.bad_title_file.loc[self.bad_title_file.index[0], MANIFEST__LANE_COLUMN] = 1
+        with self.assertRaises(Exception):
+            create_inputs_from_title_file.perform_validation(self.bad_title_file)
+
         # Fix duplicate barcodes
         self.bad_title_file.loc[self.bad_title_file.index[-1], MANIFEST__BARCODE_ID_COLUMN] = 'bc411-bc411'
-
         with self.assertRaises(Exception):
             create_inputs_from_title_file.perform_validation(self.bad_title_file, 'test_project_title_file.txt', 'test_project')
 
         # Fix misspelled sample class
         self.bad_title_file[MANIFEST__SAMPLE_CLASS_COLUMN] = self.bad_title_file[MANIFEST__SAMPLE_CLASS_COLUMN].str.replace('Tumore', 'Tumor')
-
         with self.assertRaises(Exception) as context:
             create_inputs_from_title_file.perform_validation(self.bad_title_file)
 
