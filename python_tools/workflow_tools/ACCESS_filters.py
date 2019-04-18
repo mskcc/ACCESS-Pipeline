@@ -9,6 +9,7 @@ import argparse
 import os.path
 import pandas as pd
 import numpy as np
+import re
 
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -87,9 +88,9 @@ def extract_fillout_type(df_full_fillout):
         return df_tumor, df_normal
         
     #tag fillout type in full fillout
-    df_full_fillout['Fillout_Type'] = df_full_fillout['Tumor_Sample_Barcode'].apply(lambda x: "CURATED-SIMPLEX" if "-CURATED-SIMPLEX" in x else ("SIMPLEX" if "-SIMPLEX" in x else ("CURATED" if "CURATED" in x else "POOL")))
+    df_full_fillout['Fillout_Type'] = df_full_fillout['Tumor_Sample_Barcode'].apply(lambda x: "CURATED-SIMPLEX" if "-CURATED-SIMPLEX" in x else ("SIMPLEX" if "-SIMPLEX" in x else ("CURATED-DUPLEX" if "CURATED-DUPLEX" in x else "POOL")))
     #extract curated duplex and and VAf and summary column
-    df_curated = (df_full_fillout.loc[df_full_fillout['Fillout_Type'] == 'CURATED'])
+    df_curated = (df_full_fillout.loc[df_full_fillout['Fillout_Type'] == 'CURATED-DUPLEX'])
     df_curated = find_VAFandsummary(df_curated)
     #extract simplex and transform to simplex +duplex
     df_curatedsimplex = (df_full_fillout.loc[df_full_fillout['Fillout_Type'] == 'CURATED-SIMPLEX'])
@@ -177,6 +178,7 @@ def make_pre_filtered_maf(args):
     
     df_tn_geno = extract_tn_genotypes(df_tumor, df_normal, df_ds_tumor, args.tumor_samplename, args.normal_samplename)
     df_pre_filter = df_annotation.merge(df_tn_geno, left_index=True, right_index=True).merge(df_tumor_summary, left_index=True, right_index=True).merge(df_ds_tumor_summary, left_index=True, right_index=True).merge(df_normal_summary, left_index=True, right_index=True).merge(df_curated_summary, left_index=True, right_index=True).merge(df_ds_curated_summary, left_index=True, right_index=True)
+ 
     return df_pre_filter
 
 
@@ -223,7 +225,7 @@ def apply_filter_maf (df_pre_filter, args):
         elif 'common_variant' in mut['FILTER'] and mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min and mut['t_vaf_fragment'] > args.tumor_vaf_germline_thres:
             status = status + 'LikelyGermline;'
         return status
-    #TODO:TEST        
+       
     def tag_below_alt_threshold(mut, status, args):
         if mut['t_alt_count_fragment'] < args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['t_alt_count_fragment'] < args.tier_two_alt_min):
             if mut['caller_t_alt_count']>= args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['caller_t_alt_count'] >= args.tier_two_alt_min):
@@ -234,15 +236,15 @@ def apply_filter_maf (df_pre_filter, args):
         # TODO: ASK MIKE: add truncated mutations to below threshold 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del'
         
     def occurrence_in_curated (mut, status, args):
-        if mut['CURATED_n_fillout_sample_alt_detect'] > args.min_n_curated_samples_alt_detected:
+        if mut['CURATED-DUPLEX_n_fillout_sample_alt_detect'] > args.min_n_curated_samples_alt_detected:
             status = status + 'InCurated;'
         return status
     
     def occurrence_in_normal (mut, status, args):
         #if normal and tumor coverage is greater than the minimal
         if mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min:
-            if mut['CURATED_median_VAF'] != 0:
-                if mut['t_vaf_fragment'] / mut['CURATED_median_VAF'] > args.tn_ratio_thres:
+            if mut['CURATED-DUPLEX_median_VAF'] != 0:
+                if mut['t_vaf_fragment'] / mut['CURATED-DUPLEX_median_VAF'] > args.tn_ratio_thres:
                     status = status + 'TNRatio-curatedmedian;'
             
             if 'n_vaf_fragment' in mut.index.tolist() and mut['hotspot_whitelist'] == False:
@@ -263,6 +265,10 @@ def apply_filter_maf (df_pre_filter, args):
             df_post_filter.insert(col.index('SD_t_vaf_fragment')+2,'n_alt_count_fragment',"NA")
             df_post_filter.insert(col.index('SD_t_vaf_fragment')+3,'n_ref_count_fragment',"NA")
             df_post_filter.insert(col.index('SD_t_vaf_fragment')+4,'n_vaf_fragment',"NA")
+        #Always add a column with Matched_Norm_Bamfile 
+        #TODO: ADD filename here
+        col=list(df_post_filter)
+        df_post_filter.insert(col.index('Matched_Norm_Sample_Barcode')+1,'Matched_Norm_Bamfile',"NA")
         return df_post_filter
     
     # RUN
@@ -281,77 +287,34 @@ def apply_filter_maf (df_pre_filter, args):
 
     return df_post_filter
 
-#==============================================================================
-# def make_condensed_post_filter (args):
-#     #TODO: (I am rerunning the script, there is a better way)
-#     #Removed Duplex only counts for the pool    
-#     #Removed SimplexDuplex only counts for the curated.
-#     #PUSH BACK: Put curated normals first, then other plasmas in the pool, then other normals in the pool.
-#     df_annotation = convert_annomaf_to_df(args)
-#     df_full_fillout = convert_fillout_to_df(args)
-#     df_tumor, df_normal, df_ds_tumor, df_curated, df_ds_curated=extract_fillout_type(df_full_fillout)
-# 
-#     df_ds_tumor_summary = create_fillout_summary (df_ds_tumor, args.DS_tumor_detect_alt_thres)
-#     
-#     if df_normal.empty:
-#         df_normal_summary=pd.DataFrame(index=df_ds_tumor_summary.index.copy())
-#         df_normal_summary['NORMAL_median_VAF']="no_normals_in_pool"
-#         df_normal_summary['NORMAL_n_fillout_sample_alt_detect']="no_normals_in_pool"
-#         df_normal_summary['NORMAL_n_fillout_sample']="no_normals_in_pool"
-#     else:
-#         df_normal_summary = create_fillout_summary (df_normal, args.tumor_detect_alt_thres)
-# 
-#     df_curated_summary = create_fillout_summary (df_curated, args.curated_detect_alt_thres)
-#     
-#     df_tn_geno = extract_tn_genotypes(df_tumor, df_normal, df_ds_tumor, args.tumor_samplename, args.normal_samplename)
-#     df_pre_filter = df_annotation.merge(df_tn_geno, left_index=True, right_index=True).merge(df_curated_summary, left_index=True, right_index=True).merge(df_ds_tumor_summary, left_index=True, right_index=True).merge(df_normal_summary, left_index=True, right_index=True)
-# 
-#==============================================================================
-#==============================================================================
-# def test_arguments():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--anno_maf",default="/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/test1.0.0DEV-unmatched-paired/testset/MSK-L-115_T_S1_001.M8_S2_001.combined-variants.vep_keptrmv_taggedHotspots.maf", help="MAF from Remove Variants module that has all the annotations required in the final MAF", required=False)
-# #    parser.add_argument("--fillout_maf", default="/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/test1.0.0DEV-unmatched-paired/testset/MSK-L-115_T_S1_001.M8_S2_001.combined-variants.vep_keptrmv_taggedHotspots_fillout.maf", help="Fillout File", required=False)
-#     parser.add_argument("--fillout_maf", default="/Users/hasanm/Documents/projects/ACCESS/Tech-dev/TestVariantPipeline/test1.0.0DEV-unmatched-paired/testset/MSK-L-115_T_S1_001.no_normals_taggedHotspots_fillout.maf", help="Fillout File", required=False)
-#     parser.add_argument("--tumor_samplename", default="MSK-L-115_T_S1_001", help="Tumor Samplename, must be the same as in the Fillout", required=False)
-#     parser.add_argument("--normal_samplename", default="", help="Normal Samplename, must be the same as in the Fillout", required=False)
-#     #parser.add_argument("--normal_samplename", default="MSK-L-115_N_S7_001", help="Normal Samplename, must be the same as in the Fillout", required=False)
-# 
-#     #Detected thresholds
-#     parser.add_argument("--tumor_detect_alt_thres", default=2, type=int, help="The Minimum Alt depth required to be considered detected in fillout")
-#     parser.add_argument("--curated_detect_alt_thres", default=2, type=int, help="The Minimum Alt depth required to be considered detected in fillout")
-#     parser.add_argument("--DS_tumor_detect_alt_thres", default=2, type=int, help="The Minimum Alt depth required to be considered detected in fillout")
-#     parser.add_argument("--DS_curated_detect_alt_thres", default=2, type=int, help="The Minimum Alt depth required to be considered detected in fillout")
-# 
-#     #Germline Parameters #n_TD_min=20, n_vaf_germline_thres=.4, t_TD_min=20, t_vaf_germline_thres=.4    
-#     parser.add_argument("--normal_TD_min", default=20, type=int, help="The Minimum Total Depth required in Matched Normal to consider a variant Germline")
-#     parser.add_argument("--normal_vaf_germline_thres", default=.4, type=float, help="The threshold for variant allele fraction required in Matched Normal to be consider a variant Germline")    
-#     parser.add_argument("--tumor_TD_min", default=20, type=int, help="The Minimum Total Depth required in tumor to consider a variant Likely Germline")
-#     parser.add_argument("--tumor_vaf_germline_thres", default=.4, type=float, help="The threshold for variant allele fraction required in Tumor to be consider a variant Likely Germline")    
-# 
-#     #Tiering Parameters #tier_one_alt_min=3, tier_two_alt_min=5
-#     parser.add_argument("--tier_one_alt_min", default=3, type=int, help="The Minimum Alt Depth required in hotspots")
-#     parser.add_argument("--tier_two_alt_min", default=5, type=int, help="The Minimum Alt Depth required in non-hotspots")
-# 
-#     #Occurrence in curated  n_fillout_sample_detect_min)
-#     parser.add_argument("--min_n_curated_samples_alt_detected", default=2, type=int, help="The Minimum number of curated samples variant is detected to be flagged")
-# 
-#     #Occurence in curated  n_fillout_sample_detect_min)
-#     parser.add_argument("--tn_ratio_thres", default=5, type=int, help="Tumor-Normal variant fraction ratio threshold")
-# 
-#     args = parser.parse_args()
-#     return args
-#==============================================================================
+
+def make_condensed_post_filter (df_post_filter):
+    def grep(yourlist, yourstring):
+         item= [item for item in yourlist if re.search(yourstring, item)]
+         return item
+     #Find list of all columns
+    col=list(df_post_filter)
+    remove_cols=[]
+     #Removed Duplex only counts for the pool
+    remove_cols.extend(grep(col,"([^(SIMPLEX)(CURATED)]-DUPLEX)"))
+    remove_cols.extend(grep(col, "POOL_"))
+     #Removed SimplexDuplex only counts for the curated.
+    remove_cols.extend(grep(col,"CURATED-SIMPLEX-DUPLEX"))
+    df_condensed=df_post_filter.drop(columns=remove_cols)
+    return df_condensed
+ 
 
 def main():
     args = parse_arguments()
     #args =test_arguments()
     df_pre_filter = make_pre_filtered_maf(args)
     df_post_filter = apply_filter_maf(df_pre_filter, args)
+    df_condensed = make_condensed_post_filter (df_post_filter)
 
-    output_file_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered.maf')
-    df_post_filter.to_csv(output_file_name, header=True, index=None, sep='\t')
-
+    full_outfile_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered.maf')
+    condensed_outfile_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered_condensed.maf')
+    df_post_filter.to_csv(full_outfile_name, header=True, index=None, sep='\t')
+    df_condensed.to_csv(condensed_outfile_name, header=True, index=None, sep='\t')
 
 if __name__ == '__main__':
     main()
