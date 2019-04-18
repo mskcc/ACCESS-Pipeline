@@ -94,6 +94,11 @@ inputs:
 
 outputs:
 
+  filtered_condensed_maf:
+    type: File
+    outputBinding:
+      glob: '*_condensed.maf'
+
   filtered_maf:
     type: File
     outputBinding:

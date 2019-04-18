@@ -75,6 +75,10 @@ outputs:
     type: File
     outputSource: access_filters/filtered_maf
 
+  final_filtered_condensed_maf:
+    type: File
+    outputSource: access_filters/filtered_condensed_maf
+
 steps:
 
   vcf2maf:
@@ -204,4 +208,4 @@ steps:
         valueFrom: $(inputs.access_filters_params.min_n_curated_samples_alt_detected)
       tn_ratio_thres:
         valueFrom: $(inputs.access_filters_params.tn_ratio_thres)
-    out: [filtered_maf]
+    out: [filtered_maf, filtered_condensed_maf]

@@ -63,7 +63,8 @@ def extract_fillout_type(df_full_fillout):
         df_s['Tumor_Sample_Barcode'] = df_s['Tumor_Sample_Barcode'].str.replace('-SIMPLEX','')
         df_s.set_index('Tumor_Sample_Barcode', append=True, drop=False, inplace=True)
         #Prep Duplex
-        df_d.rename(columns = {'t_alt_count_fragment': 't_alt_count_fragment_duplex','t_ref_count_fragment':'t_ref_count_fragment_duplex'}, inplace=True)        
+        df_d.rename(columns = {'t_alt_count_fragment': 't_alt_count_fragment_duplex','t_ref_count_fragment':'t_ref_count_fragment_duplex'}, inplace=True)
+        df_d['Tumor_Sample_Barcode'] = df_d['Tumor_Sample_Barcode'].str.replace('-DUPLEX', '')
         df_d.set_index('Tumor_Sample_Barcode', append=True, drop=False, inplace=True)
         #Merge
         df_ds = df_s.merge(df_d[['t_ref_count_fragment_duplex','t_alt_count_fragment_duplex']], left_index=True, right_index=True)

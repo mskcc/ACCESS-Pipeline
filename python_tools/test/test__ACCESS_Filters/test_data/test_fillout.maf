@@ -272,7 +272,7 @@ ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_267	Normal
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_268	Normal									UNPAIRED							676	0				715	0.0	514	475	0	645	623	0
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_269	Normal									UNPAIRED							994	3				1183	0.00253593	832	643	3	1109	962	3
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_270	Normal									UNPAIRED							725	6				820	0.00731707	593	498	6	752	683	5
-ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				n_sample-CURATED	Normal									UNPAIRED							1206	2				1371	0.00145879	960	795	2	1260	1140	1
+ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				n_sample-CURATED-DUPLEX	Normal									UNPAIRED							1206	2				1371	0.00145879	960	795	2	1260	1140	1
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_271	Normal									UNPAIRED							830	13				1015	0.0128079	727	542	13	911	771	6
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_272	Normal									UNPAIRED							522	9				610	0.0147541	469	381	9	551	489	6
 ERRFI1		mskcc.org	GRCh37	1	8080157	8080157	+	Intron	SNP	T	A				sample_273	Normal									UNPAIRED							643	2				665	0.00300752	469	447	2	585	571	0

@@ -131,6 +131,10 @@ outputs:
     type: File[]
     outputSource: module_4/final_filtered_maf
 
+  final_filtered_condensed_maf:
+    type: File[]
+    outputSource: module_4/final_filtered_condensed_maf
+
 steps:
 
   ###################
@@ -193,6 +197,7 @@ steps:
       dropped_NGR_rmvbyanno_maf,
       hotspots_filtered_maf,
       fillout_maf,
-      final_filtered_maf]
+      final_filtered_maf,
+      final_filtered_condensed_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct
