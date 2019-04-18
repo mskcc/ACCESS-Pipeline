@@ -349,7 +349,7 @@ def write_yaml_bams(
     # 4. Genotyping sample IDs must be extracted from the bams themselves
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
     simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-SIMPLEX' for b in simplex_genotyping_bams]
-    curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED' for b in curated_duplex_genotyping_bams]
+    curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-DUPLEX' for b in curated_duplex_genotyping_bams]
     curated_simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
 
     genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_duplex_genotyping_bams + curated_simplex_genotyping_bams
