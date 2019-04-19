@@ -166,14 +166,14 @@ def main():
     noise_and_title_file = noise_table.merge(title_file, on = SAMPLE_ID_COLUMN)
     noise_by_substitution_table = noise_by_substitution_table.merge(title_file, on = SAMPLE_ID_COLUMN)
 
-    # Filter to Plasma samples
+    # Filter to just Plasma samples (if there are any)
     plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
     plasma_noise_by_substitution = noise_by_substitution_table[noise_by_substitution_table[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
-
-    noise_boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
-    noise_and_title_file = noise_and_title_file.loc[noise_boolv]
-    noise_by_substitution_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN].isin(plasma_noise_by_substitution)
-    noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
+    if not len(plasma_samples) == 0:
+        noise_boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+        noise_and_title_file = noise_and_title_file.loc[noise_boolv]
+        noise_by_substitution_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN].isin(plasma_noise_by_substitution)
+        noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
 
     # Sort in same order as R code (by sample class)
     # Use a stable mergesort instead of quicksort default
