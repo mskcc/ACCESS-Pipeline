@@ -75,6 +75,7 @@ def submit_to_lsf(params):
         '-cwd', '.',
         '-P', project_name,
         '-J', project_name,
+        # Todo: add pipeline version to log file name
         '-oo', project_name + "_stdout.log",
         '-eo', project_name + "_stderr.log",
         '-R', "select[hname={}]".format(LEADER_NODE),
