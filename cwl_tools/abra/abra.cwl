@@ -14,7 +14,7 @@ requirements:
   ResourceRequirement:
     ramMin: 60000
     coresMin: 8
-    outdirMax: 90000
+    outdirMax: 120000
 
 # Todo: It would be nice to have this
 # but unfortunately PATH is not a defined
