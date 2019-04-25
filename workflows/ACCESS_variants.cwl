@@ -215,27 +215,27 @@ steps:
   # Structural Variants #
   #######################
 
-  structural_variants:
-    run: ./module-6.cwl
-    in:
-      delly_params: delly_params
-      vcf2maf_params: vcf2maf_params
-      tumor_bam: tumor_bams
-      normal_bam: normal_bams
-      normal_sample_name: tumor_sample_names
-      tumor_sample_name: normal_sample_names
-      reference_fasta: ref_fasta
-      exac_filter: exac_filter
-      delly_type:
-        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
-      vep_data:
-        valueFrom: $(inputs.vcf2maf_params.vep_data)
-    out: [
-      delly_sv,
-      delly_filtered_sv,
-      merged_structural_variants,
-      merged_structural_variants_unfiltered,
-      structural_variants_maf,
-      final_filtered_maf]
-    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
-    scatterMethod: dotproduct
+#  structural_variants:
+#    run: ./module-6.cwl
+#    in:
+#      delly_params: delly_params
+#      vcf2maf_params: vcf2maf_params
+#      tumor_bam: tumor_bams
+#      normal_bam: normal_bams
+#      normal_sample_name: tumor_sample_names
+#      tumor_sample_name: normal_sample_names
+#      reference_fasta: ref_fasta
+#      exac_filter: exac_filter
+#      delly_type:
+#        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
+#      vep_data:
+#        valueFrom: $(inputs.vcf2maf_params.vep_data)
+#    out: [
+#      delly_sv,
+#      delly_filtered_sv,
+#      merged_structural_variants,
+#      merged_structural_variants_unfiltered,
+#      structural_variants_maf,
+#      final_filtered_maf]
+#    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
+#    scatterMethod: dotproduct
