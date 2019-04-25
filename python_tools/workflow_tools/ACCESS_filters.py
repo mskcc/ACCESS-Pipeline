@@ -18,7 +18,7 @@ mutation_key = ['Chromosome', 'Start_Position','End_Position','Reference_Allele'
 
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
-        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['set'] != 'MuTect'),'set'] = 'Vardict;Mutect'
+        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict;MuTect'
         df_annotation.drop(columns=['TYPE','FAILURE_REASON','MUTECT'], inplace=True)
     
     if os.path.isfile(args.anno_maf):
@@ -27,7 +27,7 @@ def convert_annomaf_to_df(args):
         df_annotation['Chromosome'] = df_annotation['Chromosome'].astype(str)
         df_annotation.set_index(mutation_key, drop=False, inplace=True)
         #TODO: It is recommended to sort multi-Index using "df_annotation.sortlevel(inplace=True)" for performance but not sure of downsteams errors.. need to test
-        df_annotation.rename(columns ={'Matched_Norm_Sample_Barcode':'caller_Norm_Sample_Barcode','t_depth':'caller_t_depth', 't_ref_count':'caller_t_ref_count', 't_alt_count':'caller_t_alt_count', 'n_depth':'caller_n_depth', 'n_ref_count':'caller_n_ref_count', 'n_alt_count':'caller_n_alt_count'}, inplace=True)
+        df_annotation.rename(columns ={'Matched_Norm_Sample_Barcode':'caller_Norm_Sample_Barcode','t_depth':'caller_t_depth', 't_ref_count':'caller_t_ref_count', 't_alt_count':'caller_t_alt_count', 'n_depth':'caller_n_depth', 'n_ref_count':'caller_n_ref_count', 'n_alt_count':'caller_n_alt_count','set':'CallMethod'}, inplace=True)
         cleanupMuTectColumns(df_annotation)
         return df_annotation
     else:
