@@ -6,14 +6,13 @@ normal_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
-tumor_sample_names: [tumor_bam_1, tumor_bam_2, tumor_bam_3]
+tumor_sample_names: [tumor_bam_1.bam, tumor_bam_2.bam, tumor_bam_3.bam]
 normal_sample_names: [default_normal.bam, default_normal.bam, default_normal.bam]
 genotyping_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_1.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3.bam}
-- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_3.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_1.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_2.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_3.bam}
@@ -23,122 +22,135 @@ genotyping_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_1.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_2.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_3.bam}
-genotyping_bams_ids: [tumor_bam_1.bam, normal_bam_1.bam, tumor_bam_2.bam, tumor_bam_3.bam,
-  normal_bam_3.bam, simplex_bam_1.bam-SIMPLEX, simplex_bam_2.bam-SIMPLEX, simplex_bam_3.bam-SIMPLEX,
+genotyping_bams_ids: [tumor_bam_1.bam, tumor_bam_2.bam, tumor_bam_3.bam, default_normal.bam,
+  simplex_bam_1.bam-SIMPLEX, simplex_bam_2.bam-SIMPLEX, simplex_bam_3.bam-SIMPLEX,
   curated_bam_1.bam-CURATED, curated_bam_2.bam-CURATED, curated_bam_3.bam-CURATED,
   curated_bam_1.bam-CURATED-SIMPLEX, curated_bam_2.bam-CURATED-SIMPLEX, curated_bam_3.bam-CURATED-SIMPLEX]
 
 
 # ------------------------------------------------------------
 
-##############
-# Test Files #
-##############
+#############################################
+# Files required to run Innovation Pipeline #
+#############################################
 
-# Module 3
-bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-A.sorted.no_fp_snp.bed}
-dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
-cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
-refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
-hotspot_vcf: {class: File, path: /opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf}
-#ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
-# Todo: Confirm we should use this, and that it is compatible with previous ref fasta
-ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
+# Used in multiple steps
+# Todo: Consolidate
+reference_fasta: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
 
-# Module 4
-hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt}
+# BaseRecalibrator
+# Todo: Consolidate
+bqsr__knownSites_dbSNP: {class: File, path: /ifs/e63data/bergerm1/Resources/DMP/pubdata/dbSNP/VERSIONS/dbsnp_v137/dbsnp_137.b37.vcf}
+bqsr__knownSites_millis: {class: File, path: /ifs/e63data/bergerm1/Resources/DMP/pubdata/mills-and-1000g/VERSIONS/v20131014/Mills_and_1000G_gold_standard.indels.b37.vcf}
+
+# Fingerprinting
+FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+
+# UMI QC
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+
+# Noise QC
+noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
+
+
+# Files used after standard Bam steps
+#
+# Main Bed files (Probe-level)
+pool_a_bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-A.sorted.bed}
+pool_b_bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0-probe-B.sorted.bed}
+gene_list: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/juber-hg19-gene-list.bed}
+# Exon-level Bed file
+pool_a_bed_file_exonlevel: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed}
 
 
 # ------------------------------------------------------------
 
-tmp_dir: {class: Directory, path: /scratch/johnsoni/}
+##########################################
+# Default Parameters for ACCESS-Pipeline #
+##########################################
 
-############
-# Module 3 #
-############
+process_loop_umi_fastq__params:
+  umi_length: 3
+  output_project_folder: .
 
-mutect_params:
-  dcov: 50000
-  rf: [BadCigar]
-# Todo: whats the difference when using these?
-  fraction_contamination: 0.0005
-# Todo: Check if needs to be changed
-  minimum_mutation_cell_fraction: 0.0005
+trimgalore__params:
+  length: 25
+  paired: true
+  gzip: true
+  quality: 1
+  stringency: 3
+  suppress_warn: false
 
-vardict_params:
-  r: 1          # The minimum # of variant reads
-  E: 3          # Indicating that  the column for region end is 3
-  c: 1          # Indicating that the column for chromosome is in 1
-  g: 4          # Indicating that  the column for gene name is 4
-  f: '0.0002'   # The threshold for allele frequency
-  S: 2          # Indicating that  the column for region start is 2
+add_or_replace_read_groups__params:
+  add_rg_PL: Illumina
+  add_rg_CN: BergerLab_MSKCC
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
 
-basicfiltering_mutect_params:
-  verbose: true
-  total_depth: 20              # Todo: Too high?
-  allele_depth: 1
-  tumor_normal_ratio: 1        # Todo: Too high? (may not allow true variants to pass tnfRF filter)
-  variant_fraction: 5.0e-05
-  outdir: .
+mark_duplicates__params:
+  create_index: true
+  assume_sorted: true
+  compression_level: 0
+  validation_stringency: LENIENT
+  duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
 
-basicfiltering_vardict_params:
-  verbose: true
-  total_depth: 20
-  allele_depth: 1
-  tumor_normal_ratio: 1
-  filter_germline: false
-  variant_fraction: 5.0e-05
-  min_qual: 0
-  outdir: .
+find_covered_intervals__params:
+  minbq: 20
+  minmq: 20
+  cov: 20
+  rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 
-bcftools_params:
-  allow_overlaps: true
-  rm_dups: all
+abra__params:
+#  kmers: 43,53,63,83,93
+  mad: 1000
+  sc: 100,30,80,15
+  mmr: 0.1
+  sga: 8,32,48,1
+  ca: 10,1
+  ws: 800,700
+  index: true
+  cons: true
 
+fix_mate_information__params:
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
 
-############
-# Module 4 #
-############
+base_recalibrator__params:
+  nct: 3
+  rf: BadCigar
 
-# (Also used for Module-6)
-vcf2maf_params:
-  species: homo_sapiens
-  ncbi_build: GRCh37
-  maf_center: mskcc.org
-  max_filter_ac: 10
-  min_hom_vaf: 0.7
-  buffer_size: 5000
-  # Todo: consolidate
-  vep_path: /opt/common/CentOS_6-dev/vep/v91/
-  vep_data: /opt/common/CentOS_6-dev/vep/cache/
-  vep_forks: 4
-  retain_info: set,TYPE,FAILURE_REASON
-  # Todo: consolidate
-  custom_enst: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
-
-exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
-hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
-
-gbcms_params:
-  omaf: true
-  filter_duplicate: 0
-  thread: 10
-  maq: 20
-  fragment_count: 1
+print_reads__params:
+  nct: 8
+  EOQ: true
+  baq: RECALCULATE
 
 
-############
-# Module 6 #
-############
+#####################################################
+# Parameters for Collapsing (module 2.5) & QC steps #
+#####################################################
 
-delly_params:
-  excluded_regions: {class: File, path: /opt/common/CentOS_6-dev/delly/master/excludeTemplates/human.hg19.excl.tsv}
-  # For filtering
-  filter_mode: somatic
-  min_genotype_fraction: 0
-  min_fraction_alt_support: 0.01
-  min_sv_size: 500
-  passing_filter_sites: true
+marianas_collapsing__params:
+  min_mapping_quality: 1
+  min_base_quality: 20
+  mismatches: 0
+  wobble: 2
+  min_consensus_percent: 90
+
+waltz__params:
+  coverage_threshold: 50
+  min_mapping_quality: 20
+
+########################
+# 2nd Realignment step
+# Ignore higher base qualities,
+# that were changed during collapsing
+fci_2__basq_fix: true
 
 
 # ------------------------------------------------------------
@@ -147,9 +159,9 @@ project_name: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test
 
 # ------------------------------------------------------------
 
-version: 0.0.50-14-g9b3cff6 
-# Pipeline Run Version Information: 
-# Version: 9b3cff6d59f6eac13db62fc371a95be073f941e8-dirty 
-# Short Version: 9b3cff6-dirty 
-# Most Recent Tag: 0.0.50-14-g9b3cff6 
+version: 1.1.3-22-g5d1c6ba
+# Pipeline Run Version Information:
+# Version: 5d1c6ba70204c6cd4e84fcbec67da4571f676090-dirty
+# Short Version: 5d1c6ba-dirty
+# Most Recent Tag: 1.1.3-22-g5d1c6ba
 # Dirty? True 
