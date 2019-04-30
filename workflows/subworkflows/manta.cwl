@@ -3,19 +3,32 @@ cwlVersion: v1.0
 class: Workflow
 
 requirements:
-  InlineJavaScriptRequirement: {}
+  MultipleInputFeatureRequirement: {}
+  ScatterFeatureRequirement: {}
+  SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
 
 inputs:
 
   sample_id: string[]
-  tumor_bams: File[]
-  normal_bams: File[]
 
-  reference_fasta: File
+  tumor_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
 
-  run_tools:
-    manta: Directory
-    sv_repo: Directory
+  normal_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
+
+  reference_fasta:
+    type: File
+    secondaryFiles: [.fai]
+
+  run_tools: ../../resources/run_tools/schemas.yaml#sv_run_tools
 
 outputs:
 
@@ -32,25 +45,31 @@ steps:
   manta:
     run: ../../cwl_tools/manta/manta.cwl
     in:
-      sv_repo: sv_repo
-      manta: manta
-      tumor_bams: tumor_bams
-      normal_bams: normal_bams
+      run_tools: run_tools
+      sv_repo:
+        valueFrom: $(inputs.run_tools.sv_repo)
+      manta:
+        valueFrom: $(inputs.run_tools.manta)
+      tumor_sample: tumor_bams
+      normal_sample: normal_bams
       reference_fasta: reference_fasta
-    scatter: [tumor_bams, normal_bams]
+    scatter: [tumor_sample, normal_sample]
     scatterMethod: dotproduct
     out: [sv_vcf, sv_directory]
 
   annotate_manta:
-    run: ../../cwl_tools/manta/annotate_manta.cwl
+    run: ../../cwl_tools/manta/manta_annotation.cwl
     in:
-      sv_repo: sv_repo
-      manta: manta
+      run_tools: run_tools
+      sv_repo:
+        valueFrom: $(inputs.run_tools.sv_repo)
+      manta:
+        valueFrom: $(inputs.run_tools.manta)
       vcf: manta/sv_vcf
       sample_id: sample_id
       output_dir:
         valueFrom: $('.')
       reference_fasta: reference_fasta
     scatter: [vcf, sample_id]
-    scattterMethod: dotproduct
+    scatterMethod: dotproduct
     out: [sv_file_annotated]

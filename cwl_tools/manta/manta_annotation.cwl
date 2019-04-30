@@ -19,7 +19,7 @@ inputs:
       position: 1
 
   sample_id:
-    type: File
+    type: string
     inputBinding:
       position: 2
 
@@ -40,7 +40,7 @@ inputs:
 
 outputs:
 
-  sv_file_anotated:
+  sv_file_annotated:
     type: File
     outputBinding:
       glob: $(inputs.sample_id + '_Annotated_Evidence.txt')

@@ -7,34 +7,35 @@ requirements:
     ramMin: 16000
 
 arguments:
-- Rscript
-- $(inputs.sv_repo + '/scripts/manta_sample.R')
+#- Rscript
+- /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+- $(inputs.sv_repo.path + '/scripts/manta_sample.R')
 
 inputs:
 
-  sv_repo:
-    type: Directory
-    inputBinding:
-      position: 1
+  sv_repo: Directory
 
   tumor_sample:
     type: File
+    secondaryFiles: [^.bai]
     inputBinding:
       prefix: --tumor
 
   normal_sample:
     type: File
+    secondaryFiles: [^.bai]
     inputBinding:
       prefix: --normal
 
   output_directory:
-    type: Directory
+    type: string
     default: .
     inputBinding:
       prefix: --output
 
   reference_fasta:
     type: File
+    secondaryFiles: [.fai]
     inputBinding:
       prefix: --fasta
 
@@ -45,11 +46,12 @@ inputs:
 
 outputs:
 
-  sv_file:
+  sv_vcf:
     type: File
     outputBinding:
       glob: 'results/variants/somaticSV.vcf.gz'
 
-  sv_results:
+  sv_directory:
     type: Directory
-    glob: *
+    outputBinding:
+      glob: '.'

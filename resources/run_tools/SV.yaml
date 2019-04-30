@@ -1,0 +1,3 @@
+run_tools:
+  manta: /opt/common/CentOS_6-dev/manta/1.5.0
+  sv_repo: /ifs/work/bergerm1/Innovation/software/ACCESS_SV
