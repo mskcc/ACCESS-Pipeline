@@ -5,6 +5,9 @@ import argparse
 import subprocess
 import ruamel.yaml
 
+from subprocess import Popen, PIPE
+from email.mime.text import MIMEText
+
 import version
 
 
@@ -232,6 +235,27 @@ def set_temp_dir_env_vars(tmpdir):
     os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + tmpdir
 
 
+def send_pipeline_complete_email(args, output_directory):
+    """
+    Send email upon pipeline completion
+
+    Todo: include details of success / failure
+    :return:
+    """
+    project_id = get_project_name_and_pipeline_version_id(args)
+
+    msg = 'Pipeline Run {} has completed.\n\nPlease check the outputs of this run located at:\n\n{}' \
+            .format(project_id, output_directory)
+
+    msg = MIMEText(msg)
+    msg['From'] = 'johnsoni@mskcc.org'
+    msg['To'] = 'skiinnovation@mskcc.org'
+    msg['Subject'] = 'ACCESS Pipeline run {}'.format(project_id)
+
+    p = Popen(['/usr/sbin/sendmail', '-t', '-oi'], stdin=PIPE)
+    p.communicate(msg.as_string())
+
+
 ########
 # Main #
 ########
@@ -247,3 +271,5 @@ def main():
     set_temp_dir_env_vars(tmpdir)
 
     run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
+
+    send_pipeline_complete_email(args, output_directory)
