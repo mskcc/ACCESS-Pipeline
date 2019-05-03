@@ -60,3 +60,8 @@ xlrd==1.1.0
 # ACCESS-Variants
 filemagic==1.6.0
 pyvcf==0.6.8
+biopython==1.65
+Pillow==3.4.2
+reportlab==3.3.0
+coloredlogs==5.2
+openpyxl==2.5.13

@@ -1,23 +1,29 @@
 sample_id:
 #- TD-seracare-0-5per
-- TD-seracare-1per
-- TD-seracare-2-5per
-- TD-seracare-5per
-- TD-seracare-wt
+#- TD-seracare-1per
+#- TD-seracare-2-5per
+#- TD-seracare-5per
+#- TD-seracare-wt
+- C-02WK6K-L001-d
 
 tumor_bams:
 #- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FJ/5500-FJ_EDD-ret-1.0.0/5500-FJ-EDD-RET-1.0.0-2-g2dc4ac9/standard_bams/C-02WK6K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T03_/DH-ntrk-001-002-pl-T03_IGO_05500_ES_38_S38_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
 normal_bams:
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F22_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
 reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 
