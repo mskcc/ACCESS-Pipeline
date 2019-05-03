@@ -7,7 +7,6 @@ requirements:
     ramMin: 16000
 
 arguments:
-- /bin/bash
 - $(inputs.sv_repo.path + '/scripts/iAnnotateSV.sh')
 
 inputs:
