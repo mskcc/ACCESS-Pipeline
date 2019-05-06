@@ -58,7 +58,7 @@ def submit_to_lsf(params):
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
         '--batch_system ' + params.batch_system,
-        '--logLevel ' + params.log_level,
+        '--log_level ' + params.log_level,
     )
 
     if params.restart:
