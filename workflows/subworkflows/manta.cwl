@@ -14,6 +14,10 @@ requirements:
 
 inputs:
 
+  # Todo: what to do with these?
+  project_name: string
+  version: string
+
   sample_id: string[]
 
   tumor_bams:
@@ -46,6 +50,7 @@ steps:
     run: ../../cwl_tools/manta/manta.cwl
     in:
       run_tools: run_tools
+      sample_id: sample_id
       sv_repo:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
@@ -53,7 +58,7 @@ steps:
       tumor_sample: tumor_bams
       normal_sample: normal_bams
       reference_fasta: reference_fasta
-    scatter: [tumor_sample, normal_sample]
+    scatter: [sample_id, tumor_sample, normal_sample]
     scatterMethod: dotproduct
     out: [sv_vcf, sv_directory]
 

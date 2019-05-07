@@ -5,6 +5,7 @@ class: CommandLineTool
 requirements:
   ResourceRequirement:
     ramMin: 16000
+    outdirMax: 5000
 
 arguments:
 #- Rscript
@@ -14,6 +15,8 @@ arguments:
 inputs:
 
   sv_repo: Directory
+
+  sample_id: string
 
   tumor_sample:
     type: File
@@ -55,3 +58,8 @@ outputs:
     type: Directory
     outputBinding:
       glob: '.'
+      outputEval: |
+        ${
+          self[0].basename = inputs.sample_id;
+          return self[0]
+        }
