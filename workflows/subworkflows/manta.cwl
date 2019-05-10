@@ -46,17 +46,77 @@ outputs:
 
 steps:
 
+  filter_tumor_reads_ending_in_indels:
+    run: ../../cwl_tools/manta/manta_filter.cwl
+    in:
+      bam: tumor_bams
+      output_file_name:
+        valueFrom: $(inputs.bam.basename.replace('.bam', '_term-indel-filt.bam'))
+    out: [filtered_bam]
+    scatter: [bam]
+    scatterMethod: dotproduct
+
+  filter_normal_reads_ending_in_indels:
+    run: ../../cwl_tools/manta/manta_filter.cwl
+    in:
+      bam: normal_bams
+      output_file_name:
+        valueFrom: $(inputs.bam.basename.replace('.bam', '_term-indel-filt.bam'))
+    out: [filtered_bam]
+    scatter: [bam]
+    scatterMethod: dotproduct
+
+  sort_tumor:
+    run: ../../cwl_tools/samtools/sort.cwl
+    in:
+      input: filter_tumor_reads_ending_in_indels/filtered_bam
+      output_name:
+        valueFrom: $(inputs.input.basename.replace('.bam', '_srt.bam'))
+    out: [sorted_bam]
+    scatter: [input]
+    scatterMethod: dotproduct
+
+  sort_normal:
+    run: ../../cwl_tools/samtools/sort.cwl
+    in:
+      input: filter_normal_reads_ending_in_indels/filtered_bam
+      output_name:
+        valueFrom: $(inputs.input.basename.replace('.bam', '_srt.bam'))
+    out: [sorted_bam]
+    scatter: [input]
+    scatterMethod: dotproduct
+
+  index_tumor:
+    run: ../../cwl_tools/samtools/index.cwl
+    in:
+      bam: sort_tumor/sorted_bam
+    out: [indexed_bam]
+    scatter: [bam]
+    scatterMethod: dotproduct
+
+  index_normal:
+    run: ../../cwl_tools/samtools/index.cwl
+    in:
+      bam: sort_normal/sorted_bam
+    out: [indexed_bam]
+    scatter: [bam]
+    scatterMethod: dotproduct
+
   manta:
     run: ../../cwl_tools/manta/manta.cwl
     in:
       run_tools: run_tools
-      sample_id: sample_id
+      r_path:
+        valueFrom: $(inputs.run_tools.r_path)
       sv_repo:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
         valueFrom: $(inputs.run_tools.manta)
-      tumor_sample: tumor_bams
-      normal_sample: normal_bams
+
+      sample_id: sample_id
+      tumor_sample: index_tumor/indexed_bam
+      normal_sample: index_normal/indexed_bam
+
       reference_fasta: reference_fasta
     scatter: [sample_id, tumor_sample, normal_sample]
     scatterMethod: dotproduct
@@ -70,8 +130,10 @@ steps:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
         valueFrom: $(inputs.run_tools.manta)
+
       vcf: manta/sv_vcf
       sample_id: sample_id
+
       output_dir:
         valueFrom: $('.')
       reference_fasta: reference_fasta

@@ -1,36 +1,36 @@
 sample_id:
-#- TD-seracare-0-5per
-#- TD-seracare-1per
-#- TD-seracare-2-5per
-#- TD-seracare-5per
-#- TD-seracare-wt
+- TD-seracare-0-5per
+- TD-seracare-1per
+- TD-seracare-2-5per
+- TD-seracare-5per
+- TD-seracare-wt
 #- C-02WK6K-L001-d
-- DH-ntrk-001-002-pl-T05
-- DH-ntrk-001-pl-T22
-- DH-ntrk-001-pl-T25
-- DH-ntrk-002-pl-T18
-- DH-ntrk-012-pl-T10
-- DH-ntrk-012-pl-T11
-- DH-ntrk-012-pl-T18
-- DH-ntrk-101-018-pl-T02
-- DH-ntrk-101-018-pl-T06
+#- DH-ntrk-001-002-pl-T05
+#- DH-ntrk-001-pl-T22
+#- DH-ntrk-001-pl-T25
+#- DH-ntrk-002-pl-T18
+#- DH-ntrk-012-pl-T10
+#- DH-ntrk-012-pl-T11
+#- DH-ntrk-012-pl-T18
+#- DH-ntrk-101-018-pl-T02
+#- DH-ntrk-101-018-pl-T06
 
 tumor_bams:
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
 #- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-FJ/5500-FJ_EDD-ret-1.0.0/5500-FJ-EDD-RET-1.0.0-2-g2dc4ac9/standard_bams/C-02WK6K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T05_/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T22_/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T25_/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-002-pl-T18_/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T10_/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T11_/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T18_/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T02_/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T06_/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T05_/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T22_/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T25_/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-002-pl-T18_/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T10_/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T11_/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T18_/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T02_/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T06_/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
 normal_bams:
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F22_cl_aln_srt_MD_IR_FX_BR.bam}
@@ -38,21 +38,27 @@ normal_bams:
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
 #- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/standard/F19_cl_aln_srt_MD_IR_FX_BR.bam}
 #- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+#- {class: File, path: /ifs/work/bergerm1/Innovation/projects/zhengy1/MSK-Norm-F12-pl-T01_IGO_05500_FE_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
 reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 
 run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
   manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
   sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
 

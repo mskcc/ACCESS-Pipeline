@@ -41,6 +41,9 @@ fields:
 type: record
 name: sv_run_tools
 fields:
+  - name: r_path
+    type: string
+
   - name: manta
     type: Directory
 

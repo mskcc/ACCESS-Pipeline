@@ -4,29 +4,29 @@ class: CommandLineTool
 
 requirements:
   ResourceRequirement:
+    coresMin: 8
     ramMin: 16000
     outdirMax: 5000
 
 arguments:
-#- Rscript
-- /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+- $(inputs.r_path)
 - $(inputs.sv_repo.path + '/scripts/manta_sample.R')
 
 inputs:
 
+  r_path: string
   sv_repo: Directory
-
   sample_id: string
 
   tumor_sample:
     type: File
-    secondaryFiles: [^.bai]
+    secondaryFiles: [.bai]
     inputBinding:
       prefix: --tumor
 
   normal_sample:
     type: File
-    secondaryFiles: [^.bai]
+    secondaryFiles: [.bai]
     inputBinding:
       prefix: --normal
 

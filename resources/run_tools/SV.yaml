@@ -1,3 +1,4 @@
 run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
   manta: /opt/common/CentOS_6-dev/manta/1.5.0
   sv_repo: /ifs/work/bergerm1/Innovation/software/ACCESS_SV
