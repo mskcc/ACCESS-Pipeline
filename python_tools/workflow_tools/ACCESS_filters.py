@@ -172,6 +172,10 @@ def make_pre_filtered_maf(args):
         df_normal_summary['NORMAL_n_fillout_sample']="no_normals_in_pool"
     else:
         df_normal_summary = create_fillout_summary (df_normal, args.tumor_detect_alt_thres)
+        #tag normal as NORMAL        
+        for f in list(df_normal_summary):
+            if f not in ['NORMAL_median_VAF','NORMAL_n_fillout_sample_alt_detect',  'NORMAL_n_fillout_sample']:
+                df_normal_summary.rename(columns={f:f+'-NORMAL'}, inplace=True)
 
     df_curated_summary = create_fillout_summary (df_curated, args.curated_detect_alt_thres)
     df_ds_tumor_summary = create_fillout_summary (df_ds_tumor, args.DS_tumor_detect_alt_thres)
@@ -229,7 +233,7 @@ def apply_filter_maf (df_pre_filter, args):
        
     def tag_below_alt_threshold(mut, status, args):
         if mut['t_alt_count_fragment'] < args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['t_alt_count_fragment'] < args.tier_two_alt_min):
-            if mut['caller_t_alt_count']>= args.tier_one_alt_min or (mut['hotspot_whitelist'] == False and mut['caller_t_alt_count'] >= args.tier_two_alt_min):
+            if mut['caller_t_alt_count']>= args.tier_two_alt_min or (mut['hotspot_whitelist'] == True and mut['caller_t_alt_count'] >= args.tier_one_alt_min):
                 status = status+'BelowAltThreshold;LostbyGenotyper;'
             else:
                 status = status+'BelowAltThreshold;'
@@ -245,12 +249,12 @@ def apply_filter_maf (df_pre_filter, args):
         #if normal and tumor coverage is greater than the minimal
         if mut['t_ref_count_fragment'] + mut['t_alt_count_fragment'] > args.tumor_TD_min:
             if mut['CURATED-DUPLEX_median_VAF'] != 0:
-                if mut['t_vaf_fragment'] / mut['CURATED-DUPLEX_median_VAF'] > args.tn_ratio_thres:
+                if mut['t_vaf_fragment'] / mut['CURATED-DUPLEX_median_VAF'] < args.tn_ratio_thres:
                     status = status + 'TNRatio-curatedmedian;'
             
             if 'n_vaf_fragment' in mut.index.tolist() and mut['hotspot_whitelist'] == False:
                 if mut['n_ref_count_fragment'] + mut['n_alt_count_fragment'] > args.normal_TD_min and mut['n_vaf_fragment'] != 0:
-                    if mut['t_vaf_fragment'] / mut['n_vaf_fragment'] > args.tn_ratio_thres:
+                    if mut['t_vaf_fragment'] / mut['n_vaf_fragment'] < args.tn_ratio_thres:
                         status = status + 'TNRatio-matchnorm;'
         return status
     def cleanup_post_filter(df_post_filter):
@@ -293,21 +297,21 @@ def make_condensed_post_filter (df_post_filter):
     def grep(yourlist, yourstring):
          item= [item for item in yourlist if re.search(yourstring, item)]
          return item
-     #Find list of all columns
+    #Make Total depth Columns
+    df_selected=df_post_filter.loc[df_post_filter['Status']=='']
+    df_selected['SD_t_depth_count_fragment']=df_selected['SD_t_alt_count_fragment']+df_selected['SD_t_ref_count_fragment']    
+    df_selected['n_depth_count_fragment']=df_selected['n_alt_count_fragment']+df_selected['n_ref_count_fragment']
+    #Find list columns to keep in order
+    keep=['Tumor_Sample_Barcode','caller_Norm_Sample_Barcode','Matched_Norm_Sample_Barcode', 'Chromosome','Start_Position', 'Reference_Allele',	'Tumor_Seq_Allele2', 'Variant_Classification','Hugo_Symbol','HGVSp_Short','HGVSc','all_effects','dbSNP_RS','hotspot_whitelist','ExAC_AF','CallMethod', 'SD_t_depth_count_fragment',	'SD_t_alt_count_fragment',	'SD_t_ref_count_fragment',	'SD_t_vaf_fragment','n_depth_count_fragment',	'n_alt_count_fragment',	'n_ref_count_fragment',	'n_vaf_fragment']
     col=list(df_post_filter)
-    remove_cols=[]
-     #Removed Duplex only counts for the pool
-    remove_cols.extend(grep(col,"([^(SIMPLEX)(CURATED)]-DUPLEX)"))
-    remove_cols.extend(grep(col, "POOL_"))
-     #Removed SimplexDuplex only counts for the curated.
-    remove_cols.extend(grep(col,"CURATED-SIMPLEX-DUPLEX"))
-    df_condensed=df_post_filter.drop(columns=remove_cols)
-    return df_condensed
- 
+    keep.extend(grep(col,"([^(CURATED)]-SIMPLEX-DUPLEX)"))
+    keep.extend(grep(col,"(-NORMAL)"))
+    df_condensed=df_selected[keep]
+    return df_condensed 
+
 
 def main():
     args = parse_arguments()
-    #args =test_arguments()
     df_pre_filter = make_pre_filtered_maf(args)
     df_post_filter = apply_filter_maf(df_pre_filter, args)
     df_condensed = make_condensed_post_filter (df_post_filter)
