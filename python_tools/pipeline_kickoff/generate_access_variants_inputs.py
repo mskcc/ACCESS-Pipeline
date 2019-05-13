@@ -226,11 +226,20 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
         # Use the matching normal bam that contains this normal sample ID
         # Both samples are added for genotyping
         elif any(normal_id in n for n in normal_samples):
-            normal_sample = filter(lambda n: normal_id in n, normal_samples)[0]
+            matching_normal_samples = filter(lambda n: normal_id in n, normal_samples)
+
+            if len(matching_normal_samples) > 1:
+                # If we have multiple matches for this normal sample ID, make sure that they are exactly the same,
+                # to avoid the following case: Sample_1 != Sample_1A
+                assert all([all([x == y for x in matching_normal_samples]) for y in matching_normal_samples])
+
+            normal_sample = matching_normal_samples[0]
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(normal_sample)
             ordered_fillout_samples.append(tumor_sample)
-            ordered_fillout_samples.append(normal_sample)
+            # Only genotype each normal once, even if it is paired with multiple tumors
+            if not normal_sample in ordered_fillout_samples:
+                ordered_fillout_samples.append(normal_sample)
 
     return ordered_tumor_samples, ordered_normal_samples, ordered_fillout_samples
 

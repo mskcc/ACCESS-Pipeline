@@ -3,14 +3,17 @@ tumor_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
 normal_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
-tumor_sample_names: [tumor_bam_2, tumor_bam_1, tumor_bam_3, tumor_bam_4]
-normal_sample_names: [default_normal, normal_bam_1, normal_bam_3, default_normal]
-matched_normal_ids: ['', normal_bam_1, normal_bam_3, '']
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+tumor_sample_names: [tumor_bam_2, tumor_bam_1, tumor_bam_3, tumor_bam_4, tumor_bam_5]
+normal_sample_names: [default_normal, normal_bam_1, normal_bam_3, default_normal,
+  normal_bam_3]
+matched_normal_ids: ['', normal_bam_1, normal_bam_3, '', normal_bam_3]
 genotyping_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
@@ -19,9 +22,12 @@ genotyping_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/normal_bams/normal_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
@@ -29,8 +35,9 @@ genotyping_bams:
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
 genotyping_bams_ids: [tumor_bam_2, default_normal, tumor_bam_1, normal_bam_1, tumor_bam_3,
-  normal_bam_3, tumor_bam_4, simplex_bam_1-SIMPLEX, simplex_bam_2-SIMPLEX, simplex_bam_3-SIMPLEX,
-  curated_bam_1-CURATED, curated_bam_2-CURATED, curated_bam_3-CURATED, curated_bam_1-CURATED-SIMPLEX,
+  normal_bam_3, tumor_bam_4, tumor_bam_5, simplex_bam_1-SIMPLEX, simplex_bam_2-SIMPLEX,
+  simplex_bam_3-SIMPLEX, simplex_bam_4-SIMPLEX, simplex_bam_5-SIMPLEX, curated_bam_1-CURATED-DUPLEX,
+  curated_bam_2-CURATED-DUPLEX, curated_bam_3-CURATED-DUPLEX, curated_bam_1-CURATED-SIMPLEX,
   curated_bam_2-CURATED-SIMPLEX, curated_bam_3-CURATED-SIMPLEX]
 
 
@@ -127,9 +134,9 @@ access_filters_params:
   DS_tumor_detect_alt_thres: 2
   DS_curated_detect_alt_thres: 2
   normal_TD_min: 20
-  normal_vaf_germline_thres: 0.4
+  normal_vaf_germline_thres: 0.3
   tumor_TD_min: 20
-  tumor_vaf_germline_thres: 0.4
+  tumor_vaf_germline_thres: 0
   tier_one_alt_min: 3
   tier_two_alt_min: 5
   min_n_curated_samples_alt_detected: 2
@@ -158,9 +165,9 @@ project_name: test_project
 
 # ------------------------------------------------------------
 
-version: <function most_recent_tag at 0x11144bde8>
+version: <function most_recent_tag at 0x10d355b90>
 # Pipeline Run Version Information:
-# Version: <function version at 0x10e514500>
-# Short Version: <function short_version at 0x11144bf50>
-# Most Recent Tag: <function most_recent_tag at 0x11144bde8>
-# Dirty? <function dirty at 0x1114a5140>
+# Version: <function version at 0x1097c1500>
+# Short Version: <function short_version at 0x1097c1c80>
+# Most Recent Tag: <function most_recent_tag at 0x10d355b90>
+# Dirty? <function dirty at 0x10d355c80>
