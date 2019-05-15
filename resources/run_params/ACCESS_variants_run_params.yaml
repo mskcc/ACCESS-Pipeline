@@ -51,7 +51,7 @@ annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_fi
 
 # (Also used for Module-6)
 vcf2maf_params:
-  species: homo_sapiens
+  species: homo_sapiens_merged
   ncbi_build: GRCh37
   maf_center: mskcc.org
   max_filter_ac: 10

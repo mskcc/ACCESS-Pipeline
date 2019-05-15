@@ -6,7 +6,7 @@ fields:
     type:
       type: enum
       name: species
-      symbols: [homo_sapiens, mus_musculus]
+      symbols: [homo_sapiens, homo_sapiens_merged, mus_musculus]
 
   ncbi_build:
     name: ncbi_build
@@ -26,8 +26,4 @@ fields:
   any_allele: string?
   tmp_dir: string?
   vep_forks: int?
-#  filter_vcf:
-#  - 'null'
-#  - string
-#  - File
   retain_info: string?
