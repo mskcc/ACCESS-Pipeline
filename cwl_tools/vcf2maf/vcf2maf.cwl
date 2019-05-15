@@ -59,7 +59,7 @@ inputs:
     type:
     - 'null'
     - type: enum
-      symbols: [homo_sapiens, mus_musculus]
+      symbols: [homo_sapiens, homo_sapiens_merged, mus_musculus]
     default: homo_sapiens
     doc: Species of variants in input
     inputBinding:

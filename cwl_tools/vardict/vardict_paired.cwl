@@ -42,6 +42,7 @@ arguments:
 - shellQuote: false
   valueFrom: $('|')
 - $(inputs.var2vcf_paired)
+- -A
 - -N
 - $(inputs.tumor_sample_name + '|' + inputs.normal_sample_name)
 - -f
