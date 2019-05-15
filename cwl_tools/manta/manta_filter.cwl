@@ -29,7 +29,7 @@ arguments:
 
 - samtools
 - view
-- -Sb
+- -b
 - '-'
 
 - shellQuote: false
