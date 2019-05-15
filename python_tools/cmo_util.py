@@ -144,7 +144,7 @@ def normalize_vcf(vcf_file, ref_fasta):
         BCFTOOLS_LOCATION_1_6, 'norm',
         '--check-ref', 's',
         '--fasta-ref', ref_fasta,
-        '--multiallelics', '+any',
+        '--multiallelics', '-any',
         '--output-type', 'z',
         '--output', output_vcf,
         vcf_gz_file

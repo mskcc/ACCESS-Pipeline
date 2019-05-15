@@ -299,8 +299,14 @@ def make_condensed_post_filter (df_post_filter):
          return item
     #Make Total depth Columns
     df_selected=df_post_filter.loc[df_post_filter['Status']=='']
-    df_selected['SD_t_depth_count_fragment']=df_selected['SD_t_alt_count_fragment']+df_selected['SD_t_ref_count_fragment']    
-    df_selected['n_depth_count_fragment']=df_selected['n_alt_count_fragment']+df_selected['n_ref_count_fragment']
+    df_selected['SD_t_depth_count_fragment']=df_selected['SD_t_alt_count_fragment']+df_selected['SD_t_ref_count_fragment']
+
+    if df_selected.n_alt_count_fragment[0] == 'NA':
+        # Unmatched mode, no normal, can't calculate n_depth
+        df_selected['n_depth_count_fragment'] = 'NA'
+    else:
+        df_selected['n_depth_count_fragment']=df_selected['n_alt_count_fragment']+df_selected['n_ref_count_fragment']
+
     #Find list columns to keep in order
     keep=['Tumor_Sample_Barcode','caller_Norm_Sample_Barcode','Matched_Norm_Sample_Barcode', 'Chromosome','Start_Position', 'Reference_Allele',	'Tumor_Seq_Allele2', 'Variant_Classification','Hugo_Symbol','HGVSp_Short','HGVSc','all_effects','dbSNP_RS','hotspot_whitelist','ExAC_AF','CallMethod', 'SD_t_depth_count_fragment',	'SD_t_alt_count_fragment',	'SD_t_ref_count_fragment',	'SD_t_vaf_fragment','n_depth_count_fragment',	'n_alt_count_fragment',	'n_ref_count_fragment',	'n_vaf_fragment']
     col=list(df_post_filter)
