@@ -3,7 +3,7 @@ import unittest
 
 import pandas as pd
 
-from constants import ALL_TABLES_MODULE_OUTPUT_FILES
+from python_tools.constants import ALL_TABLES_MODULE_OUTPUT_FILES
 from python_tools.workflow_tools.qc import tables_module
 
 
@@ -68,8 +68,9 @@ class TablesModuleTest(unittest.TestCase):
 
         for output_file in ALL_TABLES_MODULE_OUTPUT_FILES:
             print(output_file)
-            expected = pd.read_csv('expected_output/' + output_file)
-            assert pd.read_csv(output_file).equals(expected)
+            actual = pd.read_csv(output_file, sep='\t')
+            expected = pd.read_csv('expected_output/' + output_file, sep='\t')
+            assert actual.equals(expected)
 
 
 if __name__ == '__main__':

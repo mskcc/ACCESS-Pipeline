@@ -1,4 +1,4 @@
-coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
+peak_coverage	interval_name	CMO_SAMPLE_ID	Gene	Probe
 2749.0	exon_AKT1_10a.1_1	TD-seracare-0-5per	AKT1	10a.1_1
 2586.0	exon_AKT1_11a_1	TD-seracare-0-5per	AKT1	11a_1
 2594.0	exon_AKT1_12a_1	TD-seracare-0-5per	AKT1	12a_1
