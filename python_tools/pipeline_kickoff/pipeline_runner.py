@@ -171,7 +171,7 @@ def get_project_name_and_pipeline_version_id(args):
         child_dir = ".".join([project_name, pid])
         os.mkdir("/".join([yaml_tmpdir, child_dir]))
         yaml_tmpdir = "/".join([yaml_tmpdir, child_dir]) + "/"
-        inputs_file['tmp_dir']['class'] = "Directory"
+        inputs_yaml['tmp_dir']['class'] = "Directory"
         inputs_yaml['tmp_dir']['path'] = yaml_tmpdir
         os.environ['TMPDIR'] = yaml_tmpdir
         with open(args.inputs_file, 'w') as y:
