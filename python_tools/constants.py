@@ -254,6 +254,19 @@ gc_cov_int_table_exon_level_filename = 'GC_bias_with_coverage_exon_level.txt'
 gc_avg_each_sample_coverage_exon_level_filename = 'GC_bias_with_coverage_averages_over_each_sample_exon_level.txt'
 average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
 
+INSERT_SIZE_PREFIX = 'insert_sizes_'
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    'standard_A_targets.txt',
+    'unfiltered_A_targets.txt',
+    'simplex_A_targets.txt',
+    'duplex_A_targets.txt',
+    'standard_B_targets.txt',
+    'unfiltered_B_targets.txt',
+    'simplex_B_targets.txt',
+    'duplex_B_targets.txt',
+]
+INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
+
 ALL_TABLES_MODULE_OUTPUT_FILES = [
     read_counts_filename,
     coverage_agg_filename,
@@ -266,6 +279,9 @@ ALL_TABLES_MODULE_OUTPUT_FILES = [
     gc_cov_int_table_exon_level_filename,
     gc_avg_each_sample_coverage_exon_level_filename,
     average_coverage_across_exon_targets_filename
+] + INSERT_SIZE_OUTPUT_FILE_NAMES + [
+    'qc_sample_coverage_A_targets.txt',
+    'qc_sample_coverage_B_targets.txt'
 ]
 
 

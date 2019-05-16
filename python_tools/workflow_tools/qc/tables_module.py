@@ -6,20 +6,20 @@
 # Center For Molecular Oncology
 # Memorial Sloan Kettering Cancer Research Center
 # maintainer: Ian Johnson (johnsoni@mskcc.org)
-##################################################
+#
+#
+# This module functions as an aggregation step to combine QC metrics
+# across Waltz runs on different bam types.
 
+import shutil
 import logging
 import argparse
 import numpy as np
 import pandas as pd
 
-from ...constants import *
+from python_tools.constants import *
+from python_tools.util import to_csv
 
-
-#####################
-# Helper methods
-# todo: refactor away
-#####################
 
 def unique_or_tot(x):
     if TOTAL_LABEL in x:
@@ -27,10 +27,6 @@ def unique_or_tot(x):
     else:
         return PICARD_LABEL
 
-
-##########################
-# Table creation methods #
-##########################
 
 def get_read_counts_table(path, pool):
     """
@@ -248,6 +244,39 @@ def main():
     create_combined_qc_tables(args)
 
 
+def copy_fragment_sizes_files(args):
+    """
+    Copy the fragment-sizes.txt files from the Waltz output folders, and create a combined table for all bam types
+
+    Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
+    Todo: not clean
+
+    :param args:
+    :return:
+    """
+    fragment_sizes_files = [
+        (args.standard_waltz_pool_a,     'Standard_A'),
+        (args.unfiltered_waltz_pool_a,   'Unfiltered_A'),
+        (args.simplex_waltz_pool_a,      'Simplex_A'),
+        (args.duplex_waltz_pool_a,       'Duplex_A'),
+        (args.standard_waltz_pool_b,     'Standard_B'),
+        (args.unfiltered_waltz_pool_b,   'Unfiltered_B'),
+        (args.simplex_waltz_pool_b,      'Simplex_B'),
+        (args.duplex_waltz_pool_b,       'Duplex_B'),
+    ]
+    fragment_sizes_files = [(outname, x[0], x[1]) for outname, x in zip(INSERT_SIZE_OUTPUT_FILE_NAMES, fragment_sizes_files)]
+
+    for dst, src, type in fragment_sizes_files:
+        # Copy to current directory of all aggregated QC info
+        frag_sizes_path = os.path.join(src, 'fragment-sizes.txt')
+
+        # Create combined DataFrame for A and B targets
+        fragment_sizes_df = pd.read_csv(frag_sizes_path, sep='\t')
+        fragment_sizes_df = fragment_sizes_df[['FragmentSize', 'TotalFrequency', SAMPLE_ID_COLUMN]]
+        fragment_sizes_df = fragment_sizes_df.pivot('FragmentSize', SAMPLE_ID_COLUMN, 'TotalFrequency')
+        fragment_sizes_df.to_csv(os.path.join('.', dst), sep='\t')
+
+
 def create_combined_qc_tables(args):
     """
     Read in and concatenate all the tables from their respective waltz output folders
@@ -270,10 +299,7 @@ def create_combined_qc_tables(args):
     pool_b_coverage_table = get_coverage_table(args.standard_waltz_pool_b, POOL_B_LABEL)
     coverage_table = pd.concat([pool_b_coverage_table, pool_a_coverage_table])
 
-    ##############
-    # Pool-Level #
-    # A Targets  #
-    ##############
+    # Pool-Level, A Targets
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_a, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_a, SIMPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_a, DUPLEX_COLLAPSING_METHOD, POOL_A_LABEL)
@@ -281,10 +307,7 @@ def create_combined_qc_tables(args):
     coverage_table = pd.concat([coverage_table, unfilt[1], simplex[1], duplex[1]]).reset_index(drop=True)
     gc_cov_int_table = pd.concat([gc_cov_int_table, unfilt[2], simplex[2], duplex[2]]).reset_index(drop=True)
 
-    ##############
-    # Pool-Level #
-    # B Targets  #
-    ##############
+    # Pool-Level, B Targets
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_pool_b, UNFILTERED_COLLAPSING_METHOD, POOL_B_LABEL)
     simplex = get_collapsed_waltz_tables(args.simplex_waltz_pool_b, SIMPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
     duplex = get_collapsed_waltz_tables(args.duplex_waltz_pool_b, DUPLEX_COLLAPSING_METHOD, POOL_B_LABEL)
@@ -295,10 +318,7 @@ def create_combined_qc_tables(args):
     gc_avg_table_each = get_gc_table_average_for_each_sample(gc_cov_int_table)
     coverage_per_interval_table = get_coverage_per_interval(gc_cov_int_table)
 
-    ##############
-    # Exon-Level #
-    # A Targets  #
-    ##############
+    # Exon-Level, A Targets
     gc_cov_int_table_exon_level = get_gc_table(TOTAL_LABEL, WALTZ_INTERVALS_FILENAME_SUFFIX, args.standard_waltz_metrics_pool_a_exon_level)
 
     unfilt = get_collapsed_waltz_tables(args.unfiltered_waltz_metrics_pool_a_exon_level, UNFILTERED_COLLAPSING_METHOD, POOL_A_LABEL)
@@ -315,26 +335,45 @@ def create_combined_qc_tables(args):
     ####################
     # Write all tables #
     ####################
-    read_counts_table.to_csv(read_counts_filename, sep='\t', index=False)
-    read_counts_total_table.to_csv(read_counts_total_filename, sep='\t', index=False)
-    coverage_table.to_csv(coverage_agg_filename, sep='\t', index=False)
-    gc_cov_int_table.to_csv(gc_bias_with_coverage_filename, sep='\t', index=False)
-    gc_avg_table_each.to_csv(gc_avg_each_sample_coverage_filename, sep='\t', index=False)
-    coverage_per_interval_table.to_csv(coverage_per_interval_filename, sep='\t', index=False)
+    to_csv(read_counts_table,               read_counts_filename)
+    to_csv(read_counts_total_table,         read_counts_total_filename)
+    to_csv(coverage_table,                  coverage_agg_filename)
+    to_csv(gc_cov_int_table,                gc_bias_with_coverage_filename)
+    to_csv(gc_avg_table_each,               gc_avg_each_sample_coverage_filename)
+    to_csv(coverage_per_interval_table,     coverage_per_interval_filename)
+    to_csv(read_counts_table_exon_level,    read_counts_table_exon_level_filename)
+    to_csv(coverage_table_exon_level,       coverage_table_exon_level_filename)
+    to_csv(gc_cov_int_table_exon_level,     gc_cov_int_table_exon_level_filename)
+    to_csv(gc_avg_table_each_exon_level,    gc_avg_each_sample_coverage_exon_level_filename)
 
-    read_counts_table_exon_level.to_csv(read_counts_table_exon_level_filename, sep='\t', index=False)
-    coverage_table_exon_level.to_csv(coverage_table_exon_level_filename, sep='\t', index=False)
-    gc_cov_int_table_exon_level.to_csv(gc_cov_int_table_exon_level_filename, sep='\t', index=False)
-    gc_avg_table_each_exon_level.to_csv(gc_avg_each_sample_coverage_exon_level_filename, sep='\t', index=False)
+    # DMP-specific file formats
+    copy_fragment_sizes_files(args)
+    reformat_coverage_files(coverage_table)
 
-    # Fragment Sizes graph comes from Unfiltered Bam, Pool A Targets
-    # Also need waltz-coverage.txt from Duplex A, exon-level metrics
-    # todo: not clean
-    import shutil
+    # Also need to copy the fragment-sizes.txt from Unfiltered A Targets
+    # For insert sizes graph
     frag_sizes_path = os.path.join(args.unfiltered_waltz_pool_a, 'fragment-sizes.txt')
-    shutil.copyfile(frag_sizes_path, '%s/%s' % ('.', 'fragment_sizes_unfiltered_A_targets.txt'))
+    shutil.copyfile(frag_sizes_path, os.path.join('.', 'fragment_sizes_unfiltered_A_targets.txt'))
+
+    # Also need to copy exon-level coverage files from Duplex A,
+    # for Exon-level coverage graph
     average_coverage_across_exon_targets_path = os.path.join(args.duplex_waltz_metrics_pool_a_exon_level, 'waltz-coverage.txt')
-    shutil.copyfile(average_coverage_across_exon_targets_path, '%s/%s' % ('.', 'average_coverage_across_exon_targets_duplex_A.txt'))
+    shutil.copyfile(average_coverage_across_exon_targets_path, os.path.join('.', 'average_coverage_across_exon_targets_duplex_A.txt'))
+
+
+def reformat_coverage_files(coverage_table):
+    """
+    Output coverage files in DMP-specific DB format for upload
+
+    :param coverage_table:
+    :return:
+    """
+    coverage_table_A_targets = coverage_table[coverage_table['pool'] == POOL_A_LABEL]
+    coverage_table_B_targets = coverage_table[coverage_table['pool'] == POOL_B_LABEL]
+    coverage_table_A_targets = coverage_table_A_targets.pivot(SAMPLE_ID_COLUMN, 'method', 'average_coverage')
+    coverage_table_B_targets = coverage_table_B_targets.pivot(SAMPLE_ID_COLUMN, 'method', 'average_coverage')
+    coverage_table_A_targets.to_csv('qc_sample_coverage_A_targets.txt', sep='\t')
+    coverage_table_B_targets.to_csv('qc_sample_coverage_B_targets.txt', sep='\t')
 
 
 class FullPaths(argparse.Action):
