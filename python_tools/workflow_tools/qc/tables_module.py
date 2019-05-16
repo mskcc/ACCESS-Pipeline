@@ -274,6 +274,7 @@ def copy_fragment_sizes_files(args):
         fragment_sizes_df = pd.read_csv(frag_sizes_path, sep='\t')
         fragment_sizes_df = fragment_sizes_df[['FragmentSize', 'TotalFrequency', SAMPLE_ID_COLUMN]]
         fragment_sizes_df = fragment_sizes_df.pivot('FragmentSize', SAMPLE_ID_COLUMN, 'TotalFrequency')
+        fragment_sizes_df = fragment_sizes_df.fillna(0)
         fragment_sizes_df.to_csv(os.path.join('.', dst), sep='\t')
 
 
