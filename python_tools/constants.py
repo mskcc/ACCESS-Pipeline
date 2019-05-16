@@ -388,6 +388,27 @@ ALL_TABLES_MODULE_OUTPUT_FILES = [
 ]
 
 
+####################
+# Constants for VC #
+####################
+
+TUMOR_ID = 'tumor_id'
+NORMAL_ID = 'normal_id'
+SAMPLE_CLASS = 'class'
+GROUP_BY_ID = 'Patient_ID'
+SAMPLE_PAIR1 = 'Sample_x'
+SAMPLE_PAIR2 = 'Sample_y'
+CLASS_PAIR1 = 'Class_x'
+CLASS_PAIR2 = 'Class_y'
+SAMPLE_TYPE_PAIR1 = 'Sample_type_x'
+SAMPLE_TYPE_PAIR2 = 'Sample_type_y'
+TUMOR_CLASS = 'Tumor'
+NORMAL_CLASS = 'Normal'
+SAMPLE_TYPE_PLASMA = 'Plasma'
+SAMPLE_TYPE_NORMAL_NONPLASMA = 'Buffycoat'
+TITLE_FILE_TO_PAIRED_FILE = "Title_file_to_paired.csv"
+
+
 #########
 # Noise #
 #########
@@ -444,6 +465,7 @@ BAM_SEARCHES = [
 # HPC variables #
 #################
 # To-do define for LSF???
+# NOT USED IN CURRENT VERSION
 TOIL_BATCHSYSTEM = {
     "GRIDENGINE" : {
         "PE" : "smp",

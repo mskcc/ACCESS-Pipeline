@@ -1,3 +1,4 @@
+import os
 import re
 import logging
 import argparse
@@ -5,14 +6,23 @@ import ruamel.yaml
 
 import pandas as pd
 
-from python_tools.constants import (
+from constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_TOOLS_PATH,
-    ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH
+    ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH,
+    SAMPLE_SEP_FASTQ_DELIMETER,
+    GROUP_BY_ID, SAMPLE_PAIR1,
+    SAMPLE_PAIR2, CLASS_PAIR1, 
+    CLASS_PAIR2, SAMPLE_TYPE_PAIR1, 
+    SAMPLE_TYPE_PAIR2, TUMOR_CLASS, 
+    NORMAL_CLASS, SAMPLE_TYPE_PLASMA,
+    SAMPLE_TYPE_NORMAL_NONPLASMA,
+    SAMPLE_CLASS, TUMOR_ID, NORMAL_ID,
+    TITLE_FILE_TO_PAIRED_FILE
 )
 
-from python_tools.util import (
+from util import (
     find_bams_in_directory,
     include_yaml_resources,
     include_version_info,
@@ -106,6 +116,22 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        '-t',
+        '--title_file_path',
+        help='title file in tsv format',
+        required=False
+    )
+
+    parser.add_argument(
+        '-pb',
+        '--pair_by',
+        choices=['class','type'],
+        default='class',
+        help='pair samples in title file by sample class (Tumor:Normal) or sample type (Plamsa:Buffcoat)',
+        required=False
+    )
+
+    parser.add_argument(
         '-p',
         '--pairing_file_path',
         help='tsv file with tumor sample IDs mapped to normal sample IDs',
@@ -116,6 +142,13 @@ def parse_arguments():
         '-dn',
         '--default_normal_path',
         help='Normal used in unmatched mode, or in matched mode if no matching normal found for tumor sample',
+        required=True
+    )
+
+    parser.add_argument(
+        '-b',
+        '--bam_directory',
+        help='Directory that contains all tumor and normal bams to be used in variant calling',
         required=True
     )
 
@@ -160,6 +193,31 @@ def parse_arguments():
     return args
 
 
+def generate_pairing_file(title_file, pair_by):
+    """
+    Create T/N pairs from title file
+
+    1. We allow grouping samples by either sample class (Tumor and Normal, Default) or sample type (Plasma and Buffycoat)
+    2. Samples are paired based on common GROUP_BY_ID column in the title file
+
+    :param title_file:
+    :param pair_by: str
+    :return paired_df: dict
+    """
+    tf=pd.read_csv(title_file, sep='\t', comment='#', header='infer')
+    tfmerged = pd.merge(tf, tf, on=GROUP_BY_ID, how='left')
+    tfmerged = tfmerged[[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID, CLASS_PAIR1, CLASS_PAIR2, SAMPLE_TYPE_PAIR1, SAMPLE_TYPE_PAIR2]]
+    if pair_by == SAMPLE_CLASS:
+        paired = tfmerged[(tfmerged[CLASS_PAIR1] == TUMOR_CLASS) & (tfmerged[CLASS_PAIR2] == NORMAL_CLASS)][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+        unpaired = tfmerged[(tfmerged[CLASS_PAIR1] == TUMOR_CLASS) & (~tfmerged[CLASS_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+    else:
+        paired = tfmerged[(tfmerged[SAMPLE_TYPE_PAIR1] == SAMPLE_TYPE_PLASMA) & (tfmerged[SAMPLE_TYPE_PAIR2] == SAMPLE_TYPE_NORMAL_NONPLASMA)][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+        unpaired = tfmerged[(tfmerged[SAMPLE_TYPE_PAIR1] == SAMPLE_TYPE_PLASMA) & (~tfmerged[SAMPLE_TYPE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+    paired_df = pd.concat([paired, unpaired]).rename(index=str, columns={SAMPLE_PAIR1: TUMOR_ID, SAMPLE_PAIR2: NORMAL_ID, GROUP_BY_ID: GROUP_BY_ID})
+    paired_df.to_csv(TITLE_FILE_TO_PAIRED_FILE, sep='\t',mode='w',header=True, index=None)
+    return paired_df
+
+
 def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
     """
     Validate T/N pairs
@@ -176,16 +234,16 @@ def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
     :return:
     """
     for i, tn_pair in pairing_file.iterrows():
-        tumor_id = tn_pair['tumor_id']
-        normal_id = tn_pair['normal_id']
+        tumor_id = tn_pair[TUMOR_ID]
+        normal_id = tn_pair[NORMAL_ID]
         assert tumor_id, 'Missing tumor sample ID in pairing file'
 
         # Find the path to the bam that contains this tumor sample ID
-        tumor_sample = filter(lambda t: tumor_id in t , tumor_samples)
-        assert len(tumor_sample) == 1, 'Incorrect # of matches for tumor sample {}'.format(tumor_sample)
+        tumor_sample = filter(lambda t: os.path.basename(t).startswith(tumor_id + SAMPLE_SEP_FASTQ_DELIMETER) , tumor_samples)
+        assert len(tumor_sample) == 1, 'Incorrect # of matches for tumor sample {}'.format(tumor_id)
 
         if normal_id and normal_id != '':
-            normal_sample = filter(lambda n: normal_id in n, normal_samples)
+            normal_sample = filter(lambda n: normal_id + SAMPLE_SEP_FASTQ_DELIMETER in n, normal_samples)
             assert len(normal_sample) == 1, 'Incorrect # of matches ({}) for paired normal for tumor sample {}'.format(len(normal_sample), tumor_sample)
 
 
@@ -210,7 +268,9 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
 
         # Find the path to the bam that contains this tumor sample ID
         # (after pairing file validation this should return exactly 1 result)
-        tumor_sample = filter(lambda t: tumor_id in t, tumor_samples)[0]
+        tumor_sample = filter(lambda t: os.path.basename(t).startswith(tumor_id + SAMPLE_SEP_FASTQ_DELIMETER) , tumor_samples)
+        assert len(tumor_sample) == 1, 'Incorrect # of matches (matched = {}) for sammple ID {} in tumor_samples list.'.format(str(len(tumor_sample)), tumor_id)
+        tumor_sample = tumor_sample.pop()
 
         # Leaving the normal ID blank will cause the default normal to be used
         # Only tumor is used for genotyping
@@ -243,10 +303,12 @@ def create_inputs_file(args):
     """
     validate_args(args)
     if args.pairing_file_path:
-        pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', comment = '#', header='infer').fillna('')
-    tumor_ids, normal_ids = pairing_file['tumor_id'].tolist(), pairing_file['normal_id'].tolist()
+        pairing_df = pd.read_csv(args.pairing_file_path, sep='\t', comment = '#', header='infer').fillna('')
+    else:
+        pairing_df = generate_pairing_file(args.title_file_path, pair_by)
+    tumor_ids, normal_ids = filter(None, pairing_df[TUMOR_ID].tolist()), filter(None, pairing_df[NORMAL_ID].tolist())
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
-    simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory)
+    simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory, tumor_ids + normal_ids)
     curated_bam_duplex_paths = find_bams_in_directory(args.curated_bams_duplex_directory)
     curated_bam_simplex_paths = find_bams_in_directory(args.curated_bams_simplex_directory)
 
@@ -382,15 +444,19 @@ def correct_sample_id(query_sample_id, bam_paths):
     :param bam_paths: str[] - bam file paths to search through
     :return:
     """
-    matches = filter(lambda b: query_sample_id in b, bam_paths)
+    matches = filter(lambda b: os.path.basename(b).startswith(query_sample_id + SAMPLE_SEP_FASTQ_DELIMETER), bam_paths)
     assert len(matches) == 1, 'Incorrect # of matches for sample ID {}'.format(query_sample_id)
 
-    matching_bam_path = matches[0]
+    matching_bam_path = matches.pop()
     return extract_sample_id_from_bam_path(matching_bam_path)
 
 
 def validate_args(args):
     """Arguments sanity check"""
+
+    # Either one of title file or pairing file is required for this process
+    if args.title_file_path and args.pairing_file_path is None:
+        raise Exception('Either --title_file_path or --pairing_file_path is required to determine tumor samples for variant calling.')
 
     # Pairing file is required in matched mode
     if args.matched_mode and args.pairing_file_path is None:
