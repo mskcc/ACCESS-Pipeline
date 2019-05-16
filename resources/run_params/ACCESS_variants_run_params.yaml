@@ -1,5 +1,5 @@
 user_defined_tmp_dir: {class: Directory, path: /dmp/analysis/SCRATCH/}
-tmp_dir: 
+tmp_dir: {class: Directory, path: ''}
 
 ############
 # Module 3 #
