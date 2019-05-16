@@ -3,19 +3,10 @@ import unittest
 
 import pandas as pd
 
-from python_tools.constants import ALL_TABLES_MODULE_OUTPUT_FILES
+from python_tools.util import ArgparseMock
 from python_tools.workflow_tools.qc import tables_module
+from python_tools.constants import ALL_TABLES_MODULE_OUTPUT_FILES
 
-
-class ArgparseMock():
-    """
-    Mock class to simply have keys and values that simulate the argparse object that the tables module uses
-    """
-    def __init__(self, args):
-
-        for key, value in zip(args.keys(), args.values()):
-
-            setattr(self, key, value)
 
 
 class TablesModuleTest(unittest.TestCase):
