@@ -66,30 +66,10 @@ steps:
     scatter: [bam]
     scatterMethod: dotproduct
 
-  sort_tumor:
-    run: ../../cwl_tools/samtools/sort.cwl
-    in:
-      input: filter_tumor_reads_ending_in_indels/filtered_bam
-      output_name:
-        valueFrom: $(inputs.input.basename.replace('.bam', '_srt.bam'))
-    out: [sorted_bam]
-    scatter: [input]
-    scatterMethod: dotproduct
-
-  sort_normal:
-    run: ../../cwl_tools/samtools/sort.cwl
-    in:
-      input: filter_normal_reads_ending_in_indels/filtered_bam
-      output_name:
-        valueFrom: $(inputs.input.basename.replace('.bam', '_srt.bam'))
-    out: [sorted_bam]
-    scatter: [input]
-    scatterMethod: dotproduct
-
   index_tumor:
     run: ../../cwl_tools/samtools/index.cwl
     in:
-      bam: sort_tumor/sorted_bam
+      bam: filter_tumor_reads_ending_in_indels/filtered_bam
     out: [indexed_bam]
     scatter: [bam]
     scatterMethod: dotproduct
@@ -97,7 +77,7 @@ steps:
   index_normal:
     run: ../../cwl_tools/samtools/index.cwl
     in:
-      bam: sort_normal/sorted_bam
+      bam: filter_normal_reads_ending_in_indels/filtered_bam
     out: [indexed_bam]
     scatter: [bam]
     scatterMethod: dotproduct

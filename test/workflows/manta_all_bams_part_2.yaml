@@ -319,10 +319,7 @@ sample_id:
 - C-7FFPWU-L001-d_cl_aln_srt_MD_IR_FX_BR
 - C-LJVFWE-L002-d_cl_aln_srt_MD_IR_FX_BR
 - C-LJVFWE-N002-d_cl_aln_srt_MD_IR_FX_BR
-- C-LJVFWE-N002-d_cl_aln_srt_MD_IR_FX_BR
 - C-LJVFWE-L003-d_cl_aln_srt_MD_IR_FX_BR
-- C-LJVFWE-L003-d_cl_aln_srt_MD_IR_FX_BR
-- C-LJVFWE-L002-d_cl_aln_srt_MD_IR_FX_BR
 - TD-IGO-AA-3_cl_aln_srt_MD_IR_FX_BR
 - TD-IGO-AA-5_cl_aln_srt_MD_IR_FX_BR
 - TD-IGO-AA-1_cl_aln_srt_MD_IR_FX_BR
@@ -731,10 +728,7 @@ tumor_bams:
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ_TD-IDTcap-0.0.47/C-7FFPWU-L001-d/C-7FFPWU-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/C-LJVFWE-L002-d/C-LJVFWE-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/C-LJVFWE-N002-d/C-LJVFWE-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/out_tmpdirrsA8OI/C-LJVFWE-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/out_tmpdirJnp3ik/C-LJVFWE-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/C-LJVFWE-L003-d/C-LJVFWE-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
-- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FJ/5500-FJ-msi-1.1.1/out_tmpdirXNrRkv/C-LJVFWE-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FH/5500-FH-TD-IGO-Seracare-AA-0.0.47/TD-IGO-AA-3/TD-IGO-AA-3_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FH/5500-FH-TD-IGO-Seracare-AA-0.0.47/TD-IGO-AA-5/TD-IGO-AA-5_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FH/5500-FH-TD-IGO-Seracare-AA-0.0.47/TD-IGO-AA-1/TD-IGO-AA-1_cl_aln_srt_MD_IR_FX_BR.bam}
@@ -823,9 +817,6 @@ tumor_bams:
 - {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-EZ/5500-EZ-seracare-0.0.35/Sample_TD-seracare-0-5per_/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
 normal_bams:
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
-- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
