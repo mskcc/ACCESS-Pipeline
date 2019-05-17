@@ -8,6 +8,7 @@ set -x
 # directories, or a list of files.
 #
 # https://github.com/common-workflow-language/cwltool/issues/282
+# Todo: this is bad
 cp $1/* .
 
 
