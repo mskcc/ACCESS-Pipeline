@@ -231,6 +231,7 @@ POOL_B_LABEL = 'B Targets'
 UNFILTERED_COLLAPSING_METHOD = 'All Unique'
 SIMPLEX_COLLAPSING_METHOD = 'Simplex'
 DUPLEX_COLLAPSING_METHOD = 'Duplex'
+SIMPLEX_DUPLEX_COMBINED = 'SimplexDuplex'
 
 # Headers for tables
 DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']
