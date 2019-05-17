@@ -373,6 +373,8 @@ def reformat_coverage_files(coverage_table):
     coverage_table_B_targets = coverage_table[coverage_table['pool'] == POOL_B_LABEL]
     coverage_table_A_targets = coverage_table_A_targets.pivot(SAMPLE_ID_COLUMN, 'method', 'average_coverage')
     coverage_table_B_targets = coverage_table_B_targets.pivot(SAMPLE_ID_COLUMN, 'method', 'average_coverage')
+    coverage_table_A_targets[SIMPLEX_DUPLEX_COMBINED] = coverage_table_A_targets[SIMPLEX_COLLAPSING_METHOD] + coverage_table_A_targets[DUPLEX_COLLAPSING_METHOD]
+    coverage_table_B_targets[SIMPLEX_DUPLEX_COMBINED] = coverage_table_B_targets[SIMPLEX_COLLAPSING_METHOD] + coverage_table_B_targets[DUPLEX_COLLAPSING_METHOD]
     coverage_table_A_targets.to_csv('qc_sample_coverage_A_targets.txt', sep='\t')
     coverage_table_B_targets.to_csv('qc_sample_coverage_B_targets.txt', sep='\t')
 
