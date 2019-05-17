@@ -301,7 +301,7 @@ def make_condensed_post_filter (df_post_filter):
     df_selected=df_post_filter.loc[df_post_filter['Status']=='']
     df_selected['SD_t_depth_count_fragment']=df_selected['SD_t_alt_count_fragment']+df_selected['SD_t_ref_count_fragment']
 
-    if df_selected.n_alt_count_fragment[0] == 'NA':
+    if len(df_selected) and df_selected.n_alt_count_fragment[0] == 'NA':
         # Unmatched mode, no normal, can't calculate n_depth
         df_selected['n_depth_count_fragment'] = 'NA'
     else:
