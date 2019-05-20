@@ -24,6 +24,7 @@ inputs:
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
+  blacklist_file: File
   combine_vcf: File
   custom_enst_file: File
   tumor_sample_name: string
@@ -183,6 +184,8 @@ steps:
       fillout_maf: fillout/fillout_out
       tumor_samplename: tumor_sample_name
       normal_samplename: matched_normal_sample_name
+
+      blacklist_file: blacklist_file
 
       tumor_detect_alt_thres:
         valueFrom: $(inputs.access_filters_params.tumor_detect_alt_thres)

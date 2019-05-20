@@ -32,6 +32,11 @@ inputs:
     inputBinding:
       prefix: --normal_samplename
 
+  blacklist_file:
+    type: File
+    inputBinding:
+      prefix: --blacklist_file
+
   tumor_detect_alt_thres:
     type: int
     inputBinding:

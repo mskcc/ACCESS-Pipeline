@@ -34,6 +34,7 @@ inputs:
   access_filters_params: ../../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
+  blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
 
@@ -180,6 +181,7 @@ steps:
       vcf2maf_params: vcf2maf_params
       access_filters_params: access_filters_params
       hotspots: hotspots
+      blacklist_file: blacklist_file
       custom_enst_file: custom_enst_file
       gbcms_params: gbcms_params
       combine_vcf: module_3/annotated_concatenated_vcf

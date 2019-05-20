@@ -494,7 +494,10 @@ def perform_validation(title_file, title_file_path, project_name):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
     if not np.issubdtype(title_file[MANIFEST__LANE_COLUMN], np.number):
-        raise Exception(DELIMITER + 'Lane column must be integers')
+        raise Exception(DELIMITER + 'Lane column of title file must be integers')
+
+    if title_file[MANIFEST__LANE_COLUMN].isnull().any():
+        raise Exception(DELIMITER + 'Lane column of title file must not be missing or NA')
 
 
 def print_user_message():
@@ -506,7 +509,7 @@ def print_user_message():
     print('3. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
     print('4. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
-    print('5. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
+    print('5. Did you source the workspace_init.sh script (to make sure the PATH variable is set correctly?)')
     print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries (although other entries will still be accepted).')
 
 
