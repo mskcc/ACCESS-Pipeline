@@ -2,7 +2,8 @@ import unittest
 
 from workflow_tools.ACCESS_filters import (
     make_pre_filtered_maf,
-    apply_filter_maf
+    apply_filter_maf,
+    make_condensed_post_filter
 )
 
 from util import ArgparseMock
@@ -116,6 +117,7 @@ class ACCESSFiltersTestCase(unittest.TestCase):
 
         df_pre_filter = make_pre_filtered_maf(mock_args)
         df_post_filter = apply_filter_maf(df_pre_filter, mock_args)
+        condensed = make_condensed_post_filter(df_post_filter)
 
 
     def test_mismatching_tumor_sample_id(self):
