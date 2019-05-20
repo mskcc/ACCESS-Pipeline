@@ -15,7 +15,23 @@ np.seterr(divide='ignore', invalid='ignore')
 
 mutation_key = ['Chromosome', 'Start_Position','End_Position','Reference_Allele','Tumor_Seq_Allele2']
 
-
+def extract_blacklist(args):
+    header=['Chromosome','Start_Position','End_Position','Reference_Allele','Tumor_Seq_Allele','Annotation']
+    if os.path.isfile(args.blacklist_file):
+        df_blacklist = pd.read_csv(args.blacklist_file,sep='\t', header=0)        
+        if list(df_blacklist.columns.values)!=header:
+            raise Exception('Blacklist provided is in the wrong formal, file should have the following in the header (in order):'+', '.join(header))
+        else:
+            df_blacklist.drop(['Annotation'], axis=1, inplace=True)
+            df_blacklist.drop_duplicates(inplace=True)
+            blacklist=[str(b[0])+"_"+str(b[1])+"_"+str(b[2])+"_"+str(b[3])+"_"+str(b[4]) for b in df_blacklist.values.tolist()]
+            return blacklist
+    elif args.blacklist_file=='':
+        blacklist =[]
+        return blacklist
+    else:
+        raise IOError('Blacklist file provided does not exist')
+        
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
         df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict;MuTect'
@@ -216,12 +232,15 @@ def parse_arguments():
     #Occurence in curated  n_fillout_sample_detect_min)
     parser.add_argument("--tn_ratio_thres", default=5, type=int, help="Tumor-Normal variant fraction ratio threshold")
     
+    #Optional Blacklist
+    parser.add_argument("--blacklist_file", default='', type=str, help="Filepath for Blacklist text file")
+
     args = parser.parse_args()
     return args
 
 
-def apply_filter_maf (df_pre_filter, args):
-    # FILTERS
+def apply_filter_maf (df_pre_filter, blacklist, args):
+###=======FILTERS=======###
     def tag_germline(mut, status, args):
         #if there is a matched normal and it has sufficient coverage
         if 'n_vaf_fragment' in mut.index.tolist() and mut['n_ref_count_fragment'] + mut['n_alt_count_fragment'] > args.normal_TD_min:
@@ -257,6 +276,14 @@ def apply_filter_maf (df_pre_filter, args):
                     if mut['t_vaf_fragment'] / mut['n_vaf_fragment'] < args.tn_ratio_thres:
                         status = status + 'TNRatio-matchnorm;'
         return status
+    
+    def in_blacklist (mut, status, blacklist):
+        #if mutation is listed in blacklist
+        if str(mut['Chromosome'])+"_"+ str(mut['Start_Position'])+"_"+str(mut['End_Position'])+"_"+str(mut['Reference_Allele'])+"_"+str(mut['Tumor_Seq_Allele2']) in blacklist:
+            status = status + 'InBlacklist;'
+        return status
+
+###=======Cleanup=======###
     def cleanup_post_filter(df_post_filter):
         #Change duplex columns to have D_ 
         df_post_filter.rename(columns ={'t_alt_count_fragment':'D_t_alt_count_fragment', 't_ref_count_fragment':'D_t_ref_count_fragment', 't_vaf_fragment':'D_t_vaf_fragment'}, inplace=True)        
@@ -276,7 +303,7 @@ def apply_filter_maf (df_pre_filter, args):
         df_post_filter.insert(col.index('Matched_Norm_Sample_Barcode')+1,'Matched_Norm_Bamfile',"NA")
         return df_post_filter
     
-    # RUN
+###=======RUN=======###
     df_post_filter = df_pre_filter.copy()
 
     df_post_filter['Status'] = ''
@@ -286,6 +313,7 @@ def apply_filter_maf (df_pre_filter, args):
         status = tag_below_alt_threshold(mut, status, args)
         status = occurrence_in_curated(mut, status, args)
         status = occurrence_in_normal(mut, status, args)
+        status = in_blacklist (mut, status, blacklist)
         df_post_filter.loc[i, 'Status'] = status
     
     df_post_filter=cleanup_post_filter(df_post_filter)
@@ -308,12 +336,13 @@ def make_condensed_post_filter (df_post_filter):
     keep.extend(grep(col,"(-NORMAL)"))
     df_condensed=df_selected[keep]
     return df_condensed 
-
+    
 
 def main():
     args = parse_arguments()
+    blacklist=extract_blacklist(args)
     df_pre_filter = make_pre_filtered_maf(args)
-    df_post_filter = apply_filter_maf(df_pre_filter, args)
+    df_post_filter = apply_filter_maf(df_pre_filter, blacklist, args)
     df_condensed = make_condensed_post_filter (df_post_filter)
 
     full_outfile_name = os.path.basename(args.fillout_maf).replace('.maf', '_filtered.maf')
