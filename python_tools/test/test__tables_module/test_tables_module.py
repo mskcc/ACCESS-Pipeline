@@ -1,7 +1,8 @@
 import os
 import unittest
-
 import pandas as pd
+
+from pandas.util.testing import assert_frame_equal
 
 from python_tools.util import ArgparseMock
 from python_tools.workflow_tools.qc import tables_module
@@ -61,7 +62,7 @@ class TablesModuleTest(unittest.TestCase):
             print(output_file)
             actual = pd.read_csv(output_file, sep='\t')
             expected = pd.read_csv('expected_output/' + output_file, sep='\t')
-            assert actual.equals(expected)
+            assert_frame_equal(actual, expected)
 
 
 if __name__ == '__main__':

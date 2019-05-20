@@ -1,51 +1,51 @@
 CMO_SAMPLE_ID	average_coverage	method	pool
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	2133.63	TotalCoverage	B Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1964.24	TotalCoverage	B Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	1657.51	TotalCoverage	B Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	1400.71	TotalCoverage	B Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1646.3	TotalCoverage	B Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	598.0169999999999	UniqueCoverage	B Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	572.409	UniqueCoverage	B Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	535.664	UniqueCoverage	B Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	433.733	UniqueCoverage	B Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	502.17800000000005	UniqueCoverage	B Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	28677.6	TotalCoverage	A Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	26371.7	TotalCoverage	A Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	21315.4	TotalCoverage	A Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	17335.2	TotalCoverage	A Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	22822.0	TotalCoverage	A Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR	2016.39	UniqueCoverage	A Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR	1876.66	UniqueCoverage	A Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR	2194.56	UniqueCoverage	A Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR	2004.07	UniqueCoverage	A Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR	1741.1	UniqueCoverage	A Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	2244.75	All Unique	A Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	2056.38	All Unique	A Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	2451.6	All Unique	A Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	2298.99	All Unique	A Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	1938.02	All Unique	A Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	486.93199999999996	Simplex	A Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	446.08099999999996	Simplex	A Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	548.9830000000001	Simplex	A Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	577.9830000000001	Simplex	A Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	418.80800000000005	Simplex	A Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1531.53	Duplex	A Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1395.92	Duplex	A Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1550.05	Duplex	A Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1305.97	Duplex	A Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	1310.29	Duplex	A Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	593.341	All Unique	B Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	562.007	All Unique	B Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	531.609	All Unique	B Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	443.454	All Unique	B Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX	495.314	All Unique	B Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	109.84200000000001	Simplex	B Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	94.9547	Simplex	B Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	81.3996	Simplex	B Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	80.3222	Simplex	B Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex	76.8912	Simplex	B Targets
-TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	100.958	Duplex	B Targets
-TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	95.0214	Duplex	B Targets
-TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	88.6732	Duplex	B Targets
-TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	70.9017	Duplex	B Targets
-TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex	81.4081	Duplex	B Targets
+TD-seracare-0-5per	2133.63	TotalCoverage	B Targets
+TD-seracare-1per	1964.24	TotalCoverage	B Targets
+TD-seracare-2-5per	1657.51	TotalCoverage	B Targets
+TD-seracare-5per	1400.71	TotalCoverage	B Targets
+TD-seracare-wt	1646.3	TotalCoverage	B Targets
+TD-seracare-0-5per	598.0169999999999	UniqueCoverage	B Targets
+TD-seracare-1per	572.409	UniqueCoverage	B Targets
+TD-seracare-2-5per	535.664	UniqueCoverage	B Targets
+TD-seracare-5per	433.733	UniqueCoverage	B Targets
+TD-seracare-wt	502.17800000000005	UniqueCoverage	B Targets
+TD-seracare-0-5per	28677.6	TotalCoverage	A Targets
+TD-seracare-1per	26371.7	TotalCoverage	A Targets
+TD-seracare-2-5per	21315.4	TotalCoverage	A Targets
+TD-seracare-5per	17335.2	TotalCoverage	A Targets
+TD-seracare-wt	22822.0	TotalCoverage	A Targets
+TD-seracare-0-5per	2016.39	UniqueCoverage	A Targets
+TD-seracare-1per	1876.66	UniqueCoverage	A Targets
+TD-seracare-2-5per	2194.56	UniqueCoverage	A Targets
+TD-seracare-5per	2004.07	UniqueCoverage	A Targets
+TD-seracare-wt	1741.1	UniqueCoverage	A Targets
+TD-seracare-0-5per	2244.75	All Unique	A Targets
+TD-seracare-1per	2056.38	All Unique	A Targets
+TD-seracare-2-5per	2451.6	All Unique	A Targets
+TD-seracare-5per	2298.99	All Unique	A Targets
+TD-seracare-wt	1938.02	All Unique	A Targets
+TD-seracare-0-5per	486.93199999999996	Simplex	A Targets
+TD-seracare-1per	446.08099999999996	Simplex	A Targets
+TD-seracare-2-5per	548.9830000000001	Simplex	A Targets
+TD-seracare-5per	577.9830000000001	Simplex	A Targets
+TD-seracare-wt	418.80800000000005	Simplex	A Targets
+TD-seracare-0-5per	1531.53	Duplex	A Targets
+TD-seracare-1per	1395.92	Duplex	A Targets
+TD-seracare-2-5per	1550.05	Duplex	A Targets
+TD-seracare-5per	1305.97	Duplex	A Targets
+TD-seracare-wt	1310.29	Duplex	A Targets
+TD-seracare-0-5per	593.341	All Unique	B Targets
+TD-seracare-1per	562.007	All Unique	B Targets
+TD-seracare-2-5per	531.609	All Unique	B Targets
+TD-seracare-5per	443.454	All Unique	B Targets
+TD-seracare-wt	495.314	All Unique	B Targets
+TD-seracare-0-5per	109.84200000000001	Simplex	B Targets
+TD-seracare-1per	94.9547	Simplex	B Targets
+TD-seracare-2-5per	81.3996	Simplex	B Targets
+TD-seracare-5per	80.3222	Simplex	B Targets
+TD-seracare-wt	76.8912	Simplex	B Targets
+TD-seracare-0-5per	100.958	Duplex	B Targets
+TD-seracare-1per	95.0214	Duplex	B Targets
+TD-seracare-2-5per	88.6732	Duplex	B Targets
+TD-seracare-5per	70.9017	Duplex	B Targets
+TD-seracare-wt	81.4081	Duplex	B Targets
