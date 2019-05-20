@@ -18,6 +18,7 @@ import numpy as np
 import argparse
 import pandas as pd
 from PyPDF2 import PdfFileMerger
+import os
 
 from python_tools.constants import *
 from python_tools.util import extract_sample_name, read_df, get_position_by_substring
@@ -565,6 +566,62 @@ def check_sex(gender, sex, output_dir):
 
 
 ######################
+# Reformat fingerprinting output for Clinical database integration
+######################
+
+def reformat_all(listofpileups, fp_indices, fp_output_dir):
+
+    def FP_reformat(pileupfile, fp_indices):
+        #Per Sample
+    
+        #Constants
+        alleleReverseInd = {4: 'A', 5: 'C', 6: 'G', 7: 'T'}
+        alleles = ['A', 'C', 'G', 'T']
+        #Parameter
+        thres=0.1 # heterozygous above this threshold
+        #Get Raw data
+        pileup = read_csv(pileupfile)
+        fpRaw = []
+        for p in pileup:
+            if p[0] + ':' + p[1] in fp_indices.keys() and p[0] + ':' + p[1] not in [f[0] + ':' + f[1] for f in fpRaw]:
+                fpRaw.append(p[0:8])
+        #Create Header 
+        #TODO: consider changing this to pull samplename from title file
+        samplename=os.path.basename(pileupfile).split("_cl")[0]
+        reformatted_sample=[['Locus', samplename+'_Counts', samplename+'_Genotypes', samplename+'_MinorAlleleFreq']]
+        #Calculate and Reformat Data
+        for eachfp in fpRaw:
+            idx=eachfp[0]+':'+eachfp[1]
+            line=fp_indices[idx]
+    
+            loc_allele1=line[0]
+            loc_allele2=line[1]
+    
+            count_allele1=eachfp[loc_allele1]
+            count_allele2=eachfp[loc_allele2]
+            counts=[int(count_allele1), int(count_allele2)]
+    
+            mAF=min(counts) / sum(counts) if sum(counts) != 0 else 999
+            Geno=alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else alleleReverseInd[loc_allele1]+alleleReverseInd[loc_allele2]
+    
+            reformatted_sample.append([idx, alleleReverseInd[loc_allele1]+':'+eachfp[loc_allele1]+' '+alleleReverseInd[loc_allele2]+':'+eachfp[loc_allele2], Geno, mAF])
+        df_reformated_sample=pd.DataFrame(reformatted_sample[1:], columns=reformatted_sample[0])
+        return df_reformated_sample
+        
+    #loop for all samples
+    for i, pileupfile in enumerate(listofpileups):
+        if i==0:
+            all_reformatted=FP_reformat(pileupfile, fp_indices)
+        else:
+            df_reformatted_sample=FP_reformat(pileupfile, fp_indices)
+            all_reformatted=all_reformatted.merge(df_reformatted_sample, on='Locus')
+    #save to file
+    all_reformatted.to_csv(fp_output_dir+'/ALL_FPsummary.txt', sep="\t",index=False)
+    
+
+
+
+######################
 # Convert Txt files
 ######################
 
@@ -589,6 +646,9 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     fp_indices, n = create_fp_indices(config_file)
     fp_output_dir = make_output_dir(output_dir, 'FPResults')
     all_fp, all_geno = find_fp_maf(listofpileups, fp_indices, fp_output_dir)
+    
+    # reformat for clinical database    
+    reformat_all(listofpileups, fp_indices, fp_output_dir)
 
     # Contamination plots
     plot_minor_contamination(all_fp, fp_output_dir, titlefile)
