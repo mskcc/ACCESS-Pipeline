@@ -274,8 +274,13 @@ def copy_fragment_sizes_files(args):
         fragment_sizes_df = pd.read_csv(frag_sizes_path, sep='\t')
         fragment_sizes_df = fragment_sizes_df[['FragmentSize', 'TotalFrequency', SAMPLE_ID_COLUMN]]
         fragment_sizes_df = fragment_sizes_df.pivot('FragmentSize', SAMPLE_ID_COLUMN, 'TotalFrequency')
+        # Add in missing rows for insert sizes that weren't represented
+        new_index = pd.Index(np.arange(1, 800), name='FragmentSize')
+        fragment_sizes_df = fragment_sizes_df.reindex(new_index).reset_index()
+        # Replace nan's with 0
         fragment_sizes_df = fragment_sizes_df.fillna(0)
-        fragment_sizes_df.to_csv(os.path.join('.', dst), sep='\t')
+
+        to_csv(fragment_sizes_df, os.path.join('.', dst))
 
 
 def create_combined_qc_tables(args):
