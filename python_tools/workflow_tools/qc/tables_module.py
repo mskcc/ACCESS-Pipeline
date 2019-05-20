@@ -283,6 +283,23 @@ def copy_fragment_sizes_files(args):
         to_csv(fragment_sizes_df, os.path.join('.', dst))
 
 
+def reformat_exon_targets_coverage_file(coverage_per_interval_table):
+    """
+    DMP-specific format for coverage_per_interval_table file
+
+    # Todo:
+    # 1. Need to use average_coverage, not peak_coverage
+
+    :param coverage_per_interval_table:
+    :return:
+    """
+    for method in coverage_per_interval_table[METHOD_COLUMN].unique():
+        subset = coverage_per_interval_table[coverage_per_interval_table['method'] == method]
+        subset = subset.pivot('interval_name', SAMPLE_ID_COLUMN, 'peak_coverage')
+        subset = subset.reset_index().rename(columns={subset.index.name: 'interval_name'})
+        to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method))
+
+
 def create_combined_qc_tables(args):
     """
     Read in and concatenate all the tables from their respective waltz output folders
@@ -355,6 +372,7 @@ def create_combined_qc_tables(args):
     # DMP-specific file formats
     copy_fragment_sizes_files(args)
     reformat_coverage_files(coverage_table)
+    reformat_exon_targets_coverage_file(gc_cov_int_table_exon_level)
 
     # Also need to copy the fragment-sizes.txt from Unfiltered A Targets
     # For insert sizes graph

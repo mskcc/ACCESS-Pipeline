@@ -266,6 +266,14 @@ INSERT_SIZE_OUTPUT_FILE_NAMES = [
     'simplex_B_targets.txt',
     'duplex_B_targets.txt',
 ]
+
+EXON_COVERAGE_OUTPUT_FILE_NAMES = [
+    'coverage_per_interval_A_targets_All Unique.txt',
+    'coverage_per_interval_A_targets_Duplex.txt',
+    'coverage_per_interval_A_targets_Simplex.txt',
+    'coverage_per_interval_A_targets_TotalCoverage.txt',
+]
+
 INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
 
 ALL_TABLES_MODULE_OUTPUT_FILES = [
@@ -280,7 +288,8 @@ ALL_TABLES_MODULE_OUTPUT_FILES = [
     gc_cov_int_table_exon_level_filename,
     gc_avg_each_sample_coverage_exon_level_filename,
     average_coverage_across_exon_targets_filename
-] + INSERT_SIZE_OUTPUT_FILE_NAMES + [
+] + EXON_COVERAGE_OUTPUT_FILE_NAMES + \
+INSERT_SIZE_OUTPUT_FILE_NAMES + [
     'qc_sample_coverage_A_targets.txt',
     'qc_sample_coverage_B_targets.txt'
 ]
