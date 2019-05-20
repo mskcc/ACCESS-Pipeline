@@ -38,8 +38,15 @@ find_covered_intervals__params:
   intervals: ['14', '16']
 
 abra__params:
-  kmers: 43,53,63,83,93
+#  kmers: 43,53,63,83,93
   mad: 1000
+  sc: 100,30,80,15
+  mmr: 0.1
+  sga: 8,32,48,1
+  ca: 10,1
+  ws: 800,700
+  index: true
+  cons: true
 
 fix_mate_information__params:
   sort_order: coordinate

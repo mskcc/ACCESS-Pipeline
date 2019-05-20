@@ -235,6 +235,9 @@ def set_temp_dir_env_vars(tmpdir):
 def main():
     args, unknowns = parse_arguments()
 
+    # Set SLA environment variable
+    os.environ['TOIL_LSF_ARGS'] = ' -sla Berger '
+
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
     set_temp_dir_env_vars(tmpdir)

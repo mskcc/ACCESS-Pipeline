@@ -1,0 +1,11 @@
+CMO_SAMPLE_ID	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	6301925812	6886158	0.109151	211936	Total
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	433534437	172608	0.0397983	92628	Unique
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	5779849302	6830015	0.11803	211967	Total
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	401559848	169472	0.0421856	89470	Unique
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	4658534723	5573137	0.11949	211776	Total
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	470529927	205226	0.0435969	103771	Unique
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	3775332898	4295883	0.113659	211681	Total
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR-pileup.txt	429172264	185374	0.0431747	99950	Unique
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR-pileup.txt	4998539333	5950871	0.118911	211837	Total
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR-pileup.txt	373804854	158517	0.0423884	88521	Unique

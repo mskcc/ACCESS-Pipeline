@@ -13,8 +13,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from ...util import read_df, extract_sample_name, autolabel
-from ...constants import *
+from python_tools.util import read_df, extract_sample_name, autolabel
+from python_tools.constants import *
 
 
 def noise_alt_percent_plot(noise_table):
@@ -25,8 +25,7 @@ def noise_alt_percent_plot(noise_table):
     plt.clf()
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, alt_percent, align='center', color='black')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.0004, xmin=0, xmax=1, c='y', ls='--')
+    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
@@ -47,7 +46,7 @@ def noise_contributing_sites_plot(noise_table):
     plt.clf()
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, contributing_sites, align='center', color='black')
-    plt.axhline(y=400, xmin=0, xmax=1, c='y', ls='--')
+    plt.axhline(y=1000, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
@@ -70,6 +69,9 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         AltPercent: float
         ContributingSites: int
         Method: string
+
+        The input table will be converted from 12 noise classes, to 6
+        (see `substitution_classes` groupings).
     :return:
     """
     substitution_classes = [
@@ -98,7 +100,11 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
             # Change from fraction to percent
             class_noise = class_noise * 100.0
-            new = pd.DataFrame({'Sample': [sample], 'Class': final_label, 'AltPercent': class_noise})
+            new = pd.DataFrame({
+                'Sample': [sample],
+                'Class': final_label,
+                'AltPercent': class_noise
+            })
             six_class_noise_by_substitution = six_class_noise_by_substitution.append(new)
 
     sns.set_style('darkgrid', {'axes.facecolor': '.9'})
@@ -120,6 +126,9 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
     g.fig.subplots_adjust(top=0.8, wspace=0.1, hspace=0.35)
     g.fig.suptitle('Noise by Substitution Class')
+
+    # Save table and figure
+    six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False)
     plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
     return six_class_noise_by_substitution
 
@@ -157,18 +166,19 @@ def main():
     noise_and_title_file = noise_table.merge(title_file, on = SAMPLE_ID_COLUMN)
     noise_by_substitution_table = noise_by_substitution_table.merge(title_file, on = SAMPLE_ID_COLUMN)
 
-    # Filter to Plasma samples
+    # Filter to just Plasma samples (if there are any)
     plasma_samples = noise_and_title_file[noise_and_title_file[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
     plasma_noise_by_substitution = noise_by_substitution_table[noise_by_substitution_table[MANIFEST__SAMPLE_TYPE_COLUMN] == 'Plasma'][SAMPLE_ID_COLUMN]
-
-    noise_boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
-    noise_and_title_file = noise_and_title_file.loc[noise_boolv]
-    noise_by_substitution_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN].isin(plasma_noise_by_substitution)
-    noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
+    if not len(plasma_samples) == 0:
+        noise_boolv = noise_and_title_file[SAMPLE_ID_COLUMN].isin(plasma_samples)
+        noise_and_title_file = noise_and_title_file.loc[noise_boolv]
+        noise_by_substitution_boolv = noise_by_substitution_table[SAMPLE_ID_COLUMN].isin(plasma_noise_by_substitution)
+        noise_by_substitution_table = noise_by_substitution_table.loc[noise_by_substitution_boolv]
 
     # Sort in same order as R code (by sample class)
-    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
-    noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN).reset_index(drop=True)
+    # Use a stable mergesort instead of quicksort default
+    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
+    noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
 
     noise_alt_percent_plot(noise_and_title_file)
     noise_contributing_sites_plot(noise_and_title_file)
