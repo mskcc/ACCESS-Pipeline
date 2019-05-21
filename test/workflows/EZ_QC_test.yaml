@@ -1,4 +1,5 @@
 project_name: EZ_SeraCare_QC_Test
+version: x.x.x
 
 # The actual full Inputs File to print at the end of QC
 inputs_yaml: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/inputs_SeraCare.yaml}
