@@ -297,7 +297,7 @@ def reformat_exon_targets_coverage_file(coverage_per_interval_table):
         subset = coverage_per_interval_table[coverage_per_interval_table['method'] == method]
         subset = subset.pivot('interval_name', SAMPLE_ID_COLUMN, 'peak_coverage')
         subset = subset.reset_index().rename(columns={subset.index.name: 'interval_name'})
-        to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method))
+        to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method.replace(' ', '_')))
 
 
 def create_combined_qc_tables(args):
