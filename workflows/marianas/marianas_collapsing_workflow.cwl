@@ -15,7 +15,6 @@ requirements:
 inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
-  tmp_dir: string
   input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
@@ -45,6 +44,10 @@ outputs:
     type: File
     outputSource: first_pass/alt_allele_file
 
+  first_pass_insertions:
+    type: File
+    outputSource: first_pass/first_pass_insertions
+
   first_pass_alt_allele_sorted:
     type: File
     outputSource: sort_by_mate_position/output_file
@@ -60,6 +63,10 @@ outputs:
   second_pass_alt_alleles:
     type: File
     outputSource: second_pass/second_pass_alt_alleles
+
+  second_pass_insertions:
+    type: File
+    outputSource: second_pass/second_pass_insertions
 
 steps:
 
@@ -90,7 +97,7 @@ steps:
       reference_fasta: reference_fasta
       reference_fasta_fai: reference_fasta_fai
     out:
-      [first_pass_output_file, alt_allele_file, first_pass_output_dir]
+      [first_pass_output_file, first_pass_insertions, alt_allele_file, first_pass_output_dir]
 
   sort_by_mate_position:
     # todo - can use an existing sort cwl?
@@ -126,7 +133,7 @@ steps:
       min_consensus_percent:
         valueFrom: $(inputs.params.min_consensus_percent)
     out:
-      [collapsed_fastq_1, collapsed_fastq_2, second_pass_alt_alleles]
+      [collapsed_fastq_1, collapsed_fastq_2, second_pass_alt_alleles, second_pass_insertions]
 
   gzip_fastq_1:
     run: ../../cwl_tools/innovation-gzip-fastq/innovation-gzip-fastq.cwl
@@ -167,7 +174,6 @@ steps:
     in:
       run_tools: run_tools
       add_or_replace_read_groups__params: add_or_replace_read_groups__params
-      tmp_dir: tmp_dir
       fastq1: rename_fastq_1/renamed_file
       fastq2: rename_fastq_2/renamed_file
       reference_fasta: reference_fasta
@@ -178,7 +184,4 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      # Todo: this is not used
-      output_suffix:
-        valueFrom: ${return '_MC_'}
     out: [bam, bai]

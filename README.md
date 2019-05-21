@@ -15,7 +15,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Perl (must exist in PATH)| 5.20.2 |
 | Node (must exist in PATH)| v6.10.1 |
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
-| [BWA](https://github.com/lh3/bwa) (must exist in PATH) | 0.7.15-r1140 |
+| [BWA](https://github.com/lh3/bwa) | 0.7.15-r1140 |
 | [bedtools](https://github.com/arq5x/bedtools2) (must exist in PATH) | v2.26.0 |
 | [Cutadapt](http://cutadapt.readthedocs.io/en/stable/installation.html) | 1.1 | 
 | [Fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | v0.10.1 |
@@ -25,7 +25,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar |
 | Picard FixMateInformation | FixMateInformation.jar (1.96) |
 | [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 |
-| [Abra](https://github.com/mozack/abra/) | abra-0.92-SNAPSHOT-jar-with-dependencies.jar |
+| [Abra](https://github.com/mozack/abra2) | 2.17 |
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
@@ -52,11 +52,6 @@ Note: If on LUNA, use the following verison of virtualenv:
 ```
 (access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
 ```
-Alternatively, if you want to pull the latest development version you can use this command (requires to have the tag in the current git repo):
-```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git
-(access_pipeline_0.0.26) ~$ git fetch --tags
-```
 
 ### 3. Update your environment variables:
 Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
@@ -69,7 +64,29 @@ From within the ACCESS-Pipeline repository directory, run the following command:
 ```
 (access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
 ```
-
+Note: if you receive this error
+```
+Searching for networkx==2.1
+Reading https://pypi.org/simple/networkx/
+Downloading https://files.pythonhosted.org/packages/11/42/f951cc6838a4dff6ce57211c4d7f8444809ccbe2134179950301e5c4c83c/networkx-2.1.zip#sha256=64272ca418972b70a196cb15d9c85a5a6041f09a2f32e0d30c0255f25d458bb1
+Best match: networkx 2.1
+Processing networkx-2.1.zip
+Writing /scratch/easy_install-kpR3aF/networkx-2.1/setup.cfg
+Running networkx-2.1/setup.py -q bdist_egg --dist-dir /scratch/easy_install-kpR3aF/networkx-2.1/egg-dist-tmp-2T5RdI
+/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/dist.py:484: UserWarning: The version specified (<function version at 0x7f20062667d0>) is an invalid version, this may not work as expected with newer versions of setuptools, pip, and PyPI. Please see PEP 440 for more details.
+  "details." % self.metadata.version
+Traceback (most recent call last):
+  File "setup.py", line 115, in <module>
+    'clean': CleanCommand,
+self.egg_version = self.tagged_version()
+  File "/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/command/egg_info.py", line 133, in tagged_version
+    return safe_version(version + self.vtags)
+TypeError: unsupported operand type(s) for +: 'function' and 'str'```
+```
+This dependency sometimes needs to be installed manually:
+```
+pip install networkx==2.1
+```
 ## Additional setup steps, if not on LUNA:
 
 ### 1. Copy the test data
@@ -194,7 +211,7 @@ This script can be run in the background with `&`, and will make use of worker n
 This will create the output directory (or restart a failed run in that output directory for `--restart`), and start the workflow using SGE.
 
 ### 3. Cleanup the output files
-There is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
+Note: Do not run this step until the pipeline has completed. The way to ensure that the run has finished is to download and review the QC report PDF, which can be found the the QC_Results folder. Once you've confired that the run is completed, and all files have been copied to the final outputs folder, there is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
 (access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```

@@ -19,13 +19,10 @@ inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     secondaryFiles:
       - ^.bai
 
-  tmp_dir: string
   reference_fasta: string
   patient_id: string
 
@@ -58,13 +55,11 @@ steps:
     in:
       run_tools: run_tools
       params: find_covered_intervals__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       gatk:
         valueFrom: $(inputs.run_tools.gatk_path)
 
-      tmp_dir: tmp_dir
       bams: bams
       patient_id: patient_id
       reference_sequence: reference_fasta
@@ -82,7 +77,6 @@ steps:
           ${
             return inputs.params.intervals ? inputs.params.intervals : null
           }
-
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
         valueFrom: ${return inputs.patient_id + '.fci.list'}
@@ -93,8 +87,13 @@ steps:
     in:
       input_file: find_covered_intervals/fci_list
       output_filename:
-        valueFrom: ${return inputs.input_file.basename.replace(".list", ".bed.srt")}
+        valueFrom: ${return inputs.input_file.basename.replace('.list', '.bed.srt')}
     out: [output_file]
+
+  make_abra_tmp_dir:
+    run: ../../cwl_tools/python/make_directory.cwl
+    in: []
+    out: [empty_dir]
 
   abra:
     run: ../../cwl_tools/abra/abra.cwl
@@ -102,28 +101,38 @@ steps:
       run_tools: run_tools
       params: abra__params
       java:
-        valueFrom: $(inputs.run_tools.java_7)
+        valueFrom: $(inputs.run_tools.java_8)
       abra:
         valueFrom: $(inputs.run_tools.abra_path)
       input_bams: bams
       targets: list2bed/output_file
-      tmp_dir: tmp_dir
       patient_id: patient_id
       reference_fasta: reference_fasta
 
-      kmer:
-        valueFrom: $(inputs.params.kmers)
+#      kmer:
+#        valueFrom: $(inputs.params.kmers)
       mad:
         valueFrom: $(inputs.params.mad)
+      sc:
+        valueFrom: $(inputs.params.sc)
+      mmr:
+        valueFrom: $(inputs.params.mmr)
+      sga:
+        valueFrom: $(inputs.params.sga)
+      ca:
+        valueFrom: $(inputs.params.ca)
+      ws:
+        valueFrom: $(inputs.params.ws)
+      index:
+        valueFrom: $(inputs.params.index)
+      cons:
+        valueFrom: $(inputs.params.cons)
 
       threads:
-        valueFrom: ${return 12}
-      # Todo: Find a cleaner way
-      working_directory:
-        valueFrom: ${return inputs.tmp_dir + '/Abra_workdir__' + inputs.patient_id + '_' + Date.now()}
+        valueFrom: $(12)
+      working_directory: make_abra_tmp_dir/empty_dir
       out:
-        valueFrom: |
-          ${return inputs.input_bams.map(function(b){return b.basename.replace(".bam", "_IR.bam")})}
+        valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
     out:
       [bams]
 
@@ -131,14 +140,12 @@ steps:
     in:
       run_tools: run_tools
       params: fix_mate_information__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       fix_mate_information:
         valueFrom: $(inputs.run_tools.fx_path)
-      bam: abra/bams
-      tmp_dir: tmp_dir
 
+      bam: abra/bams
       sort_order:
         valueFrom: $(inputs.params.sort_order)
       create_index:
@@ -158,7 +165,6 @@ steps:
         java: string
         fix_mate_information: string
         bam: File
-        tmp_dir: string
         sort_order: string
         create_index: boolean
         compression_level: int
@@ -174,7 +180,6 @@ steps:
             java: java
             fix_mate_information: fix_mate_information
             input_bam: bam
-            tmp_dir: tmp_dir
             sort_order: sort_order
             create_index: create_index
             compression_level: compression_level

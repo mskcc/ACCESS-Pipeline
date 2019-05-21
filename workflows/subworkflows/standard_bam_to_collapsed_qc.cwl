@@ -23,7 +23,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
   find_covered_intervals__params: ../../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
@@ -33,8 +32,9 @@ inputs:
   waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
 
   # Standard Bams
-  standard_bams: File[]
-
+  standard_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
   title_file: File
   inputs_yaml: File
   project_name: string
@@ -50,10 +50,10 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
-
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
+  pool_a_bed_file_exonlevel: File
   A_on_target_positions: File
   B_on_target_positions: File
   noise__good_positions_A: File
@@ -101,7 +101,6 @@ steps:
 - id: umi_collapsing
   run: ../marianas/marianas_collapsing_workflow.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
@@ -127,7 +126,10 @@ steps:
     first_pass_alt_allele_sorted,
     second_pass_alt_alleles,
     collapsed_fastq_1,
-    collapsed_fastq_2]
+    collapsed_fastq_2,
+    first_pass_insertions,
+    second_pass_insertions
+  ]
   scatter: [
     input_bam,
     pileup,
@@ -155,7 +157,6 @@ steps:
   in:
     run_tools: run_tools
     reference_fasta: reference_fasta
-    tmp_dir: tmp_dir
     bams: group_bams_by_patient/grouped_bams
     patient_id: group_bams_by_patient/grouped_patient_ids
 
@@ -210,6 +211,8 @@ steps:
     r1_fastq: umi_collapsing/collapsed_fastq_1
     r2_fastq: umi_collapsing/collapsed_fastq_2
     first_pass_file: umi_collapsing/first_pass_output_file
+    first_pass_insertions: umi_collapsing/first_pass_insertions
+    second_pass_insertions: umi_collapsing/second_pass_insertions
     first_pass_sorted: umi_collapsing/first_pass_alt_allele_sorted
     first_pass_alt_alleles: umi_collapsing/first_pass_alt_allele
     second_pass: umi_collapsing/second_pass_alt_alleles
@@ -224,6 +227,8 @@ steps:
     first_pass_file,
     first_pass_sorted,
     first_pass_alt_alleles,
+    first_pass_insertions,
+    second_pass_insertions,
     second_pass]
   scatterMethod: dotproduct
   out: [directory]
@@ -247,6 +252,7 @@ steps:
     inputs_yaml: inputs_yaml
     pool_a_bed_file: pool_a_bed_file
     pool_b_bed_file: pool_b_bed_file
+    pool_a_bed_file_exonlevel: pool_a_bed_file_exonlevel
     gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai

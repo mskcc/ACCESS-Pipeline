@@ -18,9 +18,10 @@ import numpy as np
 import argparse
 import pandas as pd
 from PyPDF2 import PdfFileMerger
+import os
 
-from ...constants import *
-from ...util import extract_sample_name, read_df, get_position_by_substring
+from python_tools.constants import *
+from python_tools.util import extract_sample_name, read_df, get_position_by_substring
 
 import matplotlib
 
@@ -342,15 +343,13 @@ def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
     write_csv(fp_output_dir + 'minorContamination.txt', minor_contamination)
 
     plt.figure(figsize=(10, 5))
-    plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
-
-    plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
-    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+    plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
     plt.xlabel('Sample Name')
     plt.title('Minor Contamination Check (from all unique reads)')
-    plt.xlim([0, y_pos.size])
+    plt.xlim([-1, y_pos.size])
     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -368,12 +367,12 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     write_csv(fp_output_dir + 'majorContamination.txt', major_contamination)
 
     plt.axhline(y=0.6, xmin=0, xmax=1, c='r', ls='--')
-    plt.bar(x_pos, [m[1] for m in major_contamination], align='edge', color='black')
-    plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='left')
+    plt.bar(x_pos, [m[1] for m in major_contamination], align='center', color='black')
+    plt.xticks(x_pos, [m[0] for m in major_contamination], rotation=90, ha='center')
     plt.ylabel('Fraction of Heterozygous Position')
     plt.xlabel('Sample Name')
     plt.title('Major Contamination Check')
-    plt.xlim([0, x_pos.size])
+    plt.xlim([-1, x_pos.size])
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -402,15 +401,13 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
 
         plt.figure(figsize=(10, 5))
-        plt.axhline(y=0.005, xmin=0, xmax=1, c='r', ls='--')
-        plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
-
-        plt.bar(y_pos, [m[1] for m in minor_contamination], align='edge', color='black')
-        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='left')
+        plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+        plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
         plt.xlabel('Sample Name')
         plt.title('Minor Contamination Check (Duplex)')
-        plt.xlim([0, y_pos.size])
+        plt.xlim([-1, y_pos.size])
         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
     else:
         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
@@ -436,41 +433,39 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
             matrix[element[0]] = {element[1]: element[2]}
         matrix[element[0]].update({element[1]: element[2]})
 
+    # Just print matrix of 0's when testing
     discordance_data_frame = pd.DataFrame.from_dict(matrix)
-    if all(discordance_data_frame.isnull()):
+    if discordance_data_frame.isnull().all().all():
         discordance_data_frame[:] = 0
-    mask = discordance_data_frame.isnull()
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
-
-    print(discordance_data_frame)
-
-    ax = sns.heatmap(discordance_data_frame, robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
+    print(matrix)
+    ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch'},
-                     annot_kws={'size': 5},
-                     mask=mask)
+                     annot_kws={'size': 5})
+
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
     Match_status = [[x[0], x[1], x[9]] for x in geno_compare if
                     x[9] == 'Unexpected Mismatch' or x[9] == 'Unexpected Match']
 
     # Deduplicate forward and reverse matches
-    Match_status = [sorted(match) for match in Match_status]
+    Match_status = [sorted([match[0], match[1]]) + [match[2]] for match in Match_status]
     Match_status = list(match for match, _ in itertools.groupby(Match_status))
 
-    df = pd.DataFrame(Match_status, columns=["Sample1", "Sample2", "Status"])
-    Match_status.insert(0, ["Sample1", "Sample2", "Status"])
+    df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
+    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
 
     write_csv(fp_output_dir + 'Match_status.txt', Match_status)
 
     plt.clf()
     fig, ax1 = plt.subplots()
-
+    fig.suptitle('Unexpected Matches and Mismatches', fontsize=10)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df.values):
-        ax1.table(cellText=df.values, colLabels=df.columns, loc='center')
+        ax1.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No mismatches present', 'No mismatches present', 'No mismatches present']]
         ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
@@ -607,6 +602,7 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
             counts=[int(count_allele1), int(count_allele2)]
     
             mAF=min(counts) / sum(counts) if sum(counts) != 0 else 999
+
             Geno=alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else '-' if mAF==999 else alleleReverseInd[loc_allele1]+alleleReverseInd[loc_allele2]
             
             mAF=['-' if mAF==999 else mAF]           
@@ -653,6 +649,9 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     fp_indices, n = create_fp_indices(config_file)
     fp_output_dir = make_output_dir(output_dir, 'FPResults')
     all_fp, all_geno = find_fp_maf(listofpileups, fp_indices, fp_output_dir)
+    
+    # reformat for clinical database    
+    reformat_all(listofpileups, fp_indices, fp_output_dir)
 
     # Contamination plots
     plot_minor_contamination(all_fp, fp_output_dir, titlefile)

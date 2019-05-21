@@ -5,7 +5,6 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx20g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
 - $(inputs.gatk)
 - -T
@@ -16,10 +15,9 @@ requirements:
   ResourceRequirement:
     ramMin: 25000
     coresMin: 2
-    outdirMax: 90000
+    outdirMax: 110000
 
 inputs:
-  tmp_dir: string
   java: string
   gatk: string
 

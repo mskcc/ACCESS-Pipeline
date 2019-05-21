@@ -5,7 +5,6 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx4g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
 # Todo: consolidate?
 - $(inputs.gatk)
@@ -23,7 +22,6 @@ doc: |
   None
 
 inputs:
-  tmp_dir: string
   java: string
   gatk: string
 

@@ -1,0 +1,6 @@
+CMO_SAMPLE_ID	TotalCoverage	UniqueCoverage
+TD-seracare-0-5per	100.958	100.958
+TD-seracare-1per	95.0214	95.0214
+TD-seracare-2-5per	88.6732	88.6732
+TD-seracare-5per	70.9017	70.9017
+TD-seracare-wt	81.4081	81.4081
