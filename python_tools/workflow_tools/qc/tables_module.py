@@ -297,6 +297,11 @@ def reformat_exon_targets_coverage_file(coverage_per_interval_table):
         subset = coverage_per_interval_table[coverage_per_interval_table['method'] == method]
         subset = subset.pivot('interval_name', SAMPLE_ID_COLUMN, 'peak_coverage')
         subset = subset.reset_index().rename(columns={subset.index.name: 'interval_name'})
+        interval_names_split = subset['interval_name'].str.split(':', expand=True)
+        # Turn interval_name into Interval and TargetName
+        subset.insert(0, 'TargetName', interval_names_split.iloc[:,0] + '_' + interval_names_split.iloc[:,2])
+        subset.insert(0, 'Interval', interval_names_split.iloc[:,3] + ':' + interval_names_split.iloc[:,4])
+        subset = subset.drop('interval_name', axis=1)
         to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method.replace(' ', '_')))
 
 

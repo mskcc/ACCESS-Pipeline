@@ -268,7 +268,7 @@ INSERT_SIZE_OUTPUT_FILE_NAMES = [
 ]
 
 EXON_COVERAGE_OUTPUT_FILE_NAMES = [
-    'coverage_per_interval_A_targets_All Unique.txt',
+    'coverage_per_interval_A_targets_All_Unique.txt',
     'coverage_per_interval_A_targets_Duplex.txt',
     'coverage_per_interval_A_targets_Simplex.txt',
     'coverage_per_interval_A_targets_TotalCoverage.txt',
