@@ -18,13 +18,10 @@ inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     secondaryFiles:
       - ^.bai
 
-  tmp_dir: string
   reference_fasta: string
 
   bqsr__knownSites_dbSNP:
@@ -57,10 +54,8 @@ steps:
         valueFrom: ${return inputs.run_tools.java_7}
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
-      tmp_dir: tmp_dir
       bam: bams
       reference_fasta: reference_fasta
-
       rf:
         valueFrom: $(inputs.params.rf)
       nct:
@@ -77,7 +72,6 @@ steps:
       inputs:
         java: string
         gatk: string
-        tmp_dir: string
         bam: File
         reference_fasta: string
         rf: string
@@ -92,7 +86,6 @@ steps:
         bqsr:
           run: ../../cwl_tools/gatk/BaseQualityScoreRecalibration.cwl
           in:
-            tmp_dir: tmp_dir
             java: java
             gatk: gatk
             input_bam: bam
@@ -110,15 +103,12 @@ steps:
     in:
       run_tools: run_tools
       params: print_reads__params
-
       java:
         valueFrom: ${return inputs.run_tools.java_7}
       gatk:
         valueFrom: ${return inputs.run_tools.gatk_path}
 
-      tmp_dir: tmp_dir
       input_file: bams
-
       BQSR: parallel_bqsr/recal_matrix
 
       nct:
@@ -136,7 +126,6 @@ steps:
     run:
       class: Workflow
       inputs:
-        tmp_dir: string
         java: string
         gatk: string
         input_file: File
@@ -155,7 +144,6 @@ steps:
         gatk_print_reads:
           run: ../../cwl_tools/gatk/PrintReads.cwl
           in:
-            tmp_dir: tmp_dir
             java: java
             gatk: gatk
             input_file: input_file

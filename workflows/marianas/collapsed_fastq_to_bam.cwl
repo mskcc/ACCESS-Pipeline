@@ -16,7 +16,6 @@ inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
-  tmp_dir: string
   fastq1: File
   fastq2: File
   reference_fasta: string
@@ -27,7 +26,6 @@ inputs:
   add_rg_PU: string
   add_rg_SM: string
   add_rg_CN: string
-  output_suffix: string
 
 outputs:
 
@@ -58,8 +56,6 @@ steps:
       PL: add_rg_PL
       PU: add_rg_PU
       CN: add_rg_CN
-      # Todo: this is not used
-      output_suffix: output_suffix
     out: [output_sam]
 
   add_or_replace_read_groups:
@@ -79,7 +75,6 @@ steps:
       PU: add_rg_PU
       SM: add_rg_SM
       CN: add_rg_CN
-
       sort_order:
         valueFrom: $(inputs.add_or_replace_read_groups__params.sort_order)
       validation_stringency:
@@ -88,6 +83,4 @@ steps:
         valueFrom: $(inputs.add_or_replace_read_groups__params.compression_level)
       create_index:
         valueFrom: $(inputs.add_or_replace_read_groups__params.create_index)
-
-      tmp_dir: tmp_dir
     out: [bam, bai]

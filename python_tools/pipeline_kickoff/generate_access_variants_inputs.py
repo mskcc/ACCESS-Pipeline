@@ -6,7 +6,15 @@ import ruamel.yaml
 
 import pandas as pd
 
-from ..constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from python_tools.util import (
+    find_bams_in_directory,
+    include_yaml_resources,
+    include_version_info,
+    create_yaml_file_objects,
+    create_yaml_file_objects,
+    extract_sample_id_from_bam_path
+)
+from python_tools.constants import RUN_FILES_PATH, RUN_PARAMS_PATH
 
 
 ##########
@@ -268,8 +276,8 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_file_resources(fh, RUN_FILES_PATH)
-    include_run_params(fh, RUN_PARAMS_PATH)
+    include_yaml_resources(fh, RUN_FILES_PATH)
+    include_yaml_resources(fh, RUN_PARAMS_PATH)
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
     include_version_info(fh)
@@ -363,81 +371,6 @@ def write_yaml_bams(
     fh.write(ruamel.yaml.dump(normal_sample_ids))
     fh.write(ruamel.yaml.dump(genotyping_bams_paths))
     fh.write(ruamel.yaml.dump(genotyping_bams_ids))
-
-
-def extract_sample_id_from_bam_path(bam_path):
-    """
-    ACCESS-specific bams will have their sample IDs followed by _cl_aln...
-
-    :param path:
-    :return:
-    """
-    return bam_path.split('/')[-1].split('_cl_aln')[0]
-
-
-def include_file_resources(fh, file_resources_path):
-    """
-    Write the paths to the resource files that the pipeline needs into the inputs yaml file.
-
-    :param: fh File Handle to the inputs file for the pipeline
-    :param: file_resources_path String representing full path to our resources file
-    """
-    with open(file_resources_path, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
-def include_run_params(fh, run_params_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_path, 'r') as stream:
-        other_params = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_version_info(fh):
-    """
-    Todo: Include indentifier to indicate if commit == tag
-    """
-    import version
-    fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
-    fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
-
-
-def find_bams_in_directory(dir):
-    """
-    Filter to just bam files found in `dir`
-
-    :param dir: string - directory to be searched
-    :return:
-    """
-    files_found = os.listdir(dir)
-    bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
-    return bams_found
-
-
-def create_yaml_file_objects(bam_paths):
-    """
-    Turn a list of paths into a list of cwl-compatible and ruamel-compatible file objects.
-
-    Additionally, sort the files in lexicographical order.
-
-    :param bam_names: file basenames
-    :param folder: file folder
-    :return:
-    """
-    return [{'class': 'File', 'path': b} for b in bam_paths]
 
 
 def main():

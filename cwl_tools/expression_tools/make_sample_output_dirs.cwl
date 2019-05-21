@@ -35,6 +35,8 @@ inputs:
   first_pass_file: File
   first_pass_sorted: File
   first_pass_alt_alleles: File
+  first_pass_insertions: File
+  second_pass_insertions: File
   second_pass: File
 
 outputs:
@@ -49,6 +51,8 @@ expression: |
     output_files.push(inputs.unfiltered_bam);
     output_files.push(inputs.simplex_bam);
     output_files.push(inputs.duplex_bam);
+    output_files.push(inputs.first_pass_insertions);
+    output_files.push(inputs.second_pass_insertions);
     output_files.push(inputs.r1_fastq);
     output_files.push(inputs.r2_fastq);
     output_files.push(inputs.first_pass_file);

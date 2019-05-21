@@ -6,8 +6,16 @@ import numpy as np
 import pandas as pd
 
 # constants include the paths to the config files
-from ..constants import *
-from ..util import reverse_complement, all_strings_are_substrings
+from python_tools.constants import *
+from python_tools.util import (
+    DELIMITER,
+    INPUTS_FILE_DELIMITER,
+    get_pos,
+    reverse_complement,
+    all_strings_are_substrings,
+    include_yaml_resources,
+    include_version_info
+)
 
 
 ##################################
@@ -36,8 +44,6 @@ from ..util import reverse_complement, all_strings_are_substrings
 # Todo: This file is too large
 
 
-# Template identifier string that will get replaced with the project root location
-PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
 
 # Strings to target when looking for Illumina run files
 #
@@ -51,11 +57,6 @@ SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
 
 ADAPTER_1 = 'GATCGGAAGAGC'
 ADAPTER_2 = 'AGATCGGAAGAGC'
-
-# Delimiter for printing logs
-DELIMITER = '\n' + '*' * 20 + '\n'
-# Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
 
 
 def load_fastqs(data_dir):
@@ -115,76 +116,6 @@ def perform_duplicate_barcodes_check(title_file):
 
         if np.sum(lane_subset[MANIFEST__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
-
-
-def check_multiple_sample_id_matches(title_file, boolv, fastq_object):
-    """
-    If we found multiple matching sample IDs in the path to a fastq, check that one is the "most correct" one, and
-    issue a warning to the user.
-
-    :param title_file: pandas.DataFrame with all sample data
-    :param boolv: boolean array indicating which title_file Sample IDs were found in our `fastq_object`
-    :return:
-    :raise Exception: if there is more than one matching sample ID for this fastq file, and they are not substrings of
-                        one another
-    """
-    boolv = boolv.astype(bool)
-    matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
-
-    if all_strings_are_substrings(matching_sample_ids):
-        print(DELIMITER + 'WARNING: There are two or more sample ids found in this fastq\'s path: {}'.format(
-            fastq_object))
-
-        print('Here are the suspicious sample IDs:')
-        print(matching_sample_ids)
-
-        print('We will choose the longest matching sample ID for this fastq, ' +
-                'but please check that it is ordered with the correct RG_ID in the final inputs file.')
-
-        longest_match = max(matching_sample_ids, key=len)
-        return np.argmax(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == longest_match)
-
-    else:
-        raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(fastq_object['path']))
-
-
-def get_pos(title_file, fastq_object):
-    """
-    Return position of `fastq_object` in the Sample ID column of `title_file`
-
-    Used for sorting the entries in the inputs file so that Scatter steps will pair the correct files
-
-    :param: title_file pandas.DataFrame with all required title_file columns (see constants.py)
-    :param: fastq_object dict with `class`: `File` and `path`: `path_to_fastq` as read in by ruamel.round_trip_load()
-    :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
-            in the `title_file` match this fastq file
-    """
-    def contained_in(sample_id, fastq):
-        """
-        Helper method to sort list of fastqs.
-        Returns 1 if `sample_id` contained in `fastq`'s path, 0 otherwise
-        """
-        found = sample_id in fastq['path']
-
-        if found:
-            return 1
-        else:
-            return 0
-
-    # Samples from IGO will use the COLLAB_ID
-    boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=fastq_object)
-
-    if np.sum(boolv) > 1:
-        return check_multiple_sample_id_matches(title_file, boolv, fastq_object)
-
-    # If there are no matches, throw error
-    if np.sum(boolv) < 1:
-        err_string = DELIMITER + 'Error, matching sample ID for file {} not found in title file'
-        print >> sys.stderr, err_string.format(fastq_object)
-        raise Exception('Please double check the order of the fastqs in the final inputs.yaml file')
-
-    pos = np.argmax(boolv)
-    return pos
 
 
 def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
@@ -309,7 +240,6 @@ def perform_barcode_index_checks_i7(title_file, sample_sheets):
     :param sample_sheets:
     :return:
     """
-    # i7 (Index1) checks
     for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
         cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
         title_file_i7 = cur_sample[MANIFEST__BARCODE_INDEX_1_COLUMN].values[0]
@@ -381,70 +311,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     fh.write(ruamel.yaml.dump(samples_info))
 
 
-def substitute_project_root(yaml_file):
-    """
-    Substitute in the ROOT_PATH variable based on our current installation directory
-
-    The purpose of this method is to support referencing resources in the resources folder
-
-    :param: yaml_file A yaml file read in by ruamel's round_trip_load() method
-    """
-    for key in yaml_file.keys():
-        # If we are dealing with a File object
-        if 'path' in yaml_file[key]:
-            new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            yaml_file[key]['path'] = new_value
-
-        # If we are dealing with a string
-        # Todo: these should be replaced with File types
-        if type(yaml_file[key]) == str:
-            new_value = yaml_file[key].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            yaml_file[key] = new_value
-
-    return yaml_file
-
-
-def include_file_resources(fh, file_resources_path):
-    """
-    Write the paths to the resource files that the pipeline needs into the inputs yaml file.
-
-    :param: fh File Handle to the inputs file for the pipeline
-    :param: file_resources_path String representing full path to our resources file
-    """
-    with open(file_resources_path, 'r') as stream:
-        file_resources = ruamel.yaml.round_trip_load(stream)
-
-    file_resources = substitute_project_root(file_resources)
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(file_resources))
-
-
-def include_run_params(fh, run_params_path):
-    """
-    Load and write our default run parameters to the pipeline inputs file
-
-    :param fh: File Handle to the pipeline inputs yaml file
-    :param run_params_path:  String representing full path to the file with our default tool parameters for this run
-    """
-    with open(run_params_path, 'r') as stream:
-        other_params = ruamel.yaml.round_trip_load(stream)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(other_params))
-
-
-def include_tool_resources(fh, tool_resources_file_path):
-    """
-    Load and write our ResourceRequirement overrides for testing
-
-    :param fh: File handle for pipeline yaml inputs
-    :param tool_resources_file_path: path to file that contains paths to tools
-    """
-    with open(tool_resources_file_path, 'r') as stream:
-        tool_resources = ruamel.yaml.round_trip_load(stream)
-        tool_resources = substitute_project_root(tool_resources)
-
-    fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(tool_resources))
-
-
 def perform_length_checks(fastq1, fastq2, sample_sheet, title_file):
     """
     Check whether the title file matches input fastqs
@@ -499,17 +365,17 @@ def write_inputs_file(args, title_file, output_file_name):
     fh = open(output_file_name, 'wb')
 
     include_fastqs_params(fh, args.data_dir, title_file, args.title_file_path, args.force)
-    include_run_params(fh, run_params_path)
-    include_file_resources(fh, run_files_path)
-    include_tool_resources(fh, tool_resources_file_path)
+    include_yaml_resources(fh, run_params_path)
+    include_yaml_resources(fh, run_files_path)
+    include_yaml_resources(fh, tool_resources_file_path)
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
-    title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
+    title_file_obj = {'title_file': {'class': 'File', 'path': os.path.abspath(args.title_file_path)}}
     fh.write(ruamel.yaml.dump(title_file_obj))
     # This file itself is an input to the pipeline,
     # to include version details in the QC PDF
-    inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': output_file_name}}
+    inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': os.path.abspath(output_file_name)}}
     fh.write(ruamel.yaml.dump(inputs_yaml_object))
     # Write the current project name for this run
     fh.write('project_name: {}'.format(args.project_name))
@@ -517,20 +383,6 @@ def write_inputs_file(args, title_file, output_file_name):
     include_version_info(fh)
 
     fh.close()
-
-
-def include_version_info(fh):
-    """
-    Todo: Include indentifier to indicate if commit == tag
-    """
-    import version
-    fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
-    fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
 def check_final_file(output_file_name):
@@ -641,7 +493,10 @@ def perform_validation(title_file, title_file_path, project_name):
         raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
     if not np.issubdtype(title_file[MANIFEST__LANE_COLUMN], np.number):
-        raise Exception(DELIMITER + 'Lane column must be integers')
+        raise Exception(DELIMITER + 'Lane column of title file must be integers')
+
+    if title_file[MANIFEST__LANE_COLUMN].isnull().any():
+        raise Exception(DELIMITER + 'Lane column of title file must not be missing or NA')
 
 
 def print_user_message():
@@ -653,7 +508,7 @@ def print_user_message():
     print('3. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
     print('4. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
-    print('5. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
+    print('5. Did you source the workspace_init.sh script (to make sure the PATH variable is set correctly?)')
     print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries (although other entries will still be accepted).')
 
 

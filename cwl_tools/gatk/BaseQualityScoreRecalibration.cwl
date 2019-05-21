@@ -5,7 +5,6 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx30g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
 - -jar
 - $(inputs.gatk)
 - -T
@@ -22,7 +21,6 @@ doc: |
   None
 
 inputs:
-  tmp_dir: string
   java: string
   gatk: string
 

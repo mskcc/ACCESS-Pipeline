@@ -23,6 +23,12 @@ inputs:
   simplex_pool_b: Directory
   duplex_pool_b: Directory
 
+  standard_pool_a_exon_level: Directory
+  unfiltered_pool_a_exon_level: Directory
+  simplex_pool_a_exon_level: Directory
+  duplex_pool_a_exon_level: Directory
+
+  qc_tables: Directory
   all_fp_results: Directory
   gender_table: File
   family_sizes: File
@@ -47,9 +53,14 @@ expression: |
     output_files.push(inputs.simplex_pool_b);
     output_files.push(inputs.duplex_pool_b);
 
+    output_files.push(inputs.standard_pool_a_exon_level);
+    output_files.push(inputs.unfiltered_pool_a_exon_level);
+    output_files.push(inputs.simplex_pool_a_exon_level);
+    output_files.push(inputs.duplex_pool_a_exon_level);
+
+    output_files.push(inputs.qc_tables);
     output_files.push(inputs.all_fp_results);
     output_files.push(inputs.gender_table);
-
     output_files.push(inputs.family_sizes);
     output_files.push(inputs.family_types_A);
     output_files.push(inputs.family_types_B);

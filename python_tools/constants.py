@@ -31,6 +31,8 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+
 
 ###############################
 # Manifest Column Definitions #
@@ -80,6 +82,16 @@ manifest_columns = [
 
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
+
+# Delimiter for printing logs
+DELIMITER = '\n' + '*' * 20 + '\n'
+# Delimiter for inputs file sections
+INPUTS_FILE_DELIMITER = '\n\n' + '# ' + '--' * 30 + '\n\n'
+
+# Template identifier string that will get replaced with the project root location
+PIPELINE_ROOT_PLACEHOLDER = '$PIPELINE_ROOT'
+
+BAM_REGEX = re.compile(r'.*\.bam$')
 
 
 ##########################
@@ -219,28 +231,67 @@ POOL_B_LABEL = 'B Targets'
 UNFILTERED_COLLAPSING_METHOD = 'All Unique'
 SIMPLEX_COLLAPSING_METHOD = 'Simplex'
 DUPLEX_COLLAPSING_METHOD = 'Duplex'
+SIMPLEX_DUPLEX_COMBINED = 'SimplexDuplex'
 
 # Headers for tables
 DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']
-GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', 'coverage', 'gc', 'method']
-GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = ['method', 'gc_bin', 'coverage']
-GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = ['method', SAMPLE_ID_COLUMN, 'gc_bin', 'coverage']
+
+GC_BIN_COLUMN = 'gc_bin'
+METHOD_COLUMN = 'method'
+GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', WALTZ_PEAK_COVERAGE_COLUMN, 'gc', 'method']
+GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, 'coverage']
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN, 'coverage']
 
 # Output file names
-read_counts_filename = 'read-counts-agg.txt'
-coverage_agg_filename = 'coverage-agg.txt'
-each_sample_coverage_filename = 'GC-bias-with-coverage-averages-over-each-sample.txt'
-gc_bias_with_coverage_filename = 'GC-bias-with-coverage.txt'
-read_counts_total_filename = 'read-counts-total.txt'
-coverage_per_interval_filename = 'coverage-per-interval.txt'
+read_counts_filename = 'read_counts_agg.txt'
+coverage_agg_filename = 'coverage_agg.txt'
+gc_avg_each_sample_coverage_filename = 'GC_bias_with_coverage_averages_over_each_sample.txt'
+gc_bias_with_coverage_filename = 'GC_bias_with_coverage.txt'
+read_counts_total_filename = 'read_counts_total.txt'
+coverage_per_interval_filename = 'coverage_per_interval.txt'
+read_counts_table_exon_level_filename = 'read_counts_agg_exon_level.txt'
+coverage_table_exon_level_filename = 'coverage_agg_exon_level.txt'
+gc_cov_int_table_exon_level_filename = 'GC_bias_with_coverage_exon_level.txt'
+gc_avg_each_sample_coverage_exon_level_filename = 'GC_bias_with_coverage_averages_over_each_sample_exon_level.txt'
+average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
+
+INSERT_SIZE_PREFIX = 'insert_sizes_'
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    'standard_A_targets.txt',
+    'unfiltered_A_targets.txt',
+    'simplex_A_targets.txt',
+    'duplex_A_targets.txt',
+    'standard_B_targets.txt',
+    'unfiltered_B_targets.txt',
+    'simplex_B_targets.txt',
+    'duplex_B_targets.txt',
+]
+
+EXON_COVERAGE_OUTPUT_FILE_NAMES = [
+    'coverage_per_interval_A_targets_All Unique.txt',
+    'coverage_per_interval_A_targets_Duplex.txt',
+    'coverage_per_interval_A_targets_Simplex.txt',
+    'coverage_per_interval_A_targets_TotalCoverage.txt',
+]
+
+INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
 
 ALL_TABLES_MODULE_OUTPUT_FILES = [
     read_counts_filename,
     coverage_agg_filename,
-    each_sample_coverage_filename,
+    gc_avg_each_sample_coverage_filename,
     gc_bias_with_coverage_filename,
     read_counts_total_filename,
     coverage_per_interval_filename,
+    read_counts_table_exon_level_filename,
+    coverage_table_exon_level_filename,
+    gc_cov_int_table_exon_level_filename,
+    gc_avg_each_sample_coverage_exon_level_filename,
+    average_coverage_across_exon_targets_filename
+] + EXON_COVERAGE_OUTPUT_FILE_NAMES + \
+INSERT_SIZE_OUTPUT_FILE_NAMES + [
+    'qc_sample_coverage_A_targets.txt',
+    'qc_sample_coverage_B_targets.txt'
 ]
 
 
@@ -257,6 +308,7 @@ NOISE_HEADER = [SAMPLE_ID_COLUMN, 'GenotypeCount', 'AltCount', 'AltPercent', 'Co
 
 TMPDIR_SEARCH = re.compile(r'^tmp......$')
 OUT_TMPDIR_SEARCH = re.compile(r'^out_tmpdir......$')
+TMPDIR_SEARCH_2 = re.compile(r'^tmp$')
 
 STANDARD_BAM_DIR = 'standard_bams'
 UNFILTERED_BAM_DIR = 'unfiltered_bams'

@@ -1,0 +1,14 @@
+Sample1	Sample2	Status
+s_C_67RDP9_L007_d	s_C_67RDP9_L009_d	Unexpected Match
+s_C_67RDP9_L007_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L007_d	s_C_67RDP9_L013_d	Unexpected Match
+s_C_67RDP9_L007_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L007_d	s_C_67RDP9_L009_d	Unexpected Match
+s_SeraCare_0_5VAF_06302R	s_SeraCare_2_5VAF_06302R	Unexpected Match
+s_C_67RDP9_L009_d	s_C_67RDP9_L013_d	Unexpected Match
+s_SeraCare_0_5VAF_06302R	s_SeraCare_2_5VAF_06302R	Unexpected Match
+s_C_67RDP9_L013_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L009_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L013_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L009_d	s_C_67RDP9_L014_d	Unexpected Match
+s_C_67RDP9_L009_d	s_C_67RDP9_L013_d	Unexpected Match

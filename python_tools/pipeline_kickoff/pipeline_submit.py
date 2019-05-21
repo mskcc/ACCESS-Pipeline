@@ -16,10 +16,10 @@ import ruamel.yaml
 # Todo: Include check for existing outputs directory
 
 
-DEFAULT_MEM = 1
+DEFAULT_MEM = 5
 DEFAULT_CPU = 1
 LEADER_NODE = "w01"
-CONTROL_QUEUE = "control"
+CONTROL_QUEUE = "sol"
 
 
 def bsub(bsubline):

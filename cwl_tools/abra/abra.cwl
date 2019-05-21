@@ -5,7 +5,7 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx60g
-- -Djava.io.tmpdir=$(inputs.tmp_dir)
+- -Djava.io.tmpdir=$(inputs.working_directory.path)
 - -jar
 - $(inputs.abra)
 
@@ -14,7 +14,7 @@ requirements:
   ResourceRequirement:
     ramMin: 60000
     coresMin: 8
-    outdirMax: 90000
+    outdirMax: 120000
 
 # Todo: It would be nice to have this
 # but unfortunately PATH is not a defined
@@ -29,12 +29,9 @@ requirements:
 inputs:
   java: string
   abra: string
-  tmp_dir: string
 
   input_bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     inputBinding:
       prefix: --in
       itemSeparator: ','
@@ -45,9 +42,9 @@ inputs:
     type: string
 
   working_directory:
-    type: string
+    type: Directory
     inputBinding:
-      prefix: --working
+      prefix: --tmpdir
 
   reference_fasta:
     type: string
@@ -65,7 +62,7 @@ inputs:
       prefix: --threads
 
   kmer:
-    type: string
+    type: string?
     inputBinding:
       prefix: --kmer
 
@@ -74,10 +71,43 @@ inputs:
     inputBinding:
       prefix: --mad
 
+  sc:
+    type: string
+    inputBinding:
+      prefix: --sc
+
+  mmr:
+    type: float
+    inputBinding:
+      prefix: --mmr
+
+  sga:
+    type: string
+    inputBinding:
+      prefix: --sga
+
+  ca:
+    type: string
+    inputBinding:
+      prefix: --ca
+
+  ws:
+    type: string
+    inputBinding:
+      prefix: --ws
+
+  index:
+    type: boolean
+    inputBinding:
+      prefix: --index
+
+  cons:
+    type: boolean
+    inputBinding:
+      prefix: --cons
+
   out:
-    type:
-      type: array
-      items: string
+    type: string[]
     inputBinding:
       itemSeparator: ','
       prefix: --out

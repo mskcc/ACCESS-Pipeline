@@ -8,6 +8,7 @@ set -x
 # directories, or a list of files.
 #
 # https://github.com/common-workflow-language/cwltool/issues/282
+# Todo: this is bad
 cp $1/* .
 
 
@@ -15,7 +16,7 @@ cp $1/* .
 cat *.read-counts > read-counts.txt
 printf "Bam\tCMO_SAMPLE_ID\tTotalReads\tUnmappedReads\tTotalMapped\tUniqueMapped\tDuplicateFraction\tTotalOnTarget\tUniqueOnTarget\tTotalOnTargetFraction\tUniqueOnTargetFraction\n" > t
 # add ID
-awk 'BEGIN{FS=OFS="\t"}{ split($1, a, "_bc"); $1=$1"\t"a[1]; print }' read-counts.txt >> t
+awk 'BEGIN{FS=OFS="\t"}{ split($1, a, "_cl_aln_srt"); $1=$1"\t"a[1]; print }' read-counts.txt >> t
 mv t read-counts.txt
 
 
@@ -24,7 +25,7 @@ printf "FragmentSize\tTotalFrequency\tUniqueFrequency\tCMO_SAMPLE_ID\n" > t
 for f in `ls *.fragment-sizes`
 do
   sample="${f/.bam.fragment-sizes/}"
-  sample=`echo $sample | awk 'BEGIN{FS="_bc"}{print $1}'`
+  sample=`echo $sample | awk 'BEGIN{FS="_cl_aln_srt"}{print $1}'`
 
   awk -v sample=$sample 'BEGIN{FS=OFS="\t"}{$3=$3"\t"sample; print}' $f >> t
 
@@ -40,7 +41,7 @@ printf "CMO_SAMPLE_ID\tTotalCoverage\tUniqueCoverage\n" > waltz-coverage.txt
 for f in `ls *-intervals.txt`
 do
   sample="${f/-intervals.txt/}"
-  sample=`echo $sample | awk 'BEGIN{FS="_bc"}{print $1}'`
+  sample=`echo $sample | awk 'BEGIN{FS="_cl_aln_srt"}{print $1}'`
   printf "$sample\t" >> waltz-coverage.txt
 
   totalCovarege=`awk 'BEGIN{FS=OFS="\t"}{L=L+$5; coverage=coverage+$5*$7;}END{print coverage/L}' $f`
@@ -67,7 +68,7 @@ printf "Interval\tCMO_SAMPLE_ID\tUniqueCoverage\tGC\n" > t6
 for f in `ls *-intervals.txt`
 do
   sample="${f/-intervals.txt/}"
-  sample=`echo $sample | awk 'BEGIN{FS="_bc"}{print $1}'`
+  sample=`echo $sample | awk 'BEGIN{FS="_cl_aln_srt"}{print $1}'`
   awk -v sample=$sample 'BEGIN{FS=OFS="\t"; OFMT = "%.0f"}{ print $4, sample, $7, $8}' $f >> t5
   awk -v sample=$sample 'BEGIN{FS=OFS="\t"; OFMT = "%.0f"}{ print $4, sample, $7, $8}'  ${f/-intervals/-intervals-without-duplicates} >> t6
 done
@@ -81,7 +82,7 @@ printf "Interval\tGene\tCMO_SAMPLE_ID\tUniqueCoverage\n" > t8
 for f in `ls *-intervals.txt`
 do
   sample="${f/-intervals.txt/}"
-  sample=`echo $sample | awk 'BEGIN{FS="_bc"}{print $1}'`
+  sample=`echo $sample | awk 'BEGIN{FS="_cl_aln_srt"}{print $1}'`
 
   # do only intra-sample normalization
   # sample mean as the normalizing factor
