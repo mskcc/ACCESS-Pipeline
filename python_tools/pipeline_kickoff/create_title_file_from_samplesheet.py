@@ -130,9 +130,10 @@ def create_title_file(samplesheet_file_path, output_filename):
     ].apply(projectid_format)
     if len(set(title_file[TITLE_FILE__BAIT_VERSION_COLUMN])) > 1:
         raise Exception("Samplesheet contains samples with mutliple bait version.")
-    if not set(title_file[TITLE_FILE__BAIT_VERSION_COLUMN]).pop() == EXPECTED_BAIT_VERSION:
-        print set(title_file[TITLE_FILE__BAIT_VERSION_COLUMN])
-        print set(EXPECTED_BAIT_VERSION)
+    if (
+        not set(title_file[TITLE_FILE__BAIT_VERSION_COLUMN]).pop()
+        == EXPECTED_BAIT_VERSION
+    ):
         raise Exception("Samplesheet bait version does not match the expected value.")
 
     # sample description/class check
