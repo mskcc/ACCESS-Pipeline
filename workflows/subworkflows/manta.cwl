@@ -24,8 +24,8 @@ inputs:
     type: File[]
     secondaryFiles: [^.bai]
 
-  normal_bams:
-    type: File[]
+  normal_bam:
+    type: File
     secondaryFiles: [^.bai]
 
   reference_fasta:
@@ -44,6 +44,10 @@ outputs:
     type: File[]
     outputSource: annotate_manta/sv_file_annotated
 
+  concatenated_vcf:
+    type: File
+    outputSource: combine_sv_vcfs/concatenated_vcf
+
 steps:
 
   filter_tumor_reads_ending_in_indels:
@@ -59,12 +63,10 @@ steps:
   filter_normal_reads_ending_in_indels:
     run: ../../cwl_tools/manta/manta_filter.cwl
     in:
-      bam: normal_bams
+      bam: normal_bam
       output_file_name:
         valueFrom: $(inputs.bam.basename.replace('.bam', '_term-indel-filt.bam'))
     out: [filtered_bam]
-    scatter: [bam]
-    scatterMethod: dotproduct
 
   index_tumor:
     run: ../../cwl_tools/samtools/index.cwl
@@ -79,8 +81,6 @@ steps:
     in:
       bam: filter_normal_reads_ending_in_indels/filtered_bam
     out: [indexed_bam]
-    scatter: [bam]
-    scatterMethod: dotproduct
 
   manta:
     run: ../../cwl_tools/manta/manta.cwl
@@ -98,7 +98,7 @@ steps:
       normal_sample: index_normal/indexed_bam
 
       reference_fasta: reference_fasta
-    scatter: [sample_id, tumor_sample, normal_sample]
+    scatter: [sample_id, tumor_sample]
     scatterMethod: dotproduct
     out: [sv_vcf, sv_directory]
 
@@ -120,3 +120,10 @@ steps:
     scatter: [vcf, sample_id]
     scatterMethod: dotproduct
     out: [sv_file_annotated]
+
+  combine_sv_vcfs:
+    run: ../../cwl_tools/manta/manta_concat.cwl
+    in:
+      vcfs: annotate_manta/sv_file_annotated
+    out:
+      [concatenated_vcf]
