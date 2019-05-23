@@ -36,7 +36,8 @@ LOG_FILE_NAME = 'cwltoil.log'
 PRESERVE_ENV_VARS = [
     'PATH',
     'PYTHONPATH',
-    'TOIL_LSF_ARGS'
+    'LD_LIBRARY_PATH',
+    'TOIL_LSF_ARGS',
     'TMPDIR',
     'TMP_DIR',
     'TEMP',

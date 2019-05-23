@@ -34,6 +34,17 @@ class Tests(unittest.TestCase):
         are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
         assert are_substrings == False
 
+    def test_substring_in_list(self):
+        assert util.substring_in_list('asdf', ['asdf', 'asdf2', 'asdf3'])
+        assert util.substring_in_list('asdf2', ['asdf', 'asdf2', 'asdf3'])
+        assert not util.substring_in_list('asdf', ['asddf', 'asddf2', 'asddf3'])
+
+    def test_substrings_in_list(self):
+        assert util.substrings_in_list(['123', '456'], ['123456', 'abc'])
+        assert util.substrings_in_list(['123', '234'], ['123456', 'abc'])
+        assert not util.substrings_in_list(['123', '567'], ['123456', 'abc'])
+        assert not util.substrings_in_list(['123', '4567'], ['123456', 'abc'])
+
 
 if __name__ == '__main__':
     unittest.main()

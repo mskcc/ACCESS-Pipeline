@@ -1,0 +1,195 @@
+tumor_bams:
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001440-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001440-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001440-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001440-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001798-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-001798-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-02WK6K-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-02WK6K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-02WK6K-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-02WK6K-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-09XLT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-09XLT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-09XLT2-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-09XLT2-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-0EU9LX-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-0EU9LX-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-0EU9LX-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-0EU9LX-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-13TFTU-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-13TFTU-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-13TFTU-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-13TFTU-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-16M06K-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-16M06K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-16M06K-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-16M06K-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2NMC49-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2NMC49-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L003-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2UW6JP-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2XM3KC-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-2XM3KC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-30N2P4-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-30N2P4-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-35MA0W-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-35MA0W-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-3KTK0P-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-3KTK0P-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-3U7797-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-3U7797-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-4YT24X-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-4YT24X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-4YT24X-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-4YT24X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5H5R2T-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5H5R2T-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5HUL5J-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5HUL5J-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5HUL5J-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-5HUL5J-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6P03JC-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6P03JC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6WY7PC-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6WY7PC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6WY7PC-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-6WY7PC-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-7AVWDK-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-7AVWDK-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-84XNKK-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-84XNKK-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-84XNKK-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-84XNKK-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-898XKN-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-898XKN-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-898XKN-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-898XKN-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-8F9XD2-L003-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-8F9XD2-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-8F9XD2-L004-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-8F9XD2-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-93W8WP-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-93W8WP-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-93W8WP-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-93W8WP-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-9MNNF5-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-9MNNF5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AHDYW9-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AHDYW9-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AHDYW9-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AHDYW9-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-AMXRAL-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-CRW888-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-CRW888-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-CUDCW0-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-CUDCW0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-DF0LWR-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-DF0LWR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-EFFWHC-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-EFFWHC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-EW1Y3E-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-EW1Y3E-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-F5H7YA-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-F5H7YA-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-F73JND-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-F73JND-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H0YMA5-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H0YMA5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H0YMA5-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H0YMA5-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H77MCH-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-H77MCH-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HAT9MW-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HAT9MW-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HAT9MW-N002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HAT9MW-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HD5CTA-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-HD5CTA-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-JW46W8-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-JW46W8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-KPUU0U-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-KPUU0U-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-KPUU0U-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-KPUU0U-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-LT4FT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-LT4FT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-M916LH-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-M916LH-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-NNWD02-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-NNWD02-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-NNWD02-L002-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-NNWD02-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-PER9CE-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-PER9CE-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-PXLW6Y-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-PXLW6Y-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-R6MCD7-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-R6MCD7-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-T0EUCR-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-T0EUCR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-TJNHT3-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-TJNHT3-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-U8WAU8-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-U8WAU8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-UJFTXF-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-UJFTXF-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-YP5R0K-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-YP5R0K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-YW82CY-L001-d_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/C-YW82CY-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR.bai}
+- {class: File, path: /ifs/work/bergerm1/zhengy1/RET_all/all_bams/standard_bams/DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR.bam}
+
+normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
+
+reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+
+run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+  manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
+  sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+
+
+# Todo: this inputs file should get these params updated with each new test run:
+# ------------------------------------------------------------
+
+project_name: Manta_AllSeraCare_Test
+
+# ------------------------------------------------------------
+
+version: x.x.x
+# Pipeline Run Version Information:
+# Version: e0126bdff331fcd1f1063738b06f7109a5c64067
+# Short Version: e0126bd
+# Most Recent Tag: 0.1.0-rc3
+# Dirty? False
