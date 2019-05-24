@@ -2,6 +2,8 @@ cwlVersion: v1.0
 
 class: Workflow
 
+# Todo: Should this be scattered on a T/N pair?
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

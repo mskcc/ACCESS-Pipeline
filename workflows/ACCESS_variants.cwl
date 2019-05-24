@@ -17,6 +17,7 @@ requirements:
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../resources/run_params/schemas/access_filters.yaml
       - $import: ../resources/run_params/schemas/delly.yaml
+      - $import: ../resources/run_tools/schemas.yaml
 
 inputs:
 
@@ -32,6 +33,7 @@ inputs:
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
   delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
+  sv_run_tools: ../resources/run_tools/sv.yaml#run_tools
 
   hotspots: File
 
@@ -67,26 +69,14 @@ inputs:
     type: File
     secondaryFiles: [.fai, ^.dict]
 
-############### Todo: section not finished:
-#  hapmap:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  indels_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
-#  snps_1000g:
-#    type: File
-#    secondaryFiles:
-#      - .idx
   exac_filter:
     type: File
     secondaryFiles:
       - .tbi
-#  conpair_markers: File
-#  conpair_markers_bed: File
-#################
+
+  sv_sample_id: string[]
+  sv_tumor_bams: File[]
+  sv_normal_bam: File[]
 
 outputs:
 
@@ -239,3 +229,17 @@ steps:
 #      final_filtered_maf]
 #    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
 #    scatterMethod: dotproduct
+
+  manta:
+    run: ./subworkflows/manta.cwl
+    in:
+      sv_sample_id: sv_sample_id
+      sv_tumor_bams: sv_tumor_bams
+      sv_normal_bam: sv_normal_bam
+      sv_run_tools: sv_run_tools
+      project_name: project_name
+      version: version
+    out: [
+      sv_directory,
+      annotated_sv_file,
+      concatenated_vcf]
