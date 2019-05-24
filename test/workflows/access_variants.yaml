@@ -62,7 +62,7 @@ bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS
 dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
 cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
 refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
-hotspot_vcf: {class: File, path: /opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf}
+blacklist_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Blacklist/ACCESS_blacklist_20_05_2019.txt}
 ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 
 ##TODO this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
@@ -115,7 +115,7 @@ bcftools_params:
 ###################
 
 exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
-hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}
 
 # (Also used for Module-6)
 vcf2maf_params:
