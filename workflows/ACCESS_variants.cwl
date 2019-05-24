@@ -16,7 +16,6 @@ requirements:
       - $import: ../resources/run_params/schemas/vcf2maf.yaml
       - $import: ../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../resources/run_params/schemas/access_filters.yaml
-      - $import: ../resources/run_params/schemas/delly.yaml
       - $import: ../resources/run_tools/schemas.yaml
 
 inputs:
@@ -32,7 +31,6 @@ inputs:
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
-  delly_params: ../resources/run_params/schemas/delly.yaml#delly_params
   sv_run_tools: ../resources/run_tools/sv.yaml#run_tools
 
   hotspots: File
@@ -124,22 +122,6 @@ outputs:
     type: File[]
     outputSource: snps_and_indels/final_filtered_maf
 
-  delly_sv:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: structural_variants/delly_sv
-
-  delly_filtered_sv:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: structural_variants/delly_filtered_sv
-
   merged_structural_variants:
     type: File[]
     outputSource: structural_variants/merged_structural_variants
@@ -205,38 +187,14 @@ steps:
   # Structural Variants #
   #######################
 
-#  structural_variants:
-#    run: ./module-6.cwl
-#    in:
-#      delly_params: delly_params
-#      vcf2maf_params: vcf2maf_params
-#      tumor_bam: tumor_bams
-#      normal_bam: normal_bams
-#      normal_sample_name: tumor_sample_names
-#      tumor_sample_name: normal_sample_names
-#      reference_fasta: ref_fasta
-#      exac_filter: exac_filter
-#      delly_type:
-#        valueFrom: $(['DEL', 'DUP', 'BND', 'INV', 'INS'])
-#      vep_data:
-#        valueFrom: $(inputs.vcf2maf_params.vep_data)
-#    out: [
-#      delly_sv,
-#      delly_filtered_sv,
-#      merged_structural_variants,
-#      merged_structural_variants_unfiltered,
-#      structural_variants_maf,
-#      final_filtered_maf]
-#    scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]
-#    scatterMethod: dotproduct
-
   manta:
     run: ./subworkflows/manta.cwl
     in:
-      sv_sample_id: sv_sample_id
-      sv_tumor_bams: sv_tumor_bams
-      sv_normal_bam: sv_normal_bam
-      sv_run_tools: sv_run_tools
+      sample_id: sv_sample_id
+      tumor_bams: sv_tumor_bams
+      normal_bam: sv_normal_bam
+      run_tools: sv_run_tools
+      reference_fasta: ref_fasta
       project_name: project_name
       version: version
     out: [
