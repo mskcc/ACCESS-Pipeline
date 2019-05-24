@@ -10,7 +10,7 @@ arguments:
 - head
 - -n
 - '1'
-- $(inputs.vcfs[0].path)
+- $(inputs.sv_calls[0].path)
 
 - shellQuote: false
   valueFrom: '>'
@@ -21,7 +21,7 @@ arguments:
   valueFrom: '&&'
 
 - cat
-- $(inputs.vcfs)
+- $(inputs.sv_calls)
 
 - shellQuote: false
   valueFrom: '|'
@@ -42,7 +42,7 @@ arguments:
 
 inputs:
 
-  vcfs: File[]
+  sv_calls: File[]
 
 outputs:
 

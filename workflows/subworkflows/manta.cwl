@@ -127,6 +127,6 @@ steps:
   combine_sv_vcfs:
     run: ../../cwl_tools/manta/manta_concat.cwl
     in:
-      vcfs: annotate_manta/sv_file_annotated
+      sv_calls: annotate_manta/sv_file_annotated
     out:
       [concatenated_vcf]
