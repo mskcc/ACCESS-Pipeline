@@ -8,6 +8,7 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
+      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
       - $import: ../resources/run_params/schemas/mutect.yaml
       - $import: ../resources/run_params/schemas/vardict.yaml
       - $import: ../resources/run_params/schemas/basic-filtering-vardict.yaml
@@ -22,6 +23,7 @@ inputs:
 
   project_name: string
   version: string
+  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -31,9 +33,11 @@ inputs:
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
   gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
-  sv_run_tools: ../resources/run_tools/sv.yaml#run_tools
 
   hotspots: File
+  blacklist_file: File
+  custom_enst_file: File
+  annotate_concat_header_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -51,8 +55,8 @@ inputs:
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
-  matched_normal_ids: string[]
   genotyping_bams_ids: string[]
+  matched_normal_ids: string[]
 
   bed_file: File
   refseq: File
@@ -66,7 +70,6 @@ inputs:
   ref_fasta:
     type: File
     secondaryFiles: [.fai, ^.dict]
-
   exac_filter:
     type: File
     secondaryFiles:
@@ -74,13 +77,18 @@ inputs:
 
   sv_sample_id: string[]
   sv_tumor_bams: File[]
-  sv_normal_bam: File[]
+  sv_normal_bam: File
+  sv_run_tools: ../resources/run_tools/schemas.yaml#sv_run_tools
 
 outputs:
 
   concatenated_vcf:
     type: File[]
     outputSource: snps_and_indels/concatenated_vcf
+
+  annotated_concatenated_vcf:
+    type: File[]
+    outputSource: snps_and_indels/annotated_concatenated_vcf
 
   mutect_vcf:
     type: File[]
@@ -106,13 +114,21 @@ outputs:
     type: File[]
     outputSource: snps_and_indels/final_maf
 
+  kept_rmvbyanno_maf:
+    type: File[]
+    outputSource: snps_and_indels/kept_rmvbyanno_maf
+
+  dropped_rmvbyanno_maf:
+    type: File[]
+    outputSource: snps_and_indels/dropped_rmvbyanno_maf
+
+  dropped_NGR_rmvbyanno_maf:
+    type: File[]
+    outputSource: snps_and_indels/dropped_NGR_rmvbyanno_maf
+
   hotspots_filtered_maf:
     type: File[]
     outputSource: snps_and_indels/hotspots_filtered_maf
-
-  consolidated_maf:
-    type: File[]
-    outputSource: snps_and_indels/consolidated_maf
 
   fillout_maf:
     type: File[]
@@ -122,17 +138,23 @@ outputs:
     type: File[]
     outputSource: snps_and_indels/final_filtered_maf
 
-  merged_structural_variants:
+  final_filtered_condensed_maf:
     type: File[]
-    outputSource: structural_variants/merged_structural_variants
+    outputSource: snps_and_indels/final_filtered_condensed_maf
 
-  merged_structural_variants_unfiltered:
-    type: File[]
-    outputSource: structural_variants/merged_structural_variants_unfiltered
+  # Manta
 
-  structural_variants_maf:
+  sv_directory:
+    type: Directory[]
+    outputSource: manta/sv_directory
+
+  annotated_sv_file:
     type: File[]
-    outputSource: structural_variants/structural_variants_maf
+    outputSource: manta/annotated_sv_file
+
+  concatenated_vcf:
+    type: File
+    outputSource: manta/concatenated_vcf
 
 steps:
 
@@ -143,6 +165,9 @@ steps:
   snps_and_indels:
     run: ./subworkflows/snps_and_indels.cwl
     in:
+      project_name: project_name
+      version: version
+      run_tools: run_tools
       mutect_params: mutect_params
       vardict_params: vardict_params
       basicfiltering_vardict_params: basicfiltering_vardict_params
@@ -151,37 +176,40 @@ steps:
       vcf2maf_params: vcf2maf_params
       gbcms_params: gbcms_params
       access_filters_params: access_filters_params
-
+      hotspots: hotspots
+      blacklist_file: blacklist_file
+      custom_enst_file: custom_enst_file
+      annotate_concat_header_file: annotate_concat_header_file
       tumor_bams: tumor_bams
       normal_bams: normal_bams
+      genotyping_bams: genotyping_bams
       tumor_sample_names: tumor_sample_names
       normal_sample_names: normal_sample_names
+      genotyping_bams_ids: genotyping_bams_ids
       matched_normal_ids: matched_normal_ids
       bed_file: bed_file
       refseq: refseq
-      ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic
-      hotspots: hotspots
-      combine_vcf: module_3/concatenated_vcf
-      genotyping_bams: genotyping_bams
-      genotyping_bams_ids: genotyping_bams_ids
-      tumor_sample_name: tumor_sample_names
-      normal_sample_name: normal_sample_names
       ref_fasta: ref_fasta
       exac_filter: exac_filter
     out: [
       concatenated_vcf,
+      annotated_concatenated_vcf,
       mutect_vcf,
       mutect_callstats,
       vardict_vcf,
       mutect_normalized_vcf,
       vardict_normalized_vcf,
       final_maf,
+      kept_rmvbyanno_maf,
+      dropped_rmvbyanno_maf,
+      dropped_NGR_rmvbyanno_maf,
       hotspots_filtered_maf,
-      consolidated_maf,
       fillout_maf,
-      final_filtered_maf]
+      final_filtered_maf,
+      final_filtered_condensed_maf,
+    ]
 
   #######################
   # Structural Variants #
