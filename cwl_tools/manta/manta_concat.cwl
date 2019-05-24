@@ -15,7 +15,7 @@ arguments:
 - shellQuote: false
   valueFrom: '>'
 
-- all_calls.vcf
+- all_calls.txt
 
 - shellQuote: false
   valueFrom: '&&'
@@ -28,7 +28,7 @@ arguments:
 
 - grep
 - -vP
-- "^chr1"
+- "^TumorId"
 
 # Need this to prevent nonzero exit code if grep runs on header only
 - shellQuote: false
@@ -38,7 +38,7 @@ arguments:
 - shellQuote: false
   valueFrom: '>>'
 
-- all_calls.vcf
+- all_calls.txt
 
 inputs:
 
