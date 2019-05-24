@@ -1,0 +1,207 @@
+##########################
+# SNPS and Indels inputs #
+##########################
+
+run_tools:
+  bcftools: /opt/common/CentOS_6-dev/bin/current/bcftools
+  gbcms: /ifs/work/bergerm1/Innovation/software/maysun/GetBaseCountsMultiSample/GetBaseCountsMultiSample
+  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+  mutect: /home/johnsoni/vendor_tools/muTect-1.1.5.jar
+  vardict: /opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict
+  vardict_testsomatic: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/testsomatic.R
+  vardict_var2vcf_paired: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
+  perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
+  vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
+  vep_path: /opt/common/CentOS_6-dev/vep/v91/
+  vep_data: /opt/common/CentOS_6-dev/vep/cache/
+
+tumor_bams:
+- {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5.bam}
+
+normal_bams:
+# Todo: Create smaller normal reference with just the SeraCare regions
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+
+tumor_sample_names:
+- SeraCare_0-5
+
+normal_sample_names:
+- F22
+
+matched_normal_ids:
+- ''
+
+genotyping_bams:
+# T/N Bams from variant calling
+- {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/SeraCare_0-5-SIMPLEX.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180034/simplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
+# Curated Bams
+# Todo: Move to test reference folder
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180031/duplex/M15_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+- {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180031/simplex/M15_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam}
+
+genotyping_bams_ids:
+# Tumor
+- SeraCare_0-5
+# Tumor Simplex
+- SeraCare_0-5-SIMPLEX
+# Normal
+- F22
+# Normal Simplex
+- F22-SIMPLEX
+# Curated
+- M15-CURATED-DUPLEX
+# Curated Simplex
+- M15-CURATED-SIMPLEX
+
+
+bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
+# Todo: need to consolidate these
+dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
+refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
+hotspot_vcf: {class: File, path: /opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf}
+ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+
+##TODO this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
+custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
+annotate_concat_header_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/run_files/mutect_annotate_concat_header.txt}
+
+
+###################
+# Module 3 Params #
+###################
+
+mutect_params:
+  dcov: 50000
+  read_filter: ['BadCigar']
+# Todo: whats the difference when using these?
+  fraction_contamination: 0.0005
+# Todo: Check if needs to be changed
+  minimum_mutation_cell_fraction: 0.0005
+
+vardict_params:
+  min_num_variant_reads: 1
+  column_for_region_end: 3
+  column_for_chromosome: 1
+  column_for_gene_name: 4
+  allele_freq_thres: 0.0002
+  column_for_region_start: 2
+
+basicfiltering_mutect_params:
+  total_depth: 20              # Todo: Too high?
+  allele_depth: 1
+  tumor_normal_ratio: 1        # Todo: Too high? (may not allow true variants to pass tnfRF filter)
+  variant_fraction: 0.00005
+  outdir: .
+
+basicfiltering_vardict_params:
+  total_depth: 20
+  allele_depth: 1
+  tumor_normal_ratio: 1
+  filter_germline: false
+  variant_fraction: 0.00005
+  min_qual: 0
+  outdir: .
+
+bcftools_params:
+  allow_overlaps: true
+  rm_dups: all
+
+###################
+# Module 4 Params #
+###################
+
+exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+
+# (Also used for Module-6)
+vcf2maf_params:
+  species: homo_sapiens
+  ncbi_build: GRCh37
+  maf_center: mskcc.org
+  max_filter_ac: 10
+  min_hom_vaf: 0.7
+  buffer_size: 5000
+  # Todo: consolidate
+  vep_path: /opt/common/CentOS_6-dev/vep/v91/
+  vep_data: /opt/common/CentOS_6-dev/vep/cache/
+  vep_forks: 4
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
+  buffer_size: 5000
+  # Todo: consolidate
+  custom_enst: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides
+
+gbcms_params:
+  omaf: true
+  filter_duplicate: 0
+  thread: 10
+  maq: 20
+  fragment_count: 1
+
+access_filters_params:
+  tumor_detect_alt_thres: 2
+  curated_detect_alt_thres: 2
+  DS_tumor_detect_alt_thres: 2
+  DS_curated_detect_alt_thres: 2
+  normal_TD_min: 20
+  normal_vaf_germline_thres: 0.3
+  tumor_TD_min: 20
+  tumor_vaf_germline_thres: 0
+  tier_one_alt_min: 3
+  tier_two_alt_min: 5
+  min_n_curated_samples_alt_detected: 2
+  tn_ratio_thres: 2
+
+
+###################
+# Manta SV inputs #
+###################
+
+sv_sample_id:
+- DH-ntrk-001-002-pl-T05
+- DH-ntrk-001-pl-T22
+- DH-ntrk-001-pl-T25
+- DH-ntrk-002-pl-T18
+- DH-ntrk-012-pl-T10
+- DH-ntrk-012-pl-T11
+- DH-ntrk-012-pl-T18
+- DH-ntrk-101-018-pl-T02
+- DH-ntrk-101-018-pl-T06
+
+sv_tumor_bams:
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T05_/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T22_/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T25_/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-002-pl-T18_/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T10_/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T11_/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T18_/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T02_/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T06_/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+
+sv_normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
+
+sv_run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+  manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
+  sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+  manta_python: /home/johnsoni/virtualenvs/pipeline_StructuralVariants/bin/python
+
+
+# Todo: this inputs file should get these params updated with each new test run:
+# ------------------------------------------------------------
+
+project_name: Manta_Test
+
+# ------------------------------------------------------------
+
+version: x.x.x
+# Pipeline Run Version Information:
+# Version: e0126bdff331fcd1f1063738b06f7109a5c64067
+# Short Version: e0126bd
+# Most Recent Tag: 0.1.0-rc3
+# Dirty? False
+

@@ -2,6 +2,8 @@ cwlVersion: v1.0
 
 class: Workflow
 
+# Todo: Should this be scattered on a T/N pair?
+
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -110,10 +112,11 @@ steps:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
         valueFrom: $(inputs.run_tools.manta)
+      manta_python:
+        valueFrom: $(inputs.run_tools.manta_python)
 
       vcf: manta/sv_vcf
       sample_id: sample_id
-
       output_dir:
         valueFrom: $('.')
       reference_fasta: reference_fasta

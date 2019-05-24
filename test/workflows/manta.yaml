@@ -1,4 +1,4 @@
-sample_id:
+sv_sample_id:
 - DH-ntrk-001-002-pl-T05
 - DH-ntrk-001-pl-T22
 - DH-ntrk-001-pl-T25
@@ -9,7 +9,7 @@ sample_id:
 - DH-ntrk-101-018-pl-T02
 - DH-ntrk-101-018-pl-T06
 
-tumor_bams:
+sv_tumor_bams:
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T05_/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T22_/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T25_/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
@@ -20,14 +20,15 @@ tumor_bams:
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T02_/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
 - {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T06_/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
 
-normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
+sv_normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
 
 reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
 
-run_tools:
+sv_run_tools:
   r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
   manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
   sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+  manta_python: /home/johnsoni/virtualenvs/pipeline_StructuralVariants/bin/python
 
 
 # Todo: this inputs file should get these params updated with each new test run:
