@@ -271,7 +271,7 @@ def apply_filter_maf (df_pre_filter, blacklist, args):
                 if mut['t_vaf_fragment'] / mut['CURATED-DUPLEX_median_VAF'] < args.tn_ratio_thres:
                     status = status + 'TNRatio-curatedmedian;'
             
-            if 'n_vaf_fragment' in mut.index.tolist() and mut['hotspot_whitelist'] == False:
+            if 'n_vaf_fragment' in mut.index.tolist():
                 if mut['n_ref_count_fragment'] + mut['n_alt_count_fragment'] > args.normal_TD_min and mut['n_vaf_fragment'] != 0:
                     if mut['t_vaf_fragment'] / mut['n_vaf_fragment'] < args.tn_ratio_thres:
                         status = status + 'TNRatio-matchnorm;'
