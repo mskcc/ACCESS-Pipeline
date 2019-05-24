@@ -110,10 +110,11 @@ steps:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
         valueFrom: $(inputs.run_tools.manta)
+      manta_python:
+        valueFrom: $(inputs.run_tools.manta_python)
 
       vcf: manta/sv_vcf
       sample_id: sample_id
-
       output_dir:
         valueFrom: $('.')
       reference_fasta: reference_fasta

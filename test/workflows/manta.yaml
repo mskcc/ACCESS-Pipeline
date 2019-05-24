@@ -28,6 +28,7 @@ run_tools:
   r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
   manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
   sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+  manta_python: /home/johnsoni/virtualenvs/pipeline_StructuralVariants/bin/python
 
 
 # Todo: this inputs file should get these params updated with each new test run:

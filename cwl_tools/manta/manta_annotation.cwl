@@ -38,6 +38,11 @@ inputs:
     inputBinding:
       position: 5
 
+  manta_python:
+    type: string
+    inputBinding:
+      position: 6
+
 outputs:
 
   sv_file_annotated:
