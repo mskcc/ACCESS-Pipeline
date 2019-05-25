@@ -49,4 +49,4 @@ outputs:
   concatenated_vcf:
     type: File
     outputBinding:
-      glob: all_calls.vcf
+      glob: all_calls.txt
