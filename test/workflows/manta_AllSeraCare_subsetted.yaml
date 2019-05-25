@@ -1,16 +1,16 @@
 sample_id:
 - TD-seracare-0-5per
-#- TD-seracare-1per
-#- TD-seracare-2-5per
-#- TD-seracare-5per
-#- TD-seracare-wt
+- TD-seracare-1per
+- TD-seracare-2-5per
+- TD-seracare-5per
+- TD-seracare-wt
 
 tumor_bams:
 - {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
-#- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-1per_IGO_05500_EZ_31_S24_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-2-5per_IGO_05500_EZ_30_S23_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-5per_IGO_05500_EZ_29_S22_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-wt_IGO_05500_EZ_28_S21_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
 
 normal_bam: {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
 

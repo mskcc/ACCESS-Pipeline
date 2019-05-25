@@ -159,12 +159,19 @@ access_filters_params:
 ###################
 # Manta SV inputs #
 ###################
-
 sv_sample_id:
 - TD-seracare-0-5per
+- TD-seracare-1per
+- TD-seracare-2-5per
+- TD-seracare-5per
+- TD-seracare-wt
 
 sv_tumor_bams:
-- {class: File, path: /home/johnsoni/test_reference/bam/with_svs/TD-seracare-0-5per_IGO_05500_EZ_32_S25_001_cl_aln_srt_MD_IR_FX_BR-subset.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-0-5per/TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-1per/TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-2-5per/TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-5per/TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-wt/TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam}
 
 sv_normal_bam: {class: File, path: /home/johnsoni/test_reference/bam/with_svs/F22_cl_aln_srt_MD_IR_FX_BR-SeraCareRegions.bam}
 
