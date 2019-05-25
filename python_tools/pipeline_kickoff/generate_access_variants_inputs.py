@@ -150,7 +150,8 @@ def parse_arguments():
     parser.add_argument(
         '-stdb',
         '--standard_bams_directory',
-        help='If you would like SV calling, this is the directory that contains standard bams to be paired with the default normal.',
+        help='If you would like SV calling, this is the directory that contains standard bams to be paired with the \
+            default normal. Note: This argument is to be paired with the ACCESS_Variants.cwl workflow.',
         required=False
     )
 
