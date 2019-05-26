@@ -5,9 +5,11 @@ from setuptools.command.install import install
 
 import version
 
-while True and len(sys.argv) >= 2 and sys.argv[1] == "install":
+while all([True, len(sys.argv) >= 2, sys.argv[1] == "install"]):
     try:
         prefix = sys.prefix
+        if not any(['CONDA_PREFIX' in os.environ, 'VIRTUAL_ENV' in os.environ]):
+            print "WARNING: You do not appear to be in a virtual environment!"
         user_input = raw_input("Current python environment is: {}\n"
             "Proceed with setup install? (y/n) ".format(prefix))
         if user_input == "n":
@@ -79,7 +81,7 @@ def req_file(filename):
 
     :param filename:
     :return:
-    """
+    """ 
     with open(filename) as f:
         content = f.readlines()
 
@@ -92,7 +94,7 @@ def start_setup():
         version=version.most_recent_tag(),
         description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
         url='http://github.com/mskcc/ACCESS-Pipeline',
-        author='Ian Johnson',
+        author='Ian Johnson, Gowtham Jayakumaran',
         author_email='johnsoni@mskcc.org',
         license='MIT',
         install_requires=req_file('requirements.txt'),
@@ -115,6 +117,7 @@ def start_setup():
                 'create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main',
                 'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
                 'create_title_file_from_samplesheet = python_tools.pipeline_kickoff.create_title_file_from_samplesheet:main',
+                'create_title_file_from_samplesheet_legacy = python_tools.pipeline_kickoff.create_title_file_from_samplesheet_legacy:main',
                 'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
                 'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
                 # Workflow Tools
