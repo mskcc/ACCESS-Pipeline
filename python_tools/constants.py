@@ -78,7 +78,7 @@ TITLE_FILE__ACCESSION_COLUMN = "AccessionID"
 TITLE_FILE__SEQUENCER_COLUMN = "Sequencer"
 
 # TODO:
-# Columns currently filled with dummy values until DMS/LIMS figures out a way. 
+# Columns currently filled with dummy values until DMS/LIMS figures out a way.
 TITLE_FILE__POOL_INPUT_COLUMN = "Pool_input"
 
 # Columns not current used
@@ -114,13 +114,17 @@ COLLAB_ID = "DMP"
 PLASMA = "plasma"
 BUFFY = "buffy"
 SAMPLE_ID_ALLOWED_DELIMETER = "-"
+DISALLOWED_SAMPLE_ID_CHARACTERS = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 METADATA_COLUMN_DELIMETER = "|"
-METADATA_REQUIRED_COLUMNS = [1, 2, 3, 4, 5]
+METADATA_REQUIRED_COLUMNS = [1, 2, 3, 4]
 SELECT_SPLIT_COLUMN = [1]
-ALLOWED_SAMPLE_TYPE = ["TB", "NB", "N", "TP", "NP", "T"]
-PLASMA_SAMPLE_TYPE = ["TP", "NP", "T"]
-BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
-ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal"]
+ALLOWED_SAMPLE_TYPE = re.compile(r"(^TP|^TB|^NP|^NB)")
+ALLOWED_SAMPLE_TYPE_LIST = ["TB", "NB", "TP", "NP"]
+PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
+# PLASMA_SAMPLE_TYPE = ["TP", "NP", "T"]
+BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
+# BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
+ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
 ALLOWED_SEX = ["Male", "Female", "Control"]
 ALLOWED_SEQUENCERS = ["HISEQ", "NOVASEQ"]
 EXPECTED_BAIT_VERSION = "v1"
@@ -167,7 +171,7 @@ TITLE_FILE__COLUMN_ORDER = [
     TITLE_FILE__ACCESSION_COLUMN,
     TITLE_FILE__BARCODE_INDEX_1_COLUMN,
     TITLE_FILE__BARCODE_INDEX_2_COLUMN,
-    #TITLE_FILE__LANE_COLUMN Do not include the lane column for now
+    # TITLE_FILE__LANE_COLUMN Do not include the lane column for now
 ]
 
 ##############################
