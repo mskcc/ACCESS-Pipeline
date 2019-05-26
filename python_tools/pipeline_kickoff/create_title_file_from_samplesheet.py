@@ -3,7 +3,7 @@ import xlrd
 import argparse
 import pandas as pd
 
-from ..constants import *
+from constants import *
 
 # Suppress pandas copy warning
 pd.options.mode.chained_assignment = None
@@ -144,11 +144,13 @@ def create_title_file(samplesheet_file_path, output_filename):
             )
         )
 
+    # check for control samples
+    # if not
+
     # split metadata column
     try:
         title_file[
             [
-                TITLE_FILE__ACCESSION_COLUMN,
                 TITLE_FILE__PATIENT_NAME_COLUMN,
                 TITLE_FILE__ACCESSION_COLUMN,
                 TITLE_FILE__SEX_COLUMN,
@@ -160,7 +162,9 @@ def create_title_file(samplesheet_file_path, output_filename):
             METADATA_REQUIRED_COLUMNS
         ]
     except (ValueError, KeyError):
-        raise Exception("Operator column values are improperly defined.")
+        raise Exception(
+            "Operator column values are improperly defined. There should be atleast 6 '|' delimited fields in this order: OperatorName|PatientName|Accession|Sex|Sequencer"
+        )
 
     # SEX column makes sense?
     if not set(title_file[TITLE_FILE__SEX_COLUMN]) <= set(ALLOWED_SEX):
@@ -178,28 +182,58 @@ def create_title_file(samplesheet_file_path, output_filename):
         raise Exception(
             "Unrecognized sequencer names: {}".format(" ,".join(unrecognized_values))
         )
+    if len(set(title_file[TITLE_FILE__SEQUENCER_COLUMN])) > 1:
+        raise Exception(
+            "Only one unique sequencer name is allowerd per title file. There are: {}".format(
+                " ,".join(set(title_file[TITLE_FILE__SEQUENCER_COLUMN]))
+            )
+        )
+
+    # check sample id and sample name format
+    def name_check(sampleid):
+        """
+        helper function to validate sample IDs and names.
+        """
+        if any([s1 in sampleid for s1 in DISALLOWED_SAMPLE_ID_CHARACTERS]):
+            raise Exception(
+                "Disallowed characters in {}. Ensure that none of the following characters exist: {}".format(
+                    sampleid, DISALLOWED_SAMPLE_ID_CHARACTERS
+                )
+            )
+
+    title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(name_check)
+    title_file[TITLE_FILE__PATIENT_ID_COLUMN].apply(name_check)
 
     # infer sample type from sample id
     try:
         title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] = title_file[
             TITLE_FILE__SAMPLE_ID_COLUMN
-        ].str.split(SAMPLE_ID_ALLOWED_DELIMETER, expand=True)[SELECT_SPLIT_COLUMN]
+        ].str.rsplit(SAMPLE_ID_ALLOWED_DELIMETER, 1, expand=True)[SELECT_SPLIT_COLUMN]
     except KeyError:
         raise Exception(
             "Error when interpreting sample type from sample_id. Ensure the sample-id are in the 00000000-X format."
         )
 
     # inferred sample type check
-    if not set(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN]) <= set(ALLOWED_SAMPLE_TYPE):
-        raise Exception(
-            "Unexpected sample type. Only the following sample types are allowed: {}.".format(
-                " ,".join(ALLOWED_SAMPLE_TYPE)
+    def sample_type_check(sample):
+        if not ALLOWED_SAMPLE_TYPE.match(sample):
+            raise Exception(
+                "Unknown sample type {}. Sample type should start with one of: {}".format(
+                    sample, ", ".join(ALLOWED_SAMPLE_TYPE_LIST)
+                )
             )
-        )
+
+    title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].apply(sample_type_check)
+    # if not set(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN]) <= set(ALLOWED_SAMPLE_TYPE):
+    #     raise Exception(
+    #         "Unexpected sample type. Only the following sample types are allowed: {}.".format(
+    #             " ,".join(ALLOWED_SAMPLE_TYPE)
+    #         )
+    #     )
 
     # Assign sample type
     title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] = [
-        PLASMA if x in PLASMA_SAMPLE_TYPE else BUFFY
+        PLASMA if PLASMA_SAMPLE_TYPE.match(x) else BUFFY
         for x in title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN]
     ]
 
