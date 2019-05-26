@@ -27,11 +27,11 @@ class CIFTTests(unittest.TestCase):
     def setUp(self):
         self.bad_title_file = load_bad_title_file()
         self.good_title_file = load_good_title_file()
-        self.good_title_file_with_difficult_sample_ids = load_good_title_file_with_difficult_sample_ids()
+        self.good_title_file_with_difficult_sample_ids = load_good_title_file_similar_sample_names()
 
         self._fastq_objects = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/test_patient_1_test_investigator_sample_1a_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/test_patient_1_test_investigator_sample_1_R1_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/test_patient_1_test_investigator_sample_1a_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R1_001.fastq.gz'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
@@ -44,14 +44,19 @@ class CIFTTests(unittest.TestCase):
         ]
 
         self._fastq2_objects = [
-            {'class': 'File', 'path': p['path'].replace('_R1', '_R2')} for p in self._fastq_objects
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/test_patient_1_test_investigator_sample_1_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/test_patient_1_test_investigator_sample_1a_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/test_patient_2_test_investigator_sample_4_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/test_patient_2_test_investigator_sample_3_N_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R2_001.fastq.gz'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/test_patient_2_test_investigator_sample_5_N_R2_001.fastq.gz'}
         ]
 
         self._patient_ids = ['test_patient_1', 'test_patient_1', 'test_patient_2', 'test_patient_2', 'test_patient_2', 'test_patient_3']
 
         self._sample_sheets = [
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_3_N/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/SampleSheet.csv'},
@@ -82,9 +87,8 @@ class CIFTTests(unittest.TestCase):
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/test_patient_3_test_investigator_sample_6_T_R1_001.fastq.gz'},
         ]
 
-        assert fastq1 == [
-            {'class': 'File', 'path': os.path.abspath(p['path'])} for p in expected
-        ]
+        self.assertListEqual(fastq1, [{'class': 'File', 'path': os.path.abspath(f['path'])} for f in expected])
+
 
     def test_two_sample_ids_found_in_fastq(self):
 
@@ -109,7 +113,7 @@ class CIFTTests(unittest.TestCase):
         sample_sheets = [
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1a/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_1/SampleSheet.csv'},
-            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_1_N/SampleSheet.csv'},
+            {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_1_test_investigator_sample_3_N/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_4_T/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_3_test_investigator_sample_6_T/SampleSheet.csv'},
             {'class': 'File', 'path': '../../test/test_data/umi-T_N-PanCancer/test_patient_2_test_investigator_sample_5_N/SampleSheet.csv'}
@@ -142,15 +146,18 @@ class CIFTTests(unittest.TestCase):
         with self.assertRaises(Exception):
             create_inputs_from_title_file.perform_validation(self.bad_title_file)
 
+        # Fix missing lane number
+        self.bad_title_file.loc[self.bad_title_file.index[0], MANIFEST__LANE_COLUMN] = 1
+        with self.assertRaises(Exception):
+            create_inputs_from_title_file.perform_validation(self.bad_title_file)
+
         # Fix duplicate barcodes
         self.bad_title_file.loc[self.bad_title_file.index[-1], MANIFEST__BARCODE_ID_COLUMN] = 'bc411-bc411'
-
         with self.assertRaises(Exception):
             create_inputs_from_title_file.perform_validation(self.bad_title_file, 'test_project_title_file.txt', 'test_project')
 
         # Fix misspelled sample class
         self.bad_title_file[MANIFEST__SAMPLE_CLASS_COLUMN] = self.bad_title_file[MANIFEST__SAMPLE_CLASS_COLUMN].str.replace('Tumore', 'Tumor')
-
         with self.assertRaises(Exception) as context:
             create_inputs_from_title_file.perform_validation(self.bad_title_file)
 

@@ -23,7 +23,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
   find_covered_intervals__params: ../../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
@@ -54,6 +53,7 @@ inputs:
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
+  pool_a_bed_file_exonlevel: File
   A_on_target_positions: File
   B_on_target_positions: File
   noise__good_positions_A: File
@@ -101,7 +101,6 @@ steps:
 - id: umi_collapsing
   run: ../marianas/marianas_collapsing_workflow.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
@@ -158,7 +157,6 @@ steps:
   in:
     run_tools: run_tools
     reference_fasta: reference_fasta
-    tmp_dir: tmp_dir
     bams: group_bams_by_patient/grouped_bams
     patient_id: group_bams_by_patient/grouped_patient_ids
 
@@ -254,6 +252,7 @@ steps:
     inputs_yaml: inputs_yaml
     pool_a_bed_file: pool_a_bed_file
     pool_b_bed_file: pool_b_bed_file
+    pool_a_bed_file_exonlevel: pool_a_bed_file_exonlevel
     gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai

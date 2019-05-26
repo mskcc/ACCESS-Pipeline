@@ -137,7 +137,7 @@ def create_title_file(samplesheet_file_path, output_filename):
         raise Exception("Samplesheet bait version does not match the expected value.")
 
     # sample description/class check
-    if not set(title_file[TITLE_FILE__CLASS_COLUMN]) <= set(ALLOWED_SAMPLE_DESCRIPTION):
+    if not set(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN]) <= set(ALLOWED_SAMPLE_DESCRIPTION):
         raise Exception(
             "Unexpected sample description. Only the following sample descritpions are allowed: {}.".format(
                 " ,".join(ALLOWED_SAMPLE_DESCRIPTION)

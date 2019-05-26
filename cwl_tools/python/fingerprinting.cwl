@@ -49,19 +49,19 @@ outputs:
   all_fp_results:
     type: Directory
     outputBinding:
-      glob: $('./FPResults')
+      glob: './FPResults'
 
   FPFigures:
     type: File
     outputBinding:
-      glob: $('./FPResults/FPFigures.pdf')
+      glob: './FPResults/FPFigures.pdf'
 
   gender_table:
     type: File
     outputBinding:
-      glob: $('MisMatchedGender.txt')
+      glob: 'MisMatchedGender.txt'
 
   gender_plot:
     type: File
     outputBinding:
-      glob: $('GenderMisMatch.pdf')
+      glob: 'GenderMisMatch.pdf'

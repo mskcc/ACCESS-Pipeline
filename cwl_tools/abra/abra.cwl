@@ -12,7 +12,7 @@ requirements:
   ResourceRequirement:
     ramMin: 30000
     coresMin: 8
-    outdirMax: 90000
+    outdirMax: 120000
 
 # Todo: It would be nice to have this
 # but unfortunately PATH is not a defined
@@ -29,9 +29,7 @@ inputs:
   abra: string
 
   input_bams:
-    type:
-      type: array
-      items: File
+    type: File[]
     inputBinding:
       prefix: --in
       itemSeparator: ','
@@ -61,18 +59,8 @@ inputs:
     inputBinding:
       prefix: --threads
 
-  #kmer:
-  #  type: string
-  #  inputBinding:
-  #    prefix: --kmer
-
-  #mad:
-  #  type: int
-  #  inputBinding:
-  #    prefix: --mad
-  
-  sc:
-    type: string
+  kmer:
+    type: string?
     inputBinding:
       prefix: --sc
   
@@ -101,10 +89,43 @@ inputs:
     inputBinding:
       prefix: --cons
 
+  sc:
+    type: string
+    inputBinding:
+      prefix: --sc
+
+  mmr:
+    type: float
+    inputBinding:
+      prefix: --mmr
+
+  sga:
+    type: string
+    inputBinding:
+      prefix: --sga
+
+  ca:
+    type: string
+    inputBinding:
+      prefix: --ca
+
+  ws:
+    type: string
+    inputBinding:
+      prefix: --ws
+
+  index:
+    type: boolean
+    inputBinding:
+      prefix: --index
+
+  cons:
+    type: boolean
+    inputBinding:
+      prefix: --cons
+
   out:
-    type:
-      type: array
-      items: string
+    type: string[]
     inputBinding:
       itemSeparator: ','
       prefix: --out

@@ -371,11 +371,11 @@ def write_inputs_file(args, title_file, output_file_name):
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
-    title_file_obj = {'title_file': {'class': 'File', 'path': args.title_file_path}}
+    title_file_obj = {'title_file': {'class': 'File', 'path': os.path.abspath(args.title_file_path)}}
     fh.write(ruamel.yaml.dump(title_file_obj))
     # This file itself is an input to the pipeline,
     # to include version details in the QC PDF
-    inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': output_file_name}}
+    inputs_yaml_object = {'inputs_yaml': {'class': 'File', 'path': os.path.abspath(output_file_name)}}
     fh.write(ruamel.yaml.dump(inputs_yaml_object))
     # Write the current project name for this run
     fh.write('project_name: {}'.format(args.project_name))
@@ -486,7 +486,7 @@ def perform_validation(title_file, title_file_path, project_name):
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs in lane {}. Exiting.'.format(lane))
 
-    if np.sum(title_file[TITLE_FILE__CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
+    if np.sum(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
 
     if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
@@ -495,6 +495,8 @@ def perform_validation(title_file, title_file_path, project_name):
     if not np.issubdtype(title_file[TITLE_FILE__LANE_COLUMN], np.number):
         raise Exception(DELIMITER + 'Lane column must be integers')
 
+    if title_file[TITLE_FILE__LANE_COLUMN].isnull().any():
+        raise Exception(DELIMITER + 'Lane column of title file must not be missing or NA')
 
 def print_user_message():
     print(DELIMITER)
@@ -505,7 +507,7 @@ def print_user_message():
     print('3. Working in the wrong virtual environment (are you sure you ran setup.py install?)')
     print('4. Not specifying the correct parameters for logLevel or cleanWorkDir ' +
           '(if you want to see the actual commands passed to the tools, or keep the temp outputs after a successful run)')
-    print('5. Do you have the correct PATH variable set (to reference the intended version of BWA during abra realignment?)')
+    print('5. Did you source the workspace_init.sh script (to make sure the PATH variable is set correctly?)')
     print('6. The "Sex" column of the title file will only correctly idenfity patients with [Male, M, Female, F] entries (although other entries will still be accepted).')
 
 

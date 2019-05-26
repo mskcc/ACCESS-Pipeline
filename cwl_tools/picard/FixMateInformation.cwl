@@ -32,11 +32,11 @@ inputs:
 
   output_filename:
     type: ['null', string]
-    default: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
+    default: $(inputs.input_bam.basename.replace('.bam', '_FX.bam'))
     inputBinding:
       prefix: O=
       separate: false
-      valueFrom: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
+      valueFrom: $(inputs.input_bam.basename.replace('.bam', '_FX.bam'))
 
   sort_order:
     type: ['null', string]
@@ -45,7 +45,7 @@ inputs:
       separate: false
 
   tmp_dir:
-    type: ['null', string]
+    type: string?
     inputBinding:
       prefix: TMP_DIR=
       separate: false
@@ -74,9 +74,9 @@ outputs:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bam"))
+      glob: $(inputs.input_bam.basename.replace('.bam', '_FX.bam'))
 
   bai:
     type: File
     outputBinding:
-      glob: $(inputs.input_bam.basename.replace(".bam", "_FX.bai"))
+      glob: $(inputs.input_bam.basename.replace('.bam', '_FX.bai'))

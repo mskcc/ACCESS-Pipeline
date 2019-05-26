@@ -207,6 +207,21 @@ def run_toil(args, tmpdir, project):
         shutil.rmtree(tmpdir)
 
 
+def set_temp_dir_env_vars(tmpdir):
+    """
+    Set environment variables for temporary directories
+    Try to cover all possibilities for every tool
+
+    :param tmpdir:
+    :return:
+    """
+    os.environ['TMPDIR'] = tmpdir
+    os.environ['TMP_DIR'] = tmpdir
+    os.environ['TEMP'] = tmpdir
+    os.environ['TMP'] = tmpdir
+    os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + tmpdir
+
+
 ########
 # Main #
 ########

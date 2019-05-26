@@ -25,7 +25,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: string
   run_tools: ../resources/run_tools/schemas.yaml#run_tools
 
   title_file: File
@@ -70,6 +69,7 @@ inputs:
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
+  pool_a_bed_file_exonlevel: File
   A_on_target_positions: File
   B_on_target_positions: File
   noise__good_positions_A: File
@@ -127,13 +127,12 @@ steps:
     fastq1: fastq1
     fastq2: fastq2
     sample_sheet: sample_sheet
-    tmp_dir: tmp_dir
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
+
     patient_id: patient_id
     adapter: adapter
     adapter2: adapter2
-
     add_rg_LB: add_rg_LB
     add_rg_ID: add_rg_ID
     add_rg_PU: add_rg_PU
@@ -169,7 +168,6 @@ steps:
 - id: standard_bam_to_collapsed_qc
   run: ./subworkflows/standard_bam_to_collapsed_qc.cwl
   in:
-    tmp_dir: tmp_dir
     run_tools: run_tools
     marianas_collapsing__params: marianas_collapsing__params
     add_or_replace_read_groups__params: add_or_replace_read_groups__params
@@ -203,11 +201,11 @@ steps:
     inputs_yaml: inputs_yaml
     pool_a_bed_file: pool_a_bed_file
     pool_b_bed_file: pool_b_bed_file
+    pool_a_bed_file_exonlevel: pool_a_bed_file_exonlevel
     gene_list: gene_list
     FP_config_file: FP_config_file
 
   out: [
     bam_dirs,
     combined_qc,
-    qc_tables
-  ]
+    qc_tables]
