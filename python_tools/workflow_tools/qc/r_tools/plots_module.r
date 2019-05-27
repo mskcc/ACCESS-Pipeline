@@ -122,11 +122,11 @@ print_inputs <- function(inputs_yaml) {
 #' Read in all tables for plots
 #' @param inDirTables location of tables from python tables_module
 read_tables = function(inDirTables, family_types_A_path, family_types_B_path, family_sizes_path) {
-  read_counts_data = read.table(paste(inDirTables, 'read-counts-total.txt', sep='/'), sep='\t', head=TRUE)
-  cov_per_interval = read.table(paste(inDirTables, 'coverage-per-interval.txt', sep='/'), sep='\t', head=TRUE)
-  insert_sizes = read.table(paste(inDirTables, 'fragment-sizes.txt', sep='/'), sep='\t', head=TRUE)
-  mean_cov_data = read.table(paste(inDirTables, 'coverage-agg.txt', sep='/'), sep='\t', head=TRUE)
-  gc_each_sample = read.table(paste(inDirTables, 'GC-bias-with-coverage-averages-over-each-sample.txt', sep='/'), sep='\t', head=TRUE)
+  read_counts_data = read.table(paste(inDirTables, 'read_counts_total.txt', sep='/'), sep='\t', head=TRUE)
+  cov_per_interval = read.table(paste(inDirTables, 'coverage_per_interval.txt', sep='/'), sep='\t', head=TRUE)
+  insert_sizes = read.table(paste(inDirTables, 'fragment_sizes_unfiltered_A_targets.txt', sep='/'), sep='\t', head=TRUE)
+  mean_cov_data = read.table(paste(inDirTables, 'coverage_agg.txt', sep='/'), sep='\t', head=TRUE)
+  gc_each_sample = read.table(paste(inDirTables, 'GC_bias_with_coverage_averages_over_each_sample.txt', sep='/'), sep='\t', head=TRUE)
   
   family_types_A = read.table(family_types_A_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
   family_types_B = read.table(family_types_B_path, sep = '\t', header = TRUE, colClasses = c('character', 'character', 'numeric'))
@@ -167,42 +167,45 @@ main = function() {
     colClasses = c('SEX' = 'character')
   )
   title_df = title_df[order(title_df[TITLE_FILE__SAMPLE_CLASS_COLUMN]),]
-  print('Title dataframe:')
-  print(title_df)
+  #print('Title dataframe:')
+  #print(title_df)
   
   # Title file sample colunn is used as sort order
   sample_ids = as.character(unlist(title_df[SAMPLE_ID_COLUMN]))
-  print('Sample IDs Order:')
-  print(sample_ids)
+  #print('Sample IDs Order:')
+  #print(sample_ids)
   
   # Read in tables
   df_list = read_tables(tables_output_dir, family_types_A_path, family_types_B_path, family_sizes_path)
-  print('Dataframes 0:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 0:')
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Fix sample names
   df_list = lapply(df_list, cleanup_sample_names, sample_ids)
-  print("Dataframes 1:")
-  lapply(df_list, function(x) {print(head(x))})
+  #print("Dataframes 1:")
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Merge in the title file data by sample id
   df_list = lapply(df_list, merge_in_title_file_data, title_df)
-  print('Dataframes 2:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 2:')
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Sort by sample class
   df_list = lapply(df_list, sort_df, TITLE_FILE__SAMPLE_CLASS_COLUMN)
-  print('Dataframes 3:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 3:')
+  #lapply(df_list, function(x) {print(head(x))})
   
   # Now that we've sorted in the order we want,
   # make the Sample column a factor in that order as well 
   # (ggplot uses the X axis sort order if it is a factor)
   df_list = lapply(df_list, function(df){ 
-    df[, SAMPLE_ID_COLUMN] = factor(df[, SAMPLE_ID_COLUMN], levels = unique(df[, SAMPLE_ID_COLUMN])) 
-    df
+    df[, SAMPLE_ID_COLUMN] = factor(df[, SAMPLE_ID_COLUMN], levels = unique(df[, SAMPLE_ID_COLUMN]))
+    return(df)
   })
   
   # We have had problems here with sample names not matching between metrics files and title_file entries
-  print('Dataframes after processing:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes after processing:')
+  #lapply(df_list, function(x) {print(head(x))})
   
   read_counts_data = df_list[[1]]
   cov_per_interval = df_list[[2]]

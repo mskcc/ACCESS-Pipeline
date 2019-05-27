@@ -1,8 +1,6 @@
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-user_defined_tmp_dir: /dmp/analysis/SCRATCH
-tmp_dir:
 
 process_loop_umi_fastq__params:
   umi_length: 3
@@ -38,13 +36,13 @@ find_covered_intervals__params:
   rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 
 abra__params:
-  kmers: 43,53,63,83,93
+#  kmers: 43,53,63,83,93
   mad: 1000
-  threads: 12
   sc: 100,30,80,15
   mmr: 0.1
-  ca: 10,1
   sga: 8,32,48,1
+  ca: 10,1
+  ws: 800,700
   index: true
   cons: true
 

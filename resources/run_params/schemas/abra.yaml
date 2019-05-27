@@ -4,16 +4,18 @@ fields:
 - name: threads
   type: int
 - name: kmers
-  type: string
+  type: string?
 - name: mad
   type: int
 - name: sc
   type: string
 - name: mmr
   type: float
+- name: sga
+  type: string
 - name: ca
   type: string
-- name: sga
+- name: ws
   type: string
 - name: index
   type: boolean

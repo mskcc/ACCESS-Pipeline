@@ -1,0 +1,6 @@
+Bam	CMO_SAMPLE_ID	TotalReads	UnmappedReads	TotalMapped	UniqueMapped	DuplicateFraction	TotalOnTarget	UniqueOnTarget	TotalOnTargetFraction	UniqueOnTargetFraction
+TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	6427793	169425	6258368	6258368	0.0	1678235	1678235	0.27	0.27
+TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	4864399	133188	4731211	4731211	0.0	1522042	1522042	0.32	0.32
+TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	4520336	117740	4402596	4402596	0.0	1863055	1863055	0.42	0.42
+TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	7392187	229176	7163011	7163011	0.0	2193028	2193028	0.31	0.31
+TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-simplex.bam	5077095	159359	4917736	4917736	0.0	1484025	1484025	0.3	0.3

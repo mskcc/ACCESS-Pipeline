@@ -16,7 +16,6 @@ requirements:
       - $import: ../../resources/run_params/schemas/fix_mate_information.yaml
 
 inputs:
-  tmp_dir: string
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
 
   bams:
@@ -54,7 +53,6 @@ steps:
   find_covered_intervals:
     run: ../../cwl_tools/gatk/FindCoveredIntervals.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       params: find_covered_intervals__params
       java:
@@ -75,7 +73,10 @@ steps:
       read_filters:
         valueFrom: $(inputs.params.rf)
       intervals:
-        valueFrom: ${return inputs.params.intervals ? inputs.params.intervals : null}
+        valueFrom: |
+          ${
+            return inputs.params.intervals ? inputs.params.intervals : null
+          }
       ignore_misencoded_base_qualities: fci__basq_fix
       out:
         valueFrom: ${return inputs.patient_id + '.fci.list'}
@@ -108,22 +109,23 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
+
+      mad:
+        valueFrom: $(inputs.params.mad)
       sc:
         valueFrom: $(inputs.params.sc)
       mmr:
         valueFrom: $(inputs.params.mmr)
-      ca:
-        valueFrom: $(inputs.params.ca)
       sga:
         valueFrom: $(inputs.params.sga)
+      ca:
+        valueFrom: $(inputs.params.ca)
+      ws:
+        valueFrom: $(inputs.params.ws)
       index:
         valueFrom: $(inputs.params.index)
       cons:
         valueFrom: $(inputs.params.cons)
-      #kmer:
-      #  valueFrom: $(inputs.params.kmers)
-      #mad:
-      #  valueFrom: $(inputs.params.mad)
       threads:
         valueFrom: $(inputs.params.threads)
         
@@ -137,14 +139,12 @@ steps:
     in:
       run_tools: run_tools
       params: fix_mate_information__params
-
       java:
         valueFrom: $(inputs.run_tools.java_7)
       fix_mate_information:
         valueFrom: $(inputs.run_tools.fx_path)
-      bam: abra/bams
-      tmp_dir: tmp_dir
 
+      bam: abra/bams
       sort_order:
         valueFrom: $(inputs.params.sort_order)
       create_index:
@@ -164,7 +164,6 @@ steps:
         java: string
         fix_mate_information: string
         bam: File
-        tmp_dir: string
         sort_order: string
         create_index: boolean
         compression_level: int
@@ -180,7 +179,6 @@ steps:
             java: java
             fix_mate_information: fix_mate_information
             input_bam: bam
-            tmp_dir: tmp_dir
             sort_order: sort_order
             create_index: create_index
             compression_level: compression_level

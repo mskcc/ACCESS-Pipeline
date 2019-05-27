@@ -1,0 +1,201 @@
+CMO_SAMPLE_ID	coverage	gc_bin	method
+TD-seracare-0-5per	1.0308554775236896	(0.45, 0.5]	TotalCoverage
+TD-seracare-0-5per	0.9544020759467942	(0.4, 0.45]	TotalCoverage
+TD-seracare-0-5per	1.1482405328381142	(0.5, 0.55]	TotalCoverage
+TD-seracare-0-5per	1.3066947831201097	(0.6, 0.65]	TotalCoverage
+TD-seracare-0-5per	1.2357716774745957	(0.55, 0.6]	TotalCoverage
+TD-seracare-0-5per	0.7852809735584404	(0.3, 0.35]	TotalCoverage
+TD-seracare-0-5per	0.8799241274748061	(0.35, 0.4]	TotalCoverage
+TD-seracare-0-5per	1.276628260375724	(0.65, 0.7]	TotalCoverage
+TD-seracare-0-5per	1.1681277870947646	(0.7, 0.75]	TotalCoverage
+TD-seracare-0-5per	0.8120255554402361	(0.75, 0.8]	TotalCoverage
+TD-seracare-1per	1.002537583713659	(0.45, 0.5]	TotalCoverage
+TD-seracare-1per	0.9507450983680177	(0.4, 0.45]	TotalCoverage
+TD-seracare-1per	1.0986081477255751	(0.5, 0.55]	TotalCoverage
+TD-seracare-1per	1.2506866308428446	(0.6, 0.65]	TotalCoverage
+TD-seracare-1per	1.1836527622660469	(0.55, 0.6]	TotalCoverage
+TD-seracare-1per	0.8348817674112519	(0.3, 0.35]	TotalCoverage
+TD-seracare-1per	0.9018010781650837	(0.35, 0.4]	TotalCoverage
+TD-seracare-1per	1.2509934680249333	(0.65, 0.7]	TotalCoverage
+TD-seracare-1per	1.2111492618589512	(0.7, 0.75]	TotalCoverage
+TD-seracare-1per	0.9342307686676588	(0.75, 0.8]	TotalCoverage
+TD-seracare-2-5per	1.011894416590701	(0.45, 0.5]	TotalCoverage
+TD-seracare-2-5per	0.9336942093786332	(0.4, 0.45]	TotalCoverage
+TD-seracare-2-5per	1.0922785064374279	(0.5, 0.55]	TotalCoverage
+TD-seracare-2-5per	1.3210276691534566	(0.6, 0.65]	TotalCoverage
+TD-seracare-2-5per	1.2349354273937823	(0.55, 0.6]	TotalCoverage
+TD-seracare-2-5per	0.8030322867098655	(0.3, 0.35]	TotalCoverage
+TD-seracare-2-5per	0.8739434127002611	(0.35, 0.4]	TotalCoverage
+TD-seracare-2-5per	1.2972720151233965	(0.65, 0.7]	TotalCoverage
+TD-seracare-2-5per	1.2503558158601549	(0.7, 0.75]	TotalCoverage
+TD-seracare-2-5per	0.9332619966056983	(0.75, 0.8]	TotalCoverage
+TD-seracare-5per	1.0476236769551672	(0.45, 0.5]	TotalCoverage
+TD-seracare-5per	0.9281882922629446	(0.4, 0.45]	TotalCoverage
+TD-seracare-5per	1.0523016787120927	(0.5, 0.55]	TotalCoverage
+TD-seracare-5per	1.3412289627224292	(0.6, 0.65]	TotalCoverage
+TD-seracare-5per	1.267833158846209	(0.55, 0.6]	TotalCoverage
+TD-seracare-5per	0.7972558317697426	(0.3, 0.35]	TotalCoverage
+TD-seracare-5per	0.8704068194992426	(0.35, 0.4]	TotalCoverage
+TD-seracare-5per	1.2691183107761965	(0.65, 0.7]	TotalCoverage
+TD-seracare-5per	1.2497885839553795	(0.7, 0.75]	TotalCoverage
+TD-seracare-5per	0.9744418916454787	(0.75, 0.8]	TotalCoverage
+TD-seracare-wt	1.0276892664406527	(0.45, 0.5]	TotalCoverage
+TD-seracare-wt	0.9670416985678559	(0.4, 0.45]	TotalCoverage
+TD-seracare-wt	1.1391353699365385	(0.5, 0.55]	TotalCoverage
+TD-seracare-wt	1.2592938265225793	(0.6, 0.65]	TotalCoverage
+TD-seracare-wt	1.1951768730395511	(0.55, 0.6]	TotalCoverage
+TD-seracare-wt	0.8069203407595693	(0.3, 0.35]	TotalCoverage
+TD-seracare-wt	0.9007397322829318	(0.35, 0.4]	TotalCoverage
+TD-seracare-wt	1.244126543614606	(0.65, 0.7]	TotalCoverage
+TD-seracare-wt	1.1556280813724076	(0.7, 0.75]	TotalCoverage
+TD-seracare-wt	0.8467325168160557	(0.75, 0.8]	TotalCoverage
+TD-seracare-0-5per	1.0638067343047708	(0.45, 0.5]	All Unique
+TD-seracare-0-5per	1.0094903913832933	(0.4, 0.45]	All Unique
+TD-seracare-0-5per	1.1111131175253017	(0.5, 0.55]	All Unique
+TD-seracare-0-5per	1.1393854881868364	(0.6, 0.65]	All Unique
+TD-seracare-0-5per	1.1247597747872162	(0.55, 0.6]	All Unique
+TD-seracare-0-5per	0.8969711246161711	(0.3, 0.35]	All Unique
+TD-seracare-0-5per	0.9474591149550186	(0.35, 0.4]	All Unique
+TD-seracare-0-5per	1.0641552742510547	(0.65, 0.7]	All Unique
+TD-seracare-0-5per	0.919719726437407	(0.7, 0.75]	All Unique
+TD-seracare-0-5per	0.690019022450612	(0.75, 0.8]	All Unique
+TD-seracare-1per	1.0350770045149402	(0.45, 0.5]	All Unique
+TD-seracare-1per	1.0033755185001694	(0.4, 0.45]	All Unique
+TD-seracare-1per	1.056865849818154	(0.5, 0.55]	All Unique
+TD-seracare-1per	1.0838598867902456	(0.6, 0.65]	All Unique
+TD-seracare-1per	1.0712299884855938	(0.55, 0.6]	All Unique
+TD-seracare-1per	0.9531163867490671	(0.3, 0.35]	All Unique
+TD-seracare-1per	0.9721583262518034	(0.35, 0.4]	All Unique
+TD-seracare-1per	1.0323002943429533	(0.65, 0.7]	All Unique
+TD-seracare-1per	0.9393270586267591	(0.7, 0.75]	All Unique
+TD-seracare-1per	0.7841927747101772	(0.75, 0.8]	All Unique
+TD-seracare-2-5per	1.0513337255596629	(0.45, 0.5]	All Unique
+TD-seracare-2-5per	0.9902531209493949	(0.4, 0.45]	All Unique
+TD-seracare-2-5per	1.0590409881210463	(0.5, 0.55]	All Unique
+TD-seracare-2-5per	1.1514712159971514	(0.6, 0.65]	All Unique
+TD-seracare-2-5per	1.1261541365048258	(0.55, 0.6]	All Unique
+TD-seracare-2-5per	0.9143786698522111	(0.3, 0.35]	All Unique
+TD-seracare-2-5per	0.944567415820692	(0.35, 0.4]	All Unique
+TD-seracare-2-5per	1.0804708963032275	(0.65, 0.7]	All Unique
+TD-seracare-2-5per	0.9812119997902052	(0.7, 0.75]	All Unique
+TD-seracare-2-5per	0.7958083059947171	(0.75, 0.8]	All Unique
+TD-seracare-5per	1.0870768433403344	(0.45, 0.5]	All Unique
+TD-seracare-5per	0.9918024482693061	(0.4, 0.45]	All Unique
+TD-seracare-5per	1.0125419785117233	(0.5, 0.55]	All Unique
+TD-seracare-5per	1.159972969059312	(0.6, 0.65]	All Unique
+TD-seracare-5per	1.1491607564556456	(0.55, 0.6]	All Unique
+TD-seracare-5per	0.9145991742713074	(0.3, 0.35]	All Unique
+TD-seracare-5per	0.945371960708725	(0.35, 0.4]	All Unique
+TD-seracare-5per	1.067159963895163	(0.65, 0.7]	All Unique
+TD-seracare-5per	0.9860792413358849	(0.7, 0.75]	All Unique
+TD-seracare-5per	0.802078524662563	(0.75, 0.8]	All Unique
+TD-seracare-wt	1.0584222693115997	(0.45, 0.5]	All Unique
+TD-seracare-wt	1.0220254154485284	(0.4, 0.45]	All Unique
+TD-seracare-wt	1.100320791035739	(0.5, 0.55]	All Unique
+TD-seracare-wt	1.0995414362064475	(0.6, 0.65]	All Unique
+TD-seracare-wt	1.0895985277613067	(0.55, 0.6]	All Unique
+TD-seracare-wt	0.9158800505269119	(0.3, 0.35]	All Unique
+TD-seracare-wt	0.9683429471729216	(0.35, 0.4]	All Unique
+TD-seracare-wt	1.042656764085011	(0.65, 0.7]	All Unique
+TD-seracare-wt	0.9143639721609129	(0.7, 0.75]	All Unique
+TD-seracare-wt	0.706986944310686	(0.75, 0.8]	All Unique
+TD-seracare-0-5per	1.0806138792781501	(0.45, 0.5]	Simplex
+TD-seracare-0-5per	1.0267227450893748	(0.4, 0.45]	Simplex
+TD-seracare-0-5per	1.0933760846822367	(0.5, 0.55]	Simplex
+TD-seracare-0-5per	1.0964425677174245	(0.6, 0.65]	Simplex
+TD-seracare-0-5per	1.0968932197371746	(0.55, 0.6]	Simplex
+TD-seracare-0-5per	0.927698772375199	(0.3, 0.35]	Simplex
+TD-seracare-0-5per	0.9627108098422887	(0.35, 0.4]	Simplex
+TD-seracare-0-5per	1.022987738705819	(0.65, 0.7]	Simplex
+TD-seracare-0-5per	0.8585868865567597	(0.7, 0.75]	Simplex
+TD-seracare-0-5per	0.6546640058785442	(0.75, 0.8]	Simplex
+TD-seracare-1per	1.047658410854306	(0.45, 0.5]	Simplex
+TD-seracare-1per	1.0182576504537453	(0.4, 0.45]	Simplex
+TD-seracare-1per	1.043286557614573	(0.5, 0.55]	Simplex
+TD-seracare-1per	1.0391574483506747	(0.6, 0.65]	Simplex
+TD-seracare-1per	1.043336943804803	(0.55, 0.6]	Simplex
+TD-seracare-1per	0.9833093118759052	(0.3, 0.35]	Simplex
+TD-seracare-1per	0.9896350875424033	(0.35, 0.4]	Simplex
+TD-seracare-1per	0.9987007094538852	(0.65, 0.7]	Simplex
+TD-seracare-1per	0.872763729033457	(0.7, 0.75]	Simplex
+TD-seracare-1per	0.73094102194454	(0.75, 0.8]	Simplex
+TD-seracare-2-5per	1.0663727083842711	(0.45, 0.5]	Simplex
+TD-seracare-2-5per	1.0100202768441315	(0.4, 0.45]	Simplex
+TD-seracare-2-5per	1.0509440602343196	(0.5, 0.55]	Simplex
+TD-seracare-2-5per	1.1048245215679382	(0.6, 0.65]	Simplex
+TD-seracare-2-5per	1.1065886999116326	(0.55, 0.6]	Simplex
+TD-seracare-2-5per	0.9372289532729634	(0.3, 0.35]	Simplex
+TD-seracare-2-5per	0.9605889106624437	(0.35, 0.4]	Simplex
+TD-seracare-2-5per	1.0412635017797405	(0.65, 0.7]	Simplex
+TD-seracare-2-5per	0.9262281163183286	(0.7, 0.75]	Simplex
+TD-seracare-2-5per	0.7455097164925557	(0.75, 0.8]	Simplex
+TD-seracare-5per	1.1001858944684877	(0.45, 0.5]	Simplex
+TD-seracare-5per	1.0132123050838544	(0.4, 0.45]	Simplex
+TD-seracare-5per	1.0111931198587432	(0.5, 0.55]	Simplex
+TD-seracare-5per	1.1275283532915403	(0.6, 0.65]	Simplex
+TD-seracare-5per	1.1295033613705971	(0.55, 0.6]	Simplex
+TD-seracare-5per	0.9309670454370603	(0.3, 0.35]	Simplex
+TD-seracare-5per	0.9565391323160726	(0.35, 0.4]	Simplex
+TD-seracare-5per	1.038304727676951	(0.65, 0.7]	Simplex
+TD-seracare-5per	0.9429706182444696	(0.7, 0.75]	Simplex
+TD-seracare-5per	0.7667994978759918	(0.75, 0.8]	Simplex
+TD-seracare-wt	1.0678936905662426	(0.45, 0.5]	Simplex
+TD-seracare-wt	1.0410248344224395	(0.4, 0.45]	Simplex
+TD-seracare-wt	1.0862735215311772	(0.5, 0.55]	Simplex
+TD-seracare-wt	1.0572579861871834	(0.6, 0.65]	Simplex
+TD-seracare-wt	1.054985297717128	(0.55, 0.6]	Simplex
+TD-seracare-wt	0.9442904896896799	(0.3, 0.35]	Simplex
+TD-seracare-wt	0.98752244318471	(0.35, 0.4]	Simplex
+TD-seracare-wt	1.0063151819844776	(0.65, 0.7]	Simplex
+TD-seracare-wt	0.8632784231011371	(0.7, 0.75]	Simplex
+TD-seracare-wt	0.6610903947115828	(0.75, 0.8]	Simplex
+TD-seracare-0-5per	1.0575772555119984	(0.45, 0.5]	Duplex
+TD-seracare-0-5per	1.0074350359523045	(0.4, 0.45]	Duplex
+TD-seracare-0-5per	1.1323095349161358	(0.5, 0.55]	Duplex
+TD-seracare-0-5per	1.1839338471502787	(0.6, 0.65]	Duplex
+TD-seracare-0-5per	1.1635585032025058	(0.55, 0.6]	Duplex
+TD-seracare-0-5per	0.8619088517901341	(0.3, 0.35]	Duplex
+TD-seracare-0-5per	0.9317100521198355	(0.35, 0.4]	Duplex
+TD-seracare-0-5per	1.1114242947391229	(0.65, 0.7]	Duplex
+TD-seracare-0-5per	0.9634934921932564	(0.7, 0.75]	Duplex
+TD-seracare-0-5per	0.7135893452172766	(0.75, 0.8]	Duplex
+TD-seracare-1per	1.0294629366184878	(0.45, 0.5]	Duplex
+TD-seracare-1per	1.0026353238582655	(0.4, 0.45]	Duplex
+TD-seracare-1per	1.0782328645713128	(0.5, 0.55]	Duplex
+TD-seracare-1per	1.1269521400042362	(0.6, 0.65]	Duplex
+TD-seracare-1per	1.1072447611639207	(0.55, 0.6]	Duplex
+TD-seracare-1per	0.9196162149679001	(0.3, 0.35]	Duplex
+TD-seracare-1per	0.958589743684914	(0.35, 0.4]	Duplex
+TD-seracare-1per	1.0743975983296714	(0.65, 0.7]	Duplex
+TD-seracare-1per	0.9845603421177809	(0.7, 0.75]	Duplex
+TD-seracare-1per	0.8098020067237298	(0.75, 0.8]	Duplex
+TD-seracare-2-5per	1.037325536758537	(0.45, 0.5]	Duplex
+TD-seracare-2-5per	0.982688908528502	(0.4, 0.45]	Duplex
+TD-seracare-2-5per	1.0884869076481736	(0.5, 0.55]	Duplex
+TD-seracare-2-5per	1.2213671686110423	(0.6, 0.65]	Duplex
+TD-seracare-2-5per	1.1788839856947984	(0.55, 0.6]	Duplex
+TD-seracare-2-5per	0.8640614158116189	(0.3, 0.35]	Duplex
+TD-seracare-2-5per	0.9189881740817184	(0.35, 0.4]	Duplex
+TD-seracare-2-5per	1.1529550301376847	(0.65, 0.7]	Duplex
+TD-seracare-2-5per	1.0507555171673513	(0.7, 0.75]	Duplex
+TD-seracare-2-5per	0.8360191358143289	(0.75, 0.8]	Duplex
+TD-seracare-5per	1.0669293671863405	(0.45, 0.5]	Duplex
+TD-seracare-5per	0.9758906189739088	(0.4, 0.45]	Duplex
+TD-seracare-5per	1.0510881258274944	(0.5, 0.55]	Duplex
+TD-seracare-5per	1.252438385173164	(0.6, 0.65]	Duplex
+TD-seracare-5per	1.2249196514806113	(0.55, 0.6]	Duplex
+TD-seracare-5per	0.8459494255244152	(0.3, 0.35]	Duplex
+TD-seracare-5per	0.913036915134915	(0.35, 0.4]	Duplex
+TD-seracare-5per	1.1552049380225526	(0.65, 0.7]	Duplex
+TD-seracare-5per	1.0748690376372725	(0.7, 0.75]	Duplex
+TD-seracare-5per	0.8612109925609693	(0.75, 0.8]	Duplex
+TD-seracare-wt	1.0543711201866752	(0.45, 0.5]	Duplex
+TD-seracare-wt	1.020792604965505	(0.4, 0.45]	Duplex
+TD-seracare-wt	1.1203072569515071	(0.5, 0.55]	Duplex
+TD-seracare-wt	1.1419477012855956	(0.6, 0.65]	Duplex
+TD-seracare-wt	1.1267741972271028	(0.55, 0.6]	Duplex
+TD-seracare-wt	0.8836421851551715	(0.3, 0.35]	Duplex
+TD-seracare-wt	0.9532228076945091	(0.35, 0.4]	Duplex
+TD-seracare-wt	1.0832281223175775	(0.65, 0.7]	Duplex
+TD-seracare-wt	0.9490665238690985	(0.7, 0.75]	Duplex
+TD-seracare-wt	0.7337229839795545	(0.75, 0.8]	Duplex

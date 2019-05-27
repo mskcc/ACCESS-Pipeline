@@ -5,9 +5,11 @@ from setuptools.command.install import install
 
 import version
 
-while True and len(sys.argv) >= 2 and sys.argv[1] == "install":
+while all([True, len(sys.argv) >= 2, sys.argv[1] == "install"]):
     try:
         prefix = sys.prefix
+        if not any(['CONDA_PREFIX' in os.environ, 'VIRTUAL_ENV' in os.environ]):
+            print "WARNING: You do not appear to be in a virtual environment!"
         user_input = raw_input("Current python environment is: {}\n"
             "Proceed with setup install? (y/n) ".format(prefix))
         if user_input == "n":
@@ -78,7 +80,7 @@ def req_file(filename):
 
     :param filename:
     :return:
-    """
+    """ 
     with open(filename) as f:
         content = f.readlines()
 

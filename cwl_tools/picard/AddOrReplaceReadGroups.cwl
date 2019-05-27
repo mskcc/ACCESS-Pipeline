@@ -80,7 +80,7 @@ inputs:
       separate: false
 
   tmp_dir:
-    type: string
+    type: string?
     inputBinding:
       prefix: TMP_DIR=
       separate: false

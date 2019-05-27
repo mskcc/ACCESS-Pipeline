@@ -22,7 +22,23 @@ python_tools/version.py
 python_tools/pipeline_kickoff/version.py
 .coverage
 
+<<<<<<< HEAD
 # Temporary files
 python_tools/pipeline_kickoff/root.py
 resources/run_params/___standard_bams_to_collapsed_qc.yaml___
 test/
+=======
+# Temporary untracked files
+python_tools/pipeline_kickoff/constants.py
+python_tools/pipeline_kickoff/root.py
+python_tools/pipeline_kickoff/util.py
+#python_tools/configuration.py
+python_tools/pipeline_kickoff/create_inputs_from_title_file.py.v2
+python_tools/pipeline_kickoff/nohup.out
+python_tools/pipeline_kickoff/pipeline_runner.py.bkp
+python_tools/workflow_tools/pipeline_postprocessing.py.v2
+python_tools/workflow_tools/qc/r_tools/plots_module_old.r
+python_tools/workflow_tools/qc/r_tools/util_old.r
+test/test_data/DMP_TEST_DATA/TEST.yaml
+test/test_data/DMP_TEST_DATA/TEST_title-file.txt
+>>>>>>> d549473e8c754b15a3e92664c18f28cc533e7c96
