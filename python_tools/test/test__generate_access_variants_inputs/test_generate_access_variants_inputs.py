@@ -99,31 +99,6 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
             assert inputs_file[key] == expected_result[key]
 
 
-    def test_unmatched_mode(self):
-        """
-        Test for unmatched mode
-
-        :return:
-        """
-        # New copies of the arguments dict for different tests
-        self.unmatched_testing_parameters = dict(self.matched_testing_parameters)
-        self.unmatched_testing_parameters['matched_mode'] = ''
-
-        self.unmatched_testing_parameters['output_file_name'] = './test_output/unmatched_mode_inputs_result.yaml'
-        mock_args = ArgparseMock(self.unmatched_testing_parameters)
-        create_inputs_file(mock_args)
-
-        inputs_file = open(self.unmatched_testing_parameters['output_file_name'], 'r').read()
-        inputs_file = ruamel.yaml.round_trip_load(inputs_file)
-
-        expected_result_path = self.test_path + '/expected_results/unmatched_mode_inputs_result.yaml'
-        expected_result = open(expected_result_path, 'r').read()
-        expected_result = ruamel.yaml.round_trip_load(expected_result)
-
-        for key in self._fields_to_check:
-            assert inputs_file[key] == expected_result[key]
-
-
     def test_matched_mode_without_pairing_file(self):
         """
         e2e test for matched mode without pairing file
@@ -207,3 +182,23 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         mock_args = ArgparseMock(self.missing_normal_testing_parameters)
         with self.assertRaises(AssertionError):
             create_inputs_file(mock_args)
+
+
+    def test_generate_with_structural_variants_params(self):
+        """
+        SV params should get included with --standard_bams_directory param
+
+        :return:
+        """
+        self.matched_testing_parameters['output_file_name'] = './test_output/variants_with_sv_params.yaml'
+        self.matched_testing_parameters['standard_bams_directory'] = './test_data/standard_bams'
+        mock_args = ArgparseMock(self.matched_testing_parameters)
+        create_inputs_file(mock_args)
+
+        inputs_file = open(self.matched_testing_parameters['output_file_name'], 'r').read()
+        inputs_file = ruamel.yaml.round_trip_load(inputs_file)
+
+        expected_result = open('./test_output/variants_with_sv_params.yaml', 'r').read()
+        expected_result = ruamel.yaml.round_trip_load(expected_result)
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]

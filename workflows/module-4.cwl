@@ -17,7 +17,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
@@ -25,6 +24,7 @@ inputs:
   access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
+  blacklist_file: File
   combine_vcf: File
   custom_enst_file: File
   tumor_sample_name: string
@@ -76,12 +76,15 @@ outputs:
     type: File
     outputSource: access_filters/filtered_maf
 
+  final_filtered_condensed_maf:
+    type: File
+    outputSource: access_filters/filtered_condensed_maf
+
 steps:
 
   vcf2maf:
     run: ../cwl_tools/vcf2maf/vcf2maf.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       perl:
@@ -182,6 +185,8 @@ steps:
       tumor_samplename: tumor_sample_name
       normal_samplename: matched_normal_sample_name
 
+      blacklist_file: blacklist_file
+
       tumor_detect_alt_thres:
         valueFrom: $(inputs.access_filters_params.tumor_detect_alt_thres)
       curated_detect_alt_thres:
@@ -206,4 +211,4 @@ steps:
         valueFrom: $(inputs.access_filters_params.min_n_curated_samples_alt_detected)
       tn_ratio_thres:
         valueFrom: $(inputs.access_filters_params.tn_ratio_thres)
-    out: [filtered_maf]
+    out: [filtered_maf, filtered_condensed_maf]

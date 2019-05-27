@@ -32,6 +32,11 @@ inputs:
     inputBinding:
       prefix: --normal_samplename
 
+  blacklist_file:
+    type: File
+    inputBinding:
+      prefix: --blacklist_file
+
   tumor_detect_alt_thres:
     type: int
     inputBinding:
@@ -93,6 +98,11 @@ inputs:
       prefix: --tn_ratio_thres
 
 outputs:
+
+  filtered_condensed_maf:
+    type: File
+    outputBinding:
+      glob: '*_condensed.maf'
 
   filtered_maf:
     type: File

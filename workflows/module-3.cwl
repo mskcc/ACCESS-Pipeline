@@ -16,7 +16,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
@@ -85,7 +84,6 @@ steps:
   call_variants:
     run: ./subworkflows/call_variants.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       mutect_params: mutect_params
       vardict_params: vardict_params

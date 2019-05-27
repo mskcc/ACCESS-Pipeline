@@ -20,7 +20,6 @@ requirements:
 
 inputs:
 
-  tmp_dir: Directory
   project_name: string
   version: string
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
@@ -35,6 +34,7 @@ inputs:
   access_filters_params: ../../resources/run_params/schemas/access_filters.yaml#access_filters__params
 
   hotspots: File
+  blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
 
@@ -132,6 +132,10 @@ outputs:
     type: File[]
     outputSource: module_4/final_filtered_maf
 
+  final_filtered_condensed_maf:
+    type: File[]
+    outputSource: module_4/final_filtered_condensed_maf
+
 steps:
 
   ###################
@@ -141,7 +145,6 @@ steps:
   module_3:
     run: ../module-3.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       tumor_bams: tumor_bams
       normal_bams: normal_bams
@@ -174,11 +177,11 @@ steps:
   module_4:
     run: ../module-4.cwl
     in:
-      tmp_dir: tmp_dir
       run_tools: run_tools
       vcf2maf_params: vcf2maf_params
       access_filters_params: access_filters_params
       hotspots: hotspots
+      blacklist_file: blacklist_file
       custom_enst_file: custom_enst_file
       gbcms_params: gbcms_params
       combine_vcf: module_3/annotated_concatenated_vcf
@@ -196,6 +199,7 @@ steps:
       dropped_NGR_rmvbyanno_maf,
       hotspots_filtered_maf,
       fillout_maf,
-      final_filtered_maf]
+      final_filtered_maf,
+      final_filtered_condensed_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct

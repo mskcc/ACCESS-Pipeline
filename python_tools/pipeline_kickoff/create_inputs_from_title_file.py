@@ -49,6 +49,7 @@ from python_tools.util import (
 # Or maybe not b/c "The last segment is always 001":
 # https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq2_guide_15051736_v2.pdf (Page 19)
 #
+# Todo: use regex, with ^ and $, for better matching
 FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
 FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'

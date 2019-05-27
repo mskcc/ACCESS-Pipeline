@@ -18,6 +18,8 @@ import ruamel.yaml
 
 DEFAULT_MEM = 5
 DEFAULT_CPU = 1
+
+# Defaults for Luna cluster
 DEFAULT_LEADER_NODE = "w01"
 DEFAULT_CONTROL_QUEUE = "sol"
 
@@ -57,11 +59,14 @@ def submit_to_lsf(params):
         '--inputs_file ' + params.inputs_file,
         '--output_location ' + params.output_location,
         '--batch_system ' + params.batch_system,
-        '--logLevel ' + params.log_level,
+        '--log_level ' + params.log_level,
     )
 
     if params.restart:
         job_command += ' --restart '
+
+    if params.service_class:
+        job_command += ' --service_class {} '.format(params.service_class)
 
     # Grab the project name from the inputs file
     with open(params.inputs_file, 'r') as stream:
@@ -74,6 +79,7 @@ def submit_to_lsf(params):
         '-cwd', '.',
         '-P', project_name,
         '-J', project_name,
+        # Todo: add pipeline version to log file name
         '-oo', project_name + "_stdout.log",
         '-eo', project_name + "_stderr.log",
         '-R', "select[hname={}]".format(params.leader_node),
@@ -136,6 +142,14 @@ def main():
         dest="leader_queue",
         default=DEFAULT_CONTROL_QUEUE,
         help="Which queue to use for leader job (e.g. 'control')"
+    )
+
+    parser.add_argument(
+        "--service_class",
+        action="store",
+        dest="service_class",
+        help="Service class to use, if available (e.g. 'Berger')",
+        required=False
     )
 
     parser.add_argument(

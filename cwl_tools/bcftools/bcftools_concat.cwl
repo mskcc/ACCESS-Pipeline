@@ -6,7 +6,7 @@ arguments:
 - $(inputs.bcftools)
 - concat
 
-stdout: $(inputs.output)
+#stdout: $(inputs.output)
 
 requirements:
   InlineJavascriptRequirement: {}

@@ -607,11 +607,8 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
             counts=[int(count_allele1), int(count_allele2)]
     
             mAF=min(counts) / sum(counts) if sum(counts) != 0 else 999
-
-            Geno=alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else '-' if mAF==999 else alleleReverseInd[loc_allele1]+alleleReverseInd[loc_allele2]
-            
-            mAF= '-' if mAF==999 else mAF
-            
+            Geno=alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else alleleReverseInd[loc_allele1]+alleleReverseInd[loc_allele2]
+    
             reformatted_sample.append([idx, alleleReverseInd[loc_allele1]+':'+eachfp[loc_allele1]+' '+alleleReverseInd[loc_allele2]+':'+eachfp[loc_allele2], Geno, mAF])
         df_reformated_sample=pd.DataFrame(reformatted_sample[1:], columns=reformatted_sample[0])
         return df_reformated_sample

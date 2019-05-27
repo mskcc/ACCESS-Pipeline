@@ -29,6 +29,8 @@ RUN_PARAMS_TEST = os.path.join(RUN_PARAMS_FOLDER, TEST)
 # Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tools/phoenix.yaml')
+TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
+ACCESS_VARIANTS_RUN_TOOLS_MANTA     = os.path.join(RUN_TOOLS_FOLDER, 'SV.yaml')
 
 # ACCESS-Variants Resources
 ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')

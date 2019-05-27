@@ -10,7 +10,6 @@ from constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_TOOLS_PATH,
-    ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH,
     SAMPLE_SEP_FASTQ_DELIMETER,
     GROUP_BY_ID, SAMPLE_PAIR1,
     SAMPLE_PAIR2, CLASS_PAIR1, 
@@ -19,7 +18,8 @@ from constants import (
     NORMAL_CLASS, SAMPLE_TYPE_PLASMA,
     SAMPLE_TYPE_NORMAL_NONPLASMA,
     SAMPLE_CLASS, TUMOR_ID, NORMAL_ID,
-    TITLE_FILE_TO_PAIRED_FILE
+    TITLE_FILE_TO_PAIRED_FILE,
+    ACCESS_VARIANTS_RUN_TOOLS_MANTA
 )
 
 from util import (
@@ -96,15 +96,6 @@ def parse_arguments():
         '--project_name',
         help='Project name for this run',
         required=True
-    )
-
-    parser.add_argument(
-        '-sv',
-        '--structural_variants',
-        action='store_true',
-        help='Whether to include SV calling. (This will include the Delly params in the inputs file. \
-            Inputs file will then be paired with ACCESS_variants.cwl workflow.',
-        required=False
     )
 
     parser.add_argument(
@@ -187,6 +178,14 @@ def parse_arguments():
         '--curated_bams_simplex_directory',
         help='Directory that contains additional simplex curated bams to be used for genotyping',
         required=True
+    )
+
+    parser.add_argument(
+        '-stdb',
+        '--standard_bams_directory',
+        help='If you would like SV calling, this is the directory that contains standard bams to be paired with the \
+            default normal. Note: This argument is to be paired with the ACCESS_Variants.cwl workflow.',
+        required=False
     )
 
     args = parser.parse_args()
@@ -286,11 +285,20 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
         # Use the matching normal bam that contains this normal sample ID
         # Both samples are added for genotyping
         elif any(normal_id in n for n in normal_samples):
-            normal_sample = filter(lambda n: normal_id in n, normal_samples)[0]
+            matching_normal_samples = filter(lambda n: normal_id in n, normal_samples)
+
+            if len(matching_normal_samples) > 1:
+                # If we have multiple matches for this normal sample ID, make sure that they are exactly the same,
+                # to avoid the following case: Sample_1 != Sample_1A
+                assert all([all([x == y for x in matching_normal_samples]) for y in matching_normal_samples])
+
+            normal_sample = matching_normal_samples[0]
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(normal_sample)
             ordered_fillout_samples.append(tumor_sample)
-            ordered_fillout_samples.append(normal_sample)
+            # Only genotype each normal once, even if it is paired with multiple tumors
+            if not normal_sample in ordered_fillout_samples:
+                ordered_fillout_samples.append(normal_sample)
 
     return ordered_tumor_samples, ordered_normal_samples, ordered_fillout_samples
 
@@ -337,6 +345,9 @@ def create_inputs_file(args):
     #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
     #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
     #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
+
+    if args.standard_bams_directory:
+        include_sv_inputs(args, fh)
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
@@ -412,7 +423,7 @@ def write_yaml_bams(
     # 4. Genotyping sample IDs must be extracted from the bams themselves
     merged_tn_sample_ids = [extract_sample_id_from_bam_path(b['path']) for b in tn_genotyping_bams]
     simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-SIMPLEX' for b in simplex_genotyping_bams]
-    curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED' for b in curated_duplex_genotyping_bams]
+    curated_duplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-DUPLEX' for b in curated_duplex_genotyping_bams]
     curated_simplex_genotyping_ids = [extract_sample_id_from_bam_path(b['path']) + '-CURATED-SIMPLEX' for b in curated_simplex_genotyping_bams]
 
     genotyping_bams = tn_genotyping_bams + simplex_genotyping_bams + curated_duplex_genotyping_bams + curated_simplex_genotyping_bams
@@ -465,6 +476,27 @@ def validate_args(args):
     # Normal bams folder is required in matched mode
     if args.matched_mode and args.normal_bams_directory is None:
         raise Exception('--matched_mode requires --normal_bams_directory')
+
+
+def include_sv_inputs(args, fh):
+    """
+    Write standard_bams files to inputs file, as well as SV parameters and tool paths from SV config files
+
+    :param args: argparse.ArgumentsParser with parsed args
+    :param fh: file handle for inputs file to write to
+    :return:
+    """
+    standard_bams = find_bams_in_directory(args.standard_bams_directory)
+    standard_bams_yaml = create_yaml_file_objects(standard_bams)
+    default_norml_yaml = {'class': 'File', 'path': args.default_normal_path}
+    sv_sample_id = [extract_sample_id_from_bam_path(b) for b in standard_bams]
+
+    fh.write(INPUTS_FILE_DELIMITER)
+    fh.write(ruamel.yaml.dump({'sv_sample_id': sv_sample_id}))
+    fh.write(ruamel.yaml.dump({'sv_tumor_bams': standard_bams_yaml}))
+    fh.write(ruamel.yaml.dump({'sv_normal_bam': default_norml_yaml}))
+
+    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_MANTA)
 
 
 def main():
