@@ -19,6 +19,7 @@ from constants import (
     SAMPLE_TYPE_NORMAL_NONPLASMA,
     SAMPLE_CLASS, TUMOR_ID, NORMAL_ID,
     TITLE_FILE_TO_PAIRED_FILE,
+    TITLE_FILE_PAIRING_EXPECTED_COLUMNS,
     ACCESS_VARIANTS_RUN_TOOLS_MANTA
 )
 
@@ -188,11 +189,18 @@ def parse_arguments():
         required=False
     )
 
+    parser.add_argument(
+        '-dstdn',
+        '--default_stdnormal_path',
+        help='Normal used in unmatched mode for structural variant calling',
+        required=False
+    )
+
     args = parser.parse_args()
     return args
 
 
-def generate_pairing_file(title_file, pair_by):
+def generate_pairing_file(args):
     """
     Create T/N pairs from title file
 
@@ -203,17 +211,24 @@ def generate_pairing_file(title_file, pair_by):
     :param pair_by: str
     :return paired_df: dict
     """
-    tf=pd.read_csv(title_file, sep='\t', comment='#', header='infer')
+    tf=pd.read_csv(args.title_file_path, sep='\t', comment='#', header='infer')
     tfmerged = pd.merge(tf, tf, on=GROUP_BY_ID, how='left')
-    tfmerged = tfmerged[[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID, CLASS_PAIR1, CLASS_PAIR2, SAMPLE_TYPE_PAIR1, SAMPLE_TYPE_PAIR2]]
-    if pair_by == SAMPLE_CLASS:
+    try:
+        tfmerged = tfmerged[[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID, CLASS_PAIR1, CLASS_PAIR2, SAMPLE_TYPE_PAIR1, SAMPLE_TYPE_PAIR2]]
+        #tfmerged = tfmerged.loc[(tfmerged[SAMPLE_PAIR1] != tfmerged[SAMPLE_PAIR2]) & (~tfmerged[CLASS_PAIR2].isin([TUMOR_CLASS]))]
+    except KeyError:
+        raise Exception("Missing or unexpected column headers in {}. Title File should contain the following columns for successful pairing: {}".format(args.title_file_path, ", ".join(TITLE_FILE_PAIRING_EXPECTED_COLUMNS)))
+    if args.pair_by == SAMPLE_CLASS:
         paired = tfmerged[(tfmerged[CLASS_PAIR1] == TUMOR_CLASS) & (tfmerged[CLASS_PAIR2] == NORMAL_CLASS)][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
-        unpaired = tfmerged[(tfmerged[CLASS_PAIR1] == TUMOR_CLASS) & (~tfmerged[CLASS_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+        unpaired = tfmerged[(tfmerged[CLASS_PAIR1] == TUMOR_CLASS) & (~tfmerged[SAMPLE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
     else:
         paired = tfmerged[(tfmerged[SAMPLE_TYPE_PAIR1] == SAMPLE_TYPE_PLASMA) & (tfmerged[SAMPLE_TYPE_PAIR2] == SAMPLE_TYPE_NORMAL_NONPLASMA)][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
-        unpaired = tfmerged[(tfmerged[SAMPLE_TYPE_PAIR1] == SAMPLE_TYPE_PLASMA) & (~tfmerged[SAMPLE_TYPE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+        unpaired = tfmerged[(tfmerged[SAMPLE_TYPE_PAIR1] == SAMPLE_TYPE_PLASMA) & (~tfmerged[SAMPLE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
+    unpaired[SAMPLE_PAIR2] = ""
     paired_df = pd.concat([paired, unpaired]).rename(index=str, columns={SAMPLE_PAIR1: TUMOR_ID, SAMPLE_PAIR2: NORMAL_ID, GROUP_BY_ID: GROUP_BY_ID})
-    paired_df.to_csv(TITLE_FILE_TO_PAIRED_FILE, sep='\t',mode='w',header=True, index=None)
+    paired_df.to_csv(os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE), sep='\t', header=True, mode="w", index=False)
+    args.pairing_file_path = os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
+    print("Tumor - Normal pairing inferred from the title file. Pairing information is reported here: {}".format(os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)))
     return paired_df
 
 
@@ -277,28 +292,35 @@ def parse_tumor_normal_pairing(pairing_file, tumor_samples, normal_samples, defa
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(default_normal_path)
             ordered_fillout_samples.append(tumor_sample)
+            default_added_for_genotyping = True
 
-            if not default_added_for_genotyping:
-                ordered_fillout_samples.append(default_normal_path)
-                default_added_for_genotyping = True
+            # if not default_added_for_genotyping:
+            #     ordered_fillout_samples.append(default_normal_path)
+            #     default_added_for_genotyping = True
 
         # Use the matching normal bam that contains this normal sample ID
         # Both samples are added for genotyping
+        # TODO: make this else statement more specific
         elif any(normal_id in n for n in normal_samples):
-            matching_normal_samples = filter(lambda n: normal_id in n, normal_samples)
+            #matching_normal_samples = filter(lambda n: normal_id in n, normal_samples)
+            matching_normal_sample = filter(lambda t: os.path.basename(t).startswith(normal_id + SAMPLE_SEP_FASTQ_DELIMETER) , normal_samples)
+            assert len(matching_normal_sample) == 1, 'Incorrect # of matches (matched = {}) for sammple ID {} in tumor_samples list.'.format(str(len(matching_normal_sample)), normal_id)
 
-            if len(matching_normal_samples) > 1:
+            #if len(matching_normal_samples) > 1:
                 # If we have multiple matches for this normal sample ID, make sure that they are exactly the same,
                 # to avoid the following case: Sample_1 != Sample_1A
-                assert all([all([x == y for x in matching_normal_samples]) for y in matching_normal_samples])
+                #assert all([all([x == y for x in matching_normal_samples]) for y in matching_normal_samples])
 
-            normal_sample = matching_normal_samples[0]
+            normal_sample = matching_normal_sample.pop()
             ordered_tumor_samples.append(tumor_sample)
             ordered_normal_samples.append(normal_sample)
             ordered_fillout_samples.append(tumor_sample)
             # Only genotype each normal once, even if it is paired with multiple tumors
             if not normal_sample in ordered_fillout_samples:
                 ordered_fillout_samples.append(normal_sample)
+    
+    if default_added_for_genotyping:
+        ordered_fillout_samples.append(default_normal_path)
 
     return ordered_tumor_samples, ordered_normal_samples, ordered_fillout_samples
 
@@ -313,7 +335,11 @@ def create_inputs_file(args):
     if args.pairing_file_path:
         pairing_df = pd.read_csv(args.pairing_file_path, sep='\t', comment = '#', header='infer').fillna('')
     else:
-        pairing_df = generate_pairing_file(args.title_file_path, pair_by)
+        try:
+            pairing_df = generate_pairing_file(args)
+        except (KeyError, ValueError, IndexError):
+            raise Exception("Cannot create Tumor Normal pairing file from {}".format(args.title_file_path))
+
     tumor_ids, normal_ids = filter(None, pairing_df[TUMOR_ID].tolist()), filter(None, pairing_df[NORMAL_ID].tolist())
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
     simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory, tumor_ids + normal_ids)
@@ -347,7 +373,7 @@ def create_inputs_file(args):
     #include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
 
     if args.standard_bams_directory:
-        include_sv_inputs(args, fh)
+        include_sv_inputs(args, tumor_ids, fh)
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
@@ -466,7 +492,7 @@ def validate_args(args):
     """Arguments sanity check"""
 
     # Either one of title file or pairing file is required for this process
-    if args.title_file_path and args.pairing_file_path is None:
+    if not (args.title_file_path or args.pairing_file_path):
         raise Exception('Either --title_file_path or --pairing_file_path is required to determine tumor samples for variant calling.')
 
     # Pairing file is required in matched mode
@@ -477,8 +503,12 @@ def validate_args(args):
     if args.matched_mode and args.normal_bams_directory is None:
         raise Exception('--matched_mode requires --normal_bams_directory')
 
+    # If structural varint calling is enabled, a control standard bam is required, for unmatched variant calling.
+    if args.standard_bams_directory and not args.default_stdnormal_path:
+        raise Exception('--default_stdnormal_path should be also provided when --standard_bams_directory is defined.')
 
-def include_sv_inputs(args, fh):
+
+def include_sv_inputs(args, tumor_ids, fh):
     """
     Write standard_bams files to inputs file, as well as SV parameters and tool paths from SV config files
 
@@ -486,15 +516,16 @@ def include_sv_inputs(args, fh):
     :param fh: file handle for inputs file to write to
     :return:
     """
-    standard_bams = find_bams_in_directory(args.standard_bams_directory)
+
+    standard_bams = find_bams_in_directory(args.standard_bams_directory, tumor_ids)
     standard_bams_yaml = create_yaml_file_objects(standard_bams)
-    default_norml_yaml = {'class': 'File', 'path': args.default_normal_path}
+    default_normal_yaml = {'class': 'File', 'path': args.default_stdnormal_path}
     sv_sample_id = [extract_sample_id_from_bam_path(b) for b in standard_bams]
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write(ruamel.yaml.dump({'sv_sample_id': sv_sample_id}))
     fh.write(ruamel.yaml.dump({'sv_tumor_bams': standard_bams_yaml}))
-    fh.write(ruamel.yaml.dump({'sv_normal_bam': default_norml_yaml}))
+    fh.write(ruamel.yaml.dump({'sv_normal_bam': default_normal_yaml}))
 
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_MANTA)
 
