@@ -31,7 +31,8 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
             'curated_bams_simplex_directory':   self.test_path + '/test_data/curated_bams_simplex',
             'pairing_file_path':                self.test_path + '/test_data/test_pairing.tsv',
             'default_normal_path':              self.test_path + '/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam',
-            'structural_variants':              False,
+            'default_stdnormal_path':           '',
+            'standard_bams_directory':          '',
         }
 
         # Convert to absolute paths
@@ -192,6 +193,7 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
         """
         self.matched_testing_parameters['output_file_name'] = './test_output/variants_with_sv_params.yaml'
         self.matched_testing_parameters['standard_bams_directory'] = './test_data/standard_bams'
+        self.matched_testing_parameters['default_stdnormal_path'] = './test_data/default_normal.bam'
         mock_args = ArgparseMock(self.matched_testing_parameters)
         create_inputs_file(mock_args)
 
@@ -200,5 +202,7 @@ class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
         expected_result = open('./test_output/variants_with_sv_params.yaml', 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
+
+        # Todo: need to add more fields here
         for key in self._fields_to_check:
             assert inputs_file[key] == expected_result[key]

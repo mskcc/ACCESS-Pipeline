@@ -155,6 +155,13 @@ def parse_arguments():
         required=False
     )
 
+    parser.add_argument(
+        '-dstdn',
+        '--default_stdnormal_path',
+        help='Normal used in unmatched mode for structural variant calling',
+        required=False
+    )
+
     args = parser.parse_args()
     return args
 
@@ -410,6 +417,10 @@ def validate_args(args):
     if args.matched_mode and args.normal_bams_directory is None:
         raise Exception('--matched_mode requires --normal_bams_directory')
 
+    # If structural varint calling is enabled, a control standard bam is required, for unmatched variant calling.
+    if args.standard_bams_directory and not args.default_stdnormal_path:
+        raise Exception('--default_stdnormal_path and --standard_bams_directory should be defined together')
+
 
 def include_sv_inputs(args, fh):
     """
@@ -421,13 +432,13 @@ def include_sv_inputs(args, fh):
     """
     standard_bams = find_bams_in_directory(args.standard_bams_directory)
     standard_bams_yaml = create_yaml_file_objects(standard_bams)
-    default_norml_yaml = {'class': 'File', 'path': args.default_normal_path}
+    default_normal_yaml = {'class': 'File', 'path': args.default_stdnormal_path}
     sv_sample_id = [extract_sample_id_from_bam_path(b) for b in standard_bams]
 
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write(ruamel.yaml.dump({'sv_sample_id': sv_sample_id}))
     fh.write(ruamel.yaml.dump({'sv_tumor_bams': standard_bams_yaml}))
-    fh.write(ruamel.yaml.dump({'sv_normal_bam': default_norml_yaml}))
+    fh.write(ruamel.yaml.dump({'sv_normal_bam': default_normal_yaml}))
 
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_MANTA)
 
