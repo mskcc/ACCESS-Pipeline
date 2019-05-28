@@ -404,7 +404,7 @@ INSERT_SIZE_OUTPUT_FILE_NAMES + [
 ####################
 # Constants for VC #
 ####################
-
+TITLE_FILE_PAIRING_EXPECTED_COLUMNS = ["Sample", "Class", "Patient_ID", "Sample_type"]
 TUMOR_ID = 'tumor_id'
 NORMAL_ID = 'normal_id'
 SAMPLE_CLASS = 'class'
