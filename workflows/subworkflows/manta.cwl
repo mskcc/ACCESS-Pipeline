@@ -88,8 +88,8 @@ steps:
     run: ../../cwl_tools/manta/manta.cwl
     in:
       run_tools: run_tools
-      r_path:
-        valueFrom: $(inputs.run_tools.r_path)
+      #r_path:
+      #  valueFrom: $(inputs.run_tools.r_path)
       sv_repo:
         valueFrom: $(inputs.run_tools.sv_repo)
       manta:
