@@ -97,7 +97,7 @@ class ToilArgs(object):
                     )
                 )
             try:
-                self.__JOBSTORE = "file://{}/jobstore-{}".format(
+                self.__JOBSTORE = "file://{}/{}".format(
                     self.__TOIL_TMPDIR, job_store_dirs.pop()
                 )
             except IndexError:
@@ -127,7 +127,7 @@ class ToilArgs(object):
                 self.__OUTDIR,
                 "--writeLogs",
                 self.__LOG_DIR,
-                "--logLevel",
+                "--logLevel=" +
                 self.__LOG_LEVEL,
             ]
         )
