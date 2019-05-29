@@ -6,6 +6,8 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
 
+successCodes: [0, 1]
+
 arguments:
 - head
 - -n
@@ -33,11 +35,6 @@ arguments:
 - grep
 - -vP
 - "^TumorId"
-
-# Need this to prevent nonzero exit code if grep runs on header only
-- shellQuote: false
-  valueFrom: '||'
-- 'true'
 
 # Need to use subshell in order to gather stdout from second command to append to file
 - shellQuote: false
