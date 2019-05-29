@@ -3,7 +3,7 @@ import xlrd
 import argparse
 import pandas as pd
 
-from constants import *
+from ..constants import *
 
 # Suppress pandas copy warning
 pd.options.mode.chained_assignment = None

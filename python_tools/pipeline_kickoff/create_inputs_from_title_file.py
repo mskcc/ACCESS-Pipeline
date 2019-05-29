@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 
 # constants include the paths to the config files
-from python_tools.constants import *
-from python_tools.util import (
+from ..constants import *
+from ..util import (
     DELIMITER,
     INPUTS_FILE_DELIMITER,
     get_pos,
