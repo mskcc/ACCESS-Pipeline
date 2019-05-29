@@ -20,6 +20,10 @@ arguments:
 - shellQuote: false
   valueFrom: '&&'
 
+# Need to use subshell in order to gather stdout from second command to append to file
+- shellQuote: false
+  valueFrom: '('
+
 - cat
 - $(inputs.sv_calls)
 
@@ -34,6 +38,10 @@ arguments:
 - shellQuote: false
   valueFrom: '||'
 - 'true'
+
+# Need to use subshell in order to gather stdout from second command to append to file
+- shellQuote: false
+  valueFrom: ')'
 
 - shellQuote: false
   valueFrom: '>>'
