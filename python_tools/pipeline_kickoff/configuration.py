@@ -97,7 +97,7 @@ class ToilArgs(object):
                     )
                 )
             try:
-                self.__JOBSTORE = "file://{}/jobstore-{}".format(
+                self.__JOBSTORE = "file://{}/{}".format(
                     self.__TOIL_TMPDIR, job_store_dirs.pop()
                 )
             except IndexError:
