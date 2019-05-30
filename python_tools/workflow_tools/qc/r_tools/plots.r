@@ -15,6 +15,7 @@ library(lattice)
 library(ggplot2)
 library(reshape2)
 library(data.table)
+library(wesanderson)
 suppressMessages(library(dplyr))
 
 
@@ -74,7 +75,8 @@ plot_on_bait = function(data) {
 #' @param data data.frame with the usual columns
 plot_gc_with_cov_each_sample = function(data) {
   data = data[complete.cases(data[, 'coverage']),]
-  
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
+
   # Only plot for Total and All Unique
   gc_bias_levels = c('TotalCoverage', 'All Unique')
   data = dplyr::filter(data, method %in% gc_bias_levels)
@@ -87,7 +89,8 @@ plot_gc_with_cov_each_sample = function(data) {
     ggtitle('Average Coverage versus GC bias (Pool A Targets)') +
     scale_y_continuous('Average Coverage', label = format_comma, limits = c(0, NA)) +
     xlab('GC Bias') +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   
   ggsave(g, file='gc_cov_each_sample.pdf', width=11, height=8.5)
 }
@@ -311,7 +314,7 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
 #' @param data data.frame with Sample, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
   data[, SAMPLE_ID_COLUMN] = factor(data[, SAMPLE_ID_COLUMN])
-  
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
   # Only plot the Plasma samples
   data = data[data[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma',]
   
@@ -324,7 +327,8 @@ plot_family_curves <- function(data) {
     xlab('Family Size') +
     scale_y_continuous('Frequency', label = format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_all.pdf', width = 11, height = 8.5)
   
   g = ggplot(
@@ -336,7 +340,8 @@ plot_family_curves <- function(data) {
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label = format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_simplex.pdf', width = 11, height = 8.5)
   
   g = ggplot(
@@ -348,6 +353,7 @@ plot_family_curves <- function(data) {
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label=format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME + 
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_duplex.pdf', width = 11, height = 8.5)
 }

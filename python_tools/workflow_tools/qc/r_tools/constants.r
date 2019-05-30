@@ -15,6 +15,7 @@ library(lattice)
 library(ggplot2)
 library(reshape2)
 library(data.table)
+library(wesanderson)
 suppressMessages(library(dplyr))
 
 
@@ -30,8 +31,8 @@ format_comma <- function(x, ...) {
 }
 
 # Define our global plots theme
-MAIN_PLOT_THEME = theme(
-  text = element_text(size=14),
+MAIN_PLOT_THEME = theme_light() + theme(
+  text = element_text(size=10),
   axis.text.x = element_text(angle = 45, hjust = 1, face='bold'),
   plot.margin = unit(c(.1, .1, .1, 1), 'in')
 )
@@ -47,10 +48,13 @@ TITLE_PAGE_THEME <- gridExtra::ttheme_default(
   rowhead = list(fg_params=list(cex = 0.5))
 )
 
-MSK_ORANGE = '#D14124'
-MSK_BLUE = '#0076A8'
-MSK_LIGHT_BLUE = '#4492C6'
-MSK_GREY = '#B3B3A1'
+# Color variables
+MSK_ORANGE = '#D67236' #'#F2300F' #'#D14124'
+MSK_BLUE = '#5B1A18' #'#274150' #'#0076A8'
+MSK_LIGHT_BLUE = '#FD6467' #'#9FA682' #'#4492C6'
+MSK_GREY = '#F1BB7B' #'#E1BD6D' #'#B3B3A1'
+
+CONTINUOUS_COLOR_PALETTE = 'Rushmore1'
 
 # Title file columns
 # Consider using https://blog.rstudio.com/2018/03/26/reticulate-r-interface-to-python/
