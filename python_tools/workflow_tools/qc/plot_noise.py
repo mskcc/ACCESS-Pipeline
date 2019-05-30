@@ -96,7 +96,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             subset = noise_by_substitution_table[substitution_class_boolv & sample_boolv]
             combined_class_altcount = float(subset['AltCount'].sum())
             combined_class_genotype_count = float(subset['GenotypeCount'].sum())
-            class_noise = combined_class_altcount / (combined_class_altcount + combined_class_genotype_count)
+            class_noise = combined_class_altcount / (combined_class_altcount + combined_class_genotype_count + EPSILON)
 
             # Change from fraction to percent
             class_noise = class_noise * 100.0
