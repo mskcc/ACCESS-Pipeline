@@ -18,7 +18,6 @@ import ruamel.yaml
 
 DEFAULT_MEM = 5
 DEFAULT_CPU = 1
-DEFAULT_LEADER_NODE = "w01"
 DEFAULT_CONTROL_QUEUE = "sol"
 
 
@@ -76,13 +75,16 @@ def submit_to_lsf(params):
         '-J', project_name,
         '-oo', project_name + "_stdout.log",
         '-eo', project_name + "_stderr.log",
-        '-R', "select[hname={}]".format(params.leader_node),
         '-R', "rusage[mem={}]".format(DEFAULT_MEM),
         '-n', str(DEFAULT_CPU),
         '-q', params.leader_queue,
         '-Jd', project_name,
-        job_command
     ]
+
+    if params.leader_node:
+        bsubline += ['-R', "select[hname={}]".format(params.leader_node)]
+
+    bsubline += [job_command]
 
     lsf_job_id = bsub(bsubline)
     return project_name, lsf_job_id
@@ -126,7 +128,6 @@ def main():
         "--leader_node",
         action="store",
         dest="leader_node",
-        default=DEFAULT_LEADER_NODE,
         help="Which node to use for leader job (e.g. w01 or ju01)"
     )
 
