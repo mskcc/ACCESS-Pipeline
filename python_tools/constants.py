@@ -2,7 +2,8 @@ import os
 import re
 from collections import OrderedDict
 
-from root import ROOT_DIR
+# Repository main directory
+ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 
 #############
