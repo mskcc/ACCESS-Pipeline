@@ -13,14 +13,19 @@
 HOSTNAME=$(hostname -s)
 
 function printe () {
+	# print error message
         printf "$HOSTNAME::$(date +'%T')::ERROR $@\n\n"
 }
 
 function printi () {
+	# print info
         printf "$HOSTNAME::$(date +'%T')::INFO $@\n\n"
 }
 
 function cleanup() {
+	# Housekeeping function that will run at the end regardless of 
+	# exit status. Upon successfull setup, deactivate environment.
+	# If setup is unsuccessful at any stage, remove the environment.
         EXITCODE=$?
         if [[ $EXITCODE != 0 ]] & [[ -e ${ACCESS_ENV} ]]; then
 		source deactivate
@@ -92,7 +97,7 @@ $RSCRIPT -e 'install.packages(install.packages("http://bioconductor.org/packages
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || { printe "Error during R package installation from source."; exit $EXITCODE; }
 
-print "Installing R packages from github..."
+printi "Installing R packages from github..."
 $RSCRIPT -e 'library(devtools); install_github("rptashkin/textplot", force=TRUE);'
 
 EXITCODE=$?
