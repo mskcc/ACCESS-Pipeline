@@ -4,7 +4,7 @@
 # Description: Setup conda environment for ACCESS pipeline and install all the python and R libraries.
 # Dependency:  conda>=4.5.4
 # Usage:       ./setup.sh <optional environment name>
-# -----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------
 
 #############
 # Functions #
@@ -24,7 +24,7 @@ function printi () {
 
 function cleanup() {
 	# Housekeeping function that will run at the end regardless of 
-	# exit status. Upon successfull setup, deactivate environment.
+	# exit status. Upon successful setup, deactivate environment.
 	# If setup is unsuccessful at any stage, remove the environment.
         EXITCODE=$?
         if [[ $EXITCODE != 0 ]] & [[ -e ${ACCESS_ENV} ]]; then
