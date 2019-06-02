@@ -60,7 +60,7 @@ export R_LIBS=""
 [[ -e "${PWD}/environment.yaml" ]] || { printe "${PWD}/environment.yaml not found."; exit 1; }
 
 # get conda path
-CONDA=$(eval "which conda" | tail -1)
+CONDA=$(type -p conda | sed "s/conda is //")
 [[ -e $CONDA ]] || { printe "Cannot find conda binary. Make sure conda is added to your PATH variable."; exit 1; }
 
 printi "Creating conda environment: $ACCESS_ENV"
