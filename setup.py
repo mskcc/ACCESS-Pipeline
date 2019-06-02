@@ -24,14 +24,14 @@ def most_recent_tag():
     :param :
     :return:
     """
-    tag = (
+    tag = str(
         check_output(["git", "describe", "--tags"])
         .decode("utf-8")
         .strip()
         .split("-")
         .pop(0)
     )
-    commit = (
+    commit = str(
         check_output(
             [
                 "git",
