@@ -1,78 +1,7 @@
 import os
 import sys
-from setuptools import setup, Command
-from setuptools.command.install import install
-
-import version
-
-while all([True, len(sys.argv) >= 2, sys.argv[1] == "install"]):
-    try:
-        prefix = sys.prefix
-        if not any(['CONDA_PREFIX' in os.environ, 'VIRTUAL_ENV' in os.environ]):
-            print "WARNING: You do not appear to be in a virtual environment!"
-        user_input = raw_input("Current python environment is: {}\n"
-            "Proceed with setup install? (y/n) ".format(prefix))
-        if user_input == "n":
-            sys.exit()
-        elif user_input == "y":
-            break
-        else:
-            print "Incorrect input."
-    except (AttributeError, KeyboardInterrupt):
-        # if sys.prefix cannot be determined.
-        raise
-
-
-class install_access(install):
-    """
-    Override the standard install
-    """
-    user_options = [
-        ('keep-setup-files=', None, 'keep setup install output files')
-    ]
-    
-    def initialize_options(self):
-        self.keep_setup_files = False
-
-    def finalize_options(self):
-        if self.keep_setup_files is None:
-            pass
-
-    def run(self):
-        install.run(self)
-    
-    if True:
-        os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
-
-
-class CleanCommand(Command):
-    """
-    Custom clean command to tidy up the project root
-    """
-    user_options = []
-
-    def initialize_options(self):
-        pass
-    def finalize_options(self):
-        pass
-    def run(self):
-        os.system('rm -vrf ./build ./dist ./*.pyc ./*.tgz ./*.egg-info')
-
-
-def set_version_and_root():
-    # Write version info to version.py on setup
-    version_number = version.expand_()
-    with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
-        f.write(version_number)
-
-    # Todo: need to come up with a better way to retain version info
-    with open('python_tools/version.py', 'wb') as f:
-        f.write(version_number)
-
-    # Write current path as path to project root
-    # (used to include references to the static resource files in inputs.yaml)
-    with open('python_tools/root.py', 'wb') as f:
-        f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
+from setuptools import setup, find_packages
+from subprocess import check_output
 
 
 def req_file(filename):
@@ -81,76 +10,96 @@ def req_file(filename):
 
     :param filename:
     :return:
-    """ 
+    """
     with open(filename) as f:
         content = f.readlines()
-
+        content = filter(lambda x: not x.startswith("#"), content)
     return [x.strip() for x in content]
 
 
-def start_setup():
-    setup(
-        name='access_pipeline',
-        version=version.most_recent_tag(),
-        description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
-        url='http://github.com/mskcc/ACCESS-Pipeline',
-        author='Ian Johnson, Gowtham Jayakumaran',
-        author_email='johnsoni@mskcc.org',
-        license='MIT',
-        install_requires=req_file('requirements.txt'),
-        classifiers=[
-            'Topic :: Scientific/Engineering :: Bio-Informatics',
-            'Programming Language :: Python :: 2.7',
-        ],
-        packages = [
-            'python_tools',
-            'python_tools.pipeline_kickoff',
-            'python_tools.workflow_tools',
-            'python_tools.workflow_tools.qc',
-            'python_tools.test',
-        ],
-        package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
-        entry_points = {
-            'console_scripts': [
-                # Pipeline Kickoff
-                'create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main',
-                'create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main',
-                'create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main',
-                'create_title_file_from_samplesheet = python_tools.pipeline_kickoff.create_title_file_from_samplesheet:main',
-                'create_title_file_from_samplesheet_legacy = python_tools.pipeline_kickoff.create_title_file_from_samplesheet_legacy:main',
-                'pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main',
-                'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
-                # Workflow Tools
-                'list2bed = python_tools.workflow_tools.list2bed:main',
-                # Quality Control
-                'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
-                'tables_module = python_tools.workflow_tools.qc.tables_module:main',
-                'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
-                'fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main',
-                'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
-                'gender_check = python_tools.workflow_tools.qc.gender_check:main',
-                # Postprocessing
-                'pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main',
-                # Test Utilities
-                'test_outputs = python_tools.test.test_pipeline_outputs:main',
-            ]
-        },
-        scripts=[
-            'python_tools/workflow_tools/qc/r_tools/plots_module.r',
-            'python_tools/workflow_tools/qc/r_tools/plots.r',
-            'python_tools/workflow_tools/qc/r_tools/util.r',
-            'python_tools/workflow_tools/qc/r_tools/constants.r',
-            'python_tools/workflow_tools/qc/calculate_noise.sh',
-            'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
-            'python_tools/workflow_tools/qc/aggregate_bam_metrics.sh',
-        ],
-        include_package_data=True,
-        zip_safe=False,
-        cmdclass={
-            'clean': CleanCommand,
-            #'install': install_access,
-        }
-    )
+def most_recent_tag():
+    """
+    Helper function to get the recent tag and commit
 
-set_version_and_root()
-start_setup()
+    :param :
+    :return:
+    """
+    tag = (
+        check_output(["git", "describe", "--tags"])
+        .decode("utf-8")
+        .strip()
+        .split("-")
+        .pop(0)
+    )
+    commit = (
+        check_output(
+            [
+                "git",
+                "log",
+                "--pretty=oneline",
+                "-n",
+                "1",
+                "--",
+                os.path.dirname(os.path.abspath(__file__)),
+            ]
+        )
+        .decode("utf-8")
+        .strip()
+        .split(" ")
+        .pop(0)[:7]
+    )
+    return "-".join([tag, commit])
+
+
+ENTRY_POINTS = """
+        [console_scripts]
+        create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main
+        create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main
+        create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main
+        create_title_file_from_samplesheet = python_tools.pipeline_kickoff.create_title_file_from_samplesheet:main
+        create_title_file_from_samplesheet_legacy = python_tools.pipeline_kickoff.create_title_file_from_samplesheet_legacy:main
+        pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main
+        pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main
+        list2bed = python_tools.workflow_tools.list2bed:main
+        qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main
+        tables_module = python_tools.workflow_tools.qc.tables_module:main
+        plot_noise = python_tools.workflow_tools.qc.plot_noise:main
+        fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main
+        combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main
+        gender_check = python_tools.workflow_tools.qc.gender_check:main
+        pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
+        test_outputs = python_tools.test.test_pipeline_outputs:main
+        """
+
+SUPPORT_SCRIPTS = [
+    "python_tools/workflow_tools/qc/r_tools/plots_module.r",
+    "python_tools/workflow_tools/qc/r_tools/plots.r",
+    "python_tools/workflow_tools/qc/r_tools/util.r",
+    "python_tools/workflow_tools/qc/r_tools/constants.r",
+    "python_tools/workflow_tools/qc/calculate_noise.sh",
+    "python_tools/workflow_tools/qc/make_umi_qc_tables.sh",
+    "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
+]
+
+
+setup(
+    name="access_pipeline",
+    version=most_recent_tag(),
+    description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
+    url="http://github.com/mskcc/ACCESS-Pipeline",
+    author="Ian Johnson, Gowtham Jayakumaran",
+    author_email="johnsoni@mskcc.org",
+    license="MIT",
+    install_requires=req_file("requirements.txt"),
+    python_requires=">=2.7",
+    classifiers=[
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
+        "Programming Language :: Python :: 2.7",
+    ],
+    packages=find_packages(exclude=["test"]),
+    package_data={"": ["**/*.r", "**/*.R", "**/**/*.r", "**/**/*.R"]},
+    include_package_data=True,
+    entry_points=ENTRY_POINTS,
+    scripts=SUPPORT_SCRIPTS,
+    zip_safe=False,
+)
