@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Title:       setup.sh
 # Description: Setup conda environment for ACCESS pipeline and install all the python and R libraries.
-# Dependency:  conda>=4.5.4
+# Dependency:  conda>=4.5.4; environment.yaml (in the same directory as this script)
 # Usage:       ./setup.sh <optional_environment_name>
 # ----------------------------------------------------------------------------------------------------
 
