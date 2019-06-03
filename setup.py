@@ -59,11 +59,13 @@ def get_package_files(directory, file_type):
     :return str:
     """
     paths = []
-    for (path, directories, filenames) in os.walk(os.path.dirname(os.path.abspath(__file__)) + "/" +  directory):
+    for (path, directories, filenames) in os.walk(
+        os.path.dirname(os.path.abspath(__file__)) + "/" + directory
+    ):
         for filename in filenames:
             if not filename.endswith(file_type):
                 continue
-            paths.append(os.path.join('..', path, filename))
+            paths.append(os.path.join("..", path, filename))
     return paths
 
 
@@ -114,12 +116,12 @@ setup(
     ],
     packages=find_packages(exclude=["test"]),
     package_data={
-        # TODO: 
+        # TODO:
         # Consider adding cwl and .r modules as package data
-        #"workflow": get_package_files("workflows", (".cwl")),
-        #"cwl_tools": get_package_files("cwl_tools", (".cwl")),
-        #"python_tools": get_package_files("python_tools", (".r")),
-        "resources": get_package_files("resources", (".cwl", ".yaml")),
+        # "workflow": get_package_files("workflows", (".cwl")),
+        # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
+        # "python_tools": get_package_files("python_tools", (".r")),
+        "resources": get_package_files("resources", (".cwl", ".yaml"))
     },
     include_package_data=True,
     entry_points=ENTRY_POINTS,
