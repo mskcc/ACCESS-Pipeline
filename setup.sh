@@ -3,7 +3,7 @@
 # Title:       setup.sh
 # Description: Setup conda environment for ACCESS pipeline and install all the python and R libraries.
 # Dependency:  conda>=4.5.4
-# Usage:       ./setup.sh <optional environment name>
+# Usage:       ./setup.sh <optional_environment_name>
 # ----------------------------------------------------------------------------------------------------
 
 #############
@@ -14,12 +14,12 @@ HOSTNAME=$(hostname -s)
 
 function printe () {
 	# print error message
-        printf "$HOSTNAME::$(date +'%T')::ERROR $@\n\n"
+        printf "\n$HOSTNAME::$(date +'%T')::ERROR $@\n"
 }
 
 function printi () {
 	# print info
-        printf "$HOSTNAME::$(date +'%T')::INFO $@\n\n"
+        printf "\n$HOSTNAME::$(date +'%T')::INFO $@\n"
 }
 
 function cleanup() {
@@ -27,12 +27,10 @@ function cleanup() {
 	# exit status. Upon successful setup, deactivate environment.
 	# If setup is unsuccessful at any stage, remove the environment.
         EXITCODE=$?
-        if [[ $EXITCODE != 0 ]] & [[ -e ${ACCESS_ENV} ]]; then
+        if [[ $EXITCODE != 0 ]] && [[ -e ${ACCESS_ENV_PATH} ]]; then
 		source deactivate
                 printe "Installation unsuccessful. Removing conda environment: ${ACCESS_ENV}"
                 conda env remove -n ${ACCESS_ENV}
-	elif [[ $EXITCODE == 0  ]]; then
-		source deactivate
 	fi
         exit $EXITCODE
 }
@@ -68,6 +66,10 @@ export R_LIBS=""
 CONDA=$(type -p conda | sed "s/conda is //")
 [[ -e $CONDA ]] || { printe "Cannot find conda binary. Make sure conda is added to your PATH variable."; exit 1; }
 
+# ensure that no other env with the same name exist
+ACCESS_ENV_PATH=$(echo $CONDA | sed "s/bin\/conda/envs\/${ACCESS_ENV}/")
+[[ ! -e ${ACCESS_ENV_PATH} ]] || { printi "${ACCESS_ENV_PATH} already exist."; exit 0; }
+
 printi "Creating conda environment: $ACCESS_ENV"
 conda env create --name $ACCESS_ENV --file $PWD/environment.yaml
 
@@ -86,13 +88,13 @@ RSCRIPT=$(echo $CONDA | sed "s/bin\/conda/envs\/${ACCESS_ENV}\/bin\/Rscript/")
 [[ -e "$RSCRIPT" ]] || { printe "Cannot locate Rscript in the environment $ACCESS_ENV. Was your environment setup properly?"; exit 1; }
 
 printi "Installing R packages from CRAN..."
-$RSCRIPT -e 'install.packages(c("devtools","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl"), repos="https://cran.cnr.berkeley.edu/")'
+$RSCRIPT -e 'install.packages(c("devtools","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson"), repos="https://cran.cnr.berkeley.edu/")'
 
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || { printe "Error during R package installation from CRAN."; exit $EXITCODE; }
 
 printi "Installing R packages from source..."
-$RSCRIPT -e 'install.packages(install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.58.0.tar.gz", repos=NULL, type="source")'
+$RSCRIPT -e 'install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.58.0.tar.gz", repos=NULL, type="source")'
 
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || { printe "Error during R package installation from source."; exit $EXITCODE; }
@@ -104,4 +106,4 @@ EXITCODE=$?
 [[ $EXITCODE == 0 ]] || { printe "Error during R package installation from github."; exit $EXITCODE; }
 
 printi "ACCESS environment setup complete! \^.^/"
-
+source deactivate
