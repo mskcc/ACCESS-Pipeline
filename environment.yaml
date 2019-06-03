@@ -1,8 +1,9 @@
-name: ACCESS_LW
+name: ACCESS
 channels:
   - r
   - defaults
   - conda-forge
+  - bioconda
 dependencies:
   - _r-mutex=1.0.0=mro_2
   - binutils_impl_linux-64=2.31.1=h6176602_1
