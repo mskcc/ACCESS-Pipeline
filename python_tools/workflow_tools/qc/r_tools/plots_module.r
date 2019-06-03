@@ -18,6 +18,7 @@ library(ggplot2)
 library(reshape2)
 library('getopt');
 library(data.table)
+library(wesanderson)
 
 suppressMessages(library(dplyr))
 
