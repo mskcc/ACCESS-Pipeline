@@ -9,7 +9,7 @@ def req_file(filename):
     We're using a requirements.txt file so that pyup.io can use this for security checks
 
     :param filename:
-    :return:
+    :return str:
     """
     with open(filename) as f:
         content = f.readlines()
@@ -22,7 +22,7 @@ def most_recent_tag():
     Helper function to get the recent tag and commit
 
     :param :
-    :return:
+    :return str:
     """
     tag = str(
         check_output(["git", "describe", "--tags"])
@@ -49,6 +49,22 @@ def most_recent_tag():
         .pop(0)[:7]
     )
     return "-".join([tag, commit])
+
+
+def get_package_files(directory, file_type):
+    """
+    helper function to recursively extract specific file types from the repository.
+
+    :param directory, file_type:
+    :return str:
+    """
+    paths = []
+    for (path, directories, filenames) in os.walk(os.path.dirname(os.path.abspath(__file__)) + "/" +  directory):
+        for filename in filenames:
+            if not filename.endswith(file_type):
+                continue
+            paths.append(os.path.join('..', path, filename))
+    return paths
 
 
 ENTRY_POINTS = """
@@ -97,7 +113,14 @@ setup(
         "Programming Language :: Python :: 2.7",
     ],
     packages=find_packages(exclude=["test"]),
-    package_data={"": ["**/*.r", "**/*.R", "**/**/*.r", "**/**/*.R"]},
+    package_data={
+        # TODO: 
+        # Consider adding cwl and .r modules as package data
+        #"workflow": get_package_files("workflows", (".cwl")),
+        #"cwl_tools": get_package_files("cwl_tools", (".cwl")),
+        #"python_tools": get_package_files("python_tools", (".r")),
+        "resources": get_package_files("resources", (".cwl", ".yaml")),
+    },
     include_package_data=True,
     entry_points=ENTRY_POINTS,
     scripts=SUPPORT_SCRIPTS,
