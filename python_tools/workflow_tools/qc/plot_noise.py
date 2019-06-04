@@ -113,24 +113,30 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
     # Variable to help only putting y-axis title on subplots in first column
     num_cols = 6
-    g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=num_cols, sharey=True)
-    g = g.map(plt.bar, 'Class', 'AltPercent')
+    try:
+        g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=num_cols, sharey=True)
+        g = g.map(plt.bar, 'Class', 'AltPercent')
 
-    g.set_titles(row_template='Noise (%)', col_template='{col_name}')
-    for i, ax in enumerate(g.axes.flat):
-        if i % num_cols == 0:
-            ax.set_ylabel('Noise (%)')
-        ax.set_xlabel('')
-        plt.setp(ax.get_xticklabels(), visible=True)
-        plt.setp(ax.get_xticklabels(), rotation=45)
+        g.set_titles(row_template='Noise (%)', col_template='{col_name}')
+        for i, ax in enumerate(g.axes.flat):
+            if i % num_cols == 0:
+                ax.set_ylabel('Noise (%)')
+            ax.set_xlabel('')
+            plt.setp(ax.get_xticklabels(), visible=True)
+            plt.setp(ax.get_xticklabels(), rotation=45)
 
-    g.fig.subplots_adjust(top=0.8, wspace=0.1, hspace=0.35)
-    g.fig.suptitle('Noise by Substitution Class')
+        g.fig.subplots_adjust(top=0.8, wspace=0.1, hspace=0.35)
+        g.fig.suptitle('Noise by Substitution Class')
 
-    # Save table and figure
-    six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False)
-    plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
-    return six_class_noise_by_substitution
+        # Save table and figure
+        six_class_noise_by_substitution.to_csv('noise_by_substitution.tsv', sep='\t', index=False)
+        plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
+        return six_class_noise_by_substitution
+    except ValueError:
+        print("Error while plotting noise.")
+        plt.figure()
+        plt.savefig('noise_by_substitution.pdf', bbox_inches='tight')
+        return six_class_noise_by_substitution
 
 
 def parse_arguments():
@@ -149,9 +155,9 @@ def main():
     title_file = read_df(args.title_file, header='infer')
 
     print('Plotting Noise:')
-    print(noise_table)
-    print(title_file)
-    print(noise_by_substitution_table)
+    #print(noise_table)
+    #print(title_file)
+    #print(noise_by_substitution_table)
 
     # Filter to just Total reads noise counts
     noise_table = noise_table[noise_table['Method'] == 'Total']
@@ -183,3 +189,7 @@ def main():
     noise_alt_percent_plot(noise_and_title_file)
     noise_contributing_sites_plot(noise_and_title_file)
     noise_by_substitution_plot(noise_by_substitution_table)
+
+
+if __name__ == "__main__":
+    main()

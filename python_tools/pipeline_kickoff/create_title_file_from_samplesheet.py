@@ -3,7 +3,7 @@ import xlrd
 import argparse
 import pandas as pd
 
-from constants import *
+from ..constants import *
 
 # Suppress pandas copy warning
 pd.options.mode.chained_assignment = None
@@ -60,7 +60,7 @@ def create_title_file(samplesheet_file_path, output_filename):
         )
         raise Exception(
             "SampleSheet is missing the following required columns: {}.".format(
-                " ,".join(missing_columns)
+                ",".join(missing_columns)
             )
         )
 
@@ -72,7 +72,7 @@ def create_title_file(samplesheet_file_path, output_filename):
             SAMPLE_SHEET_REQUIRED_COLUMNS + SAMPLE_SHEET_OPTIONAL_COLUMNS
         ) ^ set(samplesheet.columns.tolist())
         print("WARNING: SampleSheet has additional unrecognized columns: {}").format(
-            " ,".join(unrecognized_columns)
+            ",".join(unrecognized_columns)
         )
     elif set(SAMPLE_SHEET_REQUIRED_COLUMNS + SAMPLE_SHEET_OPTIONAL_COLUMNS) > set(
         samplesheet.columns.tolist()
@@ -82,7 +82,7 @@ def create_title_file(samplesheet_file_path, output_filename):
         ) ^ set(samplesheet.columns.tolist())
         print(
             "WARNING: SampleSheet is missing the following optional columns: {}"
-        ).format(" ,".join(missing_columns))
+        ).format(",".join(missing_columns))
 
     ### resolve row values ###
     # Check if required column values are populated for all rows
@@ -137,10 +137,12 @@ def create_title_file(samplesheet_file_path, output_filename):
         raise Exception("Samplesheet bait version does not match the expected value.")
 
     # sample description/class check
-    if not set(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN]) <= set(ALLOWED_SAMPLE_DESCRIPTION):
+    if not set(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN]) <= set(
+        ALLOWED_SAMPLE_DESCRIPTION
+    ):
         raise Exception(
             "Unexpected sample description. Only the following sample descritpions are allowed: {}.".format(
-                " ,".join(ALLOWED_SAMPLE_DESCRIPTION)
+                ",".join(ALLOWED_SAMPLE_DESCRIPTION)
             )
         )
 
@@ -163,14 +165,18 @@ def create_title_file(samplesheet_file_path, output_filename):
         ]
     except (ValueError, KeyError):
         raise Exception(
-            "Operator column values are improperly defined. There should be atleast 6 '|' delimited fields in this order: OperatorName|PatientName|Accession|Sex|Sequencer"
+            "Operator column values are improperly defined. There should be at least 5 '|' delimited fields in this order: OperatorName|PatientName|Accession|Sex|Sequencer"
         )
 
     # SEX column makes sense?
+    title_file.loc[
+        title_file[TITLE_FILE__SEX_COLUMN].isin(CONTROL_SAMPLE_SEX),
+        TITLE_FILE__SEX_COLUMN,
+    ] = FEMALE
     if not set(title_file[TITLE_FILE__SEX_COLUMN]) <= set(ALLOWED_SEX):
         raise Exception(
             "Unrecognized SEX type. Should be one of: {}.".format(
-                " ,".join(ALLOWED_SEX)
+                ",".join(ALLOWED_SEX + CONTROL_SAMPLE_SEX)
             )
         )
 
@@ -180,12 +186,12 @@ def create_title_file(samplesheet_file_path, output_filename):
             ALLOWED_SEQUENCERS
         )
         raise Exception(
-            "Unrecognized sequencer names: {}".format(" ,".join(unrecognized_values))
+            "Unrecognized sequencer names: {}".format(",".join(unrecognized_values))
         )
     if len(set(title_file[TITLE_FILE__SEQUENCER_COLUMN])) > 1:
         raise Exception(
             "Only one unique sequencer name is allowerd per title file. There are: {}".format(
-                " ,".join(set(title_file[TITLE_FILE__SEQUENCER_COLUMN]))
+                ",".join(set(title_file[TITLE_FILE__SEQUENCER_COLUMN]))
             )
         )
 
@@ -219,7 +225,7 @@ def create_title_file(samplesheet_file_path, output_filename):
         if not ALLOWED_SAMPLE_TYPE.match(sample):
             raise Exception(
                 "Unknown sample type {}. Sample type should start with one of: {}".format(
-                    sample, ", ".join(ALLOWED_SAMPLE_TYPE_LIST)
+                    sample, ",".join(ALLOWED_SAMPLE_TYPE_LIST)
                 )
             )
 
@@ -227,7 +233,7 @@ def create_title_file(samplesheet_file_path, output_filename):
     # if not set(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN]) <= set(ALLOWED_SAMPLE_TYPE):
     #     raise Exception(
     #         "Unexpected sample type. Only the following sample types are allowed: {}.".format(
-    #             " ,".join(ALLOWED_SAMPLE_TYPE)
+    #             ",".join(ALLOWED_SAMPLE_TYPE)
     #         )
     #     )
 

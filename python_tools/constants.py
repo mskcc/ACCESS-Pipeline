@@ -2,7 +2,9 @@ import os
 import re
 from collections import OrderedDict
 
-from python_tools.root import ROOT_DIR
+# Repository main directory
+ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+
 
 #############
 # Resources #
@@ -130,7 +132,9 @@ PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
 BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
 # BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
 ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
-ALLOWED_SEX = ["Male", "Female", "Control"]
+ALLOWED_SEX = ["Male", "Female"]
+CONTROL_SAMPLE_SEX = ["Control", "-"]
+FEMALE = "Female"
 ALLOWED_SEQUENCERS = ["HISEQ", "NOVASEQ"]
 EXPECTED_BAIT_VERSION = "v1"
 ASSAY_NAME = "ACCESS"
