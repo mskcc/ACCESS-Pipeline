@@ -3,7 +3,7 @@
 
 def version():
     """
-    A version identifier that includes the full-legth commit SHA1 and an optional suffix to
+    A version identifier that includes the full-length commit SHA1 and an optional suffix to
     indicate that the working copy is dirty.
     """
     return _version()

@@ -121,7 +121,7 @@ setup(
         # "workflow": get_package_files("workflows", (".cwl")),
         # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
         # "python_tools": get_package_files("python_tools", (".r")),
-        "resources": get_package_files("resources", (".cwl", ".yaml"))
+        "resources": get_package_files("resources", (".cwl", ".yaml")),
     },
     include_package_data=True,
     entry_points=ENTRY_POINTS,
