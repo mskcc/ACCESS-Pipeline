@@ -83,7 +83,6 @@ printi "Activating ${ACCESS_ENV}"
 source activate ${ACCESS_ENV}
 [[ $EXITCODE == 0 ]] || { printe "Cannot activate ${ACCESS_ENV}."; exit $EXITCODE; }
 
-# Todo: This doesn't work:
 PYTHON=$(type -p python | sed "s/python is //")
 RSCRIPT=$(echo $PYTHON | sed "s/bin\/conda/envs\/${ACCESS_ENV}\/bin\/Rscript/")
 
