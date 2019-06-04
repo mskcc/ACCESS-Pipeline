@@ -50,14 +50,14 @@ dependencies:
   - python=2.7.14=h1571d57_31
   - r=3.5.0=mro350_0
   - r-boot=1.3_20=mro350_0
-  - r-checkpoint=0.4.4=mro350_0
+#  - r-checkpoint=0.4.4=mro350_0
   - r-class=7.3_14=mro350_0
   - r-cluster=2.0.7_1=mro350_0
   - r-codetools=0.2_15=mro350_0
   - r-curl=3.2=mro350_0
   - r-deployrrserve=9.0.0=mro350_0
   - r-doparallel=1.0.13=mro350_0
-  - r-devtools=1.13.6
+#  - r-devtools=1.13.6
   - r-foreach=1.5.0=mro350_0
   - r-foreign=0.8_70=mro350_0
   - r-iterators=1.0.10=mro350_0
@@ -89,11 +89,51 @@ dependencies:
   - zlib=1.2.11=ha838bed_2
   - pip:
     - argparse==1.4.0
+    - avro==1.8.1
+    - backports-functools-lru-cache==1.5
+    - backports-ssl-match-hostname==3.7.0.1
+    - bd2k-python-lib==1.14a1.dev48
+    - cachecontrol==0.11.7
+    - chardet==3.0.4
+    - cwltest==1.0.20190228134645
+    - cwltool==1.0.20180306140409
+    - cycler==0.10.0
+    - dill==0.2.7.1
+    - docker==2.5.1
+    - docker-pycreds==0.4.0
+    - docutils==0.14
+    - emoji==0.5.2
+    - future==0.17.1
+    - futures==3.2.0
+    - galaxy-lib==17.9.3
+    - idna==2.6
+    - ipaddress==1.0.22
+    - isodate==0.6.0
+    - junit-xml==1.8
+    - kiwisolver==1.1.0
+    - lockfile==0.12.2
     - matplotlib==2.2.2
+    - mistune==0.8.4
     - numpy==1.14.2
     - pandas==0.19.0
-    - pybedtools==0.7.10
-    - ruamel-yaml==0.14.0
+    - pyparsing==2.4.0
+    - pypdf2==1.26.0
+    - pysam==0.14.1
+    - pyyaml==5.1
+    - rdflib==4.2.2
+    - rdflib-jsonld==0.4.0
+    - requests==2.18.4
+    - ruamel-ordereddict==0.4.13
+    - ruamel-yaml==0.14.12
+    - schema-salad==2.7.20181126142424
+    - scipy==1.1.0
     - seaborn==0.8.1
-    - toil-ionox0'[cwl]'==0.0.5
-    - git+https://github.com/MSKCC/ACCESS-Pipeline.git@dmp-dev-1.0.0
+    - shellescape==3.4.1
+    - six==1.12.0
+    - subprocess32==3.5.2
+    - toil-ionox0[cwl]==0.0.5
+    - typing==3.6.6
+    - typing-extensions==3.7.2
+    - urllib3==1.22
+    - websocket-client==0.56.0
+    - xlrd==1.1.0
