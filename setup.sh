@@ -83,7 +83,9 @@ printi "Activating ${ACCESS_ENV}"
 source activate ${ACCESS_ENV}
 [[ $EXITCODE == 0 ]] || { printe "Cannot activate ${ACCESS_ENV}."; exit $EXITCODE; }
 
-RSCRIPT=$(echo $CONDA | sed "s/bin\/conda/envs\/${ACCESS_ENV}\/bin\/Rscript/")
+# Todo: This doesn't work:
+PYTHON=$(type -p python | sed "s/python is //")
+RSCRIPT=$(echo $PYTHON | sed "s/bin\/conda/envs\/${ACCESS_ENV}\/bin\/Rscript/")
 
 [[ -e "$RSCRIPT" ]] || { printe "Cannot locate Rscript in the environment $ACCESS_ENV. Was your environment setup properly?"; exit 1; }
 

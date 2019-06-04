@@ -96,4 +96,4 @@ dependencies:
     - ruamel-yaml==0.14.0
     - seaborn==0.8.1
     - toil-ionox0'[cwl]'==0.0.5
-    #- git+https://github.com/andurill/ACCESS-Pipeline.git@dmp-dev-1.0.0
+    - git+https://github.com/MSKCC/ACCESS-Pipeline.git@dmp-dev-1.0.0
