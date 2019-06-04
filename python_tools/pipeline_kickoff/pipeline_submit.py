@@ -82,6 +82,7 @@ def submit_to_lsf(params):
         '-n', str(DEFAULT_CPU),
         '-q', params.leader_queue,
         '-Jd', project_name,
+        '-W', params.max_walltime
     ]
 
     if params.leader_node:
@@ -164,6 +165,15 @@ def main():
         dest='log_level',
         default='INFO',
         help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
+        required=False
+    )
+
+    parser.add_argument(
+        '--max_walltime',
+        action='store',
+        dest='max_walltime',
+        default=24*60,
+        help='Run time limit before termination, in minutes (default: 24 hours).',
         required=False
     )
 
