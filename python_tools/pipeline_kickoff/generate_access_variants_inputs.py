@@ -6,7 +6,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from constants import (
+from ..constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
     ACCESS_VARIANTS_RUN_TOOLS_PATH,
@@ -23,7 +23,7 @@ from constants import (
     ACCESS_VARIANTS_RUN_TOOLS_MANTA
 )
 
-from util import (
+from ..util import (
     find_bams_in_directory,
     include_yaml_resources,
     include_version_info,

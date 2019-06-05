@@ -7,7 +7,6 @@ import subprocess
 import ruamel.yaml
 from tempfile import mkdtemp
 
-import version
 from configuration import *
 
 # This script is used to run workflows from the command line using toil-cwl-runner.
