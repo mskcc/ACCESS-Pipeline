@@ -2,6 +2,6 @@
 # Files required to run Copy Number Variant Calling #
 #####################################################
 
-targets_coverage_bed: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/CNV_ACCESS/cBX_pipeline/data/ACCESS_targets_coverage.bed}
-targets_coverage_annotation: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/CNV_ACCESS/cBX_pipeline/data/ACCESS_targets_coverage.txt}
+targets_coverage_bed: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.bed}
+targets_coverage_annotation: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.txt}
 reference_fasta: {class: File, path: /dmp/data/pubdata/hg-fasta/production/Homo_sapiens_assembly19.fasta}
