@@ -87,6 +87,13 @@ ENTRY_POINTS = """
         gender_check = python_tools.workflow_tools.qc.gender_check:main
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
+        generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
+        filter_mutect = cwl_tools.basicfiltering.filter_mutect:main
+        filter_vardict = cwl_tools.basicfiltering.filter_vardict:main
+        tag_hotspots = cwl_tools.hotspots.tag_hotspots:main
+        ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main
+        remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main
+        annotate_concat = cwl_tools.concatVCF.annotate_concat:main
         """
 
 SUPPORT_SCRIPTS = [
