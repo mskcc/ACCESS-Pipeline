@@ -64,15 +64,15 @@ inputs:
       prefix: --RPATH
     doc: Path to R executable
 
-  tumor_manifest:
+  tumor_sample_list:
     type: File
     inputBinding:
       prefix: --tumorManifest
     doc: tumor_manifest.txt
       Full path to the tumor sample manifest, tab serparated BAM path, patient sex
 
-  normal_manifest:
-    type: File
+  normal_sample_list:
+    type: File?
     inputBinding:
       prefix: --normalManifest
     doc: normal_manifest.txt
