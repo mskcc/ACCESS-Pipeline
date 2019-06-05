@@ -25,7 +25,7 @@ def noise_alt_percent_plot(noise_table):
     plt.clf()
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, alt_percent, align='center', color='black')
-    plt.axhline(y=0.001, xmin=0, xmax=1, c='y', ls='--')
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='y', ls='--')
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
