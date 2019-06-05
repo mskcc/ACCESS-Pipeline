@@ -172,8 +172,8 @@ def main():
         '--max_walltime',
         action='store',
         dest='max_walltime',
-        default=str(24*60),
-        help='Run time limit before termination, in minutes (default: 24 hours).',
+        default=str(2*24*60),
+        help='Run time limit before termination, in minutes (default: 48 hours).',
         required=False
     )
 
