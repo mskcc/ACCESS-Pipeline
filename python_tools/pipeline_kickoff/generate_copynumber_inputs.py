@@ -12,7 +12,8 @@ from ..util import (
 )
 
 from ..constants import (
-    ACCESS_COPYNUMBER_RUN_FILES_PATH
+    ACCESS_COPYNUMBER_RUN_FILES_PATH,
+    ACCESS_COPYNUMBER_RUN_PARAMS_PATH
 )
 
 ##########
@@ -195,9 +196,9 @@ def create_inputs_file(args):
         fh.write('\n\n# File and Directory Inputs\n')
         fh.write(ruamel.yaml.dump(inputYamlOther))
 
-        map(include_yaml_resources, [fh],
-            [ACCESS_COPYNUMBER_RUN_FILES_PATH])
-                #ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
+        map(include_yaml_resources, [fh]*2,
+            [ACCESS_COPYNUMBER_RUN_FILES_PATH,
+                ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
 
         include_version_info(fh)
 

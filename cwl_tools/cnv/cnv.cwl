@@ -64,6 +64,12 @@ inputs:
       prefix: --RPATH
     doc: Path to R executable
 
+  threads:
+    type: string
+    inputBinding:
+      prefix: --threads
+    doc: Number of Threads to be used to generate coverage metrics
+
   tumor_sample_list:
     type: File
     inputBinding:
