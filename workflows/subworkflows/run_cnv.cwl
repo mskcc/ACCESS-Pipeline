@@ -21,6 +21,10 @@ inputs:
   loess_normalize_script: File
   copy_number_script: File
   output: Directory
+  threads: int
+  qsub: string
+  queue: string
+  r_path: string
 
 outputs:
 #check this with example output JIRA
@@ -72,5 +76,9 @@ steps:
       loess_normalize_script: loess_normalize_script
       copy_number_script: copy_number_script
       output: output
+      threads: threads
+      qsub: qsub
+      queue: queue
+      r_path: r_path
 
     out: [tumors_covg, normals_covg, loess_tumors, loess_normals, normal_loess_pdf, tumor_loess_pdf, genes_file, probes_file, intragenic_file, copy_pdf]
