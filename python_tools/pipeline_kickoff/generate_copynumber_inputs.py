@@ -55,7 +55,7 @@ logger = logging.getLogger('copy_number_pipeline_kickoff')
 
 def parse_arguments():
     """
-    Parse arguments for Variant calling pipeline inputs generation
+    Parse arguments for copy number calling pipeline inputs generation
 
     :return: argparse.ArgumentParser object
     """
@@ -72,14 +72,14 @@ def parse_arguments():
         '-pn',
         '--project_name',
         help='Project name for this run',
-        required=False
+        required=False #should this be True?
     )
 
     parser.add_argument(
         '-t',
         '--title_file_path',
         help='title file in tsv format',
-        required=False
+        required=True
     )
 
     parser.add_argument(
@@ -114,21 +114,21 @@ def parse_arguments():
     return args
 
 
-def get_sampleID_and_gender(args):
+def get_sampleID_and_sex(args):
     """
-    Retrieve sample IDs (samples with "-T*") and patient gender from title file
+    Retrieve sample IDs (samples with "-T*") and patient sex from title file
     """
 
-    sample2gender = {}
+    sample2sex = {}
     projName = ""
     with open(args.title_file_path, 'rU') as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
             if row["Sample"].split('-')[1].startswith('T'):
-                gender = row["Sex"].replace("F", "Female").replace("M", "Male")
-                sample2gender[row["Sample"]] = gender
+                sex = row["Sex"].replace("F", "Female").replace("M", "Male")
+                sample2sex[row["Sample"]] = sex
                 projName = row["Pool"]
-    return (sample2gender, projName)
+    return (sample2sex, projName)
 
 
 def get_bam_list(args):
@@ -142,16 +142,16 @@ def get_bam_list(args):
     return bamList
 
 
-def generate_manifest_file(args, sample2gender, bamList):
+def generate_manifest_file(args, sample2sex, bamList):
     """
-    Generate tumor manifest file with patient gender
+    Generate tumor manifest file with patient sex
     """
     fileName = os.path.join(args.output_directory, "tumor_manifest.txt")
     output = ""
     for bam in bamList:
         sampleId = os.path.basename(bam).split('_')[0]
-        gender = sample2gender[sampleId]
-        output += bam + "\t" + gender + "\n"
+        sex = sample2sex[sampleId]
+        output += bam + "\t" + sex + "\n"
 
     with open(fileName, 'w') as maniFile:
         maniFile.write(output)
@@ -167,13 +167,13 @@ def create_inputs_file(args):
     """
     validate_args(args)
 
-    (sample2gender, projName) = get_sampleID_and_gender(args)
+    (sample2sex, projName) = get_sampleID_and_sex(args)
     bamList = get_bam_list(args)
-    if not sample2gender or not bamList:
+    if not sample2sex or not bamList:
         raise Exception('Unable to load title file or get bam list')
 
     inputYamlString = {
-        "tumor_sample_list": generate_manifest_file(args, sample2gender, bamList),
+        "tumor_sample_list": generate_manifest_file(args, sample2sex, bamList),
         "project_name": projName,
         "r_path": "R",
         "queue": args.queue
