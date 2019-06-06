@@ -7,11 +7,17 @@ requirements:
   ResourceRequirement:
     coresMin: 8
 
-arguments:
-- python
-- /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/cfdna_scna.py
+baseCommand: python
 
 inputs:
+
+  script:
+    type: File
+    inputBinding: 
+      position: 1
+    default:
+      class: File
+      location: scripts/cfdna_scna.py
 
   project_name:
     type: string
