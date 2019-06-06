@@ -2,7 +2,10 @@
 # Files required to run Copy Number Variant Calling #
 #####################################################
 
+tmp_dir: /dmp/analysis/SCRATCH
+
 targets_coverage_bed: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.bed}
 targets_coverage_annotation: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.txt}
 reference_fasta: {class: File, path: /dmp/data/pubdata/hg-fasta/production/Homo_sapiens_assembly19.fasta}
 normal_sample_list: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/curated_normal_manifest.txt}
+
