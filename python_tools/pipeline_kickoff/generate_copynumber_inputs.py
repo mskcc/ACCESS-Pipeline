@@ -17,34 +17,10 @@ from ..constants import (
 )
 
 ##########
-# Pipeline Inputs generation for the ACCESS-Variants pipeline
-#
-# Todo:
-# - better way to ensure proper sort order of samples
-# - combine this with create_ scripts
-# - singularity
+# Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-#
-# generate_access_variants_inputs \
-# -pn \
-# Variant_Calling_Project \
-# -o \
-# inputs.yaml \
-# -dn /home/patelju1/projects/Juber/HiSeq/5500-FF-new/run-5500-FF/FinalBams/DA-ret-004-pl-T01-IGO-05500-FF-18_bc427_Pool-05500-FF-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam \
-# -p \
-# ./test_pairs.tsv \
-# -tb \
-# ~/PROJECT_tumor_bams/duplex_bams \
-# -nb \
-# ~/PROJECT_normal_bams/duplex_bams \
-# -sb \
-# ~/PROJECT_normal_bams/simplex_bams \
-# -cbd \
-# ~/ACCESSv1-VAL-20180003_curated_bams \
-# -cbs \
-# ~/ACCESSv1-VAL-20180003_curated_bams_simplex
-# -m
+# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -e /common/sge/bin/lx-amd64/qsub -q test.q -od /dmp/hot/huy1/ -o python_tools/pipeline_kickoff/inputs.yaml
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -173,7 +149,6 @@ def create_inputs_file(args):
         raise Exception('Unable to load title file or get bam list')
 
     inputYamlString = {
-        "tumor_sample_list": generate_manifest_file(args, sample2sex, bamList),
         "project_name": projName,
         "r_path": "R",
         "queue": args.queue
@@ -185,6 +160,7 @@ def create_inputs_file(args):
         inputYamlString["bsub"] = args.engine_type
 
     inputYamlOther = {
+        "tumor_sample_list": {"class": "File", "path": generate_manifest_file(args, sample2sex, bamList)},
         "loess_normalize_script": {"class": "File", "path": "/dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/loessnormalize_nomapq_cfdna.R"},
         "copy_number_script": {"class": "File", "path": "/dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/copynumber_tm.batchdiff_cfdna.R"},
         "output": {"class": "Directory", "path": args.output_directory}

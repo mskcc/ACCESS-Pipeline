@@ -7,6 +7,9 @@ requirements:
   ResourceRequirement:
     coresMin: 8
 
+arguments:
+- python
+- /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/cfdna_scna.py
 
 inputs:
 
@@ -17,55 +20,43 @@ inputs:
     doc: e.g. ACCESSv1-VAL-20180001
 
   qsub:
-    type:
-    - 'null'
-    - type: string
+    type: string?
     inputBinding:
       prefix: --qsubPath
     doc: Full Path to the qsub executables of SGE
 
   bsub:
-    type:
-    - 'null'
-    - type: string
+    type: string?
     inputBinding:
       prefix: --bsubPath
     doc: Full Path to the bsub executables of LSF
 
   loess_normalize_script:
-    type:
-    - 'null'
-    - type: File
+    type: File?
     inputBinding:
       prefix: --loess
     doc: Full Path to the loess normalization R script
 
   copy_number_script:
-    type:
-    - 'null'
-    - type: File
+    type: File?
     inputBinding:
       prefix: --copynumber
     doc: Full Path to the copy number R script
 
   queue:
-    type:
-    - 'null'
-    - type: string
+    type: string?
     inputBinding:
       prefix: --queue
     doc: test.q or clin2.q, Name of the SGE queue
 
   r_path:
-    type:
-    - 'null'
-    - type: string
+    type: string?
     inputBinding:
       prefix: --RPATH
     doc: Path to R executable
 
   threads:
-    type: string
+    type: int?
     inputBinding:
       prefix: --threads
     doc: Number of Threads to be used to generate coverage metrics
@@ -130,35 +121,35 @@ outputs:
   loess_normals:
     type: File
     outputBinding:
-    glob: $('*normal_ALL_intervalnomapqcoverage_loess.txt')
+      glob: $('*normal_ALL_intervalnomapqcoverage_loess.txt')
 
   tumor_loess_pdf:
     type: File
-    outputSource:
-      glob $('*tumor_loessnorm.pdf')
+    outputBinding:
+      glob: $('*tumor_loessnorm.pdf')
 
   normal_loess_pdf:
     type: File
-    outputSource:
+    outputBinding:
       glob: $('*normal_loessnorm.pdf')
   genes_file:
     type: File
-    outputSource:
+    outputBinding:
       glob: $('*copynumber_segclusp.genes.txt')
 
   probes_file:
     type: File
-    outputSource:
+    outputBinding:
       glob: $('*copynumber_segclusp.probes.txt')
 
   intragenic_file:
     type: File
-    outputSource:
+    outputBinding:
       glob: $('*copynumber_segclusp.intragenic.txt')
 
   copy_pdf:
     type: File
-    outputSource:
+    outputBinding:
       glob: $('*copynumber_segclusp.pdf')
 
   #include seg files?
