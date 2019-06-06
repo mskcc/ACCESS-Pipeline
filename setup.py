@@ -27,10 +27,6 @@ with open('python_tools/pipeline_kickoff/version.py', 'wb') as f:
 with open('python_tools/version.py', 'wb') as f:
     f.write(version_number)
 
-# Write current path as path to project root
-# (used to include references to the static resource files in inputs.yaml)
-with open('python_tools/root.py', 'wb') as f:
-    f.write('ROOT_DIR = ' + '\'' + os.getcwd() + '\'')
 
 def req_file(filename):
     """
@@ -63,8 +59,24 @@ setup(
         'python_tools.workflow_tools',
         'python_tools.workflow_tools.qc',
         'python_tools.test',
+        'resources'
     ],
-    package_data = {'': ['**/*.r', '**/*.R', '**/**/*.r', '**/**/*.R']},
+    package_data = {
+        '': [
+            '**/*.r',
+            '**/*.R',
+            '**/**/*.r',
+            '**/**/*.R',
+        ],
+        'resources': [
+            'resources',
+            'resources/*',
+            'resources/*/*',
+            'resources/**/*',
+            '*/*.yaml',
+            '*.yaml'
+        ]
+    },
     entry_points = {
         'console_scripts': [
             # Pipeline Kickoff
@@ -97,8 +109,8 @@ setup(
         'python_tools/workflow_tools/qc/make_umi_qc_tables.sh',
         'python_tools/workflow_tools/qc/aggregate_bam_metrics.sh',
     ],
-    include_package_data=True,
-    zip_safe=False,
+    # include_package_data=True,
+    # zip_safe=False,
     cmdclass={
         'clean': CleanCommand,
     }
