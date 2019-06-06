@@ -17,7 +17,7 @@ inputs:
     doc: e.g. ACCESSv1-VAL-20180001
 
   qsub:
-    type: 
+    type:
     - 'null'
     - type: string
     inputBinding:
@@ -112,9 +112,53 @@ inputs:
     doc: Full Path to the output dir
 
 outputs:
-
-  output_files:
-    type: File[]
+  tumors_covg:
+    type: File
     outputBinding:
-      glob: '*.txt'
+      glob: $('*tumors_targets_nomapq.covg_interval_summary')
 
+  normals_covg:
+    type: File
+    outputBinding:
+      glob: $('*normals_targets_nomapq.covg_interval_summary')
+
+  loess_tumors:
+    type: File
+    outputBinding:
+      glob: $('*tumor_ALL_intervalnomapqcoverage_loess.txt')
+
+  loess_normals:
+    type: File
+    outputBinding:
+    glob: $('*normal_ALL_intervalnomapqcoverage_loess.txt')
+
+  tumor_loess_pdf:
+    type: File
+    outputSource:
+      glob $('*tumor_loessnorm.pdf')
+
+  normal_loess_pdf:
+    type: File
+    outputSource:
+      glob: $('*normal_loessnorm.pdf')
+  genes_file:
+    type: File
+    outputSource:
+      glob: $('*copynumber_segclusp.genes.txt')
+
+  probes_file:
+    type: File
+    outputSource:
+      glob: $('*copynumber_segclusp.probes.txt')
+
+  intragenic_file:
+    type: File
+    outputSource:
+      glob: $('*copynumber_segclusp.intragenic.txt')
+
+  copy_pdf:
+    type: File
+    outputSource:
+      glob: $('*copynumber_segclusp.pdf')
+
+  #include seg files?
