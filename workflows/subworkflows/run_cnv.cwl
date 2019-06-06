@@ -8,57 +8,53 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
-  SchemaDefRequirement:
-    types:
-      - $import: ../../resources/run_params/ACCESS_copynumber_run_params.yaml
 
 inputs:
 
-  cnv_params: ../../resources/run_params/ACCESS_copynumber_run_params.yaml
-
-  tumor_sample_list:
-    type: File
-#    secondaryFiles: [^.bai]
-  normal_sample_list:
-    type: File
-
+  tumor_sample_list: File
+  normal_sample_list: File
   targets_coverage_bed: File
   targets_coverage_annotation: File
   reference_fasta: File
+
+  project_name: string
+  loess_normalize_script: File
+  copy_number_script: File
+  output: Directory
 
 outputs:
 #check this with example output JIRA
     tumors_covg:
         type: File
-        outputSource: cnv/t_covg_output
+        outputSource: cnv/tumors_covg
     normals_covg:
         type: File
-        outputSource: cnv/n_covg_output
+        outputSource: cnv/normals_covg
     loess_tumors:
         type: File
-        outputSource: cnv/t_loess_output
+        outputSource: cnv/loess_tumors
     loess_normals:
         type: File
-        outputSource: cnv/n_loess_output
+        outputSource: cnv/loess_normals
     normal_loess_pdf:
-        type:File
-        outputSource: cnv/n_loess_pdf_output
+        type: File
+        outputSource: cnv/normal_loess_pdf
     tumor_loess_pdf:
         type: File
-        outputSource: cnv/t_loess_pdf_output
+        outputSource: cnv/tumor_loess_pdf
     genes_file:
         type: File
-        outputSource: cnv/genes_output
+        outputSource: cnv/genes_file
     probes_file:
         type: File
-        outputSource: cnv/probes_output
+        outputSource: cnv/probes_file
     intragenic_file:
         type: File
-        outputSource: cnv/intragenic_output
+        outputSource: cnv/intragenic_file
 
     copy_pdf:
         type: File
-        outputSource: cnv/copy_pdf_output
+        outputSource: cnv/copy_pdf
 
     #include seg files?
 
@@ -67,14 +63,14 @@ steps:
   cnv:
     run: ../../cwl_tools/cnv/cnv.cwl
     in:
-      cnv_params: cnv_params
-      reference_sequence: reference_fasta
+      reference_fasta: reference_fasta
       tumor_sample_list: tumor_sample_list
-      tumor_sample_list: normal_sample_list
-      bed_file: bed_file
-      targets_file: targets_file
+      normal_sample_list: normal_sample_list
+      targets_coverage_bed: targets_coverage_bed
+      targets_coverage_annotation: targets_coverage_bed
+      project_name: project_name
+      loess_normalize_script: loess_normalize_script
+      copy_number_script: copy_number_script
+      output: output
 
-      threads:
-        valueFrom: $(inputs.cnv_params.threads)
-
-    out: [t_covg_output, n_covg_output, t_loess_output, n_loess_output, t_loess_pdf_output, n_loess_pdf_output, genes_output, probes_output, intragenic_output, copy_pdf_output]
+    out: [tumors_covg, normals_covg, loess_tumors, loess_normals, normal_loess_pdf, tumor_loess_pdf, genes_file, probes_file, intragenic_file, copy_pdf]
