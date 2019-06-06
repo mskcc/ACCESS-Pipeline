@@ -150,7 +150,7 @@ def create_inputs_file(args):
 
     inputYamlString = {
         "project_name": projName,
-        "r_path": "R",
+        "r_path": "Rscript",
         "queue": args.queue
     }
 
