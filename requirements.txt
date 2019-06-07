@@ -56,3 +56,4 @@ typing==3.6.6
 typing-extensions==3.6.6
 websocket-client==0.53.0
 xlrd==1.1.0
+joblib==0.13.2
