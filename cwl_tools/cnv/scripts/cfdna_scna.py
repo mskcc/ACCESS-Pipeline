@@ -34,7 +34,7 @@ def main():
     parser.add_argument("-r", "--RPATH", action="store", dest="R", required=True, metavar='/somepath/R', help="Path to R executable.")
     parser.add_argument("-q", "--queue", action="store", dest="queue", required=True, metavar='test.q or clin2.q', help="Name of the SGE queue")
     parser.add_argument("-id", "--runID", action="store", dest="runID", required=True, metavar='ACCESSv1-VAL-20180001', help="name of runID.")
-    parser.add_argument("-o", "--outDir", action="store", dest="outdir", required=True, metavar='/somepath/output', help="Full Path to the output dir.")
+    parser.add_argument("-o", "--outDir", action="store", dest="outdir", required=False, default='/dmp/hot/huy1/cnv_test_cwl', metavar='/somepath/output', help="Full Path to the output dir.")
     parser.add_argument("-l", "--loess", action="store", dest="loess", required=True, metavar='/somepath/loessnormalize_nomapq_cfdna.R', help="Full Path to the loess normalization R script.")
     parser.add_argument("-cn", "--copynumber", action="store", dest="cnAnalysis", required=True, metavar='/somepath/copynumber_tm.batchdiff_cfdna.R', help="Full Path to the copy number R script.")
     parser.add_argument("-qsub", "--qsubPath", action="store", dest="qsub", required=False, metavar='/somepath/qsub', help="Full Path to the qsub executables of SGE.")
@@ -53,10 +53,10 @@ def main():
         (tumorCovFile) = RunBedCov(args,'tumor_bams.list', 'tumors',parallel)
         (normalCovFile) = RunBedCov(args,'normal_bams.list', 'normals',parallel)
 
-        (normalLoessFile) = RunLoessNormalization(args, normalCovFile, 'normal')
-        (tumorLoessFile) = RunLoessNormalization(args, tumorCovFile, 'tumor')
+        #(normalLoessFile) = RunLoessNormalization(args, normalCovFile, 'normal')
+        #(tumorLoessFile) = RunLoessNormalization(args, tumorCovFile, 'tumor')
 
-        RunTumorCN(args, normalLoessFile, tumorLoessFile)
+        #RunTumorCN(args, normalLoessFile, tumorLoessFile)
 
 def ProcessArgs(args):
 

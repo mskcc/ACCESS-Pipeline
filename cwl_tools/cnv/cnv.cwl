@@ -5,19 +5,18 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
+    ramMin: 32000
     coresMin: 8
+    outdirMax: 20000
 
 baseCommand: python
 
+arguments:
+- $(inputs.script)
+
 inputs:
 
-  script:
-    type: File
-    inputBinding: 
-      position: 1
-    default:
-      class: File
-      location: scripts/cfdna_scna.py
+  script: File
 
   project_name:
     type: string
@@ -102,8 +101,8 @@ inputs:
     doc: Homo_Sapeins_hg19.fasta
       Full Path to the reference fasta file
 
-  output:
-    type: Directory
+  output_dir:
+    type: Directory?
     inputBinding:
       prefix: --outDir
     doc: Full Path to the output dir
