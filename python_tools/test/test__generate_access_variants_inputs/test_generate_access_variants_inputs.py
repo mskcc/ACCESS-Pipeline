@@ -3,7 +3,7 @@ import shutil
 import unittest
 import ruamel.yaml
 
-from pipeline_kickoff.generate_access_variants_inputs import (
+from python_tools.pipeline_kickoff.generate_access_variants_inputs import (
     create_inputs_file,
     create_yaml_file_objects
 )

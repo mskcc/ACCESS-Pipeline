@@ -1,7 +1,7 @@
 import shutil
 import unittest
 
-from constants import *
+from python_tools.constants import *
 from util import read_df
 from python_tools.pipeline_kickoff import create_title_file_from_manifest
 
