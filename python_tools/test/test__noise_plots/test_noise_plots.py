@@ -62,6 +62,7 @@ class NoisePlotsTestCase(unittest.TestCase):
         assert os.path.exists('NoiseContributingSites.pdf')
         os.unlink('./NoiseContributingSites.pdf')
 
+    @unittest.skipIf('TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true', 'Skipping this test on Travis CI.')
     # @image_comparison(baseline_images=['NoiseContributingSites'], extensions=['png'])
     def test_noise_by_substitution_plot(self):
         noise_table = self.load_noise_by_substitution_table()
