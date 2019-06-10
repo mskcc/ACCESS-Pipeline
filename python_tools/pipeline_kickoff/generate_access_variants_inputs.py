@@ -14,7 +14,7 @@ from python_tools.util import (
     create_yaml_file_objects,
     extract_sample_id_from_bam_path
 )
-from python_tools.constants import RUN_FILES_PATH, RUN_PARAMS_PATH
+from python_tools.constants import RUN_FILES, RUN_PARAMS
 
 
 ##########
@@ -276,8 +276,8 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_yaml_resources(fh, RUN_FILES_PATH)
-    include_yaml_resources(fh, RUN_PARAMS_PATH)
+    include_yaml_resources(fh, RUN_FILES)
+    include_yaml_resources(fh, RUN_PARAMS)
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('project_name: {}'.format(args.project_name))
     include_version_info(fh)
