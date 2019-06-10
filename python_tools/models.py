@@ -8,7 +8,7 @@ Todo: Consider creating an additional Sample class, and renaming this to SampleC
 
 import pandas as pd
 
-from constants import *
+from python_tools.constants import *
 
 
 class TitleFile():
