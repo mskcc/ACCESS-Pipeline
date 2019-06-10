@@ -1,7 +1,7 @@
 import shutil
 import unittest
 
-from constants import *
+from python_tools.constants import *
 from python_tools.workflow_tools import pipeline_postprocessing
 
 

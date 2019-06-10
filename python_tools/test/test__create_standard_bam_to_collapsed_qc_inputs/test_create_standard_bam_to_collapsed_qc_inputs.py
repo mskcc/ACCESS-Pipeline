@@ -3,7 +3,7 @@ import shutil
 import unittest
 import ruamel.yaml as yaml
 
-from util import ArgparseMock
+from python_tools.util import ArgparseMock
 import python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs as csbtcqi
 
 
