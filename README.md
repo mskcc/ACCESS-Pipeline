@@ -92,7 +92,7 @@ These are used by the QC module at the end of the pipeline. You can check if the
 ```
 
 # Running the test pipeline
-NOTE: These steps should be run from a new directory, but still while inside your virtual environment, and after sourcing the `workspace_init.sh` script. 
+NOTE: These steps should be run from a new directory, but still while inside your ACCESS Conda environment, and after sourcing the `workspace_init.sh` script. 
 
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
