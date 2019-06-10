@@ -7,7 +7,7 @@ from python_tools.pipeline_kickoff.generate_access_variants_inputs import (
     create_inputs_file,
     create_yaml_file_objects
 )
-from util import ArgparseMock
+from python_tools.util import ArgparseMock
 
 
 
