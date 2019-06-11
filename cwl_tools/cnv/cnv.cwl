@@ -5,9 +5,7 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 32000
     coresMin: 8
-    outdirMax: 20000
 
 baseCommand: python
 
@@ -153,7 +151,7 @@ outputs:
       glob: $('*copynumber_segclusp.intragenic.txt')
 
   copy_pdf:
-    type: File
+    type: File?
     outputBinding:
       glob: $('*copynumber_segclusp.pdf')
 

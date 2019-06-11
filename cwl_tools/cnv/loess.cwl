@@ -38,23 +38,22 @@ inputs:
 
 outputs:
   loess_tumors:
-    type: File
+    type: File?
     outputBinding:
       glob: $('*tumor_ALL_intervalnomapqcoverage_loess.txt')
 
   loess_normals:
-    type: File
+    type: File?
     outputBinding:
       glob: $('*normal_ALL_intervalnomapqcoverage_loess.txt')
 
   tumor_loess_pdf:
-    type: File
+    type: File?
     outputBinding:
       glob: $('*tumor_loessnorm.pdf')
 
   normal_loess_pdf:
-    type: File
+    type: File?
     outputBinding:
       glob: $('*normal_loessnorm.pdf')
 
-  #include seg files?

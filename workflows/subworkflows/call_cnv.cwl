@@ -11,6 +11,10 @@ requirements:
 
 inputs:
 
+  coverage_script: File
+  copy_number_script: File
+  loess_normalize_script: File
+
   tumor_sample_list: File
   normal_sample_list: File
   targets_coverage_bed: File
@@ -20,11 +24,7 @@ inputs:
   project_name: string
   loess_normalize_script: File
   copy_number_script: File
-  output: Directory
   threads: int
-  qsub: string
-  queue: string
-  r_path: string
 
 outputs:
 #check this with example output JIRA
@@ -55,7 +55,6 @@ outputs:
     intragenic_file:
         type: File
         outputSource: cnv/intragenic_file
-
     copy_pdf:
         type: File
         outputSource: cnv/copy_pdf
@@ -64,21 +63,47 @@ outputs:
 
 steps:
 
-  cnv:
-    run: ../../cwl_tools/cnv/cnv.cwl
+  coverage:
+    run: ../../cwl_tools/cnv/coverage.cwl
     in:
-      reference_fasta: reference_fasta
+      coverage_script: coverage_script
+      project_name: project_name
+      threads: threads
       tumor_sample_list: tumor_sample_list
       normal_sample_list: normal_sample_list
       targets_coverage_bed: targets_coverage_bed
-      targets_coverage_annotation: targets_coverage_bed
-      project_name: project_name
-      loess_normalize_script: loess_normalize_script
-      copy_number_script: copy_number_script
-      output: output
-      threads: threads
-      qsub: qsub
-      queue: queue
-      r_path: r_path
+      reference_fasta: reference_fasta
 
-    out: [tumors_covg, normals_covg, loess_tumors, loess_normals, normal_loess_pdf, tumor_loess_pdf, genes_file, probes_file, intragenic_file, copy_pdf]
+    out: [tumors_covg, normals_covg, bam_list]
+
+  loess_tumor:
+    run: ../../cwl_tools/cnv/loess.cwl
+    in:
+      loess_normalize_script: loess_normalize_script
+      project_name: project_name
+      coverage_file: tumors_covg
+      targets_coverage_annotation: targets_coverage_annotation
+
+    out: [loess_tumors, tumor_loess_pdf]
+      
+  loess_normal:
+    run: ../../cwl_tools/cnv/loess.cwl
+    in:
+      loess_normalize_script: loess_normalize_script
+      project_name: project_name
+      coverage_file: normals_covg
+      targets_coverage_annotation: targets_coverage_annotation
+
+    out: [loess_normals, normal_loess_pdf]
+
+  copy_number:
+    run: ../../cwl_tools/cnv/copynumber.cwl
+    in:
+      copy_number_script: copy_number_script
+      project_name: project_name
+      loess_normals: loess_normals
+      loess_tumors: loess_tumors
+      targets_coverage_annotation: targets_coverage_annotation
+
+    out: [genes_file, probes_file, intragenic_file, intragenic_file]
+
