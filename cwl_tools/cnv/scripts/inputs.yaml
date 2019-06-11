@@ -1,0 +1,46 @@
+queue: test.q
+qsub: /common/sge/bin/lx-amd64/qsub
+r_path: Rscript
+project_name: ACCESSv1-VAL-20190010
+
+
+# File and Directory Inputs
+tumor_sample_list: {class: File, path: /dmp/hot/huy1/cnv_test_manual/tumor_manifest.txt}
+
+
+# ------------------------------------------------------------
+
+#####################################################
+# Files required to run Copy Number Variant Calling #
+#####################################################
+
+tmp_dir: /dmp/analysis/SCRATCH
+
+coverage_script: {class: File, path: /home/huy1/project/access-dev/ACCESS-Pipeline/cwl_tools/cnv/scripts/cfdna_scna.py}
+copy_number_script: {class: File, path: /home/huy1/project/access-dev/ACCESS-Pipeline/cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R}
+loess_normalize_script: {class: File, path: /home/huy1/project/access-dev/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R}
+
+targets_coverage_bed: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.bed}
+targets_coverage_annotation: {class: File, path: /dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/data/ACCESS_targets_coverage.txt}
+reference_fasta: {class: File, path: /dmp/data/pubdata/hg-fasta/production/Homo_sapiens_assembly19.fasta}
+normal_sample_list: {class: File, path: /home/huy1/project/access-dev/ACCESS-Pipeline/cwl_tools/cnv/scripts/curated_normal_manifest.txt}
+
+
+
+# ------------------------------------------------------------
+
+#######################################################
+## Params required to run Copy Number Variant Calling #
+#######################################################
+
+threads: 8
+
+
+# ------------------------------------------------------------
+
+version: <function most_recent_tag at 0x7f01a65ec1b8> 
+# Pipeline Run Version Information: 
+# Version: <function version at 0x7f020da75a28> 
+# Short Version: <function short_version at 0x7f01a65ec0c8> 
+# Most Recent Tag: <function most_recent_tag at 0x7f01a65ec1b8> 
+# Dirty? <function dirty at 0x7f01a65ec2a8> 

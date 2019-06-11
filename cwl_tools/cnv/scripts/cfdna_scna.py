@@ -29,18 +29,18 @@ def main():
     parser.add_argument("-v", "--verbose", action="store_true", dest="verbose", default=True, help="make lots of noise [default]")
     parser.add_argument("-tr", "--threads", action="store", dest="threads", required=False, metavar='8', default='8', help="Number of Threads to be used to generate coverage metrics")
     parser.add_argument("-b", "--bedTargets", action="store", dest="TARGETS", required=True, metavar='/somepath/ACCESS_targets_coverage.bed', help="Full Path to BED file of panel targets")
-    parser.add_argument("-ta", "--targetAnnotations", action="store", dest="ANNOTATIONS", required=True, metavar='/somepath/ACCESS_targets_coverage.txt', help="Full Path to text file of target annotations. Columns = (Chrom, Start, End, Target, GC_150bp, GeneExon,Cyt,Interval)")
+    #parser.add_argument("-ta", "--targetAnnotations", action="store", dest="ANNOTATIONS", required=True, metavar='/somepath/ACCESS_targets_coverage.txt', help="Full Path to text file of target annotations. Columns = (Chrom, Start, End, Target, GC_150bp, GeneExon,Cyt,Interval)")
     parser.add_argument("-g", "--genomeReference", action="store", dest="GENOME", required=True, metavar='/somepath/Homo_Sapeins_hg19.fasta', help="Full Path to the reference fasta file.")
-    parser.add_argument("-r", "--RPATH", action="store", dest="R", required=True, metavar='/somepath/R', help="Path to R executable.")
-    parser.add_argument("-q", "--queue", action="store", dest="queue", required=True, metavar='test.q or clin2.q', help="Name of the SGE queue")
+    #parser.add_argument("-r", "--RPATH", action="store", dest="R", required=True, metavar='/somepath/R', help="Path to R executable.")
+    #parser.add_argument("-q", "--queue", action="store", dest="queue", required=True, metavar='test.q or clin2.q', help="Name of the SGE queue")
     parser.add_argument("-id", "--runID", action="store", dest="runID", required=True, metavar='ACCESSv1-VAL-20180001', help="name of runID.")
-    parser.add_argument("-o", "--outDir", action="store", dest="outdir", required=False, default='/dmp/hot/huy1/cnv_test_cwl', metavar='/somepath/output', help="Full Path to the output dir.")
-    parser.add_argument("-l", "--loess", action="store", dest="loess", required=True, metavar='/somepath/loessnormalize_nomapq_cfdna.R', help="Full Path to the loess normalization R script.")
-    parser.add_argument("-cn", "--copynumber", action="store", dest="cnAnalysis", required=True, metavar='/somepath/copynumber_tm.batchdiff_cfdna.R', help="Full Path to the copy number R script.")
-    parser.add_argument("-qsub", "--qsubPath", action="store", dest="qsub", required=False, metavar='/somepath/qsub', help="Full Path to the qsub executables of SGE.")
-    parser.add_argument("-bsub", "--bsubPath", action="store", dest="bsub", required=False, metavar='/somepath/bsub', help="Full Path to the bsub executables of LSF.")
-    parser.add_argument("-gatk", "--GATK", action="store", dest="GATK", required=False, metavar='/somepath/GATK', help="Full Path to the GATK.")
-    parser.add_argument("-j", "--javaPATH", action="store", dest="JAVA", required=False, metavar='/somepath/java', help="Path to java executable.")
+    #parser.add_argument("-o", "--outDir", action="store", dest="outdir", required=True, metavar='/somepath/output', help="Full Path to the output dir.")
+    #parser.add_argument("-l", "--loess", action="store", dest="loess", required=True, metavar='/somepath/loessnormalize_nomapq_cfdna.R', help="Full Path to the loess normalization R script.")
+    #parser.add_argument("-cn", "--copynumber", action="store", dest="cnAnalysis", required=True, metavar='/somepath/copynumber_tm.batchdiff_cfdna.R', help="Full Path to the copy number R script.")
+    #parser.add_argument("-qsub", "--qsubPath", action="store", dest="qsub", required=False, metavar='/somepath/qsub', help="Full Path to the qsub executables of SGE.")
+    #parser.add_argument("-bsub", "--bsubPath", action="store", dest="bsub", required=False, metavar='/somepath/bsub', help="Full Path to the bsub executables of LSF.")
+    #parser.add_argument("-gatk", "--GATK", action="store", dest="GATK", required=False, metavar='/somepath/GATK', help="Full Path to the GATK.")
+    #parser.add_argument("-j", "--javaPATH", action="store", dest="JAVA", required=False, metavar='/somepath/java', help="Path to java executable.")
 
     print "Running the cfdna copy number pipeline."
     sys.stdout.flush()
@@ -67,12 +67,12 @@ def ProcessArgs(args):
         print "Going to see how many bam files are there for us to run the analysis."
         sys.stdout.flush()
 
-    if(args.qsub and args.bsub):
-        print "Please give either qsub or bsub arguments. Script does not allow usage of both\n"
-        sys.exit(1)
-    if((not args.qsub) and (not args.bsub)):
-        print "Please give either qsub or bsub arguments. None are provided\n"
-        sys.exit(1)
+    #if(args.qsub and args.bsub):
+    #    print "Please give either qsub or bsub arguments. Script does not allow usage of both\n"
+    #    sys.exit(1)
+    #if((not args.qsub) and (not args.bsub)):
+    #    print "Please give either qsub or bsub arguments. None are provided\n"
+    #    sys.exit(1)
 
     with open(args.tumorManifest, 'r') as tfile:
         tlist= open('tumor_bams.list', 'w')
