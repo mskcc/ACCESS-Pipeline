@@ -44,6 +44,10 @@ outputs:
       - ^.bai
     outputSource: parallel_printreads/bams
 
+  recalibrated_scores_matrix:
+    type: File[]
+    outputSource: parallel_bqsr/recal_matrix
+
 steps:
 
   parallel_bqsr:
