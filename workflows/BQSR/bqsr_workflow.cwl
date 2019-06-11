@@ -99,7 +99,7 @@ steps:
             known_sites_1: known_sites_1
             known_sites_2: known_sites_2
             out:
-              valueFrom: $(inputs.input_bam.basename + '.recal.matrix')
+              valueFrom: $(inputs.input_bam.basename.replace('.bam', '.recal_matrix'))
           out: [recal_matrix]
 
   parallel_printreads:
