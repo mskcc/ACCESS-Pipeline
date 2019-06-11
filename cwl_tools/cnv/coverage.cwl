@@ -68,6 +68,6 @@ outputs:
       glob: $('*normals_targets_nomapq.covg_interval_summary')
 
   bam_list:
-    type: File
+    type: File[]
     outputBinding:
       glob: $('*_bams.list')
