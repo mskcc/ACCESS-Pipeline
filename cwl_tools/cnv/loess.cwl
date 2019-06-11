@@ -47,23 +47,13 @@ inputs:
 
 
 outputs:
-  loess_tumors:
-    type: File?
-    outputBinding:
-      glob: $('*tumor_ALL_intervalnomapqcoverage_loess.txt')
-
-  loess_normals:
-    type: File?
-    outputBinding:
-      glob: $('*normal_ALL_intervalnomapqcoverage_loess.txt')
-
-  tumor_loess_pdf:
+  loess_text:
     type: File
     outputBinding:
-      glob: $('*tumor_loessnorm.pdf')
+      glob: $('*_ALL_intervalnomapqcoverage_loess.txt')
 
-  normal_loess_pdf:
-    type: File?
+  loess_pdf:
+    type: File
     outputBinding:
-      glob: $('*normal_loessnorm.pdf')
+      glob: $('*_loessnorm.pdf')
 
