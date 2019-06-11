@@ -3,10 +3,10 @@ project_name: ACCESSv1-VAL-20190010
 
 # File and Directory Inputs
 
-output_dir: /tmp/huy1test
+output_dir: huy1test
 coverage_file: {class: File, path: /home/huy1/project/access-dev/ACCESS-Pipeline/cwl_tools/cnv/ACCESSv1-VAL-20190010_tumors_targets_nomapq.covg_interval_summary}
 
-run_type: tumors
+run_type: tumor
 
 # ------------------------------------------------------------
 
