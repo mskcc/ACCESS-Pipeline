@@ -18,8 +18,8 @@ rm(list=ls(all=T));
 source("/dmp/resources/prod/tools/bio/misc/textplot.R")
 args = commandArgs(trailingOnly=TRUE)
 print(args)
-prefix <- args[1];
-outdir <- args[2];
+outdir <- args[1];
+prefix <- args[2];
 gcfile <- args[3];   # Example: "v4_hg19_all_GC200bp.txt";
 interval_file <- args[4];
 type <-args[5];
@@ -120,7 +120,7 @@ span.fits <- do.call('rbind',list(apply(gc2,2,function(column){
 })));
 span.fits <- t(span.fits);
 
-out_file= paste(prefix,"_",type,"_loessnorm.pdf", sep="")
+out_file= file.path(outdir, paste(prefix,"_",type,"_loessnorm.pdf", sep=""))
 pdf(out_file, height=8.5, width=11)
 plot(0:10, type = "n", xaxt="n", yaxt="n", bty="n", xlab = "", ylab = "")
 text(11, 10, "Memorial Sloan Kettering",adj=1)
