@@ -161,8 +161,6 @@ def create_inputs_file(args):
 
     inputYamlOther = {
         "tumor_sample_list": {"class": "File", "path": generate_manifest_file(args, sample2sex, bamList)},
-        "loess_normalize_script": {"class": "File", "path": "/dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/loessnormalize_nomapq_cfdna.R"},
-        "copy_number_script": {"class": "File", "path": "/dmp/hot/ptashkir/cfdna_scna/ACCESS_CNV/scripts/copynumber_tm.batchdiff_cfdna.R"},
         "output": {"class": "Directory", "path": args.output_directory}
     }
 
