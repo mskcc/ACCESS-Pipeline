@@ -12,47 +12,39 @@ baseCommand: R
 arguments:
 - --slave
 - --vanilla
+- --file=$(inputs.loess_normalize_script.path)
 - --args
+- $(runtime.outdir)
 
 inputs:
-
-  output_directory:
-    type: string
-    default: .
-    inputBinding:
-        position: 1
 
   project_name:
     type: string
     inputBinding:
-      position: 2
+      position: 1
     doc: e.g. ACCESSv1-VAL-20180001
 
   coverage_file:
     type: File
     inputBinding:
-      position: 4
+      position: 3
     doc: coverage files, targets_nomapq.covg_interval_summary
 
   targets_coverage_annotation:
     type: File
     inputBinding:
-      position: 3
+      position: 2
     doc: ACCESS_targets_coverage.txt
       Full Path to text file of target annotations. Columns = (Chrom, Start, End, Target, GC_150bp, GeneExon, Cyt, Interval)
 
   run_type:
     type: string
     inputBinding:
-      position: 5
+      position: 4
     doc: tumor or normal
 
-  loess_normalize_script:
-    type: File
-    inputBinding:
-      prefix: <
-      position: 6
-  
+  loess_normalize_script: File
+
 
 outputs:
   loess_tumors:
