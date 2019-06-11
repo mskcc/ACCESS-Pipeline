@@ -30,34 +30,34 @@ outputs:
 #check this with example output JIRA
     tumors_covg:
         type: File
-        outputSource: cnv/tumors_covg
+        outputSource: coverage/tumors_covg
     normals_covg:
         type: File
-        outputSource: cnv/normals_covg
-    loess_tumors:
+        outputSource: coverage/normals_covg
+    tumor_loess_text:
         type: File
-        outputSource: cnv/loess_tumors
-    loess_normals:
+        outputSource: loess_tumor/loess_text
+    normal_loess_text:
         type: File
-        outputSource: cnv/loess_normals
-    normal_loess_pdf:
-        type: File
-        outputSource: cnv/normal_loess_pdf
+        outputSource: loess_normal/loess_text
     tumor_loess_pdf:
         type: File
-        outputSource: cnv/tumor_loess_pdf
+        outputSource: loess_tumor/loess_pdf
+    normal_loess_pdf:
+        type: File
+        outputSource: loess_normal/loess_pdf
     genes_file:
         type: File
-        outputSource: cnv/genes_file
+        outputSource: copy_number/genes_file
     probes_file:
         type: File
-        outputSource: cnv/probes_file
+        outputSource: copy_number/probes_file
     intragenic_file:
         type: File
-        outputSource: cnv/intragenic_file
+        outputSource: copy_number/intragenic_file
     copy_pdf:
         type: File
-        outputSource: cnv/copy_pdf
+        outputSource: copy_number/copy_pdf
 
     #include seg files?
 
@@ -81,29 +81,33 @@ steps:
     in:
       loess_normalize_script: loess_normalize_script
       project_name: project_name
-      coverage_file: tumors_covg
+      coverage_file: coverage/tumors_covg
+      run_type:
+        default: tumor
       targets_coverage_annotation: targets_coverage_annotation
-
-    out: [loess_tumors, tumor_loess_pdf]
+    out: [loess_text, loess_pdf]
       
   loess_normal:
     run: ../../cwl_tools/cnv/loess.cwl
     in:
       loess_normalize_script: loess_normalize_script
       project_name: project_name
-      coverage_file: normals_covg
+      coverage_file: coverage/normals_covg
+      run_type:
+        default: normal
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [loess_normals, normal_loess_pdf]
+    out: [loess_text, loess_pdf]
 
-  copy_number:
-    run: ../../cwl_tools/cnv/copynumber.cwl
-    in:
-      copy_number_script: copy_number_script
-      project_name: project_name
-      loess_normals: loess_normals
-      loess_tumors: loess_tumors
-      targets_coverage_annotation: targets_coverage_annotation
 
-    out: [genes_file, probes_file, intragenic_file, intragenic_file]
+  #copy_number:
+  #  run: ../../cwl_tools/cnv/copynumber.cwl
+  #  in:
+  #    copy_number_script: copy_number_script
+  #    project_name: project_name
+  #    loess_normals: loess_normal/loess_text
+  #    loess_tumors: loess_tumor/loess_text
+  #    targets_coverage_annotation: targets_coverage_annotation
+
+  # out: [genes_file, probes_file, intragenic_file, intragenic_file]
 
