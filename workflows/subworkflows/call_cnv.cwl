@@ -61,8 +61,6 @@ outputs:
 
     seg_files:
         type: File[]
-#          type: array#
-#          items: File
         outputSource: copy_number/seg_files
 
     copy_std_out:
@@ -123,4 +121,4 @@ steps:
         default: MIN
       targets_coverage_annotation: targets_coverage_annotation
 
-     out: [genes_file, probes_file, intragenic_file, intragenic_file, seg_files, standard_out, standard_err]
+     out: [genes_file, probes_file, intragenic_file, seg_files, copy_std_out, copy_std_err]
