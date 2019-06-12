@@ -79,8 +79,8 @@ outputs:
     outputBinding:
       glob: $('*.seg')
 
-  standard_out:
+  copy_standard_out:
     type: stdout
 
-  standard_err:
+  copy_standard_err:
     type: stderr
