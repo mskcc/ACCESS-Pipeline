@@ -75,9 +75,7 @@ outputs:
       glob: $('*copynumber_segclusp.pdf')
 
   seg_files:
-    type:
-      type: array
-      items: File
+    type: File[]
     outputBinding:
       glob: $('*.seg')
 

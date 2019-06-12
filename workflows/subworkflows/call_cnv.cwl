@@ -59,7 +59,19 @@ outputs:
         type: File
         outputSource: copy_number/copy_pdf
 
-    #include seg files?
+    seg_files:
+        type: File[]
+#          type: array#
+#          items: File
+        outputSource: copy_number/seg_files
+
+    copy_std_out:
+      type: File
+      outputSource: copy_number/standard_out
+
+    copy_std_err:
+    type: File
+    outputSource: copy_number/standard_err
 
 steps:
 
@@ -86,7 +98,7 @@ steps:
         default: tumor
       targets_coverage_annotation: targets_coverage_annotation
     out: [loess_text, loess_pdf]
-      
+
   loess_normal:
     run: ../../cwl_tools/cnv/loess.cwl
     in:
@@ -100,14 +112,15 @@ steps:
     out: [loess_text, loess_pdf]
 
 
-  #copy_number:
-  #  run: ../../cwl_tools/cnv/copynumber.cwl
-  #  in:
-  #    copy_number_script: copy_number_script
-  #    project_name: project_name
-  #    loess_normals: loess_normal/loess_text
-  #    loess_tumors: loess_tumor/loess_text
-  #    targets_coverage_annotation: targets_coverage_annotation
+  copy_number:
+    run: ../../cwl_tools/cnv/copynumber.cwl
+    in:
+      copy_number_script: copy_number_script
+      project_name: project_name
+      loess_normals: loess_normal/loess_text
+      loess_tumors: loess_tumor/loess_text
+      do_full:
+        default: MIN
+      targets_coverage_annotation: targets_coverage_annotation
 
-  # out: [genes_file, probes_file, intragenic_file, intragenic_file]
-
+     out: [genes_file, probes_file, intragenic_file, intragenic_file, seg_files, standard_out, standard_err]
