@@ -6,6 +6,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     coresMin: 8
+    ramMin: 10000
 
 baseCommand: python
 
