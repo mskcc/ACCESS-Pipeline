@@ -29,18 +29,28 @@ RUN_PARAMS = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION)
 RUN_PARAMS_TEST = os.path.join(RUN_PARAMS_FOLDER, TEST)
 
 # Resource Paths
-TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
-TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tools/phoenix.yaml')
-TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
-ACCESS_VARIANTS_RUN_TOOLS_MANTA     = os.path.join(RUN_TOOLS_FOLDER, 'SV.yaml')
+TOOL_RESOURCES_LOCAL = os.path.join(ROOT_DIR, "resources/run_tools/local.yaml")
+TOOL_RESOURCES_PROD = os.path.join(ROOT_DIR, "resources/run_tools/phoenix.yaml")
+TOOL_RESOURCES_LUNA = os.path.join(ROOT_DIR, "resources/run_tools/luna.yaml")
+ACCESS_VARIANTS_RUN_TOOLS_MANTA = os.path.join(RUN_TOOLS_FOLDER, "SV.yaml")
 
 # ACCESS-Variants Resources
-ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
-ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
-ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants_phoenix.yaml')
-ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
+ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(
+    RUN_FILES_FOLDER, "ACCESS_variants_run_files.yaml"
+)
+ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(
+    RUN_PARAMS_FOLDER, "ACCESS_variants_run_params.yaml"
+)
+ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(
+    RUN_TOOLS_FOLDER, "ACCESS_variants_phoenix.yaml"
+)
+ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(
+    RUN_PARAMS_FOLDER, "ACCESS_variants_run_params_delly.yaml"
+)
 
-RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(
+    RUN_PARAMS_FOLDER, "standard_bams_to_collapsed_qc.yaml"
+)
 
 
 ##################################
@@ -338,92 +348,338 @@ MAPPED_LABEL = "Mapped"
 POOL_A_LABEL = "A Targets"
 POOL_B_LABEL = "B Targets"
 
-UNFILTERED_COLLAPSING_METHOD = 'All Unique'
-SIMPLEX_COLLAPSING_METHOD = 'Simplex'
-DUPLEX_COLLAPSING_METHOD = 'Duplex'
-SIMPLEX_DUPLEX_COMBINED = 'SimplexDuplex'
+UNFILTERED_COLLAPSING_METHOD = "All Unique"
+SIMPLEX_COLLAPSING_METHOD = "Simplex"
+DUPLEX_COLLAPSING_METHOD = "Duplex"
+SIMPLEX_DUPLEX_COMBINED = "SimplexDuplex"
 
 # Headers for tables
-DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']
+DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, "method", "duplication_rate", "pool"]
 
-GC_BIN_COLUMN = 'gc_bin'
-METHOD_COLUMN = 'method'
-GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', WALTZ_PEAK_COVERAGE_COLUMN, 'gc', 'method']
-GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, 'coverage']
-GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN, 'coverage']
+GC_BIN_COLUMN = "gc_bin"
+METHOD_COLUMN = "method"
+GC_BIAS_HEADER = [
+    SAMPLE_ID_COLUMN,
+    "interval_name",
+    WALTZ_PEAK_COVERAGE_COLUMN,
+    "gc",
+    "method",
+]
+GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, "coverage"]
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [
+    METHOD_COLUMN,
+    SAMPLE_ID_COLUMN,
+    GC_BIN_COLUMN,
+    "coverage",
+]
 
 # Output file names
-read_counts_filename = 'read_counts_agg.txt'
-coverage_agg_filename = 'coverage_agg.txt'
-gc_avg_each_sample_coverage_filename = 'GC_bias_with_coverage_averages_over_each_sample.txt'
-gc_bias_with_coverage_filename = 'GC_bias_with_coverage.txt'
-read_counts_total_filename = 'read_counts_total.txt'
-coverage_per_interval_filename = 'coverage_per_interval.txt'
-read_counts_table_exon_level_filename = 'read_counts_agg_exon_level.txt'
-coverage_table_exon_level_filename = 'coverage_agg_exon_level.txt'
-gc_cov_int_table_exon_level_filename = 'GC_bias_with_coverage_exon_level.txt'
-gc_avg_each_sample_coverage_exon_level_filename = 'GC_bias_with_coverage_averages_over_each_sample_exon_level.txt'
-average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
+read_counts_filename = "read_counts_agg.txt"
+coverage_agg_filename = "coverage_agg.txt"
+gc_avg_each_sample_coverage_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample.txt"
+)
+gc_bias_with_coverage_filename = "GC_bias_with_coverage.txt"
+read_counts_total_filename = "read_counts_total.txt"
+coverage_per_interval_filename = "coverage_per_interval.txt"
+read_counts_table_exon_level_filename = "read_counts_agg_exon_level.txt"
+coverage_table_exon_level_filename = "coverage_agg_exon_level.txt"
+gc_cov_int_table_exon_level_filename = "GC_bias_with_coverage_exon_level.txt"
+gc_avg_each_sample_coverage_exon_level_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample_exon_level.txt"
+)
+average_coverage_across_exon_targets_filename = (
+    "average_coverage_across_exon_targets_duplex_A.txt"
+)
 
-INSERT_SIZE_PREFIX = 'insert_sizes_'
+INSERT_SIZE_PREFIX = "insert_sizes_"
 INSERT_SIZE_OUTPUT_FILE_NAMES = [
-    'standard_A_targets.txt',
-    'unfiltered_A_targets.txt',
-    'simplex_A_targets.txt',
-    'duplex_A_targets.txt',
-    'standard_B_targets.txt',
-    'unfiltered_B_targets.txt',
-    'simplex_B_targets.txt',
-    'duplex_B_targets.txt',
+    "standard_A_targets.txt",
+    "unfiltered_A_targets.txt",
+    "simplex_A_targets.txt",
+    "duplex_A_targets.txt",
+    "standard_B_targets.txt",
+    "unfiltered_B_targets.txt",
+    "simplex_B_targets.txt",
+    "duplex_B_targets.txt",
 ]
 
 EXON_COVERAGE_OUTPUT_FILE_NAMES = [
-    'coverage_per_interval_A_targets_All_Unique.txt',
-    'coverage_per_interval_A_targets_Duplex.txt',
-    'coverage_per_interval_A_targets_Simplex.txt',
-    'coverage_per_interval_A_targets_TotalCoverage.txt',
+    "coverage_per_interval_A_targets_All_Unique.txt",
+    "coverage_per_interval_A_targets_Duplex.txt",
+    "coverage_per_interval_A_targets_Simplex.txt",
+    "coverage_per_interval_A_targets_TotalCoverage.txt",
 ]
 
-INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
-
-ALL_TABLES_MODULE_OUTPUT_FILES = [
-    read_counts_filename,
-    coverage_agg_filename,
-    gc_avg_each_sample_coverage_filename,
-    gc_bias_with_coverage_filename,
-    read_counts_total_filename,
-    coverage_per_interval_filename,
-    read_counts_table_exon_level_filename,
-    coverage_table_exon_level_filename,
-    gc_cov_int_table_exon_level_filename,
-    gc_avg_each_sample_coverage_exon_level_filename,
-    average_coverage_across_exon_targets_filename
-] + EXON_COVERAGE_OUTPUT_FILE_NAMES + \
-INSERT_SIZE_OUTPUT_FILE_NAMES + [
-    'qc_sample_coverage_A_targets.txt',
-    'qc_sample_coverage_B_targets.txt'
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES
 ]
+
+ALL_TABLES_MODULE_OUTPUT_FILES = (
+    [
+        read_counts_filename,
+        coverage_agg_filename,
+        gc_avg_each_sample_coverage_filename,
+        gc_bias_with_coverage_filename,
+        read_counts_total_filename,
+        coverage_per_interval_filename,
+        read_counts_table_exon_level_filename,
+        coverage_table_exon_level_filename,
+        gc_cov_int_table_exon_level_filename,
+        gc_avg_each_sample_coverage_exon_level_filename,
+        average_coverage_across_exon_targets_filename,
+    ]
+    + EXON_COVERAGE_OUTPUT_FILE_NAMES
+    + INSERT_SIZE_OUTPUT_FILE_NAMES
+    + ["qc_sample_coverage_A_targets.txt", "qc_sample_coverage_B_targets.txt"]
+)
 
 
 ####################
 # Constants for VC #
 ####################
+
+# SampleSheet to TitleFile #
 TITLE_FILE_PAIRING_EXPECTED_COLUMNS = ["Sample", "Class", "Patient_ID", "Sample_type"]
-TUMOR_ID = 'tumor_id'
-NORMAL_ID = 'normal_id'
-SAMPLE_CLASS = 'class'
-GROUP_BY_ID = 'Patient_ID'
-SAMPLE_PAIR1 = 'Sample_x'
-SAMPLE_PAIR2 = 'Sample_y'
-CLASS_PAIR1 = 'Class_x'
-CLASS_PAIR2 = 'Class_y'
-SAMPLE_TYPE_PAIR1 = 'Sample_type_x'
-SAMPLE_TYPE_PAIR2 = 'Sample_type_y'
-TUMOR_CLASS = 'Tumor'
-NORMAL_CLASS = 'Normal'
-SAMPLE_TYPE_PLASMA = 'Plasma'
-SAMPLE_TYPE_NORMAL_NONPLASMA = 'Buffycoat'
+TUMOR_ID = "tumor_id"
+NORMAL_ID = "normal_id"
+SAMPLE_CLASS = "class"
+GROUP_BY_ID = "Patient_ID"
+SAMPLE_PAIR1 = "Sample_x"
+SAMPLE_PAIR2 = "Sample_y"
+CLASS_PAIR1 = "Class_x"
+CLASS_PAIR2 = "Class_y"
+SAMPLE_TYPE_PAIR1 = "Sample_type_x"
+SAMPLE_TYPE_PAIR2 = "Sample_type_y"
+TUMOR_CLASS = "Tumor"
+NORMAL_CLASS = "Normal"
+SAMPLE_TYPE_PLASMA = "Plasma"
+SAMPLE_TYPE_NORMAL_NONPLASMA = "Buffycoat"
 TITLE_FILE_TO_PAIRED_FILE = "Title_file_to_paired.csv"
+
+# Final maf to text #
+MAF_COLUMNS_SELECT = [
+    "Hugo_Symbol",
+    "Chromosome",
+    "Start_Position",
+    "Variant_Classification",
+    "Reference_Allele",
+    "Tumor_Seq_Allele2",
+    "dbSNP_RS",
+    "Tumor_Sample_Barcode",
+    "caller_Norm_Sample_Barcode",
+    "HGVSc",
+    "HGVSp_Short",
+    "Transcript_ID",
+    "EXON",
+    "INTRON",
+    "GMAF",
+    "D_t_alt_count_fragment",
+    "D_t_ref_count_fragment",
+    "D_t_vaf_fragment",
+    "SD_t_alt_count_fragment",
+    "SD_t_ref_count_fragment",
+    "SD_t_vaf_fragment",
+    "n_alt_count_fragment",
+    "n_ref_count_fragment",
+    "n_vaf_fragment",
+    "CURATED_SIMPLEX_DUPLEX_median_VAF",
+    "CURATED_SIMPLEX_DUPLEX_n_fillout_sample_alt_detect",
+    "CURATED_SIMPLEX_DUPLEX_n_fillout_sample",
+    "NORMAL_median_VAF",
+    "NORMAL_n_fillout_sample_alt_detect",
+    "NORMAL_n_fillout_sample",
+    "CURATED_DUPLEX_median_VAF",
+    "CURATED_DUPLEX_n_fillout_sample_alt_detect",
+    "CURATED_DUPLEX_n_fillout_sample",
+    "gnomAD_AF",
+    "gnomAD_AF_AFR",
+    "gnomAD_AF_AMR",
+    "gnomAD_AF_ASJ",
+    "gnomAD_AF_EAS",
+    "gnomAD_AF_FIN",
+    "gnomAD_AF_NFE",
+    "gnomAD_AF_OTH",
+    "gnomAD_AF_SAS",
+    "CallMethod",
+    "Mutation_Class",
+    "Status",
+    "COSMIC_ID",
+]
+
+MAF_TSV_COL_MAP = OrderedDict(
+    [
+        ("Tumor_Sample_Barcode", "Sample"),
+        ("caller_Norm_Sample_Barcode", "NormalUsed"),
+        ("Chromosome", "Chrom"),
+        ("Start_Position", "Start"),
+        ("Reference_Allele", "Ref"),
+        ("Tumor_Seq_Allele2", "Alt"),
+        ("Variant_Classification", "VariantClass"),
+        ("Hugo_Symbol", "Gene"),
+        ("EXON", "Exon"),
+        ("Transcript_ID", "TranscriptID"),
+        ("Comments", "Comments"),
+        ("HGVSc", "cDNAchange"),
+        ("HGVSp_Short", "AAchange"),
+        ("dbSNP_RS", "dbSNP_ID"),
+        ("COSMIC_ID", "Cosmic_ID"),
+        ("dbSNP_RS", "dfSNP_ID"),
+        ("GMAF", "1000G_MAF"),
+        ("FailureReason", "FailureReason"),
+        ("CallMethod", "CallMethod"),
+        ("COSMIC_site", "COSMIC_site"),
+        ("n_count_fragment", "N_TotalDepth"),
+        ("n_ref_count_fragment", "N_RefCount"),
+        ("n_alt_count_fragment", "N_AltCount"),
+        ("n_vaf_fragment", "N_AltFreq"),
+        ("T_TotalDepth", "T_TotalDepth"),
+        ("T_RefCount", "T_RefCount"),
+        ("T_AltCount", "T_AltCount"),
+        ("T_AltFreq", "T_AltFreq"),
+        ("T_Ref_Pos", "T_Ref+"),
+        ("T_Ref_Neg", "T_Ref-"),
+        ("T_Alt_Pos", "T_Alt+"),
+        ("T_Alt_Neg", "T_Alt-"),
+        ("Strand_Bias", "Strand_Bias"),
+        ("NORMAL_n_fillout_sample_alt_detect", "All_N_Aggregate_AlleleDepth"),
+        ("NORMAL_median_VAF", "All_N_Median_AlleleFreq"),
+        ("SD_t_vaf_fragment_over_n_vaf_fragment", "T_freq/All_N_Freq"),
+        ("NORMAL_n_fillout_sample", "Occurence_in_Normals"),
+        ("gnomAD_Max_AF", "gnomAD_Max_AF"),
+        ("gnomAD_AF", "gnomAD_ALL"),
+        ("gnomAD_AF_AFR", "gnomAD_AFR"),
+        ("gnomAD_AF_AMR", "gnomAD_AMR"),
+        ("gnomAD_AF_ASJ", "gnomAD_ASJ"),
+        ("gnomAD_AF_EAS", "gnomAD_EAS"),
+        ("gnomAD_AF_FIN", "gnomAD_FIN"),
+        ("gnomAD_AF_NFE", "gnomAD_NFE"),
+        ("gnomAD_AF_OTH", "gnomAD_OTH"),
+        ("gnomAD_AF_SAS", "gnomAD_SAS"),
+        ("Mutation_Class", "Mutation_Class"),
+        ("Status", "Mutation_Status"),
+        ("D_t_count_fragment", "D_T_TotalDepth"),
+        ("D_t_ref_count_fragment", "D_T_RefCount"),
+        ("D_t_alt_count_fragment", "D_T_AltCount"),
+        ("D_t_vaf_fragment", "D_T_AltFreq"),
+        ("S_t_count_fragment", "D_T_TotalDepth"),
+        ("S_t_ref_count_fragment", "D_T_RefCount"),
+        ("S_t_alt_count_fragment", "D_T_AltCount"),
+        ("S_t_vaf_fragment", "D_T_AltFreq"),
+        ("SD_t_count_fragment", "SD_T_TotalDepth"),
+        ("SD_t_ref_count_fragment", "SD_T_RefCount"),
+        ("SD_t_alt_count_fragment", "SD_T_AltCount"),
+        ("SD_t_vaf_fragment", "SD_T_AltFreq"),
+        (
+            "CURATED_DUPLEX_n_fillout_sample_alt_detect",
+            "D_All_curatedN_Aggregate_AlleleDepth",
+        ),
+        ("CURATED_DUPLEX_median_VAF", "D_All_curatedN_Median_AlleleFreq"),
+        ("CURATED_DUPLEX_n_fillout_sample", "D_Occurrence_in_Curated_Normals"),
+        (
+            "CURATED_SIMPLEX_DUPLEX_n_fillout_sample_alt_detect",
+            "SD_All_curatedN_Aggregate_AlleleDepth",
+        ),
+        ("CURATED_SIMPLEX_DUPLEX_median_VAF", "SD_All_curatedN_Median_AlleleFreq"),
+        ("CURATED_SIMPLEX_DUPLEX_n_fillout_sample", "SD_Occurrence_in_Curated_Normals"),
+    ]
+)
+
+MAF_DUMMY_COLUMNS = [
+    "Comments",
+    "Strand_Bias",
+    "COSMIC_site",
+    "FailureReason",
+    "T_TotalDepth",
+    "T_RefCount",
+    "T_AltCount",
+    "T_AltFreq",
+    "T_Ref_Pos",
+    "T_Ref_Neg",
+    "T_Alt_Pos",
+    "T_Alt_Neg",
+]
+
+GNOMAD_COLUMNS = [
+    "gnomAD_AF",
+    "gnomAD_AF_AFR",
+    "gnomAD_AF_AMR",
+    "gnomAD_AF_ASJ",
+    "gnomAD_AF_EAS",
+    "gnomAD_AF_FIN",
+    "gnomAD_AF_NFE",
+    "gnomAD_AF_OTH",
+    "gnomAD_AF_SAS",
+]
+
+MAF_DUMMY_COLUMNS2 = [
+    "COSMIC_ID",
+    "GMAF",
+    "Mutation_Class",
+    "gnomAD_AF",
+    "gnomAD_AF_AFR",
+    "gnomAD_AF_AMR",
+    "gnomAD_AF_ASJ",
+    "gnomAD_AF_EAS",
+    "gnomAD_AF_FIN",
+    "gnomAD_AF_NFE",
+    "gnomAD_AF_OTH",
+    "gnomAD_AF_SAS",
+    "CURATED_DUPLEX_median_VAF",
+    "CURATED_DUPLEX_n_fillout_sample",
+    "CURATED_DUPLEX_n_fillout_sample_alt_detect",
+    "CURATED_SIMPLEX_DUPLEX_median_VAF",
+    "CURATED_SIMPLEX_DUPLEX_n_fillout_sample",
+    "CURATED_SIMPLEX_DUPLEX_n_fillout_sample_alt_detect",
+]
+
+# Filename variables
+EXONIC_FILTERED = "_ExonicFiltered.txt"
+EXONIC_DROPPED = "_ExonicDropped.txt"
+SILENT_FILTERED = "_SilentFiltered.txt"
+SILENT_DROPPED = "_SilentDropped.txt"
+NONCANONICAL_FILTERED = "_NonCanonicalFiltered.txt"
+NONCANONICAL_DROPPED = "_NonCanonicalDropped.txt"
+
+
+# Filtering functions and variables
+ALLOWED_EXONIC_VARIANT_CLASS = [
+    "Frame_Shift_Del",
+    "Frame_Shift_Ins",
+    "In_Frame_Del",
+    "In_Frame_Ins",
+    "Missense_Mutation",
+    "Nonsense_Mutation",
+    "Nonstop_Mutation",
+    "Splice_Site",
+    "Translation_Start_Site",
+]
+
+
+def IS_EXONIC_CLASS(Gene, VariantClass, Coordinate):
+    """
+    Determine whether a variant can be considered as exonic
+    based on user-defined conditions. Multiple user-defined 
+    conditions can be added to the conditional block.
+    """
+    if any(
+        [
+            VariantClass in ALLOWED_EXONIC_VARIANT_CLASS,
+            Gene == "TERT" and VariantClass == "5'Flank",
+        ]
+    ):
+        return (Gene, VariantClass, Coordinate)
+    elif any(
+        [
+            Gene == "MET"
+            and VariantClass == "Intron"
+            and Coordinate >= 116411708
+            and Coordinate <= 116414935
+        ]
+    ):
+        return (Gene, "Splice_Site", Coordinate)
+    else:
+        return None
 
 
 #########
