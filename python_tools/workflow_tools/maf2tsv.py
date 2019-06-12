@@ -135,22 +135,6 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
     Parse a dataframe of annotated variants, add any required columns and 
     classify them into exonic, silent, or noncanonical
     """
-
-    def format_var(variant):
-        """
-        Helper function to convert named tuple dervied from pandas df into tsv
-        """
-        try:
-            columns = map(lambda x: getattr(variant, x), MAF_TSV_COL_MAP.keys())
-            return "\t".join(map(str,columns)) + "\n"
-        except AttributeError:
-            missing_columns = set(MAF_TSV_COL_MAP.keys()) - set(
-                filter(lambda x: not x.startswith("_"), dir(variant))
-            )
-            raise Exception(
-                "Missing required columns: {}".format(",".join(missing_columns))
-            )
-
     # Get transcript list from the user provided file
     try:
         tx = pd.read_csv(
@@ -169,6 +153,27 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
         )
     tx_list = tx.isoform.values.tolist()
 
+    def format_var(variant):
+        """
+        Helper function to convert named tuple dervied from pandas df into tsv
+        """
+        try:
+            columns = map(lambda x: getattr(variant, x), MAF_TSV_COL_MAP.keys())
+            return "\t".join(map(str, columns)) + "\n"
+        except AttributeError:
+            missing_columns = set(MAF_TSV_COL_MAP.keys()) - set(
+                filter(lambda x: not x.startswith("_"), dir(variant))
+            )
+            raise Exception(
+                "Missing required columns: {}".format(",".join(missing_columns))
+            )
+
+    def reformat_tx(txID, tx_df=tx):
+        """
+        helper function to get reportable txID
+        """
+        return tx_df[tx_df.isoform == txID].refseq_id.values.tolist().pop()
+
     # TODO: This block is to be removed at some point
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS)
 
@@ -182,10 +187,14 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
     ) as nf, open(
         outdir + "/" + project_name + NONCANONICAL_DROPPED, "w"
     ) as nd:
+
+        # Print headers
         map(
             lambda f: f.write("\t".join(MAF_TSV_COL_MAP.values()) + "\n"),
             [ef, ed, sf, sd, nf, nd],
         )
+
+        # Iterate over the maf file and determine status of each variant
         for variant in maf.itertuples():
             if variant.Transcript_ID not in tx_list:
                 if variant.Status:
@@ -206,12 +215,17 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                     Hugo_Symbol=variant_tuple[0],  # Gene
                     Variant_Classification=variant_tuple[1],  # VariantClass
                     Start_Position=variant_tuple[2],  # Start coordinate
+                    Transcript_ID=reformat_tx(variant.Transcript_ID),  # TranscriptID
                 )
+
                 if variant.Status:
                     ed.write(format_var(variant))
                 else:
                     ef.write(format_var(variant))
             else:
+                variant = variant._replace(
+                    Transcript_ID=reformat_tx(variant.Transcript_ID)
+                )
                 if variant.Status:
                     sd.write(format_var(variant))
                 else:
