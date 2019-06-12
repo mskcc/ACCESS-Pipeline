@@ -5,7 +5,8 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    coresMin: 8
+    coresMin: 1
+    ramMin: 10000
 
 baseCommand: R
 
@@ -56,4 +57,3 @@ outputs:
     type: File
     outputBinding:
       glob: $('*_loessnorm.pdf')
-
