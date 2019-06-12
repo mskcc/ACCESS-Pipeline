@@ -17,8 +17,8 @@ arguments:
 - --args
 - $(runtime.outdir)
 
-stdout: $(inputs.run_type.path + '_loess.stdout')
-stderr: $(inputs.run_type.path + '_loess.stderr')
+stdout: $(inputs.run_type + '_loess.stdout')
+stderr: $(inputs.run_type + '_loess.stderr')
 
 inputs:
 
