@@ -34,6 +34,15 @@ outputs:
     normals_covg:
         type: File
         outputSource: coverage/normals_covg
+    bam_list:
+        type: File[]
+        outputSource: coverage/bam_list
+    coverage_std_out:
+      type: File
+      outputSource: coverage/standard_out
+    coverage_std_err:
+      type: File
+      outputSource: coverage/standard_err
     tumor_loess_text:
         type: File
         outputSource: loess_tumor/loess_text
@@ -43,9 +52,42 @@ outputs:
     tumor_loess_pdf:
         type: File
         outputSource: loess_tumor/loess_pdf
+    loess_tumor_std_out:
+      type: File
+      outputSource: loess_tumor/standard_out
+    loess_tumor_std_err:
+      type: File
+      outputSource: loess_tumor/standard_err
     normal_loess_pdf:
         type: File
         outputSource: loess_normal/loess_pdf
+    loess_normal_std_out:
+      type: File
+      outputSource: loess_normal/standard_out
+    loess_normal_std_err:
+      type: File
+      outputSource: loess_normal/standard_err
+    genes_file:
+        type: File
+        outputSource: copy_number/genes_file
+    probes_file:
+        type: File
+        outputSource: copy_number/probes_file
+    intragenic_file:
+        type: File
+        outputSource: copy_number/intragenic_file
+    copy_pdf:
+        type: File
+        outputSource: copy_number/copy_pdf
+    seg_files:
+        type: File[]
+        outputSource: copy_number/seg_files
+    copy_std_out:
+      type: File
+      outputSource: copy_number/standard_out
+    copy_std_err:
+      type: File
+      outputSource: copy_number/standard_err
 
 steps:
 
@@ -60,7 +102,7 @@ steps:
       targets_coverage_bed: targets_coverage_bed
       reference_fasta: reference_fasta
 
-    out: [tumors_covg, normals_covg, bam_list]
+    out: [tumors_covg, normals_covg, bam_list, standard_out, standard_err]
 
   loess_tumor:
     run: ../../cwl_tools/cnv/loess.cwl
@@ -71,9 +113,8 @@ steps:
       run_type:
         default: tumor
       targets_coverage_annotation: targets_coverage_annotation
+    out: [loess_text, loess_pdf, standard_out, standard_err]
 
-    out: [loess_text, loess_pdf]
-      
   loess_normal:
     run: ../../cwl_tools/cnv/loess.cwl
     in:
@@ -84,16 +125,18 @@ steps:
         default: normal
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [loess_text, loess_pdf]
+    out: [loess_text, loess_pdf, standard_out, standard_err]
 
-  #copy_number:
-  #  run: ../../cwl_tools/cnv/copynumber.cwl
-  #  in:
-  #    copy_number_script: copy_number_script
-  #    project_name: project_name
-  #    loess_normals: loess_normal/loess_text
-  #    loess_tumors: loess_tumor/loess_text
-  #    targets_coverage_annotation: targets_coverage_annotation
 
-  # out: [genes_file, probes_file, intragenic_file, intragenic_file]
+  copy_number:
+    run: ../../cwl_tools/cnv/copynumber.cwl
+    in:
+      copy_number_script: copy_number_script
+      project_name: project_name
+      loess_normals: loess_normal/loess_text
+      loess_tumors: loess_tumor/loess_text
+      do_full:
+        default: MIN
+      targets_coverage_annotation: targets_coverage_annotation
 
+     out: [genes_file, probes_file, intragenic_file, intragenic_file, seg_files, standard_out, standard_err]
