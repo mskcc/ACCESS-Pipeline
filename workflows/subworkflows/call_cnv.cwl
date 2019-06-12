@@ -11,9 +11,10 @@ requirements:
 
 inputs:
 
-  coverage_script: File
-  copy_number_script: File
-  loess_normalize_script: File
+  file_path: string
+  coverage_script: string
+  copy_number_script: string
+  loess_normalize_script: string
 
   tumor_sample_list: File
   normal_sample_list: File
@@ -22,8 +23,6 @@ inputs:
   reference_fasta: File
 
   project_name: string
-  loess_normalize_script: File
-  copy_number_script: File
   threads: int
 
 outputs:
@@ -98,6 +97,7 @@ steps:
     in:
       coverage_script: coverage_script
       project_name: project_name
+      file_path: file_path
       threads: threads
       tumor_sample_list: tumor_sample_list
       normal_sample_list: normal_sample_list
@@ -112,6 +112,7 @@ steps:
     in:
       loess_normalize_script: loess_normalize_script
       project_name: project_name
+      file_path: file_path
       coverage_file: coverage/tumors_covg
       run_type:
         default: tumor
@@ -125,6 +126,7 @@ steps:
     in:
       loess_normalize_script: loess_normalize_script
       project_name: project_name
+      file_path: file_path
       coverage_file: coverage/normals_covg
       run_type:
         default: normal
@@ -138,6 +140,7 @@ steps:
     in:
       copy_number_script: copy_number_script
       project_name: project_name
+      file_path: file_path
       loess_normals: loess_normal/loess_text
       loess_tumors: loess_tumor/loess_text
       do_full:

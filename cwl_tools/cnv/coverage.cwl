@@ -11,14 +11,15 @@ requirements:
 baseCommand: python
 
 arguments:
-- $(inputs.coverage_script)
+- $(inputs.file_path + inputs.coverage_script)
 
 stdout: coverage.stdout
 stderr: coverage.stderr
 
 inputs:
 
-  coverage_script: File
+  coverage_script: string
+  file_path: string
 
   project_name:
     type: string

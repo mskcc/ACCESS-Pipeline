@@ -20,7 +20,7 @@ from ..constants import (
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -e /common/sge/bin/lx-amd64/qsub -q test.q -od /dmp/hot/huy1/ -o python_tools/pipeline_kickoff/inputs.yaml
+# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -45,13 +45,6 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        '-pn',
-        '--project_name',
-        help='Project name for this run',
-        required=False #should this be True?
-    )
-
-    parser.add_argument(
         '-t',
         '--title_file_path',
         help='title file in tsv format',
@@ -69,14 +62,14 @@ def parse_arguments():
         '-e',
         '--engine_type',
         help='Type of engine the job will be submitting',
-        required=True
+        required=False
     )
 
     parser.add_argument(
         '-q',
         '--queue',
         help='Queue used for job submitting',
-        required=True
+        required=False
     )
 
     parser.add_argument(
@@ -148,20 +141,16 @@ def create_inputs_file(args):
     if not sample2sex or not bamList:
         raise Exception('Unable to load title file or get bam list')
 
+    path = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+    module = 'cwl_tools/cnv'
+
     inputYamlString = {
         "project_name": projName,
-        "r_path": "Rscript",
-        "queue": args.queue
+        "file_path": os.path.join(path, module)
     }
 
-    if args.engine_type.find('qsub') != -1:
-        inputYamlString["qsub"] = args.engine_type
-    else:
-        inputYamlString["bsub"] = args.engine_type
-
     inputYamlOther = {
-        "tumor_sample_list": {"class": "File", "path": generate_manifest_file(args, sample2sex, bamList)},
-        "output": {"class": "Directory", "path": args.output_directory}
+        "tumor_sample_list": {"class": "File", "path": generate_manifest_file(args, sample2sex, bamList)}
     }
 
     with open(args.output_file_name, 'w') as fh:
@@ -190,18 +179,11 @@ def validate_args(args):
     if not args.tumor_bams_directory:
         raise Exception('--tumor_bams_directory is required for copy number variant calling.')
 
-    if not args.output_directory:
-        raise Exception('--output_directory is required for copy number variant calling')
-
     if not args.output_file_name:
         raise Exception('--output_file_name is required for copy number variant calling')
 
-    if not args.engine_type:
-        raise Exception('--engine_type is required for copy number variant calling')
-
-    if not args.queue:
-        raise Exception('--queue is required for copy number variant calling')
-
+    if not args.output_directory:
+        raise Exception('--output_directory is required for copy number variant calling')
 
 def main():
     """ Main """

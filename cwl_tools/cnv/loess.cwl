@@ -13,7 +13,7 @@ baseCommand: R
 arguments:
 - --slave
 - --vanilla
-- --file=$(inputs.loess_normalize_script.path)
+- --file=$(inputs.file_path + inputs.loess_normalize_script)
 - --args
 - $(runtime.outdir)
 
@@ -47,7 +47,8 @@ inputs:
       position: 4
     doc: tumor or normal
 
-  loess_normalize_script: File
+  loess_normalize_script: string
+  file_path: string
 
 
 outputs:

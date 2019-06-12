@@ -13,8 +13,9 @@ baseCommand: R
 arguments:
 - --slave
 - --vanilla
-- --file=$(inputs.copy_number_script.path)
+- --file=$(inputs.file_path + inputs.copy_number_script)
 - --args
+
 stdout: copy_number.stdout
 stderr: copy_number.stderr
 
@@ -51,7 +52,8 @@ inputs:
       position: 5
     doc: either 'FULL' or 'MIN'
 
-  copy_number_script: File
+  copy_number_script: string
+  file_path: string
 
 outputs:
   genes_file:
