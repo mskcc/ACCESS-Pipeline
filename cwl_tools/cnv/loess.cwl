@@ -17,6 +17,9 @@ arguments:
 - --args
 - $(runtime.outdir)
 
+stdout: $(inputs.run_type.path + '_loess.stdout')
+stderr: $(inputs.run_type.path + '_loess.stderr')
+
 inputs:
 
   project_name:
@@ -57,3 +60,10 @@ outputs:
     type: File
     outputBinding:
       glob: $('*_loessnorm.pdf')
+
+  standard_out:
+    type: stdout
+
+  standard_err:
+    type: stderr
+

@@ -13,6 +13,9 @@ baseCommand: python
 arguments:
 - $(inputs.coverage_script)
 
+stdout: coverage.stdout
+stderr: coverage.stderr
+
 inputs:
 
   coverage_script: File
@@ -72,3 +75,9 @@ outputs:
     type: File[]
     outputBinding:
       glob: $('*_bams.list')
+
+  standard_out:
+    type: stdout
+
+  standard_err:
+    type: stderr
