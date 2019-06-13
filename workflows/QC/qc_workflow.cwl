@@ -46,6 +46,10 @@ outputs:
     type: Directory
     outputSource: qc_workflow_wo_waltz/tables
 
+  picard_qc:
+    type: Directory[]
+    outputSource: collect_multiple_metrics/all_metrics
+
 steps:
 
   ##############
@@ -81,6 +85,35 @@ steps:
       waltz_unfiltered_a_exon_level_files,
       waltz_simplex_a_exon_level_files,
       waltz_duplex_a_exon_level_files]
+
+  #################################
+  # Picard for additional metrics #
+  #################################
+
+  collect_multiple_metrics:
+    run: ../../cwl_tools/picard/CollectMultipleMetrics.cwl
+    in:
+      run_tools: run_tools
+      java:
+        valueFrom: $(inputs.run_tools.java)
+      picard:
+        valueFrom: $(inputs.run_tools.picard)
+      input_bam: standard_bams
+      output_name:
+        valueFrom: $(inputs.input_bam.basename)
+      program:
+        valueFrom: |
+          ${
+            return [
+              'CollectAlignmentSummaryMetrics',
+              'CollectInsertSizeMetrics',
+              'QualityScoreDistribution',
+              'MeanQualityByCycle'
+            ]
+          }
+    out: [all_metrics, qual_file, qual_hist, is_file, is_hist]
+    scatter: input_bam
+    scatterMethod: dotproduct
 
   #########################
   # QC workflow W/O Waltz #

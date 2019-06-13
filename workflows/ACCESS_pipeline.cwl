@@ -114,6 +114,10 @@ outputs:
     type: Directory
     outputSource: standard_bam_to_collapsed_qc/qc_tables
 
+  picard_qc:
+    type: Directory[]
+    outputSource: standard_bam_to_collapsed_qc/picard_qc
+
 steps:
 
   #####################
@@ -206,6 +210,7 @@ steps:
     FP_config_file: FP_config_file
 
   out: [
+    picard_qc,
     bam_dirs,
     combined_qc,
     qc_tables]

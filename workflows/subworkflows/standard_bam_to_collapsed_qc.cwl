@@ -74,6 +74,10 @@ outputs:
     type: Directory
     outputSource: qc_workflow/tables
 
+  picard_qc:
+    type: Directory[]
+    outputSource: qc_workflow/picard_qc
+
 steps:
 
   ##############################
@@ -263,4 +267,4 @@ steps:
     marianas_simplex_bams: separate_bams/simplex_bam
     marianas_duplex_bams: separate_bams/duplex_bam
     FP_config_file: FP_config_file
-  out: [combined_qc, tables]
+  out: [picard_qc, combined_qc, tables]
