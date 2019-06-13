@@ -71,7 +71,12 @@ outputs:
   all_metrics:
     type: Directory
     outputBinding:
-      glob: '.'
+      glob: .
+      outputEval: |
+        ${
+          self[0].basename = inputs.output_name + '_picard_metrics';
+          return self[0]
+        }
 
   qual_file:
     type: File?
