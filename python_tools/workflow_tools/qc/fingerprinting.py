@@ -322,10 +322,9 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     df.loc[df.Matched & ~df.Expected, 'Status']="Unexpected Match"
     df.loc[~df.Matched & df.Expected, 'Status']="Unexpected Mismatch"
     df.loc[~df.Matched & ~df.Expected, 'Status']="Expected Mismatch"
-    df.drop(['Matched','Expected'], axis=1, inplace=True) 
+    
+    df.drop(columns=['Matched','Expected'], inplace=True)
     geno_compare=df.values.tolist()
-    geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
-                              "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef","DiscordanceRate", "Status"])
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
     return geno_compare
@@ -462,35 +461,33 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
 
-    df[df['Status']=='Unexpected Mismatch'].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)    
-    df[df['Status']=='Unexpected Match'].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
+    df[df['Status']=='Unexpected Mismatch'].to_csv('./UnexpectedMismatch.txt', sep='\t', index=False)    
+    df[df['Status']=='Unexpected Match'].to_csv('./UnexpectedMatch.txt', sep='\t', index=False)
     
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.set_figheight(1)
-    fig.suptitle('Unexpected Matches', fontsize=10, y=.5)
+    fig.suptitle('Unexpected Matches', fontsize=10)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df[df['Status']=='Unexpected Match'].values):
-        ax1.table(cellText=df[df['Status']=='Unexpected Match'].values, colLabels=df.columns, loc='bottom', cellLoc='center', rowLoc='center')
+        ax1.table(cellText=df[df['Status']=='Unexpected Match'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No unexpected matches present', 'No unexpected matches present', 'No mismatches present']]
-        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
     fig.tight_layout()
 
     plt.savefig(fp_output_dir + 'Unexpected_Match.pdf', bbox_inches='tight')
 
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.set_figheight(1)
-    fig.suptitle('Unexpected Mismatches', fontsize=10, y=.5)
+    fig.suptitle('Unexpected Mismatches', fontsize=10)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df[df['Status']=='Unexpected Mismatch'].values):
-        ax1.table(cellText=df[df['Status']=='Unexpected Mismatch'].values, colLabels=df.columns, loc='bottom', cellLoc='center', rowLoc='center')
+        ax1.table(cellText=df[df['Status']=='Unexpected Mismatch'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No unexpected mismatches present', 'No unexpected mismatches present', 'No unexpected mismatches present']]
-        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
     fig.tight_layout()
     plt.savefig(fp_output_dir + 'Unexpected_Mismatch.pdf', bbox_inches='tight')
 
