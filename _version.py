@@ -39,10 +39,9 @@ def dirty():
     except CalledProcessError as e:
         if e.returncode == 1:
             return True
-        elif e.returncode == 0:
-            return False
         else:
             raise Exception("Not a git directory")
+    return False
 
 
 def get_commit_count_after_tag(tag=get_tag()):
