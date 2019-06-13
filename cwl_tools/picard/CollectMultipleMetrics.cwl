@@ -13,6 +13,7 @@ arguments:
 - -Xmx4g
 - -jar
 - $(inputs.picard)
+- CollectMultipleMetrics
 
 inputs:
 
