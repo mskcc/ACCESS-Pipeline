@@ -126,6 +126,7 @@ PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
 BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
 # BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
 ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
+ALLOWED_CONTROLS = ["PoolTumor", "PoolNormal"]
 ALLOWED_SEX = ["Male", "Female"]
 CONTROL_SAMPLE_SEX = ["Control", "-"]
 FEMALE = "Female"
