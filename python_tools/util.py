@@ -214,16 +214,19 @@ def extract_sample_id_from_bam_path(bam_path):
 
 def include_version_info(fh):
     """
-    Todo: Include indentifier to indicate if commit == tag
+    Todo: Include identifier to indicate if commit == tag
     """
-    import version
+    from python_tools import __version__ as version
+    #import _version
     fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
     fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
+    fh.write('# version: {} \n'.format(version))
+    # fh.write('version: {} \n'.format(version.most_recent_tag))
+    # fh.write('# Pipeline Run Version Information: \n')
+    # fh.write('# Version: {} \n'.format(version.version))
+    # fh.write('# Short Version: {} \n'.format(version.short_version))
+    # fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    # fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
 def find_bams_in_directory(dir):
