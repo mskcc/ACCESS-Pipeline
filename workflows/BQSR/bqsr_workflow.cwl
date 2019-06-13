@@ -44,6 +44,10 @@ outputs:
       - ^.bai
     outputSource: parallel_printreads/bams
 
+  recalibrated_scores_matrix:
+    type: File[]
+    outputSource: parallel_bqsr/recal_matrix
+
 steps:
 
   parallel_bqsr:
@@ -95,8 +99,7 @@ steps:
             known_sites_1: known_sites_1
             known_sites_2: known_sites_2
             out:
-              # Todo: name based on sample
-              default: 'recal.matrix'
+              valueFrom: $(inputs.input_bam.basename.replace('.bam', '.recal_matrix'))
           out: [recal_matrix]
 
   parallel_printreads:
