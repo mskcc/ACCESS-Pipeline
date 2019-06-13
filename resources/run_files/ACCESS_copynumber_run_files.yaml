@@ -2,7 +2,7 @@
 # Files required to run Copy Number Variant Calling #
 #####################################################
 
-tmp_dir: /dmp/analysis/SCRATCH
+#tmp_dir: /dmp/analysis/SCRATCH # Comment this out for overall varaint calling
 
 # Custom scripts
 coverage_script: /scripts/cfdna_scna.py
