@@ -30,8 +30,10 @@ class Env(object):
 
         if batchsystem == "gridEngine":
             self.__ENV_VARS.append("TOIL_GRIDENGINE_ARGS")
+            self.__ENV_VARS.append("TOIL_GRIDENGINE_PE")
         elif batchsystem == "lsf":
             self.__ENV_VARS.append("TOIL_LSF_ARGS")
+            self.__ENV_VARS.append("TOIL_LSF_PE")
 
         return " ".join(self.__ENV_VARS)
 
@@ -148,7 +150,7 @@ class ToilArgs(object):
             try:
                 os.makedirs(run_dir)
             except OSError as e:
-                if e.errno != os.errno.EEXIST:
+                if e.errno != errno.EEXIST:
                     print("Exception when creating directory: {}".format(run_dir))
                     raise
 
