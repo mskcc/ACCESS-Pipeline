@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import errno
 import pandas as pd
 import numpy as np
 import re
@@ -15,8 +16,8 @@ from constants import (
     EXONIC_FILTERED,
     SILENT_DROPPED,
     SILENT_FILTERED,
-    NONCANONICAL_DROPPED,
-    NONCANONICAL_FILTERED,
+    NONPANEL_DROPPED,
+    NONPANEL_FILTERED,
     IS_EXONIC_CLASS,
     MAF_DUMMY_COLUMNS,
     MAF_DUMMY_COLUMNS2,
@@ -133,7 +134,7 @@ def maf2tsv(maf_file):
 def filter_maf(maf, ref_tx_file, project_name, outdir):
     """
     Parse a dataframe of annotated variants, add any required columns and 
-    classify them into exonic, silent, or noncanonical
+    classify them into exonic, silent, or nonpanel
     """
     # Get transcript list from the user provided file
     try:
@@ -177,15 +178,15 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
     # TODO: This block is to be removed at some point
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS)
 
-    # Create exonic, silent, and noncanonical files.
+    # Create exonic, silent, and nonpanel files.
     with open(outdir + "/" + project_name + EXONIC_FILTERED, "w") as ef, open(
         outdir + "/" + project_name + EXONIC_DROPPED, "w"
     ) as ed, open(outdir + "/" + project_name + SILENT_FILTERED, "w") as sf, open(
         outdir + "/" + project_name + SILENT_DROPPED, "w"
     ) as sd, open(
-        outdir + "/" + project_name + NONCANONICAL_FILTERED, "w"
+        outdir + "/" + project_name + NONPANEL_FILTERED, "w"
     ) as nf, open(
-        outdir + "/" + project_name + NONCANONICAL_DROPPED, "w"
+        outdir + "/" + project_name + NONPANEL_DROPPED, "w"
     ) as nd:
 
         # Print headers
@@ -282,6 +283,12 @@ def main():
         args.project_name = get_project(args.title_file)
     if not args.outdir:
         args.outdir = os.getcwd()
+    
+    try:
+        os.mkdir(os.path.abspath(args.outdir))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
 
     # Filter and categorize variants
     condensed_maf = maf2tsv(args.anno_maf)
