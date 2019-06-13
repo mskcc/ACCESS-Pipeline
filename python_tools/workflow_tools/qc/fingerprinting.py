@@ -322,9 +322,10 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     df.loc[df.Matched & ~df.Expected, 'Status']="Unexpected Match"
     df.loc[~df.Matched & df.Expected, 'Status']="Unexpected Mismatch"
     df.loc[~df.Matched & ~df.Expected, 'Status']="Expected Mismatch"
-    
-    df.drop(columns=['Matched','Expected'], inplace=True)
+    df.drop(['Matched','Expected'], axis=1, inplace=True) 
     geno_compare=df.values.tolist()
+    geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
+                              "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef","DiscordanceRate", "Status"])
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
     return geno_compare
