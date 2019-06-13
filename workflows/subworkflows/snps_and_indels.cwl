@@ -37,6 +37,7 @@ inputs:
   blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
+  title_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -136,6 +137,34 @@ outputs:
     type: File[]
     outputSource: module_4/final_filtered_condensed_maf
 
+  collated_maf:
+    type: File
+    outputSource: module_5/collated_maf
+
+  filtered_exonic:
+    type: File
+    outputSource: module_5/filtered_exonic
+
+  dropped_exonic:
+    type: File
+    outputSource: module_5/dropped_exonic
+
+  filtered_silent:
+    type: File
+    outputSource: module_5/filtered_silent
+
+  dropped_silent:
+    type: File
+    outputSource: module_5/dropped_silent
+
+  filtered_nonpanel:
+    type: File
+    outputSource: module_5/filtered_nonpanel
+
+  dropped_nonpanel:
+    type: File
+    outputSource: module_5/dropped_nonpanel
+
 steps:
 
   ###################
@@ -203,3 +232,23 @@ steps:
       final_filtered_condensed_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct
+
+  ############################################
+  # Convert maf to user-defined text formats #
+  ############################################
+
+  module_5:
+    run: ../module_5.cwl
+    in:
+      project_name: project_name
+      custom_enst_file: custom_enst_file
+      all_maf: module_4/final_filtered_maf
+      title_file: title_file
+    out: [
+        collated_maf,
+        filtered_exonic,
+        dropped_exonic,
+        filtered_silent,
+        dropped_silent,
+        filtered_nonpanel,
+        dropped_nonpanel]

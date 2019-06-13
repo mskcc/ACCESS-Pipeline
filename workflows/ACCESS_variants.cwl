@@ -38,6 +38,7 @@ inputs:
   blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
+  title_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -142,6 +143,34 @@ outputs:
     type: File[]
     outputSource: snps_and_indels/final_filtered_condensed_maf
 
+  collated_maf:
+    type: File
+    outputSource: snps_and_indels/collated_maf
+
+  filtered_exonic:
+    type: File[]
+    outputSource: snps_and_indels/filtered_exonic
+
+  dropped_exonic:
+    type: File[]
+    outputSource: snps_and_indels/dropped_exonic
+
+  filtered_silent:
+    type: File[]
+    outputSource: snps_and_indels/filtered_silent
+
+  dropped_silent:
+    type: File[]
+    outputSource: snps_and_indels/dropped_silent
+
+  filtered_nonpanel:
+    type: File[]
+    outputSource: snps_and_indels/filtered_nonpanel
+
+  dropped_nonpanel:
+    type: File[]
+    outputSource: snps_and_indels/dropped_nonpanel
+
   # Manta
 
   sv_directory:
@@ -166,6 +195,7 @@ steps:
     run: ./subworkflows/snps_and_indels.cwl
     in:
       project_name: project_name
+      title_file: title_file
       version: version
       run_tools: run_tools
       mutect_params: mutect_params
@@ -209,6 +239,13 @@ steps:
       fillout_maf,
       final_filtered_maf,
       final_filtered_condensed_maf,
+      collated_maf,
+      filtered_exonic,
+      dropped_exonic,
+      filtered_silent,
+      dropped_silent,
+      filtered_nonpanel,
+      dropped_nonpanel
     ]
 
   #######################
