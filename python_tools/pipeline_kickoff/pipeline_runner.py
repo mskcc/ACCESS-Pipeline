@@ -198,6 +198,7 @@ def run_toil(args, tmpdir, project):
     try:
         run_cmd = " ".join(filter(lambda x: x, (cluster_cmd , toil_cmd)))
         print("\nRunning job with command: {}\n".format(run_cmd))
+        sys.stdout.flush()
         subprocess.check_call(run_cmd, shell=True)
     except subprocess.CalledProcessError:
         raise
