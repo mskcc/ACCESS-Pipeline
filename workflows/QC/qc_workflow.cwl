@@ -95,9 +95,9 @@ steps:
     in:
       run_tools: run_tools
       java:
-        valueFrom: $(inputs.run_tools.java)
+        valueFrom: $(inputs.run_tools.java_8)
       picard:
-        valueFrom: $(inputs.run_tools.picard)
+        valueFrom: $(inputs.run_tools.picard_path)
       input_bam: standard_bams
       output_name:
         valueFrom: $(inputs.input_bam.basename)
