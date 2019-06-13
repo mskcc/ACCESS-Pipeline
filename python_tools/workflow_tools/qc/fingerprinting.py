@@ -295,32 +295,36 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     # Samples are considered matching if the discordance rate is less than 0.05
     mlist = [i for i, x in enumerate([g[8] for g in geno_compare]) if x < .05]
 
-    if mlist != []:
-        m = min(mlist)
-    else:
-        m = len(geno_compare)
-
-    expectedInd = []
-    for y in expected:
-        for i, x in enumerate(geno_compare):
-            if [x[0], x[1]] == y or [x[1], x[0]] == y:
-                expectedInd.append(i)
-
-    for i, x in enumerate(geno_compare):
-        if i < m:
-            if i in expectedInd:
-                x.append('Unexpected Mismatch')
-            else:
-                x.append('Expected Mismatch')
-        else:
-            if i in expectedInd:
-                x.append('Expected Match')
-            else:
-                x.append('Unexpected Match')
-
-    geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
-                            "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef","DiscordanceRate", "Status"])
-
+    df=pd.DataFrame(geno_compare, columns=['ReferenceSample',
+     'QuerySample',
+     'TotalMatch',
+     'HomozygousMatch',
+     'HomozygousMismatch',
+     'HeterozygousMatch',
+     'HeterozygousMismatch',
+     'HomozygousInRef',
+     'DiscordanceRate'])
+     
+    expected.extend([[i[1],i[0]] for i in expected])
+    df_expected=pd.DataFrame(expected, columns=['ReferenceSample', 'QuerySample'])
+    df_expected.drop_duplicates(inplace=True)
+    df_expected['Expected']=True
+    df=df.merge(df_expected, on=['ReferenceSample', 'QuerySample'], how='outer')
+    df['Expected']=df['Expected'].fillna(value=False)
+    
+    matched=[geno_compare[i][0:2] for i in mlist]
+    df_matched=pd.DataFrame(matched, columns=['ReferenceSample', 'QuerySample'])
+    df_matched['Matched']=True
+    df=df.merge(df_matched, on=['ReferenceSample', 'QuerySample'], how='outer')
+    df['Matched']=df['Matched'].fillna(value=False)
+    
+    df.loc[df.Matched & df.Expected, 'Status']="Expected Match"
+    df.loc[df.Matched & ~df.Expected, 'Status']="Unexpected Match"
+    df.loc[~df.Matched & df.Expected, 'Status']="Unexpected Mismatch"
+    df.loc[~df.Matched & ~df.Expected, 'Status']="Expected Mismatch"
+    
+    df.drop(columns=['Matched','Expected'], inplace=True)
+    geno_compare=df.values.tolist()
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
     return geno_compare
@@ -384,7 +388,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         fp_duplex_output_dir = make_output_dir(fp_output_dir, 'FPDuplexResults')
         listofduplexpileups = extract_pileup_files(duplex_merged_dir)
         all_fp, all_geno = find_fp_maf(listofduplexpileups, fp_indices, fp_duplex_output_dir)
-
+        reformat_all(listofduplexpileups, fp_indices, fp_duplex_output_dir)
         # Plot the Contamination
         plt.clf()
         contamination = contamination_rate(all_fp)
@@ -440,8 +444,9 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
-    print(matrix)
-    ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15,
+    #print(matrix)
+    sns.set(font_scale=.6)
+    ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False, fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch'},
                      annot_kws={'size': 5})
 
@@ -455,24 +460,36 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     Match_status = list(match for match, _ in itertools.groupby(Match_status))
 
     df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
-    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
 
-    write_csv(fp_output_dir + 'Match_status.txt', Match_status)
-
+    df[df['Status']=='Unexpected Mismatch'].to_csv('./UnexpectedMismatch.txt', sep='\t', index=False)    
+    df[df['Status']=='Unexpected Match'].to_csv('./UnexpectedMatch.txt', sep='\t', index=False)
+    
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.suptitle('Unexpected Matches and Mismatches', fontsize=10)
+    fig.suptitle('Unexpected Matches', fontsize=10)
     ax1.axis('off')
     ax1.axis('tight')
-    if len(df.values):
-        ax1.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
+    if len(df[df['Status']=='Unexpected Match'].values):
+        ax1.table(cellText=df[df['Status']=='Unexpected Match'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
     else:
-        empty_values = [['No mismatches present', 'No mismatches present', 'No mismatches present']]
+        empty_values = [['No unexpected matches present', 'No unexpected matches present', 'No mismatches present']]
         ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
     fig.tight_layout()
 
-    plt.savefig(fp_output_dir + 'Geno_Match_status.pdf', bbox_inches='tight')
+    plt.savefig(fp_output_dir + 'Unexpected_Match.pdf', bbox_inches='tight')
 
+    plt.clf()
+    fig, ax1 = plt.subplots()
+    fig.suptitle('Unexpected Mismatches', fontsize=10)
+    ax1.axis('off')
+    ax1.axis('tight')
+    if len(df[df['Status']=='Unexpected Mismatch'].values):
+        ax1.table(cellText=df[df['Status']=='Unexpected Mismatch'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
+    else:
+        empty_values = [['No unexpected mismatches present', 'No unexpected mismatches present', 'No unexpected mismatches present']]
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
+    fig.tight_layout()
+    plt.savefig(fp_output_dir + 'Unexpected_Mismatch.pdf', bbox_inches='tight')
 
 def find_sex_from_pileup(waltz_dir, output_dir):
     """
