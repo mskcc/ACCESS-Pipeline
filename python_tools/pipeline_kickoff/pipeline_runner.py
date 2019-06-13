@@ -7,27 +7,7 @@ import subprocess
 import ruamel.yaml
 from tempfile import mkdtemp
 
-import version
 from configuration import *
-
-
-###################################################################
-# This script is used to run workflows from the command line using toil-cwl-runner.
-#
-# It is a simple wrapper that creates the output directory structure,
-# and provides some default values for Toil params.
-#
-# It does not submit jobs to worker nodes,
-# as opposed to pipeline_submit, which uses bsub.
-#
-# Optional, potentially useful Toil arguments:
-#    --realTimeLogging \
-#    --rotateLogging \
-#    --js-console
-# Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
-#    --linkImports \
-#    --clusterStats FILEPATH \
-#    --stats \
 
 
 def parse_arguments():
@@ -180,7 +160,7 @@ def run_toil(args, tmpdir, project):
 
     toil = ToilArgs()
     toil_cmd = toil.get_toil_cmd(
-        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system),
+        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system, args.queue),
         output_directory,
         args.batch_system,
         args.logLevel,
@@ -200,6 +180,7 @@ def run_toil(args, tmpdir, project):
     try:
         run_cmd = " ".join(filter(lambda x: x, (cluster_cmd , toil_cmd)))
         print("\nRunning job with command: {}\n".format(run_cmd))
+        sys.stdout.flush()
         subprocess.check_call(run_cmd, shell=True)
     except subprocess.CalledProcessError:
         raise
