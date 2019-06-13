@@ -467,28 +467,30 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.suptitle('Unexpected Matches', fontsize=10)
+    fig.set_figheight(1)
+    fig.suptitle('Unexpected Matches', fontsize=10, y=.5)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df[df['Status']=='Unexpected Match'].values):
-        ax1.table(cellText=df[df['Status']=='Unexpected Match'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
+        ax1.table(cellText=df[df['Status']=='Unexpected Match'].values, colLabels=df.columns, loc='bottom', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No unexpected matches present', 'No unexpected matches present', 'No mismatches present']]
-        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
     fig.tight_layout()
 
     plt.savefig(fp_output_dir + 'Unexpected_Match.pdf', bbox_inches='tight')
 
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.suptitle('Unexpected Mismatches', fontsize=10)
+    fig.set_figheight(1)
+    fig.suptitle('Unexpected Mismatches', fontsize=10, y=.5)
     ax1.axis('off')
     ax1.axis('tight')
     if len(df[df['Status']=='Unexpected Mismatch'].values):
-        ax1.table(cellText=df[df['Status']=='Unexpected Mismatch'].values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
+        ax1.table(cellText=df[df['Status']=='Unexpected Mismatch'].values, colLabels=df.columns, loc='bottom', cellLoc='center', rowLoc='center')
     else:
         empty_values = [['No unexpected mismatches present', 'No unexpected mismatches present', 'No unexpected mismatches present']]
-        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
     fig.tight_layout()
     plt.savefig(fp_output_dir + 'Unexpected_Mismatch.pdf', bbox_inches='tight')
 
