@@ -102,6 +102,14 @@ outputs:
     type: File[]
     outputSource: standard_bam_generation/covint_bed
 
+  recalibrated_scores_matrix:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: standard_bam_generation/recalibrated_scores_matrix
+
   bam_dirs:
     type: Directory[]
     outputSource: standard_bam_to_collapsed_qc/bam_dirs
@@ -163,7 +171,8 @@ steps:
     clstats2,
     md_metrics,
     covint_list,
-    covint_bed]
+    covint_bed,
+    recalibrated_scores_matrix]
 
   ################################
   # Generate Collapsed Bams & QC #

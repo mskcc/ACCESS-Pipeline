@@ -93,6 +93,14 @@ outputs:
     type: File[]
     outputSource: module_2/covint_bed
 
+  recalibrated_scores_matrix:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: module_2/recalibrated_scores_matrix
+
 steps:
 
   #########################
@@ -189,7 +197,7 @@ steps:
       base_recalibrator__params: base_recalibrator__params
       print_reads__params: print_reads__params
 
-    out: [standard_bams, covint_list, covint_bed]
+    out: [standard_bams, covint_list, covint_bed, recalibrated_scores_matrix]
     scatter: [bams, patient_id]
     scatterMethod: dotproduct
 

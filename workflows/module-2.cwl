@@ -58,6 +58,10 @@ outputs:
     type: File
     outputSource: ABRA_workflow/covint_bed
 
+  recalibrated_scores_matrix:
+    type: File[]
+    outputSource: BQSR_workflow/recalibrated_scores_matrix
+
 steps:
 
   ABRA_workflow:
@@ -82,4 +86,4 @@ steps:
       bqsr__knownSites_millis: bqsr__knownSites_millis
       base_recalibrator__params: base_recalibrator__params
       print_reads__params: print_reads__params
-    out: [bqsr_bams]
+    out: [bqsr_bams, recalibrated_scores_matrix]
