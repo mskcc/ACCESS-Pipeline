@@ -61,9 +61,12 @@ def version():
     :return str:
     """
     version = (
-        get_tag() + "+" + get_commit_count_after_tag() + "." + get_commit() + ".dirty"
-        if dirty()
-        else ""
+        get_tag()
+        + "+"
+        + get_commit_count_after_tag()
+        + "."
+        + get_commit()
+        + (".dirty" if dirty() else "")
     )
 
     with open(
