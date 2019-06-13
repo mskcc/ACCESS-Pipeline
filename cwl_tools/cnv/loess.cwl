@@ -22,7 +22,7 @@ stderr: $(inputs.run_type + '_loess.stderr')
 
 inputs:
 
-  project_name:
+  project_name_cnv:
     type: string
     inputBinding:
       position: 1

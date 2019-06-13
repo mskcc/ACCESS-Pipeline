@@ -21,7 +21,7 @@ stderr: copy_number.stderr
 
 inputs:
 
-  project_name:
+  project_name_cnv:
     type: string
     inputBinding:
       position: 1

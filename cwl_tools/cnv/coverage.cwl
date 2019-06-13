@@ -21,7 +21,7 @@ inputs:
   coverage_script: string
   file_path: string
 
-  project_name:
+  project_name_cnv:
     type: string
     inputBinding:
       prefix: --runID

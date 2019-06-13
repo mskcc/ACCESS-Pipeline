@@ -93,7 +93,7 @@ def get_sampleID_and_sex(args):
     with open(args.title_file_path, 'rU') as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
-            if row["Sample"].split('-')[1].startswith('T'):
+            if row["Sample"].split('_')[0].split('-')[-1].startswith('T'):
                 sex = row["Sex"].replace("F", "Female").replace("M", "Male")
                 sample2sex[row["Sample"]] = sex
                 projName = row["Pool"]
@@ -106,7 +106,7 @@ def get_bam_list(args):
     """
     bamList = []
     for bam in glob.glob(os.path.join(args.tumor_bams_directory, '*.bam')):
-        if os.path.basename(bam).split('-')[1].startswith('T'):
+        if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
             bamList.append(bam)
     return bamList
 
@@ -119,8 +119,9 @@ def generate_manifest_file(args, sample2sex, bamList):
     output = ""
     for bam in bamList:
         sampleId = os.path.basename(bam).split('_')[0]
-        sex = sample2sex[sampleId]
-        output += bam + "\t" + sex + "\n"
+        if sampleId in sample2sex:
+            sex = sample2sex[sampleId]
+            output += bam + "\t" + sex + "\n"
 
     with open(fileName, 'w') as maniFile:
         maniFile.write(output)
@@ -145,7 +146,7 @@ def create_inputs_file(args):
     module = 'cwl_tools/cnv'
 
     inputYamlString = {
-        "project_name": projName,
+        "project_name_cnv": projName,
         "file_path": os.path.join(path, module)
     }
 
@@ -154,16 +155,17 @@ def create_inputs_file(args):
     }
 
     with open(args.output_file_name, 'w') as fh:
+        fh.write("#### Inputs for Copy Number Variant Calling ####\n")
         for item in inputYamlString:
             fh.write("{}: {}\n".format(item, inputYamlString[item]))
-        fh.write('\n\n# File and Directory Inputs\n')
+        fh.write('\n# File and Directory Inputs\n')
         fh.write(ruamel.yaml.dump(inputYamlOther))
 
         map(include_yaml_resources, [fh]*2,
             [ACCESS_COPYNUMBER_RUN_FILES_PATH,
                 ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
 
-        include_version_info(fh)
+        fh.write("#### The end of for Copy Number Variant Calling ####\n")
 
     return True
 
