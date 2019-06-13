@@ -29,7 +29,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
-- [Virtualenv](https://virtualenv.pypa.io/en/stable/)
+- [Conda](https://docs.conda.io/en/latest/)
 
 # Provenance
 These CWL modules and python script originated from the [Roslin pipeline](https://github.com/mskcc/roslin-variant) at MSKCC. 
@@ -38,55 +38,24 @@ These CWL modules and python script originated from the [Roslin pipeline](https:
 
 Note: In these instructions, please replace *0.0.26* with the *latest stable version* of the pipeline (see the Releases page). 
 
-### 1. Set up a Virtual Environment
-Make virtualenv with the name of your virtual environment for this project (e.g. access_pipeline_0.0.26)
-
-Note: If on LUNA, use the following verison of virtualenv:
-```
-~$ /opt/common/CentOS_6-dev/bin/current/virtualenv --python=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python ~/access_pipeline_0.0.26
-~$ source ~/access_pipeline_0.0.26/bin/activate
-```
-
-### 2. Copy the latest release of the pipeline
+### 1. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-(access_pipeline_0.0.26) ~$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
+$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
+```
+
+### 2. Run the installation
+This will create a new Conda environment, and install the pipeline and its dependencies
+```
+$ ./setup.sh
 ```
 
 ### 3. Update your environment variables:
 Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
 ```
-(access_pipeline_0.0.26) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
+(ACCESS) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
 ```
 
-### 4. Install the python tools
-From within the ACCESS-Pipeline repository directory, run the following command:
-```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ python setup.py install && python setup.py clean
-```
-Note: if you receive this error
-```
-Searching for networkx==2.1
-Reading https://pypi.org/simple/networkx/
-Downloading https://files.pythonhosted.org/packages/11/42/f951cc6838a4dff6ce57211c4d7f8444809ccbe2134179950301e5c4c83c/networkx-2.1.zip#sha256=64272ca418972b70a196cb15d9c85a5a6041f09a2f32e0d30c0255f25d458bb1
-Best match: networkx 2.1
-Processing networkx-2.1.zip
-Writing /scratch/easy_install-kpR3aF/networkx-2.1/setup.cfg
-Running networkx-2.1/setup.py -q bdist_egg --dist-dir /scratch/easy_install-kpR3aF/networkx-2.1/egg-dist-tmp-2T5RdI
-/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/dist.py:484: UserWarning: The version specified (<function version at 0x7f20062667d0>) is an invalid version, this may not work as expected with newer versions of setuptools, pip, and PyPI. Please see PEP 440 for more details.
-  "details." % self.metadata.version
-Traceback (most recent call last):
-  File "setup.py", line 115, in <module>
-    'clean': CleanCommand,
-self.egg_version = self.tagged_version()
-  File "/home/hasanm/variant-calling/virtenvs/MMH-helloworld/lib/python2.7/site-packages/setuptools/command/egg_info.py", line 133, in tagged_version
-    return safe_version(version + self.vtags)
-TypeError: unsupported operand type(s) for +: 'function' and 'str'```
-```
-This dependency sometimes needs to be installed manually:
-```
-pip install networkx==2.1
-```
 ## Additional setup steps, if not on LUNA:
 
 ### 1. Copy the test data
@@ -123,7 +92,7 @@ These are used by the QC module at the end of the pipeline. You can check if the
 ```
 
 # Running the test pipeline
-NOTE: These steps should be run from a new directory, but still while inside your virtual environment, and after sourcing the `workspace_init.sh` script. 
+NOTE: These steps should be run from a new directory, but still while inside your ACCESS Conda environment, and after sourcing the `workspace_init.sh` script. 
 
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
