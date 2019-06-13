@@ -638,8 +638,8 @@ EXONIC_FILTERED = "_ExonicFiltered.txt"
 EXONIC_DROPPED = "_ExonicDropped.txt"
 SILENT_FILTERED = "_SilentFiltered.txt"
 SILENT_DROPPED = "_SilentDropped.txt"
-NONCANONICAL_FILTERED = "_NonCanonicalFiltered.txt"
-NONCANONICAL_DROPPED = "_NonCanonicalDropped.txt"
+NONPANEL_FILTERED = "_NonPanelFiltered.txt"
+NONPANEL_DROPPED = "_NonPanelDropped.txt"
 
 
 # Filtering functions and variables
