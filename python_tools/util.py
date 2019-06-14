@@ -220,7 +220,7 @@ def include_version_info(fh):
     #import _version
     fh.write(INPUTS_FILE_DELIMITER)
     fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# version: {} \n'.format(version))
+    fh.write('version: {} \n'.format(version))
     # fh.write('version: {} \n'.format(version.most_recent_tag))
     # fh.write('# Pipeline Run Version Information: \n')
     # fh.write('# Version: {} \n'.format(version.version))
