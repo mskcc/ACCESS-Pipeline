@@ -421,10 +421,10 @@ NOISE_HEADER = [
 TMPDIR_SEARCH = re.compile(r"(^tmp$|^tmp......$)")
 OUT_TMPDIR_SEARCH = re.compile(r"^out_tmpdir......$")
 
-STANDARD_BAM_DIR = "standard_bams"
-UNFILTERED_BAM_DIR = "unfiltered_bams"
-SIMPLEX_BAM_DIR = "simplex_bams"
-DUPLEX_BAM_DIR = "duplex_bams"
+STANDARD_BAM_DIR = "standard"
+UNFILTERED_BAM_DIR = "unfiltered"
+SIMPLEX_BAM_DIR = "simplex"
+DUPLEX_BAM_DIR = "duplex"
 TRIM_FILES_DIR = "trimming_results"
 MARK_DUPLICATES_FILES_DIR = "mark_duplicates_results"
 COVERED_INTERVALS_DIR = "covered_intervals_results"
