@@ -103,7 +103,7 @@ NOTE: These steps should be run from a new directory, but still while inside you
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -p TEST_run -o inputs.yaml -t
+(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -p TEST_run -o inputs.yaml -t -f
 ```
 
 ### 3. Run the test pipeline
