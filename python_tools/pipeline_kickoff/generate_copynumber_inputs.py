@@ -20,7 +20,7 @@ from ..constants import (
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1
+# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -alone
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -42,6 +42,16 @@ def parse_arguments():
         '--output_file_name',
         help='Filename for yaml file to be used as pipeline inputs',
         required=True
+    )
+
+    parser.add_argument(
+        '-alone',
+        '--stand_alone',
+        help='Whether to run CNV as independent module',
+        nargs='?',
+        default=False,
+        const=True,
+        required=False
     )
 
     parser.add_argument(
@@ -155,7 +165,7 @@ def create_inputs_file(args):
     }
 
     with open(args.output_file_name, 'w') as fh:
-        fh.write("#### Inputs for Copy Number Variant Calling ####\n")
+        fh.write("#### Inputs for Copy Number Variant Calling ####\n\n")
         for item in inputYamlString:
             fh.write("{}: {}\n".format(item, inputYamlString[item]))
         fh.write('\n# File and Directory Inputs\n')
@@ -164,6 +174,10 @@ def create_inputs_file(args):
         map(include_yaml_resources, [fh]*2,
             [ACCESS_COPYNUMBER_RUN_FILES_PATH,
                 ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
+
+        if args.stand_alone:
+            fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
+            include_version_info(fh)
 
         fh.write("#### The end of for Copy Number Variant Calling ####\n")
 
