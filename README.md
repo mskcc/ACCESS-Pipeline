@@ -11,7 +11,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 | Java 7 | jdk1.7.0_75 |
 | Java 8 | jdk1.8.0_31 |
 | Python (must exist in PATH)| 2.7.10 |
-| R (must exist in PATH)| 3.4.2 |
+| R (must exist in PATH)| 3.5.0 |
 | Perl (must exist in PATH)| 5.20.2 |
 | Node (must exist in PATH)| v6.10.1 |
 | [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) |
