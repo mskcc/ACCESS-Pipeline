@@ -41,6 +41,7 @@ dependencies:
   - mro-base=3.5.0=h1c2f66e_0
   - mro-basics=3.5.0=0
   - ncurses=6.1=he6710b0_1
+  - nodejs=6.10.2=0
   - openssl=1.1.1c=h7b6447c_1
   - pango=1.42.4=h049681c_0
   - pcre=8.43=he6710b0_0
