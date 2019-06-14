@@ -1,4 +1,5 @@
 import os
+import re
 import errno
 import shutil
 import logging
@@ -20,13 +21,19 @@ from python_tools.constants import (
     TITLE_FILE__SAMPLE_ID_COLUMN,
     TITLE_FILE__POOL_COLUMN,
     SAMPLE_SEP_FASTQ_DELIMETER,
+    TOIL_LOG,
 )
 
 # Global variable
 dry_run = False
 
-
 def variables_from_title_file(title_file, project_name):
+    """
+    Get sample names and project name from title_file
+
+    :param title_file, project_name:
+    :return sample_ids, project_name:
+    """
     tf = pd.read_csv(title_file, sep="\t", comment="#", header="infer")
     try:
         sample_ids = list(
@@ -270,9 +277,10 @@ def delete_extraneous_output_folders(pipeline_outputs_folder):
     :param pipeline_outputs_folder: Toil outputs directory with tempdirs to remove
     :return:
     """
-    logging.warn(
-        "Deleting Toil temporary files, workflow can no longer be restarted after this action."
-    )
+    if not dry_run:
+        logging.warn(
+            "Deleting Toil temporary files, workflow can no longer be restarted after this action."
+            )
     tempdirs = list(
         filter(lambda x: TMPDIR_SEARCH.match(x), os.listdir(pipeline_outputs_folder))
     )
@@ -290,6 +298,21 @@ def delete_extraneous_output_folders(pipeline_outputs_folder):
     # tmpdir = filter(lambda x: TMPDIR_SEARCH_2.match(x), os.listdir(pipeline_outputs_folder))
     # assert len(tmpdir) == 1
     # if not dry_run: shutil.rmtree(os.path.join(pipeline_outputs_folder, tmpdir[0]))
+
+def delete_toil_logs(pipeline_outputs_folder):
+    """
+    Delete toil_job* log files.
+    :param pipeline_outputs_folder: Toil outputs directory with toil_job logs to remove
+    :return:   
+    """
+    toil_logs = list(
+        filter(lambda x: os.path.isfile(x) and TOIL_LOG.match(x), os.listdir(pipeline_outputs_folder))
+    )
+
+    for log in toil_logs:
+        logging.info("Removing log file {}".format(log))
+        if not dry_run:
+            os.remove(log)
 
 
 def main():
@@ -343,6 +366,7 @@ def main():
     move_trim_files(args.directory)
     move_markduplicates_files(args.directory)
     move_covered_intervals_files(args.directory)
+    delete_toil_logs(args.directory)
 
 
 if __name__ == "__main__":

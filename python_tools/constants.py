@@ -420,6 +420,7 @@ NOISE_HEADER = [
 
 TMPDIR_SEARCH = re.compile(r"(^tmp$|^tmp......$)")
 OUT_TMPDIR_SEARCH = re.compile(r"^out_tmpdir......$")
+TOIL_LOG = re.compile(r"(^toil_job_[0-9]+.[o|e][0-9]+$)")
 
 STANDARD_BAM_DIR = "standard"
 UNFILTERED_BAM_DIR = "unfiltered"
