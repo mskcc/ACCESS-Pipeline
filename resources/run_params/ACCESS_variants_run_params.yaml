@@ -60,7 +60,7 @@ vcf2maf_params:
   min_hom_vaf: 0.7
   buffer_size: 5000
   vep_forks: 4
-  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT,VCF_POS,VCF_REF,VCF_ALT'
   buffer_size: 5000
 
 gbcms_params:
