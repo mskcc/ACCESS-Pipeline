@@ -91,9 +91,9 @@ setup(
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'tables_module = python_tools.workflow_tools.qc.tables_module:main',
             'plot_noise = python_tools.workflow_tools.qc.plot_noise:main',
+            'base_quality_plot = python_tools.workflow_tools.qc.base_quality_plot:main',
             'fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main',
             'combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main',
-            'gender_check = python_tools.workflow_tools.qc.gender_check:main',
             # Postprocessing
             'pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main',
             # Test Utilities

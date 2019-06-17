@@ -23,6 +23,8 @@ inputs:
   B_on_target_positions: File
   noise__good_positions_A: File
 
+  picard_metrics: Directory
+
   waltz_standard_pool_a: Directory
   waltz_unfiltered_pool_a: Directory
   waltz_simplex_pool_a: Directory
@@ -249,6 +251,16 @@ steps:
       noise_by_substitution: duplex_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites, noise_by_substitution]
 
+  ######################
+  # Base Quality plots #
+  ######################
+
+  base_quality_plot:
+    run: ../../cwl_tools/python/base_quality_plot.cwl
+    in:
+      picard_metrics: picard_metrics
+    out: [plot]
+
   #################
   # UMI QC tables #
   #################
@@ -329,6 +341,7 @@ steps:
       average_coverage_exon_level_A: main_plots_module/average_coverage_exon_level_A
       cov_and_family_type_A: main_plots_module/cov_and_family_type_A
       cov_and_family_type_B: main_plots_module/cov_and_family_type_B
+      base_quality_plot: base_quality_plot/plot
       family_sizes_all: main_plots_module/family_sizes_all
       family_sizes_simplex: main_plots_module/family_sizes_simplex
       family_sizes_duplex: main_plots_module/family_sizes_duplex

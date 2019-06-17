@@ -18,8 +18,9 @@ class TablesModuleTest(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        os.chdir('test__tables_module')
+        # CD into this test module if running all tests together
+        if os.path.isdir('test__tables_module'):
+            os.chdir('test__tables_module')
 
         self.tables_module_params = {
             'standard_waltz_pool_a':        './test_data/waltz_standard_pool_a',

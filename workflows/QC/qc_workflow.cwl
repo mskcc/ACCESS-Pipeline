@@ -115,6 +115,14 @@ steps:
     scatter: input_bam
     scatterMethod: dotproduct
 
+  aggregate_picard_metrics:
+    run: ../../cwl_tools/expression_tools/combine_files_from_directories.cwl
+    in:
+      output_directory_name:
+        valueFrom: $('picard_metrics')
+      directories: collect_multiple_metrics/all_metrics
+    out: [combined]
+
   #########################
   # QC workflow W/O Waltz #
   #########################
@@ -130,6 +138,8 @@ steps:
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
       noise__good_positions_A: noise__good_positions_A
+
+      picard_metrics: aggregate_picard_metrics/combined
 
       waltz_standard_pool_a: waltz_workflow/waltz_standard_pool_a_files
       waltz_unfiltered_pool_a: waltz_workflow/waltz_unfiltered_pool_a_files

@@ -17,8 +17,9 @@ class FingerprintingTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        # os.chdir('test__noise_plots')
+        # CD into this test module if running all tests together
+        if os.path.isdir('test__fingerprinting'):
+            os.chdir('test__fingerprinting')
 
         # Set up test outputs directory
         os.mkdir('./test_output')
@@ -32,7 +33,7 @@ class FingerprintingTestCase(unittest.TestCase):
         shutil.rmtree('./test_output')
 
         # Move back up to main test dir
-        # os.chdir('..')
+        os.chdir('..')
 
     def test_plot_genotpying_matrix(self):
         geno_compare = read_csv('./test_data/Geno_compare.txt')
