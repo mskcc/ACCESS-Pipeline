@@ -48,7 +48,8 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         os.chdir('..')
 
 
-    def test_missing_normal_bam_throws_error(self):
+    @unittest.skipIf('TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true', 'Skipping this test on Travis CI.')
+    def test_create_standard_bam_to_collapsed_qc_inputs(self):
         """
         tumor_id in pairing file does not have corresponding tumor bam file
 
