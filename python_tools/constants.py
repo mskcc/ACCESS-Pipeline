@@ -112,8 +112,8 @@ columns_map_samplesheet = OrderedDict(
 # Title file generation constants #
 ###################################
 COLLAB_ID = "DMP"
-PLASMA = "plasma"
-BUFFY = "buffy"
+PLASMA = "Plasma"
+BUFFY = "Buffy Coat"
 SAMPLE_ID_ALLOWED_DELIMETER = "-"
 DISALLOWED_SAMPLE_ID_CHARACTERS = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 METADATA_COLUMN_DELIMETER = "|"
@@ -126,6 +126,7 @@ PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
 BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
 # BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
 ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
+ALLOWED_SAMPLE_TYPE_DESCRIPTION = [PLASMA, BUFFY]
 ALLOWED_CONTROLS = ["PoolTumor", "PoolNormal"]
 ALLOWED_SEX = ["Male", "Female"]
 CONTROL_SAMPLE_SEX = ["Control", "-"]
