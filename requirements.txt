@@ -30,7 +30,7 @@ mock==2.0.0
 # Todo: why doens't pip work here:
 #networkx==2.2
 numpy==1.14.2
-pandas==0.24.0
+pandas==0.20.0
 pbr==5.1.0
 pybedtools==0.7.10
 pyparsing==2.2.2

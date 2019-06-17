@@ -17,7 +17,6 @@ patient_id: [patient_1, patient_1, patient_2]
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
-tmp_dir: /scratch/
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina
@@ -132,7 +131,7 @@ project_name: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test
 
 # ------------------------------------------------------------
 
-version: 0.1.0-rc2
+version: 1.1.4-14-g6f719ad
 # Pipeline Run Version Information:
 # Version: 2e20b5dd3dc7a7e6d454bc9d3aa3f70aecbb7a32-dirty
 # Short Version: 2e20b5d-dirty

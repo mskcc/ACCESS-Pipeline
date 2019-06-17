@@ -23,7 +23,6 @@ def read_quality_tables(picard_metrics_directory_path):
     :return:
     """
     picard_metrics = os.listdir(picard_metrics_directory_path)
-    print("PICARD DIR: {}".format(picard_metrics))
     metrics_files = [f for f in picard_metrics if '.quality_by_cycle_metrics' in f]
     # Add folder name prefix
     metrics_files = [os.path.join(picard_metrics_directory_path, f) for f in metrics_files]
