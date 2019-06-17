@@ -486,11 +486,11 @@ def perform_validation(title_file, title_file_path, project_name):
         if np.sum(lane_subset[TITLE_FILE__BARCODE_ID_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcode IDs in lane {}. Exiting.'.format(lane))
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
+    if np.sum(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].isin(ALLOWED_SAMPLE_DESCRIPTION)) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sample classes are in {}'.format(",".join(ALLOWED_SAMPLE_DESCRIPTION)))
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
+    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(ALLOWED_SAMPLE_TYPE_DESCRIPTION)) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sample types are in {}'.format(",".join(ALLOWED_SAMPLE_TYPE_DESCRIPTION)))
 
     if not np.issubdtype(title_file[TITLE_FILE__LANE_COLUMN], np.number):
         raise Exception(DELIMITER + 'Lane column must be integers')
