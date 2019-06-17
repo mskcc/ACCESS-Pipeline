@@ -17,7 +17,7 @@ class Env(object):
     def __init__(self):
         self.__ENV_VARS = ["PATH", "PYTHONPATH"]
 
-    def get_env_vars(self, tmpdir, user_Rlibs, batchsystem):
+    def get_env_vars(self, tmpdir, user_Rlibs, batchsystem, queue="test.q", pe="smp"):
         for x in ["TMPDIR", "TMP_DIR", "TEMP", "TMP"]:
             os.environ[x] = tmpdir
             self.__ENV_VARS.append(x)
@@ -29,9 +29,13 @@ class Env(object):
             self.__ENV_VARS.append("R_LIBS")
 
         if batchsystem == "gridEngine":
+            os.environ["TOIL_GRIDENGINE_ARGS"] = " ".join(["-q", queue])
+            os.environ["TOIL_GRIDENGINE_PE"] = pe
             self.__ENV_VARS.append("TOIL_GRIDENGINE_ARGS")
+            self.__ENV_VARS.append("TOIL_GRIDENGINE_PE")
         elif batchsystem == "lsf":
             self.__ENV_VARS.append("TOIL_LSF_ARGS")
+            # TODO: Add additional logic for lsf
 
         return " ".join(self.__ENV_VARS)
 
@@ -151,7 +155,6 @@ class ToilArgs(object):
                 if e.errno != os.errno.EEXIST:
                     print("Exception when creating directory: {}".format(run_dir))
                     raise
-
 
         return self.__TOIL_CMD
 

@@ -30,7 +30,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-
 ###################
 # Helper Functions
 ###################
@@ -245,11 +244,14 @@ def create_expected_file(titlefile, fpOutputdir):
 def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     expected = create_expected_file(titlefile, fp_output_dir)
     titlefile = read_df(titlefile, header='infer')
-
+    
     if all_geno[0][0] == TITLE_FILE__SAMPLE_ID_COLUMN:
         all_geno = all_geno[1::]
-
-    all_geno = [a for a in all_geno if 'CELLFREEPOOLEDNORMAL' not in a[0]]
+    
+    # TODO: come up with a better way to remove control samples
+    # before fingerprinting analysis
+    #all_geno = [a for a in all_geno if a[0] not in ALLOWED_CONTROLS]
+    
     geno_compare = []
     for i, Ref in enumerate(all_geno):
         for Query in all_geno:

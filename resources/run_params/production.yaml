@@ -3,6 +3,8 @@
 ##########################################
 tmp_dir: /dmp/analysis/SCRATCH
 
+tmp_dir: /dmp/analysis/SCRATCH
+
 process_loop_umi_fastq__params:
   umi_length: 3
   output_project_folder: .
