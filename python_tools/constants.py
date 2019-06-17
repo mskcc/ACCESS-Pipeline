@@ -175,7 +175,7 @@ TITLE_FILE__COLUMN_ORDER = [
     TITLE_FILE__ACCESSION_COLUMN,
     TITLE_FILE__BARCODE_INDEX_1_COLUMN,
     TITLE_FILE__BARCODE_INDEX_2_COLUMN,
-    # TITLE_FILE__LANE_COLUMN Do not include the lane column for now
+    TITLE_FILE__LANE_COLUMN,
 ]
 
 ##############################
