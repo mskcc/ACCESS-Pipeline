@@ -146,6 +146,9 @@ def get_gc_table_average_for_each_sample(tbl):
     grouped = tbl.groupby(groups)['peak_coverage']
     tbl['coverage_norm'] = grouped.transform(lambda x: x / x.mean())
 
+    # Upgrading to newer pandas requires us to restrict transform operations to only rows with non-NA values
+    tbl = tbl[~tbl[GC_BIN_COLUMN].isnull()]
+
     # Calculate mean coverage within each GC bin, after standardizing coverage across whole sample
     groups = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN]
     grouped = tbl.groupby(groups)['coverage_norm']
