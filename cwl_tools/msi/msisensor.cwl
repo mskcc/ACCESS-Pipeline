@@ -12,6 +12,9 @@ arguments:
 - $('/dmp/resources/prod/tools/bio/msisensor/production/msisensor')
 - msi
 
+stdout: msi.stdout
+stderr: msi.stderr
+
 inputs:
 
   microsatellites:
@@ -24,14 +27,14 @@ inputs:
     inputBinding:
       prefix: -n
     secondaryFiles:
-    - ^.bai
+      - ^.bai
 
   tumor_bam:
     type: File
     inputBinding:
       prefix: -t
     secondaryFiles:
-    - ^.bai
+      - ^.bai
 
   sample_name:
     type: string
@@ -65,3 +68,9 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.sample_name + '.msisensor_dis')
+
+  standard_out:
+    type: stdout
+
+  standard_err:
+    type: stderr

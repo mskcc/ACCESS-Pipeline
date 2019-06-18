@@ -8,13 +8,20 @@ requirements:
   ramMin: 4000
   coresMin: 4
 
+baseCommand: python
+
 arguments:
-- python
-- $('/home/jayakumg/software/dev/ADMIE/admie-analyze.py')
+- $(inputs.file_path + inputs.admie_script)
+
+stdout: admie.stdout
+stderr: admie.stderr
 
 inputs:
 
-  project_name:
+  admie_script: string
+  file_path: string
+
+  project_name_msi:
     type: string?
     
   msisensor_allele_counts:
@@ -36,7 +43,7 @@ inputs:
     type: string?
     inputBinding:
       prefix: --output-file
-      valueFrom: $('./' + self.project_name + '_' + self.outfile)
+      valueFrom: $('./' + self.project_name_msi + '_' + self.outfile)
 
 
 outputs:
@@ -56,3 +63,9 @@ outputs:
     type: File[]
     outputBinding:
       glob: $(inputs.msisensor_allele_counts + '/*_MSI_QC.pdf')
+
+  standard_out:
+    type: stdout
+
+  standard_err:
+    type: stderr
