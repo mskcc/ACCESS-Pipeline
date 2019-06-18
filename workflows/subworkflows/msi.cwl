@@ -8,16 +8,19 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
-  # SchemaDefRequirement:
-  #   types:
-  #     - $import: ../../resources/run_tools/schemas.yaml
 
 inputs:
-  # TODO: remove the following two variables?
-  project_name: string
-  version: string
 
-  sample_id: string[]
+  admie_script: string
+  file_path: string
+  threads: int
+
+  microsatellites: File
+  normal_bam: File
+  tumor_bam: File
+  model: File
+
+  sample_name: string[]
 
   tumor_bam:
     type: File[]
@@ -27,17 +30,16 @@ inputs:
     type: File[]
     secondaryFiles: [^.bai]
 
-  microsatellites:
-    type: File
+  msisensor_allele_counts:
+    type: Directory
 
-  threads:
-    type: int
-  
-  model:
-    type: File
+  project_name_msi: string?
+  coverage_data: Directory?
+  outfile: string?
 
 
 outputs:
+
   msisensor_main:
     type: File[]
     outputSource: msisensor/msisensor_main
@@ -50,15 +52,28 @@ outputs:
   msisensor_dis:
     type: File[]
     outputSource: msisensor/msisensor_dis
+  msisensor_stdout:
+    type: stdout
+    outputSource: msisensor/standard_out
+  msisensor_stderr:
+    type: stderr
+    outputSource: msisensor/standard_err
+
   distance_vectors:
     type: File
     outputSource: admie/distance_vectors
   admie_results:
     type: File
-    outputSource: admie/esults
+    outputSource: admie/results
   plots:
     type: File[]
     outputSource: admie/plots
+  admie_stdout:
+    type: stdout
+    outputSource: admie/standard_out
+  admie_stderr:
+    type: stdout
+    outputSource: admie/standard_err
 
 
 steps:
@@ -66,16 +81,36 @@ steps:
   msisensor:
     run: ../../cwl_tools/msi/msisensor.cwl
     in:
+      microsatellites: microsatellites
       tumor_bam: tumor_bam
       normal_bam: normal_bam
-      output_file_name:
-    out: [msisensor_main, msisensor_somatic, msisensor_germline, msisensor_dis]
-    scatter: [sample_id, tumor_bams, normal_bams]
+      sample_name: sample_name
+      threads: threads
+    out: [
+      msisensor_main,
+      msisensor_somatic,
+      msisensor_germline,
+      msisensor_dis,
+      standard_out,
+      standard_err
+    ]
+    scatter: [sample_name, tumor_bams, normal_bams]
     scatterMethod: dotproduct
 
   admie:
     run: ../../cwl_tools/msi/admie.cwl
     in:
-      msisensor_allele_counts: msisensor
+      admie_script: admie_script
+      file_path: file_path
+      project_name_msi: project_name_msi
+      msisensor_allele_counts: msisensor_allele_counts
       model: model
-    out: [distance_vectors, results, plots]
+      coverage_data: coverage_data
+      outfile: outfile
+    out: [
+      distance_vectors,
+      results,
+      plots,
+      standard_out,
+      standard_err
+    ]
