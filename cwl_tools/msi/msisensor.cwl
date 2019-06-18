@@ -12,8 +12,8 @@ arguments:
 - $('/dmp/resources/prod/tools/bio/msisensor/production/msisensor')
 - msi
 
-stdout: msi.stdout
-stderr: msi.stderr
+stdout: $(inputs.sample_name + '_msi.stdout')
+stderr: $(inputs.sample_name + '_msi.stderr')
 
 inputs:
 
@@ -48,6 +48,9 @@ inputs:
       prefix: -b
 
 outputs:
+
+  output_dir:
+    type: Directory
   
   msisensor_main:
     type: File

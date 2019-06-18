@@ -39,13 +39,6 @@ inputs:
     inputBinding:
       prefix: --qc_directory
   
-  outfile:
-    type: string?
-    inputBinding:
-      prefix: --output-file
-      valueFrom: $('./' + self.project_name_msi + '_' + self.outfile)
-
-
 outputs:
   
   distance_vectors:

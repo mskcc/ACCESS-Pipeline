@@ -30,16 +30,15 @@ inputs:
     type: File[]
     secondaryFiles: [^.bai]
 
-  msisensor_allele_counts:
-    type: Directory
-
   project_name_msi: string?
   coverage_data: Directory?
-  outfile: string?
 
 
 outputs:
 
+  msisensor_outputdir:
+    type: Directory[]
+    outputSource: msisensor/output_dir
   msisensor_main:
     type: File[]
     outputSource: msisensor/msisensor_main
@@ -49,30 +48,34 @@ outputs:
   msisensor_germline:
     type: File[]
     outputSource: msisensor/msisensor_germline
-  msisensor_dis:
+  msisensor_distribution:
     type: File[]
-    outputSource: msisensor/msisensor_dis
+    outputSource: msisensor/msisensor_distribution
   msisensor_stdout:
-    type: stdout
+    type: File[]
     outputSource: msisensor/standard_out
   msisensor_stderr:
-    type: stderr
+    type: File[]
     outputSource: msisensor/standard_err
 
   distance_vectors:
-    type: File
+    type: File[]
     outputSource: admie/distance_vectors
   admie_results:
-    type: File
+    type: File[]
     outputSource: admie/results
   plots:
-    type: File[]
+    type:
+      type: array
+      items:
+        type: array
+        items: File
     outputSource: admie/plots
   admie_stdout:
-    type: stdout
+    type: File[]
     outputSource: admie/standard_out
   admie_stderr:
-    type: stdout
+    type: File[]
     outputSource: admie/standard_err
 
 
@@ -87,14 +90,15 @@ steps:
       sample_name: sample_name
       threads: threads
     out: [
+      output_dir,
       msisensor_main,
       msisensor_somatic,
       msisensor_germline,
-      msisensor_dis,
+      msisensor_distribution,
       standard_out,
       standard_err
     ]
-    scatter: [sample_name, tumor_bams, normal_bams]
+    scatter: [sample_name, tumor_bam, normal_bam]
     scatterMethod: dotproduct
 
   admie:
@@ -103,10 +107,9 @@ steps:
       admie_script: admie_script
       file_path: file_path
       project_name_msi: project_name_msi
-      msisensor_allele_counts: msisensor_allele_counts
+      msisensor_allele_counts: msisensor/output_dir
       model: model
       coverage_data: coverage_data
-      outfile: outfile
     out: [
       distance_vectors,
       results,
@@ -114,3 +117,5 @@ steps:
       standard_out,
       standard_err
     ]
+    scatter: [msisensor_allele_counts]
+    scatterMethod: dotproduct
