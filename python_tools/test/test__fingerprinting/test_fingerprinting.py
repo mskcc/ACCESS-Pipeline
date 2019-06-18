@@ -39,9 +39,5 @@ class FingerprintingTestCase(unittest.TestCase):
         title_file = pd.read_csv('./test_data/title_file.txt')
         plot_genotyping_matrix(geno_compare, './test_output/', title_file)
 
-        geno_expected = pd.read_csv('./expected_output/Match_status.txt', sep='\t')
-        geno_actual = pd.read_csv('./test_output/Match_status.txt', sep='\t')
-        assert geno_expected.equals(geno_actual)
-
 if __name__ == '__main__':
     unittest.main()
