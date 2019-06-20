@@ -38,42 +38,49 @@ def read_quality_tables(picard_metrics_directory_path):
 
 def base_quality_plot(quality_table):
     """
-    Create the base quality plots with original and new quality scores by cycle
+    Create the base quality plots with original and new quality scores by cycle, and save to pdf
 
     :param quality_table: Picard base quality table aggregated across samples
     :return:
     """
-    f, axes = plt.subplots(2, 1)
-
-    ax = sns.lineplot(
-        x = 'CYCLE',
-        y = 'MEAN_QUALITY',
-        hue = SAMPLE_ID_COLUMN,
-        # style = "choice",
-        data = quality_table,
-        ax = axes[0]
-    )
-
-    box = ax.get_position()
-    # resize position
-    ax.set_position([box.x0, box.y0, box.width * 0.70, box.height])
-    # Put legend to the right side
-    ax.legend(loc='center right', bbox_to_anchor=(1.55, 0.5), ncol=1)
+    sns.set()
+    fig, axes = plt.subplots(2, 1, figsize=(15.0, 7.5))
 
     ax = sns.lineplot(
         x = 'CYCLE',
         y = 'MEAN_ORIGINAL_QUALITY',
         hue = SAMPLE_ID_COLUMN,
-        # style = "choice",
         data = quality_table,
-        ax = axes[1]
+        ax = axes[0],
+        linewidth=0.8
     )
-
+    ax.get_legend().remove()
+    ax.set_title('')
+    ax.set_ylim([0, 50])
     box = ax.get_position()
-    # resize position
-    ax.set_position([box.x0, box.y0, box.width * 0.70, box.height])
-    # Put legend to the right side
-    ax.legend(loc='center right', bbox_to_anchor=(1.55, 0.5), ncol=1)
+    # Resize figure away from legend
+    LEFT_SHIFT = 0.05
+    ax.set_position([box.x0 - LEFT_SHIFT, box.y0, box.width - LEFT_SHIFT, box.height])
+
+    ax = sns.lineplot(
+        x = 'CYCLE',
+        y = 'MEAN_QUALITY',
+        hue = SAMPLE_ID_COLUMN,
+        data = quality_table,
+        ax = axes[1],
+        linewidth=0.80
+    )
+    ax.get_legend().remove()
+    ax.set_xlabel('')
+    ax.set_ylim([0, 50])
+    box = ax.get_position()
+    # Resize figure away from legend
+    ax.set_position([box.x0 - LEFT_SHIFT, box.y0, box.width - LEFT_SHIFT, box.height])
+    plt.xlabel('Cycle')
+
+    # Single legend for both plots
+    handles, labels = ax.get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper right')
 
     plt.savefig('base_quality_plot.pdf')
 

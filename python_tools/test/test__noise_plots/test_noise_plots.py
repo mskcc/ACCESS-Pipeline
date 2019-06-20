@@ -18,8 +18,9 @@ class NoisePlotsTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        os.chdir('test__noise_plots')
+        # CD into this test module if running all tests together
+        if os.path.isdir('test__noise_plots'):
+            os.chdir('test__noise_plots')
 
         # Set up test outputs directory
         os.mkdir('./test_output')
