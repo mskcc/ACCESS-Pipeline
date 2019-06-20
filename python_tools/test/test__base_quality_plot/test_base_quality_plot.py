@@ -17,8 +17,9 @@ class BaseQualityPlotsTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        os.chdir('test__base_quality_plot')
+        # CD into this test module if running all tests together
+        if os.path.isdir('test__base_quality_plot'):
+            os.chdir('test__base_quality_plot')
 
         # Set up test outputs directory
         os.mkdir('./test_output')
