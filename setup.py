@@ -66,10 +66,12 @@ SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
 ]
 
+# evaluate the version before going to setup
+build_version=version()
 
 setup(
     name="access_pipeline",
-    version=version(),
+    version=build_version,
     description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
     url="http://github.com/mskcc/ACCESS-Pipeline",
     author="Ian Johnson, Gowtham Jayakumaran",
