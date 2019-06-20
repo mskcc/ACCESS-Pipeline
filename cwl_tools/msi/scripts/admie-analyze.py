@@ -27,6 +27,14 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     parser = argparse.ArgumentParser(description="ADMIE Analysis")
+    
+    parser.add_argument(
+        "--allele-list",
+        nargs='+', 
+        help='Allele Counts files output from MSIsensor'
+    )
+
+
     parser.add_argument(
         "--allele-counts",
         default=ROOT_DIR + "/allele-counts/",
@@ -78,10 +86,11 @@ def main():
     generate_qc = args.generate_qc
     qc_directory = args.qc_directory
     result_file = args.result_file
+    allele_counts_files = args.allele_list # in case we want to pass files as a list instead of dir
 
     # Create the distance vectors and persist it to disk as a 
     # tsv file
-    create_output_file(analysis_dir, output_file, save_format, generate_qc)
+    create_output_file(analysis_dir, output_file, save_format, generate_qc, allele_counts_files)
     
     # Run the prediction
     predict(output_file, model, qc_directory, result_file)

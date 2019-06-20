@@ -195,13 +195,23 @@ def _generateQCFiles(results):
         pdf.close()
 
 
-def create_output_file(analysis_dir, output_filename, save_format, generate_qc_files):
-    files_to_analyze = os.listdir(analysis_dir)
-    files_to_analyze = [x for x in files_to_analyze if "_dis" in x]
+def create_output_file(analysis_dir, output_filename, save_format, generate_qc_files, allele_count_files=None):
+    if allele_count_files is not None and len(allele_count_files) > 0:
+        is_list = True
+        files_to_analyze = allele_count_files
+    else:
+        is_list = False
+        files_to_analyze = os.listdir(analysis_dir)
+        files_to_analyze = [x for x in files_to_analyze if "_dis" in x]
+    
     results =[]
 
     for allele_count_file in files_to_analyze:
-        full_path = os.path.join(analysis_dir, allele_count_file)
+        if is_list:
+            full_path = allele_count_file
+            allele_count_file = os.path.basename(allele_count_file)
+        else:
+            full_path = os.path.join(analysis_dir, allele_count_file)
         res = _processFile(full_path, allele_count_file)
         if res is not None: 
             results += res
@@ -214,6 +224,13 @@ def create_output_file(analysis_dir, output_filename, save_format, generate_qc_f
 
 def main():
     parser = argparse.ArgumentParser(description="ADMIE Distance Calculation")
+
+    parser.add_argument(
+        "--allele-list",
+        nargs='+', 
+        help='Allele Counts files output from MSIsensor'
+    )
+
     parser.add_argument(
         "--allele-counts",
         default=ROOT_DIR + "/allele-counts/",
@@ -246,6 +263,7 @@ def main():
         args.output_file,
         args.save_format,
         args.generate_qc,
+        args.allele_list,
     )
 
 

@@ -49,9 +49,6 @@ inputs:
 
 outputs:
 
-  output_dir:
-    type: Directory
-  
   msisensor_main:
     type: File
     outputBinding:

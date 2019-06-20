@@ -6,7 +6,7 @@ requirements:
 - class: InlineJavascriptRequirement
 - class: ResourceRequirement
   ramMin: 4000
-  coresMin: 4
+  coresMin: 6
 
 baseCommand: python
 
@@ -25,9 +25,14 @@ inputs:
     type: string?
     
   msisensor_allele_counts:
-    type: Directory
+    type: Directory?
     inputBinding:
       prefix: --allele-counts
+
+  allele_counts_list:
+    type: File[]?
+    inputBinding:
+      prefix: --allele-list
 
   model:
     type: File
@@ -47,15 +52,15 @@ outputs:
       glob: $('distance_vectors.tsv')
   
   results:
-    type: File
+    type: File?
     outputBinding:
       glob: $('admie-output.txt')
   
   # TODO: Fix the plots output on admie module
   plots:
-    type: File[]
+    type: File[]?
     outputBinding:
-      glob: $(inputs.msisensor_allele_counts + '/*_MSI_QC.pdf')
+      glob: $('*_MSI_QC.pdf')
 
   standard_out:
     type: stdout

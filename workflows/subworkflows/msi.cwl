@@ -16,8 +16,6 @@ inputs:
   threads: int
 
   microsatellites: File
-  normal_bam: File
-  tumor_bam: File
   model: File
 
   sample_name: string[]
@@ -36,9 +34,6 @@ inputs:
 
 outputs:
 
-  msisensor_outputdir:
-    type: Directory[]
-    outputSource: msisensor/output_dir
   msisensor_main:
     type: File[]
     outputSource: msisensor/msisensor_main
@@ -59,23 +54,19 @@ outputs:
     outputSource: msisensor/standard_err
 
   distance_vectors:
-    type: File[]
+    type: File
     outputSource: admie/distance_vectors
   admie_results:
-    type: File[]
+    type: File
     outputSource: admie/results
   plots:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+    type: File[]?
     outputSource: admie/plots
   admie_stdout:
-    type: File[]
+    type: File
     outputSource: admie/standard_out
   admie_stderr:
-    type: File[]
+    type: File
     outputSource: admie/standard_err
 
 
@@ -90,7 +81,6 @@ steps:
       sample_name: sample_name
       threads: threads
     out: [
-      output_dir,
       msisensor_main,
       msisensor_somatic,
       msisensor_germline,
@@ -107,7 +97,7 @@ steps:
       admie_script: admie_script
       file_path: file_path
       project_name_msi: project_name_msi
-      msisensor_allele_counts: msisensor/output_dir
+      allele_counts_list: msisensor/msisensor_distribution
       model: model
       coverage_data: coverage_data
     out: [
@@ -117,5 +107,3 @@ steps:
       standard_out,
       standard_err
     ]
-    scatter: [msisensor_allele_counts]
-    scatterMethod: dotproduct

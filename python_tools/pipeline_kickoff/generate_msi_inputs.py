@@ -22,7 +22,7 @@ from ..constants import (
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_generate_msi_inputs -sb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/standard_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -p ACCESSv1-VAL-20190010 -alone
+# generate_msi_inputs -sb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/standard_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -p ACCESSv1-VAL-20190010 -alone
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -124,17 +124,16 @@ def create_inputs_file(args):
     inputYamlFileList = defaultdict(list)
     for sampleId in tumorBamDic:
         patientId = '-'.join(sampleId.split('-')[:-1])
-        inputYamlFileList["sample_name"].append(sampleId)
-        inputYamlFileList["tumor_bam"].append(ast.literal_eval(fileTemp % tumorBamDic[sampleId]))
-
+        # Include ONLY paired samples
         if patientId in normalBamDic:
+            inputYamlFileList["sample_name"].append(sampleId)
+            inputYamlFileList["tumor_bam"].append(ast.literal_eval(fileTemp % tumorBamDic[sampleId]))
             inputYamlFileList["normal_bam"].append(ast.literal_eval(fileTemp % normalBamDic[patientId]))
-        else:
-            inputYamlFileList["normal_bam"].append(ast.literal_eval(''))
 
     inputYamlString = {
         "project_name_msi": projName,
         "file_path": os.path.join(path, module)
+        #"msisensor_allele_counts": '{class: Directory, path: %s}' % args.output_directory
     }
 
     with open(args.output_file_name, 'w') as fh:
