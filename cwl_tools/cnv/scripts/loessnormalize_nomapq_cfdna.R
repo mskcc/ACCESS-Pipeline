@@ -12,10 +12,9 @@
 
 # R --slave --vanilla --args <prefix> <_ALL_intervalcoverage.txt> <gc_percent-file>
 library(dplyr)
+library(textplot)
 rm(list=ls(all=T));
 
-
-source("/dmp/resources/prod/tools/bio/misc/textplot.R")
 args = commandArgs(trailingOnly=TRUE)
 print(args)
 outdir <- args[1];

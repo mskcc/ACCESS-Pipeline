@@ -18,7 +18,7 @@ library('DNAcopy');
 library('Ckmeans.1d.dp');
 library('rjson');
 
-source('/dmp/resources/prod/tools/bio/misc/textplot.R');
+library(textplot)
 args <- commandArgs(trailingOnly=TRUE);
 prefix <- args[1];
 stdnormal_loess <- args[2];
