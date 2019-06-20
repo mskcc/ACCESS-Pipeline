@@ -44,7 +44,7 @@ def base_quality_plot(quality_table):
     :return:
     """
     sns.set()
-    fig, axes = plt.subplots(2, 1, figsize=(15.0, 7.5))
+    fig, axes = plt.subplots(2, 1, figsize=(15.0, 15.0))
     axes[0].set_title('Recalibration Qualtiy Scores')
 
     ax = sns.lineplot(
