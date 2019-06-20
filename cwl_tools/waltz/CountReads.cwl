@@ -24,6 +24,9 @@ doc: |
 
 inputs:
 
+  java_8: string
+  waltz_path: string
+
   input_bam:
     type: File
     inputBinding:
