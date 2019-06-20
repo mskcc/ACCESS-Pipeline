@@ -45,44 +45,48 @@ def base_quality_plot(quality_table):
     """
     sns.set()
     fig, axes = plt.subplots(2, 1, figsize=(15.0, 7.5))
+    axes[0].set_title('Recalibration Qualtiy Scores')
 
     ax = sns.lineplot(
+        data = quality_table,
         x = 'CYCLE',
         y = 'MEAN_ORIGINAL_QUALITY',
         hue = SAMPLE_ID_COLUMN,
-        data = quality_table,
         ax = axes[0],
-        linewidth=0.8
+        linewidth=1.2
     )
     ax.get_legend().remove()
-    ax.set_title('')
+    ax.set_ylabel('Base Quality Score')
+    ax.set_xlabel('Cycle')
+    # Static y-limits for
     ax.set_ylim([0, 50])
-    box = ax.get_position()
-    # Resize figure away from legend
+
+    # Move figures away from legend
     LEFT_SHIFT = 0.05
+    box = ax.get_position()
     ax.set_position([box.x0 - LEFT_SHIFT, box.y0, box.width - LEFT_SHIFT, box.height])
 
     ax = sns.lineplot(
+        data = quality_table,
         x = 'CYCLE',
         y = 'MEAN_QUALITY',
         hue = SAMPLE_ID_COLUMN,
-        data = quality_table,
         ax = axes[1],
-        linewidth=0.80
+        linewidth=1.2
     )
     ax.get_legend().remove()
     ax.set_xlabel('')
-    ax.set_ylim([0, 50])
-    box = ax.get_position()
-    # Resize figure away from legend
-    ax.set_position([box.x0 - LEFT_SHIFT, box.y0, box.width - LEFT_SHIFT, box.height])
-    plt.xlabel('Cycle')
+    ax.set_ylabel('Recalibrated Base Quality Score')
 
+    box = ax.get_position()
+    ax.set_position([box.x0 - LEFT_SHIFT, box.y0, box.width - LEFT_SHIFT, box.height])
+
+    plt.xlabel('Cycle')
     # Single legend for both plots
     handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, loc='upper right')
+    fig.legend(handles=handles[1:], labels=labels[1:], loc='center right')
 
-    plt.savefig('base_quality_plot.pdf')
+    plt.savefig('base_quality_plot.pdf', bbox_inches='tight')
 
 
 def parse_arguments():
