@@ -31,7 +31,7 @@ def main():
     parser.add_argument(
         "--allele-list",
         nargs='+', 
-        help='Allele Counts files output from MSIsensor'
+        help='Full paths to Allele Counts files output from MSIsensor'
     )
 
 
