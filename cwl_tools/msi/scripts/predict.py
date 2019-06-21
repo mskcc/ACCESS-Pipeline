@@ -130,7 +130,8 @@ def predict(filename, model, qc_dir, result_file):
             if i in n_coverages:
                 normal_coverage = str(n_coverages[i])
         
-            f.write(i+"\t"+normal+"\t"+classification+"\t"+str(dict_predictions_prob[i])+"\t"+tumor_coverage + "\t" + normal_coverage + "\n") 
+            #f.write(i+"\t"+normal+"\t"+classification+"\t"+str(dict_predictions_prob[i])+"\t"+tumor_coverage + "\t" + normal_coverage + "\n") 
+            f.write(i.split(".")[0]+"\t"+normal.split(".")[0]+"\t"+classification+"\t"+str(dict_predictions_prob[i])+"\t"+tumor_coverage + "\t" + normal_coverage + "\n")
 
 
 def main():
