@@ -1,4 +1,3 @@
-access-pipeline===1.1.5-8-g2e534ce
 avro==1.8.1
 backports.functools-lru-cache==1.5
 backports.ssl-match-hostname==3.5.0.1
