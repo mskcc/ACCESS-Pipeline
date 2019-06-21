@@ -3,7 +3,7 @@ python:
   - '2.7'
 
 install:
-  - python setup.py install
+  - pip install .
 
 script:
   - cd ./python_tools/test
