@@ -215,6 +215,18 @@ def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
         combined_vcf,
     ]
 
+    logger.debug("bcftools annotate Command: %s" % (" ".join(cmd)))
+    try:
+        subprocess.check_output(cmd)
+    except subprocess.CalledProcessError as e:
+        raise e
+    # fix_contig_tag_in_vcf_by_line(output_vcf)
+    # fix_contig_tag_in_vcf(output_vcf)
+
+    os.unlink(combined_vcf)
+    os.unlink("%s.tbi" % (combined_vcf))
+    return output_vcf
+
 
 def annotate_vcf_with_coordinates(vcf):
     with open(vcf, "r") as f, open("temp.vcf", "w") as v:
@@ -240,12 +252,3 @@ def annotate_vcf_with_coordinates(vcf):
     except OSError:
         raise
     return vcf
-
-    logger.debug("bcftools annotate Command: %s" % (" ".join(cmd)))
-    subprocess.check_call(cmd)
-    # fix_contig_tag_in_vcf_by_line(output_vcf)
-    # fix_contig_tag_in_vcf(output_vcf)
-
-    os.unlink(combined_vcf)
-    os.unlink("%s.tbi" % (combined_vcf))
-    return output_vcf
