@@ -517,6 +517,7 @@ MAF_TSV_COL_MAP = OrderedDict(
         ("Tumor_Seq_Allele2", "Alt"),
         ("Variant_Classification", "VariantClass"),
         ("Hugo_Symbol", "Gene"),
+        ("Call_Confidence", "Call_Confidence"),
         ("EXON", "Exon"),
         ("Transcript_ID", "TranscriptID"),
         ("Comments", "Comments"),
@@ -586,6 +587,7 @@ MAF_TSV_COL_MAP = OrderedDict(
 )
 
 MAF_DUMMY_COLUMNS = [
+    "Call_Confidence",
     "Comments",
     "Strand_Bias",
     "COSMIC_site",
