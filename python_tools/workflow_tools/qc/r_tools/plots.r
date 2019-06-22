@@ -41,13 +41,14 @@ plot_read_pairs_count = function(data) {
 #' @param data data.frame with the usual columns
 plot_align_genome = function(data) {
   data$AlignFrac = as.numeric(data$AlignFrac)
-  
+  class_count = length(unique(data[[TITLE_FILE__SAMPLE_CLASS_COLUMN]]))
+  class_col_palette = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(class_count)
   g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'AlignFrac')) +
     geom_bar(position='dodge', stat='identity', aes_string(fill = TITLE_FILE__SAMPLE_CLASS_COLUMN)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma) + 
     coord_cartesian(ylim=c(0.8, 1)) +
-    scale_fill_manual(values=c(MSK_BLUE, MSK_ORANGE)) +
+    scale_fill_manual(values=class_col_palette) +
     MAIN_PLOT_THEME
   
   ggsave(g, file='align_rate.pdf', width=20, height=8.5)
@@ -314,9 +315,9 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
 #' @param data data.frame with Sample, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
   data[, SAMPLE_ID_COLUMN] = factor(data[, SAMPLE_ID_COLUMN])
-  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
   # Only plot the Plasma samples
   data = data[data[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma',]
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
   
   g = ggplot(
     filter(data, FamilyType=='All'),

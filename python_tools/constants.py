@@ -128,8 +128,8 @@ columns_map_samplesheet = OrderedDict(
 # Title file generation constants #
 ###################################
 COLLAB_ID = "DMP"
-PLASMA = "plasma"
-BUFFY = "buffy"
+PLASMA = "Plasma"
+BUFFY = "Buffy Coat"
 SAMPLE_ID_ALLOWED_DELIMETER = "-"
 DISALLOWED_SAMPLE_ID_CHARACTERS = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 METADATA_COLUMN_DELIMETER = "|"
@@ -142,6 +142,8 @@ PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
 BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
 # BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
 ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
+ALLOWED_SAMPLE_TYPE_DESCRIPTION = [PLASMA, BUFFY]
+ALLOWED_CONTROLS = ["PoolTumor", "PoolNormal"]
 ALLOWED_SEX = ["Male", "Female"]
 CONTROL_SAMPLE_SEX = ["Control", "-"]
 FEMALE = "Female"
@@ -190,7 +192,7 @@ TITLE_FILE__COLUMN_ORDER = [
     TITLE_FILE__ACCESSION_COLUMN,
     TITLE_FILE__BARCODE_INDEX_1_COLUMN,
     TITLE_FILE__BARCODE_INDEX_2_COLUMN,
-    # TITLE_FILE__LANE_COLUMN Do not include the lane column for now
+    TITLE_FILE__LANE_COLUMN,
 ]
 
 ##############################
@@ -704,11 +706,12 @@ NOISE_HEADER = [
 
 TMPDIR_SEARCH = re.compile(r"(^tmp$|^tmp......$)")
 OUT_TMPDIR_SEARCH = re.compile(r"^out_tmpdir......$")
+TOIL_LOG = re.compile(r"(^toil_job_[0-9]+.[o|e][0-9]+$)")
 
-STANDARD_BAM_DIR = "standard_bams"
-UNFILTERED_BAM_DIR = "unfiltered_bams"
-SIMPLEX_BAM_DIR = "simplex_bams"
-DUPLEX_BAM_DIR = "duplex_bams"
+STANDARD_BAM_DIR = "standard"
+UNFILTERED_BAM_DIR = "unfiltered"
+SIMPLEX_BAM_DIR = "simplex"
+DUPLEX_BAM_DIR = "duplex"
 TRIM_FILES_DIR = "trimming_results"
 MARK_DUPLICATES_FILES_DIR = "mark_duplicates_results"
 COVERED_INTERVALS_DIR = "covered_intervals_results"

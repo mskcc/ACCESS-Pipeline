@@ -2,6 +2,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 from subprocess import check_output
+from _version import version
 
 
 def req_file(filename):
@@ -15,40 +16,6 @@ def req_file(filename):
         content = f.readlines()
         content = filter(lambda x: not x.startswith("#"), content)
     return [x.strip() for x in content]
-
-
-def most_recent_tag():
-    """
-    Helper function to get the recent tag and commit
-
-    :param :
-    :return str:
-    """
-    tag = str(
-        check_output(["git", "describe", "--tags"])
-        .decode("utf-8")
-        .strip()
-        .split("-")
-        .pop(0)
-    )
-    commit = str(
-        check_output(
-            [
-                "git",
-                "log",
-                "--pretty=oneline",
-                "-n",
-                "1",
-                "--",
-                os.path.dirname(os.path.abspath(__file__)),
-            ]
-        )
-        .decode("utf-8")
-        .strip()
-        .split(" ")
-        .pop(0)[:7]
-    )
-    return "-".join([tag, commit])
 
 
 def get_package_files(directory, file_type):
@@ -109,7 +76,7 @@ SUPPORT_SCRIPTS = [
 
 setup(
     name="access_pipeline",
-    version=most_recent_tag(),
+    version=version(),
     description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
     url="http://github.com/mskcc/ACCESS-Pipeline",
     author="Ian Johnson, Gowtham Jayakumaran",
@@ -128,7 +95,7 @@ setup(
         # "workflow": get_package_files("workflows", (".cwl")),
         # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
         # "python_tools": get_package_files("python_tools", (".r")),
-        "resources": get_package_files("resources", (".cwl", ".yaml")),
+        "resources": get_package_files("resources", (".cwl", ".yaml"))
     },
     include_package_data=True,
     entry_points=ENTRY_POINTS,

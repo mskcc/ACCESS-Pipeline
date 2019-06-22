@@ -7,9 +7,9 @@ import subprocess
 import ruamel.yaml
 from tempfile import mkdtemp
 
-import version
 from configuration import *
 
+<<<<<<< HEAD
 # This script is used to run workflows from the command line using toil-cwl-runner.
 #
 # It is a simple wrapper that creates the output directory structure,
@@ -27,6 +27,8 @@ from configuration import *
 #    --clusterStats FILEPATH \
 #    --stats \
 
+=======
+>>>>>>> 2697f67e0cc2675d1d3f2b272a988dfa603d1447
 
 def parse_arguments():
     """
@@ -178,7 +180,7 @@ def run_toil(args, tmpdir, project):
 
     toil = ToilArgs()
     toil_cmd = toil.get_toil_cmd(
-        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system),
+        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system, args.queue),
         output_directory,
         args.batch_system,
         args.logLevel,
