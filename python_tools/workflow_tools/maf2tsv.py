@@ -95,7 +95,8 @@ def maf2tsv(maf_file):
         )
 
     # compute columns
-    maf["EXON"] = np.vectorize(get_exon)(maf["EXON"], maf["INTRON"])
+    
+    maf["EXON"] = np.vectorize(get_exon, otypes=[str])(maf["EXON"], maf["INTRON"])
     maf = maf.drop(["INTRON"], axis=1)
 
     # Compute columns
@@ -239,7 +240,7 @@ def get_project(titlefile):
     """
     try:
         title_file = pd.read_csv(
-            titlefile, sep="\t", header=0, usecols=["Sample", "Project"]
+            titlefile, sep="\t", header=0, usecols=["Sample", "Pool"]
         )
     except IOError:
         raise
@@ -248,7 +249,7 @@ def get_project(titlefile):
             "The title file provided should include 'Sample' and 'Project' columns."
         )
 
-    project_name = set(title_file["Project"].values.tolist())
+    project_name = set(title_file["Pool"].values.tolist())
     if len(project_name) > 1:
         raise Exception(
             "Title file has multiple project names {}. Should be an unique project name.".format(
