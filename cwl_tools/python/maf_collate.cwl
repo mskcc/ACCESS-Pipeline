@@ -10,25 +10,25 @@ arguments:
 - head
 - -n
 - '1'
-- $(inputs.sv_calls[0].path)
+- $(inputs.all_maf[0].path)
 
 - shellQuote: false
   valueFrom: '>'
 
-- all_calls.txt
+- collated.maf
 
 - shellQuote: false
   valueFrom: '&&'
 
 - cat
-- $(inputs.sv_calls)
+- $(inputs.all_maf)
 
 - shellQuote: false
   valueFrom: '|'
 
 - grep
 - -vP
-- "^TumorId"
+- "^Hugo"
 
 # Need this to prevent nonzero exit code if grep runs on header only
 - shellQuote: false
@@ -38,15 +38,15 @@ arguments:
 - shellQuote: false
   valueFrom: '>>'
 
-- all_calls.txt
+- collated.maf
 
 inputs:
 
-  sv_calls: File[]
+  all_maf: File[]
 
 outputs:
 
-  concatenated_vcf:
+  collated_maf:
     type: File
     outputBinding:
-      glob: all_calls.txt
+      glob: collated.maf
