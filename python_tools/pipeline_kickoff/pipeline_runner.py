@@ -9,26 +9,6 @@ from tempfile import mkdtemp
 
 from configuration import *
 
-<<<<<<< HEAD
-# This script is used to run workflows from the command line using toil-cwl-runner.
-#
-# It is a simple wrapper that creates the output directory structure,
-# and provides some default values for Toil params.
-#
-# It does not submit jobs to worker nodes,
-# as opposed to pipeline_submit, which uses bsub.
-#
-# Optional, potentially useful Toil arguments:
-#    --realTimeLogging \
-#    --rotateLogging \
-#    --js-console
-# Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
-#    --linkImports \
-#    --clusterStats FILEPATH \
-#    --stats \
-
-=======
->>>>>>> 2697f67e0cc2675d1d3f2b272a988dfa603d1447
 
 def parse_arguments():
     """
