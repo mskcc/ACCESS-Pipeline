@@ -15,7 +15,7 @@ arguments:
 
 inputs:
 
-  collated_anno_maf:
+  collated_maf:
     type: File
     inputBinding:
       prefix: --anno_maf
