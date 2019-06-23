@@ -230,8 +230,8 @@ def annotate_vcf(combined_vcf, anno_with_vcf, tmp_header):
 
 def annotate_vcf_with_coordinates(vcf):
     with open(vcf, "r") as f, open("temp.vcf", "w") as v:
-        while f:
-            line = f.next().strip()
+        for line in f:
+            line = line.strip()
             if line.startswith("#"):
                 v.write(line + "\n")
             else:
@@ -248,7 +248,7 @@ def annotate_vcf_with_coordinates(vcf):
                 v.write("\t".join(rows) + "\n")
     try:
         os.remove(vcf)
-        os.replace("temp.vcf", vcf)
+        os.rename("temp.vcf", vcf)
     except OSError:
         raise
     return vcf
