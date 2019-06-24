@@ -148,27 +148,27 @@ outputs:
     outputSource: snps_and_indels/collated_maf
 
   filtered_exonic:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/filtered_exonic
 
   dropped_exonic:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/dropped_exonic
 
   filtered_silent:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/filtered_silent
 
   dropped_silent:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/dropped_silent
 
   filtered_nonpanel:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/filtered_nonpanel
 
   dropped_nonpanel:
-    type: File[]
+    type: File
     outputSource: snps_and_indels/dropped_nonpanel
 
   # Manta

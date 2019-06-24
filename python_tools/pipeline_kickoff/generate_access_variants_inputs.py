@@ -438,13 +438,14 @@ def create_inputs_file(args):
                 )
             )
 
-    tumor_ids, normal_ids = (
+    tumor_ids, normal_ids, patient_ids = (
         filter(None, pairing_df[TUMOR_ID].tolist()),
         filter(None, pairing_df[NORMAL_ID].tolist()),
+        filter(None, pairing_df[GROUP_BY_ID].tolist()),
     )
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
     simplex_bam_paths = find_bams_in_directory(
-        args.simplex_bams_directory, tumor_ids + normal_ids
+        args.simplex_bams_directory, tumor_ids
     )
     curated_bam_duplex_paths = find_bams_in_directory(
         args.curated_bams_duplex_directory
@@ -466,6 +467,9 @@ def create_inputs_file(args):
     write_yaml_bams(
         fh,
         args,
+        tumor_ids,
+        normal_ids,
+        patient_ids,
         tumor_bam_paths,
         normal_bam_paths,
         simplex_bam_paths,
@@ -492,14 +496,16 @@ def create_inputs_file(args):
     fh.write(INPUTS_FILE_DELIMITER)
     create_traceback_inputs(args, fh)
 
-
+    fh.write("title_file: {class: File, path: {}}".format(args.title_file_path))
     fh.write("project_name: {}".format(args.project_name))
     include_version_info(fh)
     fh.close()
 
 
 def create_traceback_inputs(args, fh):
-    Traceback_status = True if args.traceback_mutations_input and args.traceback_bam_files else False
+    Traceback_status = (
+        True if args.traceback_mutations_input and args.traceback_bam_files else False
+    )
     Traceback_inputs = args.traceback_mutations_input
     Traceback_bams = args.traceback_bam_files
     fh.write("Traceback: " + str(Traceback_status) + "\n")
@@ -511,6 +517,9 @@ def create_traceback_inputs(args, fh):
 def write_yaml_bams(
     fh,
     args,
+    tumor_ids,
+    normal_ids,
+    patient_ids,
     tumor_bam_paths,
     normal_bam_paths,
     simplex_bam_paths,
@@ -631,6 +640,7 @@ def write_yaml_bams(
     tumor_sample_ids = {"tumor_sample_names": tumor_sample_ids}
     normal_sample_ids = {"normal_sample_names": normal_sample_ids}
     matched_normal_ids = {"matched_normal_ids": matched_normal_ids}
+    patient_ids = {"patient_ids": patient_ids}
     genotyping_bams_paths = {"genotyping_bams": genotyping_bams}
 
     # 5. Write them to the inputs yaml file
@@ -639,6 +649,7 @@ def write_yaml_bams(
     fh.write(ruamel.yaml.dump(tumor_sample_ids))
     fh.write(ruamel.yaml.dump(normal_sample_ids))
     fh.write(ruamel.yaml.dump(matched_normal_ids))
+    fh.write(ruamel.yaml.dump(patient_ids))
     fh.write(ruamel.yaml.dump(genotyping_bams_paths))
     fh.write(ruamel.yaml.dump(genotyping_bams_ids))
 
