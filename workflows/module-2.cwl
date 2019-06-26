@@ -72,6 +72,8 @@ steps:
       reference_fasta: reference_fasta
       patient_id: patient_id
       find_covered_intervals__params: find_covered_intervals__params
+      fci__basq_fix:
+        valueFrom: $(false)
       abra__params: abra__params
       fix_mate_information__params: fix_mate_information__params
     out: [ir_bams, covint_list, covint_bed]
