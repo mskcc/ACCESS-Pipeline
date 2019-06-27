@@ -381,42 +381,6 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
 
 
-# def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir):
-#     listofsamples = extract_list_of_tumor_samples(titlefile)
-#     if listofsamples:
-#         duplex_merged_dir = concatenate_a_and_b_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, output_dir, 'DuplexMergedPileup',
-#                                                     listofsamples)
-#         fp_duplex_output_dir = make_output_dir(fp_output_dir, 'FPDuplexResults')
-#         listofduplexpileups = extract_pileup_files(duplex_merged_dir)
-#         all_fp, all_geno = find_fp_maf(listofduplexpileups, fp_indices, fp_duplex_output_dir)
-#         reformat_all(listofduplexpileups, fp_indices, fp_duplex_output_dir)
-#         # Plot the Contamination
-#         plt.clf()
-#         contamination = contamination_rate(all_fp)
-#         contamination = [x for x in contamination if x[1] != 'NaN']
-
-#         samplename = [c[0] for c in contamination]
-#         title_file = read_df(titlefile, header='infer')
-#         samplename = [extract_sample_name(s, title_file[SAMPLE_ID_COLUMN]) for s in samplename]
-
-#         y_pos = np.arange(len(samplename))
-#         mean_contam = [c[1] for c in contamination]
-#         minor_contamination = [[samplename[i], mean_contam[i]] for i in range(0, len(samplename))]
-#         minor_contamination = sorted(minor_contamination)
-#         write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
-
-#         plt.figure(figsize=(10, 5))
-#         plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
-#         plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
-#         plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
-#         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-#         plt.xlabel('Sample Name')
-#         plt.title('Minor Contamination Check (Duplex)')
-#         plt.xlim([-1, y_pos.size])
-#         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
-#     else:
-#         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
-
 def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefilepath, config_file, fp_output_dir):
     coverage_thres=200
     homozygous_thres=0.1    
@@ -427,13 +391,13 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         except FileNotFoundError:
             raise FileNotFoundError ('Error: Fingerprinting configure file does not exist')
         # Check if there is a header and remove the header
-        if config.columns.to_list()!=['Chrom', 'Pos', 'Allele1', 'Allele2', 'Name'] and config.columns.to_list()!=['Chrom', 'Pos', 'Allele1', 'Allele2']:
+        if list(config.columns.values)!=['Chrom', 'Pos', 'Allele1', 'Allele2', 'Name'] and list(config.columns.values)!=['Chrom', 'Pos', 'Allele1', 'Allele2']:
             raise IOError('Error: Fingerprinting configure file has improper header')
         # Check is there are sites in the file
         if config.shape[0]==0:
             raise IOError('Error: Fingerprinting configure file is empty')  
         #Check is fingerprint has a name and if it doesn't make the name chrom:pos
-        if 'Name' not in config.columns.to_list():
+        if 'Name' not in list(config.columns.values):
             config['Name']=config['Chrom']+':'+config['Pos']
         #Set Index to Chrom:Pos and remove duplicates
         config.index=config['Chrom']+':'+config['Pos']
@@ -460,7 +424,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
         b=pd.read_csv(fileB, header=None, sep='\t', dtype=str)
         #Merge A and B pileupes        
         ab=a.append(b,ignore_index=True)
-        ab.drop(columns=[8,9,10,11,12,13], inplace=True)
+        ab.drop([8,9,10,11,12,13], axis=1, inplace=True)
         ab.columns=['Chrom','Pos', 'Ref', 'Total_Depth', 'A', 'C', 'G','T']
         ab.index=ab['Chrom']+':'+ab['Pos']
         ab.drop_duplicates(inplace=True)
@@ -801,7 +765,6 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     plot_genotyping_matrix(geno_compare, fp_output_dir, titlefile)
 
     # Duplex Plot
-    #plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir)
     plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, config_file, fp_output_dir)
     merge_pdf_in_folder(fp_output_dir, 'FPFigures.pdf')
 
