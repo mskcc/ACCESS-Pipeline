@@ -381,41 +381,160 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
 
 
-def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir):
-    listofsamples = extract_list_of_tumor_samples(titlefile)
-    if listofsamples:
-        duplex_merged_dir = concatenate_a_and_b_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, output_dir, 'DuplexMergedPileup',
-                                                    listofsamples)
-        fp_duplex_output_dir = make_output_dir(fp_output_dir, 'FPDuplexResults')
-        listofduplexpileups = extract_pileup_files(duplex_merged_dir)
-        all_fp, all_geno = find_fp_maf(listofduplexpileups, fp_indices, fp_duplex_output_dir)
-        reformat_all(listofduplexpileups, fp_indices, fp_duplex_output_dir)
-        # Plot the Contamination
-        plt.clf()
-        contamination = contamination_rate(all_fp)
-        contamination = [x for x in contamination if x[1] != 'NaN']
+# def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir):
+#     listofsamples = extract_list_of_tumor_samples(titlefile)
+#     if listofsamples:
+#         duplex_merged_dir = concatenate_a_and_b_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, output_dir, 'DuplexMergedPileup',
+#                                                     listofsamples)
+#         fp_duplex_output_dir = make_output_dir(fp_output_dir, 'FPDuplexResults')
+#         listofduplexpileups = extract_pileup_files(duplex_merged_dir)
+#         all_fp, all_geno = find_fp_maf(listofduplexpileups, fp_indices, fp_duplex_output_dir)
+#         reformat_all(listofduplexpileups, fp_indices, fp_duplex_output_dir)
+#         # Plot the Contamination
+#         plt.clf()
+#         contamination = contamination_rate(all_fp)
+#         contamination = [x for x in contamination if x[1] != 'NaN']
 
-        samplename = [c[0] for c in contamination]
-        title_file = read_df(titlefile, header='infer')
-        samplename = [extract_sample_name(s, title_file[SAMPLE_ID_COLUMN]) for s in samplename]
+#         samplename = [c[0] for c in contamination]
+#         title_file = read_df(titlefile, header='infer')
+#         samplename = [extract_sample_name(s, title_file[SAMPLE_ID_COLUMN]) for s in samplename]
 
-        y_pos = np.arange(len(samplename))
-        mean_contam = [c[1] for c in contamination]
-        minor_contamination = [[samplename[i], mean_contam[i]] for i in range(0, len(samplename))]
-        minor_contamination = sorted(minor_contamination)
-        write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
+#         y_pos = np.arange(len(samplename))
+#         mean_contam = [c[1] for c in contamination]
+#         minor_contamination = [[samplename[i], mean_contam[i]] for i in range(0, len(samplename))]
+#         minor_contamination = sorted(minor_contamination)
+#         write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
 
-        plt.figure(figsize=(10, 5))
-        plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
-        plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
-        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
-        plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-        plt.xlabel('Sample Name')
-        plt.title('Minor Contamination Check (Duplex)')
-        plt.xlim([-1, y_pos.size])
-        plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
-    else:
+#         plt.figure(figsize=(10, 5))
+#         plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+#         plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+#         plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
+#         plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
+#         plt.xlabel('Sample Name')
+#         plt.title('Minor Contamination Check (Duplex)')
+#         plt.xlim([-1, y_pos.size])
+#         plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
+#     else:
+#         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
+
+def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefilepath, config_file, fp_output_dir):
+    coverage_thres=200
+    homozygous_thres=0.1    
+    #New fp_indices script using pandas    
+    def create_fp_indices (config_file):
+        try:
+            config=pd.read_csv(config_file, header=0, sep='\t',dtype=str)
+        except FileNotFoundError:
+            raise FileNotFoundError ('Error: Fingerprinting configure file does not exist')
+        # Check if there is a header and remove the header
+        if config.columns.to_list()!=['Chrom', 'Pos', 'Allele1', 'Allele2', 'Name'] and config.columns.to_list()!=['Chrom', 'Pos', 'Allele1', 'Allele2']:
+            raise IOError('Error: Fingerprinting configure file has improper header')
+        # Check is there are sites in the file
+        if config.shape[0]==0:
+            raise IOError('Error: Fingerprinting configure file is empty')  
+        #Check is fingerprint has a name and if it doesn't make the name chrom:pos
+        if 'Name' not in config.columns.to_list():
+            config['Name']=config['Chrom']+':'+config['Pos']
+        #Set Index to Chrom:Pos and remove duplicates
+        config.index=config['Chrom']+':'+config['Pos']
+        config.drop_duplicates(inplace=True)
+        return config
+    #New Extract pileups paths script    
+    def extract_paired_list_of_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, listofsamples):   
+        pairedListOfPileups = []
+        for pileupfile in os.listdir(waltz_dir_a_duplex):
+            #extract only pileups from Waltz folders
+            if pileupfile.endswith("pileup.txt"):
+                #Check is file is in the list of Tumor Samples
+                samplename=extract_sample_name(pileupfile,titlefile[SAMPLE_ID_COLUMN])
+                if samplename in listofsamples:
+                    #Check if PoolB pileup exists
+                    if os.path.isfile(waltz_dir_b_duplex+pileupfile):
+                        pairedListOfPileups.append([samplename, waltz_dir_a_duplex+pileupfile, waltz_dir_b_duplex+pileupfile])
+                    else:
+                        raise ("Duplex Minor Contamination plot: "+pileupfile+" not found in Duplex Pool B directory provided, "+samplename +" excluded from duplex minor contamination")
+        return pairedListOfPileups
+    #Make minor contamination rate and all_fp_summary 
+    def FP_analysis(samplename, fileA, fileB, config):
+        a=pd.read_csv(fileA, header=None, sep='\t', dtype=str)
+        b=pd.read_csv(fileB, header=None, sep='\t', dtype=str)
+        #Merge A and B pileupes        
+        ab=a.append(b,ignore_index=True)
+        ab.drop(columns=[8,9,10,11,12,13], inplace=True)
+        ab.columns=['Chrom','Pos', 'Ref', 'Total_Depth', 'A', 'C', 'G','T']
+        ab.index=ab['Chrom']+':'+ab['Pos']
+        ab.drop_duplicates(inplace=True)
+        #need to check if there is an overlap in bed file and fp_config file
+        fp= config.merge(ab)
+        allele1_counts=[]
+        allele2_counts=[]
+        for i, row in fp.iterrows():
+            allele1_counts.append(int(row[row['Allele1']]))
+            allele2_counts.append(int(row[row['Allele2']]))
+        fp['allele1_count']=allele1_counts
+        fp['allele2_count']=allele2_counts
+        fp['coverage']=fp[['allele1_count', 'allele2_count']].sum(axis=1)       
+        #Find Minor allele Fraction of sites with sufficent coverage
+        fp.loc[fp.coverage>=coverage_thres,'mAF']=fp[['allele1_count', 'allele2_count']].min(axis=1)/fp['coverage']
+        #Find Genotype
+        fp.loc[fp.mAF>homozygous_thres,'Geno']=fp['Allele1']+fp['Allele2']
+        fp.loc[(fp.mAF<=homozygous_thres) & (fp.allele1_count>fp.allele2_count),'Geno']=fp['Allele1']
+        fp.loc[(fp.mAF<=homozygous_thres) & (fp.allele1_count<fp.allele2_count),'Geno']=fp['Allele2']
+        #find minor contamination        
+        minor_contamination=[samplename, fp.loc[fp.mAF<=homozygous_thres,'mAF'].mean()]
+        #Make All_FPsummary file
+        fp_summary=pd.DataFrame()        
+        fp_summary['Locus']=fp['Chrom']+':'+fp['Pos']
+        fp_summary[samplename+'_Counts']=fp['Allele1']+':'+fp['allele1_count'].astype(str)+' '+fp['Allele2']+':'+fp['allele2_count'].astype(str)
+        fp_summary[samplename+'_Genotypes']=fp['Geno']
+        fp_summary[samplename+'_MinorAlleleFreq']=fp['mAF']
+        fp_summary.fillna(value='-', inplace=True)
+        return minor_contamination, fp_summary
+
+        
+    #RUN
+    titlefile = read_df(titlefilepath, header='infer')
+    listofsamples = titlefile.loc[titlefile[MANIFEST__SAMPLE_CLASS_COLUMN]=='Tumor'][SAMPLE_ID_COLUMN].tolist()
+    config=create_fp_indices (config_file)    
+    #Check if Waltz Directories exist    
+    if not(os.path.isdir(waltz_dir_a_duplex) and os.path.isdir(waltz_dir_b_duplex)):
+        raise IOError('Error: One or both of the input directory with pileups provided to plot_duplex_minor_contamination does not exist')        
+    #Check if there are any tumor samples in this Run
+    if not listofsamples:
         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
+        return
+    #Extract paired pileup files    
+    pairedListOfPileups=extract_paired_list_of_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, listofsamples)
+    for i, [samplename, fileA, fileB] in enumerate(pairedListOfPileups):
+        if i==0:
+            minor_contamination, all_fp_summary=FP_analysis(samplename, fileA, fileB, config)
+            all_minor_contamination=[minor_contamination]
+        else:
+            minor_contamination, fp_summary=FP_analysis(samplename, fileA, fileB, config)
+            all_minor_contamination.append(minor_contamination)
+            all_fp_summary=all_fp_summary.merge(fp_summary, on='Locus')
+            
+    all_fp_summary.to_csv(fp_output_dir+'/duplex_ALL_FPsummary.txt', sep="\t",index=False)
+    all_minor_contamination=[x for x in all_minor_contamination if not np.isnan(x[1])]
+    all_minor_contamination = sorted(all_minor_contamination)
+    df_minor_contamination = pd.DataFrame(all_minor_contamination, columns=['SampleName', 'MinorContaminationRateInDuplex'])
+    df_minor_contamination.to_csv(fp_output_dir+'/duplex_minor_contamination.txt', sep="\t",index=False)
+
+    plt.clf()    
+    y_pos = np.arange(len(all_minor_contamination))
+    plt.figure(figsize=(10, 5),facecolor='white')
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+    plt.bar(y_pos, [m[1] for m in all_minor_contamination], align='center', color='black')
+    plt.xticks(y_pos, [m[0] for m in all_minor_contamination], rotation=90, ha='center')
+    plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
+    plt.xlabel('Sample Name')
+    plt.title('Minor Contamination Check (Duplex)')
+    plt.xlim([-1, y_pos.size])
+    #plt.autoscale(True)
+    plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
+    plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination])+.0005])])
+    plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
+
 
 
 def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
@@ -682,7 +801,8 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     plot_genotyping_matrix(geno_compare, fp_output_dir, titlefile)
 
     # Duplex Plot
-    plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir)
+    #plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir)
+    plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, config_file, fp_output_dir)
     merge_pdf_in_folder(fp_output_dir, 'FPFigures.pdf')
 
     # return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare

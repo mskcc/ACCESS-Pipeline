@@ -7,7 +7,7 @@ inputs_yaml: {class: File, path: ../test_data/qc/qc_workflow_wo_waltz/test_input
 title_file: {class: File, path: ../test_data/qc/qc_workflow_wo_waltz/test_title_file.txt}
 
 # Fingerprinting
-FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
 
 # Noise
 noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
