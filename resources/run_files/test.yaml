@@ -12,7 +12,7 @@ bqsr__knownSites_dbSNP: {class: File, path: /home/johnsoni/test_reference/vcf/db
 bqsr__knownSites_millis: {class: File, path: /home/johnsoni/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
 
 # Fingerprinting
-FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
 
 # UMI QC
 A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
