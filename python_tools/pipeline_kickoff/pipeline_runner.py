@@ -5,6 +5,8 @@ import argparse
 import subprocess
 import ruamel.yaml
 
+from tempfile import mkdtemp
+
 import version
 
 
@@ -32,6 +34,8 @@ BASE_TOIL_RUNNER = 'toil-cwl-runner'
 
 # Name for log file output by Toil
 LOG_FILE_NAME = 'cwltoil.log'
+
+TMP_DIR = '/scratch'
 
 # Environment variables needed to be preserved across nodes
 PRESERVE_ENV_VARS = [
@@ -225,7 +229,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     subprocess.check_call(cmd, shell=True)
 
 
-def set_temp_dir_env_vars(tmpdir):
+def set_temp_dir_env_vars(project_id):
     """
     Set environment variables for temporary directories
     Try to cover all possibilities for every tool
@@ -233,6 +237,12 @@ def set_temp_dir_env_vars(tmpdir):
     :param tmpdir:
     :return:
     """
+    tmpdir = mkdtemp(
+        prefix=project_id + '_',
+        suffix='_' + str(os.getpid()),
+        dir=TMP_DIR
+    )
+
     os.environ['TMPDIR'] = tmpdir
     os.environ['TMP_DIR'] = tmpdir
     os.environ['TEMP'] = tmpdir
@@ -253,6 +263,7 @@ def main():
 
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
-    set_temp_dir_env_vars(tmpdir)
+    project_and_version_id = get_project_name_and_pipeline_version_id(args)
+    set_temp_dir_env_vars(project_and_version_id)
 
     run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
