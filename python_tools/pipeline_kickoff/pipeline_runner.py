@@ -56,7 +56,7 @@ DEFAULT_TOIL_ARGS = {
     '--defaultMem'              : '10G',
     '--no-container'            : '',
     '--disableCaching'          : '',
-    '--stats'                   : '',
+    '--clean'                   : 'onSuccess',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000000',
     '--retryCount'              : 2,
@@ -229,7 +229,7 @@ def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
     subprocess.check_call(cmd, shell=True)
 
 
-def set_temp_dir_env_vars(project_id):
+def set_temp_dir_env_vars(cwl_tmpdir, project_id):
     """
     Set environment variables for temporary directories
     Try to cover all possibilities for every tool
@@ -237,17 +237,17 @@ def set_temp_dir_env_vars(project_id):
     :param tmpdir:
     :return:
     """
-    tmpdir = mkdtemp(
+    java_tmpdir = mkdtemp(
         prefix=project_id + '_',
         suffix='_' + str(os.getpid()),
         dir=TMP_DIR
     )
 
-    os.environ['TMPDIR'] = tmpdir
-    os.environ['TMP_DIR'] = tmpdir
-    os.environ['TEMP'] = tmpdir
-    os.environ['TMP'] = tmpdir
-    os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + tmpdir
+    os.environ['TMPDIR'] = cwl_tmpdir
+    os.environ['TMP_DIR'] = cwl_tmpdir
+    os.environ['TEMP'] = cwl_tmpdir
+    os.environ['TMP'] = cwl_tmpdir
+    os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + java_tmpdir
 
 
 ########
@@ -264,6 +264,6 @@ def main():
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
     project_and_version_id = get_project_name_and_pipeline_version_id(args)
-    set_temp_dir_env_vars(project_and_version_id)
+    set_temp_dir_env_vars(tmpdir, project_and_version_id)
 
     run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
