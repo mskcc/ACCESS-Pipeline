@@ -842,7 +842,9 @@ analysis.out <- do.call('rbind',lapply(seq(1,length(patients),1),function(i){
 	names(best.nm.probes.X) <- gc[,'Interval'];
 
 	# Best-normal check
-	ratiolabel <- paste(tm," vs. ",best.norm.auto,"\nSex=",pt.gender,", Norm for X=",best.norm.X,sep="");
+	ratiolabel <- paste(tm," vs ",best.norm.auto,"\nSex=",pt.gender,", Norm for X=",best.norm.X,sep="");
+	ratiolabel = gsub("^X", "", ratiolabel)
+	ratiolabel = gsub("\\.", "-", ratiolabel) 
 	if(doFull == 'FULL'){
 	    sig.list <- cn.analysis(tm.probes, best.nm.probes.auto, best.nm.probes.X, tm, genelabel,make.plot=T);
 	}else{
