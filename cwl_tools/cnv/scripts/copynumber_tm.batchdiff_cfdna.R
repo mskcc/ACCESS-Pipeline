@@ -436,6 +436,8 @@ rough.clus <- function(yvalues,sep=0.1,num.steps=3,make.plot=F){
 
 seg.clus.p <- function(logratio, genelabel, make.plots=F,sample.id){
 
+	sample.id = gsub("^X", "", sample.id)
+        sample.id = gsub("\\.", "-", sample.id)
 	# CBS
 	cna.obj.mat <- do.call('rbind',lapply(seq(1,length(logratio),1),function(j){
 		f <- unlist(strsplit(names(logratio)[j],'\\:'));
@@ -457,7 +459,6 @@ seg.clus.p <- function(logratio, genelabel, make.plots=F,sample.id){
 		ret <- segment.smoothed.cna.obj$output[which(segment.smoothed.cna.obj$output[,'chrom'] == chr),,drop=F];
 		return(ret[order(as.numeric(ret[,'loc.start']),decreasing=F),]);
 	}));
-
 	write.table(segment.smoothed.cna.obj.srt,
 			    paste(sample.id,"_",prefix,"_copynumber.seg",sep=""),
 			    col.names=T,row.names=F,quote=F);
@@ -815,7 +816,6 @@ analysis.out <- do.call('rbind',lapply(seq(1,length(patients),1),function(i){
 	best.norm.auto <- names(auto.noise)[which(auto.noise == min(auto.noise))][1];
 	best.nm.probes.auto <- normal[,best.norm.auto];
 	names(best.nm.probes.auto) <- gc[,'Interval'];
-
 	y.cov.pt <- median(as.numeric(tm.probes[grep('^Y\\:',gc[,'Interval'])]),na.rm=T);
 	if(gender != '-'){
 		pt.gender <- gender;
@@ -959,15 +959,21 @@ analysis.out <- do.call('rbind',lapply(seq(1,length(patients),1),function(i){
 dev.off();
 if(doFull != "FULL"){
 	  probe.table <- analysis.out[which(analysis.out[,'table'] == 'Probe'),];
+	  probe.table$sample = gsub("\\.", "-", probe.table$sample)
+	  probe.table$sample = gsub("^X", "", probe.table$sample)
 	  write.table(probe.table[,-which(colnames(probe.table) == 'table')],paste(prefix,"_copynumber_segclusp.probes.txt",sep=''),sep='\t',row.names=F,col.names=T,quote=F);
 
 	  gene.table <- analysis.out[which(analysis.out[,'table'] == 'Gene'),];
+	  gene.table$sample = gsub("\\.", "-", gene.table$sample)
+	  gene.table$sample = gsub("^X", "", gene.table$sample)
 	  write.table(gene.table[,-which(colnames(gene.table) == 'table')],paste(prefix,"_copynumber_segclusp.genes.txt",sep=''),sep='\t',row.names=F,col.names=T,quote=F);
 
 	  idx = NULL # write an empty intragenic file, for now
 	 # idx <- which(analysis.out[,'table'] == 'Intragenic_loss');
 	 # if(length(idx) > 0){
 	  intragenic.table <- analysis.out[idx,];
+	  intragenic.table$sample = gsub("\\.", "-", intragenic.table$sample)
+	  intragenic.table$sample = gsub("^X", "", intragenic.table$sample)	
 	  write.table(intragenic.table[,-which(colnames(intragenic.table) == 'table')],paste(prefix,"_copynumber_segclusp.intragenic.txt",sep=''),sep='\t',row.names=F,col.names=T,quote=F);
 	 # }
 }
