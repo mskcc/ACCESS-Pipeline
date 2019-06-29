@@ -194,4 +194,6 @@ norm=(norm_rt^2);
 colnames(norm)<-colnames(gc2.inclY);
 normtable=data.frame('Order'=targets.inclY[,"Order"],'Interval'=targets.inclY[,"Interval"],'genes'=as.character(targets.inclY[,"Gene"]),norm);
 
-write.table(normtable,outtablename,sep="\t",row.names=FALSE,col.names=TRUE)
+names(normtable)= gsub(names(normtable), pattern = "(\\.)+",replacement = "-")
+names(normtable) = gsub(names(normtable), pattern = "(^X)+",replacement = "")
+write.table(normtable,outtablename,sep="\t",row.names=FALSE,col.names=TRUE, quote=F)
