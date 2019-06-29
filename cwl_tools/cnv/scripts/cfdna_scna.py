@@ -139,10 +139,11 @@ def parallelCov(cov_args):
     sampleCov=[]
     output={}
     mq = 0 #can param min mapping quality if desired
-    id= re.sub('.*\/(.*)_ACCESSv.*',r'\1', bam)
+    id= os.path.basename(bam)
+    id = id.split('_')[0]
     print "Generating coverage metrics for: " + id
     sys.stdout.flush()
-    #id = id+"_mean_cvg"
+    id = id+"_mean_cvg"
     cmd = [bed, bam]
     cmd.extend(['-Q',bytes(mq)])
 
