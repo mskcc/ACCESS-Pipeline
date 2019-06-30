@@ -59,7 +59,7 @@ seaborn==0.9.0
 shellescape==3.4.1
 six==1.11.0
 subprocess32==3.5.2
-toil-ionox0==0.0.6
+toil-ionox0==0.0.7
 typing==3.6.6
 typing-extensions==3.6.6
 urllib3==1.22
