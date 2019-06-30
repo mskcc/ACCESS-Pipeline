@@ -12,6 +12,3 @@ export PATH="$VIRTUAL_ENV/bin:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/comm
 
 # Needed for Node.js to find shared libraries
 export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
-
-# Location for Toil temporary intermediate files
-export TMPDIR=/scratch
