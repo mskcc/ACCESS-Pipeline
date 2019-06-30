@@ -220,8 +220,8 @@ def extract_sample_id_from_bam_path(bam_path):
     :param path:
     :return:
     """
-    return bam_path.split('/')[-1].split('_cl_aln')[0]
-
+    #return bam_path.split('/')[-1].split('_cl_aln')[0]
+    return bam_path.split('/')[-1].split(SAMPLE_SEP_FASTQ_DELIMETER)[0]
 
 def include_version_info(fh):
     """
