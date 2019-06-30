@@ -238,7 +238,7 @@ steps:
   ############################################
 
   module_5:
-    run: ../module_5.cwl
+    run: ../module-5.cwl
     in:
       project_name: project_name
       custom_enst_file: custom_enst_file
