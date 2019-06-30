@@ -467,8 +467,8 @@ def create_inputs_file(args):
     write_yaml_bams(
         fh,
         args,
-        tumor_ids,
-        normal_ids,
+        # tumor_ids,
+        # normal_ids,
         patient_ids,
         tumor_bam_paths,
         normal_bam_paths,
@@ -496,8 +496,8 @@ def create_inputs_file(args):
     fh.write(INPUTS_FILE_DELIMITER)
     create_traceback_inputs(args, fh)
 
-    fh.write("title_file: {class: File, path: {}}".format(args.title_file_path))
-    fh.write("project_name: {}".format(args.project_name))
+    fh.write("title_file: {{class: File, path: {}}}\n".format(args.title_file_path))
+    fh.write("project_name: {}\n".format(args.project_name))
     include_version_info(fh)
     fh.close()
 
@@ -517,8 +517,8 @@ def create_traceback_inputs(args, fh):
 def write_yaml_bams(
     fh,
     args,
-    tumor_ids,
-    normal_ids,
+    # tumor_ids,
+    # normal_ids,
     patient_ids,
     tumor_bam_paths,
     normal_bam_paths,
