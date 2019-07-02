@@ -6,6 +6,9 @@ install:
   - pip install .
 
 script:
+  # Validate the pipeline
+  - cwltool --validate workflows/ACCESS_pipeline.cwl
+  # Run unit tests
   - cd ./python_tools/test
   - python -m unittest discover -s . -t .
 
