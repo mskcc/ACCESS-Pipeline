@@ -54,6 +54,8 @@ setup(
         'Programming Language :: Python :: 2.7',
     ],
     packages = [
+        'cwl_tools',
+        'cwl_tools.bioinfo_utils',
         'python_tools',
         'python_tools.pipeline_kickoff',
         'python_tools.workflow_tools',
@@ -87,6 +89,7 @@ setup(
             'pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main',
             # Workflow Tools
             'list2bed = python_tools.workflow_tools.list2bed:main',
+            'find_hotspots_in_normals = cwl_tools.bioinfo_utils.find_hotspots_in_normals:main',
             # Quality Control
             'qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main',
             'tables_module = python_tools.workflow_tools.qc.tables_module:main',
@@ -101,6 +104,7 @@ setup(
         ]
     },
     scripts=[
+        'cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r',
         'python_tools/workflow_tools/qc/r_tools/plots_module.r',
         'python_tools/workflow_tools/qc/r_tools/plots.r',
         'python_tools/workflow_tools/qc/r_tools/util.r',

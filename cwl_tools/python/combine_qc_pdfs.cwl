@@ -96,20 +96,25 @@ inputs:
     inputBinding:
       position: 17
 
-  fingerprinting_qc:
+  hotspots_in_normals_plot:
     type: File
     inputBinding:
       position: 18
 
-  gender_check:
+  fingerprinting_qc:
     type: File
     inputBinding:
       position: 19
 
-  pipeline_inputs:
+  gender_check:
     type: File
     inputBinding:
       position: 20
+
+  pipeline_inputs:
+    type: File
+    inputBinding:
+      position: 21
 
 outputs:
 

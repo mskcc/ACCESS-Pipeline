@@ -301,7 +301,8 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         'add_rg_PU': title_file[MANIFEST__BARCODE_ID_COLUMN].tolist(),
 
         # Patient ID needs to be a string, in case it is currently an integer
-        'patient_id': [str(p) for p in title_file[MANIFEST__CMO_PATIENT_ID_COLUMN].tolist()]
+        'patient_id': [str(p) for p in title_file[MANIFEST__CMO_PATIENT_ID_COLUMN].tolist()],
+        'sample_class': title_file[MANIFEST__SAMPLE_CLASS_COLUMN].tolist()
     }
 
     # Trim whitespace

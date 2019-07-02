@@ -38,6 +38,7 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
+  sample_class: string[]
   adapter: string[]
   adapter2: string[]
   add_rg_LB: int[]
@@ -50,6 +51,7 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
+  hotspots: File
 
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
@@ -123,8 +125,12 @@ outputs:
     outputSource: standard_bam_to_collapsed_qc/qc_tables
 
   picard_qc:
-    type: Directory[]
+    type: Directory
     outputSource: standard_bam_to_collapsed_qc/picard_qc
+
+  hotspots_in_normals_data:
+    type: File
+    outputSource: standard_bam_to_collapsed_qc/hotspots_in_normals_data
 
 steps:
 
@@ -192,10 +198,12 @@ steps:
     standard_bams: standard_bam_generation/standard_bams
 
     patient_id: patient_id
+    sample_class: sample_class
     fci_2__basq_fix: fci_2__basq_fix
     gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
+    hotspots: hotspots
 
     add_rg_LB: add_rg_LB
     add_rg_ID: add_rg_ID
@@ -222,4 +230,5 @@ steps:
     picard_qc,
     bam_dirs,
     combined_qc,
-    qc_tables]
+    qc_tables,
+    hotspots_in_normals_data]
