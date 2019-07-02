@@ -41,7 +41,7 @@ TMP_DIR = '/scratch'
 PRESERVE_ENV_VARS = [
     'PATH',
     'PYTHONPATH',
-    'TOIL_LSF_ARGS'
+    'TOIL_LSF_ARGS',
     'TMPDIR',
     'TMP_DIR',
     'TEMP',
