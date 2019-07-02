@@ -19,7 +19,7 @@ inputs:
     inputBinding:
       prefix: --noise_file
 
-  noise_by_substitution:
+  noise_by_substitution_table:
     type: File
     inputBinding:
       prefix: --noise_by_substitution

@@ -40,6 +40,7 @@ inputs:
   project_name: string
 
   patient_id: string[]
+  sample_class: string[]
   add_rg_LB: int[]
   add_rg_ID: string[]
   add_rg_PU: string[]
@@ -59,6 +60,7 @@ inputs:
   noise__good_positions_A: File
   gene_list: File
   FP_config_file: File
+  hotspots: File
 
 outputs:
 
@@ -75,8 +77,12 @@ outputs:
     outputSource: qc_workflow/tables
 
   picard_qc:
-    type: Directory[]
+    type: Directory
     outputSource: qc_workflow/picard_qc
+
+  hotspots_in_normals_data:
+    type: File
+    outputSource: qc_workflow/hotspots_in_normals_data
 
 steps:
 
@@ -260,11 +266,18 @@ steps:
     gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
+    hotspots: hotspots
 
+    sample_id: add_rg_ID
+    sample_class: sample_class
     standard_bams: standard_bams
     # Collapsed, and after 2nd Indel Realignment:
     marianas_unfiltered_bams: flatten_array_bams/output_bams
     marianas_simplex_bams: separate_bams/simplex_bam
     marianas_duplex_bams: separate_bams/duplex_bam
     FP_config_file: FP_config_file
-  out: [picard_qc, combined_qc, tables]
+  out: [
+    picard_qc,
+    combined_qc,
+    tables,
+    hotspots_in_normals_data]

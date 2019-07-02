@@ -31,3 +31,6 @@ pool_b_bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK
 gene_list: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/juber-hg19-gene-list.bed}
 # Exon-level Bed file
 pool_a_bed_file_exonlevel: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed}
+
+# Hotspots
+hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}

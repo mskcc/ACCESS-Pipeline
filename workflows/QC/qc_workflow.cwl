@@ -19,6 +19,8 @@ inputs:
   title_file: File
   inputs_yaml: File
 
+  sample_id: string[]
+  sample_class: string[]
   standard_bams: File[]
   marianas_unfiltered_bams: File[]
   marianas_simplex_bams: File[]
@@ -35,6 +37,7 @@ inputs:
   reference_fasta: string
   reference_fasta_fai: string
   FP_config_file: File
+  hotspots: File
 
 outputs:
 
@@ -47,8 +50,12 @@ outputs:
     outputSource: qc_workflow_wo_waltz/tables
 
   picard_qc:
-    type: Directory[]
-    outputSource: collect_multiple_metrics/all_metrics
+    type: Directory
+    outputSource: aggregate_picard_metrics/combined
+
+  hotspots_in_normals_data:
+    type: File
+    outputSource: qc_workflow_wo_waltz/hotspots_in_normals_data
 
 steps:
 
@@ -84,7 +91,9 @@ steps:
       waltz_standard_a_exon_level_files,
       waltz_unfiltered_a_exon_level_files,
       waltz_simplex_a_exon_level_files,
-      waltz_duplex_a_exon_level_files]
+      waltz_duplex_a_exon_level_files,
+      waltz_unfiltered_pool_a_pileups,
+      waltz_duplex_pool_a_pileups]
 
   #################################
   # Picard for additional metrics #
@@ -130,6 +139,7 @@ steps:
   qc_workflow_wo_waltz:
     run: ./qc_workflow_wo_waltz.cwl
     in:
+      run_tools: run_tools
       project_name: project_name
       title_file: title_file
       inputs_yaml: inputs_yaml
@@ -138,6 +148,12 @@ steps:
       A_on_target_positions: A_on_target_positions
       B_on_target_positions: B_on_target_positions
       noise__good_positions_A: noise__good_positions_A
+      hotspots: hotspots
+
+      sample_id: sample_id
+      sample_class: sample_class
+      waltz_unfiltered_pool_a_pileups: waltz_workflow/waltz_unfiltered_pool_a_pileups
+      waltz_duplex_pool_a_pileups: waltz_workflow/waltz_duplex_pool_a_pileups
 
       picard_metrics: aggregate_picard_metrics/combined
 
@@ -154,4 +170,7 @@ steps:
       waltz_unfiltered_a_exon_level_files: waltz_workflow/waltz_unfiltered_a_exon_level_files
       waltz_simplex_a_exon_level_files: waltz_workflow/waltz_simplex_a_exon_level_files
       waltz_duplex_a_exon_level_files: waltz_workflow/waltz_duplex_a_exon_level_files
-    out: [combined_qc, tables]
+    out: [
+      combined_qc,
+      tables,
+      hotspots_in_normals_data]
