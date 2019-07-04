@@ -24,6 +24,7 @@ galaxy-lib==17.9.3
 idna==2.6
 ipaddress==1.0.22
 isodate==0.6.0
+joblib==0.13.2
 junit-xml==1.8
 kiwisolver==1.0.1
 lockfile==0.12.2
@@ -47,6 +48,7 @@ requests==2.18.4
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.0
 schema-salad==2.7.20181017120439
+scikit-learn==0.19.1
 scipy==1.1.0
 seaborn==0.8.1
 shellescape==3.4.1

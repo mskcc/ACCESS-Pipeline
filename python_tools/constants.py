@@ -54,6 +54,10 @@ ACCESS_COPYNUMBER_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_copy
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
 
+# ACCESS-MSI Resources
+ACCESS_MSI_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'msi_run_files.yaml')
+ACCESS_MSI_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'msi_run_params.yaml')
+
 
 ##################################
 # SampleSheet Column Definitions #

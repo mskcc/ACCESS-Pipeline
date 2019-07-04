@@ -217,6 +217,13 @@ def parse_arguments():
         required=False,
     )
 
+    parser.add_argument(
+        "-aub",
+        "--all_unique_bam_directory",
+        help="Bam file paths for all unique bam files",
+        required=True,
+    )
+
     args = parser.parse_args()
     return args
 
@@ -508,7 +515,7 @@ def create_inputs_file(args):
     ####### Generate inputs for CNV ########
     cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir}".format(
         title_file=args.title_file_path, 
-        bam_dir=args.normal_bams_directory, 
+        bam_dir=args.all_unique_bam_directory, 
         output_dir=os.path.dirname(args.output_file_name)
     )
     process = subprocess.Popen(cmd, shell=True, close_fds=True)
@@ -518,6 +525,23 @@ def create_inputs_file(args):
         time.sleep(3)
         cnv_yaml = os.path.join(os.path.dirname(args.output_file_name), "inputs_cnv.yaml")
         map(include_yaml_resources, [fh], [cnv_yaml])
+    else:
+        raise Exception("Unable to generate inputs yaml for cnv")
+    ####### End of Generating inputs for CNV ########
+
+    ####### Generate inputs for CNV ########
+    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir}".format(
+        title_file=args.title_file_path, 
+        bam_dir=args.stdb, 
+        output_dir=os.path.dirname(args.output_file_name)
+    )
+    process = subprocess.Popen(cmd, shell=True, close_fds=True)
+    process.wait()
+    returncode = process.returncode
+    if returncode == 0:
+        time.sleep(3)
+        cnv_yaml = os.path.join(os.path.dirname(args.output_file_name), "msi.yaml")
+        map(include_yaml_resources, [fh], [msi_yaml])
     else:
         raise Exception("Unable to generate inputs yaml for cnv")
     ####### End of Generating inputs for CNV ########
