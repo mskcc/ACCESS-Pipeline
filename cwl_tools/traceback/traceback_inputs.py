@@ -5,6 +5,67 @@ import sys
 import argparse
 import pandas as pd
 
+from python_tools.util import extract_sample_id_from_bam_path
+
+
+def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
+    """
+    create a df with all required values for traceback function
+    """
+
+    def bam_type(bam):
+        """
+        helper function to derive bam type from the basename of bam file
+        """
+        if "simplex" in os.path.basename(bam):
+            return "SIMPLEX"
+        elif "duplex" in os.path.basename(bam):
+            return "DUPLEX"
+        else:
+            return "STANDARD"
+
+    title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
+    project_name = title_file_df["Pool"].unique().values.tolist().pop()
+    tumor_sample_ids = title_file_df["Sample"].values.tolist()
+    patient_ids = title_file_df["Patient_ID"].values.tolist()
+    bam_paths = []
+    bam_types = []
+    bam_sample_ids = []
+    bam_patient_ids = []
+    for bam in genotyping_bams:
+        bam_sample_id = extract_sample_id_from_bam_path(bam)
+        if bam_sample_id in tumor_sample_ids:
+            bam_paths.append(bam)
+            bam_types.append(bam_type(bam))
+            bam_sample_ids.append(bam_sample_id)
+            bam_patient_ids.append(
+                dict(zip(tumor_sample_ids, patient_ids))[bam_sample_id]
+            )
+    project_name_list = [project_name] * len(bam_paths)
+
+    traceback_bam = pd.read_csv(traceback_bam_inputs, header="infer", sep="\t")
+    bam_paths.extend(traceback_bam["BAM_file_path"].values.tolist())
+    bam_patient_ids.extend(traceback_bam["MRN"].values.tolist())
+    bam_sample_ids.extend(traceback_bam["Sample"].values.tolist())
+    project_name_list.extend(traceback_bam["Run"].values.tolist())
+    bam_types.extend(["STANDARD"] * int(traceback_bam.shape[0]))
+
+    genotyping_ids = [
+        "_".join([bam, bamtype])
+        for bam, bamtype in dict(zip(bam_sample_ids, bam_types)).iteritems()
+    ]
+
+    traceback_map = pd.DataFrame(
+        data={
+            "Project": project_name_list,
+            "Sample": bam_sample_ids,
+            "Patient_ID": bam_patient_ids,  # this is the common id for
+            "Genotyping_ID": genotyping_ids,
+            "BAM": bam_paths,
+        }
+    )
+    return traceback_map
+
 
 def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
     """
@@ -45,6 +106,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
 
     def TI_mutations_to_maf(TI_mutations):
         TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer")
+
         TI_df[
             ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2"]
         ] = pd.DataFrame(
@@ -56,19 +118,39 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             ).values.tolist()
         )
         TI_df["Tumor_Seq_Allele1"] = TI_df["Reference_Allele"]
-        for col in ["VariantClass", "Variant_Type", "Gene"]:
-            TI_df[col] = ""
-        TI_df = TI_df[
-            "Gene",
-            "Chromosome",
-            "Start_Position",
-            "End_Position",
-            "Reference_Allele",
-            "Tumor_Seq_Allele1",
-            "Tumor_Seq_Allele2",
+        TI_df["T_AltCount"] = TI_df["T_Count"] - TI_df["T_RefCount"]
+        for col in [
             "VariantClass",
-            "Variant_Type",
-            "Sample",
+            "Gene",
+            "NormalUsed",
+            "T_RefCount",  # SD_T_RefCount",
+            "T_AltCount",  # SD_T_AltCount",
+            "N_RefCount",
+            "N_AltCount",
+        ]:
+            if col not in TI_df.columns:
+                TI_df[col] = ""
+
+        TI_df = TI_df[
+            [
+                "Gene",
+                "Chromosome",
+                "Start_Position",
+                "End_Position",
+                "Reference_Allele",
+                "Tumor_Seq_Allele1",
+                "Tumor_Seq_Allele2",
+                "Sample",
+                "NormalUsed",
+                "T_RefCount",  # For prior ACCESS samples, this should reflect SD_T_RefCount
+                "T_AltCount",  # For prior ACCESS samples, this should reflect SD_T_AltCount
+                "N_RefCount",
+                "N_AltCount",
+                "VariantClass",
+                "Start_Pos",
+                "Ref_Allele",
+                "Alt_Allele",
+            ]
         ].rename(
             index=str,
             columns={
@@ -79,13 +161,23 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 "Reference_Allele": "Reference_Allele",
                 "Tumor_Seq_Allele1": "Tumor_Seq_Allele1",
                 "Tumor_Seq_Allele2": "Tumor_Seq_Allele2",
-                "VariantClass": "Variant_Classification",
-                "Variant_Type": "Variant_Type",
                 "Sample": "Tumor_Sample_Barcode",
+                "NormalUsed": "Matched_Norm_Sample_Barcode",
+                # "SD_T_RefCount": "t_ref_count",
+                # "SD_T_AltCount": "t_alt_count",
+                "T_RefCount": "t_ref_count",
+                "T_AltCount": "t_alt_count",
+                "N_RefCount": "n_ref_count",
+                "N_AltCount": "n_alt_count",
+                "VariantClass": "Variant_Classification",
+                "Start_Pos": "VCF_POS",
+                "Ref_Allele": "VCF_REF",
+                "Alt_Allele": "VCF_ALT",
             },
         )
         return TI_df
 
+    mutation_file_list = mutation_file_list.split(",")
     df_from_each_file = (
         pd.read_csv(f, index_col=None, header=0, sep="\t") for f in mutation_file_list
     )
@@ -98,20 +190,29 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         ).values.tolist()
     )
     concat_df["Variant_Type"] = concat_df.apply(
-        lambda x: variant_type(x["Ref"], x["Alt"])
+        lambda x: variant_type(x["Ref"], x["Alt"]), axis=1
     )
     concat_df["Tumor_Seq_Allele1"] = concat_df["Reference_Allele"]
     concat_df = concat_df[
-        "Gene",
-        "Chrom",
-        "Start_Position",
-        "End_Position",
-        "Reference_Allele",
-        "Tumor_Seq_Allele1",
-        "Tumor_Seq_Allele2",
-        "VariantClass",
-        "Variant_Type",
-        "Sample",
+        [
+            "Gene",
+            "Chrom",
+            "Start_Position",
+            "End_Position",
+            "Reference_Allele",
+            "Tumor_Seq_Allele1",
+            "Tumor_Seq_Allele2",
+            "Sample",
+            "NormalUsed",
+            "SD_T_RefCount",
+            "SD_T_AltCount",
+            "N_RefCount",
+            "N_AltCount",
+            "VariantClass",
+            "Start",
+            "Ref",
+            "Alt",
+        ]
     ]
     concat_df = concat_df.rename(
         index=str,
@@ -123,9 +224,18 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             "Reference_Allele": "Reference_Allele",
             "Tumor_Seq_Allele1": "Tumor_Seq_Allele1",
             "Tumor_Seq_Allele2": "Tumor_Seq_Allele2",
-            "VariantClass": "Variant_Classification",
-            "Variant_Type": "Variant_Type",
             "Sample": "Tumor_Sample_Barcode",
+            "NormalUsed": "Matched_Norm_Sample_Barcode",
+            "SD_T_RefCount": "t_ref_count",
+            "SD_T_AltCount": "t_alt_count",
+            # "T_RefCount": "t_ref_count",
+            # "T_AltCount": "t_alt_count",
+            "N_RefCount": "n_ref_count",
+            "N_AltCount": "n_alt_count",
+            "VariantClass": "Variant_Classification",
+            "Start": "VCF_POS",
+            "Ref": "VCF_REF",
+            "Alt": "VCF_ALT",
         },
     )
     if TI_mutations:
@@ -171,6 +281,11 @@ def main():
     )
     args = parser.parse_args()
     group_mutations_maf(args.title_file, args.ti_mutations, args.mutation_list)
+    make_traceback_map(
+        args.tumor_duplex_bams + args.tumor_simplex_bams,
+        args.title_file,
+        traceback_bam_inputs,
+    )
 
 
 if __name__ == "__main__":

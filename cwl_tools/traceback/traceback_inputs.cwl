@@ -28,7 +28,7 @@ inputs:
     inputBinding:
       prefix: --title_file
 
-
+  combined_vcf
   
 
   combined_vcf:

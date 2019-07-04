@@ -26,13 +26,8 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
 
     title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
     project_name = title_file_df["Pool"].unique().values.tolist().pop()
-    # exclude control samples
-    tumor_sample_ids = title_file_df[(title_file_df["Class"] == "Tumor")][
-        "Sample"
-    ].values.tolist()
-    patient_ids = title_file_df[(title_file_df["Class"] == "Tumor")][
-        "Patient_ID"
-    ].values.tolist()
+    tumor_sample_ids = title_file_df["Sample"].values.tolist()
+    patient_ids = title_file_df["Patient_ID"].values.tolist()
     bam_paths = []
     bam_types = []
     bam_sample_ids = []
@@ -182,18 +177,11 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         )
         return TI_df
 
-    title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
-    # exclude control samples
-    tumor_sample_ids = title_file_df[(title_file_df["Class"] == "Tumor")][
-        "Sample"
-    ].values.tolist()
-
     mutation_file_list = mutation_file_list.split(",")
     df_from_each_file = (
         pd.read_csv(f, index_col=None, header=0, sep="\t") for f in mutation_file_list
     )
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
-    concat_df = concat_df[(concat_df["Sample"].isin(tumor_sample_ids))]
     concat_df[
         ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2"]
     ] = pd.DataFrame(
