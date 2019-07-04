@@ -83,6 +83,7 @@ def maf2tsv(maf_file):
     # TODO: this can be removed once vep output is fixed
     #  with gnomad output
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS2)
+    maf["Mutation_Class"] = "Novel"
 
     try:
         maf = maf[MAF_COLUMNS_SELECT]
@@ -95,7 +96,7 @@ def maf2tsv(maf_file):
         )
 
     # compute columns
-    
+
     maf["EXON"] = np.vectorize(get_exon, otypes=[str])(maf["EXON"], maf["INTRON"])
     maf = maf.drop(["INTRON"], axis=1)
 
@@ -103,7 +104,7 @@ def maf2tsv(maf_file):
     # maf = maf.rename(index=str, columns=MAF_TSV_COL_MAP)
     # get max of gnomad
     maf["gnomAD_Max_AF"] = np.nanmax(maf[GNOMAD_COLUMNS].values, axis=1)
-    # computer various mutation depth and vaf metrics
+    # compute various mutation depth and vaf metrics
     maf["D_t_count_fragment"] = (
         maf["D_t_ref_count_fragment"] + maf["D_t_alt_count_fragment"]
     )
@@ -114,7 +115,7 @@ def maf2tsv(maf_file):
         maf["SD_t_ref_count_fragment"] - maf["D_t_ref_count_fragment"]
     )
     maf["S_t_alt_count_fragment"] = (
-        maf["SD_t_alt_count_fragment"] - maf["SD_t_alt_count_fragment"]
+        maf["SD_t_alt_count_fragment"] - maf["D_t_alt_count_fragment"]
     )
     maf["S_t_count_fragment"] = (
         maf["S_t_ref_count_fragment"] + maf["S_t_alt_count_fragment"]
@@ -129,6 +130,28 @@ def maf2tsv(maf_file):
 
     # convert NaN and inf computed values to 0
     maf = maf.replace([np.inf, np.nan], 0)
+
+    # format SNP column
+    maf["dbSNP_RS"] = maf["dbSNP_RS"].apply(
+        lambda x: x if isinstance(x, str) and x.startswith("rs") else ""
+    )
+
+    # generate occurrence stats columns
+    maf["CURATED_DUPLEX_n_fillout_sample"] = (
+        maf["CURATED_DUPLEX_n_fillout_sample_alt_detect"].map(str)
+        + ";"
+        + maf["CURATED_DUPLEX_median_VAF"].map(str)
+    )
+    maf["CURATED_SIMPLEX_DUPLEX_n_fillout_sample"] = (
+        maf["CURATED_SIMPLEX_DUPLEX_n_fillout_sample_alt_detect"].map(str)
+        + ";"
+        + maf["CURATED_SIMPLEX_DUPLEX_median_VAF"].map(str)
+    )
+    maf["NORMAL_n_fillout_sample"] = (
+        maf["NORMAL_n_fillout_sample_alt_detect"].map(str)
+        + ";"
+        + maf["NORMAL_median_VAF"].map(str)
+    )
     return maf
 
 
@@ -204,19 +227,15 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                 else:
                     nf.write(format_var(variant))
             elif IS_EXONIC_CLASS(
-                variant.Hugo_Symbol,
-                variant.Variant_Classification,
-                variant.Start_Position,
+                variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
             ):
                 variant_tuple = IS_EXONIC_CLASS(
-                    variant.Hugo_Symbol,
-                    variant.Variant_Classification,
-                    variant.Start_Position,
+                    variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
                 )
                 variant = variant._replace(
                     Hugo_Symbol=variant_tuple[0],  # Gene
                     Variant_Classification=variant_tuple[1],  # VariantClass
-                    Start_Position=variant_tuple[2],  # Start coordinate
+                    VCF_POS=variant_tuple[2],  # Start coordinate
                     Transcript_ID=reformat_tx(variant.Transcript_ID),  # TranscriptID
                 )
 
@@ -284,7 +303,7 @@ def main():
         args.project_name = get_project(args.title_file)
     if not args.outdir:
         args.outdir = os.getcwd()
-    
+
     try:
         os.mkdir(os.path.abspath(args.outdir))
     except OSError as e:
