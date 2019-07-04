@@ -1,6 +1,8 @@
 import os
 import re
 import logging
+import time
+import subprocess
 import argparse
 import ruamel.yaml
 
@@ -113,7 +115,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-t", "--title_file_path", help="title file in tsv format", required=False
+        '-t',
+        '--title_file_path',
+        help='title file in tsv format',
+        required=True
     )
 
     parser.add_argument(
@@ -494,7 +499,31 @@ def create_inputs_file(args):
         include_sv_inputs(args, tumor_ids, fh)
 
     fh.write(INPUTS_FILE_DELIMITER)
+
     create_traceback_inputs(args, fh)
+
+    fh.write('project_name: {}'.format(args.project_name))
+
+
+    ####### Generate inputs for CNV ########
+    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir}".format(
+        title_file=args.title_file_path, 
+        bam_dir=args.normal_bams_directory, 
+        output_dir=os.path.dirname(args.output_file_name)
+    )
+    process = subprocess.Popen(cmd, shell=True, close_fds=True)
+    process.wait()
+    returncode = process.returncode
+    if returncode == 0:
+        time.sleep(3)
+        cnv_yaml = os.path.join(os.path.dirname(args.output_file_name), "inputs_cnv.yaml")
+        map(include_yaml_resources, [fh], [cnv_yaml])
+    else:
+        raise Exception("Unable to generate inputs yaml for cnv")
+    ####### End of Generating inputs for CNV ########
+
+
+    include_version_info(fh)
 
     fh.write("title_file: {{class: File, path: {}}}\n".format(args.title_file_path))
     fh.write("project_name: {}\n".format(args.project_name))
@@ -680,6 +709,9 @@ def validate_args(args):
     """Arguments sanity check"""
 
     # Either one of title file or pairing file is required for this process
+    if not (args.title_file_path):
+        raise Exception('--title_file_path is required for CNV')
+
     if not (args.title_file_path or args.pairing_file_path):
         raise Exception(
             "Either --title_file_path or --pairing_file_path is required to determine tumor samples for variant calling."

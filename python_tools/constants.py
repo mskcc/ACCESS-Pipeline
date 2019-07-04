@@ -48,9 +48,11 @@ ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(
     RUN_PARAMS_FOLDER, "ACCESS_variants_run_params_delly.yaml"
 )
 
-RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(
-    RUN_PARAMS_FOLDER, "standard_bams_to_collapsed_qc.yaml"
-)
+# ACCESS-CopyNumber Resources
+ACCESS_COPYNUMBER_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_copynumber_run_files.yaml')
+ACCESS_COPYNUMBER_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_copynumber_run_params.yaml')
+
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
 
 
 ##################################

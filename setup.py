@@ -55,6 +55,7 @@ ENTRY_POINTS = """
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
         generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
+        generate_copynumber_inputs = python_tools.pipeline_kickoff.generate_copynumber_inputs:main
         filter_mutect = cwl_tools.basicfiltering.filter_mutect:main
         filter_vardict = cwl_tools.basicfiltering.filter_vardict:main
         tag_hotspots = cwl_tools.hotspots.tag_hotspots:main
@@ -95,7 +96,8 @@ setup(
         # "workflow": get_package_files("workflows", (".cwl")),
         # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
         # "python_tools": get_package_files("python_tools", (".r")),
-        "resources": get_package_files("resources", (".cwl", ".yaml"))
+        "resources": get_package_files("resources", (".cwl", ".yaml")),
+        "cwl_tools": get_package_files("cwl_tools", (".py", ".R"))
     },
     include_package_data=True,
     entry_points=ENTRY_POINTS,

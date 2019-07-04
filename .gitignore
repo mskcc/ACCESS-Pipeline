@@ -29,6 +29,7 @@ resources/run_params/___standard_bams_to_collapsed_qc.yaml___
 test/
 =======
 # Temporary untracked files
+python_tools/workflow_tools/constants.py
 python_tools/pipeline_kickoff/constants.py
 python_tools/pipeline_kickoff/root.py
 python_tools/pipeline_kickoff/util.py
