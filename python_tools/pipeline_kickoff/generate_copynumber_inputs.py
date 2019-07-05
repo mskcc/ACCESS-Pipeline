@@ -6,12 +6,12 @@ import logging
 import argparse
 import ruamel.yaml
 
-from ..util import (
+from python_tools.util import (
     include_yaml_resources,
     include_version_info
 )
 
-from ..constants import (
+from python_tools.constants import (
     ACCESS_COPYNUMBER_RUN_FILES_PATH,
     ACCESS_COPYNUMBER_RUN_PARAMS_PATH
 )
@@ -104,7 +104,7 @@ def get_sampleID_and_sex(args):
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
             if row["Sample"].split('_')[0].split('-')[-1].startswith('T'):
-                sex = row["Sex"].replace("F", "Female").replace("M", "Male")
+                sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 sample2sex[row["Sample"]] = sex
                 projName = row["Pool"]
     return (sample2sex, projName)
