@@ -54,7 +54,7 @@ outputs:
   results:
     type: File?
     outputBinding:
-      glob: $('admie-output.txt')
+      glob: $('msi_results.txt')
   
   # TODO: Fix the plots output on admie module
   plots:

@@ -54,4 +54,4 @@ outputs:
   concatenated_vcf:
     type: File
     outputBinding:
-      glob: all_calls.txt
+      glob: Structural_Variants.txt
