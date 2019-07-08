@@ -4,7 +4,7 @@ class: CommandLineTool
 
 arguments:
 - $(inputs.java)
-- -Xmx60g
+- -Xmx50g
 - -Djava.io.tmpdir=$(inputs.working_directory.path)
 - -jar
 - $(inputs.abra)
