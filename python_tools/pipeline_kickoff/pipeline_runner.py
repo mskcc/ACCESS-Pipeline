@@ -259,7 +259,7 @@ def main():
 
     if args.service_class:
         # Set SLA environment variable
-        os.environ['TOIL_LSF_ARGS'] = ' -sla {} '.format(args.service_class)
+        os.environ['TOIL_LSF_ARGS'] = os.environ['TOIL_LSF_ARGS'] + ' -sla {} '.format(args.service_class)
 
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
