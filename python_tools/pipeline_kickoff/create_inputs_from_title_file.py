@@ -481,12 +481,6 @@ def perform_validation(title_file, title_file_path, project_name):
     if np.sum(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate investigator sample IDs. Exiting.')
 
-    for lane in title_file[MANIFEST__LANE_COLUMN].unique():
-        lane_subset = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
-
-        if np.sum(lane_subset[MANIFEST__BARCODE_ID_COLUMN].duplicated()) > 0:
-            raise Exception(DELIMITER + 'Duplicate barcode IDs in lane {}. Exiting.'.format(lane))
-
     if np.sum(title_file[MANIFEST__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
 
