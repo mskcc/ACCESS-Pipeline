@@ -62,9 +62,6 @@ def submit_to_lsf(params):
     if params.restart:
         job_command += ' --restart '
 
-    if params.service_class:
-        job_command += ' --service_class {} '.format(params.service_class)
-
     # Grab the project name from the inputs file
     with open(params.inputs_file, 'r') as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
@@ -141,14 +138,6 @@ def main():
         dest="leader_queue",
         default=DEFAULT_CONTROL_QUEUE,
         help="Which queue to use for leader job (e.g. 'control')"
-    )
-
-    parser.add_argument(
-        "--service_class",
-        action="store",
-        dest="service_class",
-        help="Service class to use, if available (e.g. 'Berger')",
-        required=False
     )
 
     parser.add_argument(

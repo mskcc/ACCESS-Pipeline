@@ -105,14 +105,6 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        '--service_class',
-        action='store',
-        dest='service_class',
-        help='e.g. Berger',
-        required=False
-    )
-
-    parser.add_argument(
         '--restart',
         action='store_true',
         dest='restart',
@@ -256,14 +248,6 @@ def set_temp_dir_env_vars(cwl_tmpdir, project_id):
 
 def main():
     args, unknowns = parse_arguments()
-
-    if args.service_class:
-        # Set SLA environment variable
-        sla_param = ' -sla {} '.format(args.service_class)
-        if hasattr(os.environ, 'TOIL_LSF_ARGS'):
-            os.environ['TOIL_LSF_ARGS'] += sla_param
-        else:
-            os.environ['TOIL_LSF_ARGS'] = sla_param
 
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 
