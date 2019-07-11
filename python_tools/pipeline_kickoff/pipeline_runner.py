@@ -56,7 +56,7 @@ DEFAULT_TOIL_ARGS = {
     '--defaultMem'              : '10G',
     '--no-container'            : '',
     '--disableCaching'          : '',
-    '--clean'                   : 'onSuccess',
+    '--stats'                   : '',
     '--cleanWorkDir'            : 'onSuccess',
     '--maxLogFileSize'          : '20000000000',
     '--retryCount'              : 2,
