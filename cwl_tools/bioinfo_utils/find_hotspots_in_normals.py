@@ -75,7 +75,10 @@ def call_bioinfo_utils(args):
     cmd = ' '.join(cmd)
 
     logging.info('Calling command: {}'.format(cmd))
-    subprocess.Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
+    print('CMD: ' + cmd)
+
+    p = subprocess.Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
+    print('CMD output: {}'.format(p.stdout.read()))
 
 
 def main():
