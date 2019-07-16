@@ -157,7 +157,7 @@ def main():
 
     parser.add_argument(
         "--result-file",
-        default="admie-output.txt",
+        default="msi_results.txt",
         help="output file to save results to"
     )
 
