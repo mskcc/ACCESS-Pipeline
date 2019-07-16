@@ -41,4 +41,4 @@ g = ggplot(counts, aes(Sample, Mutation)) +
     ggtitle('Hotspot mutations in normals (normals: unfiltered, tumors: duplex, > 3 fragments)') +
     THEME
 
-ggsave(g, file=OUTPUT_PLOT_FILENAME, width=20, height=8.5)
+ggsave(g, file=OUTPUT_PLOT_FILENAME, width=20, height=20)
