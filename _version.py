@@ -68,10 +68,4 @@ def version():
         + get_commit()
         + (".dirty" if dirty() else "")
     )
-
-    with open(
-        os.path.dirname(os.path.abspath(__file__)) + "/python_tools/__init__.py", "w"
-    ) as i:
-        i.write('__version__ = "{}"\n'.format(version))
-
     return version

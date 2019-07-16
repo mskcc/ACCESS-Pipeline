@@ -1,37 +1,50 @@
-.gitignore
 .DS_Store
 .idea
 .coverage
 *.pyc
 *.log
 
-build
-dist
-*.egg-info
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+__init__.py
 
-resources/bedfiles
-resources/fingerprinting
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
-# Local resources
-resources/run_files/local.yaml
-resources/run_tools/local.yaml
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Ignore files that store current installation variables
-python_tools/root.py
-python_tools/pipeline_kickoff/version.py
-python_tools/version.py
-.coverage
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Temporary untracked files
-python_tools/pipeline_kickoff/constants.py
-python_tools/pipeline_kickoff/root.py
-python_tools/pipeline_kickoff/util.py
-#python_tools/configuration.py
-python_tools/pipeline_kickoff/create_inputs_from_title_file.py.v2
-python_tools/pipeline_kickoff/nohup.out
-python_tools/pipeline_kickoff/pipeline_runner.py.bkp
-python_tools/workflow_tools/pipeline_postprocessing.py.v2
-python_tools/workflow_tools/qc/r_tools/plots_module_old.r
-python_tools/workflow_tools/qc/r_tools/util_old.r
-test/test_data/DMP_TEST_DATA/TEST.yaml
-test/test_data/DMP_TEST_DATA/TEST_title-file.txt
+# C extensions
+*.so
+
+# pyenv
+.python-version
+
+
