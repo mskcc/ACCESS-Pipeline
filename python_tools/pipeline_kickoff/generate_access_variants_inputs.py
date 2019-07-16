@@ -7,6 +7,7 @@ import argparse
 import ruamel.yaml
 
 import pandas as pd
+import numpy as np
 
 from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
@@ -240,6 +241,7 @@ def generate_pairing_file(args):
     :return paired_df: dict
     """
     tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer")
+    tf["Class"] = np.where((tf["Class"].str.contains("Pool")), "Tumor", tf["Class"])
     tfmerged = pd.merge(tf, tf, on=GROUP_BY_ID, how="left")
     try:
         tfmerged = tfmerged[
@@ -287,6 +289,7 @@ def generate_pairing_file(args):
             GROUP_BY_ID: GROUP_BY_ID,
         },
     )
+    paired_df = paired_df.drop_duplicates()
     paired_df.to_csv(
         os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE),
         sep="\t",
@@ -513,7 +516,7 @@ def create_inputs_file(args):
 
 
     ####### Generate inputs for CNV ########
-    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir}".format(
+    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
         title_file=args.title_file_path, 
         bam_dir=args.all_unique_bam_directory, 
         output_dir=os.path.dirname(args.output_file_name)
@@ -524,13 +527,13 @@ def create_inputs_file(args):
     if returncode == 0:
         time.sleep(3)
         cnv_yaml = os.path.join(os.path.dirname(args.output_file_name), "inputs_cnv.yaml")
-        map(include_yaml_resources, [fh], [cnv_yaml])
+        #map(include_yaml_resources, [fh], [cnv_yaml])
     else:
         raise Exception("Unable to generate inputs yaml for cnv")
     ####### End of Generating inputs for CNV ########
 
     ####### Generate inputs for CNV ########
-    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir}".format(
+    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir} -alone".format(
         title_file=args.title_file_path, 
         bam_dir=args.standard_bams_directory, 
         output_dir=os.path.dirname(args.output_file_name)
@@ -541,7 +544,7 @@ def create_inputs_file(args):
     if returncode == 0:
         time.sleep(3)
         msi_yaml = os.path.join(os.path.dirname(args.output_file_name), "msi.yaml")
-        map(include_yaml_resources, [fh], [msi_yaml])
+        #map(include_yaml_resources, [fh], [msi_yaml])
     else:
         raise Exception("Unable to generate inputs yaml for msi")
     ####### End of Generating inputs for CNV ########
