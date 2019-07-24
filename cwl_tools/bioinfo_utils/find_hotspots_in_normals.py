@@ -5,6 +5,8 @@ from subprocess import PIPE, STDOUT
 
 import pandas as pd
 
+from util import call_cmd
+
 
 def parse_arguments():
     """
@@ -79,6 +81,24 @@ def call_bioinfo_utils(args):
 
     p = subprocess.Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
     print('CMD output: {}'.format(p.stdout.read()))
+
+
+def print_hotspots_table():
+    """
+    Use our R utilities to print the hotspots table to a PDF
+
+    :return:
+    """
+    cmd = [
+        'table_grob.r',
+        'hotspots-in-normals.txt'
+    ]
+    cmd = ' '.join(cmd)
+
+    logging.info('Calling command: {}'.format(cmd))
+
+    rc = call_cmd(cmd)
+    logging.info('Hotspots table return code: {}'.format(rc))
 
 
 def main():

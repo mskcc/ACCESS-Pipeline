@@ -76,15 +76,14 @@ plot_gc_with_cov_each_sample = function(data) {
   data = data[complete.cases(data[, 'coverage']),]
   
   # Only plot for Total and All Unique
-  gc_bias_levels = c('TotalCoverage', 'All Unique')
+  gc_bias_levels = c('All Unique')
   data = dplyr::filter(data, method %in% gc_bias_levels)
   data = mutate(data, method = factor(method, levels=gc_bias_levels))
   data = mutate(data, !!SAMPLE_ID_COLUMN := factor(!!data[,SAMPLE_ID_COLUMN]))
   
   g = ggplot(data, aes_string(x = 'gc_bin', y = 'coverage', group = SAMPLE_ID_COLUMN, color = SAMPLE_ID_COLUMN)) +
     geom_line() +
-    facet_grid(method ~ ., scales='free') +
-    ggtitle('Average Coverage versus GC bias (Pool A Targets)') +
+    ggtitle('Average Coverage versus GC bias (All Unique Reads, Pool A Targets)') +
     scale_y_continuous('Average Coverage', label = format_comma, limits = c(0, NA)) +
     xlab('GC Bias') +
     MAIN_PLOT_THEME

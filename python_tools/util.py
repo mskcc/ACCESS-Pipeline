@@ -1,11 +1,23 @@
 import sys
 import logging
+import subprocess
 import ruamel.yaml
 import numpy as np
 import pandas as pd
 
 from python_tools.constants import *
 
+
+# Set up logging
+FORMAT = '%(asctime)-15s %(funcName)-8s %(levelname)s %(message)s'
+
+out_hdlr = logging.StreamHandler(sys.stdout)
+out_hdlr.setLevel(logging.INFO)
+out_hdlr.setFormatter(logging.Formatter(FORMAT))
+
+logger = logging.getLogger('util')
+logger.addHandler(out_hdlr)
+logger.setLevel(logging.INFO)
 
 
 # We look for the regex class at runtime:
@@ -378,3 +390,38 @@ def get_pos(title_file, sample_object, use_cmo_sample_id=False):
 
     pos = np.argmax(boolv)
     return pos
+
+
+def call_cmd(cmd, shell=True, stderr=None, stdout=None, stdin=None):
+    """
+    Wrapper function around subprocess.check_call() which logs status of called commands
+
+    :param cmd: string - Command to run
+    :param shell: boolean - whether to use shell interpreter
+    :param stderr: file handle
+    :param stdout: file handle
+    :param stdin: file handle
+    :return: int - return code from command if command completed successfully
+    """
+    if stdout and not hasattr(stdout, "write"):
+        stdout=open(stdout, "w")
+
+    if stderr and not hasattr(stderr, "write"):
+        stderr=open(stderr, "w")
+
+    if stdin and not hasattr(stdin, "read"):
+        stdin=open(stdin, "r")
+
+    try:
+        logger.info("EXECUTING: %s" % cmd)
+        return_code = subprocess.check_call(cmd, shell=shell, stderr=stderr, stdout=stdout, stdin=stdin, executable="/bin/bash")
+        return return_code
+
+    except (subprocess.CalledProcessError) as e:
+        logger.critical( "Non Zero Exit Code %s from %s" % (e.returncode, cmd))
+        sys.exit(1)
+
+    except (IOError) as e:
+        logger.critical(e)
+        logger.critical("I/O error({0}): {1}".format(e.errno, e.strerror))
+        sys.exit(1)

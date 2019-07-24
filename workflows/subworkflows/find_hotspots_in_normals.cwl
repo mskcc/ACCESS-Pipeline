@@ -57,3 +57,6 @@ steps:
     in:
       hotspots_in_normals_data: find_hotspots_in_normals/hotspots_in_normals_data
     out: [hotspots_in_normals_plot]
+
+  print_hotspots_table:
+    run: ../../
