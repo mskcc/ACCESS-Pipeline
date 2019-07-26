@@ -101,20 +101,25 @@ inputs:
     inputBinding:
       position: 18
 
-  fingerprinting_qc:
+  hotspots_in_normals_table_pdf:
     type: File
     inputBinding:
       position: 19
 
-  gender_check:
+  fingerprinting_qc:
     type: File
     inputBinding:
       position: 20
 
-  pipeline_inputs:
+  gender_check:
     type: File
     inputBinding:
       position: 21
+
+  pipeline_inputs:
+    type: File
+    inputBinding:
+      position: 22
 
 outputs:
 

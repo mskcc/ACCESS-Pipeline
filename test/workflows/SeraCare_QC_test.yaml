@@ -36,7 +36,7 @@ sample_directories:
 #- {class: Directory, path: /juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/TD-seracare-1per}
 #- {class: Directory, path: /juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/TD-seracare-2-5per}
 #- {class: Directory, path: /juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/TD-seracare-5per}
-- {class: Directory, path: /juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/TD-seracare-wt}
+#- {class: Directory, path: /juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/TD-seracare-wt}
 
 # Todo: update with actual SeraCare data:
 picard_metrics: {class: Directory, path: /home/johnsoni/Innovation-Pipeline/python_tools/test/test__base_quality_plot/test_data}

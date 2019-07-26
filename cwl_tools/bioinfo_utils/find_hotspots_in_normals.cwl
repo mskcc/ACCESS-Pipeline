@@ -54,3 +54,8 @@ outputs:
     type: File
     outputBinding:
       glob: 'hotspots-in-normals.txt'
+
+  hotspots_in_normals_table_pdf:
+    type: File
+    outputBinding:
+      glob: 'hotspots_in_normals.pdf'

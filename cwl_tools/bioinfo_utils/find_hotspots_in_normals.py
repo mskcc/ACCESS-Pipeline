@@ -5,7 +5,7 @@ from subprocess import PIPE, STDOUT
 
 import pandas as pd
 
-from util import call_cmd
+from python_tools.workflow_tools import access_plots
 
 
 def parse_arguments():
@@ -85,26 +85,24 @@ def call_bioinfo_utils(args):
 
 def print_hotspots_table():
     """
-    Use our R utilities to print the hotspots table to a PDF
+    Use our table function to print the hotspots table to a PDF
 
     :return:
     """
-    cmd = [
-        'table_grob.r',
-        'hotspots-in-normals.txt'
-    ]
-    cmd = ' '.join(cmd)
-
-    logging.info('Calling command: {}'.format(cmd))
-
-    rc = call_cmd(cmd)
-    logging.info('Hotspots table return code: {}'.format(rc))
+    print('here1')
+    hotspots_table = pd.read_csv('hotspots-in-normals.txt', sep='\t')
+    print('here2')
+    logging.info('Generating table for hotspots file: {}'.format(hotspots_table))
+    print('here3')
+    access_plots.table(hotspots_table, 'hotspots', output_file_name='hotspots_in_normals.pdf')
+    print('here4')
 
 
 def main():
     args = parse_arguments()
     create_file_of_pileups(args)
     call_bioinfo_utils(args)
+    print_hotspots_table()
 
 
 if __name__ == '__main__':

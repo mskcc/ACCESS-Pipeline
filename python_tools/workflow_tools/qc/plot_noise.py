@@ -85,10 +85,14 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         [['A>G', 'T>C'], 'T>C'],
         [['T>G', 'A>C'], 'T>G'],
     ]
-    all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
+    # Certain samples throw off the axes of the plot, remove them
+    sid_col = noise_by_substitution_table[SAMPLE_ID_COLUMN]
+    boolv = sid_col.str.contains(EXCLUDE_SAMPLES)
+    # Don't filter if all samples would be removed
+    if not boolv.count() == len(noise_by_substitution_table):
+        noise_by_substitution_table = noise_by_substitution_table[~boolv]
 
-    # Certain samples throw off the axes of the plot
-    all_samples = all_samples[~ all_samples[SAMPLE_ID_COLUMN].contains(EXCLUDE_SAMPLES)]
+    all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
 
     # Loop through samples and combine substitutions into 6 classes
     six_class_noise_by_substitution = pd.DataFrame(columns=['Sample', 'Class', 'AltPercent'])
