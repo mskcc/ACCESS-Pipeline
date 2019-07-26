@@ -29,6 +29,17 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+PDF_FILENAMES = [
+    'GenoMatrix.pdf',
+    'Unexpected_Match.pdf',
+    'Unexpected_Mismatch.pdf',
+    'GenderMisMatch.pdf',
+    'MinorContaminationRate.pdf',
+    'MajorContaminationRate.pdf',
+    'MinorDuplexContaminationRate.pdf',
+]
+
+FINAL_PDF_FILENAME = 'FPFigures.pdf'
 
 
 ###################
@@ -56,12 +67,13 @@ def merge_pdf_in_folder(out_dir, filename):
     merger = PdfFileMerger()
 
     pdfs = [x for x in os.listdir(out_dir) if '.pdf' in x]
-    pdfs.sort()
+    pdfs = sorted(pdfs, key = lambda x: PDF_FILENAMES.index(x))
+
     if len(pdfs) > 1:
         for pdf in pdfs:
             merger.append(open(out_dir + pdf, 'rb'))
 
-        with open(out_dir + 'FPFigures.pdf', 'wb') as fout:
+        with open(out_dir + FINAL_PDF_FILENAME, 'wb') as fout:
             merger.write(fout)
     else:
         raise IOError('Error: ' + filename + ' not created, input folder does not have PDFs to merge')
@@ -413,10 +425,12 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
                 samplename=extract_sample_name(pileupfile,titlefile[SAMPLE_ID_COLUMN])
                 if samplename in listofsamples:
                     #Check if PoolB pileup exists
-                    if os.path.isfile(waltz_dir_b_duplex+pileupfile):
-                        pairedListOfPileups.append([samplename, waltz_dir_a_duplex+pileupfile, waltz_dir_b_duplex+pileupfile])
+                    a_pileup_path = os.path.join(waltz_dir_a_duplex, pileupfile)
+                    b_pileup_path = os.path.join(waltz_dir_b_duplex, pileupfile)
+                    if os.path.isfile(b_pileup_path):
+                        pairedListOfPileups.append([samplename, a_pileup_path, b_pileup_path])
                     else:
-                        raise ("Duplex Minor Contamination plot: "+pileupfile+" not found in Duplex Pool B directory provided, "+samplename +" excluded from duplex minor contamination")
+                        raise Exception("Duplex Minor Contamination plot: "+pileupfile+" not found in Duplex Pool B directory provided, "+samplename +" excluded from duplex minor contamination")
         return pairedListOfPileups
     #Make minor contamination rate and all_fp_summary 
     def FP_analysis(samplename, fileA, fileB, config):
