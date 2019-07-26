@@ -89,13 +89,14 @@ def print_hotspots_table():
 
     :return:
     """
-    print('here1')
     hotspots_table = pd.read_csv('hotspots-in-normals.txt', sep='\t')
-    print('here2')
     logging.info('Generating table for hotspots file: {}'.format(hotspots_table))
-    print('here3')
-    access_plots.table(hotspots_table, 'hotspots', output_file_name='hotspots_in_normals.pdf')
-    print('here4')
+    access_plots.table(
+        hotspots_table,
+        'hotspots',
+        output_file_name='hotspots_in_normals.pdf',
+        title='Hotspots Found'
+    )
 
 
 def main():
