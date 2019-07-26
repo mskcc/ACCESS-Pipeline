@@ -1,0 +1,173 @@
+project_name: 07889_F-SeraCare_QC_Test
+version: x.x.x
+
+# The actual full Inputs File to print at the end of QC
+inputs_yaml: {class: File, path: /juno/work/bergerm1/MSK-ACCESS/ACCESS-Projects/07889_F/metatdata/TDM1-3_inputs.yaml}
+
+# Title File
+title_file: {class: File, path: /juno/work/bergerm1/MSK-ACCESS/ACCESS-Projects/07889_F/metatdata/TDM1-3_title_file.txt}
+
+# Fingerprinting
+FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+
+# Noise
+noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
+
+# UMI QC
+A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
+B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+
+waltz_standard_pool_a: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_standard_pool_a/}
+waltz_unfiltered_pool_a: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/}
+waltz_simplex_pool_a: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_simplex_pool_a/}
+waltz_duplex_pool_a: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/}
+waltz_standard_pool_b: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_standard_pool_b/}
+waltz_unfiltered_pool_b: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_b/}
+waltz_simplex_pool_b: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_simplex_pool_b/}
+waltz_duplex_pool_b: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_b/}
+
+waltz_standard_a_exon_level_files: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_standard_a_exon_level_files/}
+waltz_unfiltered_a_exon_level_files: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_a_exon_level_files/}
+waltz_simplex_a_exon_level_files: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_simplex_a_exon_level_files/}
+waltz_duplex_a_exon_level_files: {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_a_exon_level_files/}
+
+sample_directories:
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-006054-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-1387TW-N001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-4VDEX2-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-4VDEX2-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-4VDEX2-N001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-5K3M79-L003-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-7DJK4X-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-7DJK4X-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-7DJK4X-N001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-A970M3-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-A970M3-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-FEMN69-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-FEMN69-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-FR89A5-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-HMFWH7-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-HMFWH7-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-KC5RUX-L001-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-KC5RUX-L002-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-X8R0LT-L003-d}
+- {class: Directory, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/C-X8R0LT-L004-d}
+
+# Todo: update with actual SeraCare data:
+picard_metrics: {class: Directory, path: /juno/work/bergerm1/MSK-ACCESS/ACCESS-Projects/07889_F/TDM1-3-1.1.13/picard_metrics}
+
+hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}
+
+sample_id:
+- C-006054-L001-d
+- C-1387TW-N001-d
+- C-4VDEX2-L001-d
+- C-4VDEX2-L002-d
+- C-4VDEX2-N001-d
+- C-5K3M79-L003-d
+- C-7DJK4X-L001-d
+- C-7DJK4X-L002-d
+- C-7DJK4X-N001-d
+- C-A970M3-L001-d
+- C-A970M3-L002-d
+- C-FEMN69-L001-d
+- C-FEMN69-L002-d
+- C-FR89A5-L002-d
+- C-HMFWH7-L001-d
+- C-HMFWH7-L002-d
+- C-KC5RUX-L001-d
+- C-KC5RUX-L002-d
+- C-X8R0LT-L003-d
+- C-X8R0LT-L004-d
+
+sample_class:
+- Tumor
+- Normal
+- Tumor
+- Tumor
+- Normal
+- Tumor
+- Tumor
+- Tumor
+- Normal
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+- Tumor
+
+waltz_unfiltered_pool_a_pileups:
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_unfiltered_pool_a/C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-pileup.txt}
+
+waltz_duplex_pool_a_pileups:
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+- {class: File, path: /home/johnsoni/juno_ACCESS/07889_F/TDM1-3-1.1.13/QC_Results/waltz_duplex_pool_a/C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt}
+
+
+run_tools:
+  perl_5: /opt/common/CentOS_6/perl/perl-5.20.2/bin/perl
+  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+  java_8: /opt/common/CentOS_6/java/jdk1.8.0_31/bin/java
+
+  # PLUF & Collapsing
+  marianas_path: /home/johnsoni/vendor_tools/Marianas-1.8.0.jar
+
+  # BioinfoUtils
+  # Todo: change all these strings to File types
+  bioinfo_utils: {class: File, path: /ifs/work/bergerm1/Innovation/software/BioinfoUtils-1.0.0.jar}
+
+  # Module 1
+  trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
+  bwa_path: /opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa
+  arrg_path: /home/johnsoni/vendor_tools/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /home/johnsoni/vendor_tools/picard-2.8.1.jar
+
+  # Module 2
+  gatk_path: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /opt/common/CentOS_6/abra2/abra2-2.17/abra2-2.17.jar
+  fx_path: /opt/common/CentOS_6/picard/picard-tools-1.96/FixMateInformation.jar
+
+  waltz_path: /home/johnsoni/vendor_tools/Waltz-2.0.jar
