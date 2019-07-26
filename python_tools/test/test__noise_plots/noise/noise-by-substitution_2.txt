@@ -1,0 +1,481 @@
+CMO_SAMPLE_ID	Substitution	GenotypeCount	AltCount	AltPercent	ContributingSites	Method
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	32592018	121	0.000371255	120	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	32592018	52	0.000159548	27	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	26232170	60	0.000228726	42	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	31788806	149	0.000468716	146	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	26232170	25	9.53027e-05	23	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	26234547	79	0.000301129	30	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	26234547	33	0.000125788	24	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	31788806	35	0.000110102	21	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	26232170	48	0.000182981	27	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	32592018	133	0.000408074	130	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	31788806	94	0.000295701	94	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	26234547	28	0.000106729	20	Total
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	32592018	121	0.000371255	120	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	32592018	52	0.000159548	27	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	26232170	60	0.000228726	42	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	31788806	149	0.000468716	146	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	26232170	25	9.53027e-05	23	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	26234547	79	0.000301129	30	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	26234547	33	0.000125788	24	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	31788806	35	0.000110102	21	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	26232170	48	0.000182981	27	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	32592018	133	0.000408074	130	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	31788806	94	0.000295701	94	Unique
+C-006054-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	26234547	28	0.000106729	20	Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	246911	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	246911	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	242569	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	242217	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	242569	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	248505	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	248505	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	242217	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	242569	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	246911	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	242217	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	248505	0	0		Total
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	246911	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	246911	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	242569	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	242217	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	242569	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	248505	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	248505	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	242217	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	242569	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	246911	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	242217	0	0		Unique
+C-1387TW-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	248505	0	0		Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	51419337	231	0.000449245	212	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	51419337	70	0.000136135	39	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	53566517	116	0.000216553	106	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	50989616	216	0.000423614	209	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	53566517	34	6.34724e-05	28	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	53674814	152	0.000283186	82	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	53674814	53	9.87427e-05	38	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	50989616	54	0.000105904	46	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	53566517	51	9.52086e-05	42	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	51419337	229	0.000445356	202	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	50989616	184	0.000360856	166	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	53674814	56	0.000104332	46	Total
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	51419337	231	0.000449245	212	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	51419337	70	0.000136135	39	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	53566517	116	0.000216553	106	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	50989616	216	0.000423614	209	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	53566517	34	6.34724e-05	28	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	53674814	152	0.000283186	82	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	53674814	53	9.87427e-05	38	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	50989616	54	0.000105904	46	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	53566517	51	9.52086e-05	42	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	51419337	229	0.000445356	202	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	50989616	184	0.000360856	166	Unique
+C-4VDEX2-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	53674814	56	0.000104332	46	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	42480169	145	0.000341335	138	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	42480169	61	0.000143596	43	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	45201960	133	0.000294234	106	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	42194302	200	0.000473995	183	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	45201960	25	5.53073e-05	25	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	45404707	69	0.000151966	58	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	45404707	27	5.94652e-05	26	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	42194302	39	9.24295e-05	33	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	45201960	44	9.73408e-05	35	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	42480169	176	0.000414309	162	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	42194302	133	0.000315207	120	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	45404707	38	8.36917e-05	30	Total
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	42480169	145	0.000341335	138	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	42480169	61	0.000143596	43	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	45201960	133	0.000294234	106	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	42194302	200	0.000473995	183	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	45201960	25	5.53073e-05	25	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	45404707	69	0.000151966	58	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	45404707	27	5.94652e-05	26	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	42194302	39	9.24295e-05	33	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	45201960	44	9.73408e-05	35	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	42480169	176	0.000414309	162	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	42194302	133	0.000315207	120	Unique
+C-4VDEX2-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	45404707	38	8.36917e-05	30	Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	99433	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	99433	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	98542	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	97081	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	98542	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	99491	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	99491	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	97081	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	98542	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	99433	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	97081	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	99491	0	0		Total
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	99433	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	99433	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	98542	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	97081	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	98542	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	99491	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	99491	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	97081	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	98542	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	99433	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	97081	0	0		Unique
+C-4VDEX2-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	99491	0	0		Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	59243013	301	0.000508074	291	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	59243013	53	8.94619e-05	43	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	61955574	184	0.000296986	126	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	58796686	350	0.000595268	335	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	61955574	31	5.00358e-05	29	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	62145072	209	0.000336309	81	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	62145072	62	9.97665e-05	53	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	58796686	92	0.000156471	59	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	61955574	109	0.000175932	51	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	59243013	192	0.000324088	156	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	58796686	172	0.000292533	147	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	62145072	75	0.000120685	55	Total
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	59243013	301	0.000508074	291	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	59243013	53	8.94619e-05	43	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	61955574	184	0.000296986	126	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	58796686	350	0.000595268	335	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	61955574	31	5.00358e-05	29	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	62145072	209	0.000336309	81	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	62145072	62	9.97665e-05	53	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	58796686	92	0.000156471	59	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	61955574	109	0.000175932	51	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	59243013	192	0.000324088	156	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	58796686	172	0.000292533	147	Unique
+C-5K3M79-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	62145072	75	0.000120685	55	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	59971794	129	0.000215101	125	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	59971794	79	0.000131728	45	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	57620186	189	0.000328009	153	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	59113221	196	0.000331566	185	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	57620186	32	5.55361e-05	31	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	57822709	144	0.000249036	104	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	57822709	98	0.000169483	55	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	59113221	82	0.000138717	47	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	57620186	94	0.000163137	42	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	59971794	210	0.000350163	175	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	59113221	124	0.000209767	95	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	57822709	76	0.000131436	57	Total
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	59971794	129	0.000215101	125	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	59971794	79	0.000131728	45	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	57620186	189	0.000328009	153	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	59113221	196	0.000331566	185	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	57620186	32	5.55361e-05	31	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	57822709	144	0.000249036	104	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	57822709	98	0.000169483	55	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	59113221	82	0.000138717	47	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	57620186	94	0.000163137	42	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	59971794	210	0.000350163	175	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	59113221	124	0.000209767	95	Unique
+C-7DJK4X-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	57822709	76	0.000131436	57	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	53524571	190	0.000354976	179	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	53524571	124	0.000231669	66	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	47305672	460	0.00097239	282	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	53151996	317	0.000596399	297	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	47305672	51	0.000107809	50	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	46941972	479	0.0010204	106	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	46941972	82	0.000174683	61	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	53151996	94	0.000176851	77	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	47305672	205	0.00043335	65	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	53524571	358	0.000668847	312	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	53151996	259	0.000487279	237	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	46941972	61	0.000129948	52	Total
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	53524571	190	0.000354976	179	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	53524571	124	0.000231669	66	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	47305672	460	0.00097239	282	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	53151996	317	0.000596399	297	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	47305672	51	0.000107809	50	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	46941972	479	0.0010204	106	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	46941972	82	0.000174683	61	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	53151996	94	0.000176851	77	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	47305672	205	0.00043335	65	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	53524571	358	0.000668847	312	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	53151996	259	0.000487279	237	Unique
+C-7DJK4X-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	46941972	61	0.000129948	52	Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	309595	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	309595	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	273140	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	303387	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	273140	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	277121	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	277121	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	303387	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	273140	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	309595	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	303387	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	277121	0	0		Total
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	309595	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	309595	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	273140	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	303387	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	273140	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	277121	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	277121	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	303387	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	273140	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	309595	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	303387	0	0		Unique
+C-7DJK4X-N001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	277121	0	0		Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	68748018	198	0.000288007	190	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	68748018	38	5.52743e-05	27	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	71174660	224	0.000314718	131	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	68126223	263	0.000386047	228	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	71174660	39	5.47948e-05	36	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	71518118	182	0.00025448	77	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	71518118	55	7.69035e-05	52	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	68126223	63	9.24753e-05	44	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	71174660	77	0.000108184	48	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	68748018	156	0.000226915	126	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	68126223	147	0.000215775	94	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	71518118	88	0.000123046	48	Total
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	68748018	198	0.000288007	190	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	68748018	38	5.52743e-05	27	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	71174660	224	0.000314718	131	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	68126223	263	0.000386047	228	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	71174660	39	5.47948e-05	36	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	71518118	182	0.00025448	77	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	71518118	55	7.69035e-05	52	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	68126223	63	9.24753e-05	44	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	71174660	77	0.000108184	48	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	68748018	156	0.000226915	126	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	68126223	147	0.000215775	94	Unique
+C-A970M3-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	71518118	88	0.000123046	48	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	56508635	239	0.000422942	226	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	56508635	71	0.000125644	39	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	62676043	218	0.000347819	142	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	56322535	252	0.000447421	230	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	62676043	39	6.22247e-05	36	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	62844438	173	0.000275282	107	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	62844438	60	9.54738e-05	58	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	56322535	80	0.000142039	65	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	62676043	70	0.000111685	50	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	56508635	186	0.000329152	145	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	56322535	158	0.000280526	135	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	62844438	60	9.54738e-05	45	Total
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	56508635	239	0.000422942	226	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	56508635	71	0.000125644	39	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	62676043	218	0.000347819	142	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	56322535	252	0.000447421	230	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	62676043	39	6.22247e-05	36	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	62844438	173	0.000275282	107	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	62844438	60	9.54738e-05	58	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	56322535	80	0.000142039	65	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	62676043	70	0.000111685	50	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	56508635	186	0.000329152	145	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	56322535	158	0.000280526	135	Unique
+C-A970M3-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	62844438	60	9.54738e-05	45	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	68388576	184	0.00026905	175	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	68388576	93	0.000135987	56	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	66848061	182	0.000272258	141	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	67619201	301	0.000445138	283	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	66848061	31	4.63738e-05	31	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	67095264	111	0.000165436	63	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	67095264	65	9.68771e-05	61	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	67619201	70	0.000103521	50	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	66848061	121	0.000181007	40	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	68388576	212	0.000309992	164	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	67619201	115	0.00017007	99	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	67095264	96	0.00014308	63	Total
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	68388576	184	0.00026905	175	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	68388576	93	0.000135987	56	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	66848061	182	0.000272258	141	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	67619201	301	0.000445138	283	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	66848061	31	4.63738e-05	31	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	67095264	111	0.000165436	63	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	67095264	65	9.68771e-05	61	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	67619201	70	0.000103521	50	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	66848061	121	0.000181007	40	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	68388576	212	0.000309992	164	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	67619201	115	0.00017007	99	Unique
+C-FEMN69-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	67095264	96	0.00014308	63	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	42802652	122	0.000285028	122	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	42802652	38	8.87795e-05	28	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	45604603	127	0.00027848	68	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	42605233	183	0.000429523	175	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	45604603	10	2.19276e-05	10	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	45570628	48	0.000105331	38	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	45570628	41	8.99702e-05	41	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	42605233	41	9.62322e-05	37	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	45604603	33	7.23611e-05	22	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	42802652	150	0.000350444	131	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	42605233	94	0.00022063	85	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	45570628	36	7.89982e-05	32	Total
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	42802652	122	0.000285028	122	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	42802652	38	8.87795e-05	28	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	45604603	127	0.00027848	68	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	42605233	183	0.000429523	175	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	45604603	10	2.19276e-05	10	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	45570628	48	0.000105331	38	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	45570628	41	8.99702e-05	41	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	42605233	41	9.62322e-05	37	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	45604603	33	7.23611e-05	22	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	42802652	150	0.000350444	131	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	42605233	94	0.00022063	85	Unique
+C-FEMN69-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	45570628	36	7.89982e-05	32	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	66189993	422	0.000637555	186	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	66189993	90	0.000135972	74	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	60012824	409	0.000681516	211	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	65638091	400	0.000609399	339	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	60012824	48	7.99828e-05	44	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	59888398	569	0.000950092	124	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	59888398	116	0.000193693	95	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	65638091	114	0.000173679	83	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	60012824	221	0.000368253	62	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	66189993	338	0.000510649	282	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	65638091	173	0.000263566	157	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	59888398	122	0.000203712	85	Total
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	66189993	422	0.000637555	186	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	66189993	90	0.000135972	74	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	60012824	409	0.000681516	211	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	65638091	400	0.000609399	339	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	60012824	48	7.99828e-05	44	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	59888398	569	0.000950092	124	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	59888398	116	0.000193693	95	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	65638091	114	0.000173679	83	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	60012824	221	0.000368253	62	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	66189993	338	0.000510649	282	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	65638091	173	0.000263566	157	Unique
+C-FR89A5-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	59888398	122	0.000203712	85	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	90105831	273	0.000302976	252	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	90105831	67	7.4357e-05	29	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	90079854	149	0.000165409	63	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	88905926	333	0.000374552	284	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	90079854	26	2.88633e-05	21	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	90850707	139	0.000152998	42	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	90850707	32	3.52226e-05	24	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	88905926	47	5.28648e-05	26	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	90079854	99	0.000109902	30	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	90105831	87	9.6553e-05	72	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	88905926	92	0.00010348	56	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	90850707	71	7.81501e-05	37	Total
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	90105831	273	0.000302976	252	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	90105831	67	7.4357e-05	29	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	90079854	149	0.000165409	63	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	88905926	333	0.000374552	284	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	90079854	26	2.88633e-05	21	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	90850707	139	0.000152998	42	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	90850707	32	3.52226e-05	24	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	88905926	47	5.28648e-05	26	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	90079854	99	0.000109902	30	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	90105831	87	9.6553e-05	72	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	88905926	92	0.00010348	56	Unique
+C-HMFWH7-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	90850707	71	7.81501e-05	37	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	107951866	214	0.000198236	188	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	107951866	119	0.000110234	52	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	100720881	203	0.000201547	144	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	106094235	256	0.000241294	237	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	100720881	37	3.67352e-05	35	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	101470609	217	0.000213855	114	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	101470609	65	6.40579e-05	57	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	106094235	108	0.000101796	66	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	100720881	153	0.000151905	67	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	107951866	176	0.000163035	139	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	106094235	141	0.000132901	112	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	101470609	114	0.000112348	69	Total
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	107951866	214	0.000198236	188	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	107951866	119	0.000110234	52	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	100720881	203	0.000201547	144	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	106094235	256	0.000241294	237	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	100720881	37	3.67352e-05	35	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	101470609	217	0.000213855	114	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	101470609	65	6.40579e-05	57	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	106094235	108	0.000101796	66	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	100720881	153	0.000151905	67	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	107951866	176	0.000163035	139	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	106094235	141	0.000132901	112	Unique
+C-HMFWH7-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	101470609	114	0.000112348	69	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	49513555	161	0.000325162	155	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	49513555	40	8.07859e-05	34	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	51152462	124	0.000242412	79	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	49135111	194	0.000394828	184	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	51152462	28	5.47383e-05	28	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	51226963	67	0.00013079	52	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	51226963	48	9.37006e-05	32	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	49135111	60	0.000122112	28	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	51152462	74	0.000144665	27	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	49513555	156	0.000315064	143	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	49135111	167	0.000339878	146	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	51226963	48	9.37006e-05	25	Total
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	49513555	161	0.000325162	155	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	49513555	40	8.07859e-05	34	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	51152462	124	0.000242412	79	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	49135111	194	0.000394828	184	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	51152462	28	5.47383e-05	28	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	51226963	67	0.00013079	52	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	51226963	48	9.37006e-05	32	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	49135111	60	0.000122112	28	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	51152462	74	0.000144665	27	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	49513555	156	0.000315064	143	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	49135111	167	0.000339878	146	Unique
+C-KC5RUX-L001-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	51226963	48	9.37006e-05	25	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	51637780	299	0.00057903	294	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	51637780	66	0.000127813	46	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	53726503	133	0.000247549	111	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	51158219	273	0.000533636	264	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	53726503	29	5.39771e-05	29	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	53990071	78	0.000144471	71	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	53990071	59	0.000109279	54	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	51158219	66	0.000129011	52	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	53726503	81	0.000150763	42	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	51637780	266	0.000515124	221	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	51158219	245	0.000478904	216	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	53990071	68	0.000125949	53	Total
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	51637780	299	0.00057903	294	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	51637780	66	0.000127813	46	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	53726503	133	0.000247549	111	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	51158219	273	0.000533636	264	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	53726503	29	5.39771e-05	29	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	53990071	78	0.000144471	71	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	53990071	59	0.000109279	54	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	51158219	66	0.000129011	52	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	53726503	81	0.000150763	42	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	51637780	266	0.000515124	221	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	51158219	245	0.000478904	216	Unique
+C-KC5RUX-L002-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	53990071	68	0.000125949	53	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	32760990	82	0.000250297	81	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	32760990	38	0.000115991	24	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	28880184	117	0.00040512	69	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	32107050	124	0.000386207	121	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	28880184	28	9.69522e-05	19	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	28913440	51	0.000176388	35	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	28913440	39	0.000134885	37	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	32107050	46	0.000143271	38	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	28880184	46	0.000159279	37	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	32760990	112	0.000341869	97	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	32107050	63	0.000196218	62	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	28913440	39	0.000134885	27	Total
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	32760990	82	0.000250297	81	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	32760990	38	0.000115991	24	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	28880184	117	0.00040512	69	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	32107050	124	0.000386207	121	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	28880184	28	9.69522e-05	19	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	28913440	51	0.000176388	35	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	28913440	39	0.000134885	37	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	32107050	46	0.000143271	38	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	28880184	46	0.000159279	37	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	32760990	112	0.000341869	97	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	32107050	63	0.000196218	62	Unique
+C-X8R0LT-L003-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	28913440	39	0.000134885	27	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	66767511	281	0.000420862	275	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	66767511	120	0.000179728	81	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	63764458	343	0.000537914	287	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	65723240	490	0.000745545	471	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	63764458	76	0.000119189	72	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	64037827	208	0.000324807	145	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	64037827	107	0.000167088	92	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	65723240	164	0.000249531	107	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	63764458	107	0.000167805	72	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	66767511	304	0.000455309	281	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	65723240	187	0.000284526	171	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	64037827	121	0.00018895	93	Total
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>T	66767511	281	0.000420862	275	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>G	66767511	120	0.000179728	81	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>A	63764458	343	0.000537914	287	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>A	65723240	490	0.000745545	471	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>C	63764458	76	0.000119189	72	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>T	64037827	208	0.000324807	145	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>G	64037827	107	0.000167088	92	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>C	65723240	164	0.000249531	107	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	T>G	63764458	107	0.000167805	72	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	C>A	66767511	304	0.000455309	281	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	G>T	65723240	187	0.000284526	171	Unique
+C-X8R0LT-L004-d_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex-pileup.txt	A>C	64037827	121	0.00018895	93	Unique

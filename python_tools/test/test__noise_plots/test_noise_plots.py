@@ -48,6 +48,10 @@ class NoisePlotsTestCase(unittest.TestCase):
         noise_table = pd.read_csv('noise/noise-by-substitution.txt', sep='\t')
         return noise_table
 
+    def load_noise_by_substitution_table_2(self):
+        noise_table = pd.read_csv('noise/noise-by-substitution_2.txt', sep='\t')
+        return noise_table
+
     # Todo: Use png's and figure out why this decorator doesn't call our test function
     # @image_comparison(baseline_images=['alt_percent_plot'], extensions=['pdf'])
     def test_alt_percent_plot(self):
@@ -72,7 +76,16 @@ class NoisePlotsTestCase(unittest.TestCase):
         expected_result = pd.read_csv('expected_results/noise_by_substitution.tsv', sep='\t')
         assert result.equals(expected_result)
         assert os.path.exists('noise_by_substitution.pdf')
-        # os.unlink('./noise_by_substitution.pdf')
+        os.unlink('./noise_by_substitution.pdf')
+
+    @unittest.skipIf('TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true', 'Skipping this test on Travis CI.')
+    # @image_comparison(baseline_images=['NoiseContributingSites'], extensions=['png'])
+    def test_noise_by_substitution_plot_2(self):
+        noise_table = self.load_noise_by_substitution_table_2()
+        noise_by_substitution_plot(noise_table)
+        assert os.path.exists('noise_by_substitution.pdf')
+        os.unlink('./noise_by_substitution.pdf')
+
 
 
 if __name__ == '__main__':

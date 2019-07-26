@@ -134,7 +134,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         plt.setp(ax.get_xticklabels(), visible=True)
         plt.setp(ax.get_xticklabels(), rotation=45)
 
-    g.fig.subplots_adjust(top=0.8, wspace=0.1, hspace=0.35)
+    g.fig.subplots_adjust(top=0.95, wspace=0.1, hspace=0.35)
     g.fig.suptitle('Noise by Substitution Class')
 
     # Save table and figure
