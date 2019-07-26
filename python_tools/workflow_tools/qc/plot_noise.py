@@ -17,6 +17,9 @@ from python_tools.util import read_df, extract_sample_name, autolabel
 from python_tools.constants import *
 
 
+EXCLUDE_SAMPLES = re.compile(r'.*seracare.*', re.IGNORECASE)
+
+
 def noise_alt_percent_plot(noise_table):
     samples = noise_table[SAMPLE_ID_COLUMN].tolist()
     alt_percent = noise_table['AltPercent']
@@ -82,6 +85,13 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         [['A>G', 'T>C'], 'T>C'],
         [['T>G', 'A>C'], 'T>G'],
     ]
+    # Certain samples throw off the axes of the plot, remove them
+    sid_col = noise_by_substitution_table[SAMPLE_ID_COLUMN]
+    boolv = sid_col.str.contains(EXCLUDE_SAMPLES)
+    # Don't filter if all samples would be removed
+    if not boolv.count() == len(noise_by_substitution_table):
+        noise_by_substitution_table = noise_by_substitution_table[~boolv]
+
     all_samples = noise_by_substitution_table[SAMPLE_ID_COLUMN].unique()
 
     # Loop through samples and combine substitutions into 6 classes
@@ -112,7 +122,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
     plt.figure(figsize=(10, 5))
 
     # Variable to help only putting y-axis title on subplots in first column
-    num_cols = 6
+    num_cols = 3
     g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=num_cols, sharey=True)
     g = g.map(plt.bar, 'Class', 'AltPercent')
 

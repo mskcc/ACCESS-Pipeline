@@ -281,6 +281,7 @@ steps:
       hotspot_list: hotspots
     out: [
       hotspots_in_normals_data,
+      hotspots_in_normals_table_pdf,
       hotspots_in_normals_plot]
 
   ######################
@@ -381,6 +382,7 @@ steps:
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
       noise_by_substitution: duplex_noise_plots_A/noise_by_substitution
       hotspots_in_normals_plot: find_hotspots_in_normals/hotspots_in_normals_plot
+      hotspots_in_normals_table_pdf: find_hotspots_in_normals/hotspots_in_normals_table_pdf
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
       pipeline_inputs: main_plots_module/pipeline_inputs

@@ -5,6 +5,8 @@ from subprocess import PIPE, STDOUT
 
 import pandas as pd
 
+from python_tools.workflow_tools import access_plots
+
 
 def parse_arguments():
     """
@@ -81,10 +83,26 @@ def call_bioinfo_utils(args):
     print('CMD output: {}'.format(p.stdout.read()))
 
 
+def print_hotspots_table():
+    """
+    Use our table function to print the hotspots table to a PDF
+
+    :return:
+    """
+    print('here1')
+    hotspots_table = pd.read_csv('hotspots-in-normals.txt', sep='\t')
+    print('here2')
+    logging.info('Generating table for hotspots file: {}'.format(hotspots_table))
+    print('here3')
+    access_plots.table(hotspots_table, 'hotspots', output_file_name='hotspots_in_normals.pdf')
+    print('here4')
+
+
 def main():
     args = parse_arguments()
     create_file_of_pileups(args)
     call_bioinfo_utils(args)
+    print_hotspots_table()
 
 
 if __name__ == '__main__':
