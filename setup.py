@@ -2,7 +2,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 from subprocess import check_output
-from _version import version
+from python_tools._version import get_and_write_version
 
 
 def req_file(filename):
@@ -27,7 +27,7 @@ def get_package_files(directory, file_type):
     """
     paths = []
     for (path, directories, filenames) in os.walk(
-        os.path.dirname(os.path.abspath(__file__)) + "/" + directory
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), directory)
     ):
         for filename in filenames:
             if not filename.endswith(file_type):
@@ -66,12 +66,10 @@ SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
 ]
 
-# evaluate the version before going to setup
-build_version=version()
 
 setup(
     name="access_pipeline",
-    version=build_version,
+    version=get_and_write_version(),
     description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
     url="http://github.com/mskcc/ACCESS-Pipeline",
     author="Ian Johnson, Gowtham Jayakumaran",

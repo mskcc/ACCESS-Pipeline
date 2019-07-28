@@ -1,5 +1,7 @@
+import re
 import sys
 import logging
+import traceback
 import ruamel.yaml
 import numpy as np
 import pandas as pd
@@ -7,10 +9,9 @@ import pandas as pd
 from constants import *
 
 
-
 # We look for the regex class at runtime:
 # https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
-RETYPE = type(re.compile('duct_typing'))
+RETYPE = type(re.compile("duct_typing"))
 
 
 def read_df(f, header=None):
@@ -20,11 +21,11 @@ def read_df(f, header=None):
     Waltz does not use headers, but in some cases we will want to provide header='infer' to this function
     """
     try:
-        df = pd.read_csv(f, sep='\t', header=header)
+        df = pd.read_csv(f, sep="\t", header=header)
         return df
     except Exception as e:
-        logging.error('Exception reading data file {}: {}'.format(f, e))
-        logging.error('Continuing anyways, some metrics may not be available.')
+        logging.error("Exception reading data file {}: {}".format(f, e))
+        logging.error("Continuing anyways, some metrics may not be available.")
         return pd.DataFrame({})
 
 
@@ -32,7 +33,7 @@ def to_csv(df, filename):
     """
     Helper to write in desired csv format
     """
-    df.to_csv(filename, sep='\t', index=False)
+    df.to_csv(filename, sep="\t", index=False)
 
 
 def extract_sample_name(has_a_sample, sample_names):
@@ -47,9 +48,9 @@ def extract_sample_name(has_a_sample, sample_names):
             Note that if the target sample ID is not in this list, the wrong sample ID may be returned.
     """
     sample_names = sorted(sample_names, key=len, reverse=True)
-    sample_name_search = r'|'.join(sample_names)
-    sample_name_search = r'.*(' + sample_name_search + ').*'
-    return re.sub(sample_name_search, r'\1', has_a_sample)
+    sample_name_search = r"|".join(sample_names)
+    sample_name_search = r".*(" + sample_name_search + ").*"
+    return re.sub(sample_name_search, r"\1", has_a_sample)
 
 
 def two_strings_are_substrings(string1, string2):
@@ -74,11 +75,12 @@ def all_strings_are_substrings(strings):
     :param strings: String[]
     :return: True | False
     """
-    return all([
-        any([
-            two_strings_are_substrings(s1, s2) for s2 in strings[i + 1 :]
-        ]) for i, s1 in enumerate(strings[ : len(strings) - 1])
-    ])
+    return all(
+        [
+            any([two_strings_are_substrings(s1, s2) for s2 in strings[i + 1 :]])
+            for i, s1 in enumerate(strings[: len(strings) - 1])
+        ]
+    )
 
 
 def merge_files_across_samples(files, cols, sample_ids=None):
@@ -150,13 +152,13 @@ def substrings_in_list(substrings, list):
 
 
 def get_position_by_substring(tofind, list):
-    '''
+    """
     Get index where `tofind` is a substring of the entry of `list`
 
     :param tofind: string to find in each element of `list`
     :param list: list to search through
     :return: index in `list` where `tofind` is found as a substring
-    '''
+    """
     for i, e in enumerate(list):
         if tofind in e:
             return i
@@ -168,11 +170,11 @@ def reverse_complement(sequence):
 
     :return:
     """
-    complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+    complement = {"A": "T", "C": "G", "G": "C", "T": "A"}
     return "".join(complement.get(base) for base in reversed(sequence))
 
 
-def autolabel(bars, plt, text_format='%.5f'):
+def autolabel(bars, plt, text_format="%.5f"):
     """
     Attach a text label above each bar displaying its height
 
@@ -182,12 +184,12 @@ def autolabel(bars, plt, text_format='%.5f'):
     for bar in bars:
         height = bar.get_height()
         plt.text(
-            bar.get_x() + bar.get_width() / 2.,
+            bar.get_x() + bar.get_width() / 2.0,
             1.05 * height,
             text_format % height,
-            ha='center',
-            va='bottom',
-            fontsize=5
+            ha="center",
+            va="bottom",
+            fontsize=5,
         )
 
 
@@ -209,24 +211,21 @@ def extract_sample_id_from_bam_path(bam_path):
     :param path:
     :return:
     """
-    return bam_path.split('/')[-1].split('_cl_aln')[0]
+    return bam_path.split("/")[-1].split("_cl_aln")[0]
 
 
 def include_version_info(fh):
     """
-    Todo: Include identifier to indicate if commit == tag
+    Get __version__ from package, if it cannot be retrieved from
+    the expected version.yaml
     """
-    from python_tools import __version__ as version
-    #import _version
-    fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('# Pipeline Run Version Information: \n')
-    fh.write('version: {} \n'.format(version))
-    # fh.write('version: {} \n'.format(version.most_recent_tag))
-    # fh.write('# Pipeline Run Version Information: \n')
-    # fh.write('# Version: {} \n'.format(version.version))
-    # fh.write('# Short Version: {} \n'.format(version.short_version))
-    # fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    # fh.write('# Dirty? {} \n'.format(str(version.dirty)))
+    try:
+        from python_tools._version import __version__ as version
+
+        fh.write("version: {} \n".format(version))
+    except ImportError:
+        print("\n\n" + traceback.format_exc() + "\n\n")
+        fh.write("version: {} \n".format("Unknown"))
 
 
 def find_bams_in_directory(dir):
@@ -251,7 +250,7 @@ def create_yaml_file_objects(bam_paths):
     :param folder: file folder
     :return:
     """
-    return [{'class': 'File', 'path': b} for b in bam_paths]
+    return [{"class": "File", "path": b} for b in bam_paths]
 
 
 def substitute_project_root(yaml_file):
@@ -265,9 +264,15 @@ def substitute_project_root(yaml_file):
     for key in yaml_file.keys():
         current_key = yaml_file[key]
         # If we are dealing with a File object
-        if type(current_key) == dict and 'class' in current_key and current_key['class'] == 'File':
-            new_value = yaml_file[key]['path'].replace(PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR)
-            yaml_file[key]['path'] = new_value
+        if (
+            type(current_key) == dict
+            and "class" in current_key
+            and current_key["class"] == "File"
+        ):
+            new_value = yaml_file[key]["path"].replace(
+                PIPELINE_ROOT_PLACEHOLDER, ROOT_DIR
+            )
+            yaml_file[key]["path"] = new_value
 
         # If we are dealing with a string
         # Todo: these should be replaced with File types
@@ -287,17 +292,18 @@ def include_yaml_resources(fh, yaml_resources_path):
     :param: fh File Handle to the inputs file for the pipeline
     :param: file_resources_path String representing full path to our resources file
     """
-    with open(yaml_resources_path, 'r') as stream:
+    with open(yaml_resources_path, "r") as stream:
         resources = ruamel.yaml.round_trip_load(stream)
         resources = substitute_project_root(resources)
 
     fh.write(INPUTS_FILE_DELIMITER + ruamel.yaml.round_trip_dump(resources))
 
 
-class ArgparseMock():
+class ArgparseMock:
     """
     Mock class to simply have keys and values that simulate the argparse object for testing purposes
     """
+
     def __init__(self, args):
 
         for key, value in zip(args.keys(), args.values()):
@@ -320,20 +326,30 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
     matching_sample_ids = title_file[boolv][TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if all_strings_are_substrings(matching_sample_ids):
-        print(DELIMITER + 'WARNING: There are two or more sample ids found in this sample\'s path: {}'.format(
-            sample_object))
+        print(
+            DELIMITER
+            + "WARNING: There are two or more sample ids found in this sample's path: {}".format(
+                sample_object
+            )
+        )
 
-        print('Here are the suspicious sample IDs:')
+        print("Here are the suspicious sample IDs:")
         print(matching_sample_ids)
 
-        print('We will choose the longest matching sample ID for this fastq, ' +
-                'but please check that it is ordered with the correct RG_ID in the final inputs file.')
+        print(
+            "We will choose the longest matching sample ID for this fastq, "
+            + "but please check that it is ordered with the correct RG_ID in the final inputs file."
+        )
 
         longest_match = max(matching_sample_ids, key=len)
         return np.argmax(title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == longest_match)
 
     else:
-        raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(sample_object['path']))
+        raise Exception(
+            "More than one unique sample ID matches fastq {}, exiting.".format(
+                sample_object["path"]
+            )
+        )
 
 
 def get_pos(title_file, sample_object):
@@ -348,6 +364,7 @@ def get_pos(title_file, sample_object):
     :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
             in the `title_file` match this fastq file
     """
+
     def contained_in(sample_id, file_path):
         """
         Helper method to sort list of fastqs.
@@ -358,23 +375,33 @@ def get_pos(title_file, sample_object):
         elif file_path.endswith("SampleSheet.csv"):
             found = sample_id + SAMPLE_SEP_DIR_DELIMETER in file_path
         else:
-            raise Exception("Unrecognized file type {}. File type should be either fastq.qz or SampleSheet.csv.".format(file_path))
+            raise Exception(
+                "Unrecognized file type {}. File type should be either fastq.qz or SampleSheet.csv.".format(
+                    file_path
+                )
+            )
 
         if found:
             return 1
         else:
             return 0
 
-    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, file_path=sample_object['path'])
+    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(
+        contained_in, file_path=sample_object["path"]
+    )
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)
 
     # If there are no matches, throw error
     if np.sum(boolv) < 1:
-        err_string = DELIMITER + 'Error, matching sample ID for file {} not found in title file'
-        print >> sys.stderr, err_string.format(sample_object)
-        raise Exception('Please double check the order of the fastqs in the final inputs.yaml file')
+        err_string = (
+            DELIMITER + "Error, matching sample ID for file {} not found in title file"
+        )
+        print >>sys.stderr, err_string.format(sample_object)
+        raise Exception(
+            "Please double check the order of the fastqs in the final inputs.yaml file"
+        )
 
     pos = np.argmax(boolv)
     return pos

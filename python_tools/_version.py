@@ -1,6 +1,10 @@
 import os
 from subprocess import check_output, CalledProcessError
 
+# User-defined version. This will be used as the package/build
+#  version, in case version cannot be retrived using git methods.
+__version__ = "1.1.0"
+
 
 def get_tag():
     return str(
@@ -52,7 +56,7 @@ def get_commit_count_after_tag(tag=get_tag()):
     )
 
 
-def version():
+def get_version():
     """
     get a comprehensive git version and report it in
     the package at build-time.
@@ -60,7 +64,7 @@ def version():
     :param :
     :return str:
     """
-    version = (
+    return (
         get_tag()
         + "+"
         + get_commit_count_after_tag()
@@ -68,4 +72,17 @@ def version():
         + get_commit()
         + (".dirty" if dirty() else "")
     )
+
+
+def get_and_write_version():
+    version = get_version()
+
+    with open(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "../resources/run_params/version.yaml",
+        ),
+        "w",
+    ) as i:
+        i.write("# Pipeline Run Version:\nversion : {}\n".format(version))
     return version
