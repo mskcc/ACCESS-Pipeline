@@ -18,6 +18,7 @@ RUN_TOOLS_FOLDER = os.path.join(RESOURCES_FOLDER, "run_tools")
 TEST = "test.yaml"
 LOCAL = "local.yaml"
 PRODUCTION = "production.yaml"
+VERSION = "version.yaml"
 
 # Run Files
 RUN_FILES = os.path.join(RUN_FILES_FOLDER, PRODUCTION)
@@ -27,6 +28,7 @@ RUN_FILES_LOCAL = os.path.join(RUN_FILES_FOLDER, LOCAL)
 # Run Parameters
 RUN_PARAMS = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION)
 RUN_PARAMS_TEST = os.path.join(RUN_PARAMS_FOLDER, TEST)
+VERSION_PARAM = os.path.join(RUN_PARAMS_FOLDER, VERSION)
 
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL = os.path.join(ROOT_DIR, "resources/run_tools/local.yaml")
@@ -56,7 +58,7 @@ SAMPLE_SHEET__PROJECT_ID_COLUMN = "Sample_Project"
 # TitleFile Column Definitions #
 ################################
 
-# Columns explicity provided in sample sheet
+# Columns explicitly provided in sample sheet
 TITLE_FILE__POOL_COLUMN = "Pool"
 TITLE_FILE__SAMPLE_ID_COLUMN = "Sample"
 TITLE_FILE__PATIENT_ID_COLUMN = "Patient_ID"
@@ -72,7 +74,7 @@ TITLE_FILE__BAIT_VERSION_COLUMN = "Bait_version"
 # Columns defined as constants
 TITLE_FILE__COLLAB_ID_COLUMN = "Collab_ID"
 
-# Columns inteferred from samplesheet metadata/operator column
+# Columns inferred from samplesheet metadata/operator column
 TITLE_FILE__SEX_COLUMN = "Sex"
 TITLE_FILE__PATIENT_NAME_COLUMN = "PatientName"
 TITLE_FILE__ACCESSION_COLUMN = "AccessionID"
@@ -183,13 +185,20 @@ TITLE_FILE__COLUMN_ORDER = [
 # Pipeline Kickoff Constants #
 ##############################
 
+FASTQ_1_FILE_SEARCH = "_R1_001.fastq.gz"
+FASTQ_2_FILE_SEARCH = "_R2_001.fastq.gz"
+SAMPLE_SHEET_FILE_SEARCH = "SampleSheet.csv"
+
+ADAPTER_1 = "GATCGGAAGAGC"
+ADAPTER_2 = "AGATCGGAAGAGC"
+
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
 
 # Delimiter for printing logs
 DELIMITER = "\n" + "*" * 20 + "\n"
 # Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = "\n\n" + "# " + "--" * 30 + "\n\n"
+INPUTS_FILE_DELIMITER = "\n" + "# " + "--" * 30 + "\n"
 
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = "$PIPELINE_ROOT"
@@ -334,71 +343,91 @@ MAPPED_LABEL = "Mapped"
 POOL_A_LABEL = "A Targets"
 POOL_B_LABEL = "B Targets"
 
-UNFILTERED_COLLAPSING_METHOD = 'All Unique'
-SIMPLEX_COLLAPSING_METHOD = 'Simplex'
-DUPLEX_COLLAPSING_METHOD = 'Duplex'
-SIMPLEX_DUPLEX_COMBINED = 'SimplexDuplex'
+UNFILTERED_COLLAPSING_METHOD = "All Unique"
+SIMPLEX_COLLAPSING_METHOD = "Simplex"
+DUPLEX_COLLAPSING_METHOD = "Duplex"
+SIMPLEX_DUPLEX_COMBINED = "SimplexDuplex"
 
 # Headers for tables
-DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, 'method', 'duplication_rate', 'pool']
+DUPLICATION_RATES_HEADER = [SAMPLE_ID_COLUMN, "method", "duplication_rate", "pool"]
 
-GC_BIN_COLUMN = 'gc_bin'
-METHOD_COLUMN = 'method'
-GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', WALTZ_PEAK_COVERAGE_COLUMN, 'gc', 'method']
-GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, 'coverage']
-GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN, 'coverage']
+GC_BIN_COLUMN = "gc_bin"
+METHOD_COLUMN = "method"
+GC_BIAS_HEADER = [
+    SAMPLE_ID_COLUMN,
+    "interval_name",
+    WALTZ_PEAK_COVERAGE_COLUMN,
+    "gc",
+    "method",
+]
+GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, "coverage"]
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [
+    METHOD_COLUMN,
+    SAMPLE_ID_COLUMN,
+    GC_BIN_COLUMN,
+    "coverage",
+]
 
 # Output file names
-read_counts_filename = 'read_counts_agg.txt'
-coverage_agg_filename = 'coverage_agg.txt'
-gc_avg_each_sample_coverage_filename = 'GC_bias_with_coverage_averages_over_each_sample.txt'
-gc_bias_with_coverage_filename = 'GC_bias_with_coverage.txt'
-read_counts_total_filename = 'read_counts_total.txt'
-coverage_per_interval_filename = 'coverage_per_interval.txt'
-read_counts_table_exon_level_filename = 'read_counts_agg_exon_level.txt'
-coverage_table_exon_level_filename = 'coverage_agg_exon_level.txt'
-gc_cov_int_table_exon_level_filename = 'GC_bias_with_coverage_exon_level.txt'
-gc_avg_each_sample_coverage_exon_level_filename = 'GC_bias_with_coverage_averages_over_each_sample_exon_level.txt'
-average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
+read_counts_filename = "read_counts_agg.txt"
+coverage_agg_filename = "coverage_agg.txt"
+gc_avg_each_sample_coverage_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample.txt"
+)
+gc_bias_with_coverage_filename = "GC_bias_with_coverage.txt"
+read_counts_total_filename = "read_counts_total.txt"
+coverage_per_interval_filename = "coverage_per_interval.txt"
+read_counts_table_exon_level_filename = "read_counts_agg_exon_level.txt"
+coverage_table_exon_level_filename = "coverage_agg_exon_level.txt"
+gc_cov_int_table_exon_level_filename = "GC_bias_with_coverage_exon_level.txt"
+gc_avg_each_sample_coverage_exon_level_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample_exon_level.txt"
+)
+average_coverage_across_exon_targets_filename = (
+    "average_coverage_across_exon_targets_duplex_A.txt"
+)
 
-INSERT_SIZE_PREFIX = 'insert_sizes_'
+INSERT_SIZE_PREFIX = "insert_sizes_"
 INSERT_SIZE_OUTPUT_FILE_NAMES = [
-    'standard_A_targets.txt',
-    'unfiltered_A_targets.txt',
-    'simplex_A_targets.txt',
-    'duplex_A_targets.txt',
-    'standard_B_targets.txt',
-    'unfiltered_B_targets.txt',
-    'simplex_B_targets.txt',
-    'duplex_B_targets.txt',
+    "standard_A_targets.txt",
+    "unfiltered_A_targets.txt",
+    "simplex_A_targets.txt",
+    "duplex_A_targets.txt",
+    "standard_B_targets.txt",
+    "unfiltered_B_targets.txt",
+    "simplex_B_targets.txt",
+    "duplex_B_targets.txt",
 ]
 
 EXON_COVERAGE_OUTPUT_FILE_NAMES = [
-    'coverage_per_interval_A_targets_All_Unique.txt',
-    'coverage_per_interval_A_targets_Duplex.txt',
-    'coverage_per_interval_A_targets_Simplex.txt',
-    'coverage_per_interval_A_targets_TotalCoverage.txt',
+    "coverage_per_interval_A_targets_All_Unique.txt",
+    "coverage_per_interval_A_targets_Duplex.txt",
+    "coverage_per_interval_A_targets_Simplex.txt",
+    "coverage_per_interval_A_targets_TotalCoverage.txt",
 ]
 
-INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
-
-ALL_TABLES_MODULE_OUTPUT_FILES = [
-    read_counts_filename,
-    coverage_agg_filename,
-    gc_avg_each_sample_coverage_filename,
-    gc_bias_with_coverage_filename,
-    read_counts_total_filename,
-    coverage_per_interval_filename,
-    read_counts_table_exon_level_filename,
-    coverage_table_exon_level_filename,
-    gc_cov_int_table_exon_level_filename,
-    gc_avg_each_sample_coverage_exon_level_filename,
-    average_coverage_across_exon_targets_filename
-] + EXON_COVERAGE_OUTPUT_FILE_NAMES + \
-INSERT_SIZE_OUTPUT_FILE_NAMES + [
-    'qc_sample_coverage_A_targets.txt',
-    'qc_sample_coverage_B_targets.txt'
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES
 ]
+
+ALL_TABLES_MODULE_OUTPUT_FILES = (
+    [
+        read_counts_filename,
+        coverage_agg_filename,
+        gc_avg_each_sample_coverage_filename,
+        gc_bias_with_coverage_filename,
+        read_counts_total_filename,
+        coverage_per_interval_filename,
+        read_counts_table_exon_level_filename,
+        coverage_table_exon_level_filename,
+        gc_cov_int_table_exon_level_filename,
+        gc_avg_each_sample_coverage_exon_level_filename,
+        average_coverage_across_exon_targets_filename,
+    ]
+    + EXON_COVERAGE_OUTPUT_FILE_NAMES
+    + INSERT_SIZE_OUTPUT_FILE_NAMES
+    + ["qc_sample_coverage_A_targets.txt", "qc_sample_coverage_B_targets.txt"]
+)
 
 
 #########
