@@ -18,7 +18,7 @@ def main(tbi_f, tbo_f, vf, of):
     for i, var in enumerate(variants.itertuples()):
         Sample = var.Sample
         Patient_ID = Sample.split("-")[0]
-        select = tbf[(tbf['VCF_REF'].values == var.Ref) & (tbf['VCF_ALT'].values == var.Alt) & (tbf['VCF_POS'].apply(int).values == int(var.Start)) & (tbf['t_vaf_fragment'].apply(float).values >= 0.01)]
+        select = tbf[(tbf['VCF_REF'].values == var.Ref) & (tbf['VCF_ALT'].values == var.Alt) & (tbf['VCF_POS'].apply(int).values == int(var.Start)) & (tbf['t_vaf_fragment'].apply(float).values >= 0.02)]
         select = select[~(select["Tumor_Sample_Barcode_x"].str.contains("DUPLEX")) & ~(select["Tumor_Sample_Barcode_x"].str.contains("SIMPLEX"))]
         select = select[select['Tumor_Sample_Barcode_x'].str.contains(Patient_ID)]
         if select.shape[0] > 0:
