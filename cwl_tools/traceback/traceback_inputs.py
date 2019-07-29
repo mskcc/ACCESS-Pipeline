@@ -281,11 +281,11 @@ def main():
     )
     args = parser.parse_args()
     group_mutations_maf(args.title_file, args.ti_mutations, args.mutation_list)
-    make_traceback_map(
-        args.tumor_duplex_bams + args.tumor_simplex_bams,
-        args.title_file,
-        traceback_bam_inputs,
-    )
+    #make_traceback_map(
+    #    args.tumor_duplex_bams + args.tumor_simplex_bams,
+    #    args.title_file,
+    #    traceback_bam_inputs,
+    #)
 
 
 if __name__ == "__main__":
