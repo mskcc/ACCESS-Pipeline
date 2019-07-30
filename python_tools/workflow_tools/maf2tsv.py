@@ -83,7 +83,9 @@ def maf2tsv(maf_file):
     # TODO: this can be removed once vep output is fixed
     #  with gnomad output
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS2)
-    maf["Mutation_Class"] = "Novel"
+
+    # if a mutation does not have a flag for "Mutation_Status", classify it as Novel
+    maf["Mutation_Class"] = maf["Mutation_Status"].apply(lambda x: "" if x else "Novel")
 
     try:
         maf = maf[MAF_COLUMNS_SELECT]
@@ -96,7 +98,6 @@ def maf2tsv(maf_file):
         )
 
     # compute columns
-
     maf["EXON"] = np.vectorize(get_exon, otypes=[str])(maf["EXON"], maf["INTRON"])
     maf = maf.drop(["INTRON"], axis=1)
 
@@ -104,6 +105,7 @@ def maf2tsv(maf_file):
     # maf = maf.rename(index=str, columns=MAF_TSV_COL_MAP)
     # get max of gnomad
     maf["gnomAD_Max_AF"] = np.nanmax(maf[GNOMAD_COLUMNS].values, axis=1)
+    
     # compute various mutation depth and vaf metrics
     maf["D_t_count_fragment"] = (
         maf["D_t_ref_count_fragment"] + maf["D_t_alt_count_fragment"]
