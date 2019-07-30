@@ -72,46 +72,60 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
     Main function
     """
 
-    def vcf_to_maf_coord(Start, Ref, Alt):
-        if len(Ref) == len(Alt):
-            return (Start, Start, Ref, Alt)
-        elif len(Ref) > len(Alt):
-            if Ref[0] == Alt[0]:
-                return (
-                    str(int(Start) + 1),
-                    str(int(Start) + len(Alt)),
-                    Ref[1:],
-                    ("-" if len(Alt) == 1 else Alt[1:]),
-                )
-            else:
-                return (Start, Start, Ref, Alt)
-        elif len(Ref) < len(Alt):
-            if Ref[0] == Alt[0]:
-                return (
-                    str(int(Start) + 1),
-                    str(int(Start) + len(Ref)),
-                    ("-" if len(Ref) == 1 else Ref[1:]),
-                    Alt[1:],
-                )
-            else:
-                return (Start, Start, Ref, Alt)
+    def _vcf_to_maf_coord(Start, Ref, Alt):
+        """
+        transform ref,alt,pos to maf format following vcf2maf rules
+        """
+        maf_start, maf_ref, maf_alt = Start, Ref, Alt
+        ref_length, alt_length = len(Ref), len(Alt)
+        while all([maf_ref, maf_alt, maf_ref[0] == maf_alt[0], maf_ref != maf_alt]):
+            maf_ref = maf_ref[1:] or "-"
+            maf_alt = maf_alt[1:] or "-"
+            ref_length -= 1
+            alt_length -= 1
+            maf_start += 1
 
-    def variant_type(Ref, Alt):
+        # Handle SNPs, DNPs, TNPs, or anything larger (ONP)
+        if ref_length == alt_length:
+            return (
+                maf_start,
+                maf_start + alt_length - 1,
+                maf_ref,
+                maf_alt,
+                _variant_type(maf_ref, maf_alt),
+            )
+        # Handle complex and non-complex deletions
+        elif ref_length > alt_length:
+            return (maf_start, maf_start + ref_length - 1, maf_ref, maf_alt, "DEL")
+        # Handle complex and non-complex insertions
+        else:
+            maf_stop = (maf_start + ref_length - 1) if maf_ref != "-" else maf_start
+            maf_start = (maf_start - 1) if maf_ref == "-" else maf_start
+            return (maf_start, maf_stop, maf_ref, maf_alt, "INS")
+
+    def _variant_type(Ref, Alt):
+        """
+        get variant type based on maf formatted ref and alt 
+        """
         if len(Ref) > len(Alt):
             return "DEL"
         elif len(Ref) < len(Alt):
             return "INS"
         else:
-            return "SNV"
+            snv_types = {1: "SNP", 2: "DNP", 3: "TNP"}
+            if len(Ref) > 3:
+                return "ONP"
+            else:
+                return snv_types[len(Ref)]
 
-    def TI_mutations_to_maf(TI_mutations):
+    def _TI_mutations_to_maf(TI_mutations):
         TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer")
 
         TI_df[
-            ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2"]
+            ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2", "Variant_Type"]
         ] = pd.DataFrame(
             TI_df.apply(
-                lambda x: vcf_to_maf_coord(
+                lambda x: _vcf_to_maf_coord(
                     x["Start_Pos"], x["Ref_Allele"], x["Alt_Allele"]
                 ),
                 axis=1,
@@ -183,15 +197,21 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
     )
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
     concat_df[
-        ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2"]
+        [
+            "Start_Position",
+            "End_Position",
+            "Reference_Allele",
+            "Tumor_Seq_Allele2",
+            "Variant_Type",
+        ]
     ] = pd.DataFrame(
         concat_df.apply(
-            lambda x: vcf_to_maf_coord(x["Start"], x["Ref"], x["Alt"]), axis=1
+            lambda x: _vcf_to_maf_coord(x["Start"], x["Ref"], x["Alt"]), axis=1
         ).values.tolist()
     )
-    concat_df["Variant_Type"] = concat_df.apply(
-        lambda x: variant_type(x["Ref"], x["Alt"]), axis=1
-    )
+    # concat_df["Variant_Type"] = concat_df.apply(
+    #     lambda x: variant_type(x["Ref"], x["Alt"]), axis=1
+    # )
     concat_df["Tumor_Seq_Allele1"] = concat_df["Reference_Allele"]
     concat_df = concat_df[
         [
@@ -239,7 +259,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         },
     )
     if TI_mutations:
-        concat_df = pd.concat([concat_df, TI_mutations_to_maf(TI_mutations)])
+        concat_df = pd.concat([concat_df, _TI_mutations_to_maf(TI_mutations)])
     concat_df.to_csv(
         "traceback_inputs.maf", header=True, index=None, sep="\t", mode="w"
     )
@@ -281,11 +301,11 @@ def main():
     )
     args = parser.parse_args()
     group_mutations_maf(args.title_file, args.ti_mutations, args.mutation_list)
-    #make_traceback_map(
+    # make_traceback_map(
     #    args.tumor_duplex_bams + args.tumor_simplex_bams,
     #    args.title_file,
     #    traceback_bam_inputs,
-    #)
+    # )
 
 
 if __name__ == "__main__":
@@ -328,4 +348,3 @@ if __name__ == "__main__":
 #         )
 #         vcf_list.append(sample + "_traceback_input.vcf")
 #     return vcf_list
-
