@@ -16,8 +16,10 @@ from constants import (
     EXONIC_FILTERED,
     SILENT_DROPPED,
     SILENT_FILTERED,
-    NONPANEL_DROPPED,
-    NONPANEL_FILTERED,
+    NONPANEL_EXONIC_DROPPED,
+    NONPANEL_EXONIC_FILTERED,
+    NONPANEL_SILENT_DROPPED,
+    NONPANEL_SILENT_FILTERED,
     IS_EXONIC_CLASS,
     MAF_DUMMY_COLUMNS,
     MAF_DUMMY_COLUMNS2,
@@ -105,7 +107,7 @@ def maf2tsv(maf_file):
     # maf = maf.rename(index=str, columns=MAF_TSV_COL_MAP)
     # get max of gnomad
     maf["gnomAD_Max_AF"] = np.nanmax(maf[GNOMAD_COLUMNS].values, axis=1)
-    
+
     # compute various mutation depth and vaf metrics
     maf["D_t_count_fragment"] = (
         maf["D_t_ref_count_fragment"] + maf["D_t_alt_count_fragment"]
@@ -201,7 +203,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
         """
         return tx_df[tx_df.isoform == txID].refseq_id.values.tolist().pop()
 
-    # TODO: This block is to be removed at some point
+    # TODO: This dummy columns block is to be removed at some point
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS)
 
     # Create exonic, silent, and nonpanel files.
@@ -210,41 +212,51 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
     ) as ed, open(outdir + "/" + project_name + SILENT_FILTERED, "w") as sf, open(
         outdir + "/" + project_name + SILENT_DROPPED, "w"
     ) as sd, open(
-        outdir + "/" + project_name + NONPANEL_FILTERED, "w"
-    ) as nf, open(
-        outdir + "/" + project_name + NONPANEL_DROPPED, "w"
-    ) as nd:
+        outdir + "/" + project_name + NONPANEL_EXONIC_FILTERED, "w"
+    ) as nef, open(
+        outdir + "/" + project_name + NONPANEL_EXONIC_DROPPED, "w"
+    ) as ned, open(
+        outdir + "/" + project_name + NONPANEL_SILENT_FILTERED, "w"
+    ) as nsf, open(
+        outdir + "/" + project_name + NONPANEL_SILENT_DROPPED, "w"
+    ) as nsd:
 
         # Print headers
         map(
             lambda f: f.write("\t".join(MAF_TSV_COL_MAP.values()) + "\n"),
-            [ef, ed, sf, sd, nf, nd],
+            [ef, ed, sf, sd, nsf, nsd, nef, ned],
         )
 
         # Iterate over the maf file and determine status of each variant
         for variant in maf.itertuples():
-            if variant.Transcript_ID not in tx_list:
-                if variant.Status:
-                    nd.write(format_var(variant))
-                else:
-                    nf.write(format_var(variant))
-            elif IS_EXONIC_CLASS(
+            # set flag to classify if a variant is exonic
+            is_exonic = IS_EXONIC_CLASS(
                 variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
-            ):
-                variant_tuple = IS_EXONIC_CLASS(
-                    variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
-                )
+            )
+            # classify non-panel and non-canonical variants to filtered and dropped files
+            if variant.Transcript_ID not in tx_list:
+                if variant.Status and is_exonic:
+                    ned.write(format_var(variant))
+                elif variant.Status:
+                    nsd.write(format_var(variant))
+                elif is_exonic:
+                    nef.write(format(variant))
+                else:
+                    nsf.write(format(variant))
+           # exonic variants
+            elif is_exonic:
+                variant_tuple = is_exonic
                 variant = variant._replace(
                     Hugo_Symbol=variant_tuple[0],  # Gene
                     Variant_Classification=variant_tuple[1],  # VariantClass
                     VCF_POS=variant_tuple[2],  # Start coordinate
                     Transcript_ID=reformat_tx(variant.Transcript_ID),  # TranscriptID
                 )
-
                 if variant.Status:
                     ed.write(format_var(variant))
                 else:
                     ef.write(format_var(variant))
+            # silent variants
             else:
                 variant = variant._replace(
                     Transcript_ID=reformat_tx(variant.Transcript_ID)
