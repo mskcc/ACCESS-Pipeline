@@ -512,11 +512,8 @@ def create_inputs_file(args):
 
     create_traceback_inputs(args, fh)
 
-    fh.write('project_name: {}'.format(args.project_name))
-
-
     ####### Generate inputs for CNV ########
-    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
+    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir}".format(
         title_file=args.title_file_path, 
         bam_dir=args.all_unique_bam_directory, 
         output_dir=os.path.dirname(args.output_file_name)
@@ -533,7 +530,7 @@ def create_inputs_file(args):
     ####### End of Generating inputs for CNV ########
 
     ####### Generate inputs for CNV ########
-    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir} -alone".format(
+    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir}".format(
         title_file=args.title_file_path, 
         bam_dir=args.standard_bams_directory, 
         output_dir=os.path.dirname(args.output_file_name)
@@ -548,9 +545,6 @@ def create_inputs_file(args):
     else:
         raise Exception("Unable to generate inputs yaml for msi")
     ####### End of Generating inputs for CNV ########
-
-
-    include_version_info(fh)
 
     fh.write("title_file: {{class: File, path: {}}}\n".format(args.title_file_path))
     fh.write("project_name: {}\n".format(args.project_name))
