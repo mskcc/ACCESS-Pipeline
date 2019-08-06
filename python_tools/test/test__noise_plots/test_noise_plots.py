@@ -86,7 +86,5 @@ class NoisePlotsTestCase(unittest.TestCase):
         assert os.path.exists('noise_by_substitution.pdf')
         os.unlink('./noise_by_substitution.pdf')
 
-
-
 if __name__ == '__main__':
     unittest.main()

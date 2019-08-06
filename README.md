@@ -62,7 +62,9 @@ Use the following script to get LUNA-specific environment variables for Toil and
 It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
 ```
 (access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
+
 ```
+## Additional setup steps, if not on LUNA:
 
 ### 2. Update the run variables
 
@@ -75,6 +77,7 @@ If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@m
 
 /resources/run_params/test.yaml
 /resources/run_params/production.yaml
+
 ```
 And then update the paths to these variables.
 
@@ -83,7 +86,9 @@ If you are using the SGE batch system, you will also need to set these variables
 ```
 export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
 export TOIL_GRIDENGINE_PE="smp"
+
 ```
+And then update the paths to these variables.
 
 ### 4. Install R libraries
 These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.

@@ -57,6 +57,10 @@ outputs:
     type: File
     outputSource: qc_workflow_wo_waltz/hotspots_in_normals_data
 
+  tables:
+    type: Directory
+    outputSource: qc_workflow_wo_waltz/tables
+
 steps:
 
   ##############

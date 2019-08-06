@@ -10,7 +10,6 @@ from tempfile import mkdtemp
 import version
 
 
-###################################################################
 # This script is used to run workflows from the command line using toil-cwl-runner.
 #
 # It is a simple wrapper that creates the output directory structure,
@@ -75,7 +74,6 @@ def parse_arguments():
     parser.add_argument(
         '--output_location',
         action='store',
-        dest='output_location',
         help='Path to CMO Project outputs location',
         required=True
     )
@@ -83,7 +81,6 @@ def parse_arguments():
     parser.add_argument(
         '--inputs_file',
         action='store',
-        dest='inputs_file',
         help='CWL Inputs file (e.g. inputs.yaml)',
         required=True
     )
@@ -91,7 +88,6 @@ def parse_arguments():
     parser.add_argument(
         '--workflow',
         action='store',
-        dest='workflow',
         help='Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)',
         required=True
     )
@@ -102,6 +98,14 @@ def parse_arguments():
         dest='batch_system',
         help='e.g. lsf, sge or singleMachine',
         required=True
+    )
+
+    parser.add_argument(
+        '--service_class',
+        action='store',
+        dest='service_class',
+        help='e.g. Berger',
+        required=False
     )
 
     parser.add_argument(
@@ -153,6 +157,7 @@ def create_directories(args):
     """
     output_location = args.output_location
     project_and_version_id = get_project_name_and_pipeline_version_id(args)
+
 
     # Set output directory
     output_directory = os.path.join(output_location, project_and_version_id)
@@ -248,6 +253,10 @@ def set_temp_dir_env_vars(cwl_tmpdir, project_id):
 
 def main():
     args, unknowns = parse_arguments()
+
+    if args.service_class:
+        # Set SLA environment variable
+        os.environ['TOIL_LSF_ARGS'] = ' -sla {} '.format(args.service_class)
 
     output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
 

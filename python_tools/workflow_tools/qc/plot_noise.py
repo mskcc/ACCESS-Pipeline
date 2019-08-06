@@ -29,6 +29,7 @@ def noise_alt_percent_plot(noise_table):
     plt.figure(figsize=(10, 5))
     bars = plt.bar(y_pos, alt_percent, align='center', color='black')
     plt.axhline(y=0.002, xmin=0, xmax=1, c='y', ls='--')
+
     plt.xticks(y_pos, samples, rotation=90, ha='center')
 
     # Put the values on top of the bars
@@ -108,6 +109,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
             combined_class_genotype_count = float(subset['GenotypeCount'].sum())
             class_noise = combined_class_altcount / (combined_class_altcount + combined_class_genotype_count + EPSILON)
 
+
             # Change from fraction to percent
             class_noise = class_noise * 100.0
             new = pd.DataFrame({
@@ -123,6 +125,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
 
     # Variable to help only putting y-axis title on subplots in first column
     num_cols = 3
+
     g = sns.FacetGrid(six_class_noise_by_substitution, col='Sample', col_wrap=num_cols, sharey=True)
     g = g.map(plt.bar, 'Class', 'AltPercent')
 
@@ -135,6 +138,7 @@ def noise_by_substitution_plot(noise_by_substitution_table):
         plt.setp(ax.get_xticklabels(), rotation=45)
 
     g.fig.subplots_adjust(top=0.95, wspace=0.1, hspace=0.35)
+
     g.fig.suptitle('Noise by Substitution Class')
 
     # Save table and figure

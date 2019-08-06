@@ -348,6 +348,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
                             "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef", "DiscordanceRate",
                             "Status"])
+
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
     return geno_compare
@@ -381,6 +382,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 #     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
 #
 # ==============================================================================
+
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
@@ -579,6 +581,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
 
 
+
 def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     plt.clf()
     if geno_compare[0][0] == "ReferenceSample":
@@ -658,6 +661,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
         ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
     fig.tight_layout()
     plt.savefig(fp_output_dir + 'Unexpected_Mismatch.pdf', bbox_inches='tight')
+
 
 
 def find_sex_from_pileup(waltz_dir, output_dir):
@@ -765,6 +769,7 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
         # Parameter
         thres = 0.1  # heterozygous above this threshold
         # Get Raw data
+
         pileup = read_csv(pileupfile)
         fpRaw = []
         for p in pileup:
@@ -818,6 +823,7 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
     return all_reformatted
 
 
+
 ######################
 # Convert Txt files
 ######################
@@ -851,6 +857,7 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     df_titlefile = read_df(titlefile, header='infer')
     find_and_plot_minorcontamination(all_reformatted, df_titlefile, fp_output_dir, prefix='')
     ##plot_minor_contamination(all_fp, fp_output_dir, titlefile)
+
     plot_major_contamination(all_geno, fp_output_dir, titlefile)
 
     # plotGenoCompare(geno_compare,n, fpOutputdir)
@@ -859,6 +866,7 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
 
     # Duplex Plot
     plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, config_file, fp_output_dir)
+
     merge_pdf_in_folder(fp_output_dir, 'FPFigures.pdf')
 
     # return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
@@ -886,6 +894,7 @@ def main():
     run_fp_report(output_dir=args.output_dir, waltz_dir_a=args.waltz_dir_A, waltz_dir_b=args.waltz_dir_B,
                   waltz_dir_a_duplex=args.waltz_dir_A_duplex, waltz_dir_b_duplex=args.waltz_dir_B_duplex,
                   config_file=args.fp_config, titlefile=args.title_file)
+
 
     # Sex
     gender = standardize_gender(title_file=args.title_file)

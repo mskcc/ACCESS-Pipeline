@@ -67,7 +67,6 @@ inputs:
 
   bqsr__knownSites_dbSNP: File
   bqsr__knownSites_millis: File
-
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File

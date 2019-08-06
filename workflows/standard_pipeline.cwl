@@ -101,6 +101,34 @@ outputs:
         items: File
     outputSource: module_2/recalibrated_scores_matrix
 
+  clipping_dirs:
+    type: Directory[]
+    outputSource: umi_clipping/clipping_dir
+
+  clipping_info:
+    type: File[]
+    outputSource: umi_clipping/clipping_info
+
+  clstats1:
+    type: File[]
+    outputSource: module_1/clstats1
+
+  clstats2:
+    type: File[]
+    outputSource: module_1/clstats2
+
+  md_metrics:
+    type: File[]
+    outputSource: module_1/md_metrics
+
+  covint_list:
+    type: File[]
+    outputSource: module_2/covint_list
+
+  covint_bed:
+    type: File[]
+    outputSource: module_2/covint_bed
+
 steps:
 
   #########################

@@ -45,7 +45,7 @@ setup(
     version=version.most_recent_tag(),
     description='MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline',
     url='http://github.com/mskcc/ACCESS-Pipeline',
-    author='Ian Johnson',
+    author='Ian Johnson, Maysun Hasan, Juber Patel',
     author_email='johnsoni@mskcc.org',
     license='MIT',
     install_requires=req_file('requirements.txt'),

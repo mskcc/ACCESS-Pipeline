@@ -18,6 +18,7 @@ import ruamel.yaml
 
 DEFAULT_MEM = 5
 DEFAULT_CPU = 1
+
 DEFAULT_CONTROL_QUEUE = "sol"
 
 

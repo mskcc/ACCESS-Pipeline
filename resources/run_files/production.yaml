@@ -1,6 +1,6 @@
-#############################################
-# Files required to run Innovation Pipeline #
-#############################################
+#########################################
+# Files required to run ACCESS Pipeline #
+#########################################
 
 # Used in multiple steps
 # Todo: Consolidate
@@ -23,6 +23,7 @@ B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/re
 noise__good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
 
 
+
 # Files used after standard Bam steps
 #
 # Main Bed files (Probe-level)
@@ -34,3 +35,4 @@ pool_a_bed_file_exonlevel: {class: File, path: /ifs/work/bergerm1/Innovation/Res
 
 # Hotspots
 hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}
+

@@ -17,8 +17,6 @@ from python_tools.util import (
     include_version_info
 )
 
-
-##################################
 # Pipeline Kickoff Step #2
 #
 # Usage Example:
@@ -51,6 +49,7 @@ from python_tools.util import (
 # Or maybe not b/c "The last segment is always 001":
 # https://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/bcl2fastq/bcl2fastq2_guide_15051736_v2.pdf (Page 19)
 #
+# Todo: use regex, with ^ and $, for better matching
 FASTQ_1_FILE_SEARCH = '_R1_001.fastq.gz'
 FASTQ_2_FILE_SEARCH = '_R2_001.fastq.gz'
 SAMPLE_SHEET_FILE_SEARCH = 'SampleSheet.csv'
@@ -89,6 +88,9 @@ def load_fastqs(data_dir):
 
     # Take just the files
     files_flattened = [os.path.join(dirpath, f) for (dirpath, dirnames, filenames) in folders_4 for f in filenames]
+
+    # Convert to absolute paths
+    files_flattened = [os.path.abspath(p) for p in files_flattened]
 
     # Separate into three lists
     fastq1 = filter(lambda x: FASTQ_1_FILE_SEARCH in x, files_flattened)

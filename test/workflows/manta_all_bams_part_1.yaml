@@ -1,0 +1,847 @@
+sample_id:
+- C-LN84CP-L001-d_S30_001_cl_aln_srt_MD_IR_FX_BR
+- C-HWUAE4-L003-d_S28_001_cl_aln_srt_MD_IR_FX_BR
+- C-A8736F-L001-d_S38_001_cl_aln_srt_MD_IR_FX_BR
+- C-HWUAE4-L001-d_S33_001_cl_aln_srt_MD_IR_FX_BR
+- C-M14T0D-L002-d_S21_001_cl_aln_srt_MD_IR_FX_BR
+- C-A8736F-L003-d_S40_001_cl_aln_srt_MD_IR_FX_BR
+- C-M14T0D-L003-d_S20_001_cl_aln_srt_MD_IR_FX_BR
+- C-HWUAE4-L002-d_S37_001_cl_aln_srt_MD_IR_FX_BR
+- C-LN84CP-L002-d_S26_001_cl_aln_srt_MD_IR_FX_BR
+- C-KMDWNY-L001-d_S32_001_cl_aln_srt_MD_IR_FX_BR
+- C-TCLM6N-L001-d_S43_001_cl_aln_srt_MD_IR_FX_BR
+- C-YC3WMV-L001-d_S35_001_cl_aln_srt_MD_IR_FX_BR
+- C-HWUAE4-L004-d_S27_001_cl_aln_srt_MD_IR_FX_BR
+- C-FVPRDP-L001-d_S39_001_cl_aln_srt_MD_IR_FX_BR
+- C-RP7WJK-L002-d_S24_001_cl_aln_srt_MD_IR_FX_BR
+- C-M14T0D-L004-d_S42_001_cl_aln_srt_MD_IR_FX_BR
+- C-RP7WJK-L001-d_S36_001_cl_aln_srt_MD_IR_FX_BR
+- C-M14T0D-L001-d_S19_001_cl_aln_srt_MD_IR_FX_BR
+- C-FVPRDP-L002-d_S25_001_cl_aln_srt_MD_IR_FX_BR
+- C-KMDWNY-L003-d_S22_001_cl_aln_srt_MD_IR_FX_BR
+- C-TCLM6N-L002-d_S41_001_cl_aln_srt_MD_IR_FX_BR
+- C-LN84CP-L003-d_S23_001_cl_aln_srt_MD_IR_FX_BR
+- C-A8736F-L002-d_S31_001_cl_aln_srt_MD_IR_FX_BR
+- C-YC3WMV-L002-d_S29_001_cl_aln_srt_MD_IR_FX_BR
+- C-KMDWNY-L002-d_S34_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T07_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T04_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-017-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T09_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T04_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-015-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T06_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-041-pl-T07_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T00_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-015-pl-T07_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-017-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-041-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T07_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T11_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-017-pl-T03_IGO_05500_FC_4_S4_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T01_IGO_05500_FC_13_S13_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T00_IGO_05500_FC_14_S14_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T11_IGO_05500_FC_2_S2_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T06_IGO_05500_FC_12_S12_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T02_IGO_05500_FC_5_S5_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T02_IGO_05500_FC_7_S7_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-017-pl-T02_IGO_05500_FC_3_S3_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T04_IGO_05500_FC_18_S18_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T07_IGO_05500_FC_6_S6_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-041-pl-T01_IGO_05500_FC_11_S11_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-015-pl-T02_IGO_05500_FC_16_S16_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T01_IGO_05500_FC_1_S1_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T09_IGO_05500_FC_15_S15_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-041-pl-T07_IGO_05500_FC_10_S10_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T07_IGO_05500_FC_9_S9_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T04_IGO_05500_FC_8_S8_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-015-pl-T07_IGO_05500_FC_17_S17_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-102-pl-T01_IGO_05500_FC_45_S45_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-10-pl-T01_IGO_05500_FC_44_S44_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-88-pl-T01_IGO_05500_FC_49_S49_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-80-pl-T01_IGO_05500_FC_48_S48_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-57-pl-T02_IGO_05500_FC_47_S47_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-103-pl-T01_IGO_05500_FC_46_S46_001_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-009-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-001-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-003-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-002-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-005-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-003-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-004-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-002-pl-T04_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-002-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-001-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-004-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-001-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-005-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-001-pl-T04_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-008-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-006-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-007-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-004-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-006-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-005-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-008-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-007-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-002-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-003-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- SS-gej-009-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- C-CMMPMV-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-K8J788-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-CMMPMV-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-T9HJFW-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-K8J788-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-T9HJFW-L002-d_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-001057-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L005-d_cl_aln_srt_MD_IR_FX_BR
+- C-001055-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L006-d_cl_aln_srt_MD_IR_FX_BR
+- C-001057-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4PU567-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-KJD0NM-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-EN2LR5-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-AC5024-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TY5F4E-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TY5F4E-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-NWXND7-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-KJD0NM-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-AC5024-N001-d_cl_aln_srt_MD_IR_FX_BR
+- C-EN2LR5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TY5F4E-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-4PU567-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-KJD0NM-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-NWXND7-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-NWXND7-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-4PU567-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-EN2LR5-N001-d_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-001057-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L005-d_cl_aln_srt_MD_IR_FX_BR
+- C-000500-L006-d_cl_aln_srt_MD_IR_FX_BR
+- C-001055-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-001057-L002-d_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T01_IGO_05500_FF_44_S27_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T11_IGO_05500_FF_41_S24_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T02_IGO_05500_FF_42_S25_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T04_IGO_05500_FF_46_S29_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T09_IGO_05500_FF_45_S28_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T04_IGO_05500_FF_43_S26_001_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-016-pl-T11_IGO_05500_FF_41_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-038-pl-T04_IGO_05500_FF_43_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-033-pl-T02_IGO_05500_FF_42_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-040-pl-T04_IGO_05500_FF_46_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-053-pl-T09_IGO_05500_FF_45_cl_aln_srt_MD_IR_FX_BR
+- ML-fgfr2-045-pl-T01_IGO_05500_FF_44_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T01_IGO_05500_FF_24_S36_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T02_IGO_05500_FF_23_S35_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T02_IGO_05500_FF_21_S33_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T02_IGO_05500_FF_19_S31_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T02_IGO_05500_FF_25_S37_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T01_IGO_05500_FF_18_S30_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T01_IGO_05500_FF_22_S34_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T01_IGO_05500_FF_20_S32_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T01_IGO_05500_FF_26_S38_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T02_IGO_05500_FF_27_S39_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T03_IGO_05500_FF_28_S40_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T01_IGO_05500_FF_24_S36_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T02_IGO_05500_FF_23_S35_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T02_IGO_05500_FF_21_S33_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T02_IGO_05500_FF_19_S31_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-028-pl-T02_IGO_05500_FF_25_S37_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-004-pl-T01_IGO_05500_FF_18_S30_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-019-pl-T01_IGO_05500_FF_22_S34_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-006-pl-T01_IGO_05500_FF_20_S32_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T01_IGO_05500_FF_26_S38_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T02_IGO_05500_FF_27_S39_001_cl_aln_srt_MD_IR_FX_BR
+- DA-ret-041-pl-T03_IGO_05500_FF_28_S40_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-77-pl-T02_IGO_05500_FB_4_S4_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-63-pl-T02_IGO_05500_FB_25_S25_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-87-pl-T02_IGO_05500_FB_12_S12_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-87-pl-T01_IGO_05500_FB_11_S11_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-77-pl-T01_IGO_05500_FB_3_S3_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-76-pl-T02_IGO_05500_FB_2_S2_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-81-pl-T01_IGO_05500_FB_7_S7_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-65-pl-T01_IGO_05500_FB_26_S26_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-79-pl-T01_IGO_05500_FB_5_S5_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-81-pl-T02_IGO_05500_FB_8_S8_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-76-pl-T01_IGO_05500_FB_1_S1_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-86-pl-T01_IGO_05500_FB_9_S9_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-86-pl-T02_IGO_05500_FB_10_S10_001_cl_aln_srt_MD_IR_FX_BR
+- MW-coad-79-pl-T02_IGO_05500_FB_6_S6_001_cl_aln_srt_MD_IR_FX_BR
+- C-UNKFHN-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-V651XA-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-V651XA-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-7J9H31-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-N34F57-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-N34F57-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-MN39TU-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-7J9H31-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-UNKFHN-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-MN39TU-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-AHDYW9-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-VK6WXU-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-HAT9MW-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-898XKN-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-LJVFWE-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-WUC3WV-N003-d_cl_aln_srt_MD_IR_FX_BR
+- C-126JAU-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-R1F5AY-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-J5RXYV-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-HMJLMM-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-HMJLMM-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-7N4ULD-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-RNJ04L-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-R1F5AY-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-126JAU-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-PD3RCD-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-93W8WP-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-001440-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-84XNKK-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-NNWD02-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-YW82CY-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-2UW6JP-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-KPUU0U-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-2UW6JP-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-09XLT2-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-JW46W8-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-13TFTU-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-UJFTXF-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-KPW93L-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-P0W0PH-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-HMC10X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-60DMC0-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-EAXDD2-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-34HHKN-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-34HHKN-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-P0W0PH-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-KPW93L-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-60DMC0-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-HMC10X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-EAXDD2-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-E5LVTR-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-E5LVTR-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-5EM8RC-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-UA1W04-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-DJMC82-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-54KLH9-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-XA92UC-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-62UCN5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-VCL08D-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-VCL08D-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-DJMC82-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-UA1W04-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-54KLH9-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-62UCN5-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-62UCN5-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-U8WAU8-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5H5R2T-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-AHDYW9-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-5HUL5J-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-R6MCD7-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-0EU9LX-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-30N2P4-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-YP5R0K-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-PER9CE-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-13TFTU-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-F73JND-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-TJNHT3-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-NNWD02-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-CUDCW0-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-KPUU0U-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-2NMC49-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-DF0LWR-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-HD5CTA-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-PXLW6Y-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-3U7797-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-93W8WP-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-09XLT2-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-7AVWDK-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-9MNNF5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-898XKN-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-AMXRAL-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-2UW6JP-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-6WY7PC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-AHDYW9-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-0EU9LX-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-HAT9MW-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-HAT9MW-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-5HUL5J-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-H0YMA5-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-F5H7YA-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-898XKN-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-6WY7PC-N002-d_cl_aln_srt_MD_IR_FX_BR
+- C-H0YMA5-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-2XM3KC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-35MA0W-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-001798-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-3KTK0P-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-EFFWHC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-EW1Y3E-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-T0EUCR-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-84XNKK-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-6P03JC-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-H77MCH-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-LT4FT2-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-001440-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-16M06K-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-CRW888-L001-d_cl_aln_srt_MD_IR_FX_BR
+- C-8F9XD2-L004-d_cl_aln_srt_MD_IR_FX_BR
+- C-8F9XD2-L003-d_cl_aln_srt_MD_IR_FX_BR
+- C-16M06K-L002-d_cl_aln_srt_MD_IR_FX_BR
+- C-M916LH-L001-d_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-002-pl-T18_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-101-018-pl-T06_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-002-pl-T03_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T10_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T11_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-pl-T25_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-002-pl-T05_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-pl-T22_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-101-018-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T18_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-002-pl-T03_IGO_05500_ES_38_S38_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_001_cl_aln_srt_MD_IR_FX_BR
+- DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_001_cl_aln_srt_MD_IR_FX_BR
+- DS-fast-092-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- DS-fast-119-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- DS-fast-042-pl-T01_cl_aln_srt_MD_IR_FX_BR
+- DS-fast-90-pl-T02_cl_aln_srt_MD_IR_FX_BR
+- DS-fast-035-pl-T02_cl_aln_srt_MD_IR_FX_BR
+
+tumor_bams:
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-LN84CP-L001-d_S30_001/C-LN84CP-L001-d_S30_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-HWUAE4-L003-d_S28_001/C-HWUAE4-L003-d_S28_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-A8736F-L001-d_S38_001/C-A8736F-L001-d_S38_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-HWUAE4-L001-d_S33_001/C-HWUAE4-L001-d_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-M14T0D-L002-d_S21_001/C-M14T0D-L002-d_S21_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-A8736F-L003-d_S40_001/C-A8736F-L003-d_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-M14T0D-L003-d_S20_001/C-M14T0D-L003-d_S20_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-HWUAE4-L002-d_S37_001/C-HWUAE4-L002-d_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-LN84CP-L002-d_S26_001/C-LN84CP-L002-d_S26_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-KMDWNY-L001-d_S32_001/C-KMDWNY-L001-d_S32_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-TCLM6N-L001-d_S43_001/C-TCLM6N-L001-d_S43_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-YC3WMV-L001-d_S35_001/C-YC3WMV-L001-d_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-HWUAE4-L004-d_S27_001/C-HWUAE4-L004-d_S27_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-FVPRDP-L001-d_S39_001/C-FVPRDP-L001-d_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-RP7WJK-L002-d_S24_001/C-RP7WJK-L002-d_S24_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-M14T0D-L004-d_S42_001/C-M14T0D-L004-d_S42_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-RP7WJK-L001-d_S36_001/C-RP7WJK-L001-d_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-M14T0D-L001-d_S19_001/C-M14T0D-L001-d_S19_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-FVPRDP-L002-d_S25_001/C-FVPRDP-L002-d_S25_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-KMDWNY-L003-d_S22_001/C-KMDWNY-L003-d_S22_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-TCLM6N-L002-d_S41_001/C-TCLM6N-L002-d_S41_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-LN84CP-L003-d_S23_001/C-LN84CP-L003-d_S23_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-A8736F-L002-d_S31_001/C-A8736F-L002-d_S31_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-YC3WMV-L002-d_S29_001/C-YC3WMV-L002-d_S29_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-0.0.38/Sample_C-KMDWNY-L002-d_S34_001/C-KMDWNY-L002-d_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-040-pl-T07/ML-fgfr2-040-pl-T07_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-040-pl-T04/ML-fgfr2-040-pl-T04_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-038-pl-T02/ML-fgfr2-038-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-017-pl-T03/ML-fgfr2-017-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-053-pl-T09/ML-fgfr2-053-pl-T09_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-033-pl-T02/ML-fgfr2-033-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-038-pl-T04/ML-fgfr2-038-pl-T04_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-045-pl-T01/ML-fgfr2-045-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-015-pl-T02/ML-fgfr2-015-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-045-pl-T06/ML-fgfr2-045-pl-T06_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-041-pl-T07/ML-fgfr2-041-pl-T07_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-053-pl-T00/ML-fgfr2-053-pl-T00_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-015-pl-T07/ML-fgfr2-015-pl-T07_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-017-pl-T02/ML-fgfr2-017-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-041-pl-T01/ML-fgfr2-041-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-033-pl-T07/ML-fgfr2-033-pl-T07_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-016-pl-T01/ML-fgfr2-016-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-1.1.1/5500-FC-Lowery-Cholangiocarcinoma-1.1.1/ML-fgfr2-016-pl-T11/ML-fgfr2-016-pl-T11_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-017-pl-T03_/ML-fgfr2-017-pl-T03_IGO_05500_FC_4_S4_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-045-pl-T01_/ML-fgfr2-045-pl-T01_IGO_05500_FC_13_S13_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-053-pl-T00_/ML-fgfr2-053-pl-T00_IGO_05500_FC_14_S14_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-016-pl-T11_/ML-fgfr2-016-pl-T11_IGO_05500_FC_2_S2_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-045-pl-T06_/ML-fgfr2-045-pl-T06_IGO_05500_FC_12_S12_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-033-pl-T02_/ML-fgfr2-033-pl-T02_IGO_05500_FC_5_S5_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-038-pl-T02_/ML-fgfr2-038-pl-T02_IGO_05500_FC_7_S7_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-017-pl-T02_/ML-fgfr2-017-pl-T02_IGO_05500_FC_3_S3_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-040-pl-T04_/ML-fgfr2-040-pl-T04_IGO_05500_FC_18_S18_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-033-pl-T07_/ML-fgfr2-033-pl-T07_IGO_05500_FC_6_S6_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-041-pl-T01_/ML-fgfr2-041-pl-T01_IGO_05500_FC_11_S11_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-015-pl-T02_/ML-fgfr2-015-pl-T02_IGO_05500_FC_16_S16_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-016-pl-T01_/ML-fgfr2-016-pl-T01_IGO_05500_FC_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-053-pl-T09_/ML-fgfr2-053-pl-T09_IGO_05500_FC_15_S15_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-041-pl-T07_/ML-fgfr2-041-pl-T07_IGO_05500_FC_10_S10_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-040-pl-T07_/ML-fgfr2-040-pl-T07_IGO_05500_FC_9_S9_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-038-pl-T04_/ML-fgfr2-038-pl-T04_IGO_05500_FC_8_S8_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-LoweryM-Cholangiocarcinoma-FGFR2-spike-in-0.0.35-hotfix-3-g8fcc361/Sample_ML-fgfr2-015-pl-T07_/ML-fgfr2-015-pl-T07_IGO_05500_FC_17_S17_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-102-pl-T01_/MW-coad-102-pl-T01_IGO_05500_FC_45_S45_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-10-pl-T01_/MW-coad-10-pl-T01_IGO_05500_FC_44_S44_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-88-pl-T01_/MW-coad-88-pl-T01_IGO_05500_FC_49_S49_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-80-pl-T01_/MW-coad-80-pl-T01_IGO_05500_FC_48_S48_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-57-pl-T02_/MW-coad-57-pl-T02_IGO_05500_FC_47_S47_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-MW-coad-0.0.35/Sample_MW-coad-103-pl-T01_/MW-coad-103-pl-T01_IGO_05500_FC_46_S46_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-009-pl-T01/SS-gej-009-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-001-pl-T03/SS-gej-001-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-003-pl-T01/SS-gej-003-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-002-pl-T03/SS-gej-002-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-005-pl-T01/SS-gej-005-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-003-pl-T02/SS-gej-003-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-004-pl-T03/SS-gej-004-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-002-pl-T04/SS-gej-002-pl-T04_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-002-pl-T01/SS-gej-002-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-001-pl-T02/SS-gej-001-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-004-pl-T02/SS-gej-004-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-001-pl-T01/SS-gej-001-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-005-pl-T02/SS-gej-005-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-001-pl-T04/SS-gej-001-pl-T04_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-008-pl-T01/SS-gej-008-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-006-pl-T01/SS-gej-006-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-007-pl-T02/SS-gej-007-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-004-pl-T01/SS-gej-004-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-006-pl-T02/SS-gej-006-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-005-pl-T03/SS-gej-005-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-008-pl-T02/SS-gej-008-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-007-pl-T01/SS-gej-007-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-002-pl-T02/SS-gej-002-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-003-pl-T03/SS-gej-003-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FC/5500-FC-SihagSmita-Esophageal-1.1.1/5500-FC-SihagSmita-Esophageal-1.1.1-1.1.1/SS-gej-009-pl-T02/SS-gej-009-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-CMMPMV-L001-d/C-CMMPMV-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-K8J788-L002-d/C-K8J788-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-CMMPMV-L002-d/C-CMMPMV-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-T9HJFW-L001-d/C-T9HJFW-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-K8J788-L001-d/C-K8J788-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_MW-coad-0.0.41/Sample_C-T9HJFW-L002-d/C-T9HJFW-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-019-pl-T02_IGO_05500_FF_23/DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-028-pl-T01_IGO_05500_FF_24/DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-006-pl-T02_IGO_05500_FF_21/DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-019-pl-T01_IGO_05500_FF_22/DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-004-pl-T01_IGO_05500_FF_18/DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-004-pl-T02_IGO_05500_FF_19/DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-041-pl-T01_IGO_05500_FF_26/DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-041-pl-T03_IGO_05500_FF_28/DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-041-pl-T02_IGO_05500_FF_27/DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-006-pl-T01_IGO_05500_FF_20/DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-1.0.0/5500-FF-DA-RET-1.0.0/DA-ret-028-pl-T02_IGO_05500_FF_25/DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-000500-L004-d/C-000500-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-001057-L002-d/C-001057-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-000500-L005-d/C-000500-L005-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-001055-L001-d/C-001055-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-000500-L006-d/C-000500-L006-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-NTRK-0.0.41/Sample_C-001057-L001-d/C-001057-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-L002-d/C-4PU567-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-KJD0NM-L002-d/C-KJD0NM-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-EN2LR5-L002-d/C-EN2LR5-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-AC5024-L001-d/C-AC5024-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-TY5F4E-L001-d/C-TY5F4E-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-TY5F4E-N002-d/C-TY5F4E-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-NWXND7-L001-d/C-NWXND7-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-KJD0NM-L001-d/C-KJD0NM-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-AC5024-N001-d/C-AC5024-N001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-EN2LR5-L001-d/C-EN2LR5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-TY5F4E-L002-d/C-TY5F4E-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-N002-d/C-4PU567-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-KJD0NM-N002-d/C-KJD0NM-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-NWXND7-N002-d/C-NWXND7-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-NWXND7-L002-d/C-NWXND7-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-4PU567-L001-d/C-4PU567-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_Coleman-Prostate-0.0.41/Sample_C-EN2LR5-N001-d/C-EN2LR5-N001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-019-pl-T02_IGO_05500_FF_23/DA-ret-019-pl-T02_IGO_05500_FF_23_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-028-pl-T01_IGO_05500_FF_24/DA-ret-028-pl-T01_IGO_05500_FF_24_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-006-pl-T02_IGO_05500_FF_21/DA-ret-006-pl-T02_IGO_05500_FF_21_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-019-pl-T01_IGO_05500_FF_22/DA-ret-019-pl-T01_IGO_05500_FF_22_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-004-pl-T01_IGO_05500_FF_18/DA-ret-004-pl-T01_IGO_05500_FF_18_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-004-pl-T02_IGO_05500_FF_19/DA-ret-004-pl-T02_IGO_05500_FF_19_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-041-pl-T01_IGO_05500_FF_26/DA-ret-041-pl-T01_IGO_05500_FF_26_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-041-pl-T03_IGO_05500_FF_28/DA-ret-041-pl-T03_IGO_05500_FF_28_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-041-pl-T02_IGO_05500_FF_27/DA-ret-041-pl-T02_IGO_05500_FF_27_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-006-pl-T01_IGO_05500_FF_20/DA-ret-006-pl-T01_IGO_05500_FF_20_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF_EDD_ret-1.1.1/DA-ret-028-pl-T02_IGO_05500_FF_25/DA-ret-028-pl-T02_IGO_05500_FF_25_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-000500-L004-d/C-000500-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-001057-L001-d/C-001057-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-000500-L005-d/C-000500-L005-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-000500-L006-d/C-000500-L006-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-001055-L001-d/C-001055-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-DH-NTRK-1.1.1/C-001057-L002-d/C-001057-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-045-pl-T01_/ML-fgfr2-045-pl-T01_IGO_05500_FF_44_S27_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-016-pl-T11_/ML-fgfr2-016-pl-T11_IGO_05500_FF_41_S24_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-033-pl-T02_/ML-fgfr2-033-pl-T02_IGO_05500_FF_42_S25_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-040-pl-T04_/ML-fgfr2-040-pl-T04_IGO_05500_FF_46_S29_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-053-pl-T09_/ML-fgfr2-053-pl-T09_IGO_05500_FF_45_S28_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-0.0.35/Sample_ML-fgfr2-038-pl-T04_/ML-fgfr2-038-pl-T04_IGO_05500_FF_43_S26_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-016-pl-T11_IGO_05500_FF_41/ML-fgfr2-016-pl-T11_IGO_05500_FF_41_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-038-pl-T04_IGO_05500_FF_43/ML-fgfr2-038-pl-T04_IGO_05500_FF_43_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-033-pl-T02_IGO_05500_FF_42/ML-fgfr2-033-pl-T02_IGO_05500_FF_42_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-040-pl-T04_IGO_05500_FF_46/ML-fgfr2-040-pl-T04_IGO_05500_FF_46_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-053-pl-T09_IGO_05500_FF_45/ML-fgfr2-053-pl-T09_IGO_05500_FF_45_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-no-spike-in-1.1.1/5500-FF-LoweryM-Cholangiocarcinoma-FGFR2-1.1.1/ML-fgfr2-045-pl-T01_IGO_05500_FF_44/ML-fgfr2-045-pl-T01_IGO_05500_FF_44_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-028-pl-T01_/DA-ret-028-pl-T01_IGO_05500_FF_24_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-019-pl-T02_/DA-ret-019-pl-T02_IGO_05500_FF_23_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-006-pl-T02_/DA-ret-006-pl-T02_IGO_05500_FF_21_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-004-pl-T02_/DA-ret-004-pl-T02_IGO_05500_FF_19_S31_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-028-pl-T02_/DA-ret-028-pl-T02_IGO_05500_FF_25_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-004-pl-T01_/DA-ret-004-pl-T01_IGO_05500_FF_18_S30_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-019-pl-T01_/DA-ret-019-pl-T01_IGO_05500_FF_22_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-006-pl-T01_/DA-ret-006-pl-T01_IGO_05500_FF_20_S32_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-041-pl-T01_/DA-ret-041-pl-T01_IGO_05500_FF_26_S38_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-041-pl-T02_/DA-ret-041-pl-T02_IGO_05500_FF_27_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/5500-FF-DA-RET-0.0.35/Sample_DA-ret-041-pl-T03_/DA-ret-041-pl-T03_IGO_05500_FF_28_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-028-pl-T01_/DA-ret-028-pl-T01_IGO_05500_FF_24_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-019-pl-T02_/DA-ret-019-pl-T02_IGO_05500_FF_23_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-006-pl-T02_/DA-ret-006-pl-T02_IGO_05500_FF_21_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-004-pl-T02_/DA-ret-004-pl-T02_IGO_05500_FF_19_S31_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-028-pl-T02_/DA-ret-028-pl-T02_IGO_05500_FF_25_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-004-pl-T01_/DA-ret-004-pl-T01_IGO_05500_FF_18_S30_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-019-pl-T01_/DA-ret-019-pl-T01_IGO_05500_FF_22_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-006-pl-T01_/DA-ret-006-pl-T01_IGO_05500_FF_20_S32_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-041-pl-T01_/DA-ret-041-pl-T01_IGO_05500_FF_26_S38_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-041-pl-T02_/DA-ret-041-pl-T02_IGO_05500_FF_27_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FF/FF_RET_fusion/Sample_DA-ret-041-pl-T03_/DA-ret-041-pl-T03_IGO_05500_FF_28_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-77-pl-T02_/MW-coad-77-pl-T02_IGO_05500_FB_4_S4_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-63-pl-T02_/MW-coad-63-pl-T02_IGO_05500_FB_25_S25_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-87-pl-T02_/MW-coad-87-pl-T02_IGO_05500_FB_12_S12_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-87-pl-T01_/MW-coad-87-pl-T01_IGO_05500_FB_11_S11_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-77-pl-T01_/MW-coad-77-pl-T01_IGO_05500_FB_3_S3_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-76-pl-T02_/MW-coad-76-pl-T02_IGO_05500_FB_2_S2_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-81-pl-T01_/MW-coad-81-pl-T01_IGO_05500_FB_7_S7_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-65-pl-T01_/MW-coad-65-pl-T01_IGO_05500_FB_26_S26_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-79-pl-T01_/MW-coad-79-pl-T01_IGO_05500_FB_5_S5_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-81-pl-T02_/MW-coad-81-pl-T02_IGO_05500_FB_8_S8_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-76-pl-T01_/MW-coad-76-pl-T01_IGO_05500_FB_1_S1_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-86-pl-T01_/MW-coad-86-pl-T01_IGO_05500_FB_9_S9_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-86-pl-T02_/MW-coad-86-pl-T02_IGO_05500_FB_10_S10_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FB/5500-FB-MW-coad-0.0.35/Sample_MW-coad-79-pl-T02_/MW-coad-79-pl-T02_IGO_05500_FB_6_S6_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-UNKFHN-L002-d/C-UNKFHN-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-V651XA-L002-d/C-V651XA-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-V651XA-L001-d/C-V651XA-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-7J9H31-L002-d/C-7J9H31-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-N34F57-L002-d/C-N34F57-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-N34F57-L001-d/C-N34F57-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-MN39TU-L001-d/C-MN39TU-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-7J9H31-L001-d/C-7J9H31-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-UNKFHN-L001-d/C-UNKFHN-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_1-1.1.1/C-MN39TU-L002-d/C-MN39TU-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-AHDYW9-N003-d/C-AHDYW9-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-VK6WXU-N003-d/C-VK6WXU-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-HAT9MW-N003-d/C-HAT9MW-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-898XKN-N003-d/C-898XKN-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-LJVFWE-N003-d/C-LJVFWE-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_ZS-msi-1.1.1/C-WUC3WV-N003-d/C-WUC3WV-N003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-126JAU-L002-d/C-126JAU-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-R1F5AY-L002-d/C-R1F5AY-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-J5RXYV-L001-d/C-J5RXYV-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-HMJLMM-L001-d/C-HMJLMM-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-HMJLMM-L002-d/C-HMJLMM-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-7N4ULD-L001-d/C-7N4ULD-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-RNJ04L-L001-d/C-RNJ04L-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-R1F5AY-L001-d/C-R1F5AY-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-126JAU-L001-d/C-126JAU-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_2-1.1.1/C-PD3RCD-L001-d/C-PD3RCD-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-93W8WP-L002-d/C-93W8WP-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-001440-L002-d/C-001440-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-84XNKK-L002-d/C-84XNKK-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-NNWD02-L002-d/C-NNWD02-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-YW82CY-L001-d/C-YW82CY-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-2UW6JP-L002-d/C-2UW6JP-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-KPUU0U-L002-d/C-KPUU0U-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-2UW6JP-L003-d/C-2UW6JP-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-09XLT2-L002-d/C-09XLT2-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-JW46W8-L001-d/C-JW46W8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-13TFTU-L002-d/C-13TFTU-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500-FS_EDD_ret-1.1.1/C-UJFTXF-L001-d/C-UJFTXF-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-KPW93L-L001-d/C-KPW93L-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-P0W0PH-L001-d/C-P0W0PH-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-HMC10X-L001-d/C-HMC10X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-60DMC0-L001-d/C-60DMC0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-EAXDD2-L001-d/C-EAXDD2-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-34HHKN-L001-d/C-34HHKN-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-34HHKN-L002-d/C-34HHKN-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-P0W0PH-L002-d/C-P0W0PH-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-KPW93L-L002-d/C-KPW93L-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-60DMC0-L002-d/C-60DMC0-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-HMC10X-L002-d/C-HMC10X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FS/5500_FS_HY-nsclc_group_3-1.1.1/C-EAXDD2-L002-d/C-EAXDD2-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-90N5K0-L002-d/C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-CFJRR5-L003-d/C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-AXXCJ8-L001-d/C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-TTAT7X-L004-d/C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-TTAT7X-L003-d/C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-AXXCJ8-L003-d/C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-CFJRR5-L002-d/C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-TTAT7X-L001-d/C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-CFJRR5-L001-d/C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-4W265X-L002-d/C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-TTAT7X-L002-d/C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-HC5W5N-L001-d/C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-XH38TD-L002-d/C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-90N5K0-L001-d/C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-4W265X-L001-d/C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-XH38TD-L001-d/C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-90N5K0-L003-d/C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-HC5W5N-L002-d/C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-90N5K0-L004-d/C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/SS-gej-5500-FQ-0.0.57/5500-FQ-SS-gej-0.0.57/C-AXXCJ8-L002-d/C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-90N5K0-L002-d/C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-CFJRR5-L003-d/C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-AXXCJ8-L001-d/C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-TTAT7X-L004-d/C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-TTAT7X-L003-d/C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-AXXCJ8-L003-d/C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-CFJRR5-L002-d/C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-TTAT7X-L001-d/C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-CFJRR5-L001-d/C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-4W265X-L002-d/C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-TTAT7X-L002-d/C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-HC5W5N-L001-d/C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-XH38TD-L002-d/C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-90N5K0-L001-d/C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-4W265X-L001-d/C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-XH38TD-L001-d/C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-90N5K0-L003-d/C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-HC5W5N-L002-d/C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-90N5K0-L004-d/C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_SS-gej-1.0.0/C-AXXCJ8-L002-d/C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-90N5K0-L002-d/C-90N5K0-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-CFJRR5-L003-d/C-CFJRR5-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-AXXCJ8-L001-d/C-AXXCJ8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-TTAT7X-L004-d/C-TTAT7X-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-TTAT7X-L003-d/C-TTAT7X-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-AXXCJ8-L003-d/C-AXXCJ8-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-CFJRR5-L002-d/C-CFJRR5-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-TTAT7X-L001-d/C-TTAT7X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-CFJRR5-L001-d/C-CFJRR5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-4W265X-L002-d/C-4W265X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-TTAT7X-L002-d/C-TTAT7X-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-HC5W5N-L001-d/C-HC5W5N-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-XH38TD-L002-d/C-XH38TD-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-90N5K0-L001-d/C-90N5K0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-4W265X-L001-d/C-4W265X-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-XH38TD-L001-d/C-XH38TD-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-90N5K0-L003-d/C-90N5K0-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-HC5W5N-L002-d/C-HC5W5N-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-90N5K0-L004-d/C-90N5K0-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-SihagSmita-Esophageal-1.1.1/5500-FQ-SihagSmita-Esophageal-1.1.1/C-AXXCJ8-L002-d/C-AXXCJ8-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/C-E5LVTR-L001-d/C-E5LVTR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/C-5EM8RC-L002-d/C-5EM8RC-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/C-5EM8RC-L001-d/C-5EM8RC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/C-5EM8RC-L004-d/C-5EM8RC-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ-VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/VargheseAnna-Cholangiocarcinoma-FGFR2-1.1.1/C-5EM8RC-L003-d/C-5EM8RC-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_AV-fgfr2-1.0.0/C-E5LVTR-L001-d/C-E5LVTR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_AV-fgfr2-1.0.0/C-5EM8RC-L002-d/C-5EM8RC-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_AV-fgfr2-1.0.0/C-5EM8RC-L001-d/C-5EM8RC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_AV-fgfr2-1.0.0/C-5EM8RC-L004-d/C-5EM8RC-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FQ/5500-FQ_AV-fgfr2-1.0.0/C-5EM8RC-L003-d/C-5EM8RC-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-UA1W04-L001-d/C-UA1W04-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-DJMC82-L002-d/C-DJMC82-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-54KLH9-L001-d/C-54KLH9-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-XA92UC-L003-d/C-XA92UC-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-62UCN5-L001-d/C-62UCN5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-VCL08D-L002-d/C-VCL08D-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-VCL08D-L001-d/C-VCL08D-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-DJMC82-L001-d/C-DJMC82-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-UA1W04-L002-d/C-UA1W04-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-54KLH9-L002-d/C-54KLH9-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-62UCN5-L003-d/C-62UCN5-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FR/DS-puma-5500-FR-1.1.0/C-62UCN5-L002-d/C-62UCN5-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-U8WAU8-L001-d/C-U8WAU8-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-5H5R2T-L001-d/C-5H5R2T-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-AHDYW9-L001-d/C-AHDYW9-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-5HUL5J-L001-d/C-5HUL5J-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-R6MCD7-L001-d/C-R6MCD7-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_7-1.1.1/C-0EU9LX-L001-d/C-0EU9LX-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-30N2P4-L001-d/C-30N2P4-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-YP5R0K-L001-d/C-YP5R0K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-PER9CE-L001-d/C-PER9CE-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-13TFTU-L001-d/C-13TFTU-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-F73JND-L001-d/C-F73JND-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_6-1.1.1/C-TJNHT3-L001-d/C-TJNHT3-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-NNWD02-L001-d/C-NNWD02-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-CUDCW0-L001-d/C-CUDCW0-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-KPUU0U-L001-d/C-KPUU0U-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-2NMC49-L001-d/C-2NMC49-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-DF0LWR-L001-d/C-DF0LWR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_3-1.1.1/C-HD5CTA-L001-d/C-HD5CTA-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-PXLW6Y-L001-d/C-PXLW6Y-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-3U7797-L001-d/C-3U7797-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-93W8WP-L001-d/C-93W8WP-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-09XLT2-L001-d/C-09XLT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-7AVWDK-L001-d/C-7AVWDK-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500-FQ_ret-1.1.1/C-9MNNF5-L001-d/C-9MNNF5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-898XKN-N002-d/C-898XKN-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-AMXRAL-N002-d/C-AMXRAL-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-2UW6JP-L001-d/C-2UW6JP-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-6WY7PC-L001-d/C-6WY7PC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-AHDYW9-N002-d/C-AHDYW9-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-0EU9LX-N002-d/C-0EU9LX-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-HAT9MW-L001-d/C-HAT9MW-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-HAT9MW-N002-d/C-HAT9MW-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-5HUL5J-N002-d/C-5HUL5J-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-H0YMA5-N002-d/C-H0YMA5-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-F5H7YA-N002-d/C-F5H7YA-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-898XKN-L001-d/C-898XKN-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-6WY7PC-N002-d/C-6WY7PC-N002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_8-1.1.1/C-H0YMA5-L001-d/C-H0YMA5-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-2XM3KC-L001-d/C-2XM3KC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-35MA0W-L001-d/C-35MA0W-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-001798-L001-d/C-001798-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-3KTK0P-L001-d/C-3KTK0P-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-EFFWHC-L001-d/C-EFFWHC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_5-1.1.1/C-EW1Y3E-L001-d/C-EW1Y3E-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-T0EUCR-L001-d/C-T0EUCR-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-84XNKK-L001-d/C-84XNKK-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-6P03JC-L001-d/C-6P03JC-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-H77MCH-L001-d/C-H77MCH-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-LT4FT2-L001-d/C-LT4FT2-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_4-1.1.1/C-001440-L001-d/C-001440-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-16M06K-L001-d/C-16M06K-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-CRW888-L001-d/C-CRW888-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-8F9XD2-L004-d/C-8F9XD2-L004-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-8F9XD2-L003-d/C-8F9XD2-L003-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-16M06K-L002-d/C-16M06K-L002-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-FP/5500_FP_EDD_RET_lane_1-1.1.1/C-M916LH-L001-d/C-M916LH-L001-d_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-002-pl-T18/DH-ntrk-002-pl-T18_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-101-018-pl-T06/DH-ntrk-101-018-pl-T06_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-001-002-pl-T03/DH-ntrk-001-002-pl-T03_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-012-pl-T10/DH-ntrk-012-pl-T10_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-012-pl-T11/DH-ntrk-012-pl-T11_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-001-pl-T25/DH-ntrk-001-pl-T25_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-001-002-pl-T05/DH-ntrk-001-002-pl-T05_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-001-pl-T22/DH-ntrk-001-pl-T22_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-101-018-pl-T02/DH-ntrk-101-018-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-1.0.0/DH-ntrk-012-pl-T18/DH-ntrk-012-pl-T18_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T18_/DH-ntrk-012-pl-T18_IGO_05500_ES_42_S42_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T25_/DH-ntrk-001-pl-T25_IGO_05500_ES_36_S36_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T11_/DH-ntrk-012-pl-T11_IGO_05500_ES_41_S41_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T06_/DH-ntrk-101-018-pl-T06_IGO_05500_ES_34_S34_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T03_/DH-ntrk-001-002-pl-T03_IGO_05500_ES_38_S38_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-101-018-pl-T02_/DH-ntrk-101-018-pl-T02_IGO_05500_ES_33_S33_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-002-pl-T05_/DH-ntrk-001-002-pl-T05_IGO_05500_ES_39_S39_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-001-pl-T22_/DH-ntrk-001-pl-T22_IGO_05500_ES_35_S35_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-002-pl-T18_/DH-ntrk-002-pl-T18_IGO_05500_ES_37_S37_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/5500-ES-DH-ntrk-0.0.35/Sample_DH-ntrk-012-pl-T10_/DH-ntrk-012-pl-T10_IGO_05500_ES_40_S40_001_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/old/metadata/5500-ES-DS-fast-0.0.41/Sample_DS-fast-092-pl-T02/DS-fast-092-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/old/metadata/5500-ES-DS-fast-0.0.41/Sample_DS-fast-119-pl-T02/DS-fast-119-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/old/metadata/5500-ES-DS-fast-0.0.41/Sample_DS-fast-042-pl-T01/DS-fast-042-pl-T01_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/old/metadata/5500-ES-DS-fast-0.0.41/Sample_DS-fast-90-pl-T02/DS-fast-90-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /home/johnsoni/Innovation/ACCESS-Projects/5500-ES/old/metadata/5500-ES-DS-fast-0.0.41/Sample_DS-fast-035-pl-T02/DS-fast-035-pl-T02_cl_aln_srt_MD_IR_FX_BR.bam}
+
+normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
+
+reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+
+run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+  manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
+  sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+
+
+# Todo: this inputs file should get these params updated with each new test run:
+# ------------------------------------------------------------
+
+project_name: Manta_Test_820_Samples_Part_1
+
+# ------------------------------------------------------------
+
+version: x.x.x
+# Pipeline Run Version Information:
+# Version: e0126bdff331fcd1f1063738b06f7109a5c64067
+# Short Version: e0126bd
+# Most Recent Tag: 0.1.0-rc3
+# Dirty? False

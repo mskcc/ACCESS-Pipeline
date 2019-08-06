@@ -26,8 +26,7 @@ inputs:
 
   bqsr__knownSites_dbSNP:
     type: File
-    secondaryFiles:
-      - .idx
+    secondaryFiles: [.idx]
   bqsr__knownSites_millis:
     type: File
     secondaryFiles:

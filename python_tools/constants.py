@@ -5,6 +5,8 @@ import re
 ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 
+from python_tools.root import ROOT_DIR
+
 #############
 # Resources #
 #############
@@ -31,6 +33,13 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
+ACCESS_VARIANTS_RUN_TOOLS_MANTA     = os.path.join(RUN_TOOLS_FOLDER, 'SV.yaml')
+
+# ACCESS-Variants Resources
+ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_variants_run_files.yaml')
+ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params.yaml')
+ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(RUN_TOOLS_FOLDER, 'ACCESS_variants.yaml')
+ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_variants_run_params_delly.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
 
@@ -295,6 +304,54 @@ INSERT_SIZE_OUTPUT_FILE_NAMES + [
     'qc_sample_coverage_B_targets.txt'
 ]
 
+GC_BIN_COLUMN = 'gc_bin'
+METHOD_COLUMN = 'method'
+GC_BIAS_HEADER = [SAMPLE_ID_COLUMN, 'interval_name', WALTZ_PEAK_COVERAGE_COLUMN, 'gc', 'method']
+GC_BIAS_AVERAGE_COVERAGE_ALL_SAMPLES_HEADER = [METHOD_COLUMN, GC_BIN_COLUMN, 'coverage']
+GC_BIAS_AVERAGE_COVERAGE_EACH_SAMPLE_HEADER = [METHOD_COLUMN, SAMPLE_ID_COLUMN, GC_BIN_COLUMN, 'coverage']
+
+# Output file names
+read_counts_filename = 'read_counts_agg.txt'
+coverage_agg_filename = 'coverage_agg.txt'
+gc_avg_each_sample_coverage_filename = 'GC_bias_with_coverage_averages_over_each_sample.txt'
+gc_bias_with_coverage_filename = 'GC_bias_with_coverage.txt'
+read_counts_total_filename = 'read_counts_total.txt'
+coverage_per_interval_filename = 'coverage_per_interval.txt'
+read_counts_table_exon_level_filename = 'read_counts_agg_exon_level.txt'
+coverage_table_exon_level_filename = 'coverage_agg_exon_level.txt'
+gc_cov_int_table_exon_level_filename = 'GC_bias_with_coverage_exon_level.txt'
+gc_avg_each_sample_coverage_exon_level_filename = 'GC_bias_with_coverage_averages_over_each_sample_exon_level.txt'
+average_coverage_across_exon_targets_filename = 'average_coverage_across_exon_targets_duplex_A.txt'
+
+INSERT_SIZE_PREFIX = 'insert_sizes_'
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    'standard_A_targets.txt',
+    'unfiltered_A_targets.txt',
+    'simplex_A_targets.txt',
+    'duplex_A_targets.txt',
+    'standard_B_targets.txt',
+    'unfiltered_B_targets.txt',
+    'simplex_B_targets.txt',
+    'duplex_B_targets.txt',
+]
+INSERT_SIZE_OUTPUT_FILE_NAMES = [INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES]
+
+ALL_TABLES_MODULE_OUTPUT_FILES = [
+    read_counts_filename,
+    coverage_agg_filename,
+    gc_avg_each_sample_coverage_filename,
+    gc_bias_with_coverage_filename,
+    read_counts_total_filename,
+    coverage_per_interval_filename,
+    read_counts_table_exon_level_filename,
+    coverage_table_exon_level_filename,
+    gc_cov_int_table_exon_level_filename,
+    gc_avg_each_sample_coverage_exon_level_filename,
+    average_coverage_across_exon_targets_filename
+] + INSERT_SIZE_OUTPUT_FILE_NAMES + [
+    'qc_sample_coverage_A_targets.txt',
+    'qc_sample_coverage_B_targets.txt'
+]
 
 #########
 # Noise #

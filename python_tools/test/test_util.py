@@ -34,6 +34,5 @@ class Tests(unittest.TestCase):
         are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
         assert are_substrings == False
 
-
 if __name__ == '__main__':
     unittest.main()

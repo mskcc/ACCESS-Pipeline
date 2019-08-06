@@ -308,6 +308,7 @@ def reformat_exon_targets_coverage_file(coverage_per_interval_table):
         to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method.replace(' ', '_')))
 
 
+
 def create_combined_qc_tables(args):
     """
     Read in and concatenate all the tables from their respective waltz output folders
@@ -381,6 +382,7 @@ def create_combined_qc_tables(args):
     copy_fragment_sizes_files(args)
     reformat_coverage_files(coverage_table)
     reformat_exon_targets_coverage_file(gc_cov_int_table_exon_level)
+
 
     # Also need to copy the fragment-sizes.txt from Unfiltered A Targets
     # For insert sizes graph

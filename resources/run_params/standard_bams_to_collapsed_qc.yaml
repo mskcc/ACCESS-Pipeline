@@ -68,6 +68,7 @@ bqsr__knownSites_millis: {class: File, path: /ifs/e63data/bergerm1/Resources/DMP
 # Fingerprinting
 FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
 
+
 # UMI QC
 A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
 B_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}

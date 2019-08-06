@@ -1,0 +1,37 @@
+sample_id:
+- TD-seracare-0-5per
+- TD-seracare-1per
+- TD-seracare-2-5per
+- TD-seracare-5per
+- TD-seracare-wt
+
+tumor_bams:
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-0-5per/TD-seracare-0-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-1per/TD-seracare-1per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-2-5per/TD-seracare-2-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-5per/TD-seracare-5per_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /ifs/work/bergerm1/Innovation/projects/Ian/5500-EZ/1.1.0/1.1.0_TEST-1.1.0/TD-seracare-wt/TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam}
+
+normal_bam: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}
+
+reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+
+run_tools:
+  r_path: /opt/common/CentOS_6-dev/R/R-3.5.0/bin/Rscript
+  manta: {class: Directory, path: /opt/common/CentOS_6-dev/manta/1.5.0}
+  sv_repo: {class: Directory, path: /ifs/work/bergerm1/Innovation/software/ACCESS_SV}
+
+
+# Todo: this inputs file should get these params updated with each new test run:
+# ------------------------------------------------------------
+
+project_name: Manta_AllSeraCare_Test
+
+# ------------------------------------------------------------
+
+version: x.x.x
+# Pipeline Run Version Information:
+# Version: e0126bdff331fcd1f1063738b06f7109a5c64067
+# Short Version: e0126bd
+# Most Recent Tag: 0.1.0-rc3
+# Dirty? False
