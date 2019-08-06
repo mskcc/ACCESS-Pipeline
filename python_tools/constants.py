@@ -5,8 +5,6 @@ import re
 ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 
-from python_tools.root import ROOT_DIR
-
 #############
 # Resources #
 #############
