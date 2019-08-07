@@ -20,7 +20,7 @@ logger.setLevel(logging.DEBUG)
 TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
 BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
 SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools'
+BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_7-dev/bin/bcftools'
 
 
 def sort_vcf(vcf):
