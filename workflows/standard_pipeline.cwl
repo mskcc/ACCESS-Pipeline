@@ -46,8 +46,12 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
 
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+  bqsr__knownSites_dbSNP:
+    type: File
+    secondaryFiles: [.idx]
+  bqsr__knownSites_millis:
+    type: File
+    secondaryFiles: [.idx]
 
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params

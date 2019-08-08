@@ -65,8 +65,13 @@ inputs:
   marianas_collapsing__params: ../resources/run_params/schemas/marianas_collapsing.yaml#marianas_collapsing__params
   waltz__params: ../resources/run_params/schemas/waltz.yaml#waltz__params
 
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+  bqsr__knownSites_dbSNP:
+    type: File
+    secondaryFiles: [.idx]
+  bqsr__knownSites_millis:
+    type: File
+    secondaryFiles: [.idx]
+
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
   pool_b_bed_file: File
