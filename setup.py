@@ -82,6 +82,7 @@ setup(
             'resources/*/*',
             'resources/**/*',
             '*/*.yaml',
+            '*/*.txt',
             '*.yaml'
         ]
     },
