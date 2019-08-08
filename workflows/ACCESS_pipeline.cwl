@@ -199,7 +199,6 @@ steps:
     patient_id: patient_id
     sample_class: sample_class
     fci_2__basq_fix: fci_2__basq_fix
-    gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
     hotspots: hotspots
