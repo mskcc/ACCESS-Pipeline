@@ -90,6 +90,7 @@ def print_hotspots_table():
     :return:
     """
     hotspots_table = pd.read_csv('hotspots-in-normals.txt', sep='\t')
+    hotspots_table.sort_values(hotspots_table, inplace=True)
     logging.info('Generating table for hotspots file: {}'.format(hotspots_table))
     access_plots.table(
         hotspots_table,

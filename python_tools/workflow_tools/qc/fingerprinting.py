@@ -448,7 +448,7 @@ def find_and_plot_minorcontamination(df_summary, df_titlefile, output_dir, prefi
 
 def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefilepath, config_file, fp_output_dir):
     coverage_thres = 200
-    homozygous_thres = 0.1
+    homozygous_thres = 0.05
 
     # New fp_indices script using pandas
     def create_fp_indices(config_file):
