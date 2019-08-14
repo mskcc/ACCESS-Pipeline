@@ -35,7 +35,7 @@ def extract_blacklist(args):
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
         df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict;MuTect'
-        df_annotation.drop(columns=['TYPE','FAILURE_REASON','MUTECT'], inplace=True)
+        df_annotation.drop(['TYPE','FAILURE_REASON','MUTECT'], inplace=True, errors='ignore')
     
     if os.path.isfile(args.anno_maf):
         annotation_file = args.anno_maf
@@ -135,7 +135,7 @@ def create_fillout_summary(df_fillout, alt_thres):
         raise
     
     #Drop columns that are in the index to eliminate error
-    df_fillout.drop(columns=mutation_key, inplace=True)    
+    df_fillout.drop(tuple(mutation_key), inplace=True)
     # Make the dataframe with the fragment count summary of all the samples per mutation
     summary_table = df_fillout.pivot_table(index=mutation_key, columns='Tumor_Sample_Barcode', values='summary_fragment', aggfunc=lambda x: ' '.join(x))
 
