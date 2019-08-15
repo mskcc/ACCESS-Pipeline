@@ -25,9 +25,13 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
             return "STANDARD"
 
     title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
+    # get project name
     project_name = title_file_df["Pool"].unique().values.tolist().pop()
+    # get unique sample IDs
     tumor_sample_ids = title_file_df["Sample"].values.tolist()
+    # get unique patient IDs
     patient_ids = title_file_df["Patient_ID"].values.tolist()
+
     bam_paths = []
     bam_types = []
     bam_sample_ids = []
@@ -69,7 +73,9 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
 
 def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
     """
-    Main function
+    Main function that groups all mutations from the current project and 
+    from applicable prior projects and returns a uniformly formatted
+    maf file which can be used as a input file for genotyping
     """
 
     def _vcf_to_maf_coord(Start, Ref, Alt):
@@ -119,6 +125,10 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 return snv_types[len(Ref)]
 
     def _TI_mutations_to_maf(TI_mutations):
+        """
+        helper function to reformat mutations from applicable previous project
+        to maf format
+        """
         TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer")
 
         TI_df[
@@ -191,10 +201,13 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         )
         return TI_df
 
+    # get the list of input mutation files from the current project
     mutation_file_list = mutation_file_list.split(",")
+    # read each of the file into a df
     df_from_each_file = (
         pd.read_csv(f, index_col=None, header=0, sep="\t") for f in mutation_file_list
     )
+    # convert all all variant to maf and concat into a single df
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
     concat_df[
         [
@@ -209,9 +222,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             lambda x: _vcf_to_maf_coord(x["Start"], x["Ref"], x["Alt"]), axis=1
         ).values.tolist()
     )
-    # concat_df["Variant_Type"] = concat_df.apply(
-    #     lambda x: variant_type(x["Ref"], x["Alt"]), axis=1
-    # )
+
     concat_df["Tumor_Seq_Allele1"] = concat_df["Reference_Allele"]
     concat_df = concat_df[
         [
@@ -258,6 +269,9 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             "Alt": "VCF_ALT",
         },
     )
+
+    # if mutations from previous project provided, format them and add
+    #  them to the df as well
     if TI_mutations:
         concat_df = pd.concat([concat_df, _TI_mutations_to_maf(TI_mutations)])
     concat_df.to_csv(
