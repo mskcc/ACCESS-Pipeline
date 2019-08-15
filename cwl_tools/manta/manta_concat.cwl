@@ -17,7 +17,7 @@ arguments:
 - shellQuote: false
   valueFrom: '>'
 
-- all_calls.txt
+- $(inputs.project_name + "_AllAnnotatedSVs.txt")
 
 - shellQuote: false
   valueFrom: '&&'
@@ -43,15 +43,17 @@ arguments:
 - shellQuote: false
   valueFrom: '>>'
 
-- all_calls.txt
+- $(inputs.project_name + "_AllAnnotatedSVs.txt")
 
 inputs:
-
-  sv_calls: File[]
+  project_name:
+    type: string
+  sv_calls: 
+    type: File[]
 
 outputs:
 
   concatenated_vcf:
     type: File
     outputBinding:
-      glob: Structural_Variants.txt
+      glob: $(inputs.project_name + "_AllAnnotatedSVs.txt")
