@@ -157,13 +157,21 @@ outputs:
     type: File
     outputSource: module_5/dropped_silent
 
-  filtered_nonpanel:
+  filtered_exonic_nonpanel:
     type: File
-    outputSource: module_5/filtered_nonpanel
+    outputSource: module_5/filtered_exonic_nonpanel
 
-  dropped_nonpanel:
+  dropped_exonic_nonpanel:
     type: File
-    outputSource: module_5/dropped_nonpanel
+    outputSource: module_5/dropped_exonic_nonpanel
+
+  filtered_silent_nonpanel:
+    type: File
+    outputSource: module_5/filtered_silent_nonpanel
+
+  dropped_silent_nonpanel:
+    type: File
+    outputSource: module_5/dropped_silent_nonpanel
 
 steps:
 
@@ -250,5 +258,7 @@ steps:
         dropped_exonic,
         filtered_silent,
         dropped_silent,
-        filtered_nonpanel,
-        dropped_nonpanel]
+        filtered_exonic_nonpanel,
+        dropped_exonic_nonpanel,
+        filtered_silent_nonpanel,
+        dropped_silent_nonpanel]
