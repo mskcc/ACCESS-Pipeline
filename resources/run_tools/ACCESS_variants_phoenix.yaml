@@ -7,8 +7,8 @@ run_tools:
   vardict_testsomatic: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/testsomatic.R
   vardict_var2vcf_paired: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/var2vcf_paired.pl
   perl: /dmp/resources/prod/tools/system/perl/bin/perl
-  vcf2maf: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/vcf2maf.pl
-  vep_path: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
+  vcf2maf: /dmp/hot/jayakumg/projects/vep/vcf2maf.pl
+  vep_path: /dmp/hot/jayakumg/projects/vep/
   vep_data: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
   tabix: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/tabix
   bgzip: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/bgzip
