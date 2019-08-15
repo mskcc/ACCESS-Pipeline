@@ -17,7 +17,7 @@ arguments:
 - shellQuote: false
   valueFrom: '>'
 
-- collated.maf
+- $(inputs.project_name + '_collated.maf')
 
 - shellQuote: false
   valueFrom: '&&'
@@ -43,15 +43,18 @@ arguments:
 - shellQuote: false
   valueFrom: '>>'
 
-- collated.maf
+- $(inputs.project_name + '_collated.maf')
 
 inputs:
 
-  all_maf: File[]
+  all_maf:
+    type: File[]
+  project_name:
+    type: string
 
 outputs:
 
   collated_maf:
     type: File
     outputBinding:
-      glob: collated.maf
+      glob: $(inputs.project_name + '_collated.maf')
