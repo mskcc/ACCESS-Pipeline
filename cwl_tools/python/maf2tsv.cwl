@@ -8,10 +8,7 @@ requirements:
   ramMin: 4000
   coresMin: 1
 
-#baseCommand: [ACCESS_filters]
-arguments:
-- python
-- $('/home/jayakumg/software/dev/cwl/cwl-impact/ACCESS-DMP-VC/python_tools/workflow_tools/maf2tsv.py')
+baseCommand: [maf2tsv]
 
 inputs:
 
@@ -42,10 +39,6 @@ inputs:
 
 
 outputs:
-  # out_dir:
-  #   type: Directory
-  #   outputBinding:
-  #     glob: Final_Variants
 
   filtered_exonic:
     type: File
@@ -67,23 +60,22 @@ outputs:
     outputBinding:
       glob: '*_SilentDropped.txt'
 
-  filtered_nonpanel:
+  filtered_exonic_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanelFiltered.txt'
+      glob: '*_NonPanel.ExonicFiltered.txt'
 
-  dropped_nonpanel:
+  dropped_exonic_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanelDropped.txt'
+      glob: '*_NonPanel.ExonicDropped.txt'
 
-#   outputs:
-#   out: Directory
-# expression: |
-#   ${
-#     return {"out": {
-#       "class": "Directory", 
-#       "basename": "my_directory_name",
-#       "listing": [inputs.file1, inputs.file2]
-#     } };
-#   }
+  filtered_silent_nonpanel:
+    type: File
+    outputBinding:
+      glob: '*_NonPanel.SilentFiltered.txt'
+
+  dropped_silent_nonpanel:
+    type: File
+    outputBinding:
+      glob: '*_NonPanel.SilentDropped.txt'
