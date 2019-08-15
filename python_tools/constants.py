@@ -515,7 +515,7 @@ MAF_COLUMNS_SELECT = [
     "CallMethod",
     "Mutation_Class",
     "Status",
-    "COSMIC_ID",
+    "Cosmic_ID",
 ]
 
 MAF_TSV_COL_MAP = OrderedDict(
@@ -538,7 +538,7 @@ MAF_TSV_COL_MAP = OrderedDict(
         ("HGVSc", "cDNAchange"),
         ("HGVSp_Short", "AAchange"),
         ("dbSNP_RS", "dbSNP_ID"),
-        ("COSMIC_ID", "Cosmic_ID"),
+        ("Cosmic_ID", "Cosmic_ID"),
         ("GMAF", "1000G_MAF"),
         ("FailureReason", "FailureReason"),
         ("CallMethod", "CallMethod"),
@@ -628,7 +628,8 @@ GNOMAD_COLUMNS = [
 ]
 
 MAF_DUMMY_COLUMNS2 = [
-    "COSMIC_ID",
+    "cosmic_ID",
+    "cosmic_OCCURENCE",
     "GMAF",
     "Mutation_Class",
     "gnomAD_AF",
