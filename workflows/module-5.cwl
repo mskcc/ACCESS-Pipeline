@@ -43,13 +43,23 @@ outputs:
     type: File
     outputSource: maf2tsv/dropped_silent
 
-  filtered_nonpanel:
+  filtered_exonic_nonpanel:
     type: File
-    outputSource: maf2tsv/filtered_nonpanel
+    outputSource: maf2tsv/filtered_exonic_nonpanel
 
-  dropped_nonpanel:
+  dropped_exonic_nonpanel:
     type: File
-    outputSource: maf2tsv/dropped_nonpanel
+    outputSource: maf2tsv/dropped_exonic_nonpanel
+
+  filtered_silent_nonpanel:
+    type: File
+    outputSource: maf2tsv/filtered_silent_nonpanel
+
+  dropped_silent_nonpanel:
+    type: File
+    outputSource: maf2tsv/dropped_silent_nonpanel
+
+
 
 steps:
   maf_collate:
@@ -70,5 +80,7 @@ steps:
       dropped_exonic,
       filtered_silent,
       dropped_silent,
-      filtered_nonpanel,
-      dropped_nonpanel]
+      filtered_exonic_nonpanel,
+      dropped_exonic_nonpanel,
+      filtered_silent_nonpanel,
+      dropped_silent_nonpanel]
