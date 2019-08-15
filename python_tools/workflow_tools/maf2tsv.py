@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import re
 
-from constants import (
+from python_tools.constants import (
     MAF_COLUMNS_SELECT,
     MAF_TSV_COL_MAP,
     ALLOWED_EXONIC_VARIANT_CLASS,
@@ -59,6 +59,28 @@ def maf2tsv(maf_file):
             except ValueError:  # Not intronic
                 return ""
 
+    def customize_cosmic(cosmic_id, cosmic_occurrence):
+        """
+        helper function to customize cosmic annotation.
+        If cosmic_id is defined, but not occurrence, then
+        a generic value of "1(unknown)" will be used.
+        """
+        if cosmic_id is not np.nan and cosmic_id != "":
+            # OCCURENCE spelled incorrectly by design
+            return (
+                "ID="
+                + cosmic_id
+                + ";OCCURENCE="
+                + (
+                    cosmic_occurrence
+                    if cosmic_occurrence is not np.nan
+                    else "1(unknown)"
+                )
+            )
+        else:
+            return ""
+
+    # Read in the mutation maf
     try:
         maf = pd.read_csv(maf_file, sep="\t", header=0)
     except IOError:
@@ -87,8 +109,16 @@ def maf2tsv(maf_file):
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS2)
 
     # if a mutation does not have a flag for "Mutation_Status", classify it as Novel
-    maf["Mutation_Class"] = maf["Mutation_Status"].apply(lambda x: "" if x else "Novel")
+    maf["Mutation_Class"] = np.vectorize(lambda x: "Novel" if x is np.nan else "")(
+        maf["Status"]
+    )
 
+    # add modified cosmic column
+    maf["Cosmic_ID"] = np.vectorize(customize_cosmic, otypes=[str])(
+        maf["cosmic_ID"], maf["cosmic_OCCURENCE"]
+    )
+
+    #
     try:
         maf = maf[MAF_COLUMNS_SELECT]
     except KeyError:
@@ -104,7 +134,6 @@ def maf2tsv(maf_file):
     maf = maf.drop(["INTRON"], axis=1)
 
     # Compute columns
-    # maf = maf.rename(index=str, columns=MAF_TSV_COL_MAP)
     # get max of gnomad
     maf["gnomAD_Max_AF"] = np.nanmax(maf[GNOMAD_COLUMNS].values, axis=1)
 
@@ -164,6 +193,28 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
     Parse a dataframe of annotated variants, add any required columns and 
     classify them into exonic, silent, or nonpanel
     """
+
+    def format_var(variant):
+        """
+        Helper function to convert named tuple dervied from pandas df into tsv
+        """
+        try:
+            columns = map(lambda x: getattr(variant, x), MAF_TSV_COL_MAP.keys())
+            return "\t".join(map(str, columns)) + "\n"
+        except AttributeError:
+            missing_columns = set(MAF_TSV_COL_MAP.keys()) - set(
+                filter(lambda x: not x.startswith("_"), dir(variant))
+            )
+            raise Exception(
+                "Missing required columns: {}".format(",".join(missing_columns))
+            )
+
+    def reformat_tx(txID, tx_df):
+        """
+        helper function to get reportable txID
+        """
+        return tx_df[tx_df.isoform == txID].refseq_id.values.tolist().pop()
+
     # Get transcript list from the user provided file
     try:
         tx = pd.read_csv(
@@ -181,27 +232,6 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
             )
         )
     tx_list = tx.isoform.values.tolist()
-
-    def format_var(variant):
-        """
-        Helper function to convert named tuple dervied from pandas df into tsv
-        """
-        try:
-            columns = map(lambda x: getattr(variant, x), MAF_TSV_COL_MAP.keys())
-            return "\t".join(map(str, columns)) + "\n"
-        except AttributeError:
-            missing_columns = set(MAF_TSV_COL_MAP.keys()) - set(
-                filter(lambda x: not x.startswith("_"), dir(variant))
-            )
-            raise Exception(
-                "Missing required columns: {}".format(",".join(missing_columns))
-            )
-
-    def reformat_tx(txID, tx_df=tx):
-        """
-        helper function to get reportable txID
-        """
-        return tx_df[tx_df.isoform == txID].refseq_id.values.tolist().pop()
 
     # TODO: This dummy columns block is to be removed at some point
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS)
@@ -243,14 +273,14 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                     nef.write(format(variant))
                 else:
                     nsf.write(format(variant))
-           # exonic variants
+            # exonic variants
             elif is_exonic:
                 variant_tuple = is_exonic
                 variant = variant._replace(
                     Hugo_Symbol=variant_tuple[0],  # Gene
                     Variant_Classification=variant_tuple[1],  # VariantClass
                     VCF_POS=variant_tuple[2],  # Start coordinate
-                    Transcript_ID=reformat_tx(variant.Transcript_ID),  # TranscriptID
+                    Transcript_ID=reformat_tx(variant.Transcript_ID, tx),  # TranscriptID
                 )
                 if variant.Status:
                     ed.write(format_var(variant))
@@ -259,7 +289,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
             # silent variants
             else:
                 variant = variant._replace(
-                    Transcript_ID=reformat_tx(variant.Transcript_ID)
+                    Transcript_ID=reformat_tx(variant.Transcript_ID, tx)
                 )
                 if variant.Status:
                     sd.write(format_var(variant))
