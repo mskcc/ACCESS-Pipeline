@@ -42,7 +42,7 @@ inputs:
   coverage_data:
     type: Directory?
     inputBinding:
-      prefix: --qc_directory
+      prefix: --qc-directory
   
 outputs:
   
