@@ -13,7 +13,7 @@ def main(tbi_f, tbo_f, vf, of):
 
     tbf['t_vaf_fragment'] = tbf['t_alt_count_fragment'].apply(float)/(tbf['t_alt_count_fragment'].apply(float) + tbf['t_ref_count_fragment'].apply(float))
 
-    variants = pd.read_csv(vf, header="infer", sep="\t")
+    variants = pd.read_csv(vf, header="infer", sep="\t", keep_default_na=False)
 
     for i, var in enumerate(variants.itertuples()):
         Sample = var.Sample
