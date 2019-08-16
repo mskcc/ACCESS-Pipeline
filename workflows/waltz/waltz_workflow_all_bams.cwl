@@ -79,6 +79,14 @@ outputs:
     type: Directory
     outputSource: waltz_duplex_a_exon_level_consolidate_bam_metrics/directory
 
+  waltz_unfiltered_pool_a_pileups:
+    type: File[]
+    outputSource: waltz_unfiltered_pool_a/pileup
+
+  waltz_duplex_pool_a_pileups:
+    type: File[]
+    outputSource: waltz_duplex_pool_a/pileup
+
 steps:
 
   ################

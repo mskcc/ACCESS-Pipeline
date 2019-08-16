@@ -58,6 +58,10 @@ outputs:
     type: File
     outputSource: ABRA_workflow/covint_bed
 
+  recalibrated_scores_matrix:
+    type: File[]
+    outputSource: BQSR_workflow/recalibrated_scores_matrix
+
 steps:
 
   ABRA_workflow:
@@ -68,6 +72,8 @@ steps:
       reference_fasta: reference_fasta
       patient_id: patient_id
       find_covered_intervals__params: find_covered_intervals__params
+      fci__basq_fix:
+        valueFrom: $(false)
       abra__params: abra__params
       fix_mate_information__params: fix_mate_information__params
     out: [ir_bams, covint_list, covint_bed]
@@ -82,4 +88,4 @@ steps:
       bqsr__knownSites_millis: bqsr__knownSites_millis
       base_recalibrator__params: base_recalibrator__params
       print_reads__params: print_reads__params
-    out: [bqsr_bams]
+    out: [bqsr_bams, recalibrated_scores_matrix]

@@ -1,27 +1,30 @@
 import re
 import sys
 import logging
-import traceback
+import subprocess
 import ruamel.yaml
 import numpy as np
 import pandas as pd
 
-from constants import *
-
+from python_tools.constants import *
 
 # We look for the regex class at runtime:
 # https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
 RETYPE = type(re.compile("duct_typing"))
 
 
-def read_df(f, header=None):
+def read_df(f, header=None, **kwargs):
     """
     Helper to read our particular format of metrics files
 
     Waltz does not use headers, but in some cases we will want to provide header='infer' to this function
+
+    :param f: file path to read
+    :param header: optional header column names
+    :param **kwargs: keyword args to be passed to pd.read_csv()
     """
     try:
-        df = pd.read_csv(f, sep="\t", header=header)
+        df = pd.read_csv(f, sep="\t", header=header, **kwargs)
         return df
     except Exception as e:
         logging.error("Exception reading data file {}: {}".format(f, e))
@@ -83,13 +86,13 @@ def all_strings_are_substrings(strings):
     )
 
 
-def merge_files_across_samples(files, cols, sample_ids=None):
+def merge_files_across_samples(files, cols, sample_ids=None, **kwargs):
     """
     Helper to merge sample files and add in sample name as a new column
     """
     all_dataframes = []
     for f in files:
-        new = read_df(f)
+        new = read_df(f, **kwargs)
         logging.info(new.head())
 
         if new.empty:
@@ -99,7 +102,7 @@ def merge_files_across_samples(files, cols, sample_ids=None):
         if sample_ids is not None:
             sample_id = extract_sample_name(f, sample_ids)
         else:
-            sample_id = f
+            sample_id = extract_sample_id_from_bam_path(f)
         new.insert(0, SAMPLE_ID_COLUMN, sample_id)
 
         all_dataframes.append(new)
@@ -265,7 +268,7 @@ def substitute_project_root(yaml_file):
         current_key = yaml_file[key]
         # If we are dealing with a File object
         if (
-            type(current_key) == dict
+            isinstance(current_key, ruamel.yaml.comments.CommentedMap)
             and "class" in current_key
             and current_key["class"] == "File"
         ):

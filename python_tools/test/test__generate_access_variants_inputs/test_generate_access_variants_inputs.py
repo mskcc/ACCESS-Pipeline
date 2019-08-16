@@ -3,16 +3,14 @@ import shutil
 import unittest
 import ruamel.yaml
 
-from pipeline_kickoff.generate_access_variants_inputs import (
+from python_tools.pipeline_kickoff.generate_access_variants_inputs import (
     create_inputs_file,
-    create_yaml_file_objects
 )
-from util import ArgparseMock
+from python_tools.util import ArgparseMock
 
 
 
-class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
-
+class GenerateAccessVariantsInputsTestCase(unittest.TestCase):
 
     def setUp(self):
         """
@@ -20,36 +18,53 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        os.chdir('test__generate_access_variants_inputs')
+        self.test_path = os.path.abspath(os.path.dirname(__file__))
 
         self.matched_testing_parameters = {
             'project_name':                     'test_project',
             'matched_mode':                     'True',
-            'output_file_name':                 './test_output/ACCESS_Variants_test_inputs.yaml',
-            'tumor_bams_directory':             './test_data/tumor_bams',
-            'normal_bams_directory':            './test_data/normal_bams',
-            'simplex_bams_directory':           './test_data/simplex_bams',
-            'curated_bams_duplex_directory':    './test_data/curated_bams_duplex',
-            'curated_bams_simplex_directory':   './test_data/curated_bams_simplex',
-            'pairing_file_path':                './test_data/test_pairing.tsv',
-            'default_normal_path':              './test_data/default_normal.bam',
+            'output_file_name':                 self.test_path + '/test_output/_',
+            'tumor_bams_directory':             self.test_path + '/test_data/tumor_bams',
+            'normal_bams_directory':            self.test_path + '/test_data/normal_bams',
+            'simplex_bams_directory':           self.test_path + '/test_data/simplex_bams',
+            'curated_bams_duplex_directory':    self.test_path + '/test_data/curated_bams_duplex',
+            'curated_bams_simplex_directory':   self.test_path + '/test_data/curated_bams_simplex',
+            'pairing_file_path':                self.test_path + '/test_data/test_pairing.tsv',
+            'default_normal_path':              self.test_path + '/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam',
+            'default_stdnormal_path':           '',
+            'standard_bams_directory':          '',
         }
 
         # Convert to absolute paths
         self.matched_testing_parameters = {
-            k: os.path.abspath(v) for k, v in self.matched_testing_parameters.items()
+            k: os.path.abspath(v) if (type(v) == str) and ('/test' in v) else v for k, v in self.matched_testing_parameters.items()
         }
 
         # New copies of the arguments dict for different tests
         self.unmatched_testing_parameters = dict(self.matched_testing_parameters)
         self.unmatched_testing_parameters['matched_mode'] = ''
+        self.unmatched_testing_parameters['pairing_file_path'] = ''
 
         self.missing_tumor_testing_parameters = dict(self.matched_testing_parameters)
-        self.missing_tumor_testing_parameters['pairing_file_path']  = './test_data/test_pairing_missing_tumor.tsv'
+        self.missing_tumor_testing_parameters['pairing_file_path']  = self.test_path + '/test_data/test_pairing_missing_tumor.tsv'
 
         self.missing_normal_testing_parameters = dict(self.matched_testing_parameters)
-        self.missing_normal_testing_parameters['pairing_file_path']  = './test_data/test_pairing_missing_normal.tsv'
+        self.missing_normal_testing_parameters['pairing_file_path']  = self.test_path + '/test_data/test_pairing_missing_normal.tsv'
+
+        # Check bam & ID-related fields
+        # Todo: include unittests for parameters & tools
+        self._fields_to_check = [
+            'tumor_bams',
+            'normal_bams',
+            'tumor_sample_names',
+            'normal_sample_names',
+            'matched_normal_ids',
+            'genotyping_bams',
+            'genotyping_bams_ids',
+        ]
+
+        self.unmatched_testing_parameters_with_pairing_file = dict(self.matched_testing_parameters)
+        self.unmatched_testing_parameters_with_pairing_file['matched_mode'] = ''
 
         # Set up test outputs directory
         os.mkdir('./test_output')
@@ -63,9 +78,6 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         """
         shutil.rmtree('./test_output')
 
-        # Move back up to main test dir
-        os.chdir('..')
-
 
     def test_matched_mode(self):
         """
@@ -73,32 +85,80 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
 
         :return:
         """
+        self.matched_testing_parameters['output_file_name'] = './test_output/matched_mode_inputs_result.yaml'
         mock_args = ArgparseMock(self.matched_testing_parameters)
         create_inputs_file(mock_args)
 
         inputs_file = open(self.matched_testing_parameters['output_file_name'], 'r').read()
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
 
-        expected_result = open('./expected_results/matched_mode_inputs_result.yaml', 'r').read()
+        expected_result_path = self.test_path + '/expected_results/matched_mode_inputs_result.yaml'
+        expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
-        assert inputs_file == expected_result
+
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
 
 
-    def test_unmatched_mode(self):
+    def test_matched_mode_without_pairing_file(self):
         """
-        e2e test for unmatched mode
+        e2e test for matched mode without pairing file
 
         :return:
         """
+        self.matched_testing_parameters['output_file_name'] = './test_output/matched_mode_no_pairing_file_inputs_result.yaml'
+        self.matched_testing_parameters['pairing_file_path'] = None
+        mock_args = ArgparseMock(self.matched_testing_parameters)
+
+        with self.assertRaises(Exception):
+            create_inputs_file(mock_args)
+
+
+    def test_unmatched_mode_without_pairing_file(self):
+        """
+        e2e test for unmatched mode without pairing file
+
+        :return:
+        """
+        # New copies of the arguments dict for different tests
+        self.unmatched_testing_parameters = dict(self.matched_testing_parameters)
+        self.unmatched_testing_parameters['matched_mode'] = ''
+
+        self.unmatched_testing_parameters['output_file_name'] = './test_output/unmatched_mode_no_pairing_file_inputs_result.yaml'
+        self.unmatched_testing_parameters['pairing_file_path'] = None
         mock_args = ArgparseMock(self.unmatched_testing_parameters)
         create_inputs_file(mock_args)
 
         inputs_file = open(self.unmatched_testing_parameters['output_file_name'], 'r').read()
         inputs_file = ruamel.yaml.round_trip_load(inputs_file)
 
-        expected_result = open('./expected_results/unmatched_mode_inputs_result.yaml', 'r').read()
+        expected_result_path = self.test_path + '/expected_results/unmatched_mode_no_pairing_file_inputs_result.yaml'
+        expected_result = open(expected_result_path, 'r').read()
         expected_result = ruamel.yaml.round_trip_load(expected_result)
-        assert inputs_file == expected_result
+
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
+
+
+    def test_unmatched_mode_with_pairing_file(self):
+        """
+        Test for unmatched mode with pairing file. i.e. with "-p" param, but without "-m".
+
+        Variant calling with default normal, but genotyping in matched normal.
+
+        :return:
+        """
+        self.unmatched_testing_parameters_with_pairing_file['output_file_name'] = './test_output/unmatched_mode_with_pairing_file_inputs_result.yaml'
+        mock_args = ArgparseMock(self.unmatched_testing_parameters_with_pairing_file)
+        create_inputs_file(mock_args)
+
+        inputs_file = open(self.unmatched_testing_parameters_with_pairing_file['output_file_name'], 'r').read()
+        inputs_file = ruamel.yaml.round_trip_load(inputs_file)
+
+        expected_result = open('./expected_results/unmatched_mode_with_pairing_file_inputs_result.yaml', 'r').read()
+        expected_result = ruamel.yaml.round_trip_load(expected_result)
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]
 
 
     def test_missing_tumor_bam_throws_error(self):
@@ -107,6 +167,7 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
 
         :return:
         """
+        self.missing_tumor_testing_parameters['output_file_name'] = './test_output/should_error.yaml'
         mock_args = ArgparseMock(self.missing_tumor_testing_parameters)
         with self.assertRaises(AssertionError):
             create_inputs_file(mock_args)
@@ -118,6 +179,30 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
 
         :return:
         """
+        self.missing_normal_testing_parameters['output_file_name'] = './test_output/should_error.yaml'
         mock_args = ArgparseMock(self.missing_normal_testing_parameters)
         with self.assertRaises(AssertionError):
             create_inputs_file(mock_args)
+
+
+    def test_generate_with_structural_variants_params(self):
+        """
+        SV params should get included with --standard_bams_directory param
+
+        :return:
+        """
+        self.matched_testing_parameters['output_file_name'] = './test_output/variants_with_sv_params.yaml'
+        self.matched_testing_parameters['standard_bams_directory'] = './test_data/standard_bams'
+        self.matched_testing_parameters['default_stdnormal_path'] = './test_data/default_normal.bam'
+        mock_args = ArgparseMock(self.matched_testing_parameters)
+        create_inputs_file(mock_args)
+
+        inputs_file = open(self.matched_testing_parameters['output_file_name'], 'r').read()
+        inputs_file = ruamel.yaml.round_trip_load(inputs_file)
+
+        expected_result = open('./test_output/variants_with_sv_params.yaml', 'r').read()
+        expected_result = ruamel.yaml.round_trip_load(expected_result)
+
+        # Todo: need to add more fields here
+        for key in self._fields_to_check:
+            assert inputs_file[key] == expected_result[key]

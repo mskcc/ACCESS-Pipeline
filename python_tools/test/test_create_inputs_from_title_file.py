@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 
-from constants import *
+from python_tools.constants import *
 from python_tools.pipeline_kickoff import create_inputs_from_title_file
 
 

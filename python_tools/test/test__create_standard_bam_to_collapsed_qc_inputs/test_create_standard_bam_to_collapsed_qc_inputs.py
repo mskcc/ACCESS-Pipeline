@@ -3,7 +3,7 @@ import shutil
 import unittest
 import ruamel.yaml as yaml
 
-from util import ArgparseMock
+from python_tools.util import ArgparseMock
 import python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs as csbtcqi
 
 
@@ -16,8 +16,9 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
 
         :return:
         """
-        # Allow us to use paths relative to the current directory's tests
-        # os.chdir('test__create_standard_bam_to_collapsed_qc_inputs')
+        # CD into this test module if running all tests together
+        if os.path.isdir('test__create_standard_bam_to_collapsed_qc_inputs'):
+            os.chdir('test__create_standard_bam_to_collapsed_qc_inputs')
 
         self.testing_params = {
             'project_name':                     'test_project',
@@ -47,7 +48,8 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         os.chdir('..')
 
 
-    def test_missing_normal_bam_throws_error(self):
+    @unittest.skipIf('TRAVIS' in os.environ and os.environ['TRAVIS'] == 'true', 'Skipping this test on Travis CI.')
+    def test_create_standard_bam_to_collapsed_qc_inputs(self):
         """
         tumor_id in pairing file does not have corresponding tumor bam file
 
@@ -55,7 +57,6 @@ class CreateInputsFromBamDirectoryTestCase(unittest.TestCase):
         """
         mock_args = ArgparseMock(self.testing_params)
         csbtcqi.write_inputs_yaml(mock_args)
-
 
         expected = yaml.round_trip_load(open('./expected_results/standard_bams_to_collapsed_qc_inputs.yaml').read())
         actual = yaml.round_trip_load(open(self.testing_params['output_file_name']).read())

@@ -1,0 +1,171 @@
+tumor_bams:
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
+normal_bams:
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+tumor_sample_names: [tumor_bam_1, tumor_bam_2, tumor_bam_3, tumor_bam_4, tumor_bam_5]
+normal_sample_names: [default_normal, default_normal, default_normal, default_normal,
+  default_normal]
+matched_normal_ids: ['', '', '', '', '']
+genotyping_bams:
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/tumor_bams/tumor_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/default_normal_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_4_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/simplex_bams/simplex_bam_5_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_duplex/curated_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_1_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_2_cl_aln_srt_MD_IR_FX_BR.bam}
+- {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/python_tools/test/test__generate_access_variants_inputs/test_data/curated_bams_simplex/curated_bam_3_cl_aln_srt_MD_IR_FX_BR.bam}
+genotyping_bams_ids: [tumor_bam_1, tumor_bam_2, tumor_bam_3, tumor_bam_4, tumor_bam_5,
+  default_normal, simplex_bam_1-SIMPLEX, simplex_bam_2-SIMPLEX, simplex_bam_3-SIMPLEX,
+  simplex_bam_4-SIMPLEX, simplex_bam_5-SIMPLEX, curated_bam_1-CURATED-DUPLEX, curated_bam_2-CURATED-DUPLEX,
+  curated_bam_3-CURATED-DUPLEX, curated_bam_1-CURATED-SIMPLEX, curated_bam_2-CURATED-SIMPLEX,
+  curated_bam_3-CURATED-SIMPLEX]
+
+
+# ------------------------------------------------------------
+
+##############
+# Test Files #
+##############
+
+# Module 3
+bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
+dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
+refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
+ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+# Todo: Move to viral reference genome
+#ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
+
+
+# ------------------------------------------------------------
+
+############
+# Module 3 #
+############
+
+mutect_params:
+  dcov: 50000
+  read_filter: [BadCigar]
+# Todo: whats the difference when using these?
+  fraction_contamination: 0.0005
+# Todo: Check if needs to be changed
+  minimum_mutation_cell_fraction: 0.0005
+
+vardict_params:
+  min_num_variant_reads: 1
+  column_for_region_end: 3
+  column_for_chromosome: 1
+  column_for_gene_name: 4
+  allele_freq_thres: 0.0002
+  column_for_region_start: 2
+
+basicfiltering_mutect_params:
+  total_depth: 20              # Todo: Too high?
+  allele_depth: 1
+  tumor_normal_ratio: 1        # Todo: Too high? (may not allow true variants to pass tnfRF filter)
+  variant_fraction: 5.0e-05
+  outdir: .
+
+basicfiltering_vardict_params:
+  total_depth: 20
+  allele_depth: 1
+  tumor_normal_ratio: 1
+  filter_germline: false
+  variant_fraction: 5.0e-05
+  min_qual: 0
+  outdir: .
+
+bcftools_params:
+  allow_overlaps: true
+  rm_dups: all
+
+
+############
+# Module 4 #
+############
+
+exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+hotspots: {class: File, path: /opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt}
+##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
+custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
+annotate_concat_header_file: {class: File, path: /Users/johnsoni/Desktop/Code/Innovation-Pipeline/resources/run_files/mutect_annotate_concat_header.txt}
+
+# (Also used for Module-6)
+vcf2maf_params:
+  species: homo_sapiens
+  ncbi_build: GRCh37
+  maf_center: mskcc.org
+  max_filter_ac: 10
+  min_hom_vaf: 0.7
+  buffer_size: 5000
+
+  vep_forks: 4
+  retain_info: set,TYPE,FAILURE_REASON,MUTECT
+gbcms_params:
+  omaf: true
+  filter_duplicate: 0
+  thread: 10
+  maq: 20
+  fragment_count: 1
+
+access_filters_params:
+  tumor_detect_alt_thres: 2
+  curated_detect_alt_thres: 2
+  DS_tumor_detect_alt_thres: 2
+  DS_curated_detect_alt_thres: 2
+  normal_TD_min: 20
+  normal_vaf_germline_thres: 0.3
+  tumor_TD_min: 20
+  tumor_vaf_germline_thres: 0
+  tier_one_alt_min: 3
+  tier_two_alt_min: 5
+  min_n_curated_samples_alt_detected: 2
+  tn_ratio_thres: 2
+
+
+# ------------------------------------------------------------
+
+run_tools:
+  bcftools: /opt/common/CentOS_6-dev/bin/current/bcftools
+  gbcms: /ifs/work/bergerm1/Innovation/software/maysun/GetBaseCountsMultiSample/GetBaseCountsMultiSample
+  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+  mutect: /home/johnsoni/vendor_tools/muTect-1.1.5.jar
+  vardict: /opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict
+  vardict_testsomatic: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/testsomatic.R
+  vardict_var2vcf_paired: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
+  perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
+  vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
+  vep_path: /opt/common/CentOS_6-dev/vep/v91/
+  vep_data: /opt/common/CentOS_6-dev/vep/cache/
+
+
+# ------------------------------------------------------------
+
+project_name: test_project
+
+# ------------------------------------------------------------
+
+version: <function most_recent_tag at 0x106f58b90>
+# Pipeline Run Version Information:
+# Version: <function version at 0x1033a4500>
+# Short Version: <function short_version at 0x106f589b0>
+# Most Recent Tag: <function most_recent_tag at 0x106f58b90>
+# Dirty? <function dirty at 0x106f58848>

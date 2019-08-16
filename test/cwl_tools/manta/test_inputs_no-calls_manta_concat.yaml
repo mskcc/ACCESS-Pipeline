@@ -1,0 +1,2 @@
+sv_calls:
+- {class: File, path: ./test_data/Sample_3_no-calls_Annotated_Evidence-annotated.txt}

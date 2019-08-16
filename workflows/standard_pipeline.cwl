@@ -46,8 +46,12 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
 
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+  bqsr__knownSites_dbSNP:
+    type: File
+    secondaryFiles: [.idx]
+  bqsr__knownSites_millis:
+    type: File
+    secondaryFiles: [.idx]
 
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
@@ -92,6 +96,14 @@ outputs:
   covint_bed:
     type: File[]
     outputSource: module_2/covint_bed
+
+  recalibrated_scores_matrix:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: module_2/recalibrated_scores_matrix
 
 steps:
 
@@ -189,7 +201,7 @@ steps:
       base_recalibrator__params: base_recalibrator__params
       print_reads__params: print_reads__params
 
-    out: [standard_bams, covint_list, covint_bed]
+    out: [standard_bams, covint_list, covint_bed, recalibrated_scores_matrix]
     scatter: [bams, patient_id]
     scatterMethod: dotproduct
 

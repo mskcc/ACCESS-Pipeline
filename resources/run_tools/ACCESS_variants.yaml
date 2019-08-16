@@ -1,0 +1,12 @@
+run_tools:
+  bcftools: /opt/common/CentOS_7-dev/bin/bcftools
+  gbcms: /ifs/work/bergerm1/Innovation/software/maysun/GetBaseCountsMultiSample/GetBaseCountsMultiSample
+  java_7: /opt/common/CentOS_6/java/jdk1.7.0_75/bin/java
+  mutect: /home/johnsoni/vendor_tools/muTect-1.1.5.jar
+  vardict: /opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict
+  vardict_testsomatic: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/testsomatic.R
+  vardict_var2vcf_paired: /opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl
+  perl: /opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl
+  vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
+  vep_path: /opt/common/CentOS_6-dev/vep/v86/
+  vep_data: /opt/common/CentOS_6-dev/vep/cache/

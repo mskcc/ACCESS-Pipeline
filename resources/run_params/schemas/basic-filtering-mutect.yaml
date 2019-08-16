@@ -1,0 +1,9 @@
+name: basicfiltering_mutect_params
+type: record
+fields:
+  verbose: boolean?
+  total_depth: int
+  allele_depth: int
+  tumor_normal_ratio: int
+  variant_fraction: float
+  outdir: string

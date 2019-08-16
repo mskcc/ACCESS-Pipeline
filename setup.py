@@ -46,6 +46,8 @@ ENTRY_POINTS = """
         pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main
         pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main
         list2bed = python_tools.workflow_tools.list2bed:main
+        find_hotspots_in_normals = cwl_tools.bioinfo_utils.find_hotspots_in_normals:main
+        base_quality_plot = python_tools.workflow_tools.qc.base_quality_plot:main
         qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main
         tables_module = python_tools.workflow_tools.qc.tables_module:main
         plot_noise = python_tools.workflow_tools.qc.plot_noise:main
@@ -58,6 +60,7 @@ ENTRY_POINTS = """
 
 SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/r_tools/plots_module.r",
+    "cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r",
     "python_tools/workflow_tools/qc/r_tools/plots.r",
     "python_tools/workflow_tools/qc/r_tools/util.r",
     "python_tools/workflow_tools/qc/r_tools/constants.r",

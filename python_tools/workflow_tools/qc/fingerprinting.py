@@ -29,10 +29,27 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+PDF_FILENAMES = [
+    'GenoMatrix.pdf',
+    'Unexpected_Match.pdf',
+    'Unexpected_Mismatch.pdf',
+    'GenderMisMatch.pdf',
+    'MinorContaminationRate.pdf',
+    'MajorContaminationRate.pdf',
+    'MinorDuplexContaminationRate.pdf',
+]
+
+FINAL_PDF_FILENAME = 'FPFigures.pdf'
 
 ###################
 # Helper Functions
 ###################
+
+def natural_sort(l):
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    return sorted(l, key=alphanum_key)
+
 
 def read_csv(filename):
     # Todo: use Pandas instead
@@ -55,12 +72,13 @@ def merge_pdf_in_folder(out_dir, filename):
     merger = PdfFileMerger()
 
     pdfs = [x for x in os.listdir(out_dir) if '.pdf' in x]
-    pdfs.sort()
+    pdfs = sorted(pdfs, key=lambda x: PDF_FILENAMES.index(x))
+
     if len(pdfs) > 1:
         for pdf in pdfs:
             merger.append(open(out_dir + pdf, 'rb'))
 
-        with open(out_dir + 'FPFigures.pdf', 'wb') as fout:
+        with open(out_dir + FINAL_PDF_FILENAME, 'wb') as fout:
             merger.write(fout)
     else:
         raise IOError('Error: ' + filename + ' not created, input folder does not have PDFs to merge')
@@ -255,7 +273,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     geno_compare = []
     for i, Ref in enumerate(all_geno):
         for Query in all_geno:
-            hm_Ref=0
+            hm_Ref = 0
             hm_match = 0
             hm_mismatch = 0
             ht_match = 0
@@ -263,7 +281,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
             total_match = 0
             for j, element in enumerate(Ref):
                 if element != 'Het':
-                    hm_Ref= hm_Ref + 1
+                    hm_Ref = hm_Ref + 1
                 if element == Query[j]:
                     total_match = total_match + 1
                     if element == 'Het':
@@ -287,9 +305,11 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
             if hm_Ref<10:
                 discordance=np.nan
             else:
-                discordance=hm_mismatch/(hm_Ref + EPSILON)
-            
-            geno_compare.append([sample_Ref, sample_Query, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch, hm_Ref, discordance])
+                discordance = hm_mismatch / (hm_Ref + EPSILON)
+
+            geno_compare.append(
+                [sample_Ref, sample_Query, total_match, hm_match, hm_mismatch, ht_match, ht_mismatch, hm_Ref,
+                 discordance])
 
     sort_index = np.argsort([x[2] for x in geno_compare])
     geno_compare = [geno_compare[i] for i in sort_index]
@@ -297,31 +317,38 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
     # Samples are considered matching if the discordance rate is less than 0.05
     mlist = [i for i, x in enumerate([g[8] for g in geno_compare]) if x < .05]
 
-    if mlist != []:
-        m = min(mlist)
-    else:
-        m = len(geno_compare)
+    df = pd.DataFrame(geno_compare, columns=['ReferenceSample',
+                                             'QuerySample',
+                                             'TotalMatch',
+                                             'HomozygousMatch',
+                                             'HomozygousMismatch',
+                                             'HeterozygousMatch',
+                                             'HeterozygousMismatch',
+                                             'HomozygousInRef',
+                                             'DiscordanceRate'])
 
-    expectedInd = []
-    for y in expected:
-        for i, x in enumerate(geno_compare):
-            if [x[0], x[1]] == y or [x[1], x[0]] == y:
-                expectedInd.append(i)
+    expected.extend([[i[1], i[0]] for i in expected])
+    df_expected = pd.DataFrame(expected, columns=['ReferenceSample', 'QuerySample'])
+    df_expected.drop_duplicates(inplace=True)
+    df_expected['Expected'] = True
+    df = df.merge(df_expected, on=['ReferenceSample', 'QuerySample'], how='outer')
+    df['Expected'] = df['Expected'].fillna(value=False)
 
-    for i, x in enumerate(geno_compare):
-        if i < m:
-            if i in expectedInd:
-                x.append('Unexpected Mismatch')
-            else:
-                x.append('Expected Mismatch')
-        else:
-            if i in expectedInd:
-                x.append('Expected Match')
-            else:
-                x.append('Unexpected Match')
+    matched = [geno_compare[i][0:2] for i in mlist]
+    df_matched = pd.DataFrame(matched, columns=['ReferenceSample', 'QuerySample'])
+    df_matched['Matched'] = True
+    df = df.merge(df_matched, on=['ReferenceSample', 'QuerySample'], how='outer')
+    df['Matched'] = df['Matched'].fillna(value=False)
 
+    df.loc[df.Matched & df.Expected, 'Status'] = "Expected Match"
+    df.loc[df.Matched & ~df.Expected, 'Status'] = "Unexpected Match"
+    df.loc[~df.Matched & df.Expected, 'Status'] = "Unexpected Mismatch"
+    df.loc[~df.Matched & ~df.Expected, 'Status'] = "Expected Mismatch"
+    df.drop(['Matched', 'Expected'], axis=1, inplace=True)
+    geno_compare = df.values.tolist()
     geno_compare.insert(0, ["ReferenceSample", "QuerySample", "TotalMatch", "HomozygousMatch", "HomozygousMismatch",
-                            "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef","DiscordanceRate", "Status"])
+                            "HeterozygousMatch", "HeterozygousMismatch", "HomozygousInRef", "DiscordanceRate",
+                            "Status"])
 
     write_csv(fp_output_dir + 'Geno_compare.txt', geno_compare)
 
@@ -331,29 +358,6 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 ###################
 ##Plot Functions
 ###################
-
-def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
-    plt.clf()
-    contamination = contamination_rate(all_fp)
-    contamination = [x for x in contamination if x[1] != 'NaN']
-    titlefile = read_df(titlefile, header='infer')
-    samplename = [extract_sample_name(c[0], titlefile[TITLE_FILE__SAMPLE_ID_COLUMN]) for c in contamination]
-    y_pos = np.arange(len(samplename))
-    meanContam = [c[1] for c in contamination]
-    minor_contamination = [[samplename[i], meanContam[i]] for i in range(0, len(samplename))]
-    minor_contamination = sorted(minor_contamination)
-    write_csv(fp_output_dir + 'minorContamination.txt', minor_contamination)
-
-    plt.figure(figsize=(10, 5))
-    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
-    plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
-    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
-    plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-    plt.xlabel('Sample Name')
-    plt.title('Minor Contamination Check (from all unique reads)')
-    plt.xlim([-1, y_pos.size])
-    plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
-
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
@@ -378,41 +382,179 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.savefig(fp_output_dir + 'MajorContaminationRate.pdf', bbox_inches='tight')
 
 
-def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir):
-    listofsamples = extract_list_of_tumor_samples(titlefile)
-    if listofsamples:
-        duplex_merged_dir = concatenate_a_and_b_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, output_dir, 'DuplexMergedPileup',
-                                                    listofsamples)
-        fp_duplex_output_dir = make_output_dir(fp_output_dir, 'FPDuplexResults')
-        listofduplexpileups = extract_pileup_files(duplex_merged_dir)
-        all_fp, all_geno = find_fp_maf(listofduplexpileups, fp_indices, fp_duplex_output_dir)
+# TO DO MAKE title file columns into CONSTANTS to be imported
+def find_and_plot_minorcontamination(df_summary, df_titlefile, output_dir, prefix=''):
+    patient_normals = {}
+    for i, s in df_titlefile.iterrows():
+        if s.SAMPLE_CLASS == 'Normal':
+            patient_normals[s.CMO_PATIENT_ID] = s.CMO_SAMPLE_ID
+        else:
+            patient_normals[s.CMO_PATIENT_ID] = ''
 
-        # Plot the Contamination
-        plt.clf()
-        contamination = contamination_rate(all_fp)
-        contamination = [x for x in contamination if x[1] != 'NaN']
+    minor_contamination = []
+    for i, s in df_titlefile.iterrows():
+        if s.SAMPLE_CLASS == 'Tumor' and patient_normals[s.CMO_PATIENT_ID] != '':
+            minor_contamination.append([s.CMO_SAMPLE_ID, df_summary[s.CMO_SAMPLE_ID + '_MinorAlleleFreq'][
+                df_summary[patient_normals[s.CMO_PATIENT_ID] + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-',
+                                                                                                                 np.nan).astype(
+                float).mean()])
+        else:
+            minor_contamination.append([s.CMO_SAMPLE_ID, df_summary[s.CMO_SAMPLE_ID + '_MinorAlleleFreq'][
+                df_summary[s.CMO_SAMPLE_ID + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-', np.nan).astype(
+                float).mean()])
 
-        samplename = [c[0] for c in contamination]
-        title_file = read_df(titlefile, header='infer')
-        samplename = [extract_sample_name(s, title_file[TITLE_FILE__SAMPLE_ID_COLUMN]) for s in samplename]
+    y_pos = np.arange(len(minor_contamination))
+    minor_contamination = sorted(minor_contamination)
+    write_csv(output_dir + prefix + 'minorContamination.txt', minor_contamination)
 
-        y_pos = np.arange(len(samplename))
-        mean_contam = [c[1] for c in contamination]
-        minor_contamination = [[samplename[i], mean_contam[i]] for i in range(0, len(samplename))]
-        minor_contamination = sorted(minor_contamination)
-        write_csv(fp_output_dir + 'minorDuplexContamination.txt', minor_contamination)
-
-        plt.figure(figsize=(10, 5))
-        plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
-        plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
-        plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
-        plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-        plt.xlabel('Sample Name')
+    plt.figure(figsize=(10, 5))
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+    plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
+    plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
+    plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
+    plt.xlabel('Sample Name')
+    if prefix == 'Duplex':
         plt.title('Minor Contamination Check (Duplex)')
-        plt.xlim([-1, y_pos.size])
-        plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
     else:
+        plt.title('Minor Contamination Check')
+    plt.xlim([-1, y_pos.size])
+    plt.savefig(output_dir + '/Minor' + prefix + 'ContaminationRate.pdf', bbox_inches='tight')
+
+
+def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefilepath, config_file, fp_output_dir):
+    coverage_thres = 200
+    homozygous_thres = 0.05
+
+    # New fp_indices script using pandas
+    def create_fp_indices(config_file):
+        try:
+            config = pd.read_csv(config_file, header=0, sep='\t', dtype=str)
+        except FileNotFoundError:
+            raise FileNotFoundError('Error: Fingerprinting configure file does not exist')
+        # Check if there is a header and remove the header
+        if list(config.columns.values) != ['Chrom', 'Pos', 'Allele1', 'Allele2', 'Name'] and list(
+                config.columns.values) != ['Chrom', 'Pos', 'Allele1', 'Allele2']:
+            raise IOError('Error: Fingerprinting configure file has improper header')
+        # Check is there are sites in the file
+        if config.shape[0] == 0:
+            raise IOError('Error: Fingerprinting configure file is empty')
+            # Check is fingerprint has a name and if it doesn't make the name chrom:pos
+        if 'Name' not in list(config.columns.values):
+            config['Name'] = config['Chrom'] + ':' + config['Pos']
+        # Set Index to Chrom:Pos and remove duplicates
+        config.index = config['Chrom'] + ':' + config['Pos']
+        config.drop_duplicates(inplace=True)
+        return config
+
+    # New Extract pileups paths script
+    def extract_paired_list_of_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, listofsamples):
+        pairedListOfPileups = []
+        for pileupfile in os.listdir(waltz_dir_a_duplex):
+            # extract only pileups from Waltz folders
+            if pileupfile.endswith("pileup.txt"):
+                # Check is file is in the list of Tumor Samples
+                samplename = extract_sample_name(pileupfile, titlefile[SAMPLE_ID_COLUMN])
+                if samplename in listofsamples:
+                    # Check if PoolB pileup exists
+                    a_pileup_path = os.path.join(waltz_dir_a_duplex, pileupfile)
+                    b_pileup_path = os.path.join(waltz_dir_b_duplex, pileupfile)
+                    if os.path.isfile(b_pileup_path):
+                        pairedListOfPileups.append([samplename, a_pileup_path, b_pileup_path])
+                    else:
+                        raise Exception(
+                            "Duplex Minor Contamination plot: " + pileupfile + " not found in Duplex Pool B directory provided, " + samplename + " excluded from duplex minor contamination")
+        return pairedListOfPileups
+
+    # Make minor contamination rate and all_fp_summary
+    def FP_analysis(samplename, fileA, fileB, config):
+        a = pd.read_csv(fileA, header=None, sep='\t', dtype=str)
+        b = pd.read_csv(fileB, header=None, sep='\t', dtype=str)
+        # Merge A and B pileupes
+        ab = a.append(b, ignore_index=True)
+        ab.drop([8, 9, 10, 11, 12, 13], axis=1, inplace=True)
+        ab.columns = ['Chrom', 'Pos', 'Ref', 'Total_Depth', 'A', 'C', 'G', 'T']
+        ab.index = ab['Chrom'] + ':' + ab['Pos']
+        ab.drop_duplicates(inplace=True)
+        # need to check if there is an overlap in bed file and fp_config file
+        fp = config.merge(ab)
+        allele1_counts = []
+        allele2_counts = []
+        for i, row in fp.iterrows():
+            allele1_counts.append(int(row[row['Allele1']]))
+            allele2_counts.append(int(row[row['Allele2']]))
+        fp['allele1_count'] = allele1_counts
+        fp['allele2_count'] = allele2_counts
+        fp['coverage'] = fp[['allele1_count', 'allele2_count']].sum(axis=1)
+        # Find Minor allele Fraction of sites with sufficent coverage
+        fp.loc[fp.coverage >= coverage_thres, 'mAF'] = fp[['allele1_count', 'allele2_count']].min(axis=1) / fp[
+            'coverage']
+        # Find Genotype
+        fp.loc[fp.mAF > homozygous_thres, 'Geno'] = fp['Allele1'] + fp['Allele2']
+        fp.loc[(fp.mAF <= homozygous_thres) & (fp.allele1_count > fp.allele2_count), 'Geno'] = fp['Allele1']
+        fp.loc[(fp.mAF <= homozygous_thres) & (fp.allele1_count < fp.allele2_count), 'Geno'] = fp['Allele2']
+        # find minor contamination
+        minor_contamination = [samplename, fp.loc[fp.mAF <= homozygous_thres, 'mAF'].mean()]
+        # Make All_FPsummary file
+        fp_summary = pd.DataFrame()
+        fp_summary['Locus'] = fp['Chrom'] + ':' + fp['Pos']
+        fp_summary[samplename + '_Counts'] = fp['Allele1'] + ':' + fp['allele1_count'].astype(str) + ' ' + fp[
+            'Allele2'] + ':' + fp['allele2_count'].astype(str)
+        fp_summary[samplename + '_Genotypes'] = fp['Geno']
+        fp_summary[samplename + '_MinorAlleleFreq'] = fp['mAF']
+        fp_summary.fillna(value='-', inplace=True)
+        return minor_contamination, fp_summary
+
+    # RUN
+    titlefile = read_df(titlefilepath, header='infer')
+    listofsamples = titlefile.loc[titlefile[MANIFEST__SAMPLE_CLASS_COLUMN] == 'Tumor'][SAMPLE_ID_COLUMN].tolist()
+    config = create_fp_indices(config_file)
+    # Check if Waltz Directories exist
+    if not (os.path.isdir(waltz_dir_a_duplex) and os.path.isdir(waltz_dir_b_duplex)):
+        raise IOError(
+            'Error: One or both of the input directory with pileups provided to plot_duplex_minor_contamination does not exist')
+        # Check if there are any tumor samples in this Run
+    if not listofsamples:
         logging.warn("Duplex Minor Contamination plot: No Samples marked as Tumor in Titlefile")
+        return
+    # Extract paired pileup files
+    pairedListOfPileups = extract_paired_list_of_pileups(waltz_dir_a_duplex, waltz_dir_b_duplex, listofsamples)
+    for i, [samplename, fileA, fileB] in enumerate(pairedListOfPileups):
+        if i == 0:
+            minor_contamination, all_fp_summary = FP_analysis(samplename, fileA, fileB, config)
+            all_minor_contamination = [minor_contamination]
+        else:
+            minor_contamination, fp_summary = FP_analysis(samplename, fileA, fileB, config)
+            all_minor_contamination.append(minor_contamination)
+            all_fp_summary = all_fp_summary.merge(fp_summary, on='Locus')
+    # Reorder snps
+    all_fp_summary.set_index('Locus', inplace=True)
+    index = all_fp_summary.index.tolist()
+    index = natural_sort(index)
+    all_fp_summary = all_fp_summary.reindex(index)
+    # print summary
+    all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=False)
+    # plot minor contamination
+    all_minor_contamination = [x for x in all_minor_contamination if not np.isnan(x[1])]
+    all_minor_contamination = sorted(all_minor_contamination)
+    df_minor_contamination = pd.DataFrame(all_minor_contamination,
+                                          columns=['SampleName', 'MinorContaminationRateInDuplex'])
+    df_minor_contamination.to_csv(fp_output_dir + '/duplex_minor_contamination.txt', sep="\t", index=False)
+
+    plt.clf()
+    y_pos = np.arange(len(all_minor_contamination))
+    plt.figure(figsize=(10, 5), facecolor='white')
+    plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
+    plt.bar(y_pos, [m[1] for m in all_minor_contamination], align='center', color='black')
+    plt.xticks(y_pos, [m[0] for m in all_minor_contamination], rotation=90, ha='center')
+    plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
+    plt.xlabel('Sample Name')
+    plt.title('Minor Contamination Check (Duplex)')
+    plt.xlim([-1, y_pos.size])
+    # plt.autoscale(True)
+    plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
+    plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
+    plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
+
 
 
 def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
@@ -420,7 +562,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     if geno_compare[0][0] == "ReferenceSample":
         geno_compare = geno_compare[1::]
 
-    hm_compare = [[g[0],g[1],g[8]] for g in geno_compare]
+    hm_compare = [[g[0], g[1], g[8]] for g in geno_compare]
 
     if len(hm_compare) == 0:
         # Only had one sample, and thus no comparisons to make
@@ -428,7 +570,7 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
         sample = titlefile[TITLE_FILE__SAMPLE_ID_COLUMN].values[0]
         hm_compare = [[sample, sample, 0]]
 
-    matrix ={}
+    matrix = {}
 
     for element in hm_compare:
         if element[0] not in matrix.keys():
@@ -442,12 +584,13 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     plt.subplots(figsize=(8, 7))
     plt.title('Sample Mix-Ups')
-    
-    #print(matrix)
+    # print(matrix)
+    sns.set(font_scale=.6)
     try:
-        ax = sns.heatmap(pd.DataFrame.from_dict(matrix).astype(float), robust=True, annot=True, fmt='.2f', cmap="Blues_r", vmax=.15, 
-                cbar_kws={'label': 'Fraction Mismatch'}, 
-                annot_kws={'size': 5})
+        ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False,
+                        fmt='.2f', cmap="Blues_r", vmax=.15,
+                        cbar_kws={'label': 'Fraction Mismatch'},
+                        annot_kws={'size': 5})
     except IndexError:
         print "NaN fraction mismatch values for all samples."
         pass
@@ -462,23 +605,42 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     Match_status = list(match for match, _ in itertools.groupby(Match_status))
 
     df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
-    Match_status.insert(0, ['Sample1', 'Sample2', 'Status'])
 
-    write_csv(fp_output_dir + 'Match_status.txt', Match_status)
+    df[df['Status'] == 'Unexpected Mismatch'].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)
+    df[df['Status'] == 'Unexpected Match'].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
 
     plt.clf()
     fig, ax1 = plt.subplots()
-    fig.suptitle('Unexpected Matches and Mismatches', fontsize=10)
+    fig.set_figheight(1)
+    fig.suptitle('Unexpected Matches', fontsize=10, y=.5)
     ax1.axis('off')
     ax1.axis('tight')
-    if len(df.values):
-        ax1.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', rowLoc='center')
+    if len(df[df['Status'] == 'Unexpected Match'].values):
+        ax1.table(cellText=df[df['Status'] == 'Unexpected Match'].values, colLabels=df.columns, loc='bottom',
+                  cellLoc='center', rowLoc='center')
     else:
-        empty_values = [['No mismatches present', 'No mismatches present', 'No mismatches present']]
-        ax1.table(cellText=empty_values, colLabels=df.columns, loc='center')
+        empty_values = [['No unexpected matches present', 'No unexpected matches present', 'No mismatches present']]
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
     fig.tight_layout()
 
-    plt.savefig(fp_output_dir + 'Geno_Match_status.pdf', bbox_inches='tight')
+    plt.savefig(fp_output_dir + 'Unexpected_Match.pdf', bbox_inches='tight')
+
+    plt.clf()
+    fig, ax1 = plt.subplots()
+    fig.set_figheight(1)
+    fig.suptitle('Unexpected Mismatches', fontsize=10, y=.5)
+    ax1.axis('off')
+    ax1.axis('tight')
+    if len(df[df['Status'] == 'Unexpected Mismatch'].values):
+        ax1.table(cellText=df[df['Status'] == 'Unexpected Mismatch'].values, colLabels=df.columns, loc='bottom',
+                  cellLoc='center', rowLoc='center')
+    else:
+        empty_values = [['No unexpected mismatches present', 'No unexpected mismatches present',
+                         'No unexpected mismatches present']]
+        ax1.table(cellText=empty_values, colLabels=df.columns, loc='bottom')
+    fig.tight_layout()
+    plt.savefig(fp_output_dir + 'Unexpected_Mismatch.pdf', bbox_inches='tight')
+
 
 
 def find_sex_from_pileup(waltz_dir, output_dir):
@@ -577,57 +739,67 @@ def check_sex(gender, sex, output_dir):
 ######################
 
 def reformat_all(listofpileups, fp_indices, fp_output_dir):
-
     def FP_reformat(pileupfile, fp_indices):
-        #Per Sample
-    
-        #Constants
+        # Per Sample
+
+        # Constants
         alleleReverseInd = {4: 'A', 5: 'C', 6: 'G', 7: 'T'}
         alleles = ['A', 'C', 'G', 'T']
-        #Parameter
-        thres=0.1 # heterozygous above this threshold
-        #Get Raw data
+        # Parameter
+        thres = 0.1  # heterozygous above this threshold
+        # Get Raw data
+
         pileup = read_csv(pileupfile)
         fpRaw = []
         for p in pileup:
             if p[0] + ':' + p[1] in fp_indices.keys() and p[0] + ':' + p[1] not in [f[0] + ':' + f[1] for f in fpRaw]:
                 fpRaw.append(p[0:8])
-        #Create Header 
-        #TODO: consider changing this to pull samplename from title file
-        samplename=os.path.basename(pileupfile).split("_cl")[0]
-        reformatted_sample=[['Locus', samplename+'_Counts', samplename+'_Genotypes', samplename+'_MinorAlleleFreq']]
-        #Calculate and Reformat Data
+        # Create Header
+        # TODO: consider changing this to pull samplename from title file
+        samplename = os.path.basename(pileupfile).split("_cl")[0]
+        reformatted_sample = [
+            ['Locus', samplename + '_Counts', samplename + '_Genotypes', samplename + '_MinorAlleleFreq']]
+        # Calculate and Reformat Data
         for eachfp in fpRaw:
-            idx=eachfp[0]+':'+eachfp[1]
-            line=fp_indices[idx]
-    
-            loc_allele1=line[0]
-            loc_allele2=line[1]
-    
-            count_allele1=eachfp[loc_allele1]
-            count_allele2=eachfp[loc_allele2]
-            counts=[int(count_allele1), int(count_allele2)]
-    
-            mAF=min(counts) / sum(counts) if sum(counts) != 0 else 999
+            idx = eachfp[0] + ':' + eachfp[1]
+            line = fp_indices[idx]
 
-            Geno=alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else '-' if mAF==999 else alleleReverseInd[loc_allele1]+alleleReverseInd[loc_allele2]
-            
-            mAF= '-' if mAF==999 else mAF
-            
-            reformatted_sample.append([idx, alleleReverseInd[loc_allele1]+':'+eachfp[loc_allele1]+' '+alleleReverseInd[loc_allele2]+':'+eachfp[loc_allele2], Geno, mAF])
-        df_reformated_sample=pd.DataFrame(reformatted_sample[1:], columns=reformatted_sample[0])
+            loc_allele1 = line[0]
+            loc_allele2 = line[1]
+
+            count_allele1 = eachfp[loc_allele1]
+            count_allele2 = eachfp[loc_allele2]
+            counts = [int(count_allele1), int(count_allele2)]
+
+            mAF = min(counts) / sum(counts) if sum(counts) != 0 else 999
+
+            Geno = alleles[np.argmax([int(F) for F in eachfp[4::]])] if mAF <= thres else '-' if mAF == 999 else \
+            alleleReverseInd[loc_allele1] + alleleReverseInd[loc_allele2]
+
+            mAF = '-' if mAF == 999 else mAF
+
+            reformatted_sample.append([idx, alleleReverseInd[loc_allele1] + ':' + eachfp[loc_allele1] + ' ' +
+                                       alleleReverseInd[loc_allele2] + ':' + eachfp[loc_allele2], Geno, mAF])
+        df_reformated_sample = pd.DataFrame(reformatted_sample[1:], columns=reformatted_sample[0])
         return df_reformated_sample
-        
-    #loop for all samples
+
+    # loop for all samples
     for i, pileupfile in enumerate(listofpileups):
-        if i==0:
-            all_reformatted=FP_reformat(pileupfile, fp_indices)
+        if i == 0:
+            all_reformatted = FP_reformat(pileupfile, fp_indices)
         else:
-            df_reformatted_sample=FP_reformat(pileupfile, fp_indices)
-            all_reformatted=all_reformatted.merge(df_reformatted_sample, on='Locus')
-    #save to file
-    all_reformatted.to_csv(fp_output_dir+'/ALL_FPsummary.txt', sep="\t",index=False)
-    
+            df_reformatted_sample = FP_reformat(pileupfile, fp_indices)
+            all_reformatted = all_reformatted.merge(df_reformatted_sample, on='Locus')
+
+    # do natural sort
+    all_reformatted.set_index('Locus', inplace=True)
+    index = all_reformatted.index.tolist()
+    index = natural_sort(index)
+    all_reformatted = all_reformatted.reindex(index)
+
+    # save to file
+    all_reformatted.to_csv(fp_output_dir + '/ALL_FPsummary.txt', sep="\t", index=False)
+    return all_reformatted
 
 
 
@@ -660,8 +832,14 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     # reformat for clinical database    
     reformat_all(listofpileups, fp_indices, fp_output_dir)
 
+    # reformat for clinical database
+    all_reformatted = reformat_all(listofpileups, fp_indices, fp_output_dir)
+
     # Contamination plots
-    plot_minor_contamination(all_fp, fp_output_dir, titlefile)
+    df_titlefile = read_df(titlefile, header='infer')
+    find_and_plot_minorcontamination(all_reformatted, df_titlefile, fp_output_dir, prefix='')
+    ##plot_minor_contamination(all_fp, fp_output_dir, titlefile)
+
     plot_major_contamination(all_geno, fp_output_dir, titlefile)
 
     # plotGenoCompare(geno_compare,n, fpOutputdir)
@@ -669,7 +847,8 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     plot_genotyping_matrix(geno_compare, fp_output_dir, titlefile)
 
     # Duplex Plot
-    plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, output_dir, fp_indices, fp_output_dir)
+    plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titlefile, config_file, fp_output_dir)
+
     merge_pdf_in_folder(fp_output_dir, 'FPFigures.pdf')
 
     # return listofpileups, fpIndices, n, All_FP, All_geno, Geno_Compare
@@ -695,8 +874,9 @@ def main():
 
     # Fingerprinting
     run_fp_report(output_dir=args.output_dir, waltz_dir_a=args.waltz_dir_A, waltz_dir_b=args.waltz_dir_B,
-                    waltz_dir_a_duplex=args.waltz_dir_A_duplex, waltz_dir_b_duplex=args.waltz_dir_B_duplex,
-                    config_file=args.fp_config, titlefile=args.title_file)
+                  waltz_dir_a_duplex=args.waltz_dir_A_duplex, waltz_dir_b_duplex=args.waltz_dir_B_duplex,
+                  config_file=args.fp_config, titlefile=args.title_file)
+
 
     # Sex
     gender = standardize_gender(title_file=args.title_file)

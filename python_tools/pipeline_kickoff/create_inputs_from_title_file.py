@@ -61,6 +61,9 @@ def load_fastqs(data_dir):
         for f in filenames
     ]
 
+    # Convert to absolute paths
+    files_flattened = [os.path.abspath(p) for p in files_flattened]
+
     # Separate into three lists
     fastq1 = filter(lambda x: FASTQ_1_FILE_SEARCH in x, files_flattened)
     fastq1 = [{"class": "File", "path": path} for path in fastq1]
@@ -338,6 +341,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         "patient_id": [
             str(p) for p in title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()
         ],
+        "sample_class": title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].tolist(),
     }
 
     # Trim whitespace

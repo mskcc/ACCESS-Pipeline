@@ -5,7 +5,6 @@ class: Workflow
 requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
-  SubworkflowFeatureRequirement: {}
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_tools/schemas.yaml

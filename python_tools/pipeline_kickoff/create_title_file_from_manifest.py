@@ -6,7 +6,6 @@ import pandas as pd
 from ..constants import *
 
 
-##################################
 # Pipeline Kickoff Step #1
 #
 # This module is used to create a title file with the information formatted for a pipeline run

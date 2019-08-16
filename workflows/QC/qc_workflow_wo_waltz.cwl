@@ -12,8 +12,13 @@ requirements:
   ScatterFeatureRequirement: {}
   StepInputExpressionRequirement: {}
   InlineJavascriptRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/schemas.yaml
 
 inputs:
+  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+
   project_name: string
   title_file: File
   inputs_yaml: File
@@ -22,6 +27,14 @@ inputs:
   A_on_target_positions: File
   B_on_target_positions: File
   noise__good_positions_A: File
+  hotspots: File
+
+  sample_id: string[]
+  sample_class: string[]
+  waltz_unfiltered_pool_a_pileups: File[]
+  waltz_duplex_pool_a_pileups: File[]
+
+  picard_metrics: Directory
 
   waltz_standard_pool_a: Directory
   waltz_unfiltered_pool_a: Directory
@@ -46,6 +59,10 @@ outputs:
   tables:
     type: Directory
     outputSource: main_tables_module/tables
+
+  hotspots_in_normals_data:
+    type: File
+    outputSource: find_hotspots_in_normals/hotspots_in_normals_data
 
 steps:
 
@@ -222,7 +239,7 @@ steps:
     in:
       title_file: title_file
       noise: standard_noise_tables_A/noise
-      noise_by_substitution: standard_noise_tables_A/noise_by_substitution
+      noise_by_substitution_table: standard_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
   unfiltered_noise_plots_A:
@@ -230,7 +247,7 @@ steps:
     in:
       title_file: title_file
       noise: unfiltered_noise_tables_A/noise
-      noise_by_substitution: unfiltered_noise_tables_A/noise_by_substitution
+      noise_by_substitution_table: unfiltered_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
   simplex_noise_plots_A:
@@ -238,7 +255,7 @@ steps:
     in:
       title_file: title_file
       noise: simplex_noise_tables_A/noise
-      noise_by_substitution: simplex_noise_tables_A/noise_by_substitution
+      noise_by_substitution_table: simplex_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites]
 
   duplex_noise_plots_A:
@@ -246,8 +263,36 @@ steps:
     in:
       title_file: title_file
       noise: duplex_noise_tables_A/noise
-      noise_by_substitution: duplex_noise_tables_A/noise_by_substitution
+      noise_by_substitution_table: duplex_noise_tables_A/noise_by_substitution
     out: [noise_alt_percent, noise_contributing_sites, noise_by_substitution]
+
+  #######################################
+  # Find Hotspot VAFs in normal samples #
+  #######################################
+
+  find_hotspots_in_normals:
+    run: ../subworkflows/find_hotspots_in_normals.cwl
+    in:
+      sample_ids: sample_id
+      sample_classes: sample_class
+      unfiltered_pileups: waltz_unfiltered_pool_a_pileups
+      duplex_pileups: waltz_duplex_pool_a_pileups
+      run_tools: run_tools
+      hotspot_list: hotspots
+    out: [
+      hotspots_in_normals_data,
+      hotspots_in_normals_table_pdf,
+      hotspots_in_normals_plot]
+
+  ######################
+  # Base Quality plots #
+  ######################
+
+  base_quality_plot:
+    run: ../../cwl_tools/python/base_quality_plot.cwl
+    in:
+      picard_metrics: picard_metrics
+    out: [plot]
 
   #################
   # UMI QC tables #
@@ -311,9 +356,9 @@ steps:
       pipeline_inputs,
       average_coverage_exon_level_A]
 
-  ####################################################
-  # Combine FP, Noise, & Std qc result PDFs into one #
-  ####################################################
+  #############################
+  # Combine all PDFs into one #
+  #############################
 
   combine_qc:
     run: ../../cwl_tools/python/combine_qc_pdfs.cwl
@@ -329,12 +374,15 @@ steps:
       average_coverage_exon_level_A: main_plots_module/average_coverage_exon_level_A
       cov_and_family_type_A: main_plots_module/cov_and_family_type_A
       cov_and_family_type_B: main_plots_module/cov_and_family_type_B
+      base_quality_plot: base_quality_plot/plot
       family_sizes_all: main_plots_module/family_sizes_all
       family_sizes_simplex: main_plots_module/family_sizes_simplex
       family_sizes_duplex: main_plots_module/family_sizes_duplex
       noise_alt_percent: duplex_noise_plots_A/noise_alt_percent
       noise_contributing_sites: duplex_noise_plots_A/noise_contributing_sites
       noise_by_substitution: duplex_noise_plots_A/noise_by_substitution
+      hotspots_in_normals_plot: find_hotspots_in_normals/hotspots_in_normals_plot
+      hotspots_in_normals_table_pdf: find_hotspots_in_normals/hotspots_in_normals_table_pdf
       fingerprinting_qc: fingerprinting/FPFigures
       gender_check: fingerprinting/gender_plot
       pipeline_inputs: main_plots_module/pipeline_inputs

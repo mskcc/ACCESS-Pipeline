@@ -24,8 +24,6 @@ outputs:
     type:
       type: array
       items: File
-    outputBinding:
-      glob: '*'
 
 expression: '${
   var output_files = [];

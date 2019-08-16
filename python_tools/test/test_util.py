@@ -1,6 +1,6 @@
 import unittest
 
-import util
+from python_tools import util
 
 
 class Tests(unittest.TestCase):
@@ -33,7 +33,6 @@ class Tests(unittest.TestCase):
         # Should return False because SampleXABCD is a totally separate match than the other two
         are_substrings = util.all_strings_are_substrings([sample_1, sample_2, sample_3])
         assert are_substrings == False
-
 
 if __name__ == '__main__':
     unittest.main()

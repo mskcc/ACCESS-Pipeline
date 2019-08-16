@@ -1,0 +1,29 @@
+name: vcf2maf_params
+type: record
+fields:
+  species:
+    name: species
+    type:
+      type: enum
+      name: species
+      symbols: [homo_sapiens, homo_sapiens_merged, mus_musculus]
+
+  ncbi_build:
+    name: ncbi_build
+    type:
+      type: enum
+      name: ncbi_build
+      symbols: [GRCh37, GRCh38, GRCm38]
+
+  maf_center: string?
+  output_maf: string?
+  max_filter_ac: int?
+  min_hom_vaf: float?
+  remap_chain: string?
+  buffer_size: int?
+  vep_path: string?
+  vep_data: string?
+  any_allele: string?
+  tmp_dir: string?
+  vep_forks: int?
+  retain_info: string?

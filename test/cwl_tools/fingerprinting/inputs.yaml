@@ -1,4 +1,4 @@
-FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
+FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
 output_dir: .
 title_file: {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/ian/lane-2_title_file.txt}
 

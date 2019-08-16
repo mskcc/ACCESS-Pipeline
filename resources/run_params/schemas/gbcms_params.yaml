@@ -1,0 +1,8 @@
+name: gbcms_params
+type: record
+fields:
+  omaf: boolean
+  filter_duplicate: int
+  thread: int
+  maq: int
+  fragment_count: int

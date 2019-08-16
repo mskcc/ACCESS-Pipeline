@@ -1,4 +1,4 @@
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 
@@ -89,9 +89,4 @@ outputs:
   fci_list:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.out)
-            return inputs.out;
-          return null;
-        }
+      glob: $(inputs.out)

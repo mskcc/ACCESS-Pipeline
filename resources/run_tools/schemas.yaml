@@ -13,6 +13,9 @@ fields:
   - name: marianas_path
     type: string
 
+  - name: bioinfo_utils
+    type: File
+
   - name: trimgalore_path
     type: string
 
@@ -36,4 +39,3 @@ fields:
 
   - name: waltz_path
     type: string
-

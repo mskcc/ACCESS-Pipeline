@@ -1,0 +1,15 @@
+name: vardict_params
+type: record
+fields:
+- name: min_num_variant_reads
+  type: int
+- name: column_for_chromosome
+  type: int
+- name: column_for_gene_name
+  type: int
+- name: column_for_region_start
+  type: int
+- name: column_for_region_end
+  type: int
+- name: allele_freq_thres
+  type: float

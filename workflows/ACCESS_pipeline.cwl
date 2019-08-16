@@ -38,6 +38,7 @@ inputs:
   fastq2: File[]
   sample_sheet: File[]
   patient_id: string[]
+  sample_class: string[]
   adapter: string[]
   adapter2: string[]
   add_rg_LB: int[]
@@ -50,6 +51,7 @@ inputs:
   # so we need to use strings here instead of file types
   reference_fasta: string
   reference_fasta_fai: string
+  hotspots: File
 
   process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
   trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
@@ -63,8 +65,12 @@ inputs:
   marianas_collapsing__params: ../resources/run_params/schemas/marianas_collapsing.yaml#marianas_collapsing__params
   waltz__params: ../resources/run_params/schemas/waltz.yaml#waltz__params
 
-  bqsr__knownSites_dbSNP: File
-  bqsr__knownSites_millis: File
+  bqsr__knownSites_dbSNP:
+    type: File
+    secondaryFiles: [.idx]
+  bqsr__knownSites_millis:
+    type: File
+    secondaryFiles: [.idx]
 
   fci_2__basq_fix: boolean?
   pool_a_bed_file: File
@@ -102,6 +108,14 @@ outputs:
     type: File[]
     outputSource: standard_bam_generation/covint_bed
 
+  recalibrated_scores_matrix:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: standard_bam_generation/recalibrated_scores_matrix
+
   bam_dirs:
     type: Directory[]
     outputSource: standard_bam_to_collapsed_qc/bam_dirs
@@ -113,6 +127,14 @@ outputs:
   qc_tables:
     type: Directory
     outputSource: standard_bam_to_collapsed_qc/qc_tables
+
+  picard_qc:
+    type: Directory
+    outputSource: standard_bam_to_collapsed_qc/picard_qc
+
+  hotspots_in_normals_data:
+    type: File
+    outputSource: standard_bam_to_collapsed_qc/hotspots_in_normals_data
 
 steps:
 
@@ -159,7 +181,8 @@ steps:
     clstats2,
     md_metrics,
     covint_list,
-    covint_bed]
+    covint_bed,
+    recalibrated_scores_matrix]
 
   ################################
   # Generate Collapsed Bams & QC #
@@ -179,10 +202,11 @@ steps:
     standard_bams: standard_bam_generation/standard_bams
 
     patient_id: patient_id
+    sample_class: sample_class
     fci_2__basq_fix: fci_2__basq_fix
-    gene_list: gene_list
     reference_fasta: reference_fasta
     reference_fasta_fai: reference_fasta_fai
+    hotspots: hotspots
 
     add_rg_LB: add_rg_LB
     add_rg_ID: add_rg_ID
@@ -206,6 +230,8 @@ steps:
     FP_config_file: FP_config_file
 
   out: [
+    picard_qc,
     bam_dirs,
     combined_qc,
-    qc_tables]
+    qc_tables,
+    hotspots_in_normals_data]

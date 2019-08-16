@@ -26,12 +26,11 @@ inputs:
 
   bqsr__knownSites_dbSNP:
     type: File
-    secondaryFiles:
-      - .idx
+    secondaryFiles: [.idx]
+
   bqsr__knownSites_millis:
     type: File
-    secondaryFiles:
-      - .idx
+    secondaryFiles: [.idx]
 
   base_recalibrator__params: ../../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
   print_reads__params: ../../resources/run_params/schemas/print_reads.yaml#print_reads__params
@@ -43,6 +42,10 @@ outputs:
     secondaryFiles:
       - ^.bai
     outputSource: parallel_printreads/bams
+
+  recalibrated_scores_matrix:
+    type: File[]
+    outputSource: parallel_bqsr/recal_matrix
 
 steps:
 
@@ -72,7 +75,9 @@ steps:
       inputs:
         java: string
         gatk: string
-        bam: File
+        bam:
+          type: File
+          secondaryFiles: [^.bai]
         reference_fasta: string
         rf: string
         nct: int
@@ -95,8 +100,7 @@ steps:
             known_sites_1: known_sites_1
             known_sites_2: known_sites_2
             out:
-              # Todo: name based on sample
-              default: 'recal.matrix'
+              valueFrom: $(inputs.input_bam.basename.replace('.bam', '.recal_matrix'))
           out: [recal_matrix]
 
   parallel_printreads:
