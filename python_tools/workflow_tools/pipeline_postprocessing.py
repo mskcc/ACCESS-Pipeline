@@ -293,12 +293,18 @@ class AccessProject(object):
         """
 
         def ccopy(src, target):
+            """
+            helper copy function that will complete the copy
+            action if self._dry_run is not true.
+            """
             self._logger.info("Copying {} to {}".format(src, target))
             if not self._dry_run:
                 shutil.copy(src, target)
-
+        
+        # set and create, if necessary, the target directory
         target_dir = os.path.abspath(self._ap)
         self._make_dir(target_dir)
+
         if analysis_type == "qc":
             ccopy(
                 self._process_dir
@@ -312,7 +318,7 @@ class AccessProject(object):
         if analysis_type == "sv":
             ccopy(
                 self._process_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
-                target_dir + "/annotated_structural_variants.txt",
+                target_dir + self._project_name + "_AllAnnotatedSVs.txt",
             )
         if analysis_type == "cnv":
             ccopy(
