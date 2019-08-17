@@ -10,6 +10,10 @@ run_tools:
   # PLUF & Collapsing
   marianas_path: /home/jayakumg/software/ACCESS_tools/Marianas-1.8.0.jar
 
+  # BioinfoUtils
+  # Todo: change all these strings to File types
+  bioinfo_utils: {class: File, path: /home/jayakumg/software/ACCESS_tools/BioinfoUtils-1.0.0.jar}
+
   # Module 1
   trimgalore_path: /dmp/resources/prod/tools/bio/trim_galore/production/trim_galore
   bwa_path: /dmp/resources/prod/tools/bio/bwa/production/bwa
