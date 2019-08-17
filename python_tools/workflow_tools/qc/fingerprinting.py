@@ -386,21 +386,21 @@ def plot_major_contamination(all_geno, fp_output_dir, titlefile):
 def find_and_plot_minorcontamination(df_summary, df_titlefile, output_dir, prefix=''):
     patient_normals = {}
     for i, s in df_titlefile.iterrows():
-        if s.SAMPLE_CLASS == 'Normal':
-            patient_normals[s.CMO_PATIENT_ID] = s.CMO_SAMPLE_ID
+        if s.Class == 'Normal':
+            patient_normals[s.Patient_ID] = s.Sample
         else:
-            patient_normals[s.CMO_PATIENT_ID] = ''
+            patient_normals[s.Patient_ID] = ''
 
     minor_contamination = []
     for i, s in df_titlefile.iterrows():
-        if s.SAMPLE_CLASS == 'Tumor' and patient_normals[s.CMO_PATIENT_ID] != '':
-            minor_contamination.append([s.CMO_SAMPLE_ID, df_summary[s.CMO_SAMPLE_ID + '_MinorAlleleFreq'][
-                df_summary[patient_normals[s.CMO_PATIENT_ID] + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-',
+        if s.Class == 'Tumor' and patient_normals[s.Patient_ID] != '':
+            minor_contamination.append([s.Sample, df_summary[s.Sample + '_MinorAlleleFreq'][
+                df_summary[patient_normals[s.Patient_ID] + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-',
                                                                                                                  np.nan).astype(
                 float).mean()])
         else:
-            minor_contamination.append([s.CMO_SAMPLE_ID, df_summary[s.CMO_SAMPLE_ID + '_MinorAlleleFreq'][
-                df_summary[s.CMO_SAMPLE_ID + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-', np.nan).astype(
+            minor_contamination.append([s.Sample, df_summary[s.Sample + '_MinorAlleleFreq'][
+                df_summary[s.Sample + '_Genotypes'].isin(['A', 'C', 'G', 'T'])].replace('-', np.nan).astype(
                 float).mean()])
 
     y_pos = np.arange(len(minor_contamination))
@@ -506,7 +506,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
 
     # RUN
     titlefile = read_df(titlefilepath, header='infer')
-    listofsamples = titlefile.loc[titlefile[MANIFEST__SAMPLE_CLASS_COLUMN] == 'Tumor'][SAMPLE_ID_COLUMN].tolist()
+    listofsamples = titlefile.loc[titlefile[TITLE_FILE__SAMPLE_CLASS_COLUMN] == 'Tumor'][SAMPLE_ID_COLUMN].tolist()
     config = create_fp_indices(config_file)
     # Check if Waltz Directories exist
     if not (os.path.isdir(waltz_dir_a_duplex) and os.path.isdir(waltz_dir_b_duplex)):
@@ -552,7 +552,12 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     plt.xlim([-1, y_pos.size])
     # plt.autoscale(True)
     plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
-    plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
+    try:
+        plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
+    except ValueError:
+        # no minor allele values for test data
+        print("Error while plotting fingerprinting.")
+        pass
     plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -591,8 +596,11 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
                         fmt='.2f', cmap="Blues_r", vmax=.15,
                         cbar_kws={'label': 'Fraction Mismatch'},
                         annot_kws={'size': 5})
+        # This sets the yticks "upright" with 0, as opposed to sideways with 90.
+        plt.yticks(rotation=0) 
     except IndexError:
-        print "NaN fraction mismatch values for all samples."
+        # No mismatch values for test data is possible
+        print("NaN fraction mismatch values for all samples.")
         pass
 
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
