@@ -614,8 +614,8 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
 
-    df[df['Status'] == 'Unexpected Mismatch'].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)
-    df[df['Status'] == 'Unexpected Match'].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
+    df[(df['Status'] == 'Unexpected Mismatch') & (~df['Sample1'].str.contains(CONTROL_SAMPLE_KEYWORD)) & (~df['Sample2'].str.contains(CONTROL_SAMPLE_KEYWORD))].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)
+    df[(df['Status'] == 'Unexpected Match') & (~df['Sample1'].str.contains(CONTROL_SAMPLE_KEYWORD)) & (~df['Sample2'].str.contains(CONTROL_SAMPLE_KEYWORD))].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
 
     plt.clf()
     fig, ax1 = plt.subplots()
