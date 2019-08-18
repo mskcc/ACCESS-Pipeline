@@ -165,7 +165,8 @@ main = function() {
     title_file_path, 
     sep = '\t', 
     header = TRUE, 
-    colClasses = c('SEX' = 'character')
+    colClasses = c('SEX' = 'character'),
+    quote = "", # to account for names with "'", for example, O'Santa.
   )
   title_df = title_df[order(title_df[TITLE_FILE__SAMPLE_CLASS_COLUMN]),]
   #print('Title dataframe:')
