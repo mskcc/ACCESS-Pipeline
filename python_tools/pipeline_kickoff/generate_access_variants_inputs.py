@@ -31,6 +31,10 @@ from python_tools.constants import (
     TITLE_FILE_TO_PAIRED_FILE,
     TITLE_FILE_PAIRING_EXPECTED_COLUMNS,
     ACCESS_VARIANTS_RUN_TOOLS_MANTA,
+    STANDARD_BAM_DIR,
+    UNFILTERED_BAM_DIR,
+    SIMPLEX_BAM_DIR,
+    DUPLEX_BAM_DIR,
 )
 
 from python_tools.util import (
@@ -86,147 +90,6 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 logger = logging.getLogger("access_variants_pipeline_kickoff")
-
-
-def parse_arguments():
-    """
-    Parse arguments for Variant calling pipeline inputs generation
-
-    :return: argparse.ArgumentParser object
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "-o",
-        "--output_file_name",
-        help="Filename for yaml file to be used as pipeline inputs",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-pn", "--project_name", help="Project name for this run", required=True
-    )
-
-    parser.add_argument(
-        "-m",
-        "--matched_mode",
-        action="store_true",
-        help="Create inputs from matched T/N pairs (True), or use default Normal (False)",
-        required=False,
-    )
-
-    parser.add_argument(
-        '-t',
-        '--title_file_path',
-        help='title file in tsv format',
-        required=True
-    )
-
-    parser.add_argument(
-        "-pb",
-        "--pair_by",
-        choices=["class", "type"],
-        default="class",
-        help="pair samples in title file by sample class (Tumor:Normal) or sample type (Plamsa:Buffcoat)",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-p",
-        "--pairing_file_path",
-        help="tsv file with tumor sample IDs mapped to normal sample IDs",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-dn",
-        "--default_normal_path",
-        help="Normal used in unmatched mode, or in matched mode if no matching normal found for tumor sample",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-b",
-        "--bam_directory",
-        help="Directory that contains all tumor and normal bams to be used in variant calling",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-tb",
-        "--tumor_bams_directory",
-        help="Directory that contains all tumor bams to be used in variant calling",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-nb",
-        "--normal_bams_directory",
-        help="Directory that contains all normal bams to be used in variant calling and genotyping "
-        "(if using matched mode, otherwise only used for genotyping)",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-sb",
-        "--simplex_bams_directory",
-        help="Directory that contains additional simplex bams to be used for genotyping",
-        required=True,
-    )
-
-    # Note: For ACCESS, we will often genotype from the same folders of curated bams
-    parser.add_argument(
-        "-cbd",
-        "--curated_bams_duplex_directory",
-        help="Directory that contains additional duplex curated bams to be used for genotyping",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-cbs",
-        "--curated_bams_simplex_directory",
-        help="Directory that contains additional simplex curated bams to be used for genotyping",
-        required=True,
-    )
-
-    parser.add_argument(
-        "-stdb",
-        "--standard_bams_directory",
-        help="If you would like SV calling, this is the directory that contains standard bams to be paired with the \
-            default normal. Note: This argument is to be paired with the ACCESS_Variants.cwl workflow.",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-dstdn",
-        "--default_stdnormal_path",
-        help="Normal used in unmatched mode for structural variant calling",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-tri",
-        "--traceback_mutations_input",
-        help="Mutation data for any relevant prior samples",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-trb",
-        "--traceback_bam_files",
-        help="Bam file paths for any relevant prior samples",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-aub",
-        "--all_unique_bam_directory",
-        help="Bam file paths for all unique bam files",
-        required=True,
-    )
-
-    args = parser.parse_args()
-    return args
 
 
 def generate_pairing_file(args):
@@ -459,9 +322,7 @@ def create_inputs_file(args):
         filter(None, pairing_df[GROUP_BY_ID].tolist()),
     )
     tumor_bam_paths = find_bams_in_directory(args.tumor_bams_directory, tumor_ids)
-    simplex_bam_paths = find_bams_in_directory(
-        args.simplex_bams_directory, tumor_ids
-    )
+    simplex_bam_paths = find_bams_in_directory(args.simplex_bams_directory, tumor_ids)
     curated_bam_duplex_paths = find_bams_in_directory(
         args.curated_bams_duplex_directory
     )
@@ -501,39 +362,39 @@ def create_inputs_file(args):
             ACCESS_VARIANTS_RUN_TOOLS_PATH,
         ],
     )
-    # include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
-    # include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
-    # include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
 
-    if args.standard_bams_directory:
-        include_sv_inputs(args, tumor_ids, fh)
+    # Include sv related files
+    include_sv_inputs(args, tumor_ids, fh)
 
     fh.write(INPUTS_FILE_DELIMITER)
 
+    # Include traceback related files
     create_traceback_inputs(args, fh)
 
     ####### Generate inputs for CNV ########
-    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir}".format(
-        title_file=args.title_file_path, 
-        bam_dir=args.all_unique_bam_directory, 
-        output_dir=os.path.dirname(args.output_file_name)
+    cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
+        title_file=args.title_file_path,
+        bam_dir=args.all_unique_bam_directory,
+        output_dir=os.path.dirname(args.output_file_name),
     )
     process = subprocess.Popen(cmd, shell=True, close_fds=True)
     process.wait()
     returncode = process.returncode
     if returncode == 0:
         time.sleep(3)
-        cnv_yaml = os.path.join(os.path.dirname(args.output_file_name), "inputs_cnv.yaml")
-        #map(include_yaml_resources, [fh], [cnv_yaml])
+        cnv_yaml = os.path.join(
+            os.path.dirname(args.output_file_name), "inputs_cnv.yaml"
+        )
+        # map(include_yaml_resources, [fh], [cnv_yaml])
     else:
         raise Exception("Unable to generate inputs yaml for cnv")
     ####### End of Generating inputs for CNV ########
 
     ####### Generate inputs for CNV ########
-    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir}".format(
-        title_file=args.title_file_path, 
-        bam_dir=args.standard_bams_directory, 
-        output_dir=os.path.dirname(args.output_file_name)
+    cmd = "generate_msi_inputs -sb {bam_dir} -o {output_dir}/msi.yaml -od {output_dir} -alone".format(
+        title_file=args.title_file_path,
+        bam_dir=args.standard_bams_directory,
+        output_dir=os.path.dirname(args.output_file_name),
     )
     process = subprocess.Popen(cmd, shell=True, close_fds=True)
     process.wait()
@@ -541,7 +402,7 @@ def create_inputs_file(args):
     if returncode == 0:
         time.sleep(3)
         msi_yaml = os.path.join(os.path.dirname(args.output_file_name), "msi.yaml")
-        #map(include_yaml_resources, [fh], [msi_yaml])
+        # map(include_yaml_resources, [fh], [msi_yaml])
     else:
         raise Exception("Unable to generate inputs yaml for msi")
     ####### End of Generating inputs for CNV ########
@@ -553,14 +414,9 @@ def create_inputs_file(args):
 
 
 def create_traceback_inputs(args, fh):
-    Traceback_status = (
-        True if args.traceback_mutations_input and args.traceback_bam_files else False
-    )
-    Traceback_inputs = args.traceback_mutations_input
-    Traceback_bams = args.traceback_bam_files
-    fh.write("Traceback: " + str(Traceback_status) + "\n")
-    fh.write("Traceback_inputs: " + str(Traceback_inputs) + "\n")
-    fh.write("Traceback_bams: " + str(Traceback_bams) + "\n")
+    fh.write("Traceback:\n")
+    fh.write("  sample_list: " + str(args.traceback_samples or "") + "\n")
+    fh.write("  input_mutations: " + str(args.traceback_mutations or "") + "\n")
     fh.write(INPUTS_FILE_DELIMITER)
 
 
@@ -726,33 +582,6 @@ def correct_sample_id(query_sample_id, bam_paths):
     return extract_sample_id_from_bam_path(matching_bam_path)
 
 
-def validate_args(args):
-    """Arguments sanity check"""
-
-    # Either one of title file or pairing file is required for this process
-    if not (args.title_file_path):
-        raise Exception('--title_file_path is required for CNV')
-
-    if not (args.title_file_path or args.pairing_file_path):
-        raise Exception(
-            "Either --title_file_path or --pairing_file_path is required to determine tumor samples for variant calling."
-        )
-
-    # Pairing file is required in matched mode
-    if args.matched_mode and args.pairing_file_path is None:
-        raise Exception("--matched_mode requires --pairing_file_path")
-
-    # Normal bams folder is required in matched mode
-    if args.matched_mode and args.normal_bams_directory is None:
-        raise Exception("--matched_mode requires --normal_bams_directory")
-
-    # If structural varint calling is enabled, a control standard bam is required, for unmatched variant calling.
-    if args.standard_bams_directory and not args.default_stdnormal_path:
-        raise Exception(
-            "--default_stdnormal_path should be also provided when --standard_bams_directory is defined."
-        )
-
-
 def include_sv_inputs(args, tumor_ids, fh):
     """
     Write standard_bams files to inputs file, as well as SV parameters and tool paths from SV config files
@@ -773,6 +602,247 @@ def include_sv_inputs(args, tumor_ids, fh):
     fh.write(ruamel.yaml.dump({"sv_normal_bam": default_normal_yaml}))
 
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_MANTA)
+
+
+def validate_args(args):
+    """Arguments sanity check"""
+
+    # if T/N paired file is provided, it will be used instead of creating one from title file
+    if args.pairing_file_path:
+        print(
+            "T/N pair file is provided. It will be directly used for analysis instead of generating one from title file."
+        )
+
+    # if a common project bam directory is provided, attempt to set any underfined
+    #  path to each of the duplex, simplex, unfiltered, and standard bam directories.
+    if args.bam_project_directory:
+        expected_bam_subdir = [
+            STANDARD_BAM_DIR,
+            UNFILTERED_BAM_DIR,
+            SIMPLEX_BAM_DIR,
+            DUPLEX_BAM_DIR,
+            UNFILTERED_BAM_DIR,
+        ]
+        bam_dir_arg_attributes = [
+            "standard_bams_directory",
+            "all_unique_bam_directory",
+            "simplex_bams_directory",
+            "tumor_bams_directory",
+            "normal_bams_directory",
+        ]
+
+        # if sub-directories are not defined in args, use expected sub-directory names
+        #  and raise excpetion if they are missing.
+        for index, attribute in enumerate(bam_dir_arg_attributes):
+            if getattr(args, attribute) is None:
+                setattr(
+                    args,
+                    attribute,
+                    os.path.join(
+                        args.bam_project_directory, expected_bam_subdir[index]
+                    ),
+                )
+
+            if not os.path.isdir(getattr(args, attribute)):
+                raise OSError(
+                    "No such file or directory: {}. Please define --{}".format(
+                        getattr(args, attribute), attribute
+                    )
+                )
+
+    # check for reference files and directories in reference yaml files and args
+    with open(ACCESS_VARIANTS_RUN_FILES_PATH, "r") as stream:
+        run_files = ruamel.yaml.round_trip_load(stream)
+        try:
+            args.default_stdnormal_path = (
+                args.default_stdnormal_path
+                or run_files.get("reference_bam_for_SV")["path"]
+            )
+        except (KeyError, TypeError):
+            # if not defined in the yaml file, it will be set as None
+            pass
+        try:
+            args.default_normal_path = (
+                args.default_normal_path
+                or run_files.get("reference_bam_for_VC")["path"]
+            )
+        except (KeyError, TypeError):
+            # if not defined in the yaml file, it will be set as None
+            pass
+        try:
+            args.curated_bams_duplex_directory = (
+                args.curated_bams_duplex_directory
+                or run_files.get("curated_duplex_bams")[args.seq_machine]["path"]
+            )
+        except (KeyError, TypeError):
+            # if not defined in the yaml file, it will be set as None
+            pass
+        try:
+            args.curated_bams_simplex_directory = (
+                args.curated_bams_simplex_directory
+                or run_files.get("curated_simplex_bams")[args.seq_machine]["path"]
+            )
+        except (KeyError, TypeError):
+            # if not defined in the yaml file, it will be set as None
+            pass
+
+    # Normal bams folder is required in matched mode
+    if args.matched_mode and args.normal_bams_directory is None:
+        raise Exception("--matched_mode requires --normal_bams_directory")
+
+    # If structural varint calling is enabled, a control standard bam is required, for unmatched variant calling.
+    if args.standard_bams_directory and not args.default_stdnormal_path:
+        raise Exception(
+            "--default_stdnormal_path should be also provided when --standard_bams_directory is defined."
+        )
+
+
+def parse_arguments():
+    """
+    Parse arguments for Variant calling pipeline inputs generation
+
+    :return: argparse.ArgumentParser object
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-o",
+        "--output_file_name",
+        help="Filename for yaml file to be used as pipeline inputs",
+        required=True,
+    )
+
+    parser.add_argument(
+        "-pn", "--project_name", help="Project name for this run", required=True
+    )
+
+    parser.add_argument(
+        "-m",
+        "--matched_mode",
+        action="store_true",
+        help="Create inputs from matched T/N pairs (True), or use default Normal (False)",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-t", "--title_file_path", help="title file in tsv format", required=True
+    )
+
+    parser.add_argument(
+        "-pb",
+        "--pair_by",
+        choices=["class", "type"],
+        default="class",
+        help="pair samples in title file by sample class (Tumor:Normal) or sample type (Plamsa:Buffcoat)",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-p",
+        "--pairing_file_path",
+        help="tsv file with tumor sample IDs mapped to normal sample IDs",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-dn",
+        "--default_normal_path",
+        help="Normal used in unmatched mode, or in matched mode if no matching normal found for tumor sample",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-b",
+        "--bam_project_directory",
+        help="Main project directory that contains all tumor and normal bams",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-tb",
+        "--tumor_bams_directory",
+        help="Directory that contains all tumor bams to be used in variant calling",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-nb",
+        "--normal_bams_directory",
+        help="Directory that contains all normal bams to be used in variant calling and genotyping "
+        "(if using matched mode, otherwise only used for genotyping)",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-sb",
+        "--simplex_bams_directory",
+        help="Directory that contains additional simplex bams to be used for genotyping",
+        required=False,
+    )
+
+    # Note: For ACCESS, we will often genotype from the same folders of curated bams
+    parser.add_argument(
+        "-cbd",
+        "--curated_bams_duplex_directory",
+        help="Directory that contains additional duplex curated bams to be used for genotyping",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-cbs",
+        "--curated_bams_simplex_directory",
+        help="Directory that contains additional simplex curated bams to be used for genotyping",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-stdb",
+        "--standard_bams_directory",
+        help="""If you would like SV calling, this is the directory that contains standard bams
+         to be paired with the default normal. Note: This argument is to be paired with 
+         the ACCESS_Variants.cwl workflow.""",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-dstdn",
+        "--default_stdnormal_path",
+        help="Normal used in unmatched mode for structural variant calling",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-tmi",
+        "--traceback_mutations",
+        help="Mutation data for any relevant prior samples",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-ts",
+        "--traceback_samples",
+        help="Sample list with bam file paths for any relevant prior samples",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-aub",
+        "--all_unique_bam_directory",
+        help="Bam file paths for all unique bam files",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-sm",
+        "--seq_machine",
+        help="Sequencing machine used",
+        choices=["novaseq", "hiseq"],
+        default="novaseq",
+        required=False,
+    )
+
+    args = parser.parse_args()
+    return args
 
 
 def main():
