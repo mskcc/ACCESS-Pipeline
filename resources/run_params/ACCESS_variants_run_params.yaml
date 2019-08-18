@@ -84,13 +84,3 @@ access_filters_params:
   min_n_curated_samples_alt_detected: 2
   tn_ratio_thres: 2
 
-
-############
-# Module 5 #
-############
-
-# curated bam directories - hiseq vs novaseq, selected based on the machine type for a given project
-Novaseq_curated_duplex_bams: {class: Directory, path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_duplex_bams_novaseq}
-Novaseq_curated_simplex_bams: {class: Directory, path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_simplex_bams_novaseq}
-Novaseq_curated_duplex_bams: {class: Directory, path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_duplex_bams_hiseq}
-Novaseq_curated_simplex_bams: {class: Directory, path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_simplex_bams_hiseq}
