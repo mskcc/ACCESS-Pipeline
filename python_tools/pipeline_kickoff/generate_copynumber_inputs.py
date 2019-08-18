@@ -178,8 +178,7 @@ def create_inputs_file(args):
         if args.stand_alone:
             fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
             include_version_info(fh)
-
-        fh.write("#### The end of for Copy Number Variant Calling ####\n")
+            fh.write("#### The end of for Copy Number Variant Calling ####\n")
 
     return True
 
