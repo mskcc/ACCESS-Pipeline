@@ -29,6 +29,7 @@ from python_tools.constants import (
     TUMOR_ID,
     NORMAL_ID,
     TITLE_FILE_TO_PAIRED_FILE,
+    TITLE_FILE__SAMPLE_CLASS_COLUMN,
     TITLE_FILE_PAIRING_EXPECTED_COLUMNS,
     ACCESS_VARIANTS_RUN_TOOLS_MANTA,
     STANDARD_BAM_DIR,
@@ -77,10 +78,6 @@ from python_tools.util import (
 # -m
 
 
-# Regex for finding bam files
-BAM_REGEX = re.compile(".*\.bam")
-# Delimiter for printing logs
-DELIMITER = "\n" + "*" * 20 + "\n"
 # Delimiter for inputs file sections
 INPUTS_FILE_DELIMITER = "\n\n" + "# " + "--" * 30 + "\n\n"
 
@@ -104,7 +101,7 @@ def generate_pairing_file(args):
     :return paired_df: dict
     """
     tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer")
-    tf["Class"] = np.where((tf["Class"].str.contains("Pool")), "Tumor", tf["Class"])
+    # tf["Class"] = np.where((tf["Class"].str.contains("Pool")), "Tumor", tf["Class"])
     tfmerged = pd.merge(tf, tf, on=GROUP_BY_ID, how="left")
     try:
         tfmerged = tfmerged[
@@ -118,7 +115,6 @@ def generate_pairing_file(args):
                 SAMPLE_TYPE_PAIR2,
             ]
         ]
-        # tfmerged = tfmerged.loc[(tfmerged[SAMPLE_PAIR1] != tfmerged[SAMPLE_PAIR2]) & (~tfmerged[CLASS_PAIR2].isin([TUMOR_CLASS]))]
     except KeyError:
         raise Exception(
             "Missing or unexpected column headers in {}. Title File should contain the following columns for successful pairing: {}".format(
@@ -131,7 +127,7 @@ def generate_pairing_file(args):
             & (tfmerged[CLASS_PAIR2] == NORMAL_CLASS)
         ][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
         unpaired = tfmerged[
-            (tfmerged[CLASS_PAIR1] == TUMOR_CLASS)
+            (tfmerged[CLASS_PAIR1].isin([TUMOR_CLASS, "PoolTumor", "PoolNormal"]))
             & (~tfmerged[SAMPLE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))
         ][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
     else:
@@ -161,12 +157,7 @@ def generate_pairing_file(args):
         index=False,
     )
     args.pairing_file_path = os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
-    print(
-        "Tumor - Normal pairing inferred from the title file. Pairing information is reported here: {}".format(
-            os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
-        )
-    )
-    return paired_df
+    return tf, paired_df
 
 
 def validate_pairing_file(pairing_file, tumor_samples, normal_samples):
@@ -308,7 +299,7 @@ def create_inputs_file(args):
         ).fillna("")
     else:
         try:
-            pairing_df = generate_pairing_file(args)
+            title_file_df, pairing_df = generate_pairing_file(args)
         except (KeyError, ValueError, IndexError):
             raise Exception(
                 "Cannot create Tumor Normal pairing file from {}".format(
@@ -369,7 +360,7 @@ def create_inputs_file(args):
     fh.write(INPUTS_FILE_DELIMITER)
 
     # Include traceback related files
-    create_traceback_inputs(args, fh)
+    create_traceback_inputs(args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh)
 
     ####### Generate inputs for CNV ########
     cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
@@ -413,10 +404,87 @@ def create_inputs_file(args):
     fh.close()
 
 
-def create_traceback_inputs(args, fh):
-    fh.write("Traceback:\n")
-    fh.write("  sample_list: " + str(args.traceback_samples or "") + "\n")
-    fh.write("  input_mutations: " + str(args.traceback_mutations or "") + "\n")
+def create_traceback_inputs(
+    args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh
+):
+    """
+    Get traceback input mutations and bam file objects.
+    """
+    # tumor ids from title file
+    tumor_id = title_file_df[
+        title_file_df[TITLE_FILE__SAMPLE_CLASS_COLUMN] == TUMOR_CLASS
+    ]["Sample"].values.tolist()
+
+    traceback_bams, traceback_samples = [], []
+
+    # read traceback samples into a df and consume sampleIDs and file paths
+    if args.traceback_samples:
+        traceback_samples_df = pd.read_csv(args.traceback_samples, sep="\t", header=0)
+        traceback_bams.extend(traceback_samples_df["BAM_file_path"].values.tolist())
+        traceback_samples.extend(
+            map(
+                lambda x: str(x) + "_STANDARD",
+                traceback_samples_df["Sample"].values.tolist(),
+            )
+        )
+    # duplex bams from current project
+    traceback_bams.extend(
+        list(
+            filter(
+                lambda x: extract_sample_id_from_bam_path(x) in tumor_id,
+                tumor_bam_paths,
+            )
+        )
+    )
+    traceback_samples.extend(
+        map(
+            lambda x: str(x) + "_DUPLEX",
+            list(
+                filter(
+                    lambda x: x in tumor_id,
+                    [extract_sample_id_from_bam_path(x) for x in tumor_bam_paths],
+                )
+            ),
+        )
+    )
+    # simplex bams from current project
+    traceback_bams.extend(
+        list(
+            filter(
+                lambda x: extract_sample_id_from_bam_path(x) in tumor_id,
+                simplex_bam_paths,
+            )
+        )
+    )
+    traceback_samples.extend(
+        map(
+            lambda x: str(x) + "_SIMPLEX",
+            list(
+                filter(
+                    lambda x: x in tumor_id,
+                    [extract_sample_id_from_bam_path(x) for x in simplex_bam_paths],
+                )
+            ),
+        )
+    )
+    # create traceback yaml objects
+    traceback_bams = create_yaml_file_objects(traceback_bams)
+
+    traceback_data = {
+        "Traceback": {
+            "traceback_mutation_file": str(args.traceback_mutations or ""),
+            "bam_files": traceback_bams,
+            "ids": traceback_samples,
+        }
+    }
+    # ruamel.yaml.indent(mapping=2, sequence=4, offset=2)
+    fh.write(ruamel.yaml.dump(traceback_data, indent=2))
+
+    # fh.write("Traceback:\n")
+    # fh.write("traceback_mutation_file: " + str(args.traceback_mutations or "") + "\n")
+    # ruamel.yaml.indent(offset=2)
+    # fh.write(ruamel.yaml.dump({"traceback_sample_ids": traceback_samples}))
+    # fh.write(ruamel.yaml.dump({"traceback_bams": traceback_bams}))
     fh.write(INPUTS_FILE_DELIMITER)
 
 
