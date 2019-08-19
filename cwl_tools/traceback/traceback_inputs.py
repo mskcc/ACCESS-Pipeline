@@ -71,7 +71,7 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
     return traceback_map
 
 
-def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
+def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filtered):
     """
     Main function that groups all mutations from the current project and 
     from applicable prior projects and returns a uniformly formatted
@@ -132,7 +132,13 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer")
 
         TI_df[
-            ["Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2", "Variant_Type"]
+            [
+                "Start_Position",
+                "End_Position",
+                "Reference_Allele",
+                "Tumor_Seq_Allele2",
+                "Variant_Type",
+            ]
         ] = pd.DataFrame(
             TI_df.apply(
                 lambda x: _vcf_to_maf_coord(
@@ -146,7 +152,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
         for col in [
             "VariantClass",
             "Gene",
-            "NormalUsed",
+            "Normal_Sample_ID",
             "T_RefCount",  # SD_T_RefCount",
             "T_AltCount",  # SD_T_AltCount",
             "N_RefCount",
@@ -165,7 +171,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 "Tumor_Seq_Allele1",
                 "Tumor_Seq_Allele2",
                 "Sample",
-                "NormalUsed",
+                "Normal_Sample_ID",
                 "T_RefCount",  # For prior ACCESS samples, this should reflect SD_T_RefCount
                 "T_AltCount",  # For prior ACCESS samples, this should reflect SD_T_AltCount
                 "N_RefCount",
@@ -174,6 +180,9 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 "Start_Pos",
                 "Ref_Allele",
                 "Alt_Allele",
+                "Run",
+                "MRN",
+                "Accession",
             ]
         ].rename(
             index=str,
@@ -186,7 +195,7 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 "Tumor_Seq_Allele1": "Tumor_Seq_Allele1",
                 "Tumor_Seq_Allele2": "Tumor_Seq_Allele2",
                 "Sample": "Tumor_Sample_Barcode",
-                "NormalUsed": "Matched_Norm_Sample_Barcode",
+                "Normal_Sample_ID": "Matched_Norm_Sample_Barcode",
                 # "SD_T_RefCount": "t_ref_count",
                 # "SD_T_AltCount": "t_alt_count",
                 "T_RefCount": "t_ref_count",
@@ -197,12 +206,18 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
                 "Start_Pos": "VCF_POS",
                 "Ref_Allele": "VCF_REF",
                 "Alt_Allele": "VCF_ALT",
+                "Run": "Run",
+                "Accession": "Accession",
+                "MRN": "MRN",
             },
         )
         return TI_df
 
+    title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
+    title_file_df = title_file_df[["Pool", "Sample", "Patient_ID", "AccessionID", "Class"]]
+
     # get the list of input mutation files from the current project
-    mutation_file_list = mutation_file_list.split(",")
+    mutation_file_list = [exonic_filtered, silent_filtered]
     # read each of the file into a df
     df_from_each_file = (
         pd.read_csv(f, index_col=None, header=0, sep="\t") for f in mutation_file_list
@@ -224,7 +239,12 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
     )
 
     concat_df["Tumor_Seq_Allele1"] = concat_df["Reference_Allele"]
-    concat_df = concat_df[
+
+    concat_df = pd.merge(
+        concat_df, title_file_df, how="left", left_on=["Sample"], right_on=["Sample"]
+    )
+    # remove 
+    concat_df = concat_df[~concat_df["Class"].str.contains("Pool")][
         [
             "Gene",
             "Chrom",
@@ -243,6 +263,9 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             "Start",
             "Ref",
             "Alt",
+            "Pool",
+            "Patient_ID",
+            "AccessionID",
         ]
     ]
     concat_df = concat_df.rename(
@@ -267,13 +290,16 @@ def group_mutations_maf(title_file, TI_mutations, mutation_file_list):
             "Start": "VCF_POS",
             "Ref": "VCF_REF",
             "Alt": "VCF_ALT",
+            "Pool": "Run",
+            "AccessionID": "Accession",
+            "Patient_ID": "MRN",
         },
     )
 
     # if mutations from previous project provided, format them and add
     #  them to the df as well
     if TI_mutations:
-        concat_df = pd.concat([concat_df, _TI_mutations_to_maf(TI_mutations)])
+        concat_df = pd.concat([concat_df, _TI_mutations_to_maf(TI_mutations)], sort=False)
     concat_df.to_csv(
         "traceback_inputs.maf", header=True, index=None, sep="\t", mode="w"
     )
@@ -287,7 +313,7 @@ def main():
     :return:
     """
     parser = argparse.ArgumentParser(
-        prog="traceback.py", description="FILL", usage="%(prog)s [options]"
+        prog="traceback_inputs.py", description="FILL", usage="%(prog)s [options]"
     )
     parser.add_argument(
         "-t",
@@ -306,15 +332,29 @@ def main():
         help="Input txt file of tumor informed mutations",
     )
     parser.add_argument(
-        "-ml",
-        "--mutation_list",
+        "-ef",
+        "--exonic_filtered",
         action="store",
-        dest="mutation_list",
+        dest="exonic_filtered",
         required=True,
-        help="List of mutation files from the current project",
+        help="Path to exonic filtered mutations file",
     )
+    parser.add_argument(
+        "-sf",
+        "--silent_filtered",
+        action="store",
+        dest="silent_filtered",
+        required=True,
+        help="Path to silent filtered mutations file",
+    )
+
     args = parser.parse_args()
-    group_mutations_maf(args.title_file, args.ti_mutations, args.mutation_list)
+    group_mutations_maf(
+        args.title_file, args.ti_mutations, args.exonic_filtered, args.silent_filtered
+    )
+    # TODO:
+    # make a traceback map so that duplex and simplex bam mutations can be supported.
+    #  currently, only standard/IMPACT bam mutations are supported.
     # make_traceback_map(
     #    args.tumor_duplex_bams + args.tumor_simplex_bams,
     #    args.title_file,

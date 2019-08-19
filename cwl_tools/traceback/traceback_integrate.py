@@ -1,33 +1,284 @@
 #!/usr/bin/env python
 import os
+import re
 import sys
+import shutil
+import argparse
 import pandas as pd
+import numpy as np
 
-def main(tbi_f, tbo_f, vf, of):
-    tbi_maf = pd.read_csv(tbi_f, sep="\t", header="infer", dtype=object)
-    tbo_maf = pd.read_csv(tbo_f, header="infer", sep="\t", dtype=object)
 
-    tbf = pd.merge(tbo_maf, tbi_maf, how="left", left_on=["Chromosome", "Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele1"], right_on=["Chromosome", "Start_Position", "End_Position", "Reference_Allele", "Tumor_Seq_Allele2"])
+def integrate_genotypes(args):
+    tbi_maf = pd.read_csv(
+        args.traceback_inputs_maf, sep="\t", header="infer", dtype=object
+    )
+    tbo_maf = pd.read_csv(
+        args.traceback_out_maf, header="infer", sep="\t", dtype=object
+    )
+    title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer")
+    control_samples = title_file_df[title_file_df["Class"].str.contains("Pool")]["Sample"].values.tolist()
 
-    tbf = tbf[["Hugo_Symbol_x", 'VCF_POS', 'VCF_REF', 'VCF_ALT', 't_ref_count_fragment', 't_alt_count_fragment',  'Tumor_Sample_Barcode_x', 'Chromosome']]
+    tbf = pd.merge(
+        tbo_maf,
+        tbi_maf,
+        how="left",
+        left_on=[
+            "Chromosome",
+            "Start_Position",
+            "End_Position",
+            "Reference_Allele",
+            "Tumor_Seq_Allele1",
+        ],
+        right_on=[
+            "Chromosome",
+            "Start_Position",
+            "End_Position",
+            "Reference_Allele",
+            "Tumor_Seq_Allele2",
+        ],
+    )
+    tbf = tbf[
+        [
+            "Hugo_Symbol_x",
+            "VCF_POS",
+            "VCF_REF",
+            "VCF_ALT",
+            "t_total_count_fragment",
+            "t_ref_count_fragment",
+            "t_alt_count_fragment",
+            "Tumor_Sample_Barcode_x",
+            "Chromosome",
+            "Run",
+            "Accession",
+            "MRN",
+        ]
+    ]
 
-    tbf['t_vaf_fragment'] = tbf['t_alt_count_fragment'].apply(float)/(tbf['t_alt_count_fragment'].apply(float) + tbf['t_ref_count_fragment'].apply(float))
+    tbf["t_vaf_fragment"] = tbf["t_alt_count_fragment"].apply(float) / (
+        tbf["t_alt_count_fragment"].apply(float)
+        + tbf["t_ref_count_fragment"].apply(float)
+    )
+    tbf["t_vaf_fragment"].replace([np.inf, np.nan], 0, inplace=True)
+    intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
+    intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
 
-    variants = pd.read_csv(vf, header="infer", sep="\t", keep_default_na=False)
+    tbf = tbf[
+        [
+            "Run",
+            "MRN",
+            "Tumor_Sample_Barcode_x",
+            "Accession",
+            "Chromosome",
+            "VCF_POS",
+            "VCF_REF",
+            "VCF_ALT",
+            "t_total_count_fragment",
+            "t_ref_count_fragment",
+            "t_alt_count_fragment",
+            "t_vaf_fragment",
+        ]
+    ].rename(
+        index=str,
+        columns={
+            "Run": "#Run",
+            "MRN": "MRN",
+            "Tumor_Sample_Barcode_x": "Sample",
+            "Accession": "Accession",
+            "Chromosome": "Chr",
+            "VCF_POS": "Pos",
+            "VCF_REF": "Ref",
+            "VCF_ALT": "Alt",
+            "t_total_count_fragment": "DP",
+            "t_ref_count_fragment": "RD",
+            "t_alt_count_fragment": "AD",
+            "t_vaf_fragment": "VF",
+        },
+    )
+    # Merge and rempve bam types from sample id
+    tbf_simplex = tbf[tbf["Sample"].str.contains("SIMPLEX")]
+    tbf_duplex = tbf[tbf["Sample"].str.contains("DUPLEX")]
+    tbf_standard = tbf[tbf["Sample"].str.contains("STANDARD")]
+    for metric in ["DP", "RD", "AD"]:
+        tbf_duplex[metric] = tbf_duplex[metric] + tbf_simplex[metric]
+    tbf_duplex["VF"] = tbf_duplex["AD"].apply(float) / (
+        tbf_duplex["AD"].apply(float)
+        + tbf_duplex["RD"].apply(float)
+    )
+    tbf_duplex["VF"].replace([np.inf, np.nan], 0, inplace=True)
+    tbf = pd.concat([tbf_standard, tbf_duplex])
+    tbf["Sample"] = tbf["Sample"].replace(to_replace="_STANDARD$|_DUPLEX$", value="", regex=True)
 
+    # Add dummy columns to satisfy cvr requirements.
+    for index in ["RDP", "RDN", "ADP", "ADN", "SB"]:
+        tbf[index] = ""
+
+    # filter traceback out based on Run:Accession:MRN key
+    i1 = tbi_maf.set_index(["Run", "Accession", "MRN", "Tumor_Sample_Barcode"]).index
+    i2 = tbf.set_index(["#Run", "Accession", "MRN", "Sample"]).index
+    #tbf = tbf[i2.isin(i1)]
+
+    # print traceback multi-line header
+    with open(os.path.join(os.getcwd(), "traceback.txt"), "w") as tf:
+        tf.write(traceback_header())
+    # print traceback data
+    tbf.to_csv(
+        os.path.join(os.getcwd(), "traceback.txt"),
+        header=True,
+        sep="\t",
+        index=False,
+        mode="a",
+    )
+
+
+def intersect_variants(filtered, dropped, tbf, control_samples=[]):
+    """
+    parse genotyped data and re-classify filtered and dropped variants.
+    """
+    df_from_each_file = (
+        pd.read_csv(f, index_col=None, header=0, sep="\t", keep_default_na=False)
+        for f in [filtered, dropped]
+    )
+    # convert all all variant to maf and concat into a single df
+    variants = pd.concat(df_from_each_file, ignore_index=True)
+    variants["Mutation_Class"] = variants["Mutation_Class"].fillna('')
+    filtered_target, dropped_target = map(
+        lambda x: os.path.basename(x), [filtered, dropped]
+    )
+    filtered_source, dropped_source = map(
+        lambda x: os.path.join(
+            os.path.dirname(filtered), re.sub(".txt$", ".pre_traceback.txt", x)
+        ),
+        [filtered_target, dropped_target],
+    )
+
+    # rename source files
+    shutil.copy(filtered, filtered_source)
+    shutil.copy(dropped, dropped_source)
+
+    # write new filtered and dropped files
     for i, var in enumerate(variants.itertuples()):
         Sample = var.Sample
+        if Sample in control_samples:
+            continue
         Patient_ID = Sample.split("-")[0]
-        select = tbf[(tbf['VCF_REF'].values == var.Ref) & (tbf['VCF_ALT'].values == var.Alt) & (tbf['VCF_POS'].apply(int).values == int(var.Start)) & (tbf['t_vaf_fragment'].apply(float).values >= 0.02)]
-        select = select[~(select["Tumor_Sample_Barcode_x"].str.contains("DUPLEX")) & ~(select["Tumor_Sample_Barcode_x"].str.contains("SIMPLEX"))]
-        select = select[select['Tumor_Sample_Barcode_x'].str.contains(Patient_ID)]
+        select = tbf[
+            (tbf["VCF_REF"].values == var.Ref)
+            & (tbf["VCF_ALT"].values == var.Alt)
+            & (tbf["VCF_POS"].apply(int).values == int(var.Start))
+            & (tbf["t_vaf_fragment"].apply(float).values >= 0.02)
+        ]
+        select = select[
+            ~(select["Tumor_Sample_Barcode_x"].str.contains("DUPLEX"))
+            & ~(select["Tumor_Sample_Barcode_x"].str.contains("SIMPLEX"))
+        ]
+        select = select[select["Tumor_Sample_Barcode_x"].str.contains(Patient_ID)]
         if select.shape[0] > 0:
-            variants.at[i, 'Mutation_Class'] = ",".join([variants["Mutation_Class"][i], "Genotyped"])
-    variants.to_csv(of, header=True, index=None, sep="\t", mode="w")
+            mut_class = ",".join([variants["Mutation_Class"][i], "Genotyped"])
+            variants.at[i, "Mutation_Class"] = (
+                mut_class[1:] if mut_class.startswith(",") else mut_class
+            )
+    variants[~(variants["Mutation_Class"] == "")].to_csv(
+        filtered_target, header=True, index=None, sep="\t", mode="w"
+    )
+    variants[variants["Mutation_Class"] == ""].to_csv(
+        dropped_target, header=True, index=None, sep="\t", mode="w"
+    )
+
+
+def traceback_header():
+    """
+    return traceback header.
+    """
+    header = """##fileformat=Traceback v1.1
+##COLUMN=<ID=Run,Type=AlphNum,Description="Pool/Cohort level identifier">
+##COLUMN=<ID=MRN,Type=Integer,Description="Patient identifier">
+##COLUMN=<ID=Sample,Type=AlphaNum,Description="Unique sample identifier">
+##COLUMN=<ID=Accesssion,Type=AlphaNum,Description="Unique sample identifier">
+##COLUMN=<ID=Chr,Type=AlphNum,Description="Chromosome">
+##COLUMN=<ID=Pos,Type=Integer,Description="Starting genomic coordinate of the variant">
+##COLUMN=<ID=Ref,Type=Alpha,Description="Reference base(s)">
+##COLUMN=<ID=Alt,Type=Alpha,Description="Variant base(s)">
+##COLUMN=<ID=DP,Type=Integer,Description="Total fragment depth">
+##COLUMN=<ID=RD,Type=Integer,Description="Reference fragment count">
+##COLUMN=<ID=AD,Type=Integer,Description="Variant fragment count">
+##COLUMN=<ID=VF,Type=Float,Description="Variant frequency">
+##COLUMN=<ID=RDP,Type=Null,Description="Reference depth positive strand">
+##COLUMN=<ID=RDN,Type=Null,Description="Reference depth negative strand">
+##COLUMN=<ID=ADP,Type=Null,Description="Variant depth positive strand">
+##COLUMN=<ID=ADN,Type=Null,Description="Variant depth negative strand">
+##COLUMN=<ID=SB,Type=Null,Description="positive-negative strand bias ratio and fisher two-tailed test p-values for strand bias">
+"""
+    return header
+
+
+def main():
+    """
+    Parse arguments
+
+    :return:
+    """
+    parser = argparse.ArgumentParser(
+        prog="traceback_inputs.py", description="FILL", usage="%(prog)s [options]"
+    )
+    parser.add_argument(
+        "-t",
+        "--title_file",
+        action="store",
+        dest="title_file",
+        required=False,
+        help="Title file",
+    )
+    parser.add_argument(
+        "-ef",
+        "--exonic_filtered",
+        action="store",
+        dest="exonic_filtered",
+        required=True,
+        help="Path to exonic filtered mutations file",
+    )
+    parser.add_argument(
+        "-sf",
+        "--silent_filtered",
+        action="store",
+        dest="silent_filtered",
+        required=True,
+        help="Path to silent filtered mutations file",
+    )
+    parser.add_argument(
+        "-ed",
+        "--exonic_dropped",
+        action="store",
+        dest="exonic_dropped",
+        required=True,
+        help="Path to exonic dropped mutations file",
+    )
+    parser.add_argument(
+        "-sd",
+        "--silent_dropped",
+        action="store",
+        dest="silent_dropped",
+        required=True,
+        help="Path to silent dropped mutations file",
+    )
+    parser.add_argument(
+        "-tim",
+        "--traceback_inputs_maf",
+        action="store",
+        dest="traceback_inputs_maf",
+        required=True,
+        help="Path to traceback inputs maf file",
+    )
+    parser.add_argument(
+        "-tom",
+        "--traceback_out_maf",
+        action="store",
+        dest="traceback_out_maf",
+        required=True,
+        help="Path to genotyped traceback output maf file",
+    )
+    args = parser.parse_args()
+    integrate_genotypes(args)
+
 
 if __name__ == "__main__":
-    tbi_f = sys.argv[1]
-    tbo_f = sys.argv[2]
-    vf = sys.argv[3]
-    of = sys.argv[4]
-    main(tbi_f, tbo_f, vf, of)
+    main()
