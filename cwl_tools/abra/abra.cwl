@@ -5,7 +5,7 @@ class: CommandLineTool
 arguments:
 - $(inputs.java)
 - -Xmx50g
-- -Djava.io.tmpdir=$(inputs.working_directory.path)
+- -Djava.io.tmpdir=$(runtime.tmpdir)
 - -jar
 - $(inputs.abra)
 
@@ -32,9 +32,10 @@ inputs:
     type: string
 
   working_directory:
-    type: Directory
+    type: Directory?
     inputBinding:
       prefix: --tmpdir
+      valueFrom: $(runtime.tmpdir)
 
   reference_fasta:
     type: string

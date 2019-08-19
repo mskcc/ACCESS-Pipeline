@@ -90,11 +90,6 @@ steps:
         valueFrom: ${return inputs.input_file.basename.replace('.list', '.bed.srt')}
     out: [output_file]
 
-  make_abra_tmp_dir:
-    run: ../../cwl_tools/python/make_directory.cwl
-    in: []
-    out: [empty_dir]
-
   abra:
     run: ../../cwl_tools/abra/abra.cwl
     in:
@@ -109,8 +104,6 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
-#      kmer:
-#        valueFrom: $(inputs.params.kmers)
       mad:
         valueFrom: $(inputs.params.mad)
       sc:
@@ -130,7 +123,6 @@ steps:
 
       threads:
         valueFrom: $(12)
-      working_directory: make_abra_tmp_dir/empty_dir
       out:
         valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
     out:
