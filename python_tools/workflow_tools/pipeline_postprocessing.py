@@ -341,7 +341,7 @@ class AccessProject(object):
             # Create tumor normal pair file
             self._logger.info(
                 "Copying {} to {}.".format(
-                    self._process_dir + "/Title_file_to_paired.csv",
+                    os.path.join(self._process_dir, "../Title_file_to_paired.csv"),
                     target_dir
                     + "/"
                     + self._project_name
@@ -392,7 +392,7 @@ class AccessProject(object):
                 target_dir + "/annotated_nonpanel_silent_variants.txt",
             )
             ccopy(
-                self._process_dir + "/" + "traceback.txt", target_dir + "/traceback.txt"
+                self._process_dir + "/traceback.txt", target_dir + "/traceback.txt"
             )
             # Variants failing filters
             dropped_variants_files = map(

@@ -63,19 +63,19 @@ outputs:
   filtered_exonic_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanel.ExonicFiltered.txt'
+      glob: '*_NonPanelExonicFiltered.txt'
 
   dropped_exonic_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanel.ExonicDropped.txt'
+      glob: '*_NonPanelExonicDropped.txt'
 
   filtered_silent_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanel.SilentFiltered.txt'
+      glob: '*_NonPanelSilentFiltered.txt'
 
   dropped_silent_nonpanel:
     type: File
     outputBinding:
-      glob: '*_NonPanel.SilentDropped.txt'
+      glob: '*_NonPanelSilentDropped.txt'
