@@ -1,0 +1,2 @@
+Chromosome	Start_Position	End_Position	Reference_Allele	Tumor_Seq_Allele	Annotation
+9	21974792	21974792	G	A	CDKN2A_p.S12L
