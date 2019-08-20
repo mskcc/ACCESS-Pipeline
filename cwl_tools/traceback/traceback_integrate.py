@@ -16,7 +16,33 @@ def integrate_genotypes(args):
         args.traceback_out_maf, header="infer", sep="\t", dtype=object
     )
     title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer")
-    control_samples = title_file_df[title_file_df["Class"].str.contains("Pool")]["Sample"].values.tolist()
+    # df of sample identifiers for samples in current project
+    sample_identifiers = title_file_df[
+        ["Pool", "Sample", "AccessionID", "Patient_ID"]
+    ].rename(
+        index=str,
+        columns={
+            "Pool": "Run",
+            "Sample": "Sample",
+            "AccessionID": "Accession",
+            "Patient_ID": "MRN",
+        },
+    )
+    # add samples identifiers for samples from previous projects
+    sample_identifiers_from_tb = (
+        tbi_maf[["Run", "Tumor_Sample_Barcode", "Accession", "MRN"]]
+        .rename(index=str, columns={"Tumor_Sample_Barcode": "Sample"})
+        .drop_duplicates()
+    )
+
+    sample_identifiers = pd.concat(
+        [sample_identifiers, sample_identifiers_from_tb]
+    ).drop_duplicates()
+
+    # control samples from current project that should be skipped in genotyping
+    control_samples = title_file_df[title_file_df["Class"].str.contains("Pool")][
+        "Sample"
+    ].values.tolist()
 
     tbf = pd.merge(
         tbo_maf,
@@ -37,6 +63,8 @@ def integrate_genotypes(args):
             "Tumor_Seq_Allele2",
         ],
     )
+    # select required columns and drop duplicates
+
     tbf = tbf[
         [
             "Hugo_Symbol_x",
@@ -48,17 +76,42 @@ def integrate_genotypes(args):
             "t_alt_count_fragment",
             "Tumor_Sample_Barcode_x",
             "Chromosome",
-            "Run",
-            "Accession",
-            "MRN",
+            # "Run",
+            # "Accession",
+            # "MRN",
         ]
-    ]
+    ].drop_duplicates()
+
+    # create a new column of sample name with DUPLEX/SIMPLEX/STANDARD identifiers
+    tbf["Tumor_Sample_Barcode_simplified"] = tbf["Tumor_Sample_Barcode_x"].replace(
+        to_replace="_STANDARD$|_SIMPLEX|_DUPLEX$", value="", regex=True
+    )
+
+    # integrate sample identifiers
+    tbf = pd.merge(
+        tbf,
+        sample_identifiers,
+        how="left",
+        left_on=["Tumor_Sample_Barcode_simplified"],
+        right_on=["Sample"],
+    )
 
     tbf["t_vaf_fragment"] = tbf["t_alt_count_fragment"].apply(float) / (
         tbf["t_alt_count_fragment"].apply(float)
         + tbf["t_ref_count_fragment"].apply(float)
     )
-    tbf["t_vaf_fragment"].replace([np.inf, np.nan], 0, inplace=True)
+
+    # remove genotyped variants that do not match positions
+    # TODO: why is this happening? GBCM?
+    tbf[tbf["VCF_POS"].isnull()].to_csv(
+        os.path.join(os.getcwd(), "traceback_orphan_data.txt"),
+        header=True,
+        index=None,
+        sep="\t",
+    )
+    tbf = tbf[tbf["VCF_POS"].notnull()]
+
+    tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0, inplace=True)
     intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
     intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
 
@@ -101,21 +154,22 @@ def integrate_genotypes(args):
     for metric in ["DP", "RD", "AD"]:
         tbf_duplex[metric] = tbf_duplex[metric] + tbf_simplex[metric]
     tbf_duplex["VF"] = tbf_duplex["AD"].apply(float) / (
-        tbf_duplex["AD"].apply(float)
-        + tbf_duplex["RD"].apply(float)
+        tbf_duplex["AD"].apply(float) + tbf_duplex["RD"].apply(float)
     )
-    tbf_duplex["VF"].replace([np.inf, np.nan], 0, inplace=True)
+    tbf_duplex["VF"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
     tbf = pd.concat([tbf_standard, tbf_duplex])
-    tbf["Sample"] = tbf["Sample"].replace(to_replace="_STANDARD$|_DUPLEX$", value="", regex=True)
+    tbf["Sample"] = tbf["Sample"].replace(
+        to_replace="_STANDARD$|_DUPLEX$", value="", regex=True
+    )
 
     # Add dummy columns to satisfy cvr requirements.
     for index in ["RDP", "RDN", "ADP", "ADN", "SB"]:
         tbf[index] = ""
 
     # filter traceback out based on Run:Accession:MRN key
-    i1 = tbi_maf.set_index(["Run", "Accession", "MRN", "Tumor_Sample_Barcode"]).index
-    i2 = tbf.set_index(["#Run", "Accession", "MRN", "Sample"]).index
-    #tbf = tbf[i2.isin(i1)]
+    # i1 = tbi_maf.set_index(["Run", "Accession", "MRN", "Tumor_Sample_Barcode"]).index
+    # i2 = tbf.set_index(["#Run", "Accession", "MRN", "Sample"]).index
+    # tbf = tbf[i2.isin(i1)]
 
     # print traceback multi-line header
     with open(os.path.join(os.getcwd(), "traceback.txt"), "w") as tf:
@@ -140,7 +194,7 @@ def intersect_variants(filtered, dropped, tbf, control_samples=[]):
     )
     # convert all all variant to maf and concat into a single df
     variants = pd.concat(df_from_each_file, ignore_index=True)
-    variants["Mutation_Class"] = variants["Mutation_Class"].fillna('')
+    variants["Mutation_Class"] = variants["Mutation_Class"].fillna("")
     filtered_target, dropped_target = map(
         lambda x: os.path.basename(x), [filtered, dropped]
     )
