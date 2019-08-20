@@ -51,8 +51,8 @@ outputs:
     outputBinding:
       glob: $('distance_vectors.tsv')
   
-  results:
-    type: File?
+  admie_results:
+    type: File
     outputBinding:
       glob: $('msi_results.txt')
   
@@ -60,7 +60,7 @@ outputs:
   plots:
     type: File[]?
     outputBinding:
-      glob: $('*_MSI_QC.pdf')
+      glob: '*_MSI_QC.pdf'
 
   standard_out:
     type: stdout

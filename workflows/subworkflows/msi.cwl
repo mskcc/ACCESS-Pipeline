@@ -58,7 +58,7 @@ outputs:
     outputSource: admie/distance_vectors
   admie_results:
     type: File
-    outputSource: admie/results
+    outputSource: admie/admie_results
   plots:
     type: File[]?
     outputSource: admie/plots
@@ -102,7 +102,7 @@ steps:
       coverage_data: coverage_data
     out: [
       distance_vectors,
-      results,
+      admie_results,
       plots,
       standard_out,
       standard_err
