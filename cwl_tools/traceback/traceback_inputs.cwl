@@ -18,7 +18,7 @@ inputs:
   title_file:
     type: File
     inputBinding:
-      prefix: --tile_file
+      prefix: --title_file
 
   exonic_filtered_mutations:
     type: File
