@@ -67,6 +67,7 @@ class AccessProject(object):
         self._parse_title_file()
         for key, val in self._get_analysis_type().items():
             self._process_dir = val
+            print(">>> Post-processing directory: {}\n".format(val))
             if key == "qc":
                 self._qc_post_processing()
             self._clean()
@@ -101,7 +102,8 @@ class AccessProject(object):
                 os.makedirs(dirname)
         except OSError as e:
             if e.errno == errno.EEXIST:
-                print("NOTE: {} already exists!".format(dirname))
+                pass
+                # print("NOTE: {} already exists!".format(dirname))
             else:
                 raise
 
@@ -113,10 +115,9 @@ class AccessProject(object):
             filter(lambda x: TOIL_LOG.match(x), os.listdir(self._process_dir))
         )
 
-        if not self._dry_run:
-            self._logger.warn(
-                "Deleting Toil temporary files, workflow can no longer be restarted after this action."
-            )
+        self._logger.warn(
+            "Deleting Toil temporary files, workflow can no longer be restarted after this action."
+        )
         tempdirs = list(
             filter(
                 lambda x: TMPDIR_SEARCH.match(x) or OUT_TMPDIR_SEARCH.match(x),
@@ -153,7 +154,9 @@ class AccessProject(object):
             )
 
         if len(sample_ids) != len(set(sample_ids)):
-            raise Exception("Duplicate sampleIDs present in {}".format(self._title_file))
+            raise Exception(
+                "Duplicate sampleIDs present in {}".format(self._title_file)
+            )
 
         if not self._project_name:
             try:
@@ -284,18 +287,24 @@ class AccessProject(object):
             if not self._dry_run:
                 shutil.move(old_loc, target_dir)
 
-    def _miscellaneous_processing(self, mis_pros_dir="cvr_files", analysis_type="qc"):
+    def _miscellaneous_processing(self, analysis_type="qc"):
         """
         Miscellaneous processes that are not part of the main methods.
         """
 
         def ccopy(src, target):
-            logging.info("Copying {} to {}".format(src, target))
+            """
+            helper copy function that will complete the copy
+            action if self._dry_run is not true.
+            """
+            self._logger.info("Copying {} to {}".format(src, target))
             if not self._dry_run:
                 shutil.copy(src, target)
 
-        target_dir = os.path.join(os.path.dirname(self._process_dir), mis_pros_dir)
+        # set and create, if necessary, the target directory
+        target_dir = os.path.abspath(self._ap)
         self._make_dir(target_dir)
+
         if analysis_type == "qc":
             ccopy(
                 self._process_dir
@@ -309,7 +318,7 @@ class AccessProject(object):
         if analysis_type == "sv":
             ccopy(
                 self._process_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
-                target_dir + "/annotated_structural_variants.txt",
+                target_dir + self._project_name + "_AllAnnotatedSVs.txt",
             )
         if analysis_type == "cnv":
             ccopy(
@@ -330,12 +339,35 @@ class AccessProject(object):
             # target_dir + "/probes_level_cnv.json")
         if analysis_type == "vc":
             # Create tumor normal pair file
-            self._logger.info("Copying {} to {}.".format(self._process_dir + "/Title_file_to_paired.csv", target_dir + "/" + self._project_name + "_NormalUsedInMutationCalling.txt"))
+            self._logger.info(
+                "Copying {} to {}.".format(
+                    self._process_dir + "/Title_file_to_paired.csv",
+                    target_dir
+                    + "/"
+                    + self._project_name
+                    + "_NormalUsedInMutationCalling.txt",
+                )
+            )
             if not self._dry_run:
-                normals_file = pd.read_csv(self._process_dir + "/Title_file_to_paired.csv", index_col=None, header=0, sep="\t")
-                normals_file["normal_id"] = normals_file["normal_id"].replace(np.NaN, "Unmatched")
-                normals_file.to_csv(target_dir + "/" + self._project_name + "_NormalUsedInMutationCalling.txt", header=False, index=None, sep="\t")
-            
+                normals_file = pd.read_csv(
+                    os.path.join(self._process_dir, "../Title_file_to_paired.csv"),
+                    index_col=None,
+                    header=0,
+                    sep="\t",
+                )
+                normals_file["normal_id"] = normals_file["normal_id"].replace(
+                    np.NaN, "Unmatched"
+                )
+                normals_file.to_csv(
+                    target_dir
+                    + "/"
+                    + self._project_name
+                    + "_NormalUsedInMutationCalling.txt",
+                    header=False,
+                    index=None,
+                    sep="\t",
+                )
+
             # Variants passing filters
             ccopy(
                 self._process_dir + "/" + self._project_name + "_ExonicFiltered.txt",
@@ -358,6 +390,9 @@ class AccessProject(object):
                 + self._project_name
                 + "_NonPanelSilentFiltered.txt",
                 target_dir + "/annotated_nonpanel_silent_variants.txt",
+            )
+            ccopy(
+                self._process_dir + "/" + "traceback.txt", target_dir + "/traceback.txt"
             )
             # Variants failing filters
             dropped_variants_files = map(
@@ -447,7 +482,7 @@ def main():
     )
     parser.add_argument(
         "-cd",
-        "--cv_directory",
+        "--cnv_directory",
         action="store",
         dest="cd",
         help="Copy number directory that is required to be cleaned.",
@@ -468,8 +503,8 @@ def main():
         "-ap",
         "--additional_processing",
         dest="ap",
-        action="store_true",
-        help="Perform additional user defined post-processing that is not required for the main pipeline",
+        action="store",
+        help="Perform additional user defined post-processing that is not required for the main pipeline and copy the final files to the directory provided.",
         required=False,
     )
     args = parser.parse_args()
@@ -479,7 +514,7 @@ def main():
         args.logLevel = "DEBUG"
 
     logging.basicConfig(level=getattr(logging, args.logLevel))
-    logger = logging.getLogger("Post_Proccessing")
+    logger = logging.getLogger("Post_Processing")
 
     if not any([args.pd, args.qcd, args.vcd, args.md, args.svd, args.cd]):
         raise Exception(
