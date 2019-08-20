@@ -64,7 +64,7 @@ ENTRY_POINTS = """
         remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main
         annotate_concat = cwl_tools.concatVCF.annotate_concat:main
         maf2tsv = python_tools.workflow_tools.maf2tsv:main
-        traceback_input = cwl_tools.traceback.traceback_input:main
+        traceback_inputs = cwl_tools.traceback.traceback_inputs:main
         traceback_integrate = cwl_tools.traceback.traceback_integrate:main
         """
 
