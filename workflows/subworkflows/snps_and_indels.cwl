@@ -17,14 +17,14 @@ requirements:
       - $import: ../../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../../resources/run_params/schemas/access_filters.yaml
       - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
-      - $import: ../../resources/run_tools/traceback.yaml
+      # - $import: ../../resources/run_tools/traceback.yaml
 
 inputs:
 
   project_name: string
   version: string
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  traceback: ../../resources/run_tools/traceback.yaml#traceback
+  # traceback: ../../resources/run_tools/traceback.yaml#traceback
 
   mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -54,23 +54,17 @@ inputs:
   genotyping_bams:
     type: File[]
     secondaryFiles: [^.bai]
-  traceback: traceback
-  # traceback_bams:
-  #   valueFrom: $(inputs.Traceback.bam_files)
-  #   type: File[]
-  #   secondaryFiles: [^.bai]
+  traceback_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
   genotyping_bams_ids: string[]
   matched_normal_ids: string[]
-  # traceback_sample_ids:
-  #   valueFrom: $(inputs.Traceback.ids)
-  #   type: string[]
+  traceback_sample_ids: string[]
 
-  # traceback_input_mutations:
-  #   valueFrom: $(inputs.Traceback.traceback_mutation_file)
-  #   type: File
+  traceback_mutation_file: File
   bed_file: File
   refseq: File
 
@@ -295,12 +289,9 @@ steps:
       title_file: title_file
       gbcms_params: gbcms_params
       run_tools: run_tools
-      traceback_sample_ids:
-        valueFrom: $(traceback.ids)
-      traceback_bams:
-        valueFrom: $(traceback.bam_files)
-      traceback_input_mutations:
-        valueFrom: $(traceback.traceback_mutation_file)
+      traceback_sample_ids: traceback_sample_ids
+      traceback_bams: traceback_bams
+      traceback_input_mutations: traceback_mutation_file
       ref_fasta: ref_fasta
     out: [
         collated_maf,

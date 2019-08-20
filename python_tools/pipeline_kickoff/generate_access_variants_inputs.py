@@ -470,21 +470,18 @@ def create_traceback_inputs(
     # create traceback yaml objects
     traceback_bams = create_yaml_file_objects(traceback_bams)
 
-    traceback_data = {
-        "Traceback": {
-            "traceback_mutation_file": str(args.traceback_mutations or ""),
-            "bam_files": traceback_bams,
-            "ids": traceback_samples,
-        }
-    }
-    # ruamel.yaml.indent(mapping=2, sequence=4, offset=2)
-    fh.write(ruamel.yaml.dump(traceback_data, indent=2))
-
-    # fh.write("Traceback:\n")
-    # fh.write("traceback_mutation_file: " + str(args.traceback_mutations or "") + "\n")
-    # ruamel.yaml.indent(offset=2)
-    # fh.write(ruamel.yaml.dump({"traceback_sample_ids": traceback_samples}))
-    # fh.write(ruamel.yaml.dump({"traceback_bams": traceback_bams}))
+    # traceback_data = {
+    #     "traceback": {
+    #         "traceback_mutation_file: {class: File, path: \{}": str(args.traceback_mutations or ""),
+    #         "bam_files": traceback_bams,
+    #         "ids": traceback_samples,
+    #     }
+    # }
+    #fh.write(ruamel.yaml.dump(traceback_data, indent=2))
+    fh.write("#Traceback:\n")
+    fh.write("traceback_mutation_file: {{class: File, path: {}}}\n".format(str(args.traceback_mutations)))
+    fh.write(ruamel.yaml.dump({"traceback_sample_ids": traceback_samples}))
+    fh.write(ruamel.yaml.dump({"traceback_bams": traceback_bams}))
     fh.write(INPUTS_FILE_DELIMITER)
 
 
