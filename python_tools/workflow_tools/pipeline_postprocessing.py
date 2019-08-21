@@ -319,7 +319,7 @@ class AccessProject(object):
         if analysis_type == "sv":
             ccopy(
                 self._process_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
-                target_dir + self._project_name + "_AllAnnotatedSVs.txt",
+                target_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
             )
         if analysis_type == "cnv":
             ccopy(
