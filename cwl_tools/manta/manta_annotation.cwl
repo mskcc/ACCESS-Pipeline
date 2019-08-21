@@ -42,6 +42,11 @@ inputs:
     type: string
     inputBinding:
       position: 6
+  
+  java:
+    type: string
+    inputBinding:
+      position: 7
 
 outputs:
 

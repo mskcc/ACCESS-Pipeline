@@ -114,6 +114,8 @@ steps:
         valueFrom: $(inputs.run_tools.manta)
       manta_python:
         valueFrom: $(inputs.run_tools.manta_python)
+      java:
+        valueFrom: $(inputs.run_tools.java_8)
 
       vcf: manta/sv_vcf
       sample_id: sv_sample_id
