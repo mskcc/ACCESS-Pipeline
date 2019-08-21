@@ -101,7 +101,30 @@ def generate_pairing_file(args):
     :return paired_df: dict
     """
     tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer")
-    # tf["Class"] = np.where((tf["Class"].str.contains("Pool")), "Tumor", tf["Class"])
+    tumor_samples = tf[~(tf["Class"] == "Normal")]["Sample"].values.tolist()
+
+    # if coverage file is provided, drop low coverage samples.
+    if args.coverage_file:
+        coverage_df = pd.read_csv(args.coverage_file, header=0, sep="\t")
+        samples_failing_coverage = coverage_df[
+            (coverage_df["Duplex"] <= args.mdcov) |
+            (coverage_df["Simplex"] <= args.mscov) |
+            (coverage_df["All Unique"] <= args.mucov) |
+            (coverage_df["TotalCoverage"] <= args.mtcov)
+        ]["Sample"].values.tolist()
+
+        # only select tumor samples
+        samples_failing_coverage = list(set(samples_failing_coverage) & set(tumor_samples))
+        # Get patientID/MRN for samples failing coverage
+        uniqueID_failing_coverage = tf[tf["Sample"].isin(samples_failing_coverage)]["Patient_ID"].values.tolist()
+        # Write out low coverage samples and their mates
+        tf[tf["Sample"].isin(samples_failing_coverage)].to_csv(os.path.join(os.getcwd(), "samples_skipped.txt"), header=True, index=False, sep="\t")
+        
+        # only retain paired samples in which both of the pair pass coverage requirement
+        tf = tf[~(tf["Sample"].isin(samples_failing_coverage))]
+
+
+    # Merge title file with itself to find T/N pairing
     tfmerged = pd.merge(tf, tf, on=GROUP_BY_ID, how="left")
     try:
         tfmerged = tfmerged[
@@ -121,6 +144,9 @@ def generate_pairing_file(args):
                 args.title_file_path, ", ".join(TITLE_FILE_PAIRING_EXPECTED_COLUMNS)
             )
         )
+
+
+    # pair by either sample class (Tumor/normal), which is default, or sample type (plasma/buffy)
     if args.pair_by == SAMPLE_CLASS:
         paired = tfmerged[
             (tfmerged[CLASS_PAIR1] == TUMOR_CLASS)
@@ -301,11 +327,12 @@ def create_inputs_file(args):
         try:
             title_file_df, pairing_df = generate_pairing_file(args)
         except (KeyError, ValueError, IndexError):
-            raise Exception(
+            print(
                 "Cannot create Tumor Normal pairing file from {}".format(
                     args.title_file_path
                 )
             )
+            raise
 
     tumor_ids, normal_ids, patient_ids = (
         filter(None, pairing_df[TUMOR_ID].tolist()),
@@ -903,6 +930,49 @@ def parse_arguments():
         help="Sequencing machine used",
         choices=["novaseq", "hiseq"],
         default="novaseq",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-cf",
+        "--coverage_file",
+        help="panelA coverage file",
+        required=False,
+    )
+
+    parser.add_argument(
+        "-mdcov",
+        "--min_duplex_coverage",
+        help="Min duplex coverage to perform analysis on a sample",
+        dest="mdcov",
+        default=200,
+        required=False,
+    )
+
+    parser.add_argument(
+        "-mscov",
+        "--min_simplex_coverage",
+        help="Min simplex coverage to perform analysis on a sample",
+        dest="mscov",
+        default=0,
+        required=False,
+    )
+
+    parser.add_argument(
+        "-mucov",
+        "--min_unique_coverage",
+        help="Min all unique coverage to perform analysis on a sample",
+        dest="mucov",
+        default=200,
+        required=False,
+    )
+
+    parser.add_argument(
+        "-mtcov",
+        "--min_total_coverage",
+        help="Min standard/total coverage to perform analysis on a sample",
+        dest="mtcov",
+        default=500,
         required=False,
     )
 
