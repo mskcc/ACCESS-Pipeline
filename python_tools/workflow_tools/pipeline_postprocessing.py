@@ -5,6 +5,7 @@ import shutil
 import logging
 import argparse
 import pandas as pd
+import numpy as np
 
 from python_tools.util import substring_in_list, listdir
 from python_tools.constants import (
