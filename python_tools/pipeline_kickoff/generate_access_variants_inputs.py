@@ -950,7 +950,7 @@ def parse_arguments():
         "--min_duplex_coverage",
         help="Min duplex coverage to perform analysis on a sample",
         dest="mdcov",
-        default=200,
+        default=150,
         required=False,
     )
 
