@@ -66,7 +66,7 @@ def version():
         + get_commit_count_after_tag()
         + "."
         + get_commit()
-        + (".dirty" if dirty() else "")
+        #+ (".dirty" if dirty() else "")
     )
 
     with open(
