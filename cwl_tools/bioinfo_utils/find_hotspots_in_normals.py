@@ -42,7 +42,7 @@ def create_file_of_pileups(args):
     :return:
     """
     def duplex_or_unfiltered_pileup(row):
-        if row['sample_class'] == 'Tumor':
+        if row['sample_class'] in ['Tumor', 'PoolTumor', 'PoolNormal']:
             return args.duplex_pileups[row.name]
         elif row['sample_class'] == 'Normal':
             return args.unfiltered_pileups[row.name]
