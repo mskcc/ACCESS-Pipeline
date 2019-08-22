@@ -47,7 +47,7 @@ def create_file_of_pileups(args):
         elif row['sample_class'] == 'Normal':
             return args.unfiltered_pileups[row.name]
         else:
-            raise 'Invalid sample_class {} for sample {}'.format(row.sample_class, row.name)
+            raise Exception('Invalid sample_class {} for sample {}'.format(row.sample_class, row.name))
 
     pileups_df = pd.DataFrame({'sample_id': args.sample_ids, 'sample_class': args.sample_classes})
     pileups_df['pileup'] = pileups_df.apply(duplex_or_unfiltered_pileup, axis=1)
