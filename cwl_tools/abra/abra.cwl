@@ -33,6 +33,7 @@ inputs:
 
   working_directory:
     type: Directory?
+    default: $(runtime.tmpdir)
     inputBinding:
       prefix: --tmpdir
       valueFrom: $(runtime.tmpdir)
