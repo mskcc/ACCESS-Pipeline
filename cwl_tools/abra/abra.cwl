@@ -8,6 +8,8 @@ arguments:
 - -Djava.io.tmpdir=$(runtime.tmpdir)
 - -jar
 - $(inputs.abra)
+- prefix: --tmpdir
+  valueFrom: $(runtime.tmpdir)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -20,6 +22,8 @@ inputs:
   java: string
   abra: string
 
+  patient_id: string
+
   input_bams:
     type: File[]
     inputBinding:
@@ -27,16 +31,6 @@ inputs:
       itemSeparator: ','
     secondaryFiles:
     - ^.bai
-
-  patient_id:
-    type: string
-
-  working_directory:
-    type: Directory?
-    default: $(runtime.tmpdir)
-    inputBinding:
-      prefix: --tmpdir
-      valueFrom: $(runtime.tmpdir)
 
   reference_fasta:
     type: string
