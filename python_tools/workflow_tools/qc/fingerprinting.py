@@ -35,8 +35,8 @@ PDF_FILENAMES = [
     'Unexpected_Match.pdf',
     'Unexpected_Mismatch.pdf',
     'GenderMisMatch.pdf',
-    'MinorContaminationRate.pdf',
     'MajorContaminationRate.pdf',
+    'MinorContaminationRate.pdf',
     'MinorDuplexContaminationRate.pdf',
 ]
 
