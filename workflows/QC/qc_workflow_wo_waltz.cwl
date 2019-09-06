@@ -30,6 +30,7 @@ inputs:
   hotspots: File
 
   sample_id: string[]
+  patient_id: string[]
   sample_class: string[]
   waltz_unfiltered_pool_a_pileups: File[]
   waltz_duplex_pool_a_pileups: File[]
@@ -274,6 +275,7 @@ steps:
     run: ../subworkflows/find_hotspots_in_normals.cwl
     in:
       sample_ids: sample_id
+      patient_ids: patient_id
       sample_classes: sample_class
       unfiltered_pileups: waltz_unfiltered_pool_a_pileups
       duplex_pileups: waltz_duplex_pool_a_pileups

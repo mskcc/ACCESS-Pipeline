@@ -20,7 +20,7 @@ counts = read.table(
     INPUT_TABLE_FILENAME,
     sep = '\t',
     header = TRUE,
-    colClasses = c(rep('character', 3), rep('numeric', 3))
+    colClasses = c(rep('character', 4), rep('numeric', 3))
 )
 
 if (nrow(counts) == 0) {
@@ -33,7 +33,7 @@ if (nrow(counts) == 0) {
 
 counts$Sample = reorder(counts$Sample, counts$SampleType=='Tumor')
 
-g = ggplot(counts, aes(Sample, Mutation)) +
+g = ggplot(filter(counts, AltCount>0), aes(Sample, Mutation)) +
     theme_bw() +
     geom_point(aes(color=SampleType, size=AF, shape=15)) +
     scale_shape_identity() +
@@ -42,3 +42,4 @@ g = ggplot(counts, aes(Sample, Mutation)) +
     THEME
 
 ggsave(g, file=OUTPUT_PLOT_FILENAME, width=20, height=20)
+    

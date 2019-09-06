@@ -20,6 +20,7 @@ inputs:
   inputs_yaml: File
 
   sample_id: string[]
+  patient_id: string[]
   sample_class: string[]
   standard_bams: File[]
   marianas_unfiltered_bams: File[]
@@ -151,6 +152,7 @@ steps:
       hotspots: hotspots
 
       sample_id: sample_id
+      patient_id: patient_id
       sample_class: sample_class
       waltz_unfiltered_pool_a_pileups: waltz_workflow/waltz_unfiltered_pool_a_pileups
       waltz_duplex_pool_a_pileups: waltz_workflow/waltz_duplex_pool_a_pileups

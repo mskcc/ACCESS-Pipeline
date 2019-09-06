@@ -19,6 +19,7 @@ def parse_arguments():
     parser.add_argument('--bioinfo_utils', help='sample ids, required', required=True)
     parser.add_argument('--java', help='path to BioinfoUtils jar, required', required=True)
     parser.add_argument('--sample_ids', nargs='+', help='sample ids, required', required=True)
+    parser.add_argument('--patient_ids', nargs='+', help='patient ids, required', required=True)
     parser.add_argument('--sample_classes', nargs='+', help='sample classes, required', required=True)
     parser.add_argument('--unfiltered_pileups', nargs='+', help='unfiltered pileups, required', required=True)
     parser.add_argument('--duplex_pileups', nargs='+', help='duplex pileups, required', required=True)
@@ -32,9 +33,9 @@ def create_file_of_pileups(args):
     """
     Print the following file:
 
-    sample_id   sample_class    path_to_pileup
-    sample_id   sample_class    path_to_pileup
-    sample_id   sample_class    path_to_pileup
+    sample_id   patient_id  sample_class    path_to_pileup
+    sample_id   patient_id  sample_class    path_to_pileup
+    sample_id   patient_id  sample_class    path_to_pileup
 
     path_to_pileup is duplex for Tumor, unfiltered for Normal
 
@@ -49,10 +50,15 @@ def create_file_of_pileups(args):
         else:
             raise 'Invalid sample_class {} for sample {}'.format(row.sample_class, row.name)
 
-    pileups_df = pd.DataFrame({'sample_id': args.sample_ids, 'sample_class': args.sample_classes})
+    pileups_df = pd.DataFrame({
+        'sample_id': args.sample_ids,
+        'patient_id': args.patient_ids,
+        'sample_class': args.sample_classes,
+    })
+
     pileups_df['pileup'] = pileups_df.apply(duplex_or_unfiltered_pileup, axis=1)
     # Reorder columns
-    pileups_df = pileups_df[['sample_id', 'sample_class', 'pileup']]
+    pileups_df = pileups_df[['sample_id', 'patient_id', 'sample_class', 'pileup']]
     pileups_df.to_csv('pileups.tsv', sep='\t', header=False, index=False)
 
 

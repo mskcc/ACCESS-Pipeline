@@ -269,6 +269,7 @@ steps:
     hotspots: hotspots
 
     sample_id: add_rg_ID
+    patient_id: patient_id
     sample_class: sample_class
     standard_bams: standard_bams
     # Collapsed, and after 2nd Indel Realignment:

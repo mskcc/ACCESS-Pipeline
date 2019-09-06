@@ -80,6 +80,28 @@ sample_id:
 - C-X8R0LT-L003-d
 - C-X8R0LT-L004-d
 
+patient_id:
+- C-006054
+- C-1387TW
+- C-4VDEX2
+- C-4VDEX2
+- C-4VDEX2
+- C-5K3M79
+- C-7DJK4X
+- C-7DJK4X
+- C-7DJK4X
+- C-A970M3
+- C-A970M3
+- C-FEMN69
+- C-FEMN69
+- C-FR89A5
+- C-HMFWH7
+- C-HMFWH7
+- C-KC5RUX
+- C-KC5RUX
+- C-X8R0LT
+- C-X8R0LT
+
 sample_class:
 - Tumor
 - Normal

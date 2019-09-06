@@ -28,6 +28,11 @@ inputs:
     inputBinding:
       prefix: --sample_ids
 
+  patient_ids:
+    type: string[]
+    inputBinding:
+      prefix: --patient_ids
+
   sample_classes:
     type: string[]
     inputBinding:

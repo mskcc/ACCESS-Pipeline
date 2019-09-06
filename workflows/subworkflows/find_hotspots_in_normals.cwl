@@ -8,6 +8,7 @@ doc: |
   These inputs are all required to be sorted in the same order:
 
   sample_ids
+  patient_ids
   sample_classes
   unfiltered_pileups
   duplex_pileups
@@ -20,6 +21,7 @@ requirements:
 inputs:
   run_tools: ../../resources/run_tools/schemas.yaml#run_tools
   sample_ids: string[]
+  patient_ids: string[]
   sample_classes: string[]
   unfiltered_pileups: File[]
   duplex_pileups: File[]
@@ -50,6 +52,7 @@ steps:
       bioinfo_utils:
         valueFrom: $(inputs.run_tools.bioinfo_utils)
       sample_ids: sample_ids
+      patient_ids: patient_ids
       sample_classes: sample_classes
       unfiltered_pileups: unfiltered_pileups
       duplex_pileups: duplex_pileups
