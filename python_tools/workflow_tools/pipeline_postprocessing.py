@@ -392,9 +392,7 @@ class AccessProject(object):
                 + "_NonPanelSilentFiltered.txt",
                 target_dir + "/annotated_nonpanel_silent_variants.txt",
             )
-            ccopy(
-                self._process_dir + "/traceback.txt", target_dir + "/traceback.txt"
-            )
+            ccopy(self._process_dir + "/traceback.txt", target_dir + "/traceback.txt")
             # Variants failing filters
             dropped_variants_files = map(
                 lambda x: self._process_dir + "/" + self._project_name + x,
@@ -402,7 +400,7 @@ class AccessProject(object):
                     "_ExonicDropped.txt",
                     "_SilentDropped.txt",
                     "_NonPanelExonicDropped.txt",
-                    "_NonPanelSilentFiltered.txt",
+                    "_NonPanelSilentDropped.txt",
                 ],
             )
             self._logger.info(

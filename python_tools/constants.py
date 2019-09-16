@@ -49,14 +49,20 @@ ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(
 )
 
 # ACCESS-CopyNumber Resources
-ACCESS_COPYNUMBER_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'ACCESS_copynumber_run_files.yaml')
-ACCESS_COPYNUMBER_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'ACCESS_copynumber_run_params.yaml')
+ACCESS_COPYNUMBER_RUN_FILES_PATH = os.path.join(
+    RUN_FILES_FOLDER, "ACCESS_copynumber_run_files.yaml"
+)
+ACCESS_COPYNUMBER_RUN_PARAMS_PATH = os.path.join(
+    RUN_PARAMS_FOLDER, "ACCESS_copynumber_run_params.yaml"
+)
 
-RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
+RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(
+    RUN_PARAMS_FOLDER, "standard_bams_to_collapsed_qc.yaml"
+)
 
 # ACCESS-MSI Resources
-ACCESS_MSI_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, 'msi_run_files.yaml')
-ACCESS_MSI_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, 'msi_run_params.yaml')
+ACCESS_MSI_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, "msi_run_files.yaml")
+ACCESS_MSI_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, "msi_run_params.yaml")
 
 
 ##################################
@@ -469,12 +475,12 @@ TITLE_FILE_TO_PAIRED_FILE = "Title_file_to_paired.csv"
 MAF_COLUMNS_SELECT = [
     "Hugo_Symbol",
     "Chromosome",
-    #"Start_Position",
+    # "Start_Position",
     "VCF_POS",
     "Variant_Classification",
-    #"Reference_Allele",
+    # "Reference_Allele",
     "VCF_REF",
-    #"Tumor_Seq_Allele2",
+    # "Tumor_Seq_Allele2",
     "VCF_ALT",
     "dbSNP_RS",
     "Tumor_Sample_Barcode",
@@ -523,9 +529,9 @@ MAF_TSV_COL_MAP = OrderedDict(
         ("Tumor_Sample_Barcode", "Sample"),
         ("caller_Norm_Sample_Barcode", "NormalUsed"),
         ("Chromosome", "Chrom"),
-        #("Start_Position", "Start"),
-        #("Reference_Allele", "Ref"),
-        #("Tumor_Seq_Allele2", "Alt"),
+        # ("Start_Position", "Start"),
+        # ("Reference_Allele", "Ref"),
+        # ("Tumor_Seq_Allele2", "Alt"),
         ("VCF_POS", "Start"),
         ("VCF_REF", "Ref"),
         ("VCF_ALT", "Alt"),
@@ -650,10 +656,10 @@ MAF_DUMMY_COLUMNS2 = [
 ]
 
 # Filename variables
-EXONIC_FILTERED = "_ExonicFiltered.txt"
-EXONIC_DROPPED = "_ExonicDropped.txt"
-SILENT_FILTERED = "_SilentFiltered.txt"
-SILENT_DROPPED = "_SilentDropped.txt"
+EXONIC_FILTERED = "_ExonicFiltered.pre_traceback.txt"
+EXONIC_DROPPED = "_ExonicDropped.pre_traceback.txt"
+SILENT_FILTERED = "_SilentFiltered.pre_traceback.txt"
+SILENT_DROPPED = "_SilentDropped.pre_traceback.txt"
 NONPANEL_EXONIC_FILTERED = "_NonPanelExonicFiltered.txt"
 NONPANEL_EXONIC_DROPPED = "_NonPanelExonicDropped.txt"
 NONPANEL_SILENT_FILTERED = "_NonPanelSilentFiltered.txt"
