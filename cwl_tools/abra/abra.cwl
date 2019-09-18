@@ -11,7 +11,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 30000
-    coresMin: 8
+    coresMin: 12
     outdirMax: 120000
 
 # Todo: It would be nice to have this
