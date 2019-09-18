@@ -104,6 +104,7 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
+
       mad:
         valueFrom: $(inputs.params.mad)
       sc:
@@ -120,9 +121,8 @@ steps:
         valueFrom: $(inputs.params.index)
       cons:
         valueFrom: $(inputs.params.cons)
-
       threads:
-        valueFrom: $(12)
+        valueFrom: $(inputs.params.threads)
       out:
         valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
     out:

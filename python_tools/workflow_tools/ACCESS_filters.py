@@ -34,7 +34,7 @@ def extract_blacklist(args):
         
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
-        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict;MuTect'
+        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict,MuTect'
         df_annotation.drop(['TYPE','FAILURE_REASON','MUTECT'], inplace=True, axis=1)
     
     if os.path.isfile(args.anno_maf):

@@ -36,6 +36,8 @@ find_covered_intervals__params:
   rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 
 abra__params:
+#  kmers: 43,53,63,83,93
+  threads: 12
   mad: 1000
   sc: 100,30,80,15
   mmr: 0.1

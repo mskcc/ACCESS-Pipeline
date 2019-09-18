@@ -2,6 +2,8 @@
 # Default Testing Parameters for ACCESS-Pipeline #
 ##################################################
 
+tmp_dir: /dmp/analysis/SCRATCH
+
 process_loop_umi_fastq__params:
   umi_length: 3
   output_project_folder: .
@@ -16,7 +18,7 @@ trimgalore__params:
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina
-  add_rg_CN: BergerLab_MSKCC
+  add_rg_CN: DMP_MSKCC
   sort_order: coordinate
   validation_stringency: LENIENT
   compression_level: 0
@@ -39,6 +41,7 @@ find_covered_intervals__params:
 
 abra__params:
 #  kmers: 43,53,63,83,93
+  threads: 12
   mad: 1000
   sc: 100,30,80,15
   mmr: 0.1

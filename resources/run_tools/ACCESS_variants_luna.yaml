@@ -10,3 +10,7 @@ run_tools:
   vcf2maf: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/vcf2maf.pl
   vep_path: /opt/common/CentOS_6-dev/vep/v86/
   vep_data: /opt/common/CentOS_6-dev/vep/cache/
+  TABIX_LOCATION: /opt/common/CentOS_6-dev/htslib/v1.3.2/tabix
+  BGZIP_LOCATION: /opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip
+  SORTBED_LOCATION: /opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed
+  BCFTOOLS_LOCATION_1_6: /opt/common/CentOS_6-dev/bcftools/bcftools-1.6/bcftools 

@@ -38,6 +38,7 @@ inputs:
   blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
+  title_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -79,6 +80,19 @@ inputs:
   sv_tumor_bams: File[]
   sv_normal_bam: File
   sv_run_tools: ../resources/run_tools/schemas.yaml#sv_run_tools
+
+  # CNV #
+  file_path: string
+  coverage_script: string
+  copy_number_script: string
+  loess_normalize_script: string
+  tumor_sample_list: File
+  normal_sample_list: File
+  targets_coverage_bed: File
+  targets_coverage_annotation: File
+  reference_fasta: File
+  project_name_cnv: string
+  threads: int
 
 outputs:
 
@@ -142,6 +156,34 @@ outputs:
     type: File[]
     outputSource: snps_and_indels/final_filtered_condensed_maf
 
+  collated_maf:
+    type: File
+    outputSource: snps_and_indels/collated_maf
+
+  filtered_exonic:
+    type: File
+    outputSource: snps_and_indels/filtered_exonic
+
+  dropped_exonic:
+    type: File
+    outputSource: snps_and_indels/dropped_exonic
+
+  filtered_silent:
+    type: File
+    outputSource: snps_and_indels/filtered_silent
+
+  dropped_silent:
+    type: File
+    outputSource: snps_and_indels/dropped_silent
+
+  filtered_nonpanel:
+    type: File
+    outputSource: snps_and_indels/filtered_nonpanel
+
+  dropped_nonpanel:
+    type: File
+    outputSource: snps_and_indels/dropped_nonpanel
+
   # Manta
 
   sv_directory:
@@ -156,6 +198,88 @@ outputs:
     type: File
     outputSource: manta/concatenated_vcf
 
+  # Copy Number Variant Calling
+
+  tumors_covg:
+    type: File
+    outputSource: cnv/tumors_covg
+
+  normals_covg:
+    type: File
+    outputSource: cnv/normals_covg
+
+  bam_list:
+    type: File[]
+    outputSource: cnv/bam_list
+
+  coverage_std_out:
+    type: File
+    outputSource: cnv/coverage_std_out
+
+  coverage_std_err:
+    type: File
+    outputSource: cnv/coverage_std_err
+
+  tumor_loess_text:
+    type: File
+    outputSource: cnv/tumor_loess_text
+
+  normal_loess_text:
+    type: File
+    outputSource: cnv/normal_loess_text
+
+  tumor_loess_pdf:
+    type: File
+    outputSource: cnv/tumor_loess_pdf
+
+  normal_loess_pdf:
+    type: File
+    outputSource: cnv/normal_loess_pdf
+
+  loess_tumor_std_out:
+    type: File
+    outputSource: cnv/loess_tumor_std_out
+
+  loess_tumor_std_err:
+    type: File
+    outputSource: cnv/loess_tumor_std_err
+
+  loess_normal_std_out:
+    type: File
+    outputSource: cnv/loess_normal_std_out
+
+  loess_normal_std_err:
+    type: File
+    outputSource: cnv/loess_normal_std_err
+
+  genes_file:
+    type: File
+    outputSource: cnv/genes_file
+
+  probes_file:
+    type: File
+    outputSource: cnv/probes_file
+
+  intragenic_file:
+    type: File
+    outputSource: cnv/intragenic_file
+
+  copy_pdf:
+    type: File
+    outputSource: cnv/copy_pdf
+
+  seg_files:
+    type: File[]
+    outputSource: cnv/seg_files
+
+  copy_standard_out:
+    type: File
+    outputSource: cnv/copy_standard_out
+
+  copy_standard_err:
+    type: File
+    outputSource: cnv/copy_standard_err
+
 steps:
 
   ###################
@@ -166,6 +290,7 @@ steps:
     run: ./subworkflows/snps_and_indels.cwl
     in:
       project_name: project_name
+      title_file: title_file
       version: version
       run_tools: run_tools
       mutect_params: mutect_params
@@ -209,6 +334,13 @@ steps:
       fillout_maf,
       final_filtered_maf,
       final_filtered_condensed_maf,
+      collated_maf,
+      filtered_exonic,
+      dropped_exonic,
+      filtered_silent,
+      dropped_silent,
+      filtered_nonpanel,
+      dropped_nonpanel
     ]
 
   #######################
@@ -229,3 +361,44 @@ steps:
       sv_directory,
       annotated_sv_file,
       concatenated_vcf]
+
+  ########################
+  # Copy Number Variants #
+  ########################
+
+  cnv:
+    run: ./subworkflows/call_cnv.cwl
+    in:
+      file_path: file_path
+      coverage_script: coverage_script
+      copy_number_script: copy_number_script
+      loess_normalize_script: loess_normalize_script
+      tumor_sample_list: tumor_sample_list
+      normal_sample_list: normal_sample_list
+      targets_coverage_bed: targets_coverage_bed
+      targets_coverage_annotation: targets_coverage_annotation
+      reference_fasta: reference_fasta
+      project_name_cnv: project_name_cnv
+      threads: threads
+    out: [
+      tumors_covg,
+      normals_covg,
+      bam_list,
+      coverage_std_out,
+      coverage_std_err,
+      tumor_loess_text,
+      normal_loess_text,
+      tumor_loess_pdf,
+      normal_loess_pdf,
+      loess_tumor_std_out,
+      loess_tumor_std_err,
+      loess_normal_std_out,
+      loess_normal_std_err,
+      genes_file,
+      probes_file,
+      intragenic_file,
+      copy_pdf,
+      seg_files,
+      copy_standard_out,
+      copy_standard_err
+    ]

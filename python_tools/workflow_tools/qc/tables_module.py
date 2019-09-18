@@ -282,8 +282,7 @@ def copy_fragment_sizes_files(args):
         fragment_sizes_df = fragment_sizes_df.reindex(new_index).reset_index()
         # Replace nan's with 0
         fragment_sizes_df = fragment_sizes_df.fillna(0)
-
-        to_csv(fragment_sizes_df, os.path.join('.', dst))
+        to_csv(fragment_sizes_df,os.path.join('.', dst))
 
 
 def reformat_exon_targets_coverage_file(coverage_per_interval_table):
@@ -306,7 +305,6 @@ def reformat_exon_targets_coverage_file(coverage_per_interval_table):
         subset.insert(0, 'Interval', interval_names_split.iloc[:,3] + ':' + interval_names_split.iloc[:,4])
         subset = subset.drop('interval_name', axis=1)
         to_csv(subset, 'coverage_per_interval_A_targets_{}.txt'.format(method.replace(' ', '_')))
-
 
 
 def create_combined_qc_tables(args):
@@ -382,7 +380,6 @@ def create_combined_qc_tables(args):
     copy_fragment_sizes_files(args)
     reformat_coverage_files(coverage_table)
     reformat_exon_targets_coverage_file(gc_cov_int_table_exon_level)
-
 
     # Also need to copy the fragment-sizes.txt from Unfiltered A Targets
     # For insert sizes graph

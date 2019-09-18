@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------------------------------------
 # Title:       setup.sh
 # Description: Setup conda environment for ACCESS pipeline and install all the python and R libraries.
-# Dependency:  conda>=4.5.4; environment.yaml (in the same directory as this script)
+# Dependency:  conda>=4.6.14; environment.yaml (in the same directory as this script)
 # Usage:       ./setup.sh <optional_environment_name>
 # ----------------------------------------------------------------------------------------------------
 
@@ -43,32 +43,53 @@ trap cleanup EXIT
 
 # Check for environment name
 ACCESS_ENV=$1
-[[ ! -z $ACCESS_ENV ]] || { printi "No preferred environment name given. Conda environment name will be set to 'ACCESS'";  ACCESS_ENV="ACCESS"; }
+[[ ! -z $ACCESS_ENV ]] || {
+        printi "No preferred environment name given. Conda environment name will be set to 'ACCESS'";
+        ACCESS_ENV="ACCESS";
+        }
 
 # set library paths
-[[ ! -z "${LIBRARY_PATH}" ]] || { printi "LIBRARY_PATH not set. Will be default to /usr/lib64"; export LIBRARY_PATH="/usr/lib64"; }
+[[ ! -z "${LIBRARY_PATH}" ]] || {
+        printi "LIBRARY_PATH not set. Will be default to /usr/lib64";
+        export LIBRARY_PATH="/usr/lib64";
+        }
 
-[[ ! -z "${LD_LIBRARY_PATH}" ]] || { printi "LD_LIBRARY_PATH not set. Will be defaulted to /usr/lib64"; export LD_LIRBARY_PATH="/usr/lib64"; }
+[[ ! -z "${LD_LIBRARY_PATH}" ]] || {
+        printi "LD_LIBRARY_PATH not set. Will be defaulted to /usr/lib64";
+        export LD_LIRBARY_PATH="/usr/lib64";
+        }
 
 # Check for conda installation
-type -p conda > /dev/null || { printe "Conda installation is required! Visit https://www.anaconda.com/distribution/"; exit 1; }
+type -p conda > /dev/null || {
+        printe "Conda installation is required! Visit https://www.anaconda.com/distribution/";
+        exit 1;
+        }
 
-# Set pythonpath and rlibs variables to empty string.
-export PYTHONPATH=""
-export R_LIBS=""
+# Set pythonpath and rlibs
+export PYTHONPATH="" # to avoid conflicts with system python libraries
+export R_LIBS="${ACCESS_ENV_PATH}/lib/R/library/" # to ensure r libraries are installed in conda R library path
 
 # TODO:
 # Upgrade/Downgrade conda version?
 
-[[ -e "${PWD}/environment.yaml" ]] || { printe "${PWD}/environment.yaml not found."; exit 1; }
+[[ -e "${PWD}/environment.yaml" ]] || {
+        printe "${PWD}/environment.yaml not found."; 
+        exit 1;
+        }
 
 # get conda path
 CONDA=$(type -p conda | sed "s/conda is //")
-[[ -e $CONDA ]] || { printe "Cannot find conda binary. Make sure conda is added to your PATH variable."; exit 1; }
+[[ -e $CONDA ]] || {
+        printe "Cannot find conda binary. Make sure conda is added to your PATH variable.";
+        exit 1;
+        }
 
 # ensure that no other env with the same name exist
 ACCESS_ENV_PATH=$(echo $CONDA | sed "s/bin\/conda/envs\/${ACCESS_ENV}/")
-[[ ! -e ${ACCESS_ENV_PATH} ]] || { printi "${ACCESS_ENV_PATH} already exist."; exit 0; }
+[[ ! -e ${ACCESS_ENV_PATH} ]] || {
+        printi "${ACCESS_ENV_PATH} already exist.";
+        exit 0;
+        }
 
 printi "Creating conda environment: $ACCESS_ENV"
 conda env create --name $ACCESS_ENV --file $PWD/environment.yaml
@@ -81,30 +102,44 @@ EXITCODE=$?
 # Activate environment
 printi "Activating ${ACCESS_ENV}"
 source activate ${ACCESS_ENV}
-[[ $EXITCODE == 0 ]] || { printe "Cannot activate ${ACCESS_ENV}."; exit $EXITCODE; }
+[[ $EXITCODE == 0 ]] || {
+        printe "Cannot activate ${ACCESS_ENV}.";
+        exit $EXITCODE;
+        }
 
-PYTHON=$(type -p python | sed "s/python is //")
-RSCRIPT=$(echo $PYTHON | sed "s/python/Rscript/")
+RSCRIPT=$(echo $(which python) | sed "s/python/Rscript/")
 
-[[ -e "$RSCRIPT" ]] || { printe "Cannot locate Rscript in the environment $ACCESS_ENV. Was your environment setup properly?"; exit 1; }
+[[ -e "$RSCRIPT" ]] || {
+        printe "Cannot locate Rscript in the environment $ACCESS_ENV. Was your environment setup properly?";
+        exit 1;
+        }
 
 printi "Installing R packages from CRAN..."
-$RSCRIPT -e 'install.packages(c("devtools","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson"), repos="https://cran.cnr.berkeley.edu/")'
+$RSCRIPT -e 'install.packages(c("devtools","argparse","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson", "vcfR"), repos="https://cran.cnr.berkeley.edu/")'
 
 EXITCODE=$?
-[[ $EXITCODE == 0 ]] || { printe "Error during R package installation from CRAN."; exit $EXITCODE; }
+[[ $EXITCODE == 0 ]] || {
+        printe "Error during R package installation from CRAN.";
+        exit $EXITCODE;
+        }
 
 printi "Installing R packages from source..."
 $RSCRIPT -e 'install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.58.0.tar.gz", repos=NULL, type="source")'
 
 EXITCODE=$?
-[[ $EXITCODE == 0 ]] || { printe "Error during R package installation from source."; exit $EXITCODE; }
+[[ $EXITCODE == 0 ]] || {
+        printe "Error during R package installation from source.";
+        exit $EXITCODE;
+        }
 
 printi "Installing R packages from github..."
 $RSCRIPT -e 'library(devtools); install_github("rptashkin/textplot", force=TRUE);'
 
 EXITCODE=$?
-[[ $EXITCODE == 0 ]] || { printe "Error during R package installation from github."; exit $EXITCODE; }
+[[ $EXITCODE == 0 ]] || {
+        printe "Error during R package installation from github.";
+        exit $EXITCODE;
+        }
 
 printi "ACCESS environment setup complete! \^.^/"
 source deactivate
