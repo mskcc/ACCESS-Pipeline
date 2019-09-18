@@ -146,9 +146,6 @@ def create_title_file(samplesheet_file_path, output_filename):
             )
         )
 
-    # check for control samples
-    # if not
-
     # split metadata column
     try:
         title_file[
