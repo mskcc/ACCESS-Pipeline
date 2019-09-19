@@ -40,7 +40,7 @@ def create_title_file(samplesheet_file_path, output_filename):
     """
     ### Read samplesheet as either csv or Excel file ###
     try:
-        samplesheet = pd.read_csv(samplesheet_file_path, sep=",", header=0)
+        samplesheet = pd.read_csv(samplesheet_file_path, sep=",", header=0, dtype=str)
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         samplesheet = pd.read_excel(samplesheet_file_path, sep=",")
 
