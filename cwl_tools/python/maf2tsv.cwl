@@ -43,22 +43,22 @@ outputs:
   filtered_exonic:
     type: File
     outputBinding:
-      glob: '*_ExonicFiltered.txt'
+      glob: '*_ExonicFiltered.pre_traceback.txt'
 
   dropped_exonic:
     type: File
     outputBinding:
-      glob: '*_ExonicDropped.txt'
+      glob: '*_ExonicDropped.pre_traceback.txt'
 
   filtered_silent:
     type: File
     outputBinding:
-      glob: '*_SilentFiltered.txt'
+      glob: '*_SilentFiltered.pre_traceback.txt'
 
   dropped_silent:
     type: File
     outputBinding:
-      glob: '*_SilentDropped.txt'
+      glob: '*_SilentDropped.pre_traceback.txt'
 
   filtered_exonic_nonpanel:
     type: File

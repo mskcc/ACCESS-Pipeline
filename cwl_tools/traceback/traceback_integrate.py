@@ -15,7 +15,7 @@ def integrate_genotypes(args):
     tbo_maf = pd.read_csv(
         args.traceback_out_maf, header="infer", sep="\t", dtype=object
     )
-    title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer")
+    title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer", dtype=object)
     # df of sample identifiers for samples in current project
     sample_identifiers = title_file_df[
         ["Pool", "Sample", "AccessionID", "Patient_ID"]
@@ -111,7 +111,7 @@ def integrate_genotypes(args):
     )
     tbf = tbf[tbf["VCF_POS"].notnull()]
 
-    tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0, inplace=True)
+    tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
     intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
     intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
 
@@ -147,17 +147,26 @@ def integrate_genotypes(args):
             "t_vaf_fragment": "VF",
         },
     )
-    # Merge and rempve bam types from sample id
-    tbf_simplex = tbf[tbf["Sample"].str.contains("SIMPLEX")]
-    tbf_duplex = tbf[tbf["Sample"].str.contains("DUPLEX")]
+
+    # set depth and vaf to int and float types
+    tbf[["DP", "RD", "AD"]] = tbf[["DP", "RD", "AD"]].apply(lambda x: x.astype(int))
+    tbf["VF"] = tbf["VF"].apply(float)
+
+    # Merge and remove bam types from sample id
+    tbf_simplex = tbf[tbf["Sample"].str.contains("SIMPLEX")].reset_index(drop=True)
+    tbf_duplex = tbf[tbf["Sample"].str.contains("DUPLEX")].reset_index(drop=True)
     tbf_standard = tbf[tbf["Sample"].str.contains("STANDARD")]
+
+    # get simplex-duplex metrics from simplex and duplex
     for metric in ["DP", "RD", "AD"]:
         tbf_duplex[metric] = tbf_duplex[metric] + tbf_simplex[metric]
     tbf_duplex["VF"] = tbf_duplex["AD"].apply(float) / (
         tbf_duplex["AD"].apply(float) + tbf_duplex["RD"].apply(float)
     )
     tbf_duplex["VF"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
-    tbf = pd.concat([tbf_standard, tbf_duplex])
+
+    # combined standard bam and simplex-duplex metrics for final traceback
+    tbf = pd.concat([tbf_standard, tbf_duplex], ignore_index=True)
     tbf["Sample"] = tbf["Sample"].replace(
         to_replace="_STANDARD$|_DUPLEX$", value="", regex=True
     )
@@ -196,18 +205,9 @@ def intersect_variants(filtered, dropped, tbf, control_samples=[]):
     variants = pd.concat(df_from_each_file, ignore_index=True)
     variants["Mutation_Class"] = variants["Mutation_Class"].fillna("")
     filtered_target, dropped_target = map(
-        lambda x: os.path.basename(x), [filtered, dropped]
+        lambda x: re.sub(".pre_traceback.txt$", ".txt", os.path.basename(x)),
+        [filtered, dropped],
     )
-    filtered_source, dropped_source = map(
-        lambda x: os.path.join(
-            os.path.dirname(filtered), re.sub(".txt$", ".pre_traceback.txt", x)
-        ),
-        [filtered_target, dropped_target],
-    )
-
-    # rename source files
-    shutil.copy(filtered, filtered_source)
-    shutil.copy(dropped, dropped_source)
 
     # write new filtered and dropped files
     for i, var in enumerate(variants.itertuples()):

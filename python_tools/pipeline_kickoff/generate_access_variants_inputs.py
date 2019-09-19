@@ -451,6 +451,18 @@ def create_traceback_inputs(
     # read traceback samples into a df and consume sampleIDs and file paths
     if args.traceback_samples:
         traceback_samples_df = pd.read_csv(args.traceback_samples, sep="\t", header=0)
+        traceback_mutations_df = pd.read_csv(
+            args.traceback_mutations, sep="\t", header=0
+        )
+        # check that one of traceback_samples.txt and traceback_input_mutations.txt
+        #  is not empty while the other has data.
+        if traceback_samples_df.empty ^ traceback_mutations_df.empty:
+            raise Exception(
+                "One of {} or {} has no data. Please check that both files are populated correctly.\n".format(
+                    "traceback_samples.txt", "traceback_input_mutations.txt"
+                )
+            )
+
         traceback_bams.extend(traceback_samples_df["BAM_file_path"].values.tolist())
         traceback_samples.extend(
             map(
