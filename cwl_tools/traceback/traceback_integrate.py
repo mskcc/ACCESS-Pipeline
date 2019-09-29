@@ -44,9 +44,9 @@ def integrate_genotypes(args):
     ].values.tolist()
 
     # create a new column of sample name without DUPLEX/SIMPLEX/STANDARD identifiers
-    tbo_maf["Tumor_Sample_Barcode_simplified"] = tbo_maf["Tumor_Sample_Barcode"].replace(
-        to_replace="_STANDARD$|_SIMPLEX$|_DUPLEX$", value="", regex=True
-    )
+    tbo_maf["Tumor_Sample_Barcode_simplified"] = tbo_maf[
+        "Tumor_Sample_Barcode"
+    ].replace(to_replace="_STANDARD$|_SIMPLEX$|_DUPLEX$", value="", regex=True)
 
     # get unique identifier based on Tumor_Sample_Barcode_simplified
     tbo_maf = pd.merge(
@@ -128,7 +128,7 @@ def integrate_genotypes(args):
 
     tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
 
-    # label exonic and silent mutations as "Genotyped" if present in 
+    # label exonic and silent mutations as "Genotyped" if present in
     #  tbf and passes threshold.
     intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
     intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
