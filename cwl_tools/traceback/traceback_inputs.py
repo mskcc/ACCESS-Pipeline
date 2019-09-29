@@ -24,7 +24,7 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
         else:
             return "STANDARD"
 
-    title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
+    title_file_df = pd.read_csv(title_file, sep="\t", header="infer", dtype=str)
     # get project name
     project_name = title_file_df["Pool"].unique().values.tolist().pop()
     # get unique sample IDs
@@ -47,7 +47,7 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
             )
     project_name_list = [project_name] * len(bam_paths)
 
-    traceback_bam = pd.read_csv(traceback_bam_inputs, header="infer", sep="\t")
+    traceback_bam = pd.read_csv(traceback_bam_inputs, header="infer", sep="\t", dtype=str)
     bam_paths.extend(traceback_bam["BAM_file_path"].values.tolist())
     bam_patient_ids.extend(traceback_bam["MRN"].values.tolist())
     bam_sample_ids.extend(traceback_bam["Sample"].values.tolist())
@@ -82,7 +82,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         """
         transform ref,alt,pos to maf format following vcf2maf rules
         """
-        maf_start, maf_ref, maf_alt = Start, Ref, Alt
+        maf_start, maf_ref, maf_alt = int(Start), Ref, Alt
         ref_length, alt_length = len(Ref), len(Alt)
         while all([maf_ref, maf_alt, maf_ref[0] == maf_alt[0], maf_ref != maf_alt]):
             maf_ref = maf_ref[1:] or "-"
@@ -94,19 +94,19 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         # Handle SNPs, DNPs, TNPs, or anything larger (ONP)
         if ref_length == alt_length:
             return (
-                maf_start,
-                maf_start + alt_length - 1,
+                str(maf_start),
+                str(maf_start + alt_length - 1),
                 maf_ref,
                 maf_alt,
                 _variant_type(maf_ref, maf_alt),
             )
         # Handle complex and non-complex deletions
         elif ref_length > alt_length:
-            return (maf_start, maf_start + ref_length - 1, maf_ref, maf_alt, "DEL")
+            return (str(maf_start), str(maf_start + ref_length - 1), maf_ref, maf_alt, "DEL")
         # Handle complex and non-complex insertions
         else:
-            maf_stop = (maf_start + ref_length - 1) if maf_ref != "-" else maf_start
-            maf_start = (maf_start - 1) if maf_ref == "-" else maf_start
+            maf_stop = str(maf_start + ref_length - 1) if maf_ref != "-" else str(maf_start)
+            maf_start = str(maf_start - 1) if maf_ref == "-" else str(maf_start)
             return (maf_start, maf_stop, maf_ref, maf_alt, "INS")
 
     def _variant_type(Ref, Alt):
@@ -129,7 +129,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         helper function to reformat mutations from applicable previous project
         to maf format
         """
-        TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer")
+        TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer", dtype=str)
 
         TI_df[
             [
@@ -148,7 +148,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
             ).values.tolist()
         )
         TI_df["Tumor_Seq_Allele1"] = TI_df["Reference_Allele"]
-        TI_df["T_AltCount"] = TI_df["T_Count"] - TI_df["T_RefCount"]
+        TI_df["T_AltCount"] = (TI_df["T_Count"].apply(int) - TI_df["T_RefCount"].apply(int)).apply(int)
         for col in [
             "VariantClass",
             "Gene",
@@ -213,14 +213,14 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         )
         return TI_df
 
-    title_file_df = pd.read_csv(title_file, sep="\t", header="infer")
+    title_file_df = pd.read_csv(title_file, sep="\t", header="infer", dtype=str)
     title_file_df = title_file_df[["Pool", "Sample", "Patient_ID", "AccessionID", "Class"]]
-
+    print(title_file_df["Patient_ID"])
     # get the list of input mutation files from the current project
     mutation_file_list = [exonic_filtered, silent_filtered]
     # read each of the file into a df
     df_from_each_file = (
-        pd.read_csv(f, index_col=None, header=0, sep="\t") for f in mutation_file_list
+        pd.read_csv(f, index_col=None, header=0, sep="\t", dtype=str) for f in mutation_file_list
     )
     # convert all all variant to maf and concat into a single df
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
