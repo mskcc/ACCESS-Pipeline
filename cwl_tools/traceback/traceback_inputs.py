@@ -47,7 +47,9 @@ def make_traceback_map(genotyping_bams, title_file, traceback_bam_inputs):
             )
     project_name_list = [project_name] * len(bam_paths)
 
-    traceback_bam = pd.read_csv(traceback_bam_inputs, header="infer", sep="\t", dtype=str)
+    traceback_bam = pd.read_csv(
+        traceback_bam_inputs, header="infer", sep="\t", dtype=str
+    )
     bam_paths.extend(traceback_bam["BAM_file_path"].values.tolist())
     bam_patient_ids.extend(traceback_bam["MRN"].values.tolist())
     bam_sample_ids.extend(traceback_bam["Sample"].values.tolist())
@@ -102,10 +104,18 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
             )
         # Handle complex and non-complex deletions
         elif ref_length > alt_length:
-            return (str(maf_start), str(maf_start + ref_length - 1), maf_ref, maf_alt, "DEL")
+            return (
+                str(maf_start),
+                str(maf_start + ref_length - 1),
+                maf_ref,
+                maf_alt,
+                "DEL",
+            )
         # Handle complex and non-complex insertions
         else:
-            maf_stop = str(maf_start + ref_length - 1) if maf_ref != "-" else str(maf_start)
+            maf_stop = (
+                str(maf_start + ref_length - 1) if maf_ref != "-" else str(maf_start)
+            )
             maf_start = str(maf_start - 1) if maf_ref == "-" else str(maf_start)
             return (maf_start, maf_stop, maf_ref, maf_alt, "INS")
 
@@ -148,7 +158,9 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
             ).values.tolist()
         )
         TI_df["Tumor_Seq_Allele1"] = TI_df["Reference_Allele"]
-        TI_df["T_AltCount"] = (TI_df["T_Count"].apply(int) - TI_df["T_RefCount"].apply(int)).apply(int)
+        TI_df["T_AltCount"] = (
+            TI_df["T_Count"].apply(int) - TI_df["T_RefCount"].apply(int)
+        ).apply(int)
         for col in [
             "VariantClass",
             "Gene",
@@ -214,13 +226,16 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         return TI_df
 
     title_file_df = pd.read_csv(title_file, sep="\t", header="infer", dtype=str)
-    title_file_df = title_file_df[["Pool", "Sample", "Patient_ID", "AccessionID", "Class"]]
+    title_file_df = title_file_df[
+        ["Pool", "Sample", "Patient_ID", "AccessionID", "Class"]
+    ]
     print(title_file_df["Patient_ID"])
     # get the list of input mutation files from the current project
     mutation_file_list = [exonic_filtered, silent_filtered]
     # read each of the file into a df
     df_from_each_file = (
-        pd.read_csv(f, index_col=None, header=0, sep="\t", dtype=str) for f in mutation_file_list
+        pd.read_csv(f, index_col=None, header=0, sep="\t", dtype=str)
+        for f in mutation_file_list
     )
     # convert all all variant to maf and concat into a single df
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
@@ -243,7 +258,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
     concat_df = pd.merge(
         concat_df, title_file_df, how="left", left_on=["Sample"], right_on=["Sample"]
     )
-    # remove 
+    # remove
     concat_df = concat_df[~concat_df["Class"].str.contains("Pool")][
         [
             "Gene",
@@ -299,7 +314,9 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
     # if mutations from previous project provided, format them and add
     #  them to the df as well
     if TI_mutations:
-        concat_df = pd.concat([concat_df, _TI_mutations_to_maf(TI_mutations)], sort=False)
+        concat_df = pd.concat(
+            [concat_df, _TI_mutations_to_maf(TI_mutations)], sort=False
+        )
     concat_df.to_csv(
         "traceback_inputs.maf", header=True, index=None, sep="\t", mode="w"
     )

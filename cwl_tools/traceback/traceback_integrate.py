@@ -10,12 +10,11 @@ import numpy as np
 
 def integrate_genotypes(args):
     tbi_maf = pd.read_csv(
-        args.traceback_inputs_maf, sep="\t", header="infer", dtype=object
+        args.traceback_inputs_maf, sep="\t", header="infer", dtype=str
     )
-    tbo_maf = pd.read_csv(
-        args.traceback_out_maf, header="infer", sep="\t", dtype=object
-    )
-    title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer", dtype=object)
+    tbo_maf = pd.read_csv(args.traceback_out_maf, header="infer", sep="\t", dtype=str)
+    title_file_df = pd.read_csv(args.title_file, sep="\t", header="infer", dtype=str)
+
     # df of sample identifiers for samples in current project
     sample_identifiers = title_file_df[
         ["Pool", "Sample", "AccessionID", "Patient_ID"]
@@ -44,6 +43,20 @@ def integrate_genotypes(args):
         "Sample"
     ].values.tolist()
 
+    # create a new column of sample name without DUPLEX/SIMPLEX/STANDARD identifiers
+    tbo_maf["Tumor_Sample_Barcode_simplified"] = tbo_maf["Tumor_Sample_Barcode"].replace(
+        to_replace="_STANDARD$|_SIMPLEX$|_DUPLEX$", value="", regex=True
+    )
+
+    # get unique identifier based on Tumor_Sample_Barcode_simplified
+    tbo_maf = pd.merge(
+        tbo_maf,
+        sample_identifiers[["Run", "Sample", "MRN", "Accession"]],
+        left_on=["Tumor_Sample_Barcode_simplified"],
+        right_on=["Sample"],
+    ).drop(["Sample"], axis=1)
+
+    # Merge gbcm input and output (genotyped) maf based on genomic coordinates and sampleID
     tbf = pd.merge(
         tbo_maf,
         tbi_maf,
@@ -54,6 +67,7 @@ def integrate_genotypes(args):
             "End_Position",
             "Reference_Allele",
             "Tumor_Seq_Allele1",
+            "MRN",
         ],
         right_on=[
             "Chromosome",
@@ -61,10 +75,15 @@ def integrate_genotypes(args):
             "End_Position",
             "Reference_Allele",
             "Tumor_Seq_Allele2",
+            "MRN",
         ],
     )
-    # select required columns and drop duplicates
 
+    # gbcm is a scatter tool. Therefore, for each sample, drop mutations
+    #  that did not originate from itself or from a related sample.
+    tbf = tbf.drop(tbf[tbf["Tumor_Sample_Barcode_y"].isnull()].index)
+
+    # select required columns and drop duplicates
     tbf = tbf[
         [
             "Hugo_Symbol_x",
@@ -75,26 +94,22 @@ def integrate_genotypes(args):
             "t_ref_count_fragment",
             "t_alt_count_fragment",
             "Tumor_Sample_Barcode_x",
+            "Tumor_Sample_Barcode_simplified",
             "Chromosome",
-            # "Run",
-            # "Accession",
-            # "MRN",
+            "Run_x",
+            "Accession_x",
+            "MRN",
         ]
     ].drop_duplicates()
 
-    # create a new column of sample name with DUPLEX/SIMPLEX/STANDARD identifiers
-    tbf["Tumor_Sample_Barcode_simplified"] = tbf["Tumor_Sample_Barcode_x"].replace(
-        to_replace="_STANDARD$|_SIMPLEX|_DUPLEX$", value="", regex=True
-    )
-
-    # integrate sample identifiers
-    tbf = pd.merge(
-        tbf,
-        sample_identifiers,
-        how="left",
-        left_on=["Tumor_Sample_Barcode_simplified"],
-        right_on=["Sample"],
-    )
+    # # integrate sample identifiers
+    # tbf = pd.merge(
+    #     tbf,
+    #     sample_identifiers,
+    #     how="left",
+    #     left_on=["Tumor_Sample_Barcode_simplified"],
+    #     right_on=["Sample"],
+    # )
 
     tbf["t_vaf_fragment"] = tbf["t_alt_count_fragment"].apply(float) / (
         tbf["t_alt_count_fragment"].apply(float)
@@ -104,7 +119,7 @@ def integrate_genotypes(args):
     # remove genotyped variants that do not match positions
     # TODO: why is this happening? GBCM?
     tbf[tbf["VCF_POS"].isnull()].to_csv(
-        os.path.join(os.getcwd(), "traceback_orphan_data.txt"),
+        os.path.join(args.outdir, "traceback_orphan_data.txt"),
         header=True,
         index=None,
         sep="\t",
@@ -112,15 +127,18 @@ def integrate_genotypes(args):
     tbf = tbf[tbf["VCF_POS"].notnull()]
 
     tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
+
+    # label exonic and silent mutations as "Genotyped" if present in 
+    #  tbf and passes threshold.
     intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
     intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
 
     tbf = tbf[
         [
-            "Run",
+            "Run_x",
             "MRN",
             "Tumor_Sample_Barcode_x",
-            "Accession",
+            "Accession_x",
             "Chromosome",
             "VCF_POS",
             "VCF_REF",
@@ -133,10 +151,10 @@ def integrate_genotypes(args):
     ].rename(
         index=str,
         columns={
-            "Run": "#Run",
+            "Run_x": "#Run",
             "MRN": "MRN",
             "Tumor_Sample_Barcode_x": "Sample",
-            "Accession": "Accession",
+            "Accession_x": "Accession",
             "Chromosome": "Chr",
             "VCF_POS": "Pos",
             "VCF_REF": "Ref",
@@ -175,17 +193,12 @@ def integrate_genotypes(args):
     for index in ["RDP", "RDN", "ADP", "ADN", "SB"]:
         tbf[index] = ""
 
-    # filter traceback out based on Run:Accession:MRN key
-    # i1 = tbi_maf.set_index(["Run", "Accession", "MRN", "Tumor_Sample_Barcode"]).index
-    # i2 = tbf.set_index(["#Run", "Accession", "MRN", "Sample"]).index
-    # tbf = tbf[i2.isin(i1)]
-
     # print traceback multi-line header
-    with open(os.path.join(os.getcwd(), "traceback.txt"), "w") as tf:
+    with open(os.path.join(args.outdir, "traceback.txt"), "w") as tf:
         tf.write(traceback_header())
     # print traceback data
     tbf.to_csv(
-        os.path.join(os.getcwd(), "traceback.txt"),
+        os.path.join(args.outdir, "traceback.txt"),
         header=True,
         sep="\t",
         index=False,
@@ -198,7 +211,9 @@ def intersect_variants(filtered, dropped, tbf, control_samples=[]):
     parse genotyped data and re-classify filtered and dropped variants.
     """
     df_from_each_file = (
-        pd.read_csv(f, index_col=None, header=0, sep="\t", keep_default_na=False)
+        pd.read_csv(
+            f, index_col=None, header=0, sep="\t", keep_default_na=False, dtype=str
+        )
         for f in [filtered, dropped]
     )
     # convert all all variant to maf and concat into a single df
@@ -244,11 +259,11 @@ def traceback_header():
     return traceback header.
     """
     header = """##fileformat=Traceback v1.1
-##COLUMN=<ID=Run,Type=AlphNum,Description="Pool/Cohort level identifier">
+##COLUMN=<ID=Run,Type=AlphaNum,Description="Pool/Cohort level identifier">
 ##COLUMN=<ID=MRN,Type=Integer,Description="Patient identifier">
 ##COLUMN=<ID=Sample,Type=AlphaNum,Description="Unique sample identifier">
-##COLUMN=<ID=Accesssion,Type=AlphaNum,Description="Unique sample identifier">
-##COLUMN=<ID=Chr,Type=AlphNum,Description="Chromosome">
+##COLUMN=<ID=Accession,Type=AlphaNum,Description="Unique sample identifier">
+##COLUMN=<ID=Chr,Type=AlphaNum,Description="Chromosome">
 ##COLUMN=<ID=Pos,Type=Integer,Description="Starting genomic coordinate of the variant">
 ##COLUMN=<ID=Ref,Type=Alpha,Description="Reference base(s)">
 ##COLUMN=<ID=Alt,Type=Alpha,Description="Variant base(s)">
@@ -329,6 +344,15 @@ def main():
         dest="traceback_out_maf",
         required=True,
         help="Path to genotyped traceback output maf file",
+    )
+    parser.add_argument(
+        "-o",
+        "--outdir",
+        action="store",
+        dest="outdir",
+        required=False,
+        default=os.getcwd(),
+        help="Output directory",
     )
     args = parser.parse_args()
     integrate_genotypes(args)
