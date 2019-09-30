@@ -53,6 +53,7 @@ ENTRY_POINTS = """
         combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main
         gender_check = python_tools.workflow_tools.qc.gender_check:main
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
+        workflow_runtime_stats = python_tools.workflow_tools.workflow_runtime_stats:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
         generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
         generate_copynumber_inputs = python_tools.pipeline_kickoff.generate_copynumber_inputs:main
