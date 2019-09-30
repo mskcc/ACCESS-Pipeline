@@ -93,7 +93,7 @@ def main():
     :return:
     """
     parser = argparse.ArgumentParser(
-        prog="orkflow_runtime_stats.py",
+        prog="workflow_runtime_stats.py",
         description="compile run time for all modules using log files",
         usage="%(prog)s [options]",
     )
