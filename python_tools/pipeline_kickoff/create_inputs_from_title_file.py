@@ -524,7 +524,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(SAMPLE_ID_COLUMN).reset_index(drop=True)
+    title_file = title_file.sort_values(MANIFEST__CMO_PATIENT_ID_COLUMN).reset_index(drop=True)
 
     # Perform some sanity checks on the title file
     if not args.force:
