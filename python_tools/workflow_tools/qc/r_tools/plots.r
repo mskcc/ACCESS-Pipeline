@@ -108,7 +108,8 @@ plot_insert_size_distribution = function(insert_sizes) {
   
   peaks = insert_sizes %>% 
     group_by_(SAMPLE_ID_COLUMN) %>%
-    filter(TotalFrequency == max(TotalFrequency))
+    filter(TotalFrequency == max(TotalFrequency)) %>%
+    filter(FragmentSize == max(FragmentSize))
   
   peaks = peaks %>%
     rename(peak = TotalFrequency, peak_insert_size = FragmentSize)
