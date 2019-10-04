@@ -560,6 +560,9 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=False)
     # plot minor contamination
     all_minor_contamination = [x for x in all_minor_contamination if not np.isnan(x[1])]
+    if not len(all_minor_contamination):
+        print('WARNING: no homozygous positions found for duplex minor contamination.')
+
     all_minor_contamination = sorted(all_minor_contamination)
     df_minor_contamination = pd.DataFrame(all_minor_contamination,
                                           columns=['SampleName', 'MinorContaminationRateInDuplex'])
@@ -577,7 +580,11 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     plt.xlim([-1, y_pos.size])
     # plt.autoscale(True)
     plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
-    plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
+    if len(all_minor_contamination):
+        ylim = max([a[1] for a in all_minor_contamination]) + .0005
+    else:
+        ylim = .0021
+    plt.ylim([0, ylim])
     plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
 
 
