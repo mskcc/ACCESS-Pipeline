@@ -34,7 +34,8 @@ BASE_TOIL_RUNNER = 'toil-cwl-runner'
 # Name for log file output by Toil
 LOG_FILE_NAME = 'cwltoil.log'
 
-TMP_DIR = '/scratch'
+# Todo: investigate possible speedup with using /scratch or /fscratch
+# TMP_DIR = '/scratch'
 
 # Environment variables needed to be preserved across nodes
 PRESERVE_ENV_VARS = [
@@ -237,7 +238,7 @@ def set_temp_dir_env_vars(cwl_tmpdir, project_id):
     java_tmpdir = mkdtemp(
         prefix=project_id + '_',
         suffix='_' + str(os.getpid()),
-        dir=TMP_DIR
+        dir=cwl_tmpdir
     )
 
     os.environ['TMPDIR'] = cwl_tmpdir
