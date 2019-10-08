@@ -15,7 +15,13 @@ from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PAR
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_msi_inputs -sb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/standard_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -p ACCESSv1-VAL-20190010 -alone
+#
+# generate_msi_inputs \
+#   -sb ./standard_bams/ \
+#   -o ./inputs.yaml \
+#   -od ./outputs \
+#   -p Project_Name \
+#   -alone
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",

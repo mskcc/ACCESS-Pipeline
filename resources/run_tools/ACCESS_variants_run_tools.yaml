@@ -23,3 +23,5 @@ fields:
     type: string
   - name: vep_data
     type: string
+  - name: msisensor
+    type: File

@@ -20,7 +20,14 @@ from python_tools.constants import (
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -alone
+#
+# generate_copynumber_inputs \
+#   -t  ./title_file.txt \
+#   -tb ./unfiltered_bams \
+#   -o  inputs.yaml \
+#   -od ./output \
+#   -alone
+
 
 logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

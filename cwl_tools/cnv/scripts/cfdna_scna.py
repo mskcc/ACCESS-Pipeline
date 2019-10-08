@@ -236,8 +236,10 @@ def RunCoverage(args): #this method is now depricated
     if(args.verbose):
         print "generating coverage metrics for BAMS"
 
-    cmd_t = args.JAVA + " -Djava.io.tmpdir=/dmp/analysis/SCRATCH -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I tumor_bams.list"  + " -o " + args.runID + "_tumors_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
-    cmd_n = args.JAVA + " -Djava.io.tmpdir=/dmp/analysis/SCRATCH -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I normal_bams.list"  + " -o " + args.runID + "_normals_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
+    #cmd_t = args.JAVA + " -Djava.io.tmpdir=/dmp/analysis/SCRATCH -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I tumor_bams.list"  + " -o " + args.runID + "_tumors_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
+    cmd_t = args.JAVA + " -Djava.io.tmpdir=/scratch -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I tumor_bams.list"  + " -o " + args.runID + "_tumors_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
+    #cmd_n = args.JAVA + " -Djava.io.tmpdir=/dmp/analysis/SCRATCH -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I normal_bams.list"  + " -o " + args.runID + "_normals_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
+    cmd_n = args.JAVA + " -Djava.io.tmpdir=/scratch -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I normal_bams.list"  + " -o " + args.runID + "_normals_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
 
     cl_cmd_t = ''
     cl_cmd_n = ''

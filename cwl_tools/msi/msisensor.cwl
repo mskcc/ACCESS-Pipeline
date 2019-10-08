@@ -9,7 +9,7 @@ requirements:
   coresMin: 4
 
 arguments:
-- $('/dmp/resources/prod/tools/bio/msisensor/production/msisensor')
+- $(inputs.msisensor)
 - msi
 
 stdout: $(inputs.sample_name + '_msi.stdout')

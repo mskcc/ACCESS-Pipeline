@@ -8,8 +8,13 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
+  SchemaDefRequirement:
+    types:
+      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
 
 inputs:
+
+  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
 
   admie_script: string
   file_path: string
@@ -75,6 +80,9 @@ steps:
   msisensor:
     run: ../../cwl_tools/msi/msisensor.cwl
     in:
+      run_tools: run_tools
+      msisensor:
+        valueFrom: $(inputs.run_tools.msisensor)
       microsatellites: microsatellites
       tumor_bam: tumor_bam
       normal_bam: normal_bam
