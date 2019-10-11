@@ -8,7 +8,7 @@ requirements:
   ramMin: 4000
   coresMin: 6
 
-baseCommand: admie-analyze
+baseCommand: admie_analyze
 
 stdout: admie.stdout
 stderr: admie.stderr

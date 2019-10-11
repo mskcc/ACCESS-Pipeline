@@ -8,7 +8,7 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: /scripts/loessnormalize_nomapq_cfdna.R
+baseCommand: loessnormalize_nomapq_cfdna.R
 
 arguments:
 - --args

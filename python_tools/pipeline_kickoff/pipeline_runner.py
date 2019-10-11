@@ -47,7 +47,7 @@ def parse_arguments():
         "--batch_system",
         action="store",
         dest="batch_system",
-        choices=["singleMachine", "gridEngine"],
+        choices=["singleMachine", "gridEngine", "lsf"],
         default="gridEngine",
         help="e.g. lsf, sge or singleMachine",
         required=False,

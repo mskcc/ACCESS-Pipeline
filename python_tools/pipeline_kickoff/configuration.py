@@ -256,4 +256,83 @@ class LSF(object):
     """
 
     def __init__(self, queue):
-        pass
+        self.__CONTROL_QUEUE = queue
+        self.__BSUB_CMD = "/common/juno/OS7/10.1/linux3.10-glibc2.17-x86_64/bin/bsub"
+        self.__QUEUE_PARAM = "-q"
+        self.__TOIL_LSF_ARGS = " ".join(
+            [self.__QUEUE_PARAM, self.__CONTROL_QUEUE]
+        )
+        # self.__PRESERVE_ENV_PARAM = "-V"
+        # self.__DEFAULT_MEM = 40
+        # self.__DEFAULT_VMEM = 40
+        # self.__DEFAULT_CPU = 1
+        self.__JOB_NAME_PARAM = "-J"
+        # self.__WDIR_PARAM = "-wd"
+        # self.__RESOURCE_PARAM = "-l"
+        # self.__HVMEM_PARAM = "h_vmem="
+        # self.__VMEM_PARAM = "virtual_free="
+        # self.__UNIT = "G"
+        # self.__PARALLEL_ENV_PARAM = "-pe"
+        # self.__COMMAND_TYPE_PARAM = "-b y"
+        # self.__SYNC_PARAM = "-sync y"
+        self.__ASSAY = "ACCESS"
+
+    # def alter_parellel_env(self, pe):
+    #     """
+    #     Change parallel environment.
+    #     """
+    #     self.__TOIL_GRIDENGINE_PE = pe
+
+    def alter_path(self, path):
+        """
+        Change path to bsub binary.
+        """
+        self.__BSUB_CMD = path
+
+    def alter_resources(self, mem, vmem, cpu):
+        """
+        Customize memory and cpu usage.
+        """
+        self.__DEFAULT_MEM, self.__DEFAULT_VMEM, self.__DEFAULT_CPU = mem, vmem, cpu
+
+    def alter_assay(self, assayname):
+        """
+        Generic assay label.
+        """
+        self.__ASSAY = assayname
+
+    def no_sync(self):
+        """
+        Do not wait for submitted job to complete. Default setting is to wait
+        for the submitted job to complete and carry over the exit status.
+        """
+        self.__SYNC_PARAM = ""
+
+    def generate_cluster_cmd(self, jobid, wdir):
+        """
+        Generate a comprehensive gridengine wrapper command.
+        """
+        return " ".join(
+            [
+                self.__BSUB_CMD,
+                # self.__TOIL_GRIDENGINE_ARGS,
+                # self.__PRESERVE_ENV_PARAM,
+                # self.__WDIR_PARAM,
+                # wdir,
+                self.__JOB_NAME_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid),
+                # self.__RESOURCE_PARAM,
+                # self.__HVMEM_PARAM
+                # + str(self.__DEFAULT_MEM)
+                # + self.__UNIT
+                # + ","
+                # + str(self.__VMEM_PARAM)
+                # + str(self.__DEFAULT_VMEM)
+                # + self.__UNIT,
+                # self.__PARALLEL_ENV_PARAM,
+                # self.__TOIL_GRIDENGINE_PE,
+                # str(self.__DEFAULT_CPU),
+                # self.__COMMAND_TYPE_PARAM,
+                # self.__SYNC_PARAM,
+            ]
+        )

@@ -75,19 +75,19 @@ def parse_arguments():
         required=True
     )
 
-    parser.add_argument(
-        '-e',
-        '--engine_type',
-        help='Type of engine the job will be submitting',
-        required=False
-    )
+    # parser.add_argument(
+    #     '-e',
+    #     '--engine_type',
+    #     help='Type of engine the job will be submitting',
+    #     required=False
+    # )
 
-    parser.add_argument(
-        '-q',
-        '--queue',
-        help='Queue used for job submitting',
-        required=False
-    )
+    # parser.add_argument(
+    #     '-q',
+    #     '--queue',
+    #     help='Queue used for job submitting',
+    #     required=False
+    # )
 
     parser.add_argument(
         '-od',
@@ -123,8 +123,9 @@ def get_bam_list(args):
     """
     bamList = []
     for bam in glob.glob(os.path.join(args.tumor_bams_directory, '*.bam')):
-        if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
-            bamList.append(bam)
+        # Todo: CMO bams don't always end in 'T'
+        #if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
+        bamList.append(bam)
     return bamList
 
 
@@ -183,7 +184,7 @@ def create_inputs_file(args):
                 ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
 
         if args.stand_alone:
-            fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
+            fh.write("tmp_dir: /scratch\n")
             include_version_info(fh)
             fh.write("#### The end of for Copy Number Variant Calling ####\n")
 
