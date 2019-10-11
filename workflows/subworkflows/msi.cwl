@@ -102,8 +102,6 @@ steps:
   admie:
     run: ../../cwl_tools/msi/admie.cwl
     in:
-      admie_script: admie_script
-      file_path: file_path
       project_name_msi: project_name_msi
       allele_counts_list: msisensor/msisensor_distribution
       model: model
