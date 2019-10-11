@@ -8,18 +8,12 @@ requirements:
   ramMin: 4000
   coresMin: 6
 
-baseCommand: python
-
-arguments:
-- $(inputs.file_path + inputs.admie_script)
+baseCommand: admie-analyze
 
 stdout: admie.stdout
 stderr: admie.stderr
 
 inputs:
-
-  admie_script: string
-  file_path: string
 
   project_name_msi:
     type: string?

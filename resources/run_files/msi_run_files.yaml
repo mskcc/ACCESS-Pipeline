@@ -2,12 +2,7 @@
 ## Files required to run MSI ##
 ###############################
 
-# Custom scripts
-admie_script: /scripts/admie-analyze.py
-distance_script: /scripts/calculate_distances.py
-predict_script: /scripts/predict.py
-
 # Module-specific reference files
 #microsatellites: {class: File, path: /dmp/resources/prod/tools/bio/msisensor/dependencies/microsatellites.list}
 microsatellites: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/admie/microsatellites/microsatellites.list}
-model: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/admie/model/ADMIE.joblib}
+model: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSI/ADMIE.joblib}

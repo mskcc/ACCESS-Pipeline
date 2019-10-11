@@ -9,7 +9,9 @@ requirements:
   coresMin: 4
 
 arguments:
-- $(inputs.msisensor)
+# todo: ensure 0.2 is first in $PATH
+# or supply msisensor as run_tool
+- msisensor
 - msi
 
 stdout: $(inputs.sample_name + '_msi.stdout')

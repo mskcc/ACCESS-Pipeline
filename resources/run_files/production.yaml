@@ -35,4 +35,3 @@ pool_a_bed_file_exonlevel: {class: File, path: /ifs/work/bergerm1/Innovation/Res
 
 # Hotspots
 hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}
-

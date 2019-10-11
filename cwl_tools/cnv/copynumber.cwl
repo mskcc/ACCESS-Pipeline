@@ -8,12 +8,9 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: R
+baseCommand: copynumber_tm.batchdiff_cfdna.R
 
 arguments:
-- --slave
-- --vanilla
-- --file=$(inputs.file_path + inputs.copy_number_script)
 - --args
 
 stdout: copy_number.stdout
@@ -51,9 +48,6 @@ inputs:
     inputBinding:
       position: 5
     doc: either 'FULL' or 'MIN'
-
-  copy_number_script: string
-  file_path: string
 
 outputs:
   genes_file:

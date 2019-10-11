@@ -68,6 +68,9 @@ ENTRY_POINTS = """
         maf2tsv = python_tools.workflow_tools.maf2tsv:main
         traceback_inputs = cwl_tools.traceback.traceback_inputs:main
         traceback_integrate = cwl_tools.traceback.traceback_integrate:main
+        
+        cfdna_scna = cwl_tools.cnv.scripts.cfdna_scna:main
+        admie-analyze = cwl_tools.msi.scripts.admie-analyze:main
         """
 
 SUPPORT_SCRIPTS = [
@@ -79,6 +82,9 @@ SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/calculate_noise.sh",
     "python_tools/workflow_tools/qc/make_umi_qc_tables.sh",
     "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
+
+    "copynumber_tm.batchdiff_cfdna.R",
+    "loessnormalize_nomapq_cfdna.R",
 ]
 
 
