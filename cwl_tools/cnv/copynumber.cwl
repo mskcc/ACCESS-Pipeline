@@ -10,9 +10,6 @@ requirements:
 
 baseCommand: copynumber_tm.batchdiff_cfdna.R
 
-arguments:
-- --args
-
 stdout: copy_number.stdout
 stderr: copy_number.stderr
 
