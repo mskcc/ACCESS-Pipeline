@@ -110,7 +110,7 @@ def get_sampleID_and_sex(args):
     with open(args.title_file_path, 'rU') as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
-            if row["Sample"].split('_')[0].split('-')[-1].startswith('T'):
+            if row["SAMPLE_CLASS"] == 'Tumor':
                 sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 sample2sex[row["Sample"]] = sex
                 projName = row["Pool"]
@@ -135,8 +135,14 @@ def generate_manifest_file(args, sample2sex, bamList):
     """
     fileName = os.path.join(args.output_directory, "tumor_manifest.txt")
     output = ""
+
+    print(sample2sex)
+
     for bam in bamList:
         sampleId = os.path.basename(bam).split('_')[0]
+
+        print(sampleId)
+
         if sampleId in sample2sex:
             sex = sample2sex[sampleId]
             output += bam + "\t" + sex + "\n"

@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript --slave --vanilla
+#!/usr/bin/env Rscript
 
 # Donavan Cheng
 # 2013 July 24th

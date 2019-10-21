@@ -166,6 +166,7 @@ def parallelCov(cov_args):
         sampleCov.append(meancov)
     output.update({id:sampleCov})
     output.update({'Target':targets})
+
     return(output)
 
 def RunLoessNormalization(args, covFile, runType):
