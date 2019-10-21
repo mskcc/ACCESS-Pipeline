@@ -6,6 +6,6 @@ tmp_dir: /scratch # Comment this out for overall varaint calling
 
 # Module-specific reference files
 normal_sample_list: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/CNV/curated_normal_manifest.txt}
-targets_coverage_bed: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/CNV/ACCESS_targets_coverage.txt}
+targets_coverage_bed: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/CNV/ACCESS_targets_coverage.bed}
 targets_coverage_annotation: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/CNV/ACCESS_targets_coverage.txt}
 reference_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
