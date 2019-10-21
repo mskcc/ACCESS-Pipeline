@@ -11,7 +11,6 @@ requirements:
 baseCommand: loessnormalize_nomapq_cfdna.R
 
 arguments:
-- --args
 - $(runtime.outdir)
 
 stdout: $(inputs.run_type + '_loess.stdout')
