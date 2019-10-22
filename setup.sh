@@ -65,9 +65,8 @@ type -p conda > /dev/null || {
         exit 1;
         }
 
-# Set pythonpath and rlibs
+# Set pythonpath
 export PYTHONPATH="" # to avoid conflicts with system python libraries
-export R_LIBS="${ACCESS_ENV_PATH}/lib/R/library/" # to ensure r libraries are installed in conda R library path
 
 # TODO:
 # Upgrade/Downgrade conda version?
@@ -106,6 +105,9 @@ source activate ${ACCESS_ENV}
         printe "Cannot activate ${ACCESS_ENV}.";
         exit $EXITCODE;
         }
+
+# set rlibs path
+export R_LIBS="${ACCESS_ENV_PATH}/lib/R/library/" # to ensure r libraries are installed in conda R library path
 
 RSCRIPT=$(echo $(which python) | sed "s/python/Rscript/")
 
