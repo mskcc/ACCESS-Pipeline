@@ -357,7 +357,7 @@ class AccessProject(object):
                     sep="\t",
                 )
                 normals_file["normal_id"] = normals_file["normal_id"].replace(
-                    np.NaN, "Unmatched"
+                    np.NaN, "-"
                 )
                 normals_file.to_csv(
                     target_dir
