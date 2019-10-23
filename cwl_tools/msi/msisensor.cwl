@@ -3,10 +3,10 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-- class: InlineJavascriptRequirement
-- class: ResourceRequirement
-  ramMin: 4000
-  coresMin: 4
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 20000 # todo: how to get 4GB when dividing by 4!!!!!!!!!!....
+    coresMin: 4
 
 arguments:
 # todo: ensure 0.2 is first in $PATH

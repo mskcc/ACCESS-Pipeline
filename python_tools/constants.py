@@ -44,6 +44,9 @@ ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(
 ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(
     RUN_TOOLS_FOLDER, "ACCESS_variants_phoenix.yaml"
 )
+ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO = os.path.join(
+    RUN_TOOLS_FOLDER, "ACCESS_variants_luna.yaml"
+)
 ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(
     RUN_PARAMS_FOLDER, "ACCESS_variants_run_params_delly.yaml"
 )

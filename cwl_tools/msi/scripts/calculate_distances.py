@@ -21,6 +21,7 @@ import math
 from joblib import dump, load
 import argparse
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.backends.backend_pdf
 import matplotlib.pyplot as plt
 import seaborn as sns

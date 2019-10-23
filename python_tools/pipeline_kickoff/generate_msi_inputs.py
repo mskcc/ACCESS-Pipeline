@@ -9,7 +9,7 @@ import ruamel.yaml
 from collections import defaultdict
 
 from python_tools.util import include_yaml_resources, include_version_info
-from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH
+from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
@@ -51,7 +51,7 @@ def parse_arguments():
     parser.add_argument(
         "-alone",
         "--stand_alone",
-        help="Whether to run CNV as independent module",
+        help="Whether to run MSI as independent module",
         nargs="?",
         default=False,
         const=True,
@@ -85,13 +85,15 @@ def get_bam_dics(args):
     controlBamDic = {}
     for bam in glob.glob(os.path.join(args.standard_bams_directory, "*.bam")):
         sampleId = os.path.basename(bam).split("_")[0]
+        print(sampleId)
         if sampleId.startswith("SeraCare"):
             controlBamDic[sampleId] = bam
-        elif sampleId.split("-")[-1].startswith("T"):
+        elif sampleId.split("-")[-2].startswith("L00"):
             tumorBamDic[sampleId] = bam
-        elif sampleId.split("-")[-1].startswith("N"):
-            normalBamDic["-".join(sampleId.split("-")[:-1])] = bam
+        elif sampleId.split("-")[-2].startswith("N00"):
+            normalBamDic["-".join(sampleId.split("-")[:-2])] = bam
 
+    print(tumorBamDic, normalBamDic, controlBamDic)
     return (tumorBamDic, normalBamDic, controlBamDic)
 
 
@@ -118,7 +120,8 @@ def create_inputs_file(args):
     fileTemp = '{"class": "File", "path": "%s"}'
     inputYamlFileList = defaultdict(list)
     for sampleId in tumorBamDic:
-        patientId = "-".join(sampleId.split("-")[:-1])
+        patientId = "-".join(sampleId.split("-")[:-2])
+        print('patient ID: {}'.format(patientId))
         # Include ONLY paired samples
         if patientId in normalBamDic:
             inputYamlFileList["sample_name"].append(sampleId)
@@ -147,8 +150,8 @@ def create_inputs_file(args):
 
         map(
             include_yaml_resources,
-            [fh] * 2,
-            [ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH],
+            [fh] * 3,
+            [ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO],
         )
 
         if args.stand_alone:
@@ -162,6 +165,7 @@ def create_inputs_file(args):
 
 def validate_args(args):
     """Arguments sanity check"""
+    # todo: should not be necessary
 
     # Tumor bams folder is required for generating manifest list
     if not args.standard_bams_directory:

@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
 - class: ResourceRequirement
-  ramMin: 4000
+  ramMin: 16000 # todo: how to get 4GB when dividing by 6!!!!!!!!!!....
   coresMin: 6
 
 baseCommand: admie_analyze
