@@ -1,0 +1,8 @@
+###############################
+## Files required to run MSI ##
+###############################
+
+# Module-specific reference files
+#microsatellites: {class: File, path: /dmp/resources/prod/tools/bio/msisensor/dependencies/microsatellites.list}
+microsatellites: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSI/microsatellites.list}
+model: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSI/ADMIE.joblib}

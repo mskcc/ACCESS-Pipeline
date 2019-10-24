@@ -4,9 +4,26 @@
 
 # Module 3
 bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
-dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+dbsnp: {class: File, path: /ifs/e63data/bergerm1/Resources/DMP/pubdata/dbSNP/VERSIONS/dbsnp_v137/dbsnp_137.b37.vcf}
 cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
 refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
 ref_fasta: {class: File, path: /ifs/depot/resources/dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta}
+
 # Todo: Move to viral reference genome
 #ref_fasta: {class: File, path: /ifs/work/bergerm1/Innovation/projects/Juber/Wendy-Viral/resources/hg19-mcpyv-ebv-hpv/hg19-mcpyv-ebv-hpv.fasta}
+
+############
+# Module 5 #
+############
+# curated bam directories for variant calling
+curated_duplex_bams:
+  novaseq: {class: Directory, path: /ifs/work/bergerm1/ACCESS-Projects/novaseq_curated_simplex_v2}
+  hiseq: {class: Directory, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex}
+
+curated_simplex_bams:
+  novaseq: {class: Directory, path: /ifs/work/bergerm1/ACCESS-Projects/novaseq_curated_simplex_v2}
+  hiseq: {class: Directory, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_simplex}
+
+# reference bam files for VC and SV
+reference_bam_for_VC: {class: File, path: /ifs/work/bergerm1/ACCESS-Projects/hiseq_curated_duplex/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam}
+reference_bam_for_SV: {class: File, path: /ifs/work/bergerm1/brannona/ACCESS_M1.8/ACCESSv1-VAL-20180018/standard/Donor-F22_cl_aln_srt_MD_IR_FX_BR.bam}

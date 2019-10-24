@@ -61,7 +61,7 @@ merge_in_title_file_data = function(data, title_df) {
     title_df, 
     by=paste(SAMPLE_ID_COLUMN))
   
-  merged
+  return(merged)
 }
 
 
@@ -73,10 +73,10 @@ merge_in_title_file_data = function(data, title_df) {
 #' Ex: sample_names = c('test_sample_T', 'test_sample_N')
 #' test_sample_T_001_aln_srt_MD_IR_FX_BR -> test_sample_T
 cleanup_sample_names = function(data, sample_names) {
-  # Need to reverse sort to get longer matches first
-  sample_names[order(nchar(sample_names), sample_names, decreasing = TRUE)]
-  find.string = paste(unlist(sample_names), collapse = '|')
+  # Need to reverse sort to get longer matches first - not necessary if '^' is used to indicate start of sample names
+  sample_names = sample_names[order(nchar(sample_names), sample_names, decreasing = TRUE)]
+  find.string = paste(paste0("^", unlist(sample_names)), collapse = '|')
   find.string = paste0('.*(', find.string, ').*', collapse='', sep='')
   data[, SAMPLE_ID_COLUMN] = gsub(find.string, '\\1', data[, SAMPLE_ID_COLUMN])
-  data
+  return(data)
 }

@@ -9,12 +9,12 @@ requirements:
     outdirMax: 5000
 
 arguments:
-- $(inputs.r_path)
+- Rscript
 - $(inputs.sv_repo.path + '/scripts/manta_sample.R')
 
 inputs:
 
-  r_path: string
+  #r_path: string
   sv_repo: Directory
   sample_id: string
 

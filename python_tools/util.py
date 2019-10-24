@@ -225,24 +225,27 @@ def extract_sample_id_from_bam_path(bam_path):
     :param path:
     :return:
     """
-    return bam_path.split('/')[-1].split('_cl_aln')[0]
-
+    #return bam_path.split('/')[-1].split('_cl_aln')[0]
+    return bam_path.split('/')[-1].split(SAMPLE_SEP_FASTQ_DELIMETER)[0]
 
 def include_version_info(fh):
     """
-    Todo: Include indentifier to indicate if commit == tag
+    Todo: Include identifier to indicate if commit == tag
     """
-    import version
+    from python_tools import __version__ as version
+    #import _version
     fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('version: {} \n'.format(version.most_recent_tag))
     fh.write('# Pipeline Run Version Information: \n')
-    fh.write('# Version: {} \n'.format(version.version))
-    fh.write('# Short Version: {} \n'.format(version.short_version))
-    fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
-    fh.write('# Dirty? {} \n'.format(str(version.dirty)))
+    fh.write('version: {} \n'.format(version))
+    # fh.write('version: {} \n'.format(version.most_recent_tag))
+    # fh.write('# Pipeline Run Version Information: \n')
+    # fh.write('# Version: {} \n'.format(version.version))
+    # fh.write('# Short Version: {} \n'.format(version.short_version))
+    # fh.write('# Most Recent Tag: {} \n'.format(version.most_recent_tag))
+    # fh.write('# Dirty? {} \n'.format(str(version.dirty)))
 
 
-def find_bams_in_directory(dir):
+def find_bams_in_directory(dir, sample_list=None):
     """
     Filter to just bam files found in `dir`
 
@@ -250,7 +253,10 @@ def find_bams_in_directory(dir):
     :return:
     """
     files_found = os.listdir(dir)
-    bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
+    if sample_list:
+        bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f) and any(sample + SAMPLE_SEP_FASTQ_DELIMETER in f for sample in sample_list)]
+    else:
+        bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
     return bams_found
 
 
@@ -330,7 +336,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
                         one another
     """
     boolv = boolv.astype(bool)
-    matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
+    matching_sample_ids = title_file[boolv][TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if all_strings_are_substrings(matching_sample_ids):
         print(DELIMITER + 'WARNING: There are two or more sample ids found in this sample\'s path: {}'.format(
@@ -343,13 +349,13 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
                 'but please check that it is ordered with the correct RG_ID in the final inputs file.')
 
         longest_match = max(matching_sample_ids, key=len)
-        return np.argmax(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == longest_match)
+        return np.argmax(title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == longest_match)
 
     else:
         raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(sample_object['path']))
 
 
-def get_pos(title_file, sample_object, use_cmo_sample_id=False):
+def get_pos(title_file, sample_object):
     """
     Return position of `fastq_object` in the Sample ID column of `title_file`
 
@@ -361,23 +367,24 @@ def get_pos(title_file, sample_object, use_cmo_sample_id=False):
     :raise Exception: if more than one sample ID in the `title_file` matches this fastq file, or if no sample ID's
             in the `title_file` match this fastq file
     """
-    def contained_in(sample_id, fastq):
+    def contained_in(sample_id, file_path):
         """
         Helper method to sort list of fastqs.
         Returns 1 if `sample_id` contained in `fastq`'s path, 0 otherwise
         """
-        found = sample_id in fastq['path']
+        if file_path.endswith(".fastq.gz"):
+            found = sample_id + SAMPLE_SEP_FASTQ_DELIMETER in file_path
+        elif file_path.endswith("SampleSheet.csv"):
+            found = sample_id + SAMPLE_SEP_DIR_DELIMETER in file_path
+        else:
+            raise Exception("Unrecognized file type {}. File type should be either fastq.qz or SampleSheet.csv.".format(file_path))
 
         if found:
             return 1
         else:
             return 0
 
-    if use_cmo_sample_id:
-        boolv = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
-    else:
-        # Samples from IGO will use the COLLAB_ID
-        boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
+    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(contained_in, file_path=sample_object['path'])
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)

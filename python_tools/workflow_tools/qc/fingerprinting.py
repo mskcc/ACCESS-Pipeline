@@ -531,7 +531,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
 
     # RUN
     titlefile = read_df(titlefilepath, header='infer')
-    listofsamples = titlefile.loc[titlefile[MANIFEST__SAMPLE_CLASS_COLUMN] == 'Tumor'][SAMPLE_ID_COLUMN].tolist()
+    listofsamples = titlefile.loc[titlefile[TITLE_FILE__SAMPLE_CLASS_COLUMN] == 'Tumor'][SAMPLE_ID_COLUMN].tolist()
     config = create_fp_indices(config_file)
     # Check if Waltz Directories exist
     if not (os.path.isdir(waltz_dir_a_duplex) and os.path.isdir(waltz_dir_b_duplex)):

@@ -15,6 +15,7 @@ library(lattice)
 library(ggplot2)
 library(reshape2)
 library(data.table)
+library(wesanderson)
 suppressMessages(library(dplyr))
 
 
@@ -40,13 +41,14 @@ plot_read_pairs_count = function(data) {
 #' @param data data.frame with the usual columns
 plot_align_genome = function(data) {
   data$AlignFrac = as.numeric(data$AlignFrac)
-  
+  class_count = length(unique(data[[TITLE_FILE__SAMPLE_CLASS_COLUMN]]))
+  class_col_palette = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(class_count)
   g = ggplot(data, aes_string(x = SAMPLE_ID_COLUMN, y = 'AlignFrac')) +
     geom_bar(position='dodge', stat='identity', aes_string(fill = TITLE_FILE__SAMPLE_CLASS_COLUMN)) +
     ggtitle('Fraction of Total Reads that Align to the Human Genome') +
     scale_y_continuous('Fraction of Reads', label=format_comma) + 
     coord_cartesian(ylim=c(0.8, 1)) +
-    scale_fill_manual(values=c(MSK_BLUE, MSK_ORANGE)) +
+    scale_fill_manual(values=class_col_palette) +
     MAIN_PLOT_THEME
   
   ggsave(g, file='align_rate.pdf', width=20, height=8.5)
@@ -74,7 +76,8 @@ plot_on_bait = function(data) {
 #' @param data data.frame with the usual columns
 plot_gc_with_cov_each_sample = function(data) {
   data = data[complete.cases(data[, 'coverage']),]
-  
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
+
   # Only plot for Total and All Unique
   gc_bias_levels = c('All Unique')
   data = dplyr::filter(data, method %in% gc_bias_levels)
@@ -86,7 +89,8 @@ plot_gc_with_cov_each_sample = function(data) {
     ggtitle('Average Coverage versus GC bias (All Unique Reads, Pool A Targets)') +
     scale_y_continuous('Average Coverage', label = format_comma, limits = c(0, NA)) +
     xlab('GC Bias') +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   
   ggsave(g, file='gc_cov_each_sample.pdf', width=11, height=8.5)
 }
@@ -310,9 +314,9 @@ plot_mean_cov_and_family_types = function(coverage_data, family_types_data, pool
 #' @param data data.frame with Sample, FamilySize, and Frequency columns
 plot_family_curves <- function(data) {
   data[, SAMPLE_ID_COLUMN] = factor(data[, SAMPLE_ID_COLUMN])
-  
   # Only plot the Plasma samples
   data = data[data[TITLE_FILE__SAMPLE_TYPE_COLUMN] == 'Plasma',]
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
   
   g = ggplot(
     filter(data, FamilyType=='All'),
@@ -323,7 +327,8 @@ plot_family_curves <- function(data) {
     xlab('Family Size') +
     scale_y_continuous('Frequency', label = format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_all.pdf', width = 11, height = 8.5)
   
   g = ggplot(
@@ -335,7 +340,8 @@ plot_family_curves <- function(data) {
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label = format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_simplex.pdf', width = 11, height = 8.5)
   
   g = ggplot(
@@ -347,6 +353,7 @@ plot_family_curves <- function(data) {
     xlab('Family Size') + 
     scale_y_continuous('Frequency', label=format_comma) +
     coord_cartesian(xlim = c(0, 40)) +
-    MAIN_PLOT_THEME
+    MAIN_PLOT_THEME + 
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count))
   ggsave(g, file='family_sizes_duplex.pdf', width = 11, height = 8.5)
 }

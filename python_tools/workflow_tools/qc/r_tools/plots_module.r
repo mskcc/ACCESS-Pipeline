@@ -18,6 +18,7 @@ library(ggplot2)
 library(reshape2)
 library('getopt');
 library(data.table)
+library(wesanderson)
 
 suppressMessages(library(dplyr))
 
@@ -167,42 +168,45 @@ main = function() {
     colClasses = c('SEX' = 'character')
   )
   title_df = title_df[order(title_df[TITLE_FILE__SAMPLE_CLASS_COLUMN]),]
-  print('Title dataframe:')
-  print(title_df)
+  #print('Title dataframe:')
+  #print(title_df)
   
   # Title file sample colunn is used as sort order
   sample_ids = as.character(unlist(title_df[SAMPLE_ID_COLUMN]))
-  print('Sample IDs Order:')
-  print(sample_ids)
+  #print('Sample IDs Order:')
+  #print(sample_ids)
   
   # Read in tables
   df_list = read_tables(tables_output_dir, family_types_A_path, family_types_B_path, family_sizes_path)
-  print('Dataframes 0:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 0:')
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Fix sample names
   df_list = lapply(df_list, cleanup_sample_names, sample_ids)
-  print("Dataframes 1:")
-  lapply(df_list, function(x) {print(head(x))})
+  #print("Dataframes 1:")
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Merge in the title file data by sample id
   df_list = lapply(df_list, merge_in_title_file_data, title_df)
-  print('Dataframes 2:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 2:')
+  #lapply(df_list, function(x) {print(head(x))})
+  
   # Sort by sample class
   df_list = lapply(df_list, sort_df, TITLE_FILE__SAMPLE_CLASS_COLUMN)
-  print('Dataframes 3:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes 3:')
+  #lapply(df_list, function(x) {print(head(x))})
   
   # Now that we've sorted in the order we want,
   # make the Sample column a factor in that order as well 
   # (ggplot uses the X axis sort order if it is a factor)
   df_list = lapply(df_list, function(df){ 
-    df[, SAMPLE_ID_COLUMN] = factor(df[, SAMPLE_ID_COLUMN], levels = unique(df[, SAMPLE_ID_COLUMN])) 
-    df
+    df[, SAMPLE_ID_COLUMN] = factor(df[, SAMPLE_ID_COLUMN], levels = unique(df[, SAMPLE_ID_COLUMN]))
+    return(df)
   })
   
   # We have had problems here with sample names not matching between metrics files and title_file entries
-  print('Dataframes after processing:')
-  lapply(df_list, function(x) {print(head(x))})
+  #print('Dataframes after processing:')
+  #lapply(df_list, function(x) {print(head(x))})
   
   read_counts_data = df_list[[1]]
   cov_per_interval = df_list[[2]]

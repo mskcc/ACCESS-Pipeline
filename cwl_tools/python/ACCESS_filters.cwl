@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
 - class: ResourceRequirement
-  ramMin: 4000
+  ramMin: 20000
   coresMin: 1
 
 baseCommand: [ACCESS_filters]

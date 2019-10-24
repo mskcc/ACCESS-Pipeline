@@ -1,66 +1,13 @@
 import os
 import sys
+import shutil
 import uuid
 import argparse
 import subprocess
 import ruamel.yaml
-
 from tempfile import mkdtemp
 
-import version
-
-
-# This script is used to run workflows from the command line using toil-cwl-runner.
-#
-# It is a simple wrapper that creates the output directory structure,
-# and provides some default values for Toil params.
-#
-# It does not submit jobs to worker nodes,
-# as opposed to pipeline_submit, which uses bsub.
-#
-# Optional, potentially useful Toil arguments:
-#    --realTimeLogging \
-#    --rotateLogging \
-#    --js-console
-# Todo: in 3.15 this argument no longer works. Might have been changed to --dontLinkImports
-#    --linkImports \
-#    --clusterStats FILEPATH \
-#    --stats \
-
-
-# Command for Toil python executable
-BASE_TOIL_RUNNER = 'toil-cwl-runner'
-
-# Name for log file output by Toil
-LOG_FILE_NAME = 'cwltoil.log'
-
-# Todo: investigate possible speedup with using /scratch or /fscratch
-# TMP_DIR = '/scratch'
-
-# Environment variables needed to be preserved across nodes
-PRESERVE_ENV_VARS = [
-    'PATH',
-    'PYTHONPATH',
-    'TOIL_LSF_ARGS',
-    'TMPDIR',
-    'TMP_DIR',
-    'TEMP',
-    'TMP',
-    '_JAVA_OPTIONS',
-]
-
-# Defaults for our selection of Toil parameters
-DEFAULT_TOIL_ARGS = {
-    '--preserve-environment'    : ' '.join(PRESERVE_ENV_VARS),
-    '--defaultDisk'             : '10G',
-    '--defaultMem'              : '10G',
-    '--no-container'            : '',
-    '--disableCaching'          : '',
-    '--stats'                   : '',
-    '--cleanWorkDir'            : 'onSuccess',
-    '--maxLogFileSize'          : '20000000000',
-    '--retryCount'              : 2,
-}
+from configuration import *
 
 
 def parse_arguments():
@@ -70,198 +17,185 @@ def parse_arguments():
     Many of these arguments are simply passed through to the Toil runner
     :return:
     """
-    parser = argparse.ArgumentParser(description='submit toil job')
+    parser = argparse.ArgumentParser(description="submit toil job")
 
     parser.add_argument(
-        '--output_location',
-        action='store',
-        help='Path to CMO Project outputs location',
-        required=True
+        "--output_location",
+        action="store",
+        dest="output_location",
+        help="Path to Project outputs location",
+        required=True,
     )
 
     parser.add_argument(
-        '--inputs_file',
-        action='store',
-        help='CWL Inputs file (e.g. inputs.yaml)',
-        required=True
+        "--inputs_file",
+        action="store",
+        dest="inputs_file",
+        help="CWL Inputs file (e.g. inputs.yaml)",
+        required=True,
     )
 
     parser.add_argument(
-        '--workflow',
-        action='store',
-        help='Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)',
-        required=True
+        "--workflow",
+        action="store",
+        dest="workflow",
+        help="Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)",
+        required=True,
     )
 
     parser.add_argument(
-        '--batch_system',
-        action='store',
-        dest='batch_system',
-        help='e.g. lsf, sge or singleMachine',
-        required=True
+        "--batch_system",
+        action="store",
+        dest="batch_system",
+        choices=["singleMachine", "gridEngine", "lsf"],
+        default="gridEngine",
+        help="e.g. lsf, sge or singleMachine",
+        required=False,
     )
 
     parser.add_argument(
-        '--service_class',
-        action='store',
-        dest='service_class',
-        help='e.g. Berger',
-        required=False
+        "--user_Rlibs",
+        action="store_true",
+        dest="user_Rlibs",
+        help="set if environment variable R_LIBS is defined and to be used \
+                in addition to the R site library",
+        required=False,
     )
 
     parser.add_argument(
-        '--restart',
-        action='store_true',
-        dest='restart',
-        help='include this if we are restarting from an existing output directory',
-        required=False
+        "--restart",
+        action="store_true",
+        dest="restart",
+        help="include this if we are restarting from an existing output directory",
+        required=False,
     )
 
     parser.add_argument(
-        '--logLevel',
-        action='store',
-        dest='logLevel',
-        default='INFO',
-        help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
-        required=False
+        "--logLevel",
+        action="store",
+        dest="logLevel",
+        default="INFO",
+        help="INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)",
+        required=False,
+    )
+
+    parser.add_argument(
+        "--project_name",
+        action="store",
+        dest="project_name",
+        help="Name for the processed data directory",
+        required=False,
+    )
+
+    parser.add_argument(
+        "--include_version",
+        action="store_true",
+        dest="include_version",
+        help="Include pipeline git version in the project directory name",
+        required=False,
+    )
+
+    parser.add_argument(
+        "--queue",
+        action="store",
+        dest="queue",
+        default="test.q",
+        help="Name of the queue to which gridEngine or lsf jobs or submitted. Default: test.q",
+        required=False,
     )
 
     return parser.parse_known_args()
 
 
-def get_project_name_and_pipeline_version_id(args):
+def get_input_params(args):
     """
-    Grab the project name and pipeline version from the run inputs file,
-    and return as dash-separated string.
-
-    :param args:
+    get the parameters from inputs_yaml
+    
+    :param file:
     :return:
     """
-    with open(args.inputs_file, 'r') as stream:
+    with open(args.inputs_file, "r") as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
 
-    project_name = inputs_yaml['project_name']
-    pipeline_version = inputs_yaml['version']
-    project_and_version_id = '-'.join([project_name, pipeline_version])
-
-    return project_and_version_id
-
-
-def create_directories(args):
-    """
-    Create a simple output directory structure for the the pipeline, which will include:
-
-    - Pipeline outputs themselves
-    - Log files
-    - Temporary directories (deleted as per the cleanWorkDir parameter)
-    - Jobstore directories (deleted as per cleanWorkDir parameter?)
-    """
-    output_location = args.output_location
-    project_and_version_id = get_project_name_and_pipeline_version_id(args)
-
-
-    # Set output directory
-    output_directory = os.path.join(output_location, project_and_version_id)
-    logdir = os.path.join(output_directory, 'log')
-    tmpdir = '{}/tmp/'.format(output_directory)
-
-    # Use existing jobstore, or create new one
-    if args.restart:
-        print('Looking for existing jobstore directory to restart run...')
-        job_store_uuid = filter(lambda x: x.startswith('jobstore'), os.listdir(tmpdir))[0]
-        jobstore_path = os.path.join(tmpdir, job_store_uuid)
+    if args.project_name:
+        project_name = args.project_name
     else:
-        job_store_uuid = str(uuid.uuid1())
-        jobstore_path = '{}/jobstore-{}'.format(tmpdir, job_store_uuid)
+        try:
+            project_name = inputs_yaml["project_name"]
+        except KeyError:
+            raise Exception("project_name not defined in the inputs yaml file.")
 
-    # Check if output directory already exists
-    if os.path.exists(output_directory) and not args.restart:
-        raise Exception('The specified output directory already exists: {}'.format(output_directory))
+    if args.include_version:
+        try:
+            pipeline_version = inputs_yaml["version"]
+        except KeyError:
+            raise Exception("pipeline_version not defined in the inputs yaml file.")
+        project_name = "-".join([project_name, pipeline_version])
 
-    if not args.restart:
-        # Create output directories
-        os.makedirs(output_directory)
-        os.makedirs(logdir)
-        os.makedirs(tmpdir)
+    try:
+        tmpdir = inputs_yaml["tmp_dir"]
+        os.path.exists(tmpdir)        
+    except KeyError:
+        raise Exception("The variable tmp_dir is not defined in the inputs yaml file.")
+    except OSError:
+        raise
 
-    print('Output Dir: ' + output_directory)
-    print('Jobstore Base: ' + tmpdir)
-
-    return output_directory, jobstore_path, logdir, tmpdir
+    return tmpdir, project_name
 
 
-def run_toil(args, output_directory, jobstore_path, logdir, tmpdir):
+def run_toil(args, tmpdir, project):
     """
-    Format and call the command to run CWL Toil
+    Inherit from base classes, set variables and submit toil process.
     """
-    cmd = ' '.join(
-        [BASE_TOIL_RUNNER] + [
-        '--logFile', os.path.join(logdir, LOG_FILE_NAME),
-        '--jobStore', 'file://' + jobstore_path,
-        '--batchSystem', args.batch_system,
-        '--workDir', tmpdir,
-        '--outdir', output_directory,
-        '--writeLogs', logdir,
-        '--logLevel', args.logLevel,
-    ])
+    project_env = Env()
 
-    ARG_TEMPLATE = ' {} {} '
+    try:
+        tmpdir = mkdtemp(
+            prefix=project + "_", suffix="_" + str(os.getpid()), dir=tmpdir
+        )
+    except OSError:
+        raise Exception("Cannot create temp directory {}".format(tmpdir))
 
-    # Include Default arguments
-    for arg, value in DEFAULT_TOIL_ARGS.items():
-        cmd += ARG_TEMPLATE.format(arg, value)
+    output_directory = os.path.join(args.output_location, project)
 
-    # Include restart argument
-    if args.restart:
-        cmd += ' --restart '
-
-    # End with the workflow and inputs.yaml file
-    cmd += ARG_TEMPLATE.format(
+    toil = ToilArgs()
+    toil_cmd = toil.get_toil_cmd(
+        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system, args.queue),
+        output_directory,
+        args.batch_system,
+        args.logLevel,
         args.workflow,
-        args.inputs_file
-    )
+        args.inputs_file,
+        args.restart)
+        
+    if not args.batch_system == "singleMachine":
+        if args.batch_system == "gridEngine":
+            cluster = GridEngine(args.queue)
+        elif args.batch_system == "lsf":
+            cluster = LSF(args.queue)
+        cluster_cmd = cluster.generate_cluster_cmd(os.getpid(), output_directory)
+    else:
+        cluster_cmd = ""
 
-    print('Running Toil with command: {}'.format(cmd))
-    print('ACCESS-Pipeline version: {}'.format(version.most_recent_tag))
-    sys.stdout.flush()
-    subprocess.check_call(cmd, shell=True)
-
-
-def set_temp_dir_env_vars(cwl_tmpdir, project_id):
-    """
-    Set environment variables for temporary directories
-    Try to cover all possibilities for every tool
-
-    :param tmpdir:
-    :return:
-    """
-    java_tmpdir = mkdtemp(
-        prefix=project_id + '_',
-        suffix='_' + str(os.getpid()),
-        dir=cwl_tmpdir
-    )
-
-    os.environ['TMPDIR'] = cwl_tmpdir
-    os.environ['TMP_DIR'] = cwl_tmpdir
-    os.environ['TEMP'] = cwl_tmpdir
-    os.environ['TMP'] = cwl_tmpdir
-    os.environ['_JAVA_OPTIONS'] = '-Djava.io.tmpdir=' + java_tmpdir
+    try:
+        run_cmd = " ".join(filter(lambda x: x, (cluster_cmd , toil_cmd)))
+        print("\nRunning job with command: {}\n".format(run_cmd))
+        sys.stdout.flush()
+        subprocess.check_call(run_cmd, shell=True)
+    except subprocess.CalledProcessError:
+        raise
+    finally:
+        shutil.rmtree(tmpdir)
 
 
 ########
 # Main #
 ########
-
 def main():
     args, unknowns = parse_arguments()
+    tmpdir, project = get_input_params(args)
+    run_toil(args, tmpdir, project)
 
-    if args.service_class:
-        # Set SLA environment variable
-        os.environ['TOIL_LSF_ARGS'] = ' -sla {} '.format(args.service_class)
 
-    output_directory, jobstore_path, logdir, tmpdir = create_directories(args)
-
-    project_and_version_id = get_project_name_and_pipeline_version_id(args)
-    set_temp_dir_env_vars(tmpdir, project_and_version_id)
-
-    run_toil(args, output_directory, jobstore_path, logdir, tmpdir)
+if __name__ == "__main__":
+    main()
