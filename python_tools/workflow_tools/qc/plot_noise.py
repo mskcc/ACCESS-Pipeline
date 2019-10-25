@@ -14,7 +14,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 from python_tools.util import read_df, extract_sample_name, autolabel
-from python_tools.constants import *
+from python_tools.legacy_constants import *
 
 
 EXCLUDE_SAMPLES = re.compile(r'.*seracare.*', re.IGNORECASE)
@@ -196,8 +196,8 @@ def main():
 
     # Sort in same order as R code (by sample class)
     # Use a stable mergesort instead of quicksort default
-    noise_and_title_file = noise_and_title_file.sort_values(TITLE_FILE__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
-    noise_by_substitution_table = noise_by_substitution_table.sort_values(TITLE_FILE__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
+    noise_and_title_file = noise_and_title_file.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
+    noise_by_substitution_table = noise_by_substitution_table.sort_values(MANIFEST__SAMPLE_CLASS_COLUMN, kind='mergesort').reset_index(drop=True)
 
     noise_alt_percent_plot(noise_and_title_file)
     noise_contributing_sites_plot(noise_and_title_file)
