@@ -99,7 +99,7 @@ SUPPORT_SCRIPTS = [
 
 setup(
     name="access_pipeline",
-    version=version(),
+    version=version.most_recent_tag(),
     description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
     url="http://github.com/mskcc/ACCESS-Pipeline",
     author="Ian Johnson, Gowtham Jayakumaran",
