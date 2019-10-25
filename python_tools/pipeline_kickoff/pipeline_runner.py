@@ -137,7 +137,7 @@ def get_input_params(args):
         os.path.exists(tmpdir)        
     except KeyError:
         print("The variable tmp_dir is not defined in the inputs yaml file.")
-        tmpdir = os.path.join(args.output_location, 'tmp')
+        tmpdir = args.output_location
     except OSError:
         raise
 
