@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 # constants include the paths to the config files
-from python_tools.constants import *
+from python_tools.legacy_constants import *
 from python_tools.util import (
     DELIMITER,
     INPUTS_FILE_DELIMITER,
@@ -110,13 +110,13 @@ def perform_duplicate_barcodes_check(title_file):
     Note that this only works when performing this check on an individual lane,
     as barcodes may be reused across lanes.
     """
-    for lane in title_file[TITLE_FILE__LANE_COLUMN].unique():
-        lane_subset = title_file[title_file[TITLE_FILE__LANE_COLUMN] == lane]
+    for lane in title_file[MANIFEST__LANE_COLUMN].unique():
+        lane_subset = title_file[title_file[MANIFEST__LANE_COLUMN] == lane]
 
-        if np.sum(lane_subset[TITLE_FILE__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
+        if np.sum(lane_subset[MANIFEST__BARCODE_INDEX_1_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 1, lane {}. Exiting.'.format(lane))
 
-        if np.sum(lane_subset[TITLE_FILE__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
+        if np.sum(lane_subset[MANIFEST__BARCODE_INDEX_2_COLUMN].duplicated()) > 0:
             raise Exception(DELIMITER + 'Duplicate barcodes for barcode 2, lane {}. Exiting.'.format(lane))
 
 
@@ -139,8 +139,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
     # Todo: Should we instead raise an error and not continue?
     """
-    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
@@ -160,9 +160,9 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
-    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
-    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq2)
-    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
 
@@ -202,10 +202,10 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
     :return:
     """
     i5_sequencer_types = []
-    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
+    for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DIR_DELIMETER in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
@@ -216,7 +216,7 @@ def perform_barcode_index_checks_i5(title_file, sample_sheets):
             print('Index2 not found in SampleSheet.csv. Skipping i5 barcode index validation.')
             return
 
-        title_file_i5 = cur_sample[TITLE_FILE__BARCODE_INDEX_2_COLUMN].values[0]
+        title_file_i5 = cur_sample[MANIFEST__BARCODE_INDEX_2_COLUMN].values[0]
         i5_sequencer_types.append(check_i5_index(title_file_i5, sample_sheet_i5))
 
     all_non_reverse_complemented = all([match_type == NON_REVERSE_COMPLEMENTED for match_type in i5_sequencer_types])
@@ -242,11 +242,11 @@ def perform_barcode_index_checks_i7(title_file, sample_sheets):
     :param sample_sheets:
     :return:
     """
-    for sample_id in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]:
-        cur_sample = title_file[title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == sample_id]
-        title_file_i7 = cur_sample[TITLE_FILE__BARCODE_INDEX_1_COLUMN].values[0]
+    for sample_id in title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]:
+        cur_sample = title_file[title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == sample_id]
+        title_file_i7 = cur_sample[MANIFEST__BARCODE_INDEX_1_COLUMN].values[0]
 
-        matching_sample_sheets = [s for s in sample_sheets if sample_id + SAMPLE_SEP_DIR_DELIMETER in s.get('path')]
+        matching_sample_sheets = [s for s in sample_sheets if sample_id in s.get('path')]
         assert len(matching_sample_sheets) == 1, 'Incorrect matching sample sheet count for sample {}'.format(sample_id)
         sample_sheet = matching_sample_sheets[0]
         sample_sheet_df = pd.read_csv(sample_sheet['path'], sep=',')
@@ -295,16 +295,16 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
         # Todo: what's the difference between ID & SM?
         # Todo: do we want the whole filename for ID? (see BWA IMPACT logs)
         # or abbreviate it (might be the way they do it in Roslin)
-        'add_rg_ID': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_SM': title_file[TITLE_FILE__SAMPLE_ID_COLUMN].tolist(),
-        'add_rg_LB': title_file[TITLE_FILE__LANE_COLUMN].tolist(),
+        'add_rg_ID': title_file[SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_SM': title_file[SAMPLE_ID_COLUMN].tolist(),
+        'add_rg_LB': title_file[MANIFEST__LANE_COLUMN].tolist(),
 
         # Todo: should we use one or two barcodes in the PU field if they are different?
-        'add_rg_PU': title_file[TITLE_FILE__BARCODE_ID_COLUMN].tolist(),
+        'add_rg_PU': title_file[MANIFEST__BARCODE_ID_COLUMN].tolist(),
 
         # Patient ID needs to be a string, in case it is currently an integer
-        'patient_id': [str(p) for p in title_file[TITLE_FILE__PATIENT_ID_COLUMN].tolist()],
-        'sample_class': title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].tolist()
+        'patient_id': [str(p) for p in title_file[MANIFEST__CMO_PATIENT_ID_COLUMN].tolist()],
+        'sample_class': title_file[MANIFEST__SAMPLE_CLASS_COLUMN].tolist()
     }
 
     # Trim whitespace
@@ -355,7 +355,7 @@ def write_inputs_file(args, title_file, output_file_name):
     :param title_file:
     :param output_file_name:
     """
-    tool_resources_file_path = TOOL_RESOURCES_PROD
+    tool_resources_file_path = TOOL_RESOURCES_LUNA
 
     if args.test:
         run_params_path = RUN_PARAMS_TEST
@@ -477,23 +477,24 @@ def perform_validation(title_file, title_file_path, project_name):
     if not project_name in title_file_path:
         print('WARNING: project ID not found in title file path. Are you sure you are using the correct title file?')
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
+    if np.sum(title_file[SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample IDs. Exiting.')
 
-    #if set([TITLE_FILE__COLLAB_ID_COLUMN]).issubset(title_file.columns) and np.sum(title_file[TITLE_FILE__COLLAB_ID_COLUMN].duplicated()) > 0:
-    #    raise Exception(DELIMITER + 'Duplicate investigator sample IDs. Exiting.')
+    if np.sum(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].duplicated()) > 0:
+        raise Exception(DELIMITER + 'Duplicate investigator sample IDs. Exiting.')
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].isin(ALLOWED_SAMPLE_DESCRIPTION)) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sample classes are in {}'.format(",".join(ALLOWED_SAMPLE_DESCRIPTION)))
+    if np.sum(title_file[MANIFEST__SAMPLE_CLASS_COLUMN].isin(['Tumor', 'Normal'])) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sample classes are in [Tumor, Normal]')
 
-    if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(ALLOWED_SAMPLE_TYPE_DESCRIPTION)) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sample types are in {}'.format(",".join(ALLOWED_SAMPLE_TYPE_DESCRIPTION)))
+    if np.sum(title_file[MANIFEST__SAMPLE_TYPE_COLUMN].isin(['Plasma', 'Buffy Coat'])) < len(title_file):
+        raise Exception(DELIMITER + 'Not all sample types are in [Plasma, Buffy Coat]')
 
-    if not np.issubdtype(title_file[TITLE_FILE__LANE_COLUMN], np.number):
-        raise Exception(DELIMITER + 'Lane column must be integers')
+    if not np.issubdtype(title_file[MANIFEST__LANE_COLUMN], np.number):
+        raise Exception(DELIMITER + 'Lane column of title file must be integers')
 
-    if title_file[TITLE_FILE__LANE_COLUMN].isnull().any():
+    if title_file[MANIFEST__LANE_COLUMN].isnull().any():
         raise Exception(DELIMITER + 'Lane column of title file must not be missing or NA')
+
 
 def print_user_message():
     print(DELIMITER)
@@ -523,7 +524,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index(drop=True)
+    title_file = title_file.sort_values(MANIFEST__CMO_PATIENT_ID_COLUMN).reset_index(drop=True)
 
     # Perform some sanity checks on the title file
     if not args.force:
