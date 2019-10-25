@@ -2,7 +2,18 @@ import os
 import sys
 from setuptools import setup, find_packages
 from subprocess import check_output
-from _version import version
+import version
+
+
+# Write version info to version.py on setup
+version_number = version.expand_()
+with open('python_tools/version.py', 'wb') as f:
+    f.write(version_number)
+
+
+# Todo: need to come up with a better way to retain version info
+with open('python_tools/version.py', 'wb') as f:
+    f.write(version_number)
 
 
 def req_file(filename):
