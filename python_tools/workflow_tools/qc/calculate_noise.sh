@@ -18,8 +18,8 @@ fi
 epsilon=0.0000001
 cutOffAF=0.02
 
-echo -e "Sample\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise.txt
-echo -e "Sample\tSubstitution\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise-by-substitution.txt
+echo -e "CMO_SAMPLE_ID\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise.txt
+echo -e "CMO_SAMPLE_ID\tSubstitution\tGenotypeCount\tAltCount\tAltPercent\tContributingSites\tMethod" > noise-by-substitution.txt
 
 
 for f in `ls *-pileup.txt`
