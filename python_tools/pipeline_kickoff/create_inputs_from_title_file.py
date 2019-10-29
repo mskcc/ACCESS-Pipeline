@@ -139,8 +139,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
     # Todo: Should we instead raise an error and not continue?
     """
-    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]])
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
@@ -160,9 +160,9 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
-    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq1)
-    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), fastq2)
-    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]), sample_sheet)
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
 
@@ -355,7 +355,7 @@ def write_inputs_file(args, title_file, output_file_name):
     :param title_file:
     :param output_file_name:
     """
-    tool_resources_file_path = TOOL_RESOURCES_PROD
+    tool_resources_file_path = TOOL_RESOURCES_LUNA
 
     if args.test:
         run_params_path = RUN_PARAMS_TEST

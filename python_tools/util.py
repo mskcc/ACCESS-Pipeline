@@ -330,7 +330,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
                         one another
     """
     boolv = boolv.astype(bool)
-    matching_sample_ids = title_file[boolv][MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN]
+    matching_sample_ids = title_file[boolv][TITLE_FILE__COLLAB_ID_COLUMN]
 
     if all_strings_are_substrings(matching_sample_ids):
         print(DELIMITER + 'WARNING: There are two or more sample ids found in this sample\'s path: {}'.format(
@@ -343,7 +343,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
                 'but please check that it is ordered with the correct RG_ID in the final inputs file.')
 
         longest_match = max(matching_sample_ids, key=len)
-        return np.argmax(title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN] == longest_match)
+        return np.argmax(title_file[TITLE_FILE__COLLAB_ID_COLUMN] == longest_match)
 
     else:
         raise Exception('More than one unique sample ID matches fastq {}, exiting.'.format(sample_object['path']))
@@ -377,7 +377,7 @@ def get_pos(title_file, sample_object, use_cmo_sample_id=False):
         boolv = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
     else:
         # Samples from IGO will use the COLLAB_ID
-        boolv = title_file[MANIFEST__INVESTIGATOR_SAMPLE_ID_COLUMN].apply(contained_in, fastq=sample_object)
+        boolv = title_file[TITLE_FILE__COLLAB_ID_COLUMN].apply(contained_in, fastq=sample_object)
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)

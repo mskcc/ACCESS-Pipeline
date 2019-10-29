@@ -144,6 +144,7 @@ TITLE_FILE__SEX_COLUMN                      = 'Sex'
 TITLE_FILE__BARCODE_INDEX_1_COLUMN          = 'Barcode_index_1'
 TITLE_FILE__BARCODE_INDEX_2_COLUMN          = 'Barcode_index_2'
 TITLE_FILE__LANE_COLUMN                     = 'Lane'
+TITLE_FILE__STUDY_ID_COLUMN                 = 'Study ID'
 
 
 ##########################
@@ -167,6 +168,7 @@ columns_map_manifest = OrderedDict([
     (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
     (MANIFEST__BARCODE_INDEX_2_COLUMN            , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
+    (MANIFEST__PROJECT_ID_COLUMN                 , TITLE_FILE__STUDY_ID_COLUMN),
 ])
 
 # Map SAMPLESHEET --> TITLE_FILE
