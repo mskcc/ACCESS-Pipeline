@@ -42,6 +42,10 @@ def convert_to_title_file(manifest):
     sample_convert_func = lambda sample: sample_rename_map[sample]
     title_file.loc[:, MANIFEST__CMO_SAMPLE_ID_COLUMN] = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(sample_convert_func)
 
+    # Select the columns we want from the manifest & rename them
+    title_file = manifest[columns_map_manifest.keys()]
+    title_file.columns = columns_map_manifest.values()
+
     # Remove empty rows
     title_file = title_file.dropna(axis=0, how='all')
 
