@@ -31,7 +31,6 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tools/phoenix.yaml')
-TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
 

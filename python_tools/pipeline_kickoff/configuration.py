@@ -253,9 +253,6 @@ class LSF(object):
     """
     A base class to represent the interface that lsf batch
     system must provide to Toil.
-
-    # todo: no hard coded paths
-    # todo: remove or reimplement commented code
     """
 
     def __init__(self, queue):
