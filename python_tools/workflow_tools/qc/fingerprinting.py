@@ -532,7 +532,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     index = natural_sort(index)
     all_fp_summary = all_fp_summary.reindex(index)
     # print summary
-    all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=False)
+    all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=True)
     # plot minor contamination
     all_minor_contamination = [x for x in all_minor_contamination if not np.isnan(x[1])]
     all_minor_contamination = sorted(all_minor_contamination)
@@ -806,7 +806,7 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
     all_reformatted = all_reformatted.reindex(index)
 
     # save to file
-    all_reformatted.to_csv(fp_output_dir + '/ALL_FPsummary.txt', sep="\t", index=False)
+    all_reformatted.to_csv(fp_output_dir + '/ALL_FPsummary.txt', sep="\t", index=True)
     return all_reformatted
 
 
