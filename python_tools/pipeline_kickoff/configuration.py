@@ -263,7 +263,8 @@ class LSF(object):
             [self.__QUEUE_PARAM, self.__CONTROL_QUEUE]
         )
         # self.__PRESERVE_ENV_PARAM = "-V"
-        # self.__DEFAULT_MEM = 40
+        self.__DEFAULT_MEM_PARAM = '-M'
+        self.__DEFAULT_MEM = 5
         # self.__DEFAULT_VMEM = 40
         # self.__DEFAULT_CPU = 1
         self.__JOB_NAME_PARAM = "-J"
@@ -321,18 +322,7 @@ class LSF(object):
                 # wdir,
                 self.__JOB_NAME_PARAM,
                 self.__ASSAY + "_pid_" + str(jobid),
-                # self.__RESOURCE_PARAM,
-                # self.__HVMEM_PARAM
-                # + str(self.__DEFAULT_MEM)
-                # + self.__UNIT
-                # + ","
-                # + str(self.__VMEM_PARAM)
-                # + str(self.__DEFAULT_VMEM)
-                # + self.__UNIT,
-                # self.__PARALLEL_ENV_PARAM,
-                # self.__TOIL_GRIDENGINE_PE,
-                # str(self.__DEFAULT_CPU),
-                # self.__COMMAND_TYPE_PARAM,
-                # self.__SYNC_PARAM,
+                str(self.__DEFAULT_MEM_PARAM),
+                str(self.__DEFAULT_MEM),
             ]
         )
