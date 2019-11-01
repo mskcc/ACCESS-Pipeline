@@ -49,6 +49,7 @@ def get_package_files(directory, file_type):
 
 ENTRY_POINTS = """
         [console_scripts]
+        create_access_project = python_tools.pipeline_kickoff.create_access_project:main
         create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main
         create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main
         create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main
