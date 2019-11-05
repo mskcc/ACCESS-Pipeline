@@ -64,7 +64,6 @@ It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`,
 (access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
 
 ```
-## Additional setup steps, if not on LUNA:
 
 ### 2. Update the run variables
 
