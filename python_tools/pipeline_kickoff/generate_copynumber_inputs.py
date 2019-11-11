@@ -52,6 +52,13 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        '-p',
+        '--project_id',
+        help='Unique identifier for this CNV run',
+        required=True
+    )
+
+    parser.add_argument(
         '-alone',
         '--stand_alone',
         help='Whether to run CNV as independent module',
@@ -106,15 +113,13 @@ def get_sampleID_and_sex(args):
     """
 
     sample2sex = {}
-    projName = ""
     with open(args.title_file_path, 'rU') as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
             if row["SAMPLE_CLASS"] == 'Tumor':
                 sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 sample2sex[row["Sample"]] = sex
-                projName = row["Pool"]
-    return (sample2sex, projName)
+    return sample2sex
 
 
 def get_bam_list(args):
@@ -161,7 +166,7 @@ def create_inputs_file(args):
     """
     validate_args(args)
 
-    (sample2sex, projName) = get_sampleID_and_sex(args)
+    sample2sex = get_sampleID_and_sex(args)
     bamList = get_bam_list(args)
     if not sample2sex or not bamList:
         raise Exception('Unable to load title file or get bam list')
@@ -170,7 +175,7 @@ def create_inputs_file(args):
     module = 'cwl_tools/cnv'
 
     inputYamlString = {
-        "project_name_cnv": projName,
+        "project_name": args.project_id,
         "file_path": os.path.join(path, module)
     }
 

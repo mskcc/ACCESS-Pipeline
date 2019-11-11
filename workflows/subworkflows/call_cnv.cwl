@@ -17,7 +17,7 @@ inputs:
   targets_coverage_annotation: File
 
   reference_fasta: File
-  project_name_cnv: string
+  project_name: string
   threads: int
 
 outputs:
@@ -90,7 +90,7 @@ steps:
   coverage:
     run: ../../cwl_tools/cnv/coverage.cwl
     in:
-      project_name_cnv: project_name_cnv
+      project_name_cnv: project_name
       threads: threads
       tumor_sample_list: tumor_sample_list
       normal_sample_list: normal_sample_list
@@ -103,7 +103,7 @@ steps:
   loess_tumor:
     run: ../../cwl_tools/cnv/loess.cwl
     in:
-      project_name_cnv: project_name_cnv
+      project_name_cnv: project_name
       coverage_file: coverage/tumors_covg
       run_type:
         default: tumor
@@ -115,7 +115,7 @@ steps:
   loess_normal:
     run: ../../cwl_tools/cnv/loess.cwl
     in:
-      project_name_cnv: project_name_cnv
+      project_name_cnv: project_name
       coverage_file: coverage/normals_covg
       run_type:
         default: normal
@@ -127,7 +127,7 @@ steps:
   copy_number:
     run: ../../cwl_tools/cnv/copynumber.cwl
     in:
-      project_name_cnv: project_name_cnv
+      project_name_cnv: project_name
       loess_normals: loess_normal/loess_text
       loess_tumors: loess_tumor/loess_text
       do_full:
