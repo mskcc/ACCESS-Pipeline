@@ -8,7 +8,7 @@ import pandas as pd
 from python_tools.constants import (
     ACCESS_VARIANTS_RUN_FILES_PATH,
     ACCESS_VARIANTS_RUN_PARAMS_PATH,
-    ACCESS_VARIANTS_RUN_TOOLS_PATH,
+    ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO,
     ACCESS_VARIANTS_RUN_TOOLS_MANTA_JUNO,
 )
 
@@ -277,7 +277,7 @@ def create_inputs_file(args):
 
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
     include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH)
+    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO)
 
     if args.standard_bams_directory:
         include_sv_inputs(args, fh)

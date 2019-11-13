@@ -1,6 +1,4 @@
-##############
-# Test Files #
-##############
+# Todo: need separate run_files_dmp and run_files_cmo
 
 # Module 3
 bed_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed}
@@ -22,7 +20,7 @@ hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/h
 blacklist_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Blacklist/ACCESS_blacklist_20_05_2019.txt}
 # TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
 custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
-annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_files/mutect_annotate_concat_header.txt}
+annotate_concat_header_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/run_files/mutect_annotate_concat_header.txt}
 
 
 ############
