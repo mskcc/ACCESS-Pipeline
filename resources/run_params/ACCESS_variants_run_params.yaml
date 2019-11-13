@@ -43,13 +43,6 @@ bcftools_params:
 # Module 4 #
 ############
 
-exac_filter: {class: File, path: /dmp/hot/jayakumg/data/ACCESS-data/variant_calling/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
-hotspots: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/hotspot-list-union-v1-v2.txt}
-blacklist_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/ACCESS_blacklist_20_05_2019.txt}
-##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
-custom_enst_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/dmp_ACCESS-panelA-v1-isoform-overrides}
-annotate_concat_header_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/mutect_annotate_concat_header.txt}
-
 # (Also used for Module-6)
 vcf2maf_params:
   species: homo_sapiens_merged
