@@ -91,7 +91,6 @@ inputs:
   targets_coverage_bed: File
   targets_coverage_annotation: File
   reference_fasta: File
-  project_name_cnv: string
   threads: int
 
 outputs:
@@ -350,11 +349,11 @@ steps:
   manta:
     run: ./subworkflows/manta.cwl
     in:
-      sample_id: sv_sample_id
-      tumor_bams: sv_tumor_bams
-      normal_bam: sv_normal_bam
-      run_tools: sv_run_tools
-      reference_fasta: ref_fasta
+      sv_sample_id: sv_sample_id
+      sv_tumor_bams: sv_tumor_bams
+      sv_normal_bam: sv_normal_bam
+      sv_run_tools: sv_run_tools
+      ref_fasta: ref_fasta
       project_name: project_name
       version: version
     out: [
@@ -378,7 +377,7 @@ steps:
       targets_coverage_bed: targets_coverage_bed
       targets_coverage_annotation: targets_coverage_annotation
       reference_fasta: reference_fasta
-      project_name_cnv: project_name_cnv
+      project_name: project_name
       threads: threads
     out: [
       tumors_covg,

@@ -1,7 +1,6 @@
 ############
 # Module 3 #
 ############
-tmp_dir: /dmp/analysis/SCRATCH
 
 mutect_params:
   dcov: 50000

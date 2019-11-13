@@ -277,6 +277,8 @@ class LSF(object):
         # self.__COMMAND_TYPE_PARAM = "-b y"
         # self.__SYNC_PARAM = "-sync y"
         self.__ASSAY = "ACCESS"
+        self.__STDERR_FILE_PARAM = '-eo'
+        self.__STDOUT_FILE_PARAM = '-oo'
 
     # def alter_parellel_env(self, pe):
     #     """
@@ -322,6 +324,12 @@ class LSF(object):
                 # wdir,
                 self.__JOB_NAME_PARAM,
                 self.__ASSAY + "_pid_" + str(jobid),
+
+                self.__STDERR_FILE_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid) + '.stderr',
+                self.__STDOUT_FILE_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid) + '.stdout',
+
                 str(self.__DEFAULT_MEM_PARAM),
                 str(self.__DEFAULT_MEM),
             ]

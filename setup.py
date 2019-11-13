@@ -69,6 +69,7 @@ ENTRY_POINTS = """
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
         generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
+        generate_access_variants_inputs_cmo = python_tools.pipeline_kickoff.generate_access_variants_inputs_cmo:main
         generate_copynumber_inputs = python_tools.pipeline_kickoff.generate_copynumber_inputs:main
         generate_msi_inputs = python_tools.pipeline_kickoff.generate_msi_inputs:main
         filter_mutect = cwl_tools.basicfiltering.filter_mutect:main
