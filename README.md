@@ -84,8 +84,10 @@ export TOIL_GRIDENGINE_PE="smp"
 ```
 
 ### 4. Install Python libraries
-Unfortunately, we are using a combination of Conda and Pip to get all the pipeline requirements
+Unfortunately, we are using a combination of Conda and Pip to get all the pipeline requirements, so you must enter the conda environment and install these libraries using pip
 ```
+$ source activate ACCESS
+
 (ACCESS) $ pip install .
 ```
 
@@ -156,7 +158,9 @@ These are the same as when used for running a test with `cwltool` or `toil-cwl-r
 (ACCESS) $ create_title_file_from_manifest \
   -i ~/manifests/ES_manifest.xlsx \
   -o ./ES_title_file.txt
-  
+```
+
+```
 (ACCESS) $ create_inputs_from_title_file \
   -i lane-5_ES_title_file.txt \
   -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES \
