@@ -462,13 +462,18 @@ def create_traceback_inputs(
                     "traceback_samples.txt", "traceback_input_mutations.txt"
                 )
             )
+        # Determine bam type
+        traceback_samples_df["BAM_TYPE"] = traceback_samples_df["BAM_file_path"].apply(
+            lambda x: "DUPLEX"
+            if "-duplex" in os.path.basename(x)
+            else ("SIMPLEX" if "-simplex" in os.path.basename(x) else "STANDARD")
+        )
 
         traceback_bams.extend(traceback_samples_df["BAM_file_path"].values.tolist())
         traceback_samples.extend(
-            map(
-                lambda x: str(x) + "_STANDARD",
-                traceback_samples_df["Sample"].values.tolist(),
-            )
+            (
+                traceback_samples_df["Sample"] + "_" + traceback_samples_df["BAM_TYPE"]
+            ).values.tolist()
         )
     # duplex bams from current project
     traceback_bams.extend(
