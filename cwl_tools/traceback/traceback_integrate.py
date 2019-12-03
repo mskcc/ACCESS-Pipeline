@@ -102,15 +102,6 @@ def integrate_genotypes(args):
         ]
     ].drop_duplicates()
 
-    # # integrate sample identifiers
-    # tbf = pd.merge(
-    #     tbf,
-    #     sample_identifiers,
-    #     how="left",
-    #     left_on=["Tumor_Sample_Barcode_simplified"],
-    #     right_on=["Sample"],
-    # )
-
     tbf["t_vaf_fragment"] = tbf["t_alt_count_fragment"].apply(float) / (
         tbf["t_alt_count_fragment"].apply(float)
         + tbf["t_ref_count_fragment"].apply(float)
@@ -125,14 +116,9 @@ def integrate_genotypes(args):
         sep="\t",
     )
     tbf = tbf[tbf["VCF_POS"].notnull()]
-
     tbf["t_vaf_fragment"].replace([np.inf, np.nan, -np.inf], 0.0, inplace=True)
 
-    # label exonic and silent mutations as "Genotyped" if present in
-    #  tbf and passes threshold.
-    intersect_variants(args.exonic_filtered, args.exonic_dropped, tbf, control_samples)
-    intersect_variants(args.silent_filtered, args.silent_dropped, tbf, control_samples)
-
+    # Select columns for final reporting
     tbf = tbf[
         [
             "Run_x",
@@ -185,6 +171,25 @@ def integrate_genotypes(args):
 
     # combined standard bam and simplex-duplex metrics for final traceback
     tbf = pd.concat([tbf_standard, tbf_duplex], ignore_index=True)
+
+    # label exonic and silent mutations as "Genotyped" if present in
+    #  tbf and passes threshold.
+    intersect_variants(
+        args.exonic_filtered,
+        args.exonic_dropped,
+        tbf,
+        sample_identifiers,
+        control_samples,
+    )
+    intersect_variants(
+        args.silent_filtered,
+        args.silent_dropped,
+        tbf,
+        sample_identifiers,
+        control_samples,
+    )
+
+    # prepare all variants for final traceback output
     tbf["Sample"] = tbf["Sample"].replace(
         to_replace="_STANDARD$|_DUPLEX$", value="", regex=True
     )
@@ -196,6 +201,7 @@ def integrate_genotypes(args):
     # print traceback multi-line header
     with open(os.path.join(args.outdir, "traceback.txt"), "w") as tf:
         tf.write(traceback_header())
+
     # print traceback data
     tbf.to_csv(
         os.path.join(args.outdir, "traceback.txt"),
@@ -206,7 +212,7 @@ def integrate_genotypes(args):
     )
 
 
-def intersect_variants(filtered, dropped, tbf, control_samples=[]):
+def intersect_variants(filtered, dropped, tbf, sample_metadata, control_samples=[]):
     """
     parse genotyped data and re-classify filtered and dropped variants.
     """
@@ -229,19 +235,33 @@ def intersect_variants(filtered, dropped, tbf, control_samples=[]):
         Sample = var.Sample
         if Sample in control_samples:
             continue
-        Patient_ID = Sample.split("-")[0]
+        # Get patient id from title file
+        Patient_ID = (
+            sample_metadata[sample_metadata["Sample"] == Sample]["MRN"].tolist().pop()
+        )
+        # select mutatons from traceback file that matches coordiante of the current variant
+        #  and belongs to any sample from this patient excluding the current one.
         select = tbf[
-            (tbf["VCF_REF"].values == var.Ref)
-            & (tbf["VCF_ALT"].values == var.Alt)
-            & (tbf["VCF_POS"].apply(int).values == int(var.Start))
-            & (tbf["t_vaf_fragment"].apply(float).values >= 0.02)
+            (tbf["Ref"].values == var.Ref)
+            & (tbf["Alt"].values == var.Alt)
+            & (tbf["Pos"].apply(int).values == int(var.Start))
+            & (tbf["Sample"].str.contains(Patient_ID))
+            & ~(tbf["Sample"].str.contains(Sample + "_"))
         ]
-        select = select[
-            ~(select["Tumor_Sample_Barcode_x"].str.contains("DUPLEX"))
-            & ~(select["Tumor_Sample_Barcode_x"].str.contains("SIMPLEX"))
-        ]
-        select = select[select["Tumor_Sample_Barcode_x"].str.contains(Patient_ID)]
-        if select.shape[0] > 0:
+        # if the variant is present in any prior IMAPCT sample at VF >= 0.02
+        #  or prior ACCESS SIMPLEX-DUPLEX at VF >= 0.001, tag it as genotyped.
+        if (
+            select[
+                ~(select["Sample"].str.contains("DUPLEX"))
+                & (select["VF"].apply(float).values >= 0.02)
+            ].shape[0]
+            > 0
+            or select[
+                (select["Sample"].str.contains("DUPLEX"))
+                & (select["VF"].apply(float).values >= 0.001)
+            ].shape[0]
+            > 0
+        ):
             mut_class = ",".join([variants["Mutation_Class"][i], "Genotyped"])
             variants.at[i, "Mutation_Class"] = (
                 mut_class[1:] if mut_class.startswith(",") else mut_class
