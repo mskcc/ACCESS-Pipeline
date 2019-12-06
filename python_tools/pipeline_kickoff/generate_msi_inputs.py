@@ -9,7 +9,7 @@ import ruamel.yaml
 from collections import defaultdict
 
 from python_tools.util import include_yaml_resources, include_version_info
-from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO
+from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
@@ -151,7 +151,7 @@ def create_inputs_file(args):
         map(
             include_yaml_resources,
             [fh] * 3,
-            [ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO],
+            [ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH, ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO],
         )
 
         if args.stand_alone:
