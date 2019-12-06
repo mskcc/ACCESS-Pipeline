@@ -72,6 +72,13 @@ def parse_arguments():
         required=True,
     )
 
+    parser.add_argument(
+        '-td',
+        '--tmp_dir',
+        help='Absolute path to temporary working directory (e.g. /scratch)',
+        required=True
+    )
+
     args = parser.parse_args()
     return args
 
@@ -155,7 +162,7 @@ def create_inputs_file(args):
         )
 
         if args.stand_alone:
-            fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
+            fh.write("tmp_dir: {}\n".format(args.tmp_dir))
             include_version_info(fh)
 
         fh.write("#### The end of for MSI ####\n")
