@@ -124,12 +124,12 @@ def get_sampleID_and_sex(args):
         tfDict = csv.DictReader(titleFile, delimiter='\t')
         for row in tfDict:
             if row["SAMPLE_CLASS"] == 'Tumor':
-                if hasattr(row, "Sex"):
+                if "Sex" in row:
                     sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 else:
                     sex = row["SEX"].replace("F", "Female").replace("M", "Male")
 
-                if hasattr(row, "Sample"):
+                if "Sample" in row:
                     sample2sex[row["Sample"]] = sex
                 else:
                     sample2sex[row["CMO_SAMPLE_ID"]] = sex
