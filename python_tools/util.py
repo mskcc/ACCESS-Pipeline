@@ -214,7 +214,8 @@ def extract_sample_id_from_bam_path(bam_path):
     :param path:
     :return:
     """
-    return bam_path.split("/")[-1].split("_cl_aln")[0]
+    # return bam_path.split('/')[-1].split('_cl_aln')[0]
+    return bam_path.split("/")[-1].split(SAMPLE_SEP_FASTQ_DELIMETER)[0]
 
 
 def include_version_info(fh):
@@ -231,7 +232,7 @@ def include_version_info(fh):
         fh.write("version: {} \n".format("Unknown"))
 
 
-def find_bams_in_directory(dir):
+def find_bams_in_directory(dir, sample_list=None):
     """
     Filter to just bam files found in `dir`
 
@@ -239,7 +240,15 @@ def find_bams_in_directory(dir):
     :return:
     """
     files_found = os.listdir(dir)
-    bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
+    if sample_list:
+        bams_found = [
+            os.path.join(dir, f)
+            for f in files_found
+            if BAM_REGEX.match(f)
+            and any(sample + SAMPLE_SEP_FASTQ_DELIMETER in f for sample in sample_list)
+        ]
+    else:
+        bams_found = [os.path.join(dir, f) for f in files_found if BAM_REGEX.match(f)]
     return bams_found
 
 

@@ -5,6 +5,7 @@ import shutil
 import logging
 import argparse
 import pandas as pd
+import numpy as np
 
 from python_tools.util import substring_in_list, listdir
 from python_tools.constants import (
@@ -318,7 +319,7 @@ class AccessProject(object):
         if analysis_type == "sv":
             ccopy(
                 self._process_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
-                target_dir + self._project_name + "_AllAnnotatedSVs.txt",
+                target_dir + "/" + self._project_name + "_AllAnnotatedSVs.txt",
             )
         if analysis_type == "cnv":
             ccopy(
@@ -338,6 +339,36 @@ class AccessProject(object):
             # ccopy(self._process_dir + "/" + self._project_name + "_copynumber_segclups.probes.txt",
             # target_dir + "/probes_level_cnv.json")
         if analysis_type == "vc":
+            # Create tumor normal pair file
+            self._logger.info(
+                "Copying {} to {}.".format(
+                    os.path.join(self._process_dir, "../Title_file_to_paired.csv"),
+                    target_dir
+                    + "/"
+                    + self._project_name
+                    + "_NormalUsedInMutationCalling.txt",
+                )
+            )
+            if not self._dry_run:
+                normals_file = pd.read_csv(
+                    os.path.join(self._process_dir, "../Title_file_to_paired.csv"),
+                    index_col=None,
+                    header=0,
+                    sep="\t",
+                )
+                normals_file["normal_id"] = normals_file["normal_id"].replace(
+                    np.NaN, "-"
+                )
+                normals_file.to_csv(
+                    target_dir
+                    + "/"
+                    + self._project_name
+                    + "_NormalUsedInMutationCalling.txt",
+                    header=False,
+                    index=None,
+                    sep="\t",
+                )
+
             # Variants passing filters
             ccopy(
                 self._process_dir + "/" + self._project_name + "_ExonicFiltered.txt",
@@ -361,6 +392,7 @@ class AccessProject(object):
                 + "_NonPanelSilentFiltered.txt",
                 target_dir + "/annotated_nonpanel_silent_variants.txt",
             )
+            ccopy(self._process_dir + "/traceback.txt", target_dir + "/traceback.txt")
             # Variants failing filters
             dropped_variants_files = map(
                 lambda x: self._process_dir + "/" + self._project_name + x,
@@ -368,7 +400,7 @@ class AccessProject(object):
                     "_ExonicDropped.txt",
                     "_SilentDropped.txt",
                     "_NonPanelExonicDropped.txt",
-                    "_NonPanelSilentFiltered.txt",
+                    "_NonPanelSilentDropped.txt",
                 ],
             )
             self._logger.info(

@@ -1,6 +1,7 @@
 ##########################################
 # Default Parameters for ACCESS-Pipeline #
 ##########################################
+tmp_dir: /dmp/analysis/SCRATCH
 
 tmp_dir: /dmp/analysis/SCRATCH
 

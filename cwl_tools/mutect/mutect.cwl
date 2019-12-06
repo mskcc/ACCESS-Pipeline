@@ -20,7 +20,7 @@ requirements:
       - $import: ../../resources/run_params/schemas/mutect.yaml
       - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
   ResourceRequirement:
-    ramMin: 32000
+    ramMin: 50000
     coresMin: 1
     outdirMax: 20000
 

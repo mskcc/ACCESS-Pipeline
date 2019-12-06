@@ -34,8 +34,8 @@ def extract_blacklist(args):
         
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
-        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict;MuTect'
-        df_annotation.drop(['TYPE','FAILURE_REASON','MUTECT'], inplace=True, errors='ignore')
+        df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict,MuTect'
+        df_annotation.drop(columns=['TYPE','FAILURE_REASON','MUTECT'], inplace=True)
     
     if os.path.isfile(args.anno_maf):
         annotation_file = args.anno_maf
@@ -144,7 +144,7 @@ def create_fillout_summary(df_fillout, alt_thres):
     summary_table[fillout_type + 'median_VAF'] = df_fillout.groupby(mutation_key)['t_vaf_fragment'].median()
 
     # Find the number of samples with alt count above the threshold (alt_thres)
-    summary_table[fillout_type + 'n_fillout_sample_alt_detect'] = df_fillout.groupby(mutation_key)['t_alt_count_fragment'].aggregate(lambda x :(x>alt_thres).sum())
+    summary_table[fillout_type + 'n_fillout_sample_alt_detect'] = df_fillout.groupby(mutation_key)['t_alt_count_fragment'].aggregate(lambda x :(x>=alt_thres).sum())
 
     # Find the number of sample with the Total Depth is >0
     # 't_vaf_fragment' column is NA for samples where mutation had no coverage, so count() will exclude it
@@ -260,7 +260,7 @@ def apply_filter_maf (df_pre_filter, blacklist, args):
         # TODO: ASK MIKE: add truncated mutations to below threshold 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del'
         
     def occurrence_in_curated (mut, status, args):
-        if mut['CURATED-DUPLEX_n_fillout_sample_alt_detect'] > args.min_n_curated_samples_alt_detected:
+        if mut['CURATED-DUPLEX_n_fillout_sample_alt_detect'] >= args.min_n_curated_samples_alt_detected:
             status = status + 'InCurated;'
         return status
     

@@ -7,6 +7,7 @@
 
 from __future__ import division
 
+import os
 import sys
 import time
 import logging
@@ -49,7 +50,7 @@ def annotate_concat_vcf(args):
     combined_gz_vcf = cmo_util.bgzip(args.combined_vcf)
     cmo_util.tabix_file(combined_gz_vcf)
     annotated_concat_gz_vcf = cmo_util.annotate_vcf(combined_gz_vcf, args.anno_with_vcf, args.anno_header)
-    annotated_concat_vcf = cmo_util.bgzip_decompress(annotated_concat_gz_vcf)
+    annotated_concat_vcf = cmo_util.annotate_vcf_with_coordinates(cmo_util.bgzip_decompress(annotated_concat_gz_vcf))
     return annotated_concat_vcf
 
 

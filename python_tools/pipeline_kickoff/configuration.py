@@ -23,6 +23,7 @@ class Env(object):
             self.__ENV_VARS.append(x)
         os.environ["_JAVA_OPTIONS"] = "-Djava.io.tmpdir=" + tmpdir
         self.__ENV_VARS.append("_JAVA_OPTIONS")
+        self.__ENV_VARS.append("JAVA_HOME")
 
         if not user_Rlibs:
             os.environ["R_LIBS"] = ""
@@ -131,7 +132,7 @@ class ToilArgs(object):
                 self.__OUTDIR,
                 "--writeLogs",
                 self.__LOG_DIR,
-                "--logLevel",
+                "--logLevel=" +
                 self.__LOG_LEVEL,
             ]
         )
@@ -152,7 +153,7 @@ class ToilArgs(object):
             try:
                 os.makedirs(run_dir)
             except OSError as e:
-                if e.errno != os.errno.EEXIST:
+                if e.errno != errno.EEXIST:
                     print("Exception when creating directory: {}".format(run_dir))
                     raise
 

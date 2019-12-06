@@ -27,9 +27,7 @@ noise__good_positions_A: {class: File, path: /home/jayakumg/data/ACCESS-data/res
 # Todo: Use $PIPELINE_ROOT
 pool_a_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/MSK-ACCESS-v1_0-probe-A-14.bed}
 pool_b_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/MSK-ACCESS-v1_0-probe-B-16.bed}
-
 gene_list: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/hg19-gene-list.bed}
-
 # Exon-level Bed file
 pool_a_bed_file_exonlevel: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/MSK-ACCESS-v1_0_panelA_canonicaltargets-chr14.bed}
 

@@ -9,29 +9,67 @@ reference_fasta_fai: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assem
 
 # BaseRecalibrator
 # Todo: Consolidate
-bqsr__knownSites_dbSNP: {class: File, path: /dmp/data/pubdata/dbSNP/production/dbsnp_137.b37.vcf}
-bqsr__knownSites_millis: {class: File, path: /dmp/data/pubdata/mills-and-1000g/VERSIONS/v20131014/Mills_and_1000G_gold_standard.indels.b37.vcf}
+bqsr__knownSites_dbSNP:
+  { class: File, path: /dmp/data/pubdata/dbSNP/production/dbsnp_137.b37.vcf }
+bqsr__knownSites_millis:
+  {
+    class: File,
+    path: /dmp/data/pubdata/mills-and-1000g/VERSIONS/v20131014/Mills_and_1000G_gold_standard.indels.b37.vcf,
+  }
 
 # Fingerprinting
-FP_config_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
+FP_config_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt,
+  }
 
 # UMI QC
-A_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}
-B_on_target_positions: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt}
+A_on_target_positions:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt,
+  }
+B_on_target_positions:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt,
+  }
 
 # Noise QC
-noise__good_positions_A: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt}
-
-
+noise__good_positions_A:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt,
+  }
 
 # Files used after standard Bam steps
-# Main Bed files (Probe-level)
-pool_a_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed}
-pool_b_bed_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed}
-gene_list: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/hg19-gene-list.bed}
+pool_a_bed_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed,
+  }
+pool_b_bed_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed,
+  }
+gene_list:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/hg19-gene-list.bed,
+  }
 
 # Exon-level Bed file
-pool_a_bed_file_exonlevel: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed}
+pool_a_bed_file_exonlevel:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed,
+  }
 
 # Hotspots
-hotspots: {class: File, path: /home/jayakumg/data/ACCESS-data/test_reference/bed/hotspot-list-union-v1-v2_with_TERT.txt}
+hotspots:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/test_reference/bed/hotspot-list-union-v1-v2_with_TERT.txt,
+  }

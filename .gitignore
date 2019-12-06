@@ -47,5 +47,15 @@ __pycache__/
 # pyenv
 .python-version
 
+
 # files generated during package build
 resources/run_params/version.yaml
+
+# Test data
+test/
+
+# Temporary untracked files
+python_tools/workflow_tools/constants.py
+python_tools/pipeline_kickoff/constants.py
+python_tools/pipeline_kickoff/root.py
+python_tools/pipeline_kickoff/util.py

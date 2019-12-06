@@ -63,14 +63,15 @@ def filter_by_annotation(args):
     #Removes based on Annotations
     df_kept = df_input[Bool_exon|Bool_MET|Bool_TERT]
     df_drop = df_input[~(Bool_exon|Bool_MET|Bool_TERT)]
-    
-    df_notinGenomicRange=pd.DataFrame()
-    #Removes based on genomic Range
-    if args.input_interval:
+    df_notinGenomicRange=pd.DataFrame(columns=df_input.columns.tolist())
+
+    # if interval file is provided and df_kept is not empty
+    if args.input_interval and not df_kept.empty:
         intervals=check_interval(args.input_interval)
+        # Remove based on genomic Range
         Bool_inGenomicRange = df_kept['all_effects'].fillna('NA').apply(lambda x: any([y in intervals for y in re.split(',|;',x)]))
-        df_notinGenomicRange = df_kept[~Bool_inGenomicRange]
-        df_kept=df_kept[Bool_inGenomicRange]
+        df_notinGenomicRange = df_kept[~(Bool_inGenomicRange)]
+        df_kept=df_kept[(Bool_inGenomicRange)]
 
     return df_drop, df_notinGenomicRange, df_kept
 
@@ -95,9 +96,9 @@ def main():
     args = parse_arguments()
     df_drop, df_notinGenomicRange, df_kept = filter_by_annotation(args)
     
-    df_notinGenomicRange.to_csv(args.dropped_NGR_output_maf, sep='\t', index=False)
-    df_drop.to_csv(args.dropped_output_maf, sep='\t', index=False)
-    df_kept.to_csv(args.kept_output_maf, sep='\t', index=False)
+    df_notinGenomicRange.to_csv(args.dropped_NGR_output_maf, sep='\t', header=True, index=False)
+    df_drop.to_csv(args.dropped_output_maf, sep='\t', header=True, index=False)
+    df_kept.to_csv(args.kept_output_maf, sep='\t', header=True, index=False)
 
 if __name__ == '__main__':
     start_time = time.time()

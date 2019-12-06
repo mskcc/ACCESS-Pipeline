@@ -117,7 +117,7 @@ RSCRIPT=$(echo $(which python) | sed "s/python/Rscript/")
         }
 
 printi "Installing R packages from CRAN..."
-$RSCRIPT -e 'install.packages(c("devtools","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson"), repos="https://cran.cnr.berkeley.edu/")'
+$RSCRIPT -e 'install.packages(c("devtools","argparse","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson", "vcfR"), repos="https://cran.cnr.berkeley.edu/")'
 
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || {

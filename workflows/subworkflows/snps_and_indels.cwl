@@ -6,6 +6,9 @@ requirements:
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  EnvVarRequirement:
+    envDef:
+      JAVA_HOME: /dmp/resources/prod/tools/system/java/jdk1.8.0_121
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_params/schemas/mutect.yaml
@@ -17,12 +20,14 @@ requirements:
       - $import: ../../resources/run_params/schemas/gbcms_params.yaml
       - $import: ../../resources/run_params/schemas/access_filters.yaml
       - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      # - $import: ../../resources/run_tools/traceback.yaml
 
 inputs:
 
   project_name: string
   version: string
   run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  # traceback: ../../resources/run_tools/traceback.yaml#traceback
 
   mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
   vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
@@ -37,6 +42,7 @@ inputs:
   blacklist_file: File
   custom_enst_file: File
   annotate_concat_header_file: File
+  title_file: File
 
   #########################################
   # Tumor bams should be sorted in paired #
@@ -51,12 +57,17 @@ inputs:
   genotyping_bams:
     type: File[]
     secondaryFiles: [^.bai]
+  traceback_bams:
+    type: File[]
+    secondaryFiles: [^.bai]
 
   tumor_sample_names: string[]
   normal_sample_names: string[]
   genotyping_bams_ids: string[]
   matched_normal_ids: string[]
+  traceback_sample_ids: string[]
 
+  traceback_mutation_file: File
   bed_file: File
   refseq: File
 
@@ -136,6 +147,70 @@ outputs:
     type: File[]
     outputSource: module_4/final_filtered_condensed_maf
 
+  collated_maf:
+    type: File
+    outputSource: module_5/collated_maf
+
+  filtered_exonic:
+    type: File
+    outputSource: module_5/filtered_exonic
+
+  dropped_exonic:
+    type: File
+    outputSource: module_5/dropped_exonic
+
+  filtered_silent:
+    type: File
+    outputSource: module_5/filtered_silent
+
+  dropped_silent:
+    type: File
+    outputSource: module_5/dropped_silent
+
+  filtered_exonic_nonpanel:
+    type: File
+    outputSource: module_5/filtered_exonic_nonpanel
+
+  dropped_exonic_nonpanel:
+    type: File
+    outputSource: module_5/dropped_exonic_nonpanel
+
+  filtered_silent_nonpanel:
+    type: File
+    outputSource: module_5/filtered_silent_nonpanel
+
+  dropped_silent_nonpanel:
+    type: File
+    outputSource: module_5/dropped_silent_nonpanel
+  
+  traceback_genotype_inputs:
+    type: File
+    outputSource: module_5/traceback_genotype_inputs
+  
+  tb_fillout_out:
+    type: File
+    outputSource: module_5/tb_fillout_out
+  
+  traceback_final:
+    type: File
+    outputSource: module_5/traceback_final
+  
+  tb_exonic_filtered_mutations:
+    type: File
+    outputSource: module_5/tb_exonic_filtered_mutations
+
+  tb_exonic_dropped_mutations:
+    type: File
+    outputSource: module_5/tb_exonic_dropped_mutations
+
+  tb_silent_filtered_mutations:
+    type: File
+    outputSource: module_5/tb_silent_filtered_mutations
+
+  tb_silent_dropped_mutations:
+    type: File
+    outputSource: module_5/tb_silent_dropped_mutations
+
 steps:
 
   ###################
@@ -203,3 +278,38 @@ steps:
       final_filtered_condensed_maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, matched_normal_sample_name]
     scatterMethod: dotproduct
+
+  ####################################
+  # Convert maf to tsv and traceback #
+  ####################################
+
+  module_5:
+    run: ../module-5.cwl
+    in:
+      project_name: project_name
+      custom_enst_file: custom_enst_file
+      all_maf: module_4/final_filtered_maf
+      title_file: title_file
+      gbcms_params: gbcms_params
+      run_tools: run_tools
+      traceback_sample_ids: traceback_sample_ids
+      traceback_bams: traceback_bams
+      traceback_input_mutations: traceback_mutation_file
+      ref_fasta: ref_fasta
+    out: [
+        collated_maf,
+        filtered_exonic,
+        dropped_exonic,
+        filtered_silent,
+        dropped_silent,
+        filtered_exonic_nonpanel,
+        dropped_exonic_nonpanel,
+        filtered_silent_nonpanel,
+        dropped_silent_nonpanel,
+        traceback_genotype_inputs,
+        tb_fillout_out,
+        traceback_final,
+        tb_exonic_filtered_mutations,
+        tb_exonic_dropped_mutations,
+        tb_silent_filtered_mutations,
+        tb_silent_dropped_mutations]

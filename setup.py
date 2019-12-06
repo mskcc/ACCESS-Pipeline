@@ -55,7 +55,20 @@ ENTRY_POINTS = """
         combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main
         gender_check = python_tools.workflow_tools.qc.gender_check:main
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
+        workflow_runtime_stats = python_tools.workflow_tools.workflow_runtime_stats:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
+        generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
+        generate_copynumber_inputs = python_tools.pipeline_kickoff.generate_copynumber_inputs:main
+        generate_msi_inputs = python_tools.pipeline_kickoff.generate_msi_inputs:main
+        filter_mutect = cwl_tools.basicfiltering.filter_mutect:main
+        filter_vardict = cwl_tools.basicfiltering.filter_vardict:main
+        tag_hotspots = cwl_tools.hotspots.tag_hotspots:main
+        ACCESS_filters = python_tools.workflow_tools.ACCESS_filters:main
+        remove_variants_by_annotation = cwl_tools.remove_variants_by_anno.remove_variants_by_annotation:main
+        annotate_concat = cwl_tools.concatVCF.annotate_concat:main
+        maf2tsv = python_tools.workflow_tools.maf2tsv:main
+        traceback_inputs = cwl_tools.traceback.traceback_inputs:main
+        traceback_integrate = cwl_tools.traceback.traceback_integrate:main
         """
 
 SUPPORT_SCRIPTS = [
@@ -86,12 +99,8 @@ setup(
     ],
     packages=find_packages(exclude=["test"]),
     package_data={
-        # TODO:
-        # Consider adding cwl and .r modules as package data
-        # "workflow": get_package_files("workflows", (".cwl")),
-        # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
-        # "python_tools": get_package_files("python_tools", (".r")),
-        "resources": get_package_files("resources", (".cwl", ".yaml"))
+        "resources": get_package_files("resources", (".cwl", ".yaml")),
+        "cwl_tools": get_package_files("cwl_tools", (".py", ".R")),
     },
     include_package_data=True,
     entry_points=ENTRY_POINTS,

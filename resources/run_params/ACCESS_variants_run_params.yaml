@@ -1,6 +1,7 @@
 ############
 # Module 3 #
 ############
+tmp_dir: /dmp/analysis/SCRATCH
 
 mutect_params:
   dcov: 50000
@@ -43,12 +44,12 @@ bcftools_params:
 # Module 4 #
 ############
 
-exac_filter: {class: File, path: /opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
-hotspots: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Hotspots/hotspot-list-union-v1-v2_with_TERT.txt}
-blacklist_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Blacklist/ACCESS_blacklist_20_05_2019.txt}
+exac_filter: {class: File, path: /dmp/hot/jayakumg/data/ACCESS-data/variant_calling/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+hotspots: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/hotspot-list-union-v1-v2.txt}
+blacklist_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/ACCESS_blacklist_20_05_2019.txt}
 ##TODO (withian) this is a repeated variable in vcf2maf.custom_enst, remove the one in vcf2maf
-custom_enst_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/MSK-ACCESS-v1_0/dmp_ACCESS-panelA-v1-isoform-overrides}
-annotate_concat_header_file: {class: File, path: $PIPELINE_ROOT/resources/run_files/mutect_annotate_concat_header.txt}
+custom_enst_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/dmp_ACCESS-panelA-v1-isoform-overrides}
+annotate_concat_header_file: {class: File, path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/mutect_annotate_concat_header.txt}
 
 # (Also used for Module-6)
 vcf2maf_params:
@@ -59,7 +60,7 @@ vcf2maf_params:
   min_hom_vaf: 0.7
   buffer_size: 5000
   vep_forks: 4
-  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT'
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT,VCF_POS,VCF_REF,VCF_ALT'
   buffer_size: 5000
 
 gbcms_params:
@@ -82,3 +83,4 @@ access_filters_params:
   tier_two_alt_min: 5
   min_n_curated_samples_alt_detected: 2
   tn_ratio_thres: 2
+

@@ -22,24 +22,26 @@ DEFAULT_CONTROL_QUEUE = "sol"
 
 
 def bsub(bsubline):
-    '''
+    """
     Execute lsf bsub
 
     :param bsubline:
     :return:
-    '''
-    process = subprocess.Popen(bsubline, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    """
+    process = subprocess.Popen(
+        bsubline, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
     output = process.stdout.readline()
 
     # fixme: need better exception handling
     print(output)
-    lsf_job_id = int(output.strip().split()[1].strip('<>'))
+    lsf_job_id = int(output.strip().split()[1].strip("<>"))
 
     return lsf_job_id
 
 
 def submit_to_lsf(params):
-    '''
+    """
     Submit pipeline_runner python script to the control node
     Todo: too many arguments, too many layers
 
@@ -49,41 +51,51 @@ def submit_to_lsf(params):
     :param workflow:
     :param batch_system:
     :return:
-    '''
-    job_command = ('{} ' * 6).format(
-        'pipeline_runner',
-        '--workflow ' + params.workflow,
-        '--inputs_file ' + params.inputs_file,
-        '--output_location ' + params.output_location,
-        '--batch_system ' + params.batch_system,
-        '--logLevel ' + params.log_level,
+    """
+    job_command = ("{} " * 6).format(
+        "pipeline_runner",
+        "--workflow " + params.workflow,
+        "--inputs_file " + params.inputs_file,
+        "--output_location " + params.output_location,
+        "--batch_system " + params.batch_system,
+        "--logLevel " + params.log_level,
     )
 
     if params.restart:
-        job_command += ' --restart '
+        job_command += " --restart "
 
     # Grab the project name from the inputs file
-    with open(params.inputs_file, 'r') as stream:
+    with open(params.inputs_file, "r") as stream:
         inputs_yaml = ruamel.yaml.round_trip_load(stream)
 
-    project_name = inputs_yaml['project_name']
+    project_name = inputs_yaml["project_name"]
 
     bsubline = [
-        'bsub',
-        '-cwd', '.',
-        '-P', project_name,
-        '-J', project_name,
-        '-oo', project_name + "_stdout.log",
-        '-eo', project_name + "_stderr.log",
-        '-R', "rusage[mem={}]".format(DEFAULT_MEM),
-        '-n', str(DEFAULT_CPU),
-        '-q', params.leader_queue,
-        '-Jd', project_name,
-        '-W', params.max_walltime
+        "bsub",
+        "-cwd",
+        ".",
+        "-P",
+        project_name,
+        "-J",
+        project_name,
+        "-oo",
+        project_name + "_stdout.log",
+        "-eo",
+        project_name + "_stderr.log",
+        "-R",
+        "rusage[mem={}]".format(DEFAULT_MEM),
+        "-n",
+        str(DEFAULT_CPU),
+        "-q",
+        params.leader_queue,
+        "-Jd",
+        project_name,
+        "-W",
+        params.max_walltime,
     ]
 
     if params.leader_node:
-        bsubline += ['-R', "select[hname={}]".format(params.leader_node)]
+        bsubline += ["-R", "select[hname={}]".format(params.leader_node)]
 
     bsubline += [job_command]
 
@@ -92,14 +104,16 @@ def submit_to_lsf(params):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Submit a pipeline leader job to the w01 node (specific for LUNA)')
+    parser = argparse.ArgumentParser(
+        description="Submit a pipeline leader job to the w01 node (specific for LUNA)"
+    )
 
     parser.add_argument(
         "--output_location",
         action="store",
         dest="output_location",
         help="Path to where outputs will be written",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -107,7 +121,7 @@ def main():
         action="store",
         dest="inputs_file",
         help="CWL Inputs file (e.g. inputs.yaml)",
-        required=True
+        required=True,
     )
 
     parser.add_argument(
@@ -115,21 +129,21 @@ def main():
         action="store",
         dest="workflow",
         help="Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)",
-        required=False
+        required=False,
     )
 
     parser.add_argument(
         "--batch_system",
         action="store",
         dest="batch_system",
-        help="(e.g. lsf or singleMachine)"
+        help="(e.g. lsf or singleMachine)",
     )
 
     parser.add_argument(
         "--leader_node",
         action="store",
         dest="leader_node",
-        help="Which node to use for leader job (e.g. w01 or ju01)"
+        help="Which node to use for leader job (e.g. w01 or ju01)",
     )
 
     parser.add_argument(
@@ -137,7 +151,7 @@ def main():
         action="store",
         dest="leader_queue",
         default=DEFAULT_CONTROL_QUEUE,
-        help="Which queue to use for leader job (e.g. 'control')"
+        help="Which queue to use for leader job (e.g. 'control')",
     )
 
     parser.add_argument(
@@ -145,25 +159,25 @@ def main():
         action="store_true",
         dest="restart",
         help="restart from an existing output directory",
-        required=False
+        required=False,
     )
 
     parser.add_argument(
-        '--log_level',
-        action='store',
-        dest='log_level',
-        default='INFO',
-        help='INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)',
-        required=False
+        "--log_level",
+        action="store",
+        dest="log_level",
+        default="INFO",
+        help="INFO will just log the cwl filenames, DEBUG will include the actual commands being run (default is INFO)",
+        required=False,
     )
 
     parser.add_argument(
-        '--max_walltime',
-        action='store',
-        dest='max_walltime',
-        default=str(7*24*60),
-        help='Run time limit before termination, in minutes (default: 7 days).',
-        required=False
+        "--max_walltime",
+        action="store",
+        dest="max_walltime",
+        default=str(7 * 24 * 60),
+        help="Run time limit before termination, in minutes (default: 7 days).",
+        required=False,
     )
 
     params = parser.parse_args()
@@ -173,7 +187,6 @@ def main():
 
     print(lsf_proj_name)
     print(lsf_job_id)
-
 
 
 if __name__ == "__main__":
