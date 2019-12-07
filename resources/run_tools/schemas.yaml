@@ -39,16 +39,3 @@ fields:
 
   - name: waltz_path
     type: string
-
-
-type: record
-name: sv_run_tools
-fields:
-  # - name: r_path
-  #   type: string
-
-  - name: manta
-    type: Directory
-
-  - name: sv_repo
-    type: Directory
