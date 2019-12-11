@@ -35,7 +35,6 @@ inputs:
     type: File
     secondaryFiles: [.idx]
   bed_file: File
-  refseq: File
   reference_fasta: File
 
 outputs:

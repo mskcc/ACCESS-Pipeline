@@ -35,7 +35,6 @@ inputs:
   normal_sample_names: string[]
 
   bed_file: File
-  refseq: File
 
   ref_fasta:
     type: File
@@ -94,7 +93,6 @@ steps:
       bed_file: bed_file
       dbsnp: dbsnp
       cosmic: cosmic
-      refseq: refseq
       reference_fasta: ref_fasta
     out: [mutect_vcf, vardict_vcf, mutect_callstats]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]

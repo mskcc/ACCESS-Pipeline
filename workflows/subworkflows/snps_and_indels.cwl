@@ -67,7 +67,6 @@ inputs:
 
   # traceback_mutation_file: File
   bed_file: File
-  refseq: File
 
   dbsnp:
     type: File
@@ -224,7 +223,6 @@ steps:
       tumor_sample_names: tumor_sample_names
       normal_sample_names: normal_sample_names
       bed_file: bed_file
-      refseq: refseq
       ref_fasta: ref_fasta
       dbsnp: dbsnp
       cosmic: cosmic
