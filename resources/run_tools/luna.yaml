@@ -12,7 +12,7 @@ run_tools:
 
   # BioinfoUtils
   # Todo: change all these strings to File types
-  bioinfo_utils: {class: File, path: /ifs/work/bergerm1/Innovation/software/BioinfoUtils-1.0.1.jar}
+  bioinfo_utils: {class: File, path: /ifs/work/bergerm1/Innovation/software/BioinfoUtils-1.0.2.jar}
 
   # Module 1
   trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore
