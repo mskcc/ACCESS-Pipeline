@@ -487,10 +487,7 @@ def perform_validation(title_file, title_file_path, project_name):
         raise Exception(DELIMITER + 'Not all sample classes are in {}'.format(",".join(ALLOWED_SAMPLE_DESCRIPTION)))
 
     if np.sum(title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN].isin(ALLOWED_SAMPLE_TYPE_DESCRIPTION)) < len(title_file):
-        raise Exception(DELIMITER + 'Not all sample types are in {}'.format(",".join(ALLOWED_SAMPLE_TYPE_DESCRIPTION)))
-
-    if not np.issubdtype(title_file[TITLE_FILE__LANE_COLUMN], np.number):
-        raise Exception(DELIMITER + 'Lane column must be integers')
+        print(DELIMITER + 'Warning: Not all sample types are in {}'.format(",".join(ALLOWED_SAMPLE_TYPE_DESCRIPTION)))
 
     if title_file[TITLE_FILE__LANE_COLUMN].isnull().any():
         raise Exception(DELIMITER + 'Lane column of title file must not be missing or NA')
