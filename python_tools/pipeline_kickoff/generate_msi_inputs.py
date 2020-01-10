@@ -9,7 +9,11 @@ import ruamel.yaml
 from collections import defaultdict
 
 from python_tools.util import include_yaml_resources, include_version_info
-from python_tools.constants import ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH
+from python_tools.constants import (
+    ACCESS_MSI_RUN_FILES_PATH,
+    ACCESS_MSI_RUN_PARAMS_PATH,
+    VERSION_PARAM,
+)
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
@@ -147,7 +151,14 @@ def create_inputs_file(args):
 
         if args.stand_alone:
             fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
-            include_version_info(fh)
+            # Write the current pipeline version for this pipeline
+            try:
+                include_yaml_resources(fh, VERSION_PARAM)
+            except IOError:
+                # that is if version.yaml is absent
+                fh.write(INPUTS_FILE_DELIMITER)
+                fh.write("# Pipeline Run Version:\n")
+                include_version_info(fh)
 
         fh.write("#### The end of for MSI ####\n")
 
