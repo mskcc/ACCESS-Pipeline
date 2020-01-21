@@ -14,6 +14,7 @@ doc: |
   duplex_pileups
 
 requirements:
+  StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
       - $import: ../../resources/run_tools/schemas.yaml
@@ -35,7 +36,7 @@ outputs:
 
   hotspots_in_normals_table_pdf:
     type: File
-    outputSource: find_hotspots_in_normals/hotspots_in_normals_table_pdf
+    outputSource: print_hotspots_in_normals_table/hotspots_in_normals_table_pdf
 
   hotspots_in_normals_plot:
     type: File
@@ -57,9 +58,13 @@ steps:
       unfiltered_pileups: unfiltered_pileups
       duplex_pileups: duplex_pileups
       hotspot_list: hotspot_list
-    out: [
-      hotspots_in_normals_data,
-      hotspots_in_normals_table_pdf]
+    out: [hotspots_in_normals_data]
+
+  print_hotspots_in_normals_table:
+    run: ../../cwl_tools/bioinfo_utils/print_hotspots_in_normals_table.cwl
+    in:
+      table: find_hotspots_in_normals/hotspots_in_normals_data
+    out: [hotspots_in_normals_table_pdf]
 
   plot_hotspots_in_normals:
     run: ../../cwl_tools/bioinfo_utils/plot_hotspots_in_normals.cwl
