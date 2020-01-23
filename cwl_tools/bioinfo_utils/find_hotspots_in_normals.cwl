@@ -10,6 +10,8 @@ requirements:
   InitialWorkDirRequirement:
     listing:
       - entryname: pileups.tsv
+        # This expression pairs each Tumor sample with its Duplex pileups,
+        # and each Normal sample with its Unfiltered pileup
         entry: |-
           $(
             "sample_id	patient_id	sample_class	pileup\n" +
