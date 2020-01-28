@@ -257,7 +257,7 @@ class LSF(object):
 
     def __init__(self, queue):
         self.__CONTROL_QUEUE = queue
-        self.__BSUB_CMD = "/common/juno/OS7/10.1/linux3.10-glibc2.17-x86_64/bin/bsub"
+        self.__BSUB_CMD = "bsub"
         self.__QUEUE_PARAM = "-q"
         self.__TOIL_LSF_ARGS = " ".join(
             [self.__QUEUE_PARAM, self.__CONTROL_QUEUE]
@@ -265,6 +265,8 @@ class LSF(object):
         # self.__PRESERVE_ENV_PARAM = "-V"
         self.__DEFAULT_MEM_PARAM = '-M'
         self.__DEFAULT_MEM = 5
+        self.__DEFAULT_WALLTIME_PARAM = '-W'
+        self.__DEFAULT_WALLTIME = str(7*24*60)
         # self.__DEFAULT_VMEM = 40
         # self.__DEFAULT_CPU = 1
         self.__JOB_NAME_PARAM = "-J"
@@ -313,7 +315,7 @@ class LSF(object):
 
     def generate_cluster_cmd(self, jobid, wdir):
         """
-        Generate a comprehensive gridengine wrapper command.
+        Generate a comprehensive lsf wrapper command.
         """
         return " ".join(
             [
@@ -332,5 +334,7 @@ class LSF(object):
 
                 str(self.__DEFAULT_MEM_PARAM),
                 str(self.__DEFAULT_MEM),
+                str(self.__DEFAULT_WALLTIME_PARAM),
+                str(self.__DEFAULT_WALLTIME),
             ]
         )

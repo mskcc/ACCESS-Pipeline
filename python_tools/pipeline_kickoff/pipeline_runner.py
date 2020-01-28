@@ -1,13 +1,13 @@
 import os
 import sys
-import shutil
 import uuid
+import shutil
 import argparse
 import subprocess
 import ruamel.yaml
 from tempfile import mkdtemp
 
-from configuration import *
+from python_tools.pipeline_kickoff.configuration import *
 
 
 def parse_arguments():
