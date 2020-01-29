@@ -139,8 +139,8 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
     # Todo: Should we instead raise an error and not continue?
     """
-    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__IGO_ID_COLUMN]])
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__IGO_ID_COLUMN]
+    found_boolv = np.array([any([sample in f['path'] for f in fastq1]) for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]])
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(DELIMITER + 'Error: The following samples were missing either a read 1 fastq, read 2 fastq, or sample sheet. ' +
@@ -160,9 +160,9 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
-    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__IGO_ID_COLUMN]]), fastq1)
-    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__IGO_ID_COLUMN]]), fastq2)
-    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__IGO_ID_COLUMN]]), sample_sheet)
+    fastq1 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq1)
+    fastq2 = filter(lambda f: any([sid in f['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), fastq2)
+    sample_sheet = filter(lambda s: any([sid in s['path'] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]), sample_sheet)
 
     return fastq1, fastq2, sample_sheet
 
@@ -472,13 +472,16 @@ def perform_validation(title_file, title_file_path, project_name):
     1. Sample IDs / Collab IDs must be unique
     2. Barcodes must be unique within each lane
     3. Sample_type is in ['Plasma', 'Buffy Coat']
-    4. Sample Class is in ['Tumor', 'Normal']   
+    4. Sample Class is in ['Tumor', 'Normal']
     """
     if not project_name in title_file_path:
         print('WARNING: project ID not found in title file path. Are you sure you are using the correct title file?')
 
     if np.sum(title_file[TITLE_FILE__SAMPLE_ID_COLUMN].duplicated()) > 0:
         raise Exception(DELIMITER + 'Duplicate sample IDs. Exiting.')
+
+    #if set([TITLE_FILE__COLLAB_ID_COLUMN]).issubset(title_file.columns) and np.sum(title_file[TITLE_FILE__COLLAB_ID_COLUMN].duplicated()) > 0:
+    #    raise Exception(DELIMITER + 'Duplicate investigator sample IDs. Exiting.')
 
     if np.sum(title_file[TITLE_FILE__SAMPLE_CLASS_COLUMN].isin(ALLOWED_SAMPLE_DESCRIPTION)) < len(title_file):
         raise Exception(DELIMITER + 'Not all sample classes are in {}'.format(",".join(ALLOWED_SAMPLE_DESCRIPTION)))

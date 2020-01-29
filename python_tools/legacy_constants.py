@@ -132,7 +132,6 @@ SAMPLE_SHEET__LANE_COLUMN                     = 'Lane'
 TITLE_FILE__BARCODE_ID_COLUMN               = 'Barcode'
 TITLE_FILE__POOL_COLUMN                     = 'Pool'
 TITLE_FILE__SAMPLE_ID_COLUMN                = 'Sample'
-TITLE_FILE__IGO_ID_COLUMN                   = 'IGO_ID'
 TITLE_FILE__COLLAB_ID_COLUMN                = 'Collab_ID'
 TITLE_FILE__PATIENT_ID_COLUMN               = 'Patient_ID'
 TITLE_FILE__CLASS_COLUMN                    = 'Class'
@@ -144,9 +143,8 @@ TITLE_FILE__BAIT_VERSION_COLUMN             = 'Bait_version'
 TITLE_FILE__SEX_COLUMN                      = 'Sex'
 TITLE_FILE__BARCODE_INDEX_1_COLUMN          = 'Barcode_index_1'
 TITLE_FILE__BARCODE_INDEX_2_COLUMN          = 'Barcode_index_2'
-TITLE_FILE__RUN_ID_COLUMN                   = 'Run_ID'
 TITLE_FILE__LANE_COLUMN                     = 'Lane'
-TITLE_FILE__STUDY_ID_COLUMN                 = 'Study_ID'
+TITLE_FILE__STUDY_ID_COLUMN                 = 'Study ID'
 
 
 ##########################
