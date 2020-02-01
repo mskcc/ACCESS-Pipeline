@@ -1,12 +1,12 @@
 import unittest
 
-from workflow_tools.ACCESS_filters import (
+from python_tools.workflow_tools.ACCESS_filters import (
     make_pre_filtered_maf,
     apply_filter_maf,
     make_condensed_post_filter
 )
 
-from util import ArgparseMock
+from python_tools.util import ArgparseMock
 
 
 class ACCESSFiltersTestCase(unittest.TestCase):
