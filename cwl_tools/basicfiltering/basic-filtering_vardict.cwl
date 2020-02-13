@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/basic-filtering-vardict.yaml
+      - $import: ../../resources/schemas/params/basic-filtering-vardict.yaml
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 10000
@@ -18,7 +18,7 @@ baseCommand: filter_vardict
 
 inputs:
 
-  basicfiltering_vardict_params: ../../resources/run_params/schemas/basic-filtering-vardict.yaml#basicfiltering_vardict_params
+  basicfiltering_vardict_params: ../../resources/schemas/params/basic-filtering-vardict.yaml#basicfiltering_vardict_params
 
   filter_germline:
     type: boolean

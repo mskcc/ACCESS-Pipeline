@@ -9,7 +9,7 @@ requirements:
     coresMin: 2
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/basic-filtering-mutect.yaml
+      - $import: ../../resources/schemas/params/basic-filtering-mutect.yaml
 
 doc: |
   Filter snps from the output of muTect
@@ -18,7 +18,7 @@ baseCommand: filter_mutect
 
 inputs:
 
-  basicfiltering_mutect_params: ../../resources/run_params/schemas/basic-filtering-mutect.yaml#basicfiltering_mutect_params
+  basicfiltering_mutect_params: ../../resources/schemas/params/basic-filtering-mutect.yaml#basicfiltering_mutect_params
 
   verbose:
     type: ['null', boolean]

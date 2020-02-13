@@ -10,13 +10,13 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/basic-filtering-vardict.yaml
-      - $import: ../../resources/run_params/schemas/basic-filtering-mutect.yaml
+      - $import: ../../resources/schemas/params/basic-filtering-vardict.yaml
+      - $import: ../../resources/schemas/params/basic-filtering-mutect.yaml
 
 inputs:
 
-  basicfiltering_vardict_params: ../../resources/run_params/schemas/basic-filtering-vardict.yaml#basicfiltering_vardict_params
-  basicfiltering_mutect_params: ../../resources/run_params/schemas/basic-filtering-mutect.yaml#basicfiltering_mutect_params
+  basicfiltering_vardict_params: ../../resources/schemas/params/basic-filtering-vardict.yaml#basicfiltering_vardict_params
+  basicfiltering_mutect_params: ../../resources/schemas/params/basic-filtering-mutect.yaml#basicfiltering_mutect_params
 
   mutect_vcf: File
   mutect_callstats: File

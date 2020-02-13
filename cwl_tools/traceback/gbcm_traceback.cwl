@@ -10,8 +10,8 @@ requirements:
     coresMin: 2
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/params/gbcms_params.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
 
 arguments:
 - $(inputs.gbcms)

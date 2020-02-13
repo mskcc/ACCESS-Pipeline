@@ -1,0 +1,106 @@
+# Tools
+run_tools:
+  bcftools: string
+  gbcms: string
+  java_7: string
+  mutect: string
+  vardict: string
+  vardict_testsomatic: string
+  vardict_var2vcf_paired: string
+  perl: string
+  vcf2maf: string
+  vep_path: string
+  vep_data: string
+  tabix: string
+  bgzip: string
+  sortbed: string
+  bcftools_1_6: string
+
+# Params
+mutect_params:
+  dcov: int
+  read_filter: string[]
+  fraction_contamination: float
+  minimum_mutation_cell_fraction: float
+
+vardict_params:
+  allele_freq_thres: float
+  min_num_variant_reads: int
+  column_for_region_end: int
+  column_for_chromosome: int
+  column_for_gene_name: int
+  column_for_region_start: int
+
+basicfiltering_mutect_params:
+  total_depth: int
+  allele_depth: int
+  tumor_normal_ratio: int
+  variant_fraction: float
+  outdir: string
+
+basicfiltering_vardict_params:
+  total_depth: int
+  allele_depth: int
+  tumor_normal_ratio: int
+  filter_germline: boolean
+  variant_fraction: float
+  min_qual: int
+  outdir: string
+
+bcftools_params:
+  allow_overlaps: boolean
+  rm_dups: string
+
+vcf2maf_params:
+  species: string
+  ncbi_build: string
+  maf_center: string
+  max_filter_ac: int
+  min_hom_vaf: float
+  buffer_size: int
+  vep_forks: int
+  retain_info: string
+  buffer_size: int
+
+gbcms_params:
+  maq: int
+  thread: int
+  omaf: boolean
+  filter_duplicate: int
+  fragment_count: int
+
+access_filters_params:
+  tumor_detect_alt_thres: int
+  curated_detect_alt_thres: int
+  DS_tumor_detect_alt_thres: int
+  DS_curated_detect_alt_thres: int
+  normal_TD_min: int
+  tumor_TD_min: int
+  normal_vaf_germline_thres: float
+  tumor_vaf_germline_thres: int
+  tier_one_alt_min: int
+  tier_two_alt_min: int
+  min_n_curated_samples_alt_detected: int
+  tn_ratio_thres: int
+
+# Files
+dbsnp: File
+cosmic: File
+ref_fasta: File
+exac_filter: File
+hotspots: File
+blacklist_file: File
+custom_enst_file: File
+bed_file: File
+annotate_concat_header_file: File
+
+curated_duplex_bams:
+  novaseq: Directory
+  hiseq: Directory
+
+curated_simplex_bams:
+  novaseq: Directory
+  hiseq: Directory
+
+reference_bam_for_VC: File
+reference_bam_for_SV: File

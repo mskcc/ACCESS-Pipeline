@@ -3,44 +3,32 @@ name: run_tools
 fields:
   - name: perl_5
     type: string
-
   - name: java_7
     type: string
-
   - name: java_8
     type: string
-
   - name: marianas_path
     type: string
-
   - name: bioinfo_utils
     type: File
-
   - name: trimgalore_path
     type: string
-
   - name: bwa_path
     type: string
-
   - name: arrg_path
     type: string
-
   - name: picard_path
     type: string
-
   - name: gatk_path
     type: string
-
   - name: abra_path
     type: string
-
   - name: fx_path
     type: string
-
   - name: waltz_path
     type: string
-#
-#
+
+
 #type: record
 #name: sv_run_tools
 #fields:

@@ -12,8 +12,8 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/bcftools.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
+      - $import: ../../resources/schemas/params/bcftools.yaml
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
@@ -24,8 +24,8 @@ doc: |
 inputs:
 
   bcftools: string
-  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  bcftools_params: ../../resources/run_params/schemas/bcftools.yaml#bcftools_params
+  run_tools: ../../resources/schemas/variants_tools.yaml#run_tools
+  bcftools_params: ../../resources/schemas/params/bcftools.yaml#bcftools_params
 
   tumor_sample_name: string
   normal_sample_name: string

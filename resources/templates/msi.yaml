@@ -1,0 +1,6 @@
+# Params
+threads: int
+
+# Files
+microsatellites: File
+model: File

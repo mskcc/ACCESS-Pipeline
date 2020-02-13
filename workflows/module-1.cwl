@@ -9,16 +9,16 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_tools/schemas.yaml
-      - $import: ../resources/run_params/schemas/trimgalore.yaml
-      - $import: ../resources/run_params/schemas/add_or_replace_read_groups.yaml
-      - $import: ../resources/run_params/schemas/mark_duplicates.yaml
+      - $import: ../resources/schemas/collapsing_tools.yaml
+      - $import: ../resources/schemas/params/trimgalore.yaml
+      - $import: ../resources/schemas/params/add_or_replace_read_groups.yaml
+      - $import: ../resources/schemas/params/mark_duplicates.yaml
 
 inputs:
-  run_tools: ../resources/run_tools/schemas.yaml#run_tools
-  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
-  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
-  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
+  run_tools: ../resources/schemas/collapsing_tools.yaml#run_tools
+  trimgalore__params: ../resources/schemas/params/trimgalore.yaml#trimgalore__params
+  mark_duplicates__params: ../resources/schemas/params/mark_duplicates.yaml#mark_duplicates__params
+  add_or_replace_read_groups__params: ../resources/schemas/params/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
   reference_fasta: string
   reference_fasta_fai: string

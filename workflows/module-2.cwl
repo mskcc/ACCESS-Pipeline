@@ -9,20 +9,20 @@ requirements:
   SubworkflowFeatureRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_tools/schemas.yaml
-      - $import: ../resources/run_params/schemas/find_covered_intervals.yaml
-      - $import: ../resources/run_params/schemas/abra.yaml
-      - $import: ../resources/run_params/schemas/fix_mate_information.yaml
-      - $import: ../resources/run_params/schemas/base_recalibrator.yaml
-      - $import: ../resources/run_params/schemas/print_reads.yaml
+      - $import: ../resources/schemas/collapsing_tools.yaml
+      - $import: ../resources/schemas/params/abra.yaml
+      - $import: ../resources/schemas/params/print_reads.yaml
+      - $import: ../resources/schemas/params/base_recalibrator.yaml
+      - $import: ../resources/schemas/params/fix_mate_information.yaml
+      - $import: ../resources/schemas/params/find_covered_intervals.yaml
 
 inputs:
-  run_tools: ../resources/run_tools/schemas.yaml#run_tools
-  find_covered_intervals__params: ../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
-  abra__params: ../resources/run_params/schemas/abra.yaml#abra__params
-  fix_mate_information__params: ../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
-  base_recalibrator__params: ../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
-  print_reads__params: ../resources/run_params/schemas/print_reads.yaml#print_reads__params
+  run_tools: ../resources/schemas/collapsing_tools.yaml#run_tools
+  abra__params: ../resources/schemas/params/abra.yaml#abra__params
+  print_reads__params: ../resources/schemas/params/print_reads.yaml#print_reads__params
+  base_recalibrator__params: ../resources/schemas/params/base_recalibrator.yaml#base_recalibrator__params
+  fix_mate_information__params: ../resources/schemas/params/fix_mate_information.yaml#fix_mate_information__params
+  find_covered_intervals__params: ../resources/schemas/params/find_covered_intervals.yaml#find_covered_intervals__params
 
   patient_id: string
   reference_fasta: string

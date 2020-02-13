@@ -5,12 +5,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from python_tools.constants import (
-    ACCESS_VARIANTS_RUN_FILES_PATH,
-    ACCESS_VARIANTS_RUN_PARAMS_PATH,
-    ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO,
-    ACCESS_VARIANTS_RUN_TOOLS_MANTA_JUNO,
-)
+from python_tools.constants import VARIANTS_INPUTS, SV_INPUTS
 
 from python_tools.util import (
     find_bams_in_directory,
@@ -275,9 +270,7 @@ def create_inputs_file(args):
         curated_bam_simplex_paths,
     )
 
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_FILES_PATH)
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_PARAMS_PATH)
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO)
+    include_yaml_resources(fh, VARIANTS_INPUTS)
 
     if args.standard_bams_directory:
         include_sv_inputs(args, fh)
@@ -431,7 +424,7 @@ def include_sv_inputs(args, fh):
     fh.write(ruamel.yaml.dump({'sv_tumor_bams': standard_bams_yaml}))
     fh.write(ruamel.yaml.dump({'sv_normal_bam': default_normal_yaml}))
 
-    include_yaml_resources(fh, ACCESS_VARIANTS_RUN_TOOLS_MANTA_JUNO)
+    include_yaml_resources(fh, SV_INPUTS)
 
 
 def main():

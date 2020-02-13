@@ -9,16 +9,17 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/waltz.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/waltz.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
-  waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+  waltz__params: ../../resources/schemas/params/waltz.yaml#waltz__params
 
   input_bam:
     type: File
     secondaryFiles: [^.bai]
+
   gene_list: File
   bed_file: File
   reference_fasta: string

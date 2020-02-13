@@ -1,0 +1,104 @@
+# Parameters
+process_loop_umi_fastq__params:
+  umi_length: int
+  output_project_folder: string
+
+trimgalore__params:
+  length: int
+  paired: boolean
+  gzip: boolean
+  quality: int
+  stringency: int
+  suppress_warn: boolean
+
+add_or_replace_read_groups__params:
+  add_rg_PL: string
+  add_rg_CN: string
+  sort_order: string
+  validation_stringency: string
+  compression_level: int
+  create_index: boolean
+
+mark_duplicates__params:
+  create_index: boolean
+  assume_sorted: boolean
+  compression_level: int
+  validation_stringency: string
+  duplicate_scoring_strategy: string
+
+find_covered_intervals__params:
+  minbq: int
+  minmq: int
+  cov: int
+  rf: string[]
+
+abra__params:
+#  kmers: string
+  threads: int
+  mad: int
+  sc: string
+  mmr: float
+  sga: string
+  ca: string
+  ws: string
+  index: boolean
+  cons: boolean
+
+fix_mate_information__params:
+  sort_order: string
+  validation_stringency: string
+  compression_level: int
+  create_index: boolean
+
+base_recalibrator__params:
+  nct: int
+  rf: string
+
+print_reads__params:
+  nct: int
+  EOQ: string
+  baq: string
+
+marianas_collapsing__params:
+  min_mapping_quality: int
+  min_base_quality: int
+  mismatches: int
+  wobble: int
+  min_consensus_percent: int
+
+waltz__params:
+  coverage_threshold: int
+  min_mapping_quality: int
+
+fci_2__basq_fix: boolean
+
+# Files
+hotspots: File
+gene_list: File
+FP_config_file: File
+reference_fasta: File
+pool_a_bed_file: File
+pool_b_bed_file: File
+reference_fasta_fai: File
+bqsr__knownSites_dbSNP: File
+bqsr__knownSites_millis: File
+A_on_target_positions: File
+B_on_target_positions: File
+noise__good_positions_A: File
+pool_a_bed_file_exonlevel: File
+
+# Tools
+run_tools:
+  perl_5: string
+  java_7: string
+  java_8: string
+  marianas_path: string
+  bioinfo_utils: File
+  trimgalore_path: string
+  bwa_path: string
+  arrg_path: string
+  picard_path: string
+  gatk_path: string
+  abra_path: string
+  fx_path: string
+  waltz_path: string

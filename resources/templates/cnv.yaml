@@ -1,0 +1,10 @@
+# Params
+threads: int
+
+# Files
+tmp_dir: string
+
+normal_sample_list: File
+targets_coverage_bed: File
+targets_coverage_annotation: File
+reference_fasta: File

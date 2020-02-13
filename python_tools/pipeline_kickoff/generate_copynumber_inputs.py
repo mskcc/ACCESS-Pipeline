@@ -1,5 +1,4 @@
 import os
-import sys
 import csv
 import glob
 import logging
@@ -11,10 +10,7 @@ from python_tools.util import (
     include_version_info
 )
 
-from python_tools.constants import (
-    ACCESS_COPYNUMBER_RUN_FILES_PATH,
-    ACCESS_COPYNUMBER_RUN_PARAMS_PATH
-)
+from python_tools.constants import CNV_INPUTS
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
@@ -205,9 +201,7 @@ def create_inputs_file(args):
         fh.write('\n# File and Directory Inputs\n')
         fh.write(ruamel.yaml.dump(inputYamlOther))
 
-        map(include_yaml_resources, [fh]*2,
-            [ACCESS_COPYNUMBER_RUN_FILES_PATH,
-                ACCESS_COPYNUMBER_RUN_PARAMS_PATH])
+        include_yaml_resources(fh, CNV_INPUTS)
 
         if args.stand_alone:
             fh.write("tmp_dir: {}\n".format(args.tmp_dir))

@@ -10,66 +10,13 @@ ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 # Resources #
 #############
 RESOURCES_FOLDER = os.path.join(ROOT_DIR, "resources")
+TEMPLATES_FOLDER = os.path.join(RESOURCES_FOLDER, 'templates')
 
-RUN_FILES_FOLDER = os.path.join(RESOURCES_FOLDER, "run_files")
-RUN_PARAMS_FOLDER = os.path.join(RESOURCES_FOLDER, "run_params")
-RUN_TOOLS_FOLDER = os.path.join(RESOURCES_FOLDER, "run_tools")
-
-TEST = "test.yaml"
-LOCAL = "local.yaml"
-PRODUCTION = "production.yaml"
-
-# Run Files
-RUN_FILES = os.path.join(RUN_FILES_FOLDER, PRODUCTION)
-RUN_FILES_TEST = os.path.join(RUN_FILES_FOLDER, TEST)
-RUN_FILES_LOCAL = os.path.join(RUN_FILES_FOLDER, LOCAL)
-
-# Run Parameters
-RUN_PARAMS = os.path.join(RUN_PARAMS_FOLDER, PRODUCTION)
-RUN_PARAMS_TEST = os.path.join(RUN_PARAMS_FOLDER, TEST)
-
-# Resource Paths
-TOOL_RESOURCES_LOCAL = os.path.join(ROOT_DIR, "resources/run_tools/local.yaml")
-TOOL_RESOURCES_PROD = os.path.join(ROOT_DIR, "resources/run_tools/phoenix.yaml")
-TOOL_RESOURCES_LUNA = os.path.join(ROOT_DIR, "resources/run_tools/luna.yaml")
-ACCESS_VARIANTS_RUN_TOOLS_MANTA = os.path.join(RUN_TOOLS_FOLDER, "SV.yaml")
-ACCESS_VARIANTS_RUN_TOOLS_MANTA_JUNO = os.path.join(RUN_TOOLS_FOLDER, "SV_juno.yaml")
-
-# ACCESS-Variants Resources
-ACCESS_VARIANTS_RUN_FILES_PATH = os.path.join(
-    RUN_FILES_FOLDER, "ACCESS_variants_run_files.yaml"
-)
-ACCESS_VARIANTS_RUN_PARAMS_PATH = os.path.join(
-    RUN_PARAMS_FOLDER, "ACCESS_variants_run_params.yaml"
-)
-ACCESS_VARIANTS_RUN_TOOLS_PATH = os.path.join(
-    RUN_TOOLS_FOLDER, "ACCESS_variants_phoenix.yaml"
-)
-ACCESS_VARIANTS_RUN_TOOLS_PATH_CMO = os.path.join(
-    RUN_TOOLS_FOLDER, "ACCESS_variants_cmo.yaml"
-)
-ACCESS_VARIANTS_RUN_TOOLS_PATH_JUNO = os.path.join(
-    RUN_TOOLS_FOLDER, "ACCESS_variants_luna.yaml"
-)
-ACCESS_VARIANTS_RUN_PARAMS_DELLY_PATH = os.path.join(
-    RUN_PARAMS_FOLDER, "ACCESS_variants_run_params_delly.yaml"
-)
-
-# ACCESS-CopyNumber Resources
-ACCESS_COPYNUMBER_RUN_FILES_PATH = os.path.join(
-    RUN_FILES_FOLDER, "ACCESS_copynumber_run_files.yaml"
-)
-ACCESS_COPYNUMBER_RUN_PARAMS_PATH = os.path.join(
-    RUN_PARAMS_FOLDER, "ACCESS_copynumber_run_params.yaml"
-)
-
-RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(
-    RUN_PARAMS_FOLDER, "standard_bams_to_collapsed_qc.yaml"
-)
-
-# ACCESS-MSI Resources
-ACCESS_MSI_RUN_FILES_PATH = os.path.join(RUN_FILES_FOLDER, "msi_run_files.yaml")
-ACCESS_MSI_RUN_PARAMS_PATH = os.path.join(RUN_PARAMS_FOLDER, "msi_run_params.yaml")
+CNV_INPUTS = os.path.join(TEMPLATES_FOLDER, 'cnv.yaml')
+COLLAPSING_INPUTS = os.path.join(TEMPLATES_FOLDER, 'collapsing.yaml')
+MSI_INPUTS = os.path.join(TEMPLATES_FOLDER, 'msi.yaml')
+SV_INPUTS = os.path.join(TEMPLATES_FOLDER, 'sv.yaml')
+VARIANTS_INPUTS = os.path.join(TEMPLATES_FOLDER, 'variants.yaml')
 
 
 ##################################

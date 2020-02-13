@@ -17,10 +17,10 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
   sample_ids: string[]
   patient_ids: string[]
   sample_classes: string[]

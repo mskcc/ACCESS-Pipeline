@@ -6,7 +6,7 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
   InitialWorkDirRequirement:
     listing:
       - entryname: pileups.tsv
@@ -42,7 +42,7 @@ arguments:
 
 inputs:
 
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
 
   java: string
   bioinfo_utils: File
