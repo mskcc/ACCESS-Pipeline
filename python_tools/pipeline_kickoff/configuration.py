@@ -262,31 +262,14 @@ class LSF(object):
         self.__TOIL_LSF_ARGS = " ".join(
             [self.__QUEUE_PARAM, self.__CONTROL_QUEUE]
         )
-        # self.__PRESERVE_ENV_PARAM = "-V"
         self.__DEFAULT_MEM_PARAM = '-M'
         self.__DEFAULT_MEM = 5
         self.__DEFAULT_WALLTIME_PARAM = '-W'
         self.__DEFAULT_WALLTIME = str(7*24*60)
-        # self.__DEFAULT_VMEM = 40
-        # self.__DEFAULT_CPU = 1
         self.__JOB_NAME_PARAM = "-J"
-        # self.__WDIR_PARAM = "-wd"
-        # self.__RESOURCE_PARAM = "-l"
-        # self.__HVMEM_PARAM = "h_vmem="
-        # self.__VMEM_PARAM = "virtual_free="
-        # self.__UNIT = "G"
-        # self.__PARALLEL_ENV_PARAM = "-pe"
-        # self.__COMMAND_TYPE_PARAM = "-b y"
-        # self.__SYNC_PARAM = "-sync y"
         self.__ASSAY = "ACCESS"
         self.__STDERR_FILE_PARAM = '-eo'
         self.__STDOUT_FILE_PARAM = '-oo'
-
-    # def alter_parellel_env(self, pe):
-    #     """
-    #     Change parallel environment.
-    #     """
-    #     self.__TOIL_GRIDENGINE_PE = pe
 
     def alter_path(self, path):
         """
@@ -317,13 +300,9 @@ class LSF(object):
         """
         Generate a comprehensive lsf wrapper command.
         """
-        return " ".join(
+        cmd = " ".join(
             [
                 self.__BSUB_CMD,
-                # self.__TOIL_GRIDENGINE_ARGS,
-                # self.__PRESERVE_ENV_PARAM,
-                # self.__WDIR_PARAM,
-                # wdir,
                 self.__JOB_NAME_PARAM,
                 self.__ASSAY + "_pid_" + str(jobid),
 
@@ -334,7 +313,15 @@ class LSF(object):
 
                 str(self.__DEFAULT_MEM_PARAM),
                 str(self.__DEFAULT_MEM),
-                str(self.__DEFAULT_WALLTIME_PARAM),
-                str(self.__DEFAULT_WALLTIME),
             ]
         )
+
+        lsf_args = os.environ['TOIL_LSF_ARGS']
+        if lsf_args:
+            cmd += ' ' + lsf_args
+        else:
+            cmd += ' ' + ' '.join([str(self.__DEFAULT_WALLTIME_PARAM), str(self.__DEFAULT_WALLTIME)])
+
+        print(cmd)
+
+        return cmd
