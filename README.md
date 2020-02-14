@@ -56,34 +56,14 @@ Use the following script to get LUNA-specific environment variables for Toil and
 (ACCESS) $ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
 ```
 
-## Additional setup steps, if not on LUNA:
+### 4. Update the run variables
 
-### 1. Copy the test data
-It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
-```
-(ACCESS) $ cp -r /home/johnsoni/test_reference .
-```
+Contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources.
 
-### 2. Update the run variables
+Then update the paths to these variables inside of the /resources folder.
 
-If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
-```
-/resources/run_tools/luna.yaml
-/resources/run_files/test.yaml
-/resources/run_files/production.yaml
-/resources/run_params/test.yaml
-/resources/run_params/production.yaml
-```
-And then update the paths to these variables.
 
-### 3. If on SGE, update environment variables
-If you are using the SGE batch system, you will also need to set these variables for Toil:
-```
-export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
-export TOIL_GRIDENGINE_PE="smp"
-```
-
-### 4. Install Python libraries
+### 5. Install Python libraries
 Unfortunately, we are using a combination of Conda and Pip to get all the pipeline requirements, so you must enter the conda environment and install these libraries using pip
 ```
 $ source activate ACCESS
