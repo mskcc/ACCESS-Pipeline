@@ -1,87 +1,71 @@
-# Tools
-run_tools:
-  bcftools: string
-  gbcms: string
-  java_7: string
-  mutect: string
-  vardict: string
-  vardict_testsomatic: string
-  vardict_var2vcf_paired: string
-  perl: string
-  vcf2maf: string
-  vep_path: string
-  vep_data: string
-  tabix: string
-  bgzip: string
-  sortbed: string
-  bcftools_1_6: string
-
 # Params
 mutect_params:
-  dcov: int
-  read_filter: string[]
-  fraction_contamination: float
-  minimum_mutation_cell_fraction: float
+  dcov: 5000
+  read_filter: ['BadCigar']
+  fraction_contamination: 0.0005
+  minimum_mutation_cell_fraction: 0.0005
 
 vardict_params:
-  allele_freq_thres: float
-  min_num_variant_reads: int
-  column_for_region_end: int
-  column_for_chromosome: int
-  column_for_gene_name: int
-  column_for_region_start: int
+  allele_freq_thres: 0.0005
+  min_num_variant_reads: 1
+  column_for_region_end: 3
+  column_for_chromosome: 1
+  column_for_gene_name: 4
+  column_for_region_start: 2
 
 basicfiltering_mutect_params:
-  total_depth: int
-  allele_depth: int
-  tumor_normal_ratio: int
-  variant_fraction: float
-  outdir: string
+  total_depth: 20
+  allele_depth: 1
+  variant_fraction: 0.00005
+  tumor_normal_ratio: 1
+  outdir: .
 
 basicfiltering_vardict_params:
-  total_depth: int
-  allele_depth: int
-  tumor_normal_ratio: int
-  filter_germline: boolean
-  variant_fraction: float
-  min_qual: int
-  outdir: string
+  min_qual: 0
+  total_depth: 20
+  allele_depth: 1
+  tumor_normal_ratio: 1
+  filter_germline: false
+  variant_fraction: 0.00005
+  outdir: .
 
 bcftools_params:
-  allow_overlaps: boolean
-  rm_dups: string
+  allow_overlaps: true
+  rm_dups: all
 
 vcf2maf_params:
-  species: string
-  ncbi_build: string
-  maf_center: string
-  max_filter_ac: int
-  min_hom_vaf: float
-  buffer_size: int
-  vep_forks: int
-  retain_info: string
-  buffer_size: int
+  vep_forks: 4
+  buffer_size: 5000
+  max_filter_ac: 10
+  min_hom_vaf: 0.7
+  ncbi_build: GRCh37
+  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT,VCF_POS,VCF_REF,VCF_ALT'
+  maf_center: mskcc.org
+  species: homo_sapiens_merged
 
 gbcms_params:
-  maq: int
-  thread: int
-  omaf: boolean
-  filter_duplicate: int
-  fragment_count: int
+  maq: 20
+  thread: 10
+  omaf: true
+  fragment_count: 1
+  filter_duplicate: 0
 
 access_filters_params:
-  tumor_detect_alt_thres: int
-  curated_detect_alt_thres: int
-  DS_tumor_detect_alt_thres: int
-  DS_curated_detect_alt_thres: int
-  normal_TD_min: int
-  tumor_TD_min: int
-  normal_vaf_germline_thres: float
-  tumor_vaf_germline_thres: int
-  tier_one_alt_min: int
-  tier_two_alt_min: int
-  min_n_curated_samples_alt_detected: int
-  tn_ratio_thres: int
+  tumor_TD_min: 20
+  normal_TD_min: 20
+  tn_ratio_thres: 2
+  tier_one_alt_min: 3
+  tier_two_alt_min: 5
+  tumor_detect_alt_thres: 2
+  curated_detect_alt_thres: 2
+  DS_tumor_detect_alt_thres: 2
+  DS_curated_detect_alt_thres: 2
+  tumor_vaf_germline_thres: 0
+  normal_vaf_germline_thres: 0.3
+  min_n_curated_samples_alt_detected: 2
+
+#####
+# Following sections should be filled in:
 
 # Files
 dbsnp: File
@@ -104,3 +88,21 @@ curated_simplex_bams:
 
 reference_bam_for_VC: File
 reference_bam_for_SV: File
+
+# Tools
+run_tools:
+  bcftools: string
+  gbcms: string
+  java_7: string
+  mutect: string
+  vardict: string
+  vardict_testsomatic: string
+  vardict_var2vcf_paired: string
+  perl: string
+  vcf2maf: string
+  vep_path: string
+  vep_data: string
+  tabix: string
+  bgzip: string
+  sortbed: string
+  bcftools_1_6: string

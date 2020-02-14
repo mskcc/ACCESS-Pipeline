@@ -1,5 +1,8 @@
 # Params
-threads: int
+threads: 4
+
+#####
+# Following sections should be filled in:
 
 # Files
 microsatellites: File
