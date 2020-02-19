@@ -95,15 +95,9 @@ print_reads__params:
 
 # ------------------------------------------------------------
 
-<<<<<<< HEAD
-#############################################
-# Files required to run Innovation Pipeline #
-#############################################
-=======
 #########################################
 # Files required to run ACCESS Pipeline #
 #########################################
->>>>>>> DEV
 
 # Used in multiple steps
 reference_fasta: /home/johnsoni/test_reference/fasta/chr14_chr16.fasta
@@ -115,11 +109,7 @@ bqsr__knownSites_dbSNP: {class: File, path: /home/johnsoni/test_reference/vcf/db
 bqsr__knownSites_millis: {class: File, path: /home/johnsoni/test_reference/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf}
 
 # Fingerprinting
-<<<<<<< HEAD
-FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
-=======
-FP_config_file: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/fingerprinting/MSK-ACCESS-v1_0-curatedSNPs.txt}
->>>>>>> DEV
+FP_config_file: {class: File, path: MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
 
 # UMI QC
 A_on_target_positions: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt}

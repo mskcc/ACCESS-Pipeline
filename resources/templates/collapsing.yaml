@@ -1,9 +1,4 @@
-##################################################
-# Default Testing Parameters for ACCESS-Pipeline #
-##################################################
-
-tmp_dir: /dmp/analysis/SCRATCH
-
+# Parameters
 process_loop_umi_fastq__params:
   umi_length: 3
   output_project_folder: .
@@ -18,7 +13,7 @@ trimgalore__params:
 
 add_or_replace_read_groups__params:
   add_rg_PL: Illumina
-  add_rg_CN: DMP_MSKCC
+  add_rg_CN: MSKCC
   sort_order: coordinate
   validation_stringency: LENIENT
   compression_level: 0
@@ -36,11 +31,8 @@ find_covered_intervals__params:
   minmq: 20
   cov: 20
   rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
-  # We include this parameter during testing to make this step faster
-  intervals: ['14', '16']
 
 abra__params:
-#  kmers: 43,53,63,83,93
   threads: 12
   mad: 1000
   sc: 100,30,80,15
@@ -66,11 +58,6 @@ print_reads__params:
   EOQ: true
   baq: RECALCULATE
 
-
-##########################################################
-# TEST Parameters for Collapsing (module 2.5) & QC steps #
-##########################################################
-
 marianas_collapsing__params:
   min_mapping_quality: 1
   min_base_quality: 20
@@ -78,14 +65,42 @@ marianas_collapsing__params:
   wobble: 2
   min_consensus_percent: 90
 
-# This parameter is lowered for tesing purposes
-# Todo: QC module should be able to handle zero coverage bams?
 waltz__params:
-  coverage_threshold: 1
+  coverage_threshold: 50
   min_mapping_quality: 20
 
-########################
-# 2nd Realignment step
-# In this step we want to ignore base qualities
-# that were changed during collapsing
 fci_2__basq_fix: true
+
+#####
+# Following sections should be filled in:
+
+# Files
+hotspots: File
+gene_list: File
+FP_config_file: File
+reference_fasta: File
+pool_a_bed_file: File
+pool_b_bed_file: File
+reference_fasta_fai: File
+bqsr__knownSites_dbSNP: File
+bqsr__knownSites_millis: File
+A_on_target_positions: File
+B_on_target_positions: File
+noise__good_positions_A: File
+pool_a_bed_file_exonlevel: File
+
+# Tools
+run_tools:
+  perl_5: string
+  java_7: string
+  java_8: string
+  marianas_path: string
+  bioinfo_utils: File
+  trimgalore_path: string
+  bwa_path: string
+  arrg_path: string
+  picard_path: string
+  gatk_path: string
+  abra_path: string
+  fx_path: string
+  waltz_path: string

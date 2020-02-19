@@ -8,18 +8,12 @@ requirements:
     coresMin: 8
     ramMin: 10000
 
-baseCommand: python
-
-arguments:
-- $(inputs.file_path + inputs.coverage_script)
+baseCommand: cfdna_scna
 
 stdout: coverage.stdout
 stderr: coverage.stderr
 
 inputs:
-
-  coverage_script: string
-  file_path: string
 
   project_name_cnv:
     type: string

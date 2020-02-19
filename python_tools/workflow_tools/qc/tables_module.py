@@ -282,8 +282,7 @@ def copy_fragment_sizes_files(args):
         fragment_sizes_df = fragment_sizes_df.reindex(new_index).reset_index()
         # Replace nan's with 0
         fragment_sizes_df = fragment_sizes_df.fillna(0)
-
-        to_csv(fragment_sizes_df, os.path.join('.', dst))
+        to_csv(fragment_sizes_df,os.path.join('.', dst))
 
 
 def reformat_exon_targets_coverage_file(coverage_per_interval_table):

@@ -8,18 +8,19 @@ requirements:
   ScatterFeatureRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/waltz.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/waltz.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
-  waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+  waltz__params: ../../resources/schemas/params/waltz.yaml#waltz__params
 
   project_name: string
   title_file: File
   inputs_yaml: File
 
   sample_id: string[]
+  patient_id: string[]
   sample_class: string[]
   standard_bams: File[]
   marianas_unfiltered_bams: File[]
@@ -151,6 +152,7 @@ steps:
       hotspots: hotspots
 
       sample_id: sample_id
+      patient_id: patient_id
       sample_class: sample_class
       waltz_unfiltered_pool_a_pileups: waltz_workflow/waltz_unfiltered_pool_a_pileups
       waltz_duplex_pool_a_pileups: waltz_workflow/waltz_duplex_pool_a_pileups

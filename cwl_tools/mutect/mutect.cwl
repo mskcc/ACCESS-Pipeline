@@ -17,8 +17,8 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/mutect.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
+      - $import: ../../resources/schemas/params/mutect.yaml
   ResourceRequirement:
     ramMin: 50000
     coresMin: 1
@@ -28,8 +28,8 @@ inputs:
 
   java_7: string
   mutect: string
-  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  mutect_params: ../../resources/run_params/schemas/mutect.yaml#mutect_params
+  run_tools: ../../resources/schemas/variants_tools.yaml#run_tools
+  mutect_params: ../../resources/schemas/params/mutect.yaml#mutect_params
 
   tumor_sample_name:
     type: string

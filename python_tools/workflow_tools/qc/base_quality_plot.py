@@ -11,7 +11,7 @@ matplotlib.use('Agg')
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from python_tools.constants import *
+from python_tools.legacy_constants import *
 from python_tools.util import merge_files_across_samples
 
 

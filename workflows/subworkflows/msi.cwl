@@ -8,13 +8,9 @@ requirements:
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
   StepInputExpressionRequirement: {}
-
 inputs:
 
-  admie_script: string
-  file_path: string
   threads: int
-
   microsatellites: File
   model: File
 
@@ -30,7 +26,6 @@ inputs:
 
   project_name_msi: string?
   coverage_data: Directory?
-
 
 outputs:
 
@@ -94,8 +89,6 @@ steps:
   admie:
     run: ../../cwl_tools/msi/admie.cwl
     in:
-      admie_script: admie_script
-      file_path: file_path
       project_name_msi: project_name_msi
       allele_counts_list: msisensor/msisensor_distribution
       model: model

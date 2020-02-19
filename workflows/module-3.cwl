@@ -7,22 +7,21 @@ requirements:
   ScatterFeatureRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_params/schemas/mutect.yaml
-      - $import: ../resources/run_params/schemas/vardict.yaml
-      - $import: ../resources/run_params/schemas/basic-filtering-vardict.yaml
-      - $import: ../resources/run_params/schemas/basic-filtering-mutect.yaml
-      - $import: ../resources/run_params/schemas/bcftools.yaml
-      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../resources/schemas/variants_tools.yaml
+      - $import: ../resources/schemas/params/mutect.yaml
+      - $import: ../resources/schemas/params/vardict.yaml
+      - $import: ../resources/schemas/params/bcftools.yaml
+      - $import: ../resources/schemas/params/basic-filtering-mutect.yaml
+      - $import: ../resources/schemas/params/basic-filtering-vardict.yaml
 
 inputs:
 
-  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-
-  mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
-  vardict_params: ../resources/run_params/schemas/vardict.yaml#vardict_params
-  basicfiltering_vardict_params: ../resources/run_params/schemas/basic-filtering-vardict.yaml#basicfiltering_vardict_params
-  basicfiltering_mutect_params: ../resources/run_params/schemas/basic-filtering-mutect.yaml#basicfiltering_mutect_params
-  bcftools_params: ../resources/run_params/schemas/bcftools.yaml#bcftools_params
+  run_tools: ../resources/schemas/variants_tools.yaml#run_tools
+  mutect_params: ../resources/schemas/params/mutect.yaml#mutect_params
+  vardict_params: ../resources/schemas/params/vardict.yaml#vardict_params
+  bcftools_params: ../resources/schemas/params/bcftools.yaml#bcftools_params
+  basicfiltering_mutect_params: ../resources/schemas/params/basic-filtering-mutect.yaml#basicfiltering_mutect_params
+  basicfiltering_vardict_params: ../resources/schemas/params/basic-filtering-vardict.yaml#basicfiltering_vardict_params
 
   tumor_bams:
     type: File[]
@@ -35,7 +34,7 @@ inputs:
   normal_sample_names: string[]
 
   bed_file: File
-  refseq: File
+  annotate_concat_header_file: File
 
   ref_fasta:
     type: File
@@ -47,7 +46,6 @@ inputs:
     type: File
     secondaryFiles: [.idx]
 
-  annotate_concat_header_file: File
 
 outputs:
 
@@ -94,7 +92,6 @@ steps:
       bed_file: bed_file
       dbsnp: dbsnp
       cosmic: cosmic
-      refseq: refseq
       reference_fasta: ref_fasta
     out: [mutect_vcf, vardict_vcf, mutect_callstats]
     scatter: [tumor_bam, normal_bam, tumor_sample_name, normal_sample_name]

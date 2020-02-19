@@ -12,9 +12,11 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml#sv_run_tools
+      - $import: ../../resources/schemas/sv_tools.yaml
 
 inputs:
+
+  sv_run_tools: ../../resources/schemas/sv_tools.yaml#sv_run_tools
 
   # Todo: what to do with these?
   project_name: string
@@ -33,8 +35,6 @@ inputs:
   ref_fasta:
     type: File
     secondaryFiles: [.fai]
-
-  sv_run_tools: ../../resources/run_tools/schemas.yaml#sv_run_tools
 
 outputs:
 

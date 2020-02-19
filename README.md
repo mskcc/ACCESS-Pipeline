@@ -29,19 +29,19 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 
 - HG19 Reference fasta + fai
 - dbSNP & Millis_100G vcf + .vcf.idx files
-- [Conda](https://docs.conda.io/en/latest/)
+- [Conda](https://docs.conda.io/en/latest/) (miniconda is recommended)
 
 # Provenance
 These CWL modules and python script originated from the [Roslin pipeline](https://github.com/mskcc/roslin-variant) at MSKCC. 
 
 # Installation
 
-Note: In these instructions, please replace *0.0.26* with the *latest stable version* of the pipeline (see the Releases page). 
+Note: In these instructions, please replace *1.3.17* with the *latest stable version* of the pipeline (look for the latest green release on the Releases page). 
 
 ### 1. Copy the latest release of the pipeline
 (Make sure your virtualenv is active)
 ```
-$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 0.0.26
+$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch 1.3.17
 ```
 
 ### 2. Run the installation
@@ -53,47 +53,22 @@ $ ./setup.sh
 ### 3. Update your environment variables:
 Use the following script to get LUNA-specific environment variables for Toil and ACCESS dependencies
 ```
-(ACCESS) ~$ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
+(ACCESS) $ source ~/ACCESS-Pipeline/python_tools/pipeline_kickoff/workspace_init.sh
 ```
 
-## Additional setup steps, if not on LUNA:
+### 4. Update the run variables
 
-### 1. Copy the test data
-It should be possible to use full-sized reference `fasta`, `fai`, `bwt`, `dict`, `vcf`, and `vcf.idx` files, but smaller test versions are located here on Luna:
+Contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources.
+
+Then update the paths to these variables inside of the /resources folder.
+
+
+### 5. Install Python libraries
+Unfortunately, we are using a combination of Conda and Pip to get all the pipeline requirements, so you must enter the conda environment and install these libraries using pip
 ```
-(access_pipeline_0.0.26) ~$ cp -r /home/johnsoni/test_reference .
+$ source activate ACCESS
 
-```
-## Additional setup steps, if not on LUNA:
-
-### 2. Update the run variables
-
-If you are not on LUNA, you will need to contact johnsoni@mskcc.org or patelj1@mskcc.org for the latest ACCESS-specific interval lists, and get access to all of the required resources that are referenced in these files:
-```
-/resources/run_tools/luna.yaml
-
-/resources/run_files/test.yaml
-/resources/run_files/production.yaml
-
-/resources/run_params/test.yaml
-/resources/run_params/production.yaml
-
-```
-And then update the paths to these variables.
-
-### 3. If on SGE, update environment variables
-If you are using the SGE batch system, you will also need to set these variables for Toil:
-```
-export TOIL_GRIDENGINE_ARGS="-q <queue that you want to use for toil jobs>"
-export TOIL_GRIDENGINE_PE="smp"
-
-```
-And then update the paths to these variables.
-
-### 4. Install R libraries
-These are used by the QC module at the end of the pipeline. You can check if these are already installed by running `library(yaml)` and `library(dplyr)` in an R session.
-```
-(access_pipeline_0.0.26) ~/ACCESS-Pipeline$ Rscript -e 'install.packages(c("yaml", "dplyr"), repos="http://cran.rstudio.com", lib="~/R")'
+(ACCESS) $ pip install .
 ```
 
 # Running the test pipeline
@@ -102,19 +77,27 @@ NOTE: These steps should be run from a new directory, but still while inside you
 ### 1. Create a run title file from a sample manifest
 (example manifests exist in /test/test_data/...)
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_title_file_from_manifest -i ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xlsx -o XX_title_file.txt
+(ACCESS) $ create_title_file_from_manifest \
+  -i ~/ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer/test_manifest.xlsx \
+  -o test_title_file.txt
 ```
 
 ### 2. Create an inputs file from the title file
 This step will create a file `inputs.yaml`, and pull in the run parameters (-t for test, -c for collapsing) and paths to run files from step 5.
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ create_inputs_from_title_file -i XX_title_file.txt -d ../ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer -p TEST_run -o inputs.yaml -t -f
+(ACCESS) $ create_inputs_from_title_file \
+  -i test_title_file.txt \
+  -d ~/ACCESS-Pipeline/test/test_data/umi-T_N-PanCancer \
+  -p TEST_run \
+  -o inputs.yaml \
+  -t \
+  -f
 ```
 
 ### 3. Run the test pipeline
 To run with the CWL reference implementation (faster for testing purposes):
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ cwltool \
+(ACCESS) $ cwltool \
   --debug                                                     # For debug level logging
   --tmpdir-prefix ~/my_TEST_run \                             # Where to put temp directories
   --cachedir ~/my_TEST_run \                                  # Where to cache intermediate outputs (useful for restart after failure)
@@ -123,7 +106,7 @@ To run with the CWL reference implementation (faster for testing purposes):
 ```
 Or, to run with the Toil batch system runner:
 ```
-(access_pipeline_0.0.26) ~/my_TEST_run$ toil-cwl-runner ~/ACCESS-Pipeline/workflows/ACCESS-pipeline.cwl inputs.yaml
+(ACCESS) $ toil-cwl-runner ~/ACCESS-Pipeline/workflows/ACCESS-pipeline.cwl inputs.yaml
 ```
 
 # Running a real run
@@ -152,8 +135,17 @@ Certain validation requirements can be skipped by using the `-f` parameter in th
 
 These are the same as when used for running a test with `cwltool` or `toil-cwl-runner`. Note that if there are multiple lanes in the manifest the first script will create multiple title files on a per-lane basis.
 ```
-(access_pipeline_0.0.26) ~/my_REAL_run$ create_title_file_from_manifest -i ~/manifests/ES_manifest.xlsx -o ./ES_title_file.txt
-(access_pipeline_0.0.26) ~/my_REAL_run$ create_inputs_from_title_file -i lane-5_ES_title_file.txt -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES -p 5500-ES_lane-5 -o inputs_lane_5.yaml
+(ACCESS) $ create_title_file_from_manifest \
+  -i ~/manifests/ES_manifest.xlsx \
+  -o ./ES_title_file.txt
+```
+
+```
+(ACCESS) $ create_inputs_from_title_file \
+  -i lane-5_ES_title_file.txt \
+  -d /home/johnsoni/Data/JAX_0149_AHT3N3BBXX/Project_05500_ES \
+  -p 5500-ES_lane-5 \
+  -o inputs_lane_5.yaml
 ```
 
 ### 2. Use the pipeline runner/submit scripts
@@ -163,7 +155,7 @@ Note that we use `pipeline_submit` here to submit both the leader job as well as
 Right now the only supported options for the `--batch-system` parameter are `lsf` and `singleMachine`.
 
 ```
-(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_submit \
+(ACCESS) $ pipeline_submit \
 --output_location /home/johnsoni/projects/EJ_4-27_MarkDuplicatesTest \
 --inputs_file ./inputs.yaml \
 --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
@@ -174,8 +166,8 @@ Or alternatively, use `pipeline_runner` to make use of the `gridEngine`, `mesos`
 
 This script can be run in the background with `&`, and will make use of worker nodes for the jobs themselves.
 
-```
-(access_pipeline_0.0.26) ~/my_REAL_run$ pipeline_runner \
+``` 
+(ACCESS) $ pipeline_runner \
 --output_location /home/projects/EJ_4-27_MarkDuplicatesTest \
 --inputs_file ./inputs.yaml \
 --workflow ~/ACCESS-Pipeline/workflows/ACCESS_pipeline.cwl \
@@ -186,13 +178,13 @@ This will create the output directory (or restart a failed run in that output di
 ### 3. Cleanup the output files
 Note: Do not run this step until the pipeline has completed. The way to ensure that the run has finished is to download and review the QC report PDF, which can be found the the QC_Results folder. Once you've confired that the run is completed, and all files have been copied to the final outputs folder, there is a script included to create symlinks to the output bams and delete unnecessary output folders left behind by Toil
 ```
-(access_pipeline_0.0.26) ~$ pipeline_postprocessing -d <path/to/outputs>
+(ACCESS) ~$ pipeline_postprocessing -d <path/to/outputs>
 ```
 
 ### 4. Test the output files
 There is a script included to check that the correct samples are paired in the correct folders, and that expected files are present in the final output directory.
 ```
-(access_pipeline_0.0.26) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
+(ACCESS) ~$ python -m python_tools.test.test_pipeline_outputs -o <path_to_outputs> -l debug
 ```
 
 # Issues

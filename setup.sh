@@ -126,7 +126,8 @@ EXITCODE=$?
         }
 
 printi "Installing R packages from source..."
-$RSCRIPT -e 'install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.58.0.tar.gz", repos=NULL, type="source")'
+# Todo: figure out why this package results in a 404 when new versions are released
+$RSCRIPT -e 'install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.60.0.tar.gz", repos=NULL, type="source")'
 
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || {

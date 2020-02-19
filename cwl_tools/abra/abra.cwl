@@ -4,8 +4,12 @@ class: CommandLineTool
 
 arguments:
 - $(inputs.java)
+- -Xmx50g
+- -Djava.io.tmpdir=$(runtime.tmpdir)
 - -jar
 - $(inputs.abra)
+- prefix: --tmpdir
+  valueFrom: $(runtime.tmpdir)
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -18,6 +22,8 @@ inputs:
   java: string
   abra: string
 
+  patient_id: string
+
   input_bams:
     type: File[]
     inputBinding:
@@ -25,14 +31,6 @@ inputs:
       itemSeparator: ','
     secondaryFiles:
     - ^.bai
-
-  patient_id:
-    type: string
-
-  working_directory:
-    type: Directory
-    inputBinding:
-      prefix: --tmpdir
 
   reference_fasta:
     type: string
@@ -52,32 +50,12 @@ inputs:
   kmer:
     type: string?
     inputBinding:
-      prefix: --sc
-  
-  mmr:
-    type: float
-    inputBinding:
-      prefix: --mmr
-  
-  ca:
-    type: string
-    inputBinding:
-      prefix: --ca
-  
-  sga:
-    type: string
-    inputBinding:
-      prefix: --sga
-  
-  index:
-    type: boolean
-    inputBinding:
-      prefix: --index
+      prefix: --kmer
 
-  cons:
-    type: boolean
+  mad:
+    type: int
     inputBinding:
-      prefix: --cons
+      prefix: --mad
 
   sc:
     type: string

@@ -5,8 +5,8 @@ class: CommandLineTool
 requirements:
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/vardict.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
+      - $import: ../../resources/schemas/params/vardict.yaml
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
   ResourceRequirement:
@@ -55,8 +55,9 @@ inputs:
   vardict: string
   testsomatic: string
   var2vcf_paired: string
-  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  vardict_params: ../../resources/run_params/schemas/vardict.yaml#vardict_params
+
+  run_tools: ../../resources/schemas/variants_tools.yaml#run_tools
+  vardict_params: ../../resources/schemas/params/vardict.yaml#vardict_params
 
   output_file_name: string
   bed_file: File

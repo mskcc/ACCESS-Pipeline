@@ -8,31 +8,32 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
-      - $import: ../resources/run_params/schemas/mutect.yaml
-      - $import: ../resources/run_params/schemas/vardict.yaml
-      - $import: ../resources/run_params/schemas/basic-filtering-vardict.yaml
-      - $import: ../resources/run_params/schemas/basic-filtering-mutect.yaml
-      - $import: ../resources/run_params/schemas/bcftools.yaml
-      - $import: ../resources/run_params/schemas/vcf2maf.yaml
-      - $import: ../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../resources/run_params/schemas/access_filters.yaml
-      - $import: ../resources/run_tools/schemas.yaml
+      - $import: ../resources/schemas/variants_tools.yaml
+      - $import: ../resources/schemas/sv_tools.yaml
+      - $import: ../resources/schemas/params/mutect.yaml
+      - $import: ../resources/schemas/params/vardict.yaml
+      - $import: ../resources/schemas/params/basic-filtering-vardict.yaml
+      - $import: ../resources/schemas/params/basic-filtering-mutect.yaml
+      - $import: ../resources/schemas/params/bcftools.yaml
+      - $import: ../resources/schemas/params/vcf2maf.yaml
+      - $import: ../resources/schemas/params/gbcms_params.yaml
+      - $import: ../resources/schemas/params/access_filters.yaml
 
 inputs:
 
   project_name: string
   version: string
-  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  run_tools: ../resources/schemas/variants_tools.yaml#run_tools
+  sv_run_tools: ../resources/schemas/sv_tools.yaml#sv_run_tools
 
-  mutect_params: ../resources/run_params/schemas/mutect.yaml#mutect_params
-  vardict_params: ../resources/run_params/schemas/vardict.yaml#vardict_params
-  basicfiltering_vardict_params: ../resources/run_params/schemas/basic-filtering-vardict.yaml#basicfiltering_vardict_params
-  basicfiltering_mutect_params: ../resources/run_params/schemas/basic-filtering-mutect.yaml#basicfiltering_mutect_params
-  bcftools_params: ../resources/run_params/schemas/bcftools.yaml#bcftools_params
-  vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
-  gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
-  access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
+  mutect_params: ../resources/schemas/params/mutect.yaml#mutect_params
+  vardict_params: ../resources/schemas/params/vardict.yaml#vardict_params
+  vcf2maf_params: ../resources/schemas/params/vcf2maf.yaml#vcf2maf_params
+  gbcms_params: ../resources/schemas/params/gbcms_params.yaml#gbcms_params
+  bcftools_params: ../resources/schemas/params/bcftools.yaml#bcftools_params
+  access_filters_params: ../resources/schemas/params/access_filters.yaml#access_filters__params
+  basicfiltering_mutect_params: ../resources/schemas/params/basic-filtering-mutect.yaml#basicfiltering_mutect_params
+  basicfiltering_vardict_params: ../resources/schemas/params/basic-filtering-vardict.yaml#basicfiltering_vardict_params
 
   hotspots: File
   blacklist_file: File
@@ -79,7 +80,6 @@ inputs:
   sv_sample_id: string[]
   sv_tumor_bams: File[]
   sv_normal_bam: File
-  sv_run_tools: ../resources/run_tools/schemas.yaml#sv_run_tools
 
   # CNV #
   file_path: string
@@ -91,7 +91,6 @@ inputs:
   targets_coverage_bed: File
   targets_coverage_annotation: File
   reference_fasta: File
-  project_name_cnv: string
   threads: int
 
 outputs:
@@ -350,11 +349,11 @@ steps:
   manta:
     run: ./subworkflows/manta.cwl
     in:
-      sample_id: sv_sample_id
-      tumor_bams: sv_tumor_bams
-      normal_bam: sv_normal_bam
-      run_tools: sv_run_tools
-      reference_fasta: ref_fasta
+      sv_sample_id: sv_sample_id
+      sv_tumor_bams: sv_tumor_bams
+      sv_normal_bam: sv_normal_bam
+      sv_run_tools: sv_run_tools
+      ref_fasta: ref_fasta
       project_name: project_name
       version: version
     out: [
@@ -378,7 +377,7 @@ steps:
       targets_coverage_bed: targets_coverage_bed
       targets_coverage_annotation: targets_coverage_annotation
       reference_fasta: reference_fasta
-      project_name_cnv: project_name_cnv
+      project_name: project_name
       threads: threads
     out: [
       tumors_covg,

@@ -10,12 +10,15 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/base_recalibrator.yaml
-      - $import: ../../resources/run_params/schemas/print_reads.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/print_reads.yaml
+      - $import: ../../resources/schemas/params/base_recalibrator.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+
+  print_reads__params: ../../resources/schemas/params/print_reads.yaml#print_reads__params
+  base_recalibrator__params: ../../resources/schemas/params/base_recalibrator.yaml#base_recalibrator__params
 
   bams:
     type: File[]
@@ -31,9 +34,6 @@ inputs:
   bqsr__knownSites_millis:
     type: File
     secondaryFiles: [.idx]
-
-  base_recalibrator__params: ../../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
-  print_reads__params: ../../resources/run_params/schemas/print_reads.yaml#print_reads__params
 
 outputs:
 

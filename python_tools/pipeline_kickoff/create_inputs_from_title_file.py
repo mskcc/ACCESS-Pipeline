@@ -8,6 +8,8 @@ import pandas as pd
 # constants include the paths to the config files
 from python_tools.constants import *
 from python_tools.util import (
+    DELIMITER,
+    INPUTS_FILE_DELIMITER,
     get_pos,
     reverse_complement,
     all_strings_are_substrings,
@@ -120,10 +122,10 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     found_boolv = np.array(
         [
             any([sample in f["path"] for f in fastq1])
-            for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]
+            for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]
         ]
     )
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(
@@ -150,19 +152,19 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
     fastq1 = filter(
         lambda f: any(
-            [sid in f["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
+            [sid in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         fastq1,
     )
     fastq2 = filter(
         lambda f: any(
-            [sid in f["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
+            [sid in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         fastq2,
     )
     sample_sheet = filter(
         lambda s: any(
-            [sid in s["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
+            [sid in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         sample_sheet,
     )
@@ -407,24 +409,13 @@ def write_inputs_file(args, title_file, output_file_name):
     :param title_file:
     :param output_file_name:
     """
-    tool_resources_file_path = TOOL_RESOURCES_PROD
-
-    if args.test:
-        run_params_path = RUN_PARAMS_TEST
-        run_files_path = RUN_FILES_TEST
-    else:
-        run_params_path = RUN_PARAMS
-        run_files_path = RUN_FILES
-
     # Actually start writing the inputs file
     fh = open(output_file_name, "wb")
 
     include_fastqs_params(
         fh, args.data_dir, title_file, args.title_file_path, args.force
     )
-    include_yaml_resources(fh, run_params_path)
-    include_yaml_resources(fh, run_files_path)
-    include_yaml_resources(fh, tool_resources_file_path)
+    include_yaml_resources(fh, COLLAPSING_INPUTS)
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
@@ -623,7 +614,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(TITLE_FILE__SAMPLE_ID_COLUMN).reset_index(
+    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index(
         drop=True
     )
 

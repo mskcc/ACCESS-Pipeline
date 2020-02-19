@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 ADMIE Analysis Utility
 
@@ -62,7 +64,7 @@ def main():
     parser.add_argument(
         "--generate-qc",
         action="store_true",
-        default=False,
+        default=True,
         help="Generate QC pdf reports for every sample included in input directory"
     )
     

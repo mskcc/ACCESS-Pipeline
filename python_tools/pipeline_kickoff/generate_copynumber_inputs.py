@@ -1,5 +1,4 @@
 import os
-import sys
 import csv
 import glob
 import logging
@@ -8,17 +7,20 @@ import ruamel.yaml
 
 from python_tools.util import include_yaml_resources, include_version_info
 
-from python_tools.constants import (
-    ACCESS_COPYNUMBER_RUN_FILES_PATH,
-    ACCESS_COPYNUMBER_RUN_PARAMS_PATH,
-    VERSION_PARAM,
-)
+from python_tools.constants import CNV_INPUTS
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_copynumber_inputs -t /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/title_file.txt -tb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/unfiltered_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -alone
+#
+# generate_copynumber_inputs \
+#   -t  ./title_file.txt \
+#   -tb ./unfiltered_bams \
+#   -o  inputs.yaml \
+#   -od ./output \
+#   -alone
+
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -44,6 +46,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "-p", "--project_id", help="Unique identifier for this CNV run", required=True
+    )
+
+    parser.add_argument(
         "-alone",
         "--stand_alone",
         help="Whether to run CNV as independent module",
@@ -64,21 +70,31 @@ def parse_arguments():
         required=True,
     )
 
-    parser.add_argument(
-        "-e",
-        "--engine_type",
-        help="Type of engine the job will be submitting",
-        required=False,
-    )
+    # parser.add_argument(
+    #     '-e',
+    #     '--engine_type',
+    #     help='Type of engine the job will be submitting',
+    #     required=False
+    # )
 
-    parser.add_argument(
-        "-q", "--queue", help="Queue used for job submitting", required=False
-    )
+    # parser.add_argument(
+    #     '-q',
+    #     '--queue',
+    #     help='Queue used for job submitting',
+    #     required=False
+    # )
 
     parser.add_argument(
         "-od",
         "--output_directory",
         help="Output Directory for copy number variant calling",
+        required=True,
+    )
+
+    parser.add_argument(
+        "-td",
+        "--tmp_dir",
+        help="Absolute path to temporary working directory (e.g. /scratch)",
         required=True,
     )
 
@@ -92,15 +108,21 @@ def get_sampleID_and_sex(args):
     """
 
     sample2sex = {}
-    projName = ""
     with open(args.title_file_path, "rU") as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter="\t")
         for row in tfDict:
-            if row["Sample"].split("_")[0].split("-")[-1].startswith("T"):
-                sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
-                sample2sex[row["Sample"]] = sex
-                projName = row["Pool"]
-    return (sample2sex, projName)
+            if row["Class"] == "Tumor":
+                if "Sex" in row:
+                    sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
+                else:
+                    sex = row["SEX"].replace("F", "Female").replace("M", "Male")
+
+                if "Sample" in row:
+                    sample2sex[row["Sample"]] = sex
+                else:
+                    sample2sex[row["CMO_SAMPLE_ID"]] = sex
+
+    return sample2sex
 
 
 def get_bam_list(args):
@@ -109,8 +131,9 @@ def get_bam_list(args):
     """
     bamList = []
     for bam in glob.glob(os.path.join(args.tumor_bams_directory, "*.bam")):
-        if os.path.basename(bam).split("_")[0].split("-")[-1].startswith("T"):
-            bamList.append(bam)
+        # Todo: CMO bams don't always end in 'T'
+        # if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
+        bamList.append(bam)
     return bamList
 
 
@@ -120,6 +143,9 @@ def generate_manifest_file(args, sample2sex, bamList):
     """
     fileName = os.path.join(args.output_directory, "tumor_manifest.txt")
     output = ""
+
+    print(sample2sex)
+
     for bam in bamList:
         sampleId = os.path.basename(bam).split("_")[0]
         if sampleId in sample2sex:
@@ -140,7 +166,7 @@ def create_inputs_file(args):
     """
     validate_args(args)
 
-    (sample2sex, projName) = get_sampleID_and_sex(args)
+    sample2sex = get_sampleID_and_sex(args)
     bamList = get_bam_list(args)
     if not sample2sex or not bamList:
         raise Exception("Unable to load title file or get bam list")
@@ -149,7 +175,7 @@ def create_inputs_file(args):
     module = "cwl_tools/cnv"
 
     inputYamlString = {
-        "project_name_cnv": projName,
+        "project_name": args.project_id,
         "file_path": os.path.join(path, module),
     }
 
@@ -167,23 +193,12 @@ def create_inputs_file(args):
         fh.write("\n# File and Directory Inputs\n")
         fh.write(ruamel.yaml.dump(inputYamlOther))
 
-        map(
-            include_yaml_resources,
-            [fh] * 2,
-            [ACCESS_COPYNUMBER_RUN_FILES_PATH, ACCESS_COPYNUMBER_RUN_PARAMS_PATH],
-        )
+        include_yaml_resources(fh, CNV_INPUTS)
 
         if args.stand_alone:
-            fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
-            # Write the current pipeline version for this pipeline
-            try:
-                include_yaml_resources(fh, VERSION_PARAM)
-            except IOError:
-                # that is if version.yaml is absent
-                fh.write(INPUTS_FILE_DELIMITER)
-                fh.write("# Pipeline Run Version:\n")
-                include_version_info(fh)
-        fh.write("#### The end of for Copy Number Variant Calling ####\n")
+            fh.write("tmp_dir: {}\n".format(args.tmp_dir))
+            include_version_info(fh)
+            fh.write("#### The end of for Copy Number Variant Calling ####\n")
 
     return True
 

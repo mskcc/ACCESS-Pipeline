@@ -52,13 +52,14 @@ def submit_to_lsf(params):
     :param batch_system:
     :return:
     """
-    job_command = ("{} " * 6).format(
+    job_command = ("{} " * 7).format(
         "pipeline_runner",
         "--workflow " + params.workflow,
         "--inputs_file " + params.inputs_file,
         "--output_location " + params.output_location,
         "--batch_system " + params.batch_system,
         "--logLevel " + params.log_level,
+        "--include_version ",
     )
 
     if params.restart:

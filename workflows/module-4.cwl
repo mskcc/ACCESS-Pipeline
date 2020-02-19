@@ -10,18 +10,18 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_params/schemas/vcf2maf.yaml
-      - $import: ../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../resources/run_params/schemas/access_filters.yaml
-      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../resources/schemas/variants_tools.yaml
+      - $import: ../resources/schemas/params/vcf2maf.yaml
+      - $import: ../resources/schemas/params/gbcms_params.yaml
+      - $import: ../resources/schemas/params/access_filters.yaml
 
 inputs:
 
-  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  run_tools: ../resources/schemas/variants_tools.yaml#run_tools
 
-  vcf2maf_params: ../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
-  gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
-  access_filters_params: ../resources/run_params/schemas/access_filters.yaml#access_filters__params
+  vcf2maf_params: ../resources/schemas/params/vcf2maf.yaml#vcf2maf_params
+  gbcms_params: ../resources/schemas/params/gbcms_params.yaml#gbcms_params
+  access_filters_params: ../resources/schemas/params/access_filters.yaml#access_filters__params
 
   hotspots: File
   blacklist_file: File

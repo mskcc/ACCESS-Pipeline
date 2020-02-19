@@ -8,18 +8,21 @@ doc: |
   These inputs are all required to be sorted in the same order:
 
   sample_ids
+  patient_ids
   sample_classes
   unfiltered_pileups
   duplex_pileups
 
 requirements:
+  StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
   sample_ids: string[]
+  patient_ids: string[]
   sample_classes: string[]
   unfiltered_pileups: File[]
   duplex_pileups: File[]
@@ -33,7 +36,7 @@ outputs:
 
   hotspots_in_normals_table_pdf:
     type: File
-    outputSource: find_hotspots_in_normals/hotspots_in_normals_table_pdf
+    outputSource: print_hotspots_in_normals_table/hotspots_in_normals_table_pdf
 
   hotspots_in_normals_plot:
     type: File
@@ -50,13 +53,18 @@ steps:
       bioinfo_utils:
         valueFrom: $(inputs.run_tools.bioinfo_utils)
       sample_ids: sample_ids
+      patient_ids: patient_ids
       sample_classes: sample_classes
       unfiltered_pileups: unfiltered_pileups
       duplex_pileups: duplex_pileups
       hotspot_list: hotspot_list
-    out: [
-      hotspots_in_normals_data,
-      hotspots_in_normals_table_pdf]
+    out: [hotspots_in_normals_data]
+
+  print_hotspots_in_normals_table:
+    run: ../../cwl_tools/bioinfo_utils/print_hotspots_in_normals_table.cwl
+    in:
+      table: find_hotspots_in_normals/hotspots_in_normals_data
+    out: [hotspots_in_normals_table_pdf]
 
   plot_hotspots_in_normals:
     run: ../../cwl_tools/bioinfo_utils/plot_hotspots_in_normals.cwl

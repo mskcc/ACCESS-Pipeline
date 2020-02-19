@@ -8,13 +8,13 @@ requirements:
   SubworkflowFeatureRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/marianas_collapsing.yaml
-      - $import: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/marianas_collapsing.yaml
+      - $import: ../../resources/schemas/params/add_or_replace_read_groups.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
-  add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+  add_or_replace_read_groups__params: ../../resources/schemas/params/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
   fastq1: File
   fastq2: File

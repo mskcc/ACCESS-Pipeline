@@ -1,6 +1,4 @@
 import os
-import sys
-import csv
 import glob
 import ast
 import logging
@@ -9,17 +7,19 @@ import ruamel.yaml
 from collections import defaultdict
 
 from python_tools.util import include_yaml_resources, include_version_info
-from python_tools.constants import (
-    ACCESS_MSI_RUN_FILES_PATH,
-    ACCESS_MSI_RUN_PARAMS_PATH,
-    VERSION_PARAM,
-)
+from python_tools.constants import MSI_INPUTS
 
 ##########
 # Pipeline Inputs generation for the ACCESS Copy Number Variant Calling
 #
 # Usage:
-# generate_msi_inputs -sb /dmp/analysis/prod/ACCESS/dms-qc/2019/ACCESSv1-VAL-20190010/access_qc-0.0.34-221-g3e7f923/standard_bams/ -o python_tools/pipeline_kickoff/inputs.yaml -od /dmp/hot/huy1 -p ACCESSv1-VAL-20190010 -alone
+#
+# generate_msi_inputs \
+#   -sb ./standard_bams/ \
+#   -o ./inputs.yaml \
+#   -od ./outputs \
+#   -p Project_Name \
+#   -alone
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -49,7 +49,7 @@ def parse_arguments():
     parser.add_argument(
         "-alone",
         "--stand_alone",
-        help="Whether to run CNV as independent module",
+        help="Whether to run MSI as independent module",
         nargs="?",
         default=False,
         const=True,
@@ -70,6 +70,13 @@ def parse_arguments():
         required=True,
     )
 
+    parser.add_argument(
+        "-td",
+        "--tmp_dir",
+        help="Absolute path to temporary working directory (e.g. /scratch)",
+        required=True,
+    )
+
     args = parser.parse_args()
     return args
 
@@ -83,13 +90,15 @@ def get_bam_dics(args):
     controlBamDic = {}
     for bam in glob.glob(os.path.join(args.standard_bams_directory, "*.bam")):
         sampleId = os.path.basename(bam).split("_")[0]
+        print(sampleId)
         if sampleId.startswith("SeraCare"):
             controlBamDic[sampleId] = bam
-        elif sampleId.split("-")[-1].startswith("T"):
+        elif sampleId.split("-")[-2].startswith("L00"):
             tumorBamDic[sampleId] = bam
-        elif sampleId.split("-")[-1].startswith("N"):
-            normalBamDic["-".join(sampleId.split("-")[:-1])] = bam
+        elif sampleId.split("-")[-2].startswith("N00"):
+            normalBamDic["-".join(sampleId.split("-")[:-2])] = bam
 
+    print(tumorBamDic, normalBamDic, controlBamDic)
     return (tumorBamDic, normalBamDic, controlBamDic)
 
 
@@ -116,7 +125,8 @@ def create_inputs_file(args):
     fileTemp = '{"class": "File", "path": "%s"}'
     inputYamlFileList = defaultdict(list)
     for sampleId in tumorBamDic:
-        patientId = "-".join(sampleId.split("-")[:-1])
+        patientId = "-".join(sampleId.split("-")[:-2])
+        print("patient ID: {}".format(patientId))
         # Include ONLY paired samples
         if patientId in normalBamDic:
             inputYamlFileList["sample_name"].append(sampleId)
@@ -143,22 +153,11 @@ def create_inputs_file(args):
             fh.write(ruamel.yaml.dump({item: inputYamlFileList[item]}))
             fh.write("\n")
 
-        map(
-            include_yaml_resources,
-            [fh] * 2,
-            [ACCESS_MSI_RUN_FILES_PATH, ACCESS_MSI_RUN_PARAMS_PATH],
-        )
+        include_yaml_resources(fh, MSI_INPUTS)
 
         if args.stand_alone:
-            fh.write("tmp_dir: /dmp/analysis/SCRATCH\n")
-            # Write the current pipeline version for this pipeline
-            try:
-                include_yaml_resources(fh, VERSION_PARAM)
-            except IOError:
-                # that is if version.yaml is absent
-                fh.write(INPUTS_FILE_DELIMITER)
-                fh.write("# Pipeline Run Version:\n")
-                include_version_info(fh)
+            fh.write("tmp_dir: {}\n".format(args.tmp_dir))
+            include_version_info(fh)
 
         fh.write("#### The end of for MSI ####\n")
 
@@ -167,6 +166,7 @@ def create_inputs_file(args):
 
 def validate_args(args):
     """Arguments sanity check"""
+    # todo: should not be necessary
 
     # Tumor bams folder is required for generating manifest list
     if not args.standard_bams_directory:

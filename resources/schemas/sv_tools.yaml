@@ -1,0 +1,13 @@
+type: record
+name: sv_run_tools
+fields:
+  - name: java_8
+    type: string
+  - name: r_path
+    type: string
+  - name: manta
+    type: Directory
+  - name: sv_repo
+    type: Directory
+  - name: manta_python
+    type: string

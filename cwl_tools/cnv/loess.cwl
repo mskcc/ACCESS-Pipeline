@@ -8,13 +8,9 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: R
+baseCommand: loessnormalize_nomapq_cfdna.R
 
 arguments:
-- --slave
-- --vanilla
-- --file=$(inputs.file_path + inputs.loess_normalize_script)
-- --args
 - $(runtime.outdir)
 
 stdout: $(inputs.run_type + '_loess.stdout')
@@ -46,10 +42,6 @@ inputs:
     inputBinding:
       position: 4
     doc: tumor or normal
-
-  loess_normalize_script: string
-  file_path: string
-
 
 outputs:
   loess_text:

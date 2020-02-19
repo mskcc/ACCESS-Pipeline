@@ -3,7 +3,7 @@ import logging
 import argparse
 import pandas as pd
 
-from ..constants import *
+from python_tools.legacy_constants import *
 
 
 # Pipeline Kickoff Step #1
@@ -42,6 +42,10 @@ def convert_to_title_file(manifest):
     sample_convert_func = lambda sample: sample_rename_map[sample]
     title_file.loc[:, MANIFEST__CMO_SAMPLE_ID_COLUMN] = title_file[MANIFEST__CMO_SAMPLE_ID_COLUMN].apply(sample_convert_func)
 
+    # Select the columns we want from the manifest & rename them
+    title_file = title_file[columns_map_manifest.keys()]
+    title_file.columns = columns_map_manifest.values()
+
     # Remove empty rows
     title_file = title_file.dropna(axis=0, how='all')
 
@@ -74,11 +78,11 @@ def create_title_file(manifest_file_path, output_filename):
     title_file = convert_to_title_file(manifest)
 
     # Optionally split by lanes
-    if len(title_file[MANIFEST__PROJECT_ID_COLUMN].unique()) > 1:
+    if len(title_file[TITLE_FILE__STUDY_ID_COLUMN].unique()) > 1:
         path, filename = os.path.split(output_filename)
 
-        for project_id in title_file[MANIFEST__PROJECT_ID_COLUMN].unique():
-            title_file_sub = title_file[title_file[MANIFEST__PROJECT_ID_COLUMN] == project_id]
+        for project_id in title_file[TITLE_FILE__STUDY_ID_COLUMN].unique():
+            title_file_sub = title_file[title_file[TITLE_FILE__STUDY_ID_COLUMN] == project_id]
             output_filename = project_id + '_' + filename
             output_file_path = os.path.join(path, output_filename)
             title_file_sub.to_csv(output_file_path, sep='\t', index=False)

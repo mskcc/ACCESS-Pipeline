@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 # Donavan Cheng
 # 2013 July 24th
 #ptashkir@mskcc.org updated to support cfDNA pipeline 09 Dec 2018

@@ -10,13 +10,13 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../resources/schemas/variants_tools.yaml
+      - $import: ../resources/schemas/params/gbcms_params.yaml
 
 inputs:
 
-  run_tools: ../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  gbcms_params: ../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  run_tools: ../resources/schemas/variants_tools.yaml#run_tools
+  gbcms_params: ../resources/schemas/params/gbcms_params.yaml#gbcms_params
 
   project_name: string
   title_file: File

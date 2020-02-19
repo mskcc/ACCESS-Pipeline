@@ -7,6 +7,7 @@ arguments:
 - -Xmx4g
 - -jar
 - $(inputs.arrg)
+- TMP_DIR=/scratch
 
 requirements:
   InlineJavascriptRequirement: {}

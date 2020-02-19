@@ -6,7 +6,7 @@ import ruamel.yaml
 import numpy as np
 import pandas as pd
 
-from python_tools.constants import *
+from python_tools.legacy_constants import *
 
 # We look for the regex class at runtime:
 # https://stackoverflow.com/questions/6102019/type-of-compiled-regex-object-in-python
@@ -214,7 +214,6 @@ def extract_sample_id_from_bam_path(bam_path):
     :param path:
     :return:
     """
-    # return bam_path.split('/')[-1].split('_cl_aln')[0]
     return bam_path.split("/")[-1].split(SAMPLE_SEP_FASTQ_DELIMETER)[0]
 
 
@@ -235,7 +234,6 @@ def include_version_info(fh):
 def find_bams_in_directory(dir, sample_list=None):
     """
     Filter to just bam files found in `dir`
-
     :param dir: string - directory to be searched
     :return:
     """
@@ -335,7 +333,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
                         one another
     """
     boolv = boolv.astype(bool)
-    matching_sample_ids = title_file[boolv][TITLE_FILE__SAMPLE_ID_COLUMN]
+    matching_sample_ids = title_file[boolv][TITLE_FILE__COLLAB_ID_COLUMN]
 
     if all_strings_are_substrings(matching_sample_ids):
         print(
@@ -354,7 +352,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
         )
 
         longest_match = max(matching_sample_ids, key=len)
-        return np.argmax(title_file[TITLE_FILE__SAMPLE_ID_COLUMN] == longest_match)
+        return np.argmax(title_file[TITLE_FILE__COLLAB_ID_COLUMN] == longest_match)
 
     else:
         raise Exception(
@@ -364,7 +362,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
         )
 
 
-def get_pos(title_file, sample_object):
+def get_pos(title_file, sample_object, use_cmo_sample_id=False):
     """
     Return position of `fastq_object` in the Sample ID column of `title_file`
 

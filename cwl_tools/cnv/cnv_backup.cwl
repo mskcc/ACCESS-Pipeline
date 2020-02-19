@@ -7,14 +7,9 @@ requirements:
   ResourceRequirement:
     coresMin: 8
 
-baseCommand: python
-
-arguments:
-- $(inputs.script)
+baseCommand: cfdna_scna
 
 inputs:
-
-  script: File
 
   project_name:
     type: string

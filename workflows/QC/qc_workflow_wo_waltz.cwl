@@ -14,10 +14,10 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
 
   project_name: string
   title_file: File
@@ -30,6 +30,7 @@ inputs:
   hotspots: File
 
   sample_id: string[]
+  patient_id: string[]
   sample_class: string[]
   waltz_unfiltered_pool_a_pileups: File[]
   waltz_duplex_pool_a_pileups: File[]
@@ -274,6 +275,7 @@ steps:
     run: ../subworkflows/find_hotspots_in_normals.cwl
     in:
       sample_ids: sample_id
+      patient_ids: patient_id
       sample_classes: sample_class
       unfiltered_pileups: waltz_unfiltered_pool_a_pileups
       duplex_pileups: waltz_duplex_pool_a_pileups

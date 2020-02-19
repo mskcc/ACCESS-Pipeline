@@ -5,21 +5,15 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
 - class: ResourceRequirement
-  ramMin: 4000
+  ramMin: 16000 # todo: how to get 4GB when dividing by 6!!!!!!!!!!....
   coresMin: 6
 
-baseCommand: python
-
-arguments:
-- $(inputs.file_path + inputs.admie_script)
+baseCommand: admie_analyze
 
 stdout: admie.stdout
 stderr: admie.stderr
 
 inputs:
-
-  admie_script: string
-  file_path: string
 
   project_name_msi:
     type: string?

@@ -31,6 +31,7 @@ RUN_PARAMS_TEST                     = os.path.join(RUN_PARAMS_FOLDER, TEST)
 # Luna Resource Paths
 TOOL_RESOURCES_LOCAL                = os.path.join(ROOT_DIR, 'resources/run_tools/local.yaml')
 TOOL_RESOURCES_PROD                 = os.path.join(ROOT_DIR, 'resources/run_tools/phoenix.yaml')
+TOOL_RESOURCES_LUNA                 = os.path.join(ROOT_DIR, 'resources/run_tools/luna.yaml')
 
 RUN_PARAMS__STANDARD_BAM_TO_COLLAPSED_QC = os.path.join(RUN_PARAMS_FOLDER, 'standard_bams_to_collapsed_qc.yaml')
 
@@ -143,6 +144,7 @@ TITLE_FILE__SEX_COLUMN                      = 'Sex'
 TITLE_FILE__BARCODE_INDEX_1_COLUMN          = 'Barcode_index_1'
 TITLE_FILE__BARCODE_INDEX_2_COLUMN          = 'Barcode_index_2'
 TITLE_FILE__LANE_COLUMN                     = 'Lane'
+TITLE_FILE__STUDY_ID_COLUMN                 = 'Study ID'
 
 
 ##########################
@@ -166,6 +168,7 @@ columns_map_manifest = OrderedDict([
     (MANIFEST__BARCODE_INDEX_1_COLUMN            , TITLE_FILE__BARCODE_INDEX_1_COLUMN),
     (MANIFEST__BARCODE_INDEX_2_COLUMN            , TITLE_FILE__BARCODE_INDEX_2_COLUMN),
     (MANIFEST__LANE_COLUMN                       , TITLE_FILE__LANE_COLUMN),
+    (MANIFEST__PROJECT_ID_COLUMN                 , TITLE_FILE__STUDY_ID_COLUMN),
 ])
 
 # Map SAMPLESHEET --> TITLE_FILE
@@ -219,7 +222,7 @@ SAMPLE_SEP_DIR_DELIMETER = "/"
 EPSILON = 1e-9
 
 # Shorter reference to sample ID column, to be used everywhere
-SAMPLE_ID_COLUMN = TITLE_FILE__SAMPLE_ID_COLUMN
+SAMPLE_ID_COLUMN = MANIFEST__CMO_SAMPLE_ID_COLUMN
 
 # WALTZ Metrics Files Constants
 

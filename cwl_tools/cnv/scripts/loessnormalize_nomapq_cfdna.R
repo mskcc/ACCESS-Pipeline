@@ -1,4 +1,4 @@
-#!/ifs/opt/bin/Rscript
+#!/usr/bin/env Rscript
 
 ########################
 # Loess normalize target exon coverage based on GC content.

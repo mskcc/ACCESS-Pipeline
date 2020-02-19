@@ -1,13 +1,13 @@
 import os
 import sys
-import shutil
 import uuid
+import shutil
 import argparse
 import subprocess
 import ruamel.yaml
 from tempfile import mkdtemp
 
-from configuration import *
+from python_tools.pipeline_kickoff.configuration import *
 
 
 def parse_arguments():
@@ -50,7 +50,7 @@ def parse_arguments():
         "--batch_system",
         action="store",
         dest="batch_system",
-        choices=["singleMachine", "gridEngine"],
+        choices=["singleMachine", "gridEngine", "lsf"],
         default="gridEngine",
         help="e.g. lsf, sge or singleMachine",
         required=False,
@@ -139,7 +139,8 @@ def get_input_params(args):
         tmpdir = inputs_yaml["tmp_dir"]
         os.path.exists(tmpdir)
     except KeyError:
-        raise Exception("The variable tmp_dir is not defined in the inputs yaml file.")
+        print("The variable tmp_dir is not defined in the inputs yaml file.")
+        tmpdir = args.output_location
     except OSError:
         raise
 

@@ -7,20 +7,20 @@ requirements:
   InlineJavascriptRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/marianas_collapsing.yaml
-      - $import: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/marianas_collapsing.yaml
+      - $import: ../../resources/schemas/params/add_or_replace_read_groups.yaml
 
 inputs:
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+
+  marianas_collapsing__params: ../../resources/schemas/params/marianas_collapsing.yaml#marianas_collapsing__params
+  add_or_replace_read_groups__params: ../../resources/schemas/params/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
   input_bam: File
   reference_fasta: string
   reference_fasta_fai: string
   pileup: File
-
-  marianas_collapsing__params: ../../resources/run_params/schemas/marianas_collapsing.yaml#marianas_collapsing__params
-  add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
 
   add_rg_LB: int
   add_rg_PL: string

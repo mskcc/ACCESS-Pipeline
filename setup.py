@@ -38,6 +38,7 @@ def get_package_files(directory, file_type):
 
 ENTRY_POINTS = """
         [console_scripts]
+        create_access_project = python_tools.pipeline_kickoff.create_access_project:main
         create_inputs_from_title_file = python_tools.pipeline_kickoff.create_inputs_from_title_file:main
         create_standard_bam_to_collapsed_qc_inputs = python_tools.pipeline_kickoff.create_standard_bam_to_collapsed_qc_inputs:main
         create_title_file_from_manifest = python_tools.pipeline_kickoff.create_title_file_from_manifest:main
@@ -46,10 +47,10 @@ ENTRY_POINTS = """
         pipeline_submit = python_tools.pipeline_kickoff.pipeline_submit:main
         pipeline_runner = python_tools.pipeline_kickoff.pipeline_runner:main
         list2bed = python_tools.workflow_tools.list2bed:main
-        find_hotspots_in_normals = cwl_tools.bioinfo_utils.find_hotspots_in_normals:main
-        base_quality_plot = python_tools.workflow_tools.qc.base_quality_plot:main
+        print_hotspots_in_normals_table_pdf = cwl_tools.bioinfo_utils.print_hotspots_in_normals_table_pdf:main
         qc_wrapper = python_tools.workflow_tools.qc.qc_wrapper:main
         tables_module = python_tools.workflow_tools.qc.tables_module:main
+        base_quality_plot = python_tools.workflow_tools.qc.base_quality_plot:main
         plot_noise = python_tools.workflow_tools.qc.plot_noise:main
         fingerprinting = python_tools.workflow_tools.qc.fingerprinting:main
         combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main
@@ -58,6 +59,7 @@ ENTRY_POINTS = """
         workflow_runtime_stats = python_tools.workflow_tools.workflow_runtime_stats:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
         generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
+        generate_access_variants_inputs_cmo = python_tools.pipeline_kickoff.generate_access_variants_inputs_cmo:main
         generate_copynumber_inputs = python_tools.pipeline_kickoff.generate_copynumber_inputs:main
         generate_msi_inputs = python_tools.pipeline_kickoff.generate_msi_inputs:main
         filter_mutect = cwl_tools.basicfiltering.filter_mutect:main
@@ -69,9 +71,12 @@ ENTRY_POINTS = """
         maf2tsv = python_tools.workflow_tools.maf2tsv:main
         traceback_inputs = cwl_tools.traceback.traceback_inputs:main
         traceback_integrate = cwl_tools.traceback.traceback_integrate:main
+        cfdna_scna = cwl_tools.cnv.scripts.cfdna_scna:main
+        admie_analyze = cwl_tools.msi.scripts.admie_analyze:main
         """
 
 SUPPORT_SCRIPTS = [
+    "cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r",
     "python_tools/workflow_tools/qc/r_tools/plots_module.r",
     "cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r",
     "python_tools/workflow_tools/qc/r_tools/plots.r",
@@ -80,6 +85,8 @@ SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/calculate_noise.sh",
     "python_tools/workflow_tools/qc/make_umi_qc_tables.sh",
     "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
+    "cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R",
+    "cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R",
 ]
 
 

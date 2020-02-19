@@ -5,7 +5,7 @@ import magic
 import logging
 import subprocess
 import ruamel.yaml
-from python_tools.constants import ACCESS_VARIANTS_RUN_TOOLS_PATH
+from python_tools.constants import VARIANTS_INPUTS
 
 # Set up logging
 FORMAT = "%(asctime)-15s %(funcName)-8s %(levelname)s %(message)s"
@@ -19,7 +19,7 @@ logger.setLevel(logging.DEBUG)
 
 # Get tools from configuration
 # Todo: Containerize
-with open(ACCESS_VARIANTS_RUN_TOOLS_PATH, "r") as stream:
+with open(VARIANTS_INPUTS, "r") as stream:
     tools_config = ruamel.yaml.round_trip_load(stream)
 
     try:

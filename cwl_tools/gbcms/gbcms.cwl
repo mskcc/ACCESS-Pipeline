@@ -10,8 +10,8 @@ requirements:
     coresMin: 2
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/gbcms_params.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
+      - $import: ../../resources/schemas/params/gbcms_params.yaml
 
 # Todo items:
 # - cmo_fillout has a section to create Portal fillout
@@ -31,8 +31,8 @@ arguments:
 
 inputs:
 
-  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
-  gbcms_params: ../../resources/run_params/schemas/gbcms_params.yaml#gbcms_params
+  run_tools: ../../resources/schemas/variants_tools.yaml#run_tools
+  gbcms_params: ../../resources/schemas/params/gbcms_params.yaml#gbcms_params
   gbcms: string
 
   genotyping_bams_ids: string[]

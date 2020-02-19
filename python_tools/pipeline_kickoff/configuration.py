@@ -257,4 +257,72 @@ class LSF(object):
     """
 
     def __init__(self, queue):
-        pass
+        self.__CONTROL_QUEUE = queue
+        self.__BSUB_CMD = "bsub"
+        self.__QUEUE_PARAM = "-q"
+        self.__TOIL_LSF_ARGS = " ".join(
+            [self.__QUEUE_PARAM, self.__CONTROL_QUEUE]
+        )
+        self.__DEFAULT_MEM_PARAM = '-M'
+        self.__DEFAULT_MEM = 5
+        self.__DEFAULT_WALLTIME_PARAM = '-W'
+        self.__DEFAULT_WALLTIME = str(7*24*60)
+        self.__JOB_NAME_PARAM = "-J"
+        self.__ASSAY = "ACCESS"
+        self.__STDERR_FILE_PARAM = '-eo'
+        self.__STDOUT_FILE_PARAM = '-oo'
+
+    def alter_path(self, path):
+        """
+        Change path to bsub binary.
+        """
+        self.__BSUB_CMD = path
+
+    def alter_resources(self, mem, vmem, cpu):
+        """
+        Customize memory and cpu usage.
+        """
+        self.__DEFAULT_MEM, self.__DEFAULT_VMEM, self.__DEFAULT_CPU = mem, vmem, cpu
+
+    def alter_assay(self, assayname):
+        """
+        Generic assay label.
+        """
+        self.__ASSAY = assayname
+
+    def no_sync(self):
+        """
+        Do not wait for submitted job to complete. Default setting is to wait
+        for the submitted job to complete and carry over the exit status.
+        """
+        self.__SYNC_PARAM = ""
+
+    def generate_cluster_cmd(self, jobid, wdir):
+        """
+        Generate a comprehensive lsf wrapper command.
+        """
+        cmd = " ".join(
+            [
+                self.__BSUB_CMD,
+                self.__JOB_NAME_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid),
+
+                self.__STDERR_FILE_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid) + '.stderr',
+                self.__STDOUT_FILE_PARAM,
+                self.__ASSAY + "_pid_" + str(jobid) + '.stdout',
+
+                str(self.__DEFAULT_MEM_PARAM),
+                str(self.__DEFAULT_MEM),
+            ]
+        )
+
+        lsf_args = os.environ['TOIL_LSF_ARGS']
+        if lsf_args:
+            cmd += ' ' + lsf_args
+        else:
+            cmd += ' ' + ' '.join([str(self.__DEFAULT_WALLTIME_PARAM), str(self.__DEFAULT_WALLTIME)])
+
+        print(cmd)
+
+        return cmd

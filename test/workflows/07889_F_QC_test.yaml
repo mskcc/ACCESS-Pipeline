@@ -80,6 +80,28 @@ sample_id:
 - C-X8R0LT-L003-d
 - C-X8R0LT-L004-d
 
+patient_id:
+- C-006054
+- C-1387TW
+- C-4VDEX2
+- C-4VDEX2
+- C-4VDEX2
+- C-5K3M79
+- C-7DJK4X
+- C-7DJK4X
+- C-7DJK4X
+- C-A970M3
+- C-A970M3
+- C-FEMN69
+- C-FEMN69
+- C-FR89A5
+- C-HMFWH7
+- C-HMFWH7
+- C-KC5RUX
+- C-KC5RUX
+- C-X8R0LT
+- C-X8R0LT
+
 sample_class:
 - Tumor
 - Normal
@@ -157,7 +179,7 @@ run_tools:
 
   # BioinfoUtils
   # Todo: change all these strings to File types
-  bioinfo_utils: {class: File, path: /ifs/work/bergerm1/Innovation/software/BioinfoUtils-1.0.0.jar}
+  bioinfo_utils: {class: File, path: /ifs/work/bergerm1/Innovation/software/BioinfoUtils-1.0.1.jar}
 
   # Module 1
   trimgalore_path: /opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5/trim_galore

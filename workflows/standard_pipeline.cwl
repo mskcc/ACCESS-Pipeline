@@ -15,19 +15,29 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../resources/run_tools/schemas.yaml
-      - $import: ../resources/run_params/schemas/process_loop_umi_fastq.yaml
-      - $import: ../resources/run_params/schemas/trimgalore.yaml
-      - $import: ../resources/run_params/schemas/add_or_replace_read_groups.yaml
-      - $import: ../resources/run_params/schemas/mark_duplicates.yaml
-      - $import: ../resources/run_params/schemas/find_covered_intervals.yaml
-      - $import: ../resources/run_params/schemas/abra.yaml
-      - $import: ../resources/run_params/schemas/fix_mate_information.yaml
-      - $import: ../resources/run_params/schemas/base_recalibrator.yaml
-      - $import: ../resources/run_params/schemas/print_reads.yaml
+      - $import: ../resources/schemas/collapsing_tools.yaml
+      - $import: ../resources/schemas/params/abra.yaml
+      - $import: ../resources/schemas/params/trimgalore.yaml
+      - $import: ../resources/schemas/params/print_reads.yaml
+      - $import: ../resources/schemas/params/mark_duplicates.yaml
+      - $import: ../resources/schemas/params/process_loop_umi_fastq.yaml
+      - $import: ../resources/schemas/params/add_or_replace_read_groups.yaml
+      - $import: ../resources/schemas/params/find_covered_intervals.yaml
+      - $import: ../resources/schemas/params/fix_mate_information.yaml
+      - $import: ../resources/schemas/params/base_recalibrator.yaml
 
 inputs:
-  run_tools: ../resources/run_tools/schemas.yaml#run_tools
+  run_tools: ../resources/schemas/collapsing_tools.yaml#run_tools
+
+  abra__params: ../resources/schemas/params/abra.yaml#abra__params
+  trimgalore__params: ../resources/schemas/params/trimgalore.yaml#trimgalore__params
+  print_reads__params: ../resources/schemas/params/print_reads.yaml#print_reads__params
+  mark_duplicates__params: ../resources/schemas/params/mark_duplicates.yaml#mark_duplicates__params
+  process_loop_umi_fastq__params: ../resources/schemas/params/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
+  add_or_replace_read_groups__params: ../resources/schemas/params/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  find_covered_intervals__params: ../resources/schemas/params/find_covered_intervals.yaml#find_covered_intervals__params
+  fix_mate_information__params: ../resources/schemas/params/fix_mate_information.yaml#fix_mate_information__params
+  base_recalibrator__params: ../resources/schemas/params/base_recalibrator.yaml#base_recalibrator__params
 
   fastq1: File[]
   fastq2: File[]
@@ -52,16 +62,6 @@ inputs:
   bqsr__knownSites_millis:
     type: File
     secondaryFiles: [.idx]
-
-  process_loop_umi_fastq__params: ../resources/run_params/schemas/process_loop_umi_fastq.yaml#process_loop_umi_fastq__params
-  trimgalore__params: ../resources/run_params/schemas/trimgalore.yaml#trimgalore__params
-  add_or_replace_read_groups__params: ../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
-  mark_duplicates__params: ../resources/run_params/schemas/mark_duplicates.yaml#mark_duplicates__params
-  find_covered_intervals__params: ../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
-  abra__params: ../resources/run_params/schemas/abra.yaml#abra__params
-  fix_mate_information__params: ../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
-  base_recalibrator__params: ../resources/run_params/schemas/base_recalibrator.yaml#base_recalibrator__params
-  print_reads__params: ../resources/run_params/schemas/print_reads.yaml#print_reads__params
 
 outputs:
 

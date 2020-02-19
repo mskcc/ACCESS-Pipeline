@@ -13,23 +13,23 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_tools/schemas.yaml
-      - $import: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml
-      - $import: ../../resources/run_params/schemas/find_covered_intervals.yaml
-      - $import: ../../resources/run_params/schemas/abra.yaml
-      - $import: ../../resources/run_params/schemas/fix_mate_information.yaml
-      - $import: ../../resources/run_params/schemas/marianas_collapsing.yaml
-      - $import: ../../resources/run_params/schemas/waltz.yaml
+      - $import: ../../resources/schemas/collapsing_tools.yaml
+      - $import: ../../resources/schemas/params/abra.yaml
+      - $import: ../../resources/schemas/params/waltz.yaml
+      - $import: ../../resources/schemas/params/marianas_collapsing.yaml
+      - $import: ../../resources/schemas/params/fix_mate_information.yaml
+      - $import: ../../resources/schemas/params/find_covered_intervals.yaml
+      - $import: ../../resources/schemas/params/add_or_replace_read_groups.yaml
 
 inputs:
 
-  run_tools: ../../resources/run_tools/schemas.yaml#run_tools
-  add_or_replace_read_groups__params: ../../resources/run_params/schemas/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
-  find_covered_intervals__params: ../../resources/run_params/schemas/find_covered_intervals.yaml#find_covered_intervals__params
-  abra__params: ../../resources/run_params/schemas/abra.yaml#abra__params
-  fix_mate_information__params: ../../resources/run_params/schemas/fix_mate_information.yaml#fix_mate_information__params
-  marianas_collapsing__params: ../../resources/run_params/schemas/marianas_collapsing.yaml#marianas_collapsing__params
-  waltz__params: ../../resources/run_params/schemas/waltz.yaml#waltz__params
+  run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
+  abra__params: ../../resources/schemas/params/abra.yaml#abra__params
+  waltz__params: ../../resources/schemas/params/waltz.yaml#waltz__params
+  add_or_replace_read_groups__params: ../../resources/schemas/params/add_or_replace_read_groups.yaml#add_or_replace_read_groups__params
+  find_covered_intervals__params: ../../resources/schemas/params/find_covered_intervals.yaml#find_covered_intervals__params
+  fix_mate_information__params: ../../resources/schemas/params/fix_mate_information.yaml#fix_mate_information__params
+  marianas_collapsing__params: ../../resources/schemas/params/marianas_collapsing.yaml#marianas_collapsing__params
 
   # Standard Bams
   standard_bams:
@@ -269,6 +269,7 @@ steps:
     hotspots: hotspots
 
     sample_id: add_rg_ID
+    patient_id: patient_id
     sample_class: sample_class
     standard_bams: standard_bams
     # Collapsed, and after 2nd Indel Realignment:

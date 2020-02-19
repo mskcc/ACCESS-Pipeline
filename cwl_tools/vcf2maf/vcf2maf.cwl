@@ -13,15 +13,15 @@ requirements:
     coresMin: 2
   SchemaDefRequirement:
     types:
-      - $import: ../../resources/run_params/schemas/vcf2maf.yaml
-      - $import: ../../resources/run_tools/ACCESS_variants_run_tools.yaml
+      - $import: ../../resources/schemas/variants_tools.yaml
+      - $import: ../../resources/schemas/params/vcf2maf.yaml
 
 inputs:
 
-  run_tools: ../../resources/run_tools/ACCESS_variants_run_tools.yaml#run_tools
+  run_tools: ../../resources/schemas/variants_tools.yaml#run_tools
+  vcf2maf_params: ../../resources/schemas/params/vcf2maf.yaml#vcf2maf_params
   perl: string
   vcf2maf: string
-  vcf2maf_params: ../../resources/run_params/schemas/vcf2maf.yaml#vcf2maf_params
 
   input_vcf:
     type:

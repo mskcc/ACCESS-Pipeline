@@ -3,39 +3,43 @@ name: run_tools
 fields:
   - name: perl_5
     type: string
-
   - name: java_7
     type: string
-
   - name: java_8
     type: string
-
   - name: marianas_path
     type: string
-
   - name: bioinfo_utils
     type: File
-
   - name: trimgalore_path
     type: string
-
   - name: bwa_path
     type: string
-
   - name: arrg_path
     type: string
-
   - name: picard_path
     type: string
-
   - name: gatk_path
     type: string
-
   - name: abra_path
     type: string
-
   - name: fx_path
     type: string
-
   - name: waltz_path
     type: string
+<<<<<<< HEAD:resources/run_tools/schemas.yaml
+=======
+
+
+#type: record
+#name: sv_run_tools
+#fields:
+#  - name: r_path
+#    type: string
+#
+#  - name: manta
+#    type: Directory
+#
+#  - name: sv_repo
+#    type: Directory
+>>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335:resources/schemas/collapsing_tools.yaml
