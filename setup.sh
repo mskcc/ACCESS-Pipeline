@@ -96,53 +96,5 @@ conda env create --name $ACCESS_ENV --file $PWD/environment.yaml
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || exit $EXITCODE;
 
-# TODO:
-# Use conda pre-built R libraries. Since some of the libraries are in dev, lets install it using R for now.
-# Activate environment
-printi "Activating ${ACCESS_ENV}"
-source activate ${ACCESS_ENV}
-[[ $EXITCODE == 0 ]] || {
-        printe "Cannot activate ${ACCESS_ENV}.";
-        exit $EXITCODE;
-        }
-
-# set rlibs path
-export R_LIBS="${ACCESS_ENV_PATH}/lib/R/library/" # to ensure r libraries are installed in conda R library path
-
-RSCRIPT=$(echo $(which python) | sed "s/python/Rscript/")
-
-[[ -e "$RSCRIPT" ]] || {
-        printe "Cannot locate Rscript in the environment $ACCESS_ENV. Was your environment setup properly?";
-        exit 1;
-        }
-
-printi "Installing R packages from CRAN..."
-$RSCRIPT -e 'install.packages(c("devtools","argparse","grid","yaml","scales","gridBase","gridExtra","lattice","ggplot2","getopt","reshape2","dplyr","tidyr","data.table","MASS","gplots","RColorBrewer","DNAcopy","Ckmeans.1d.dp","rjson","curl","wesanderson", "vcfR"), repos="https://cran.cnr.berkeley.edu/")'
-
-EXITCODE=$?
-[[ $EXITCODE == 0 ]] || {
-        printe "Error during R package installation from CRAN.";
-        exit $EXITCODE;
-        }
-
-printi "Installing R packages from source..."
-# Todo: figure out why this package results in a 404 when new versions are released
-$RSCRIPT -e 'install.packages("http://bioconductor.org/packages/release/bioc/src/contrib/DNAcopy_1.60.0.tar.gz", repos=NULL, type="source")'
-
-EXITCODE=$?
-[[ $EXITCODE == 0 ]] || {
-        printe "Error during R package installation from source.";
-        exit $EXITCODE;
-        }
-
-printi "Installing R packages from github..."
-$RSCRIPT -e 'library(devtools); install_github("rptashkin/textplot", force=TRUE);'
-
-EXITCODE=$?
-[[ $EXITCODE == 0 ]] || {
-        printe "Error during R package installation from github.";
-        exit $EXITCODE;
-        }
-
 printi "ACCESS environment setup complete! \^.^/"
 source deactivate
