@@ -138,7 +138,7 @@ def create_inputs_file(args):
             )
 
     inputYamlString = {
-        "project_name_msi": projName,
+        "project_name": projName,
         "file_path": os.path.join(path, module)
         # "msisensor_allele_counts": '{class: Directory, path: %s}' % args.output_directory
     }
