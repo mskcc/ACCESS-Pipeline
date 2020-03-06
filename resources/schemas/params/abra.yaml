@@ -1,6 +1,10 @@
 name: abra__params
 type: record
 fields:
+- name: ram_min
+  type: int
+- name: cores_min
+  type: int
 - name: threads
   type: int
 - name: kmers

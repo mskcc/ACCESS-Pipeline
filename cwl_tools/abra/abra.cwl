@@ -14,8 +14,8 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 60000
-    coresMin: 8
+    ramMin: $(inputs.ram_min)
+    coresMin: $(inputs.cores_min)
     outdirMax: 120000
 
 inputs:
@@ -23,6 +23,8 @@ inputs:
   abra: string
 
   patient_id: string
+  ram_min: int
+  cores_min: int
 
   input_bams:
     type: File[]

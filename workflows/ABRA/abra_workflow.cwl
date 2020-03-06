@@ -104,6 +104,10 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
+      ram_min:
+        valueFrom: $(inputs.params.ram_min)
+      cores_min:
+        valueFrom: $(inputs.params.cores_min)
 
       mad:
         valueFrom: $(inputs.params.mad)

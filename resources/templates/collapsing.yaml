@@ -34,6 +34,8 @@ find_covered_intervals__params:
 
 abra__params:
 #  kmers: string
+  ram_min: 60000
+  cores_min: 8
   threads: 12
   mad: 1000
   sc: 100,30,80,15
