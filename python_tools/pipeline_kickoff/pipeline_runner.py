@@ -23,6 +23,7 @@ def parse_arguments():
         "--output_location",
         action="store",
         dest="output_location",
+        type=os.path.abspath,
         help="Path to Project outputs location",
         required=True,
     )
@@ -31,6 +32,7 @@ def parse_arguments():
         "--inputs_file",
         action="store",
         dest="inputs_file",
+        type=os.path.abspath,
         help="CWL Inputs file (e.g. inputs.yaml)",
         required=True,
     )
@@ -39,6 +41,7 @@ def parse_arguments():
         "--workflow",
         action="store",
         dest="workflow",
+        type=os.path.abspath,
         help="Workflow .cwl Tool file (e.g. innovation_pipeline.cwl)",
         required=True,
     )
@@ -134,7 +137,7 @@ def get_input_params(args):
 
     try:
         tmpdir = inputs_yaml["tmp_dir"]
-        os.path.exists(tmpdir)        
+        os.path.exists(tmpdir)
     except KeyError:
         print("The variable tmp_dir is not defined in the inputs yaml file.")
         tmpdir = args.output_location
@@ -161,14 +164,17 @@ def run_toil(args, tmpdir, project):
 
     toil = ToilArgs()
     toil_cmd = toil.get_toil_cmd(
-        project_env.get_env_vars(tmpdir, args.user_Rlibs, args.batch_system, args.queue),
+        project_env.get_env_vars(
+            tmpdir, args.user_Rlibs, args.batch_system, args.queue
+        ),
         output_directory,
         args.batch_system,
         args.logLevel,
         args.workflow,
         args.inputs_file,
-        args.restart)
-        
+        args.restart,
+    )
+
     if not args.batch_system == "singleMachine":
         if args.batch_system == "gridEngine":
             cluster = GridEngine(args.queue)
@@ -179,7 +185,7 @@ def run_toil(args, tmpdir, project):
         cluster_cmd = ""
 
     try:
-        run_cmd = " ".join(filter(lambda x: x, (cluster_cmd , toil_cmd)))
+        run_cmd = " ".join(filter(lambda x: x, (cluster_cmd, toil_cmd)))
         print("\nRunning job with command: {}\n".format(run_cmd))
         sys.stdout.flush()
         subprocess.check_call(run_cmd, shell=True)

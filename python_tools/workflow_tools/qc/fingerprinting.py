@@ -19,7 +19,6 @@ import argparse
 import pandas as pd
 from PyPDF2 import PdfFileMerger
 import os
-import re
 
 from python_tools.constants import *
 from python_tools.util import extract_sample_name, read_df, get_position_by_substring
@@ -357,6 +356,8 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 ###################
 ##Plot Functions
 ###################
+<<<<<<< HEAD
+=======
 # old minor contamination plotting function (to deletle after test)
 # ==============================================================================
 # def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
@@ -383,6 +384,7 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 #
 # ==============================================================================
 
+>>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
@@ -557,7 +559,7 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     index = natural_sort(index)
     all_fp_summary = all_fp_summary.reindex(index)
     # print summary
-    all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=False)
+    all_fp_summary.to_csv(fp_output_dir + '/duplex_ALL_FPsummary.txt', sep="\t", index=True)
     # plot minor contamination
     all_minor_contamination = [x for x in all_minor_contamination if not np.isnan(x[1])]
     if not len(all_minor_contamination):
@@ -580,11 +582,20 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     plt.xlim([-1, y_pos.size])
     # plt.autoscale(True)
     plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
+<<<<<<< HEAD
+    try:
+        plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
+    except ValueError:
+        # no minor allele values for test data
+        print("Error while plotting fingerprinting.")
+        pass
+=======
     if len(all_minor_contamination):
         ylim = max([a[1] for a in all_minor_contamination]) + .0005
     else:
         ylim = .0021
     plt.ylim([0, ylim])
+>>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
     plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -618,10 +629,24 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     plt.title('Sample Mix-Ups')
     # print(matrix)
     sns.set(font_scale=.6)
+<<<<<<< HEAD
+    try:
+        ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False,
+                        fmt='.2f', cmap="Blues_r", vmax=.15,
+                        cbar_kws={'label': 'Fraction Mismatch'},
+                        annot_kws={'size': 5})
+        # This sets the yticks "upright" with 0, as opposed to sideways with 90.
+        plt.yticks(rotation=0) 
+    except IndexError:
+        # No mismatch values for test data is possible
+        print("NaN fraction mismatch values for all samples.")
+        pass
+=======
     ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False,
                      fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch'},
                      annot_kws={'size': 5})
+>>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
 
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
@@ -634,8 +659,8 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
 
     df = pd.DataFrame(Match_status, columns=['Sample1', 'Sample2', 'Status'])
 
-    df[df['Status'] == 'Unexpected Mismatch'].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)
-    df[df['Status'] == 'Unexpected Match'].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
+    df[(df['Status'] == 'Unexpected Mismatch') & (~df['Sample1'].str.contains(CONTROL_SAMPLE_KEYWORD)) & (~df['Sample2'].str.contains(CONTROL_SAMPLE_KEYWORD))].to_csv(fp_output_dir + 'UnexpectedMismatch.txt', sep='\t', index=False)
+    df[(df['Status'] == 'Unexpected Match') & (~df['Sample1'].str.contains(CONTROL_SAMPLE_KEYWORD)) & (~df['Sample2'].str.contains(CONTROL_SAMPLE_KEYWORD))].to_csv(fp_output_dir + 'UnexpectedMatch.txt', sep='\t', index=False)
 
     plt.clf()
     fig, ax1 = plt.subplots()
@@ -826,7 +851,7 @@ def reformat_all(listofpileups, fp_indices, fp_output_dir):
     all_reformatted = all_reformatted.reindex(index)
 
     # save to file
-    all_reformatted.to_csv(fp_output_dir + '/ALL_FPsummary.txt', sep="\t", index=False)
+    all_reformatted.to_csv(fp_output_dir + '/ALL_FPsummary.txt', sep="\t", index=True)
     return all_reformatted
 
 
@@ -856,6 +881,9 @@ def run_fp_report(output_dir, waltz_dir_a, waltz_dir_b, waltz_dir_a_duplex, walt
     fp_indices, n = create_fp_indices(config_file)
     fp_output_dir = make_output_dir(output_dir, 'FPResults')
     all_fp, all_geno = find_fp_maf(listofpileups, fp_indices, fp_output_dir)
+    
+    # reformat for clinical database    
+    reformat_all(listofpileups, fp_indices, fp_output_dir)
 
     # reformat for clinical database
     all_reformatted = reformat_all(listofpileups, fp_indices, fp_output_dir)

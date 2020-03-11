@@ -36,6 +36,7 @@ from python_tools.constants import (
     UNFILTERED_BAM_DIR,
     SIMPLEX_BAM_DIR,
     DUPLEX_BAM_DIR,
+    VERSION_PARAM,
 )
 
 from python_tools.util import (
@@ -430,8 +431,15 @@ def create_inputs_file(args):
     ####### End of Generating inputs for CNV ########
 
     fh.write("title_file: {{class: File, path: {}}}\n".format(args.title_file_path))
-    fh.write("project_name: {}\n".format(args.project_name))
-    include_version_info(fh)
+    fh.write("project_name: {}".format(args.project_name))
+    # Write the current pipeline version for this pipeline
+    try:
+        include_yaml_resources(fh, VERSION_PARAM)
+    except IOError:
+        # that is if version.yaml is absent
+        fh.write(INPUTS_FILE_DELIMITER)
+        fh.write("# Pipeline Run Version:\n")
+        include_version_info(fh)
     fh.close()
 
 
@@ -462,13 +470,18 @@ def create_traceback_inputs(
                     "traceback_samples.txt", "traceback_input_mutations.txt"
                 )
             )
+        # Determine bam type
+        traceback_samples_df["BAM_TYPE"] = traceback_samples_df["BAM_file_path"].apply(
+            lambda x: "DUPLEX"
+            if "-duplex" in os.path.basename(x)
+            else ("SIMPLEX" if "-simplex" in os.path.basename(x) else "STANDARD")
+        )
 
         traceback_bams.extend(traceback_samples_df["BAM_file_path"].values.tolist())
         traceback_samples.extend(
-            map(
-                lambda x: str(x) + "_STANDARD",
-                traceback_samples_df["Sample"].values.tolist(),
-            )
+            (
+                traceback_samples_df["Sample"] + "_" + traceback_samples_df["BAM_TYPE"]
+            ).values.tolist()
         )
     # duplex bams from current project
     traceback_bams.extend(

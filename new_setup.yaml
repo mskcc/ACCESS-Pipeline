@@ -1,4 +1,4 @@
-name: ACCESS
+name: RTEST2
 channels:
   - r
   - bioconda

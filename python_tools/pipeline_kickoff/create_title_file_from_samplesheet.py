@@ -3,7 +3,7 @@ import xlrd
 import argparse
 import pandas as pd
 
-from ..constants import *
+from python_tools.constants import *
 
 # Suppress pandas copy warning
 pd.options.mode.chained_assignment = None
@@ -40,7 +40,7 @@ def create_title_file(samplesheet_file_path, output_filename):
     """
     ### Read samplesheet as either csv or Excel file ###
     try:
-        samplesheet = pd.read_csv(samplesheet_file_path, sep=",", header=0)
+        samplesheet = pd.read_csv(samplesheet_file_path, sep=",", header=0, dtype=str)
     except (xlrd.biffh.XLRDError, pd.io.common.CParserError):
         samplesheet = pd.read_excel(samplesheet_file_path, sep=",")
 
@@ -146,9 +146,6 @@ def create_title_file(samplesheet_file_path, output_filename):
             )
         )
 
-    # check for control samples
-    # if not
-
     # split metadata column
     try:
         title_file[
@@ -214,7 +211,7 @@ def create_title_file(samplesheet_file_path, output_filename):
     try:
         title_file[TITLE_FILE__SAMPLE_TYPE_COLUMN] = title_file[
             TITLE_FILE__SAMPLE_ID_COLUMN
-        ].str.rsplit(SAMPLE_ID_ALLOWED_DELIMETER, 1, expand=True)[SELECT_SPLIT_COLUMN]
+        ].str.split(SAMPLE_ID_ALLOWED_DELIMETER).str[SELECT_SPLIT_COLUMN]
     except KeyError:
         raise Exception(
             "Error when interpreting sample type from sample_id. Ensure the sample-id are in the 00000000-X format."

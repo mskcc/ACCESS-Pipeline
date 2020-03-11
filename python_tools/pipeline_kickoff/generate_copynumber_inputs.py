@@ -5,10 +5,7 @@ import logging
 import argparse
 import ruamel.yaml
 
-from python_tools.util import (
-    include_yaml_resources,
-    include_version_info
-)
+from python_tools.util import include_yaml_resources, include_version_info
 
 from python_tools.constants import CNV_INPUTS
 
@@ -26,10 +23,11 @@ from python_tools.constants import CNV_INPUTS
 
 
 logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%m/%d/%Y %I:%M:%S %p',
-        level=logging.DEBUG)
-logger = logging.getLogger('copy_number_pipeline_kickoff')
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%m/%d/%Y %I:%M:%S %p",
+    level=logging.DEBUG,
+)
+logger = logging.getLogger("copy_number_pipeline_kickoff")
 
 
 def parse_arguments():
@@ -41,41 +39,35 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        '-o',
-        '--output_file_name',
-        help='Filename for yaml file to be used as pipeline inputs',
-        required=True
+        "-o",
+        "--output_file_name",
+        help="Filename for yaml file to be used as pipeline inputs",
+        required=True,
     )
 
     parser.add_argument(
-        '-p',
-        '--project_id',
-        help='Unique identifier for this CNV run',
-        required=True
+        "-p", "--project_id", help="Unique identifier for this CNV run", required=True
     )
 
     parser.add_argument(
-        '-alone',
-        '--stand_alone',
-        help='Whether to run CNV as independent module',
-        nargs='?',
+        "-alone",
+        "--stand_alone",
+        help="Whether to run CNV as independent module",
+        nargs="?",
         default=False,
         const=True,
-        required=False
+        required=False,
     )
 
     parser.add_argument(
-        '-t',
-        '--title_file_path',
-        help='title file in tsv format',
-        required=True
+        "-t", "--title_file_path", help="title file in tsv format", required=True
     )
 
     parser.add_argument(
-        '-tb',
-        '--tumor_bams_directory',
-        help='Directory that contains all unfiltered tumor bams to be used in copy number variant calling',
-        required=True
+        "-tb",
+        "--tumor_bams_directory",
+        help="Directory that contains all unfiltered tumor bams to be used in copy number variant calling",
+        required=True,
     )
 
     # parser.add_argument(
@@ -93,17 +85,17 @@ def parse_arguments():
     # )
 
     parser.add_argument(
-        '-od',
-        '--output_directory',
-        help='Output Directory for copy number variant calling',
-        required=True
+        "-od",
+        "--output_directory",
+        help="Output Directory for copy number variant calling",
+        required=True,
     )
 
     parser.add_argument(
-        '-td',
-        '--tmp_dir',
-        help='Absolute path to temporary working directory (e.g. /scratch)',
-        required=True
+        "-td",
+        "--tmp_dir",
+        help="Absolute path to temporary working directory (e.g. /scratch)",
+        required=True,
     )
 
     args = parser.parse_args()
@@ -116,10 +108,10 @@ def get_sampleID_and_sex(args):
     """
 
     sample2sex = {}
-    with open(args.title_file_path, 'rU') as titleFile:
-        tfDict = csv.DictReader(titleFile, delimiter='\t')
+    with open(args.title_file_path, "rU") as titleFile:
+        tfDict = csv.DictReader(titleFile, delimiter="\t")
         for row in tfDict:
-            if row["Class"] == 'Tumor':
+            if row["Class"] == "Tumor":
                 if "Sex" in row:
                     sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 else:
@@ -138,9 +130,9 @@ def get_bam_list(args):
     Retrieve bam list from given tumor bam directory
     """
     bamList = []
-    for bam in glob.glob(os.path.join(args.tumor_bams_directory, '*.bam')):
+    for bam in glob.glob(os.path.join(args.tumor_bams_directory, "*.bam")):
         # Todo: CMO bams don't always end in 'T'
-        #if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
+        # if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
         bamList.append(bam)
     return bamList
 
@@ -155,15 +147,12 @@ def generate_manifest_file(args, sample2sex, bamList):
     print(sample2sex)
 
     for bam in bamList:
-        sampleId = os.path.basename(bam).split('_')[0]
-
-        print(sampleId)
-
+        sampleId = os.path.basename(bam).split("_")[0]
         if sampleId in sample2sex:
             sex = sample2sex[sampleId]
             output += bam + "\t" + sex + "\n"
 
-    with open(fileName, 'w') as maniFile:
+    with open(fileName, "w") as maniFile:
         maniFile.write(output)
 
     return fileName
@@ -180,25 +169,28 @@ def create_inputs_file(args):
     sample2sex = get_sampleID_and_sex(args)
     bamList = get_bam_list(args)
     if not sample2sex or not bamList:
-        raise Exception('Unable to load title file or get bam list')
+        raise Exception("Unable to load title file or get bam list")
 
     path = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-    module = 'cwl_tools/cnv'
+    module = "cwl_tools/cnv"
 
     inputYamlString = {
         "project_name": args.project_id,
-        "file_path": os.path.join(path, module)
+        "file_path": os.path.join(path, module),
     }
 
     inputYamlOther = {
-        "tumor_sample_list": {"class": "File", "path": generate_manifest_file(args, sample2sex, bamList)}
+        "tumor_sample_list": {
+            "class": "File",
+            "path": generate_manifest_file(args, sample2sex, bamList),
+        }
     }
 
-    with open(args.output_file_name, 'w') as fh:
+    with open(args.output_file_name, "w") as fh:
         fh.write("#### Inputs for Copy Number Variant Calling ####\n\n")
         for item in inputYamlString:
             fh.write("{}: {}\n".format(item, inputYamlString[item]))
-        fh.write('\n# File and Directory Inputs\n')
+        fh.write("\n# File and Directory Inputs\n")
         fh.write(ruamel.yaml.dump(inputYamlOther))
 
         include_yaml_resources(fh, CNV_INPUTS)
@@ -216,17 +208,26 @@ def validate_args(args):
 
     # Either one of title file or pairing file is required for this process
     if not args.title_file_path:
-        raise Exception('--title_file_path is required to determine tumor samples for copy number variant calling.')
+        raise Exception(
+            "--title_file_path is required to determine tumor samples for copy number variant calling."
+        )
 
     # Tumor bams folder is required for generating manifest list
     if not args.tumor_bams_directory:
-        raise Exception('--tumor_bams_directory is required for copy number variant calling.')
+        raise Exception(
+            "--tumor_bams_directory is required for copy number variant calling."
+        )
 
     if not args.output_file_name:
-        raise Exception('--output_file_name is required for copy number variant calling')
+        raise Exception(
+            "--output_file_name is required for copy number variant calling"
+        )
 
     if not args.output_directory:
-        raise Exception('--output_directory is required for copy number variant calling')
+        raise Exception(
+            "--output_directory is required for copy number variant calling"
+        )
+
 
 def main():
     """ Main """
@@ -235,5 +236,5 @@ def main():
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

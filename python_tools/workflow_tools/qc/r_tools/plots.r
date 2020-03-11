@@ -18,6 +18,8 @@ library(data.table)
 library(wesanderson)
 suppressMessages(library(dplyr))
 
+# Source constants
+source_local('constants.r')
 
 #' Count of read pairs per sample
 #' @param data data.frame with Sample and total_reads columns
@@ -79,14 +81,15 @@ plot_gc_with_cov_each_sample = function(data) {
   sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1]
 
   # Only plot for Total and All Unique
-  gc_bias_levels = c('All Unique')
+  gc_bias_levels = c('TotalCoverage', 'All Unique')
   data = dplyr::filter(data, method %in% gc_bias_levels)
   data = mutate(data, method = factor(method, levels=gc_bias_levels))
   data = mutate(data, !!SAMPLE_ID_COLUMN := factor(!!data[,SAMPLE_ID_COLUMN]))
   
   g = ggplot(data, aes_string(x = 'gc_bin', y = 'coverage', group = SAMPLE_ID_COLUMN, color = SAMPLE_ID_COLUMN)) +
     geom_line() +
-    ggtitle('Average Coverage versus GC bias (All Unique Reads, Pool A Targets)') +
+    facet_grid(method ~ ., scales='free') +
+    ggtitle('Average Coverage versus GC bias (Pool A Targets)') +
     scale_y_continuous('Average Coverage', label = format_comma, limits = c(0, NA)) +
     xlab('GC Bias') +
     MAIN_PLOT_THEME +
@@ -125,14 +128,21 @@ plot_insert_size_distribution = function(insert_sizes) {
     insert_sizes$peak_insert_size,
     sep=', '
   )
-  
+
+  # Group control samples with test samples
+  insert_sizes[(insert_sizes[TITLE_FILE__SAMPLE_CLASS_COLUMN] == POOLTUMOR | insert_sizes[TITLE_FILE__SAMPLE_CLASS_COLUMN] == POOLNORMAL), TITLE_FILE__SAMPLE_CLASS_COLUMN] = TUMOR
+ 
+  # get sample count to get colour palette for continuous variables
+  sample_count = dim(unique(insert_sizes[SAMPLE_ID_COLUMN]))[1]
   g = ggplot(insert_sizes, aes(x = FragmentSize, y = total_frequency_fraction, colour = sample_and_peak)) +
+    facet_grid(Class ~ ., labeller = as_labeller(c("Tumor" = "Tumor & Control", "Normal" = "Normal"))) +
     geom_line(size = 0.5) +
     ggtitle('Insert Size Distribution (from All Unique reads, Pool A)') +
     xlab('Insert Size') +
     ylab('Frequency (%)') +
     labs(colour = 'Sample, Peak Insert Size') +
     theme(legend.position = c(.75, .5)) +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count)) +
     MAIN_PLOT_THEME
   
   ggsave(g, file='insert_sizes.pdf', width=11, height=8.5)
@@ -148,13 +158,20 @@ plot_cov_dist_per_interval_line = function(data) {
     group_by_(SAMPLE_ID_COLUMN) %>%
     mutate(coverage_scaled = peak_coverage / median(peak_coverage))
   
+  # Group control samples with test samples
+  data[(data[TITLE_FILE__SAMPLE_CLASS_COLUMN] == POOLTUMOR | data[TITLE_FILE__SAMPLE_CLASS_COLUMN] == POOLNORMAL), TITLE_FILE__SAMPLE_CLASS_COLUMN] = TUMOR
+ 
+  # get sample count to get colour palette for continuous variables
+  sample_count = dim(unique(data[SAMPLE_ID_COLUMN]))[1] 
   g = ggplot(data) +
     geom_line(aes_string(x = 'coverage_scaled', colour = SAMPLE_ID_COLUMN), stat='density') +
+    facet_grid(Class ~ ., labeller = as_labeller(c("Tumor" = "Tumor & Control", "Normal" = "Normal"))) +
     ggtitle('Distribution of Coverages per Probe Interval (from all unique reads, A Targets)') +
     scale_y_continuous('Frequency', label=format_comma) +
     scale_x_continuous('Coverage (median scaled)') + 
     coord_cartesian(xlim=c(0, 2)) +
     theme(legend.position = c(.75, .5)) +
+    scale_colour_manual(values = (grDevices::colorRampPalette(wes_palettes[[CONTINUOUS_COLOR_PALETTE]]))(sample_count)) +
     MAIN_PLOT_THEME
   
   ggsave(g, file='coverage_per_interval.pdf', width=11, height=8.5)

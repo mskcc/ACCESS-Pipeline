@@ -2,18 +2,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 from subprocess import check_output
-import version
-
-
-# Write version info to version.py on setup
-version_number = version.expand_()
-with open('python_tools/version.py', 'wb') as f:
-    f.write(version_number)
-
-
-# Todo: need to come up with a better way to retain version info
-with open('python_tools/version.py', 'wb') as f:
-    f.write(version_number)
+from python_tools._version import get_and_write_version
 
 
 def req_file(filename):
@@ -38,7 +27,7 @@ def get_package_files(directory, file_type):
     """
     paths = []
     for (path, directories, filenames) in os.walk(
-        os.path.dirname(os.path.abspath(__file__)) + "/" + directory
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), directory)
     ):
         for filename in filenames:
             if not filename.endswith(file_type):
@@ -67,6 +56,7 @@ ENTRY_POINTS = """
         combine_qc_pdfs = python_tools.workflow_tools.qc.combine_qc_pdfs:main
         gender_check = python_tools.workflow_tools.qc.gender_check:main
         pipeline_postprocessing = python_tools.workflow_tools.pipeline_postprocessing:main
+        workflow_runtime_stats = python_tools.workflow_tools.workflow_runtime_stats:main
         test_outputs = python_tools.test.test_pipeline_outputs:main
         generate_access_variants_inputs = python_tools.pipeline_kickoff.generate_access_variants_inputs:main
         generate_access_variants_inputs_cmo = python_tools.pipeline_kickoff.generate_access_variants_inputs_cmo:main
@@ -88,6 +78,7 @@ ENTRY_POINTS = """
 SUPPORT_SCRIPTS = [
     "cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r",
     "python_tools/workflow_tools/qc/r_tools/plots_module.r",
+    "cwl_tools/bioinfo_utils/plot_hotspots_in_normals.r",
     "python_tools/workflow_tools/qc/r_tools/plots.r",
     "python_tools/workflow_tools/qc/r_tools/util.r",
     "python_tools/workflow_tools/qc/r_tools/constants.r",
@@ -101,7 +92,7 @@ SUPPORT_SCRIPTS = [
 
 setup(
     name="access_pipeline",
-    version=version.most_recent_tag(),
+    version=get_and_write_version(),
     description="MSKCC Center for Molecular Oncology, Innovation Lab, cfDNA sequencing pipeline",
     url="http://github.com/mskcc/ACCESS-Pipeline",
     author="Ian Johnson, Gowtham Jayakumaran",
@@ -115,11 +106,6 @@ setup(
     ],
     packages=find_packages(exclude=["test"]),
     package_data={
-        # TODO:
-        # Consider adding cwl and .r modules as package data
-        # "workflow": get_package_files("workflows", (".cwl")),
-        # "cwl_tools": get_package_files("cwl_tools", (".cwl")),
-        # "python_tools": get_package_files("python_tools", (".r")),
         "resources": get_package_files("resources", (".cwl", ".yaml")),
         "cwl_tools": get_package_files("cwl_tools", (".py", ".R")),
     },

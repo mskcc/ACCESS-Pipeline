@@ -30,11 +30,6 @@ with open(VARIANTS_INPUTS, "r") as stream:
     except KeyError as e:
         raise Exception("{} path is not defined in yaml config file.".format(e))
 
-# TABIX_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix'
-# BGZIP_LOCATION = '/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip'
-# SORTBED_LOCATION = '/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/sortBed'
-# BCFTOOLS_LOCATION_1_6 = '/opt/common/CentOS_7-dev/bin/bcftools'
-
 
 def sort_vcf(vcf):
     """

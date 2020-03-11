@@ -301,7 +301,7 @@ class AccessProject(object):
             self._logger.info("Copying {} to {}".format(src, target))
             if not self._dry_run:
                 shutil.copy(src, target)
-
+        
         # set and create, if necessary, the target directory
         target_dir = os.path.abspath(self._ap)
         self._make_dir(target_dir)
@@ -357,7 +357,7 @@ class AccessProject(object):
                     sep="\t",
                 )
                 normals_file["normal_id"] = normals_file["normal_id"].replace(
-                    np.NaN, "Unmatched"
+                    np.NaN, "-"
                 )
                 normals_file.to_csv(
                     target_dir

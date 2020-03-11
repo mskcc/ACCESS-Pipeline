@@ -71,10 +71,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        '-td',
-        '--tmp_dir',
-        help='Absolute path to temporary working directory (e.g. /scratch)',
-        required=True
+        "-td",
+        "--tmp_dir",
+        help="Absolute path to temporary working directory (e.g. /scratch)",
+        required=True,
     )
 
     args = parser.parse_args()
@@ -126,7 +126,7 @@ def create_inputs_file(args):
     inputYamlFileList = defaultdict(list)
     for sampleId in tumorBamDic:
         patientId = "-".join(sampleId.split("-")[:-2])
-        print('patient ID: {}'.format(patientId))
+        print("patient ID: {}".format(patientId))
         # Include ONLY paired samples
         if patientId in normalBamDic:
             inputYamlFileList["sample_name"].append(sampleId)

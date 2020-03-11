@@ -10,13 +10,13 @@ ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 # Resources #
 #############
 RESOURCES_FOLDER = os.path.join(ROOT_DIR, "resources")
-TEMPLATES_FOLDER = os.path.join(RESOURCES_FOLDER, 'templates')
+TEMPLATES_FOLDER = os.path.join(RESOURCES_FOLDER, "templates")
 
-CNV_INPUTS = os.path.join(TEMPLATES_FOLDER, 'cnv.yaml')
-COLLAPSING_INPUTS = os.path.join(TEMPLATES_FOLDER, 'collapsing.yaml')
-MSI_INPUTS = os.path.join(TEMPLATES_FOLDER, 'msi.yaml')
-SV_INPUTS = os.path.join(TEMPLATES_FOLDER, 'sv.yaml')
-VARIANTS_INPUTS = os.path.join(TEMPLATES_FOLDER, 'variants.yaml')
+CNV_INPUTS = os.path.join(TEMPLATES_FOLDER, "cnv.yaml")
+COLLAPSING_INPUTS = os.path.join(TEMPLATES_FOLDER, "collapsing.yaml")
+MSI_INPUTS = os.path.join(TEMPLATES_FOLDER, "msi.yaml")
+SV_INPUTS = os.path.join(TEMPLATES_FOLDER, "sv.yaml")
+VARIANTS_INPUTS = os.path.join(TEMPLATES_FOLDER, "variants.yaml")
 
 
 ##################################
@@ -38,7 +38,7 @@ SAMPLE_SHEET__PROJECT_ID_COLUMN = "Sample_Project"
 # TitleFile Column Definitions #
 ################################
 
-# Columns explicity provided in sample sheet
+# Columns explicitly provided in sample sheet
 TITLE_FILE__POOL_COLUMN = "Pool"
 TITLE_FILE__SAMPLE_ID_COLUMN = "Sample"
 TITLE_FILE__PATIENT_ID_COLUMN = "Patient_ID"
@@ -54,7 +54,7 @@ TITLE_FILE__BAIT_VERSION_COLUMN = "Bait_version"
 # Columns defined as constants
 TITLE_FILE__COLLAB_ID_COLUMN = "Collab_ID"
 
-# Columns inteferred from samplesheet metadata/operator column
+# Columns inferred from samplesheet metadata/operator column
 TITLE_FILE__SEX_COLUMN = "Sex"
 TITLE_FILE__PATIENT_NAME_COLUMN = "PatientName"
 TITLE_FILE__ACCESSION_COLUMN = "AccessionID"
@@ -100,16 +100,17 @@ SAMPLE_ID_ALLOWED_DELIMETER = "-"
 DISALLOWED_SAMPLE_ID_CHARACTERS = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 METADATA_COLUMN_DELIMETER = "|"
 METADATA_REQUIRED_COLUMNS = [1, 2, 3, 4]
-SELECT_SPLIT_COLUMN = [1]
-ALLOWED_SAMPLE_TYPE = re.compile(r"(^TP|^TB|^NP|^NB)")
-ALLOWED_SAMPLE_TYPE_LIST = ["TB", "NB", "TP", "NP"]
+SELECT_SPLIT_COLUMN = -1
+ALLOWED_SAMPLE_TYPE = re.compile(r"(^TP|^TB|^N)")
+ALLOWED_SAMPLE_TYPE_LIST = ["TB", "NB", "N", "TP", "NP"]
 PLASMA_SAMPLE_TYPE = re.compile(r"(^TP|^NP)")
 # PLASMA_SAMPLE_TYPE = ["TP", "NP", "T"]
-BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^NB)")
+BUFFY_SAMPLE_TYPE = re.compile(r"(^TB|^N)")
 # BUFFY_SAMPLE_TYPE = ["TB", "NB", "N"]
 ALLOWED_SAMPLE_DESCRIPTION = ["Tumor", "Normal", "PoolTumor", "PoolNormal"]
 ALLOWED_SAMPLE_TYPE_DESCRIPTION = [PLASMA, BUFFY]
 ALLOWED_CONTROLS = ["PoolTumor", "PoolNormal"]
+CONTROL_SAMPLE_KEYWORD = "SeraCare"
 ALLOWED_SEX = ["Male", "Female"]
 CONTROL_SAMPLE_SEX = ["Control", "-"]
 FEMALE = "Female"
@@ -165,13 +166,20 @@ TITLE_FILE__COLUMN_ORDER = [
 # Pipeline Kickoff Constants #
 ##############################
 
+FASTQ_1_FILE_SEARCH = "_R1_001.fastq.gz"
+FASTQ_2_FILE_SEARCH = "_R2_001.fastq.gz"
+SAMPLE_SHEET_FILE_SEARCH = "SampleSheet.csv"
+
+ADAPTER_1 = "GATCGGAAGAGC"
+ADAPTER_2 = "AGATCGGAAGAGC"
+
 NON_REVERSE_COMPLEMENTED = 0
 REVERSE_COMPLEMENTED = 1
 
 # Delimiter for printing logs
 DELIMITER = "\n" + "*" * 20 + "\n"
 # Delimiter for inputs file sections
-INPUTS_FILE_DELIMITER = "\n\n" + "# " + "--" * 30 + "\n\n"
+INPUTS_FILE_DELIMITER = "\n" + "# " + "--" * 30 + "\n"
 
 # Template identifier string that will get replaced with the project root location
 PIPELINE_ROOT_PLACEHOLDER = "$PIPELINE_ROOT"
@@ -379,6 +387,36 @@ EXON_COVERAGE_OUTPUT_FILE_NAMES = [
     "coverage_per_interval_A_targets_TotalCoverage.txt",
 ]
 
+# Output file names
+read_counts_filename = "read_counts_agg.txt"
+coverage_agg_filename = "coverage_agg.txt"
+gc_avg_each_sample_coverage_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample.txt"
+)
+gc_bias_with_coverage_filename = "GC_bias_with_coverage.txt"
+read_counts_total_filename = "read_counts_total.txt"
+coverage_per_interval_filename = "coverage_per_interval.txt"
+read_counts_table_exon_level_filename = "read_counts_agg_exon_level.txt"
+coverage_table_exon_level_filename = "coverage_agg_exon_level.txt"
+gc_cov_int_table_exon_level_filename = "GC_bias_with_coverage_exon_level.txt"
+gc_avg_each_sample_coverage_exon_level_filename = (
+    "GC_bias_with_coverage_averages_over_each_sample_exon_level.txt"
+)
+average_coverage_across_exon_targets_filename = (
+    "average_coverage_across_exon_targets_duplex_A.txt"
+)
+
+INSERT_SIZE_PREFIX = "insert_sizes_"
+INSERT_SIZE_OUTPUT_FILE_NAMES = [
+    "standard_A_targets.txt",
+    "unfiltered_A_targets.txt",
+    "simplex_A_targets.txt",
+    "duplex_A_targets.txt",
+    "standard_B_targets.txt",
+    "unfiltered_B_targets.txt",
+    "simplex_B_targets.txt",
+    "duplex_B_targets.txt",
+]
 INSERT_SIZE_OUTPUT_FILE_NAMES = [
     INSERT_SIZE_PREFIX + o for o in INSERT_SIZE_OUTPUT_FILE_NAMES
 ]

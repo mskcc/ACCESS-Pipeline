@@ -23,6 +23,7 @@ class Env(object):
             self.__ENV_VARS.append(x)
         os.environ["_JAVA_OPTIONS"] = "-Djava.io.tmpdir=" + tmpdir
         self.__ENV_VARS.append("_JAVA_OPTIONS")
+        self.__ENV_VARS.append("JAVA_HOME")
 
         if not user_Rlibs:
             os.environ["R_LIBS"] = ""
