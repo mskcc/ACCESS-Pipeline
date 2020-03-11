@@ -80,7 +80,7 @@ def get_and_write_version():
     with open(
         os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
-            "../resources/run_params/version.yaml",
+            "../resources/version.yaml",
         ),
         "w",
     ) as i:

@@ -18,6 +18,7 @@ MSI_INPUTS = os.path.join(TEMPLATES_FOLDER, "msi.yaml")
 SV_INPUTS = os.path.join(TEMPLATES_FOLDER, "sv.yaml")
 VARIANTS_INPUTS = os.path.join(TEMPLATES_FOLDER, "variants.yaml")
 
+VERSION_PARAM = os.path.join(RESOURCES_FOLDER, "version.yaml")
 
 ##################################
 # SampleSheet Column Definitions #

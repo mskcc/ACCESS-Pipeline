@@ -47,9 +47,11 @@ __pycache__/
 # pyenv
 .python-version
 
+# virtualenv
+venv/
 
 # files generated during package build
-resources/run_params/version.yaml
+resources/version.yaml
 
 # Test data
 test/
