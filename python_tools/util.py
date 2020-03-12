@@ -398,7 +398,7 @@ def get_pos(title_file, sample_object, use_investigator_sample_id=False):
 
     if use_investigator_sample_id:
         boolv = title_file[TITLE_FILE__COLLAB_ID_COLUMN].apply(
-            contained_in, fastq=sample_object
+            contained_in, file_path=sample_object["path"]
         )
     else:
         boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(
