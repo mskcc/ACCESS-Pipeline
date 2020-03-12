@@ -362,7 +362,7 @@ def check_multiple_sample_id_matches(title_file, boolv, sample_object):
         )
 
 
-def get_pos(title_file, sample_object, use_cmo_sample_id=False):
+def get_pos(title_file, sample_object, use_investigator_sample_id=False):
     """
     Return position of `fastq_object` in the Sample ID column of `title_file`
 
@@ -396,9 +396,14 @@ def get_pos(title_file, sample_object, use_cmo_sample_id=False):
         else:
             return 0
 
-    boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(
-        contained_in, file_path=sample_object["path"]
-    )
+    if use_investigator_sample_id:
+        boolv = title_file[TITLE_FILE__COLLAB_ID_COLUMN].apply(
+            contained_in, fastq=sample_object
+        )
+    else:
+        boolv = title_file[TITLE_FILE__SAMPLE_ID_COLUMN].apply(
+            contained_in, file_path=sample_object["path"]
+        )
 
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)
