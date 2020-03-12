@@ -27,19 +27,3 @@ fields:
     type: string
   - name: waltz_path
     type: string
-<<<<<<< HEAD:resources/run_tools/schemas.yaml
-=======
-
-
-#type: record
-#name: sv_run_tools
-#fields:
-#  - name: r_path
-#    type: string
-#
-#  - name: manta
-#    type: Directory
-#
-#  - name: sv_repo
-#    type: Directory
->>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335:resources/schemas/collapsing_tools.yaml
