@@ -106,9 +106,9 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
     Lists of inputs in our yaml file need to be ordered the same order as each other.
     An alternate method might involve using Record types as a cleaner solution.
     """
-    fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f))
-    fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f))
-    sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s))
+    fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f, use_investigator_sample_id=True))
+    fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f, use_investigator_sample_id=True))
+    sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s, use_investigator_sample_id=True))
     return fastq1, fastq2, sample_sheet
 
 
