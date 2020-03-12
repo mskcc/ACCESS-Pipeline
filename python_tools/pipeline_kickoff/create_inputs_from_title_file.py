@@ -152,19 +152,19 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
     fastq1 = filter(
         lambda f: any(
-            [sid in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid + SAMPLE_SEP_FASTQ_DELIMETER in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         fastq1,
     )
     fastq2 = filter(
         lambda f: any(
-            [sid in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid + SAMPLE_SEP_FASTQ_DELIMETER in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         fastq2,
     )
     sample_sheet = filter(
         lambda s: any(
-            [sid in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid + SAMPLE_SEP_DIR_DELIMETER in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         sample_sheet,
     )
