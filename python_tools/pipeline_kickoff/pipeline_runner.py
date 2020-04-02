@@ -133,7 +133,8 @@ def get_input_params(args):
             pipeline_version = inputs_yaml["version"]
         except KeyError:
             raise Exception("pipeline_version not defined in the inputs yaml file.")
-        project_name = "-".join([project_name, pipeline_version])
+        # Some versions of Toil are not happy about special characters in file paths:
+        project_name = "-".join([project_name, pipeline_version.replace("+", "_")])
 
     try:
         tmpdir = inputs_yaml["tmp_dir"]
