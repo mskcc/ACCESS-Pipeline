@@ -356,35 +356,6 @@ def compare_genotype(all_geno, n, fp_output_dir, titlefile):
 ###################
 ##Plot Functions
 ###################
-<<<<<<< HEAD
-=======
-# old minor contamination plotting function (to deletle after test)
-# ==============================================================================
-# def plot_minor_contamination(all_fp, fp_output_dir, titlefile):
-#     plt.clf()
-#     contamination = contamination_rate(all_fp)
-#     contamination = [x for x in contamination if x[1] != 'NaN']
-#     titlefile = read_df(titlefile, header='infer')
-#     samplename = [extract_sample_name(c[0], titlefile[SAMPLE_ID_COLUMN]) for c in contamination]
-#     y_pos = np.arange(len(samplename))
-#     meanContam = [c[1] for c in contamination]
-#     minor_contamination = [[samplename[i], meanContam[i]] for i in range(0, len(samplename))]
-#     minor_contamination = sorted(minor_contamination)
-#     write_csv(fp_output_dir + 'minorContamination.txt', minor_contamination)
-#
-#     plt.figure(figsize=(10, 5))
-#     plt.axhline(y=0.002, xmin=0, xmax=1, c='r', ls='--')
-#     plt.bar(y_pos, [m[1] for m in minor_contamination], align='center', color='black')
-#     plt.xticks(y_pos, [m[0] for m in minor_contamination], rotation=90, ha='center')
-#     plt.ylabel('Avg. Minor Allele Frequency at Homozygous Position')
-#     plt.xlabel('Sample Name')
-#     plt.title('Minor Contamination Check (from all unique reads)')
-#     plt.xlim([-1, y_pos.size])
-#     plt.savefig(fp_output_dir + '/MinorContaminationRate.pdf', bbox_inches='tight')
-#
-# ==============================================================================
-
->>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
 
 def plot_major_contamination(all_geno, fp_output_dir, titlefile):
     plt.clf()
@@ -582,20 +553,11 @@ def plot_duplex_minor_contamination(waltz_dir_a_duplex, waltz_dir_b_duplex, titl
     plt.xlim([-1, y_pos.size])
     # plt.autoscale(True)
     plt.tick_params(top='off', bottom='on', left='on', right='off', labelleft='on', labelbottom='on')
-<<<<<<< HEAD
-    try:
-        plt.ylim([0, max([.0021, max([a[1] for a in all_minor_contamination]) + .0005])])
-    except ValueError:
-        # no minor allele values for test data
-        print("Error while plotting fingerprinting.")
-        pass
-=======
     if len(all_minor_contamination):
         ylim = max([a[1] for a in all_minor_contamination]) + .0005
     else:
         ylim = .0021
     plt.ylim([0, ylim])
->>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
     plt.savefig(fp_output_dir + '/MinorDuplexContaminationRate.pdf', bbox_inches='tight')
 
 
@@ -629,24 +591,10 @@ def plot_genotyping_matrix(geno_compare, fp_output_dir, title_file):
     plt.title('Sample Mix-Ups')
     # print(matrix)
     sns.set(font_scale=.6)
-<<<<<<< HEAD
-    try:
-        ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False,
-                        fmt='.2f', cmap="Blues_r", vmax=.15,
-                        cbar_kws={'label': 'Fraction Mismatch'},
-                        annot_kws={'size': 5})
-        # This sets the yticks "upright" with 0, as opposed to sideways with 90.
-        plt.yticks(rotation=0) 
-    except IndexError:
-        # No mismatch values for test data is possible
-        print("NaN fraction mismatch values for all samples.")
-        pass
-=======
     ax = sns.heatmap(discordance_data_frame.astype(float), robust=True, xticklabels=True, yticklabels=True, annot=False,
                      fmt='.2f', cmap="Blues_r", vmax=.15,
                      cbar_kws={'label': 'Fraction Mismatch'},
                      annot_kws={'size': 5})
->>>>>>> edd780323eb7ac2944eb9c6cbb7a8477601b0335
 
     plt.savefig(fp_output_dir + 'GenoMatrix.pdf', bbox_inches='tight')
 
