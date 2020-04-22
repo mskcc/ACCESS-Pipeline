@@ -5,7 +5,7 @@ import ruamel.yaml
 
 import pandas as pd
 
-from python_tools.constants import VARIANTS_INPUTS, SV_INPUTS
+from python_tools.constants import VARIANTS_INPUTS, SV_INPUTS, VERSION_PARAM
 
 from python_tools.util import (
     find_bams_in_directory,
@@ -276,8 +276,13 @@ def create_inputs_file(args):
         include_sv_inputs(args, fh)
 
     fh.write(INPUTS_FILE_DELIMITER)
-    fh.write('project_name: {}'.format(args.project_name))
-    include_version_info(fh)
+    try:
+        include_yaml_resources(fh, VERSION_PARAM)
+    except IOError:
+        # that is if version.yaml is absent
+        fh.write(INPUTS_FILE_DELIMITER)
+        fh.write("# Pipeline Run Version:\n")
+        include_version_info(fh)
 
     fh.close()
 
