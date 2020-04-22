@@ -275,7 +275,9 @@ def create_inputs_file(args):
     if args.standard_bams_directory:
         include_sv_inputs(args, fh)
 
+    fh.write('project_name: {}'.format(args.project_name))
     fh.write(INPUTS_FILE_DELIMITER)
+
     try:
         include_yaml_resources(fh, VERSION_PARAM)
     except IOError:
