@@ -10,9 +10,6 @@ requirements:
 
 baseCommand: cfdna_scna
 
-stdout: coverage.stdout
-stderr: coverage.stderr
-
 inputs:
 
   project_name_cnv:
@@ -71,8 +68,3 @@ outputs:
     outputBinding:
       glob: $('*_bams.list')
 
-  standard_out:
-    type: stdout
-
-  standard_err:
-    type: stderr

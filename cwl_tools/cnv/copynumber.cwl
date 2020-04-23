@@ -10,9 +10,6 @@ requirements:
 
 baseCommand: copynumber_tm.batchdiff_cfdna.R
 
-stdout: copy_number.stdout
-stderr: copy_number.stderr
-
 inputs:
 
   project_name_cnv:
@@ -71,9 +68,3 @@ outputs:
     type: File[]
     outputBinding:
       glob: $('*.seg')
-
-  copy_standard_out:
-    type: stdout
-
-  copy_standard_err:
-    type: stderr

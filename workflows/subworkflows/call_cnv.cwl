@@ -31,12 +31,6 @@ outputs:
     bam_list:
         type: File[]
         outputSource: coverage/bam_list
-    coverage_std_out:
-      type: File
-      outputSource: coverage/standard_out
-    coverage_std_err:
-      type: File
-      outputSource: coverage/standard_err
 
     tumor_loess_text:
         type: File
@@ -50,18 +44,6 @@ outputs:
     normal_loess_pdf:
         type: File
         outputSource: loess_normal/loess_pdf
-    loess_tumor_std_out:
-      type: File
-      outputSource: loess_tumor/standard_out
-    loess_tumor_std_err:
-      type: File
-      outputSource: loess_tumor/standard_err
-    loess_normal_std_out:
-      type: File
-      outputSource: loess_normal/standard_out
-    loess_normal_std_err:
-      type: File
-      outputSource: loess_normal/standard_err
 
     genes_file:
         type: File
@@ -78,12 +60,6 @@ outputs:
     seg_files:
         type: File[]
         outputSource: copy_number/seg_files
-    copy_standard_out:
-        type: File
-        outputSource: copy_number/copy_standard_out
-    copy_standard_err:
-        type: File
-        outputSource: copy_number/copy_standard_err
 
 steps:
 
@@ -97,7 +73,7 @@ steps:
       targets_coverage_bed: targets_coverage_bed
       reference_fasta: reference_fasta
 
-    out: [tumors_covg, normals_covg, bam_list, standard_out, standard_err]
+    out: [tumors_covg, normals_covg, bam_list]
 
 
   loess_tumor:
@@ -109,7 +85,7 @@ steps:
         default: tumor
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [loess_text, loess_pdf, standard_out, standard_err]
+    out: [loess_text, loess_pdf]
 
 
   loess_normal:
@@ -121,7 +97,7 @@ steps:
         default: normal
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [loess_text, loess_pdf, standard_out, standard_err]
+    out: [loess_text, loess_pdf]
 
 
   copy_number:
@@ -134,4 +110,4 @@ steps:
         default: MIN
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [genes_file, probes_file, copy_pdf, intragenic_file, seg_files, copy_standard_out, copy_standard_err]
+    out: [genes_file, probes_file, copy_pdf, intragenic_file, seg_files]

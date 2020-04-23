@@ -13,9 +13,6 @@ baseCommand: loessnormalize_nomapq_cfdna.R
 arguments:
 - $(runtime.outdir)
 
-stdout: $(inputs.run_type + '_loess.stdout')
-stderr: $(inputs.run_type + '_loess.stderr')
-
 inputs:
 
   project_name_cnv:
@@ -53,10 +50,3 @@ outputs:
     type: File
     outputBinding:
       glob: $('*_loessnorm.pdf')
-
-  standard_out:
-    type: stdout
-
-  standard_err:
-    type: stderr
-
