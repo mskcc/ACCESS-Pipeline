@@ -437,7 +437,9 @@ def create_inputs_file(args):
     fh.write(INPUTS_FILE_DELIMITER)
 
     # Include traceback related files
-    create_traceback_inputs(args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh)
+    create_traceback_inputs(
+        args, title_file_df, pairing_df, tumor_bam_paths, simplex_bam_paths, fh
+    )
 
     ####### Generate inputs for CNV ########
     cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
@@ -482,23 +484,27 @@ def create_inputs_file(args):
 
 
 def create_traceback_inputs(
-    args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh
+    args, title_file_df, pairing_df, tumor_bam_paths, simplex_bam_paths, fh
 ):
     """
     Get traceback input mutations and bam file objects.
     """
-    # tumor ids from title file
-    tumor_id = title_file_df[
-        title_file_df[TITLE_FILE__SAMPLE_CLASS_COLUMN] == TUMOR_CLASS
-    ]["Sample"].values.tolist()
-
+    # tumor ids from title file and pairing file
+    tumor_id = pairing_df[TUMOR_ID].values.tolist()
+    title_file_df_select = title_file_df[title_file_df["Sample"].isin(tumor_id)]
     traceback_bams, traceback_samples = [], []
 
     # read traceback samples into a df and consume sampleIDs and file paths
     if args.traceback_samples:
-        traceback_samples_df = pd.read_csv(args.traceback_samples, sep="\t", header=0)
+        traceback_samples_df = pd.read_csv(
+            args.traceback_samples, sep="\t", header=0, dtype="object"
+        )
+        # Drop samples by Patient_ID in the df if the Patient_ID is absent in the pairing file
+        traceback_samples_df = traceback_samples_df[
+            traceback_samples_df["MRN"].isin(title_file_df_select[GROUP_BY_ID])
+        ]
         traceback_mutations_df = pd.read_csv(
-            args.traceback_mutations, sep="\t", header=0
+            args.traceback_mutations, sep="\t", header=0, dtype="object"
         )
         # check that one of traceback_samples.txt and traceback_input_mutations.txt
         #  is not empty while the other has data.
