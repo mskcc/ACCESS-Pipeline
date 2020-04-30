@@ -170,7 +170,44 @@ def generate_pairing_file(args):
             & (~tfmerged[SAMPLE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))
         ][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
     unpaired[SAMPLE_PAIR2] = ""
-    paired_df = pd.concat([paired, unpaired]).rename(
+
+    # Separate duplicated Tumors
+    paired_dup = paired[paired.duplicated(subset=["Sample_x"], keep=False)]
+    # Select T-N pair first based on sampleID suffix
+    # For example TP01 will be paired with NB01, when multiple NBs are present for the sample TP.
+    # If both NB01 and NB01rpt are present, NB01rpt will be chosen.
+    paired_dup_select_by_suffix = (
+        paired_dup[
+            (
+                paired_dup["Sample_x"].str.extract(
+                    r"T[A-Za-z]*([0-9]+).*", expand=False
+                )
+                == paired_dup["Sample_y"].str.extract(
+                    r"N[A-Za-z]*([0-9]+).*", expand=False
+                )
+            )
+        ]
+        .sort_values(["Sample_y"])
+        .drop_duplicates(subset="Sample_x", keep="last")
+    )
+    # For TPs for which NB cannot be chosen based on sampleID suffix, latest NB will be chosen. For example, NB02rpt will be chosen if NB01, NB02, NB02rpt are present for TP03
+    paired_dup_select_by_latest_normal = (
+        paired_dup[
+            ~(paired_dup["Sample_x"].isin(paired_dup_select_by_suffix["Sample_x"]))
+        ]
+        .sort_values(["Sample_y"])
+        .drop_duplicates(subset="Sample_x", keep="last")
+    )
+
+    # Combine all the dfs
+    paired_df = pd.concat(
+        [
+            paired[~(paired.duplicated(subset=["Sample_x"], keep=False))],
+            paired_dup_select_by_suffix,
+            paired_dup_select_by_latest_normal,
+            unpaired,
+        ]
+    ).rename(
         index=str,
         columns={
             SAMPLE_PAIR1: TUMOR_ID,
@@ -178,7 +215,6 @@ def generate_pairing_file(args):
             GROUP_BY_ID: GROUP_BY_ID,
         },
     )
-    paired_df = paired_df.drop_duplicates()
     paired_df.to_csv(
         os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE),
         sep="\t",
@@ -186,6 +222,13 @@ def generate_pairing_file(args):
         mode="w",
         index=False,
     )
+    # If there are still duplciate Tumors, raise exception
+    if paired_df.duplicated(subset=[TUMOR_ID], keep=False).any():
+        raise Exception(
+            "Duplicate Tumor sample entries in title file cannot be resolved. Please check %s for more information. Consider providing a Tumor Normal pairing file to override automatic pairing.".format(
+                os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
+            )
+        )
     args.pairing_file_path = os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
     return tf, paired_df
 
@@ -327,6 +370,9 @@ def create_inputs_file(args):
         pairing_df = pd.read_csv(
             args.pairing_file_path, sep="\t", comment="#", header="infer"
         ).fillna("")
+        title_file_df = pd.read_csv(
+            args.title_file_path, sep="\t", comment="#", header="infer"
+        )
     else:
         try:
             title_file_df, pairing_df = generate_pairing_file(args)
