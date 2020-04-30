@@ -172,37 +172,37 @@ def generate_pairing_file(args):
     unpaired[SAMPLE_PAIR2] = ""
 
     # Separate duplicated Tumors
-    paired_dup = paired[paired.duplicated(subset=["Sample_x"], keep=False)]
+    paired_dup = paired[paired.duplicated(subset=[SAMPLE_PAIR1], keep=False)]
     # Select T-N pair first based on sampleID suffix
     # For example TP01 will be paired with NB01, when multiple NBs are present for the sample TP.
     # If both NB01 and NB01rpt are present, NB01rpt will be chosen.
     paired_dup_select_by_suffix = (
         paired_dup[
             (
-                paired_dup["Sample_x"].str.extract(
+                paired_dup[SAMPLE_PAIR1].str.extract(
                     r"T[A-Za-z]*([0-9]+).*", expand=False
                 )
-                == paired_dup["Sample_y"].str.extract(
+                == paired_dup[SAMPLE_PAIR2].str.extract(
                     r"N[A-Za-z]*([0-9]+).*", expand=False
                 )
             )
         ]
-        .sort_values(["Sample_y"])
-        .drop_duplicates(subset="Sample_x", keep="last")
+        .sort_values([SAMPLE_PAIR2])
+        .drop_duplicates(subset=[SAMPLE_PAIR1], keep="last")
     )
     # For TPs for which NB cannot be chosen based on sampleID suffix, latest NB will be chosen. For example, NB02rpt will be chosen if NB01, NB02, NB02rpt are present for TP03
     paired_dup_select_by_latest_normal = (
         paired_dup[
-            ~(paired_dup["Sample_x"].isin(paired_dup_select_by_suffix["Sample_x"]))
+            ~(paired_dup[SAMPLE_PAIR1].isin(paired_dup_select_by_suffix[SAMPLE_PAIR1]))
         ]
-        .sort_values(["Sample_y"])
-        .drop_duplicates(subset="Sample_x", keep="last")
+        .sort_values([SAMPLE_PAIR2])
+        .drop_duplicates(subset=[SAMPLE_PAIR1], keep="last")
     )
 
     # Combine all the dfs
     paired_df = pd.concat(
         [
-            paired[~(paired.duplicated(subset=["Sample_x"], keep=False))],
+            paired[~(paired.duplicated(subset=[SAMPLE_PAIR1], keep=False))],
             paired_dup_select_by_suffix,
             paired_dup_select_by_latest_normal,
             unpaired,
