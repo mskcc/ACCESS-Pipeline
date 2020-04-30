@@ -100,17 +100,17 @@ def generate_pairing_file(args):
     :param pair_by: str
     :return paired_df: dict
     """
-    tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer")
+    tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer", dtype=object)
     tumor_samples = tf[~(tf["Class"] == "Normal")]["Sample"].values.tolist()
 
     # if coverage file is provided, drop low coverage samples.
     if args.coverage_file:
-        coverage_df = pd.read_csv(args.coverage_file, header=0, sep="\t")
+        coverage_df = pd.read_csv(args.coverage_file, header=0, sep="\t", dtype=object)
         samples_failing_coverage = coverage_df[
-            (coverage_df["Duplex"] <= args.mdcov)
-            | (coverage_df["Simplex"] <= args.mscov)
-            | (coverage_df["All Unique"] <= args.mucov)
-            | (coverage_df["TotalCoverage"] <= args.mtcov)
+            (coverage_df["Duplex"].apply(float) <= args.mdcov)
+            | (coverage_df["Simplex"].apply(float) <= args.mscov)
+            | (coverage_df["All Unique"].apply(float) <= args.mucov)
+            | (coverage_df["TotalCoverage"].apply(float) <= args.mtcov)
         ]["Sample"].values.tolist()
 
         # only select tumor samples
@@ -368,10 +368,10 @@ def create_inputs_file(args):
     validate_args(args)
     if args.pairing_file_path:
         pairing_df = pd.read_csv(
-            args.pairing_file_path, sep="\t", comment="#", header="infer"
+            args.pairing_file_path, sep="\t", comment="#", header="infer", dtype=object
         ).fillna("")
         title_file_df = pd.read_csv(
-            args.title_file_path, sep="\t", comment="#", header="infer"
+            args.title_file_path, sep="\t", comment="#", header="infer", dtype=object
         )
     else:
         try:
@@ -497,14 +497,14 @@ def create_traceback_inputs(
     # read traceback samples into a df and consume sampleIDs and file paths
     if args.traceback_samples:
         traceback_samples_df = pd.read_csv(
-            args.traceback_samples, sep="\t", header=0, dtype="object"
+            args.traceback_samples, sep="\t", header=0, dtype=object
         )
         # Drop samples by Patient_ID in the df if the Patient_ID is absent in the pairing file
         traceback_samples_df = traceback_samples_df[
             traceback_samples_df["MRN"].isin(title_file_df_select[GROUP_BY_ID])
         ]
         traceback_mutations_df = pd.read_csv(
-            args.traceback_mutations, sep="\t", header=0, dtype="object"
+            args.traceback_mutations, sep="\t", header=0, dtype=object
         )
         # check that one of traceback_samples.txt and traceback_input_mutations.txt
         #  is not empty while the other has data.
@@ -613,7 +613,7 @@ def write_yaml_bams(
     # 1. Build lists of bams
     if args.pairing_file_path:
         pairing_file = pd.read_csv(
-            args.pairing_file_path, sep="\t", comment="#", header="infer"
+            args.pairing_file_path, sep="\t", comment="#", header="infer", dtype=object
         ).fillna("")
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
