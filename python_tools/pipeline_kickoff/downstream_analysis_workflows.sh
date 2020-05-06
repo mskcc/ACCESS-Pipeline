@@ -100,7 +100,7 @@ done
 # Step 2. Generate Inputs
 
 small_variants_inputs=small_variants/${PROJECT_ID}_vc_inputs.yaml
-cnv_inputs=copy_number_variants/${PROJECT_ID}_cnv_inputs.yaml
+cnv_inputs=${PROJECT_ID}_cnv_inputs.yaml
 msi_inputs=microsatellite_instability/${PROJECT_ID}_msi_inputs.yaml
 
 generate_access_variants_inputs_cmo \
@@ -116,17 +116,16 @@ generate_access_variants_inputs_cmo \
 --default_stdnormal_path ${DEFAULT_STANDARD_NORMAL_PATH} \
 --standard_bams_directory ${STANDARD_TUMOR_BAMS_DIRECTORY}
 
-echo title_file_path:
-echo $TITLE_FILE_PATH
-
+cd copy_number_variants
 generate_copynumber_inputs \
 --project_id ${PROJECT_ID} \
 --output_file_name ${cnv_inputs} \
 --title_file_path ${TITLE_FILE_PATH} \
 --tumor_bams_directory ${UNFILTERED_TUMOR_BAMS_DIRECTORY} \
---output_directory ./copy_number_variants \
+--output_directory . \
 --tmp_dir /scratch \
 -alone
+cd ..
 
 generate_msi_inputs \
 --project_name ${PROJECT_ID} \
@@ -161,6 +160,7 @@ pipeline_submit \
 --leader_queue general \
 --log_level INFO
 
+cd copy_number_variants
 pipeline_submit \
 --output_location copy_number_variants \
 --inputs_file ./${cnv_inputs} \
@@ -168,6 +168,7 @@ pipeline_submit \
 --batch_system lsf \
 --leader_queue general \
 --log_level INFO
+cd ..
 
 pipeline_submit \
 --output_location microsatellite_instability \
