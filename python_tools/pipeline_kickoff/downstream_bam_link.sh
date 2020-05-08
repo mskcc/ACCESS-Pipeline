@@ -21,6 +21,9 @@ mkdir -p ${OUTPUT_FOLDER}/unfiltered_normal_bams
 mkdir -p ${OUTPUT_FOLDER}/simplex_normal_bams
 mkdir -p ${OUTPUT_FOLDER}/duplex_normal_bams
 
+# MSI create_ script requires T/N in same folder:
+mkdir -p ${OUTPUT_FOLDER}/all_standard_bams
+
 echo "Linking Tumor Bams"
 for d in `ls -d ${BAM_QC_FOLDER}/*L0*/`; do
     echo $d;
@@ -44,6 +47,9 @@ for d in `ls -d ${BAM_QC_FOLDER}/*L0*/`; do
     ln -s ${unfiltered_bam%.bam}.bai ${OUTPUT_FOLDER}/unfiltered_tumor_bams/${unfiltered_bam_base%.bam}.bai
     ln -s ${simplex_bam%.bam}.bai ${OUTPUT_FOLDER}/simplex_tumor_bams/${simplex_bam_base%.bam}.bai
     ln -s ${duplex_bam%.bam}.bai ${OUTPUT_FOLDER}/duplex_tumor_bams/${duplex_bam_base%.bam}.bai
+
+    ln -s ${standard_bam} ${OUTPUT_FOLDER}/all_standard_bams/${standard_bam_base}
+    ln -s ${standard_bam%.bam}.bai ${OUTPUT_FOLDER}/all_standard_bams/${standard_bam_base%.bam}.bai
 done
 
 echo "Linking Normal Bams"
@@ -69,4 +75,7 @@ for d in `ls -d ${BAM_QC_FOLDER}/*N0*/`; do
     ln -s ${unfiltered_bam%.bam}.bai ${OUTPUT_FOLDER}/unfiltered_normal_bams/${unfiltered_bam_base%.bam}.bai
     ln -s ${simplex_bam%.bam}.bai ${OUTPUT_FOLDER}/simplex_normal_bams/${simplex_bam_base%.bam}.bai
     ln -s ${duplex_bam%.bam}.bai ${OUTPUT_FOLDER}/duplex_normal_bams/${duplex_bam_base%.bam}.bai
+
+    ln -s ${standard_bam} ${OUTPUT_FOLDER}/all_standard_bams/${standard_bam_base}
+    ln -s ${standard_bam%.bam}.bai ${OUTPUT_FOLDER}/all_standard_bams/${standard_bam_base%.bam}.bai
 done
