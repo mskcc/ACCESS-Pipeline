@@ -6,9 +6,6 @@ requirements:
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   InlineJavascriptRequirement: {}
-  EnvVarRequirement:
-    envDef:
-      JAVA_HOME: /dmp/resources/prod/tools/system/java/jdk1.8.0_121
   SchemaDefRequirement:
     types:
       - $import: ../../resources/schemas/variants_tools.yaml
