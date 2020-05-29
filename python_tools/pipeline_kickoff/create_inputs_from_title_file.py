@@ -164,7 +164,7 @@ def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     )
     sample_sheet = filter(
         lambda s: any(
-            [sid + SAMPLE_SEP_DIR_DELIMETER in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
         ),
         sample_sheet,
     )

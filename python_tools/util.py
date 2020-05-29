@@ -383,7 +383,7 @@ def get_pos(title_file, sample_object, use_investigator_sample_id=False):
         if file_path.endswith(".fastq.gz"):
             found = sample_id + SAMPLE_SEP_FASTQ_DELIMETER in file_path
         elif file_path.endswith("SampleSheet.csv"):
-            found = sample_id + SAMPLE_SEP_DIR_DELIMETER in file_path
+            found = sample_id in file_path
         else:
             raise Exception(
                 "Unrecognized file type {}. File type should be either fastq.qz or SampleSheet.csv.".format(
