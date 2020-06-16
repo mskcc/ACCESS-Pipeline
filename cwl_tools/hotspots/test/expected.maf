@@ -1,0 +1,3 @@
+Chromosome	Start_Position	Reference_Allele	Tumor_Seq_Allele2	hotspot_whitelist
+1	123456	A	G	TRUE
+2	7891011	A	G	FALSE

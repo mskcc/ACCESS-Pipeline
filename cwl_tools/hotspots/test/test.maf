@@ -1,0 +1,4 @@
+# Test Maf for tag_hotspots
+Chromosome	Start_Position	Reference_Allele	Tumor_Seq_Allele2
+1	123456	A	G
+2	7891011	A	G

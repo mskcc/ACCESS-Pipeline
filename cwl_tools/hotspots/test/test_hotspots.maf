@@ -1,0 +1,2 @@
+Hugo_Symbol	Chromosome	Start_Position	End_Position	Reference_Allele	Tumor_Seq_Allele2	HGVSp_Short	Existing_variation	Tumor_Sample_Barcode	Matched_Norm_Sample_Barcode	t_ref_count	t_alt_count	n_ref_count	n_alt_count	Variant_Classification	Variant_Type	Tumor_Seq_Allele1	Mutation_Status	t_depth
+TERT	1	123456	123456	A	G	p.K409N	rs779337445,COSM1344462	TUMOR	NORMAL	.	.	.	.	Missense_Mutation	SNP	T		0

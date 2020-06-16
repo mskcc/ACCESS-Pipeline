@@ -47,27 +47,21 @@ def parse_arguments():
     return args
 
 
-def main():
+def main(args):
     """
     Tagging module entrypoint
 
     :return:
     """
-    args = parse_arguments()
     logger.info("tag_hotspots: Started the run for tagging hotspots")
 
-    # Load hotspots into a dict for easy lookup by chr:pos:ref:alt, and store AA position changed
-    hotspot = dict()
+    # Load hotspots into a set for easy lookup by chr:pos:ref:alt, and store AA position changed
+    hotspots = set()
     with open(args.input_txt, 'rb') as infile:
         reader = csv.DictReader(infile, delimiter='\t')
         for row in reader:
-
             key = ':'.join([row[k] for k in MUTATION_KEYS])
-
-            # Extract the amino-acid position from the HGVSp code, to store in the dict
-            aa_pos = re.match( r'^p\.\D+(\d+)', row['HGVSp_Short'])
-            if aa_pos:
-                hotspot[key] = aa_pos.group(1)
+            hotspots.add(tuple(key))
 
     # Parse through input MAF, and create a new one with an extra column tagging hotspots
     with open(args.input_maf, 'rb') as infile:
@@ -82,7 +76,7 @@ def main():
             for row in reader:
                 row['hotspot_whitelist'] = 'FALSE'
                 key = ':'.join([row[k] for k in MUTATION_KEYS])
-                if key in hotspot:
+                if tuple(key) in hotspots:
                     row['hotspot_whitelist'] = 'TRUE'
                 writer.writerow(row)
 
@@ -91,7 +85,8 @@ def main():
 
 if __name__ == '__main__':
     start_time = time.time()
-    main()
+    args = parse_arguments()
+    main(args)
     end_time = time.time()
 
     totaltime = end_time - start_time
