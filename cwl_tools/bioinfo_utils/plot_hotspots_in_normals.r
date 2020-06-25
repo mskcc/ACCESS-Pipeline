@@ -38,7 +38,7 @@ g = ggplot(filter(counts, AltCount>0), aes(Sample, Mutation)) +
     geom_point(aes(color=SampleType, size=AF, shape=15)) +
     scale_shape_identity() +
     geom_text(aes(label=paste(sep='', AF, ' (', AltCount, '/', Total, ')')), vjust=0, nudge_y = -0.60, size=6) +
-    ggtitle('Hotspot mutations in normals (normals: unfiltered, tumors: duplex, > 3 fragments)') +
+    ggtitle('Hotspot mutations in normals (normals: unfiltered > 3 fragments, tumors: duplex)') +
     THEME
 
 ggsave(g, file=OUTPUT_PLOT_FILENAME, width=20, height=20)
