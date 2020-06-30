@@ -1,2 +1,0 @@
-waltz_directory: {class: Directory, path: /home/johnsoni/ET_waltz_test_data_medium/duplex_A_targets}
-good_positions_A: {class: File, path: /home/johnsoni/Innovation-Pipeline/resources/bedfiles/pan-cancer-panel-v2_2-A-good-positions.txt}

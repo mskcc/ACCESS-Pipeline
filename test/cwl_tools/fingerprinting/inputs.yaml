@@ -1,9 +1,0 @@
-FP_config_file: {class: File, path: /ifs/work/bergerm1/Innovation/Resources/Fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt}
-output_dir: .
-title_file: {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/ian/lane-2_title_file.txt}
-
-output_directory: .
-waltz_directory_A: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/FF_pipeline_test-0.0.39/5500-FF_lane-2/QC_Results/waltz_standard_pool_a}
-waltz_directory_B: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/FF_pipeline_test-0.0.39/5500-FF_lane-2/QC_Results/waltz_standard_pool_b}
-waltz_directory_A_duplex: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/FF_pipeline_test-0.0.39/5500-FF_lane-2/QC_Results/waltz_duplex_pool_a}
-waltz_directory_B_duplex: {class: Directory, path: /ifs/work/bergerm1/Innovation/sandbox/ian/FF_pipeline_test-0.0.39/5500-FF_lane-2/QC_Results/waltz_duplex_pool_b}

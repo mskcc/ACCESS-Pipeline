@@ -1,3 +1,0 @@
-title_file: {class: File, path: /home/johnsoni/ET_title_file.txt}
-noise: {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/ian/noise.txt}
-noise_by_substitution: {class: File, path: /ifs/work/bergerm1/Innovation/sandbox/ian/noise-by-substitution.txt}
