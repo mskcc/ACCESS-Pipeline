@@ -1,5 +1,5 @@
 ## htsjdk.samtools.metrics.StringHeader
-# picard.analysis.CollectMultipleMetrics INPUT=/juno/work/bergerm1/Innovation/Ian/5500-EZ/1.1.5_EZ_Test-1.1.5/tmpmocPUU/stg91b68be0-1c2b-4044-ad64-15793d24e0c9/TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam OUTPUT=TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam VALIDATION_STRINGENCY=LENIENT    ASSUME_SORTED=true STOP_AFTER=0 METRIC_ACCUMULATION_LEVEL=[ALL_READS] PROGRAM=[CollectAlignmentSummaryMetrics, CollectBaseDistributionByCycle, CollectInsertSizeMetrics, MeanQualityByCycle, QualityScoreDistribution] INCLUDE_UNPAIRED=false VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
+# picard.analysis.CollectMultipleMetrics INPUT=./TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam OUTPUT=TD-seracare-wt_cl_aln_srt_MD_IR_FX_BR.bam VALIDATION_STRINGENCY=LENIENT    ASSUME_SORTED=true STOP_AFTER=0 METRIC_ACCUMULATION_LEVEL=[ALL_READS] PROGRAM=[CollectAlignmentSummaryMetrics, CollectBaseDistributionByCycle, CollectInsertSizeMetrics, MeanQualityByCycle, QualityScoreDistribution] INCLUDE_UNPAIRED=false VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json
 ## htsjdk.samtools.metrics.StringHeader
 # Started on: Tue Jun 18 16:14:59 EDT 2019
 
