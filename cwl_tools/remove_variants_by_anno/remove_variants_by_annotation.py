@@ -64,11 +64,11 @@ def filter_by_annotation(args):
                     df_input['Hugo_Symbol']=='MET' &
                     (
                         (
-                            df_input["Start_Position"].apply(int) >= 116411903-100 &
-                            df_input["Start_Position"].apply(int) <= 116412043+100
+                            (df_input["Start_Position"].apply(int) >= 116411903-100) &
+                            (df_input["Start_Position"].apply(int) <= 116412043+100)
                         ) | (
-                            df_input["End_Position"].apply(int) >= 116411903-100 &
-                            df_input["End_Position"].apply(int) <= 116412043+100
+                            (df_input["End_Position"].apply(int) >= 116411903-100) &
+                            (df_input["End_Position"].apply(int) <= 116412043+100)
                         )
                     )
                  )
