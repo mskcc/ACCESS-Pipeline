@@ -61,7 +61,7 @@ def filter_by_annotation(args):
 
     Bool_MET =  (
                     df_input['Variant_Classification'].isin(["Splice_Region", "Intron"]) &
-                    df_input['Hugo_Symbol']=='MET' &
+                    (df_input['Hugo_Symbol']=='MET') &
                     (
                         (
                             (df_input["Start_Position"].apply(int) >= 116411903-100) &
