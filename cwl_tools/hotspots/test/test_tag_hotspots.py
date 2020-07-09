@@ -15,7 +15,7 @@ def main():
         'input_txt': 'test_hotspots.maf',
         'output_maf': output_filename
     })
-    tag_hotspots.main(mock_args)
+    tag_hotspots.tag_hotspots(mock_args)
     expected = pd.read_csv('expected.maf', sep='\t')
     actual = pd.read_csv(output_filename, sep='\t')
     pd.testing.assert_frame_equal(expected, actual)

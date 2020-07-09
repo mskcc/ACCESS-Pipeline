@@ -47,7 +47,7 @@ def parse_arguments():
     return args
 
 
-def main(args):
+def tag_hotspots(args):
     """
     Tagging module entrypoint
 
@@ -83,10 +83,14 @@ def main(args):
     logger.info('tag_hotspots: Finished the run for tagging hotspots.')
 
 
+def main():
+    args = parse_arguments()
+    tag_hotspots(args)
+
+
 if __name__ == '__main__':
     start_time = time.time()
-    args = parse_arguments()
-    main(args)
+    main()
     end_time = time.time()
 
     totaltime = end_time - start_time
