@@ -58,7 +58,7 @@ def filter_by_annotation(args):
     keep_exonic = ['Missense_Mutation', 'Nonsense_Mutation', 'Splice_Site', 'Frame_Shift_Ins', 'Frame_Shift_Del', 'In_Frame_Ins', 'In_Frame_Del', 'Translation_Start_Site', 'Nonstop_Mutation', 'Silent']
 
     Bool_exon = df_input['Variant_Classification'].isin(keep_exonic)
-    Bool_MET = (df_input['Variant_Classification'].isin([""])'Splice_Region') & (df_input['Hugo_Symbol']=='MET') & (((df_input["Start_Position"].apply(int) >= 116411903-100) & (df_input["Start_Position"].apply(int) <= 116412043+100)) | ((df_input["End_Position"].apply(int) >= 116411903-100) & (df_input["End_Position"].apply(int) <= 116412043+100)))
+    Bool_MET = (df_input['Variant_Classification'].isin(["Splice_Region", "Intron"]) & (df_input['Hugo_Symbol']=='MET') & (((df_input["Start_Position"].apply(int) >= 116411903-100) & (df_input["Start_Position"].apply(int) <= 116412043+100)) | ((df_input["End_Position"].apply(int) >= 116411903-100) & (df_input["End_Position"].apply(int) <= 116412043+100)))
     Bool_TERT = (df_input['Variant_Classification']=="5'Flank") & (df_input['Hugo_Symbol']== 'TERT')
     #Removes based on Annotations
     df_kept = df_input[Bool_exon|Bool_MET|Bool_TERT]
