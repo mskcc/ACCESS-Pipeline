@@ -101,17 +101,17 @@ def generate_pairing_file(args):
     :param pair_by: str
     :return paired_df: dict
     """
-    tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer")
+    tf = pd.read_csv(args.title_file_path, sep="\t", comment="#", header="infer", dtype=object)
     tumor_samples = tf[~(tf["Class"] == "Normal")]["Sample"].values.tolist()
 
     # if coverage file is provided, drop low coverage samples.
     if args.coverage_file:
-        coverage_df = pd.read_csv(args.coverage_file, header=0, sep="\t")
+        coverage_df = pd.read_csv(args.coverage_file, header=0, sep="\t", dtype=object)
         samples_failing_coverage = coverage_df[
-            (coverage_df["Duplex"] <= args.mdcov)
-            | (coverage_df["Simplex"] <= args.mscov)
-            | (coverage_df["All Unique"] <= args.mucov)
-            | (coverage_df["TotalCoverage"] <= args.mtcov)
+            (coverage_df["Duplex"].apply(float) <= args.mdcov)
+            | (coverage_df["Simplex"].apply(float) <= args.mscov)
+            | (coverage_df["All Unique"].apply(float) <= args.mucov)
+            | (coverage_df["TotalCoverage"].apply(float) <= args.mtcov)
         ]["Sample"].values.tolist()
 
         # only select tumor samples
@@ -171,7 +171,44 @@ def generate_pairing_file(args):
             & (~tfmerged[SAMPLE_PAIR1].isin(paired[SAMPLE_PAIR1].unique().tolist()))
         ][[SAMPLE_PAIR1, SAMPLE_PAIR2, GROUP_BY_ID]]
     unpaired[SAMPLE_PAIR2] = ""
-    paired_df = pd.concat([paired, unpaired]).rename(
+
+    # Separate duplicated Tumors
+    paired_dup = paired[paired.duplicated(subset=[SAMPLE_PAIR1], keep=False)]
+    # Select T-N pair first based on sampleID suffix
+    # For example TP01 will be paired with NB01, when multiple NBs are present for the sample TP.
+    # If both NB01 and NB01rpt are present, NB01rpt will be chosen.
+    paired_dup_select_by_suffix = (
+        paired_dup[
+            (
+                paired_dup[SAMPLE_PAIR1].str.extract(
+                    r"T[A-Za-z]*([0-9]+).*", expand=False
+                )
+                == paired_dup[SAMPLE_PAIR2].str.extract(
+                    r"N[A-Za-z]*([0-9]+).*", expand=False
+                )
+            )
+        ]
+        .sort_values([SAMPLE_PAIR2])
+        .drop_duplicates(subset=[SAMPLE_PAIR1], keep="last")
+    )
+    # For TPs for which NB cannot be chosen based on sampleID suffix, latest NB will be chosen. For example, NB02rpt will be chosen if NB01, NB02, NB02rpt are present for TP03
+    paired_dup_select_by_latest_normal = (
+        paired_dup[
+            ~(paired_dup[SAMPLE_PAIR1].isin(paired_dup_select_by_suffix[SAMPLE_PAIR1]))
+        ]
+        .sort_values([SAMPLE_PAIR2])
+        .drop_duplicates(subset=[SAMPLE_PAIR1], keep="last")
+    )
+
+    # Combine all the dfs
+    paired_df = pd.concat(
+        [
+            paired[~(paired.duplicated(subset=[SAMPLE_PAIR1], keep=False))],
+            paired_dup_select_by_suffix,
+            paired_dup_select_by_latest_normal,
+            unpaired,
+        ]
+    ).rename(
         index=str,
         columns={
             SAMPLE_PAIR1: TUMOR_ID,
@@ -179,7 +216,6 @@ def generate_pairing_file(args):
             GROUP_BY_ID: GROUP_BY_ID,
         },
     )
-    paired_df = paired_df.drop_duplicates()
     paired_df.to_csv(
         os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE),
         sep="\t",
@@ -187,6 +223,13 @@ def generate_pairing_file(args):
         mode="w",
         index=False,
     )
+    # If there are still duplciate Tumors, raise exception
+    if paired_df.duplicated(subset=[TUMOR_ID], keep=False).any():
+        raise Exception(
+            "Duplicate Tumor sample entries in title file cannot be resolved. Please check {} for more information. Consider providing a Tumor Normal pairing file to override automatic pairing.".format(
+                os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
+            )
+        )
     args.pairing_file_path = os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE)
     return tf, paired_df
 
@@ -326,8 +369,11 @@ def create_inputs_file(args):
     validate_args(args)
     if args.pairing_file_path:
         pairing_df = pd.read_csv(
-            args.pairing_file_path, sep="\t", comment="#", header="infer"
+            args.pairing_file_path, sep="\t", comment="#", header="infer", dtype=object
         ).fillna("")
+        title_file_df = pd.read_csv(
+            args.title_file_path, sep="\t", comment="#", header="infer", dtype=object
+        )
     else:
         try:
             title_file_df, pairing_df = generate_pairing_file(args)
@@ -392,7 +438,9 @@ def create_inputs_file(args):
     fh.write(INPUTS_FILE_DELIMITER)
 
     # Include traceback related files
-    create_traceback_inputs(args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh)
+    create_traceback_inputs(
+        args, title_file_df, pairing_df, tumor_bam_paths, simplex_bam_paths, fh
+    )
 
     ####### Generate inputs for CNV ########
     cmd = "generate_copynumber_inputs -t {title_file} -tb {bam_dir} -o {output_dir}/inputs_cnv.yaml -od {output_dir} -alone".format(
@@ -444,23 +492,27 @@ def create_inputs_file(args):
 
 
 def create_traceback_inputs(
-    args, title_file_df, tumor_bam_paths, simplex_bam_paths, fh
+    args, title_file_df, pairing_df, tumor_bam_paths, simplex_bam_paths, fh
 ):
     """
     Get traceback input mutations and bam file objects.
     """
-    # tumor ids from title file
-    tumor_id = title_file_df[
-        title_file_df[TITLE_FILE__SAMPLE_CLASS_COLUMN] == TUMOR_CLASS
-    ]["Sample"].values.tolist()
-
+    # tumor ids from title file and pairing file
+    tumor_id = pairing_df[TUMOR_ID].values.tolist()
+    title_file_df_select = title_file_df[title_file_df["Sample"].isin(tumor_id)]
     traceback_bams, traceback_samples = [], []
 
     # read traceback samples into a df and consume sampleIDs and file paths
     if args.traceback_samples:
-        traceback_samples_df = pd.read_csv(args.traceback_samples, sep="\t", header=0)
+        traceback_samples_df = pd.read_csv(
+            args.traceback_samples, sep="\t", header=0, dtype=object
+        )
+        # Drop samples by Patient_ID in the df if the Patient_ID is absent in the pairing file
+        traceback_samples_df = traceback_samples_df[
+            traceback_samples_df["MRN"].isin(title_file_df_select[GROUP_BY_ID])
+        ]
         traceback_mutations_df = pd.read_csv(
-            args.traceback_mutations, sep="\t", header=0
+            args.traceback_mutations, sep="\t", header=0, dtype=object
         )
         # check that one of traceback_samples.txt and traceback_input_mutations.txt
         #  is not empty while the other has data.
@@ -569,7 +621,7 @@ def write_yaml_bams(
     # 1. Build lists of bams
     if args.pairing_file_path:
         pairing_file = pd.read_csv(
-            args.pairing_file_path, sep="\t", comment="#", header="infer"
+            args.pairing_file_path, sep="\t", comment="#", header="infer", dtype=object
         ).fillna("")
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
