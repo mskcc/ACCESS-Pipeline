@@ -1,0 +1,109 @@
+# Parameters
+process_loop_umi_fastq__params:
+  umi_length: 3
+  output_project_folder: .
+
+trimgalore__params:
+  length: 25
+  paired: true
+  gzip: true
+  quality: 1
+  stringency: 3
+  suppress_warn: false
+
+add_or_replace_read_groups__params:
+  add_rg_PL: Illumina
+  add_rg_CN: MSKCC
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
+
+mark_duplicates__params:
+  create_index: true
+  assume_sorted: true
+  compression_level: 0
+  validation_stringency: LENIENT
+  duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
+
+find_covered_intervals__params:
+  minbq: 20
+  minmq: 20
+  cov: 20
+  rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
+
+abra__params:
+  #  kmers: string
+  ram_min: 60000
+  cores_min: 8
+  threads: 12
+  mad: 1000
+  sc: 100,30,80,15
+  mmr: 0.1
+  sga: 8,32,48,1
+  ca: 10,1
+  ws: 800,700
+  index: true
+  cons: true
+
+fix_mate_information__params:
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
+
+base_recalibrator__params:
+  nct: 3
+  rf: BadCigar
+
+print_reads__params:
+  nct: 8
+  EOQ: true
+  baq: RECALCULATE
+
+marianas_collapsing__params:
+  min_mapping_quality: 1
+  min_base_quality: 20
+  mismatches: 0
+  wobble: 2
+  min_consensus_percent: 90
+
+waltz__params:
+  coverage_threshold: 50
+  min_mapping_quality: 20
+
+fci_2__basq_fix: true
+
+#####
+# Following sections should be filled in:
+
+# Files
+hotspots: File
+gene_list: File
+FP_config_file: File
+reference_fasta: File
+reference_fasta_fai: File
+pool_a_bed_file: File
+pool_b_bed_file: File
+bqsr__knownSites_dbSNP: File
+bqsr__knownSites_millis: File
+A_on_target_positions: File
+B_on_target_positions: File
+noise__good_positions_A: File
+pool_a_bed_file_exonlevel: File
+
+# Tools
+run_tools:
+  perl_5: string
+  java_7: string
+  java_8: string
+  marianas_path: string
+  bioinfo_utils: File
+  trimgalore_path: string
+  bwa_path: string
+  arrg_path: string
+  picard_path: string
+  gatk_path: string
+  abra_path: string
+  fx_path: string
+  waltz_path: string

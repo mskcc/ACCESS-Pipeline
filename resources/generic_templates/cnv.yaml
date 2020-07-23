@@ -1,0 +1,13 @@
+# Params
+threads: 8
+
+#####
+# Following sections should be filled in:
+
+# Files
+tmp_dir: string
+
+normal_sample_list: File
+targets_coverage_bed: File
+targets_coverage_annotation: File
+reference_fasta: File
