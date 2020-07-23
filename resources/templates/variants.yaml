@@ -1,7 +1,7 @@
 # Params
 mutect_params:
   dcov: 5000
-  read_filter: ['BadCigar']
+  read_filter: ["BadCigar"]
   fraction_contamination: 0.0005
   minimum_mutation_cell_fraction: 0.0005
 
@@ -39,7 +39,7 @@ vcf2maf_params:
   max_filter_ac: 10
   min_hom_vaf: 0.7
   ncbi_build: GRCh37
-  retain_info: 'set,TYPE,FAILURE_REASON,MUTECT,VCF_POS,VCF_REF,VCF_ALT'
+  retain_info: "set,TYPE,FAILURE_REASON,MUTECT,VCF_POS,VCF_REF,VCF_ALT"
   maf_center: mskcc.org
   species: homo_sapiens_merged
 
@@ -68,41 +68,97 @@ access_filters_params:
 # Following sections should be filled in:
 
 # Files
-dbsnp: File
-cosmic: File
-ref_fasta: File
-exac_filter: File
-hotspots: File
-blacklist_file: File
-custom_enst_file: File
-bed_file: File
-annotate_concat_header_file: File
+dbsnp: { class: File, path: /home/jayakumg/data/ACCESS-data/dbsnp_137.b37.vcf }
+cosmic:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/CosmicCodingMuts_v67_b37_20131024__NDS.vcf,
+  }
+ref_fasta:
+  {
+    class: File,
+    path: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta,
+  }
+exac_filter:
+  {
+    class: File,
+    path: /dmp/hot/jayakumg/data/ACCESS-data/variant_calling/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz,
+  }
+hotspots:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/hotspot-list-union-v1-v2.txt,
+  }
+blacklist_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/ACCESS_blacklist_20_05_2019.txt,
+  }
+custom_enst_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/dmp_ACCESS-panelA-v1-isoform-overrides,
+  }
+bed_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/MSK-ACCESS-v1_0panelA_canonicaltargets_500buffer.bed,
+  }
+annotate_concat_header_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/variant_calling/mutect_annotate_concat_header.txt,
+  }
 
 curated_duplex_bams:
-  novaseq: Directory
-  hiseq: Directory
+  novaseq:
+    {
+      class: Directory,
+      path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_duplex_bams_novaseq,
+    }
+  hiseq:
+    {
+      class: Directory,
+      path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_duplex_bams_hiseq,
+    }
 
 curated_simplex_bams:
-  novaseq: Directory
-  hiseq: Directory
+  novaseq:
+    {
+      class: Directory,
+      path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_simplex_bams_novaseq,
+    }
+  hiseq:
+    {
+      class: Directory,
+      path: /dmp/hot/jayakumg/projects/MSK-ACCESS/variant_calling/data/curated_simplex_bams_hiseq,
+    }
 
-reference_bam_for_VC: File
-reference_bam_for_SV: File
+reference_bam_for_VC:
+  {
+    class: File,
+    path: /dmp/hot/jayakumg/projects/MSK-ACCESS/processed-data/NOVA-ACCESSv1-VAL-20180007/duplex_bams/F22_cl_aln_srt_MD_IR_FX_BR__aln_srt_IR_FX-duplex.bam,
+  }
+reference_bam_for_SV:
+  {
+    class: File,
+    path: /dmp/hot/jayakumg/projects/MSK-ACCESS/processed-data/NOVA-ACCESSv1-VAL-20180007/standard_bams/F22_cl_aln_srt_MD_IR_FX_BR.bam,
+  }
 
 # Tools
 run_tools:
-  bcftools: string
-  gbcms: string
-  java_7: string
-  mutect: string
-  vardict: string
-  vardict_testsomatic: string
-  vardict_var2vcf_paired: string
-  perl: string
-  vcf2maf: string
-  vep_path: string
-  vep_data: string
-  tabix: string
-  bgzip: string
-  sortbed: string
-  bcftools_1_6: string
+  bcftools: /dmp/resources/prod/tools/bio/bcftools/VERSIONS/bcftools-1.3.1/bcftools
+  gbcms: /home/jayakumg/software/bio/GetBaseCountsMultiSample/GetBaseCountsMultiSample
+  java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
+  mutect: /home/jayakumg/software/ACCESS_tools/muTect-1.1.5.jar
+  vardict: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/build/install/VarDict/bin/VarDict
+  vardict_testsomatic: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/testsomatic.R
+  vardict_var2vcf_paired: /home/jayakumg/software/bio/vardict/VERSIONS/VarDictJava-1.5.1/VarDict/var2vcf_paired.pl
+  perl: /dmp/resources/prod/tools/system/perl/bin/perl
+  vcf2maf: /dmp/hot/jayakumg/projects/vep/vcf2maf.pl
+  vep_path: /dmp/hot/jayakumg/projects/vep/
+  vep_data: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
+  tabix: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/tabix
+  bgzip: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/bgzip
+  sortbed: /dmp/resources/prod/tools/bio/bedtools/VERSIONS/bedtools-2.27.1/bin/sortBed
+  bcftools_1_6: /home/jayakumg/software/system/anaconda2/envs/ACCESS_VC/bin/bcftools

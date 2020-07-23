@@ -33,8 +33,8 @@ find_covered_intervals__params:
   rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
 
 abra__params:
-#  kmers: string
-  ram_min: 60000
+  #  kmers: string
+  ram_min: 30000
   cores_min: 8
   threads: 12
   mad: 1000
@@ -78,32 +78,77 @@ fci_2__basq_fix: true
 # Following sections should be filled in:
 
 # Files
-hotspots: File
-gene_list: File
-FP_config_file: File
-reference_fasta: File
-pool_a_bed_file: File
-pool_b_bed_file: File
-reference_fasta_fai: File
-bqsr__knownSites_dbSNP: File
-bqsr__knownSites_millis: File
-A_on_target_positions: File
-B_on_target_positions: File
-noise__good_positions_A: File
-pool_a_bed_file_exonlevel: File
+hotspots:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/test_reference/bed/hotspot-list-union-v1-v2_with_TERT.txt,
+  }
+gene_list:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/hg19-gene-list.bed,
+  }
+FP_config_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt,
+  }
+reference_fasta: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta
+reference_fasta_fai: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta.fai
+pool_a_bed_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-A.sorted.bed,
+  }
+pool_b_bed_file:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-probe-B.sorted.bed,
+  }
+bqsr__knownSites_dbSNP:
+  { class: File, path: /dmp/data/pubdata/dbSNP/production/dbsnp_137.b37.vcf }
+bqsr__knownSites_millis:
+  {
+    class: File,
+    path: /dmp/data/pubdata/mills-and-1000g/VERSIONS/v20131014/Mills_and_1000G_gold_standard.indels.b37.vcf,
+  }
+A_on_target_positions:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt,
+  }
+B_on_target_positions:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-B-on-target-positions.txt,
+  }
+noise__good_positions_A:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt,
+  }
+pool_a_bed_file_exonlevel:
+  {
+    class: File,
+    path: /home/jayakumg/data/ACCESS-data/resources/bedfiles/MSK-ACCESS-v1_0_panelA_canonicaltargets.bed,
+  }
 
 # Tools
 run_tools:
-  perl_5: string
-  java_7: string
-  java_8: string
-  marianas_path: string
-  bioinfo_utils: File
-  trimgalore_path: string
-  bwa_path: string
-  arrg_path: string
-  picard_path: string
-  gatk_path: string
-  abra_path: string
-  fx_path: string
-  waltz_path: string
+  perl_5: /dmp/resources/prod/tools/system/perl/bin/perl
+  java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
+  java_8: /dmp/resources/prod/tools/system/java/jdk1.8.0_121/bin/java
+  marianas_path: /home/jayakumg/software/ACCESS_tools/Marianas-1.8.0.jar
+  bioinfo_utils:
+    {
+      class: File,
+      path: /home/jayakumg/software/ACCESS_tools/BioinfoUtils-1.0.0.jar,
+    }
+  trimgalore_path: /dmp/resources/prod/tools/bio/trim_galore/production/trim_galore
+  bwa_path: /dmp/resources/prod/tools/bio/bwa/production/bwa
+  arrg_path: /home/jayakumg/software/ACCESS_tools/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /home/jayakumg/software/ACCESS_tools/picard-2.8.1.jar
+  gatk_path: /dmp/resources/prod/tools/bio/gatk/VERSIONS/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /home/jayakumg/software/bio/abra2-2.17/target/abra2-2.17-jar-with-dependencies.jar
+  fx_path: /dmp/resources/prod/tools/bio/picard/VERSIONS/picard-tools-1.96/FixMateInformation.jar
+  waltz_path: /home/jayakumg/software/ACCESS_tools/Waltz-2.0.jar
