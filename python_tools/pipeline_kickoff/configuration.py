@@ -62,6 +62,7 @@ class ToilArgs(object):
             "--defaultMem": "10G",
             "--no-container": "",
             "--disableCaching": "",
+            "--disableChaining": "",
             "--stats": "",
             "--cleanWorkDir": "onSuccess",
             "--maxLogFileSize": "20000000000",
