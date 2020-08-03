@@ -25,7 +25,7 @@ mkdir -p ${OUTPUT_FOLDER}/duplex_normal_bams
 mkdir -p ${OUTPUT_FOLDER}/all_standard_bams
 
 echo "Linking Tumor Bams"
-for d in `ls -d ${BAM_QC_FOLDER}/*L0*/`; do
+for d in `ls -d ${BAM_QC_FOLDER}/*L00*/`; do
     echo $d;
 
     standard_bam=`readlink -f ${d}/*_cl_aln_srt_MD_IR_FX_BR.bam`
@@ -53,7 +53,7 @@ for d in `ls -d ${BAM_QC_FOLDER}/*L0*/`; do
 done
 
 echo "Linking Normal Bams"
-for d in `ls -d ${BAM_QC_FOLDER}/*N0*/`; do
+for d in `ls -d ${BAM_QC_FOLDER}/*N00*/`; do
     echo $d;
 
     standard_bam=`readlink -f ${d}/*_cl_aln_srt_MD_IR_FX_BR.bam`
