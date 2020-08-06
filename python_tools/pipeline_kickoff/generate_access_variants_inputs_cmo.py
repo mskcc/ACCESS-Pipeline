@@ -31,7 +31,7 @@ from python_tools.util import (
 # Variant_Calling_Project \
 # -o \
 # inputs.yaml \
-# -dn /home/patelju1/projects/Juber/HiSeq/5500-FF-new/run-5500-FF/FinalBams/DA-ret-004-pl-T01-IGO-05500-FF-18_bc427_Pool-05500-FF-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam \
+# -dn default_hi_depth_normal__cl_aln_srt_MD_IR_FX_BR.bam \
 # -p \
 # ./test_pairs.tsv \
 # -tb \
