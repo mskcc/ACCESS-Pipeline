@@ -326,7 +326,7 @@ def write_yaml_bams(
         if not args.matched_mode:
             # If we aren't in matched mode, do variant calling with default normal
             # (pairing file is only used for genotyping)
-            ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
+            ordered_normal_bams = [args.default_normal_path] * len(ordered_tumor_bams)
             # Todo: Need to genotype default normal?
             # ordered_tn_genotyping_bams = ordered_tn_genotyping_bams + [args.default_normal_path]
 
