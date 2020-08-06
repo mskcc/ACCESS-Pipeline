@@ -309,6 +309,11 @@ def write_yaml_bams(
     # 1. Build lists of bams
     if args.pairing_file_path:
         pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+
+        # Filter simplex bams to only those needed from pairing file
+        tumor_bam_ids = pairing_file['tumor_id']
+        simplex_bam_paths = [s for s in simplex_bam_paths if any([id in s for id in tumor_bam_ids])]
+
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
         ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
