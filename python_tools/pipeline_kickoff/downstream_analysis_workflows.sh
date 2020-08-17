@@ -40,7 +40,7 @@
 # downstream_analysis_workflows.sh \
 # -P 				    Project_10619_B \
 # -T 				    ./Project_10619_B.txt \
-# -P 				    ./pairing.txt \
+# -PF 				    ./pairing.txt \
 # -DTB 			    ./duplex_tumor_bams \
 # -STB 			    ./simplex_tumor_bams \
 # -UTB 			    ./unfiltered_tumor_bams \
