@@ -120,6 +120,22 @@ outputs:
     type: Directory[]
     outputSource: standard_bam_to_collapsed_qc/bam_dirs
 
+  standard_bams:
+    type: File[]
+    outputSource: standard_bam_generation/standard_bams
+
+  unfiltered_bams:
+    type: File[]
+    outputSource: standard_bam_to_collapsed_qc/unfiltered_bams
+
+  simplex_bams:
+    type: File[]
+    outputSource: standard_bam_to_collapsed_qc/simplex_bams
+
+  duplex_bams:
+    type: File[]
+    outputSource: standard_bam_to_collapsed_qc/duplex_bams
+
   combined_qc:
     type: Directory
     outputSource: standard_bam_to_collapsed_qc/combined_qc
@@ -232,6 +248,9 @@ steps:
   out: [
     picard_qc,
     bam_dirs,
+    unfiltered_bams,
+    simplex_bams,
+    duplex_bams,
     combined_qc,
     qc_tables,
     hotspots_in_normals_data]

@@ -68,6 +68,18 @@ outputs:
     type: Directory[]
     outputSource: make_bam_output_directories/directory
 
+  unfiltered_bams:
+    type: File[]
+    outputSource: flatten_array_bams/output_bams
+
+  simplex_bams:
+    type: File[]
+    outputSource: separate_bams/simplex_bam
+
+  duplex_bams:
+    type: File[]
+    outputSource: separate_bams/duplex_bam
+
   combined_qc:
     type: Directory
     outputSource: qc_workflow/combined_qc
@@ -213,11 +225,6 @@ steps:
   run: ../../cwl_tools/expression_tools/make_sample_output_dirs.cwl
   in:
     sample_id: add_rg_ID
-    standard_bam: standard_bams
-    # Collapsed, and after 2nd Indel Realignment:
-    unfiltered_bam: flatten_array_bams/output_bams
-    simplex_bam: separate_bams/simplex_bam
-    duplex_bam: separate_bams/duplex_bam
     r1_fastq: umi_collapsing/collapsed_fastq_1
     r2_fastq: umi_collapsing/collapsed_fastq_2
     first_pass_file: umi_collapsing/first_pass_output_file
@@ -228,10 +235,6 @@ steps:
     second_pass: umi_collapsing/second_pass_alt_alleles
   scatter: [
     sample_id,
-    standard_bam,
-    unfiltered_bam,
-    simplex_bam,
-    duplex_bam,
     r1_fastq,
     r2_fastq,
     first_pass_file,
