@@ -51,7 +51,7 @@ outputs:
       outputEval: |-
         ${
           return {
-            'file': self,
+            'file': self[0],
             'sampleId': inputs.add_rg_SM,
             'patientId': inputs.patient_id,
             'tumorOrNormal': inputs.sample_class
@@ -72,7 +72,7 @@ outputs:
       outputEval: |-
         ${
           return {
-            'file': self,
+            'file': self[0],
             'sampleId': inputs.add_rg_SM,
             'patientId': inputs.patient_id,
             'tumorOrNormal': inputs.sample_class

@@ -3,9 +3,9 @@ name: bam_sample
 fields:
   - name: file
     type: File
-  - name: sample_id
+  - name: sampleId
     type: string
-  - name: patient_id
+  - name: patientId
     type: string
-  - name: sample_class
+  - name: tumorOrNormal
     type: string
