@@ -13,6 +13,7 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
+      - $import: ../../resources/schemas/bam_sample.yaml
       - $import: ../../resources/schemas/collapsing_tools.yaml
       - $import: ../../resources/schemas/params/abra.yaml
       - $import: ../../resources/schemas/params/waltz.yaml
@@ -69,16 +70,22 @@ outputs:
     outputSource: make_bam_output_directories/directory
 
   unfiltered_bams:
-    type: File[]
-    outputSource: flatten_array_bams/output_bams
+    type:
+      type: array
+      items: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: convert_to_sample_records/sample_record
 
   simplex_bams:
-    type: File[]
-    outputSource: separate_bams/simplex_bam
+    type:
+      type: array
+      items: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: separate_bams/simplex_bam_record
 
   duplex_bams:
-    type: File[]
-    outputSource: separate_bams/duplex_bam
+    type:
+      type: array
+      items: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: separate_bams/duplex_bam_record
 
   combined_qc:
     type: Directory
@@ -200,6 +207,21 @@ steps:
     bams: abra_workflow/ir_bams
   out: [output_bams]
 
+  ##################################################
+  # Convert files to record types with sample info #
+  ##################################################
+
+- id: convert_to_sample_records
+  run: ../../cwl_tools/expression_tools/convert_to_sample_record.cwl
+  in:
+    bam: flatten_array_bams/output_bams
+    add_rg_SM: add_rg_SM
+    patient_id: patient_id
+    sample_class: sample_class
+  out: [sample_record]
+  scatter: [bam, add_rg_SM, patient_id, sample_class]
+  scatterMethod: dotproduct
+
   ################
   # SeparateBams #
   ################
@@ -212,9 +234,14 @@ steps:
       valueFrom: ${return inputs.run_tools.java_8}
     marianas_path:
       valueFrom: ${return inputs.run_tools.marianas_path}
+
+    add_rg_SM: add_rg_SM
+    patient_id: patient_id
+    sample_class: sample_class
+
     collapsed_bam: flatten_array_bams/output_bams
-  out: [simplex_bam, duplex_bam]
-  scatter: [collapsed_bam]
+  out: [simplex_bam, simplex_bam_record, duplex_bam, duplex_bam_record]
+  scatter: [collapsed_bam, add_rg_SM, patient_id, sample_class]
   scatterMethod: dotproduct
 
   ##################################

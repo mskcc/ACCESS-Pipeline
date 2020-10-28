@@ -1,0 +1,11 @@
+type: record
+name: bam_sample
+fields:
+  - name: file
+    type: File
+  - name: sample_id
+    type: string
+  - name: patient_id
+    type: string
+  - name: sample_class
+    type: string
