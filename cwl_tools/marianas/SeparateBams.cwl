@@ -45,13 +45,18 @@ outputs:
 
   simplex_bam_record:
     type: ../../resources/schemas/bam_sample.yaml#bam_sample
-    secondaryFiles: [^.bai]
     outputBinding:
       glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex.bam'))
       outputEval: |-
         ${
+          var output_file = self[0];
+          output_file.secondaryFiles = [{
+            'class': 'File',
+            'path': self[0].path.replace('.bam', '.bai')
+          }];
+
           return {
-            'file': self[0],
+            'file': output_file,
             'sampleId': inputs.add_rg_SM,
             'patientId': inputs.patient_id,
             'tumorOrNormal': inputs.sample_class
@@ -66,13 +71,18 @@ outputs:
 
   duplex_bam_record:
     type: ../../resources/schemas/bam_sample.yaml#bam_sample
-    secondaryFiles: [^.bai]
     outputBinding:
       glob: $(inputs.collapsed_bam.basename.replace('.bam', '-duplex.bam'))
       outputEval: |-
         ${
+          var output_file = self[0];
+          output_file.secondaryFiles = [{
+            'class': 'File',
+            'path': self[0].path.replace('.bam', '.bai')
+          }];
+
           return {
-            'file': self[0],
+            'file': output_file,
             'sampleId': inputs.add_rg_SM,
             'patientId': inputs.patient_id,
             'tumorOrNormal': inputs.sample_class
