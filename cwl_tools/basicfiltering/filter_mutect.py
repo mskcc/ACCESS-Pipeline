@@ -200,7 +200,8 @@ def run_std_filter(args):
                     print('MutectStdFilter: There is a repeat ', key_for_tracking)
                 else:
                     keepDict[key_for_tracking] = failure_reason
-                txt_fh.write(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
+                out_line = str.encode(args.tsampleName + "\t" + str(chr) + "\t" + str(pos) + "\t" + str(ref_allele) + "\t" + str(alt_allele) + "\t" + str(failure_reason) + "\n")
+                txt_fh.write(out_line)
 
     txt_fh.close()
 
