@@ -1,2 +1,0 @@
-Sample	fragment_size	total_frequency	unique_frequency
-umi	136	1	1
