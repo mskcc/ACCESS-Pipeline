@@ -1,7 +1,0 @@
-BARCODE_ID	CAPTURE_NAME	CMO_SAMPLE_ID	INVESTIGATOR_SAMPLE_ID	CMO_PATIENT_ID	SAMPLE_CLASS	SAMPLE_TYPE	LIBRARY_INPUT[ng]	LIBRARY_YIELD[ng]	CAPTURE_INPUT[ng]	CAPTURE_BAIT_SET	SEX	BARCODE_INDEX_1	BARCODE_INDEX_2	LANE_NUMBER
-bc405-bc405	Test_umi-T_N-PanCancer	test_sample_2_T	umi	test_patient_1	Tumor	Plasma	7.957999999999997	798	500	panpanel V2.1 pool A:B 50:1	M	TCGACAAG	TCGACAAG	1
-bc406-bc406	Test_umi-T_N-PanCancer	test_sample_1_N_IGO_TEST	umi	test_patient_1	Normal	Plasma	7.678	798	500	panpanel V2.1 pool A:B 50:1	M	AGTCCTGA	AGTCCTGA	1
-bc407-bc407	Test_umi-T_N-PanCancer	test_sample_4_T	umi	test_patient_2	Tumor	Plasma	10.0	798	500	panpanel V2.1 pool A:B 50:1	M	TCGTCAAG	TCGTCAAG	1
-bc408-bc408	Test_umi-T_N-PanCancer	test_sample_3_N	umi	test_patient_2	Normal	Plasma	10.0	798	500	panpanel V2.1 pool A:B 50:1	F	CGTCCTGA	CGTCCTGA	1
-bc410-bc410	Test_umi-T_N-PanCancer	test_sample_5_N	umi	test_patient_2	Normal	Plasma	10.0	798	500	panpanel V2.1 pool A:B 50:1	F	AATCCTGA	AATCCTGA	1
-bc409-bc409	Test_umi-T_N-PanCancer	test_sample_6_T	umi	test_patient_3	Tumor	Plasma	10.0	798	500	panpanel V2.1 pool A:B 50:1	M	TCGATAAG	TCGATAAG	1
