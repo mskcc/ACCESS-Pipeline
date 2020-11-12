@@ -57,7 +57,7 @@ def tag_hotspots(args):
 
     # Load hotspots into a set for easy lookup by chr:pos:ref:alt, and store AA position changed
     hotspots = set()
-    with open(args.input_txt, 'rb') as infile:
+    with open(args.input_txt, 'r') as infile:
         reader = csv.DictReader(infile, delimiter='\t')
         for row in reader:
             key = ':'.join([row[k] for k in MUTATION_KEYS])
