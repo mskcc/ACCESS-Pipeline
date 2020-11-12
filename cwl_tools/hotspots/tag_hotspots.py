@@ -64,8 +64,8 @@ def tag_hotspots(args):
             hotspots.add(tuple(key))
 
     # Parse through input MAF, and create a new one with an extra column tagging hotspots
-    with open(args.input_maf, 'rb') as infile:
-        with open(args.output_maf, 'wb') as outfile:
+    with open(args.input_maf, 'r') as infile:
+        with open(args.output_maf, 'w') as outfile:
 
             # Todo: Comment lines are tossed, though they may need to be retained in some use cases
             filtered_rows = (row for row in infile if not row.startswith('#'))
