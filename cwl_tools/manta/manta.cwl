@@ -10,7 +10,7 @@ requirements:
 
 arguments:
 - Rscript
-- $(inputs.sv_repo.path + '/scripts/manta_sample.R')
+- $(inputs.sv_repo + '/scripts/manta_sample.R')
 
 inputs:
 
@@ -43,7 +43,7 @@ inputs:
       prefix: --fasta
 
   manta:
-    type: Directory
+    type: string
     inputBinding:
       prefix: --manta
 
