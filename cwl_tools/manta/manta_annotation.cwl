@@ -53,4 +53,4 @@ outputs:
   sv_file_annotated:
     type: File
     outputBinding:
-      glob: $(inputs.sample_id + '_Annotated_Evidence-annotated.txt')
+      glob: $(inputs.sample_id + '_Annotated_Evidence.txt')
