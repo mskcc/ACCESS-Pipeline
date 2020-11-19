@@ -11,7 +11,7 @@ arguments:
 
 inputs:
 
-  sv_repo: Directory
+  sv_repo: string
 
   vcf:
     type: File

@@ -15,7 +15,7 @@ arguments:
 inputs:
 
   #r_path: string
-  sv_repo: Directory
+  sv_repo: string
   sample_id: string
 
   tumor_sample:
