@@ -124,13 +124,13 @@ outputs:
   standard_bams:
     type:
       type: array
-      items: ../resources/schemas/bam_sample.yaml#bam_sample
-    outputSource: convert_to_sample_records/sample_record
+      items: File
+    outputSource: standard_bam_generation/standard_bams
 
   unfiltered_bams:
     type:
       type: array
-      items: ../resources/schemas/bam_sample.yaml#bam_sample
+      items: File
     outputSource: standard_bam_to_collapsed_qc/unfiltered_bams
 
   simplex_bams:
@@ -208,21 +208,6 @@ steps:
     covint_list,
     covint_bed,
     recalibrated_scores_matrix]
-
-  ##################################################
-  # Convert files to record types with sample info #
-  ##################################################
-
-- id: convert_to_sample_records
-  run: ../cwl_tools/expression_tools/convert_to_sample_record.cwl
-  in:
-    bam: standard_bam_generation/standard_bams
-    add_rg_SM: add_rg_SM
-    patient_id: patient_id
-    sample_class: sample_class
-  out: [sample_record]
-  scatter: [bam, add_rg_SM, patient_id, sample_class]
-  scatterMethod: dotproduct
 
   ################################
   # Generate Collapsed Bams & QC #

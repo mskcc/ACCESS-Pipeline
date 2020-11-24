@@ -72,8 +72,8 @@ outputs:
   unfiltered_bams:
     type:
       type: array
-      items: ../../resources/schemas/bam_sample.yaml#bam_sample
-    outputSource: convert_to_sample_records/sample_record
+      items: File
+    outputSource: flatten_array_bams/output_bams
 
   simplex_bams:
     type:
@@ -206,21 +206,6 @@ steps:
   in:
     bams: abra_workflow/ir_bams
   out: [output_bams]
-
-  ##################################################
-  # Convert files to record types with sample info #
-  ##################################################
-
-- id: convert_to_sample_records
-  run: ../../cwl_tools/expression_tools/convert_to_sample_record.cwl
-  in:
-    bam: flatten_array_bams/output_bams
-    add_rg_SM: add_rg_SM
-    patient_id: patient_id
-    sample_class: sample_class
-  out: [sample_record]
-  scatter: [bam, add_rg_SM, patient_id, sample_class]
-  scatterMethod: dotproduct
 
   ################
   # SeparateBams #
