@@ -19,8 +19,8 @@ import math
 from joblib import dump, load
 
 # Relative imports for supporting scripts
-from calculate_distances import create_output_file
-from predict import predict
+from cwl_tools.msi.scripts.calculate_distances import create_output_file
+from cwl_tools.msi.scripts.predict import predict
 
 # Global variables
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
