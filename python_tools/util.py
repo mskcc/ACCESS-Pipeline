@@ -413,7 +413,7 @@ def get_pos(title_file, sample_object, use_investigator_sample_id=False):
         err_string = (
             DELIMITER + "Error, matching sample ID for file {} not found in title file"
         )
-        print >>sys.stderr, err_string.format(sample_object)
+        print(err_string.format(sample_object), file=sys.stderr)
         raise Exception(
             "Please double check the order of the fastqs in the final inputs.yaml file"
         )
