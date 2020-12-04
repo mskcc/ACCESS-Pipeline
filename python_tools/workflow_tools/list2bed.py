@@ -35,7 +35,7 @@ def ListToBed(inFile, outFile, sort):
     tmp.close()
 
     if sort:
-        print >> sys.stderr, "Sorting..."
+        print("Sorting...", file=sys.stderr)
         bedtool = pybedtools.BedTool(tmp_name)
         stbedtool = bedtool.sort()
         mbedtool = stbedtool.merge(d=50)

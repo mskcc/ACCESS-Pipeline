@@ -44,7 +44,7 @@ def main():
     #parser.add_argument("-gatk", "--GATK", action="store", dest="GATK", required=False, metavar='/somepath/GATK', help="Full Path to the GATK.")
     #parser.add_argument("-j", "--javaPATH", action="store", dest="JAVA", required=False, metavar='/somepath/java', help="Path to java executable.")
 
-    print "Running the cfdna copy number pipeline."
+    print("Running the cfdna copy number pipeline.")
     sys.stdout.flush()
     args = parser.parse_args()
     threads= int(args.threads)
@@ -66,14 +66,14 @@ def ProcessArgs(args):
     normalBamFiles = []
     patientSex={}
     if(args.verbose):
-        print "Going to see how many bam files are there for us to run the analysis."
+        print("Going to see how many bam files are there for us to run the analysis.")
         sys.stdout.flush()
 
     #if(args.qsub and args.bsub):
-    #    print "Please give either qsub or bsub arguments. Script does not allow usage of both\n"
+    #    print("Please give either qsub or bsub arguments. Script does not allow usage of both\n")
     #    sys.exit(1)
     #if((not args.qsub) and (not args.bsub)):
-    #    print "Please give either qsub or bsub arguments. None are provided\n"
+    #    print("Please give either qsub or bsub arguments. None are provided\n")
     #    sys.exit(1)
 
     with open(args.tumorManifest, 'r') as tfile:
@@ -99,20 +99,21 @@ def ProcessArgs(args):
         nlist.close()
 
     if(args.verbose):
-        print "Going to run analysis for", tumorBamFiles.__len__(), " tumor BAM files using ", normalBamFiles.__len__()," normal BAM files"
+        print("Going to run analysis for", tumorBamFiles.__len__(), " tumor BAM files using ",
+              normalBamFiles.__len__()," normal BAM files")
 
     return(patientSex)
 
 
 def RunBedCov(args,bamlist, runType, parallel):
     if(args.verbose):
-        print "generating coverage metrics for " +runType+ " BAMS using pysam bedcov"
+        print("generating coverage metrics for " +runType+ " BAMS using pysam bedcov")
         sys.stdout.flush()
 
     covFile = args.runID + "_" +runType+ "_targets_nomapq.covg_interval_summary"
 
     if os.path.exists(covFile):
-        print "Coverage analysis file " + covFile + " already exists, will not generate coverage metrics"
+        print("Coverage analysis file " + covFile + " already exists, will not generate coverage metrics")
         return(covFile)
 
     bfile = open(bamlist)
@@ -131,10 +132,10 @@ def RunBedCov(args,bamlist, runType, parallel):
     df.to_csv(covFile, sep='\t')
 
     if os.path.isfile(covFile):
-        print "Completed generation of coverage metrics for " +runType+ " BAMS using pysam bedcov"
+        print("Completed generation of coverage metrics for " +runType+ " BAMS using pysam bedcov")
         return(covFile)
     else:
-        print "Coverage file " + covFile + "does note exist, something went wrong here"
+        print("Coverage file " + covFile + "does note exist, something went wrong here")
 
 def parallelCov(cov_args):
     (bam,bed) = cov_args
@@ -143,7 +144,7 @@ def parallelCov(cov_args):
     mq = 0 #can param min mapping quality if desired
     id= os.path.basename(bam)
     id = id.split('_')[0]
-    print "Generating coverage metrics for: " + id
+    print("Generating coverage metrics for: " + id)
     sys.stdout.flush()
     id = id+"_mean_cvg"
     cmd = [bed, bam]
@@ -173,7 +174,7 @@ def RunLoessNormalization(args, covFile, runType):
     loessFile = args.runID + "_" + runType + "_ALL_intervalnomapqcoverage_loess.txt"
 
     if(args.verbose):
-        print "running loess normalization"
+        print("running loess normalization")
         sys.stdout.flush()
 
     cmd = args.R + " --slave --vanilla --args " + args.runID+ " " + args.outdir + " " + args.ANNOTATIONS + " " + covFile + " " + runType + "< " + args.loess
@@ -183,31 +184,32 @@ def RunLoessNormalization(args, covFile, runType):
     maxmem = int(mem)+8
     if(args.qsub):
         cl_cmd = args.qsub + " -q " + args.queue + " -N " + "loessNorm" + " -V -l h_vmem=8G,virtual_free=8G -pe smp 1 -wd " + args.outdir + " -sync y " + " -b y " + cmd
-        print "CLUSTER_CMD loess==>", cl_cmd , "\n"
+        print("CLUSTER_CMD loess==>", cl_cmd , "\n")
 
     else:
         cl_cmd= args.bsub + " -q " + args.queue + " -J " + "loessNorm" + " -o loessNorm.%J.out -e loessNorm.%J.err" + " -We 24:00 -R \"rusage[mem=" + str(mem) + "]\" -M " + str(maxmem) + " -n 1 " + " -cwd " + args.outdir + ' -K  "' + cmd + '"'
-        print "CLUSTER_CMD loess==>", cl_cmd , "\n"
+        print("CLUSTER_CMD loess==>", cl_cmd , "\n")
     cl_args = shlex.split(cl_cmd)
     proc = Popen(cl_args)
     proc.wait()
     retcode = proc.returncode
     if(retcode == 0):
         if(args.verbose):
-            print "Finished Running loess normalization for " + runType + " BAM files"
+            print("Finished Running loess normalization for " + runType + " BAM files")
     else:
         if(args.verbose):
-            print "loess normalization is either still running or it errored out with return code", retcode,"\n"
+            print("loess normalization is either still running or it errored out with return code",
+                  retcode,"\n")
 
     if os.path.isfile(loessFile):
         return(loessFile)
     else:
-        print "Loess normalization file " + loessFile + " does not exist, something went wrong here"
+        print("Loess normalization file " + loessFile + " does not exist, something went wrong here")
 
 
 def RunTumorCN(args,normalLoessFile, tumorLoessFile):
     if(args.verbose):
-        print "calculating log ratio, performing segmentation and plot fest!"
+        print("calculating log ratio, performing segmentation and plot fest!")
         sys.stdout.flush()
 
     cmd = args.R + " --slave --vanilla --args " + args.runID+ " " + normalLoessFile + " " + args.ANNOTATIONS + " " + tumorLoessFile + " MIN "+ "< " + args.cnAnalysis
@@ -217,27 +219,28 @@ def RunTumorCN(args,normalLoessFile, tumorLoessFile):
     maxmem = int(mem)+8
     if(args.qsub):
         cl_cmd = args.qsub + " -q " + args.queue + " -N " + "runCN" + " -V -l h_vmem=8G,virtual_free=8G -pe smp 1 -wd " + args.outdir + " -sync y " + "-b y " + cmd
-        print "CLUSTER_CMD CN==>", cl_cmd , "\n"
+        print("CLUSTER_CMD CN==>", cl_cmd , "\n")
 
     else:
         cl_cmd= args.bsub + " -q " + args.queue + " -J " + "runCN" + " -o runCN.%J.out -e runCN.%J.err"+ " -We 24:00 -R \"rusage[mem=" + str(mem) + "]\" -M " + str(maxmem) + " -n 1 " + " -cwd " + args.outdir + ' -K "' + cmd + '"'
-        print "CLUSTER_CMD CN==>", cl_cmd , "\n"
+        print("CLUSTER_CMD CN==>", cl_cmd , "\n")
     cl_args = shlex.split(cl_cmd)
     proc = Popen(cl_args)
     proc.wait()
     retcode = proc.returncode
     if(retcode == 0):
         if(args.verbose):
-            print "Finished Running segmentation and plotting"
-            print "Done running Copy Number pipeline."
+            print("Finished Running segmentation and plotting")
+            print("Done running Copy Number pipeline.")
     else:
         if(args.verbose):
-            print "copy number analysis is either still running or it errored out with return code", retcode,"\n"
+            print("copy number analysis is either still running or it errored out with return code",
+                  retcode,"\n")
 
 
 def RunCoverage(args): #this method is now depricated
     if(args.verbose):
-        print "generating coverage metrics for BAMS"
+        print("generating coverage metrics for BAMS")
 
     #cmd_t = args.JAVA + " -Djava.io.tmpdir=/dmp/analysis/SCRATCH -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I tumor_bams.list"  + " -o " + args.runID + "_tumors_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
     cmd_t = args.JAVA + " -Djava.io.tmpdir=/scratch -Xmx4g -jar " + args.GATK + " -T DepthOfCoverage -R " + args.GENOME + " -I tumor_bams.list"  + " -o " + args.runID + "_tumors_targets_nomapq.covg" + " -L " + args.TARGETS + " -rf BadCigar -mmq 0 -mbq 20 -omitLocusTable -omitSampleSummary -omitBaseOutput --allow_potentially_misencoded_quality_scores"
@@ -261,41 +264,41 @@ def RunCoverage(args): #this method is now depricated
     normalCovFile = args.outdir + "/"+ args.runID + "_normals_targets_nomapq.covg.sample_interval_summary"
 
     if os.path.exists(tumorCovFile):
-        print "Coverage analysis for tumor bams already exist, will not run"
+        print("Coverage analysis for tumor bams already exist, will not run")
 
     else:
-        print "CLUSTER_CMD tumors==>", cl_cmd_t , "\n"
+        print("CLUSTER_CMD tumors==>", cl_cmd_t , "\n")
         cl_args_t = shlex.split(cl_cmd_t)
         proct = Popen(cl_args_t)
         proct.wait()
         retcodet = proct.returncode
         if(retcodet == 0):
             if(args.verbose):
-                print "Finished Running coverage analysis for tumor bams "
+                print("Finished Running coverage analysis for tumor bams ")
         else:
             if(args.verbose):
-                print "coverage analysis is either still running or it errored out with return code", retcode,"\n"
+                print("coverage analysis is either still running or it errored out with return code", retcode,"\n")
 
     if os.path.exists(normalCovFile):
-        print "Coverage analysis for normal bams already exist, will not run"
+        print("Coverage analysis for normal bams already exist, will not run")
     else:
-        print "CLUSTER_CMD normals==>", cl_cmd_n , "\n"
+        print("CLUSTER_CMD normals==>", cl_cmd_n , "\n")
         cl_args_n = shlex.split(cl_cmd_n)
         procn = Popen(cl_args_n)
         procn.wait()
         retcoden = procn.returncode
         if(retcoden == 0):
             if(args.verbose):
-                print "Finished Running coverage analysis for normal bams "
+                print("Finished Running coverage analysis for normal bams ")
         else:
             if(args.verbose):
-                print "coverage analysis is either still running or it errored out with return code", retcode,"\n"
+                print("coverage analysis is either still running or it errored out with return code", retcode,"\n")
 
     files = [normalCovFile,tumorCovFile]
     if os.path.isfile(normalCovFile and tumorCovFile):
         return(tumorCovFile, normalCovFile)
     else:
-        print "Tumor and Normal BAM coverage files do not exist, something went wrong here"
+        print("Tumor and Normal BAM coverage files do not exist, something went wrong here")
 
 
 if __name__ == "__main__":
