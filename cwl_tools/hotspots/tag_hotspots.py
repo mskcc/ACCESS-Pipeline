@@ -57,15 +57,15 @@ def tag_hotspots(args):
 
     # Load hotspots into a set for easy lookup by chr:pos:ref:alt, and store AA position changed
     hotspots = set()
-    with open(args.input_txt, 'rb') as infile:
+    with open(args.input_txt, 'r') as infile:
         reader = csv.DictReader(infile, delimiter='\t')
         for row in reader:
             key = ':'.join([row[k] for k in MUTATION_KEYS])
             hotspots.add(tuple(key))
 
     # Parse through input MAF, and create a new one with an extra column tagging hotspots
-    with open(args.input_maf, 'rb') as infile:
-        with open(args.output_maf, 'wb') as outfile:
+    with open(args.input_maf, 'r') as infile:
+        with open(args.output_maf, 'w') as outfile:
 
             # Todo: Comment lines are tossed, though they may need to be retained in some use cases
             filtered_rows = (row for row in infile if not row.startswith('#'))

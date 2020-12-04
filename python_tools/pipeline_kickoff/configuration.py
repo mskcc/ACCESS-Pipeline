@@ -64,6 +64,7 @@ class ToilArgs(object):
             "--disableCaching": "",
             "--disableChaining": "",
             "--stats": "",
+            "--maxLocalJobs": "1000",
             "--cleanWorkDir": "onSuccess",
             "--maxLogFileSize": "20000000000",
             "--retryCount": 2,

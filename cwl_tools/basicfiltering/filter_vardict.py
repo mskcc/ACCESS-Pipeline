@@ -172,8 +172,8 @@ def run_std_filter(args):
         if tvf > nvfRF:
             if keep_based_on_status & (tmq >= int(args.mq)) & (nmq >= int(args.mq)) & (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
                 vcf_writer.write_record(record)
-                txt_fh.write(args.tsampleName + "\t" + record.CHROM + "\t" + str(record.POS) +
-                    "\t" + str(record.REF) + "\t" + str(record.ALT[0]) + "\t" + "." + "\n")
+                out_line = str.encode(args.tsampleName + "\t" + record.CHROM + "\t" + str(record.POS) + "\t" + str(record.REF) + "\t" + str(record.ALT[0]) + "\t" + "." + "\n")
+                txt_fh.write(out_line)
 
     vcf_writer.close()
     txt_fh.close()

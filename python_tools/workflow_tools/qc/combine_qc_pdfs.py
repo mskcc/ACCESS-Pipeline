@@ -14,7 +14,7 @@ def combine_pdfs(args):
 
     for pdf in args.pdf_files:
         logging.info(pdf)
-        merger.append(open(pdf), 'rb')
+        merger.append(open(pdf, 'rb'))
 
     with open('./' + FINAL_QC_FILENAME, 'wb') as fout:
         merger.write(fout)
