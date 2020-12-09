@@ -63,12 +63,6 @@ def load_fastqs(data_dir):
         for f in filenames
     ]
 
-    # If there were missing sample sheets, fill them in with a dummy sample sheet
-    missing_sample_sheet_count = len(folders_4) - len(folders_3)
-    if missing_sample_sheet_count > 0:
-        dummy_sample_sheets = ['/home/johnsoni/vendor_tools/SampleSheet.csv'] * missing_sample_sheet_count
-        files_flattened = files_flattened + dummy_sample_sheets
-
     # Convert to absolute paths
     files_flattened = [os.path.abspath(p) for p in files_flattened]
 
@@ -150,7 +144,7 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     return title_file
 
 
-def remove_missing_fastq_samples(fastq1, fastq2, title_file):
+def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
     If a sample ID from the title file is not found in any of the paths to the fastqs, remove the fastq.
 
@@ -168,8 +162,14 @@ def remove_missing_fastq_samples(fastq1, fastq2, title_file):
         ),
         fastq2,
     )
+    sample_sheet = filter(
+        lambda s: any(
+            [sid in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+        ),
+        sample_sheet,
+    )
 
-    return fastq1, fastq2
+    return fastq1, fastq2, sample_sheet
 
 
 def check_i5_index(title_file_i5, sample_sheet_i5):
@@ -306,9 +306,16 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     # Load and sort our data files
     fastq1, fastq2, sample_sheets = load_fastqs(data_dir)
     # Get rid of data files that don't have an entry in the title_file
-    fastq1, fastq2 = remove_missing_fastq_samples(
-        fastq1, fastq2, title_file
+    fastq1, fastq2, sample_sheets = remove_missing_fastq_samples(
+        fastq1, fastq2, sample_sheets, title_file
     )
+
+    # If there were missing sample sheets, fill them in with a dummy sample sheet
+    missing_sample_sheet_count = len(fastq1) - len(sample_sheets)
+    if missing_sample_sheet_count > 0:
+        dummy_sample_sheets = ['/home/johnsoni/vendor_tools/SampleSheet.csv'] * missing_sample_sheet_count
+        sample_sheets = sample_sheets + dummy_sample_sheets
+
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(
         title_file, fastq1, title_file_path
