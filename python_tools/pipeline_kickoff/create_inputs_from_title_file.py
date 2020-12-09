@@ -309,10 +309,11 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     # If there were missing sample sheets, fill them in with a dummy sample sheet
     missing_sample_sheet_count = len(fastq1) - len(sample_sheets)
     if missing_sample_sheet_count > 0:
-        import itertools
+        from copy import deepcopy
         dummy_sample_sheet = {'class': 'File', 'path': '/home/johnsoni/vendor_tools/SampleSheet.csv'}
-        dummy_sample_sheets = list(itertools.repeat(dummy_sample_sheet, missing_sample_sheet_count))
-        sample_sheets = sample_sheets + dummy_sample_sheets
+        # Using deepcopy to avoid anchors in resulting yaml
+        dummy_sample_sheets = [deepcopy(dummy_sample_sheet) for _ in range(missing_sample_sheet_count)]
+        sample_sheets = list(sample_sheets) + list(dummy_sample_sheets)
 
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(
