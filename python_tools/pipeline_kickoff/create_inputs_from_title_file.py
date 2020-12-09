@@ -309,7 +309,7 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     # If there were missing sample sheets, fill them in with a dummy sample sheet
     missing_sample_sheet_count = len(fastq1) - len(sample_sheets)
     if missing_sample_sheet_count > 0:
-        dummy_sample_sheets = ['/home/johnsoni/vendor_tools/SampleSheet.csv'] * missing_sample_sheet_count
+        dummy_sample_sheets = [{'class': 'File', 'path': '/home/johnsoni/vendor_tools/SampleSheet.csv'}] * missing_sample_sheet_count
         sample_sheets = sample_sheets + dummy_sample_sheets
 
     # Get rid of entries from title file that are missing data files
