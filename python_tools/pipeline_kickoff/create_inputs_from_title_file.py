@@ -39,27 +39,23 @@ def load_fastqs(data_dir):
     folders_3 = filter(
         lambda folder: any([FASTQ_2_FILE_SEARCH in x for x in folder[2]]), folders_2
     )
-    folders_4 = filter(
-        lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]),
-        folders_3,
-    )
 
     # Issue a warning if not all folders had necessary files (-1 to exclude topmost directory)
-    if not len(folders) - 1 == len(folders_4):
+    if not len(folders) - 1 == len(folders_3):
         print(
             DELIMITER
-            + "Warning, some samples may not have a Read 1, Read 2, or sample sheet. "
+            + "Warning, some samples may not have a Read 1 or Read 2 fastq"
             "Please manually check inputs.yaml"
         )
         print("All sample folders:")
         pprint.pprint(folders)
         print("Sample folders with correct result files:")
-        pprint.pprint(folders_4)
+        pprint.pprint(folders_3)
 
     # Take just the files
     files_flattened = [
         os.path.join(dirpath, f)
-        for (dirpath, dirnames, filenames) in folders_4
+        for (dirpath, dirnames, filenames) in folders_3
         for f in filenames
     ]
 
