@@ -110,9 +110,7 @@ chr.midpt <- sapply(chr.counts,function(x){return(round(x/2,0));});
 numberpos <- chr.midpt + c(0,cumsum(chr.counts)[-length(chr.counts)]);
 linepos <- cumsum(chr.counts)[-length(chr.counts)];
 
-d <-gc[,-c(1:3)];
-# Handle case where single column is selected (which creates a list instead of a DF)
-if (length(colnames(d)) == 0) { d <- data.frame(d); colnames(d) <- colnames(gc)[[4]] }
+d <-gc[,-c(1:3), drop=F];
 ##colnames(d) <- title[match(colnames(d),title[,'Barcode']),'Sample_ID'];
 
 panel.genes <- unique(gc[which(!grepl('_',gc[,3])),3]);
