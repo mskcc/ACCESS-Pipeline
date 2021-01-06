@@ -6,8 +6,8 @@ fields:
   - name: r_path
     type: string
   - name: manta
-    type: Directory
+    type: string
   - name: sv_repo
-    type: Directory
+    type: string
   - name: manta_python
     type: string

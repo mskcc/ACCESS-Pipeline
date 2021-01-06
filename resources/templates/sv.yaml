@@ -1,6 +1,6 @@
 sv_run_tools:
   java_8: string
   r_path: string
-  manta: Directory
-  sv_repo: Directory
+  manta: string
+  sv_repo: string
   manta_python: string

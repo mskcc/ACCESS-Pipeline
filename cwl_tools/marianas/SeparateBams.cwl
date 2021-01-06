@@ -12,6 +12,9 @@ arguments:
 - org.mskcc.marianas.umi.duplex.postprocessing.SeparateBams
 
 requirements:
+  - class: SchemaDefRequirement
+    types:
+      - $import: ../../resources/schemas/bam_sample.yaml
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     ramMin: 30000
@@ -21,6 +24,10 @@ requirements:
 inputs:
   java_8: string
   marianas_path: string
+
+  add_rg_SM: string
+  patient_id: string
+  sample_class: string
 
   collapsed_bam:
     type: File
@@ -36,8 +43,48 @@ outputs:
     outputBinding:
       glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex.bam'))
 
+  simplex_bam_record:
+    type: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputBinding:
+      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-simplex.bam'))
+      outputEval: |-
+        ${
+          var output_file = self[0];
+          output_file.secondaryFiles = [{
+            'class': 'File',
+            'path': self[0].path.replace('.bam', '.bai')
+          }];
+
+          return {
+            'file': output_file,
+            'sampleId': inputs.add_rg_SM,
+            'patientId': inputs.patient_id,
+            'tumorOrNormal': inputs.sample_class
+          }
+        }
+
   duplex_bam:
     type: File
     secondaryFiles: [^.bai]
     outputBinding:
       glob: $(inputs.collapsed_bam.basename.replace('.bam', '-duplex.bam'))
+
+  duplex_bam_record:
+    type: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputBinding:
+      glob: $(inputs.collapsed_bam.basename.replace('.bam', '-duplex.bam'))
+      outputEval: |-
+        ${
+          var output_file = self[0];
+          output_file.secondaryFiles = [{
+            'class': 'File',
+            'path': self[0].path.replace('.bam', '.bai')
+          }];
+
+          return {
+            'file': output_file,
+            'sampleId': inputs.add_rg_SM,
+            'patientId': inputs.patient_id,
+            'tumorOrNormal': inputs.sample_class
+          }
+        }

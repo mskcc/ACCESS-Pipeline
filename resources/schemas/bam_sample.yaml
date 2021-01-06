@@ -1,0 +1,11 @@
+type: record
+name: bam_sample
+fields:
+  - name: file
+    type: File
+  - name: sampleId
+    type: string
+  - name: patientId
+    type: string
+  - name: tumorOrNormal
+    type: string
