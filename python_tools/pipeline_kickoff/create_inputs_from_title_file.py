@@ -39,27 +39,23 @@ def load_fastqs(data_dir):
     folders_3 = filter(
         lambda folder: any([FASTQ_2_FILE_SEARCH in x for x in folder[2]]), folders_2
     )
-    folders_4 = filter(
-        lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]),
-        folders_3,
-    )
 
     # Issue a warning if not all folders had necessary files (-1 to exclude topmost directory)
-    if not len(folders) - 1 == len(folders_4):
+    if not len(folders) - 1 == len(folders_3):
         print(
             DELIMITER
-            + "Warning, some samples may not have a Read 1, Read 2, or sample sheet. "
+            + "Warning, some samples may not have a Read 1 or Read 2 fastq"
             "Please manually check inputs.yaml"
         )
         print("All sample folders:")
         pprint.pprint(folders)
         print("Sample folders with correct result files:")
-        pprint.pprint(folders_4)
+        pprint.pprint(folders_3)
 
     # Take just the files
     files_flattened = [
         os.path.join(dirpath, f)
-        for (dirpath, dirnames, filenames) in folders_4
+        for (dirpath, dirnames, filenames) in folders_3
         for f in filenames
     ]
 
@@ -146,7 +142,7 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
 def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
-    If a sample ID from the title file is not found in any of the paths to the fastqs, remove it from the title file.
+    If a sample ID from the title file is not found in any of the paths to the fastqs, remove the fastq.
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
@@ -309,6 +305,16 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     fastq1, fastq2, sample_sheets = remove_missing_fastq_samples(
         fastq1, fastq2, sample_sheets, title_file
     )
+
+    # If there were missing sample sheets, fill them in with a dummy sample sheet
+    missing_sample_sheet_count = len(fastq1) - len(sample_sheets)
+    if missing_sample_sheet_count > 0:
+        from copy import deepcopy
+        dummy_sample_sheet = {'class': 'File', 'path': '/home/johnsoni/vendor_tools/SampleSheet.csv'}
+        # Using deepcopy to avoid anchors in resulting yaml
+        dummy_sample_sheets = [deepcopy(dummy_sample_sheet) for _ in range(missing_sample_sheet_count)]
+        sample_sheets = list(sample_sheets) + list(dummy_sample_sheets)
+
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(
         title_file, fastq1, title_file_path

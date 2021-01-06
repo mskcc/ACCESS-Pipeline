@@ -408,15 +408,13 @@ def get_pos(title_file, sample_object, use_investigator_sample_id=False):
     if np.sum(boolv) > 1:
         return check_multiple_sample_id_matches(title_file, boolv, sample_object)
 
-    # If there are no matches, throw error
+    # If there are no matches, issue a warning
     if np.sum(boolv) < 1:
         err_string = (
-            DELIMITER + "Error, matching sample ID for file {} not found in title file"
+            DELIMITER + "WARNING, matching sample ID for file {} not found in title file"
         )
-        print(err_string.format(sample_object), file=sys.stderr)
-        raise Exception(
-            "Please double check the order of the fastqs in the final inputs.yaml file"
-        )
+        print(err_string.format(sample_object))
+        print("Please double check the order of the fastqs in the final inputs.yaml file")
 
     pos = np.argmax(boolv)
     return pos
