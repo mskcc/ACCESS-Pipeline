@@ -10,12 +10,12 @@ requirements:
 
 arguments:
 - Rscript
-- $(inputs.sv_repo.path + '/scripts/manta_sample.R')
+- $(inputs.sv_repo + '/scripts/manta_sample.R')
 
 inputs:
 
   #r_path: string
-  sv_repo: Directory
+  sv_repo: string
   sample_id: string
 
   tumor_sample:
@@ -43,7 +43,7 @@ inputs:
       prefix: --fasta
 
   manta:
-    type: Directory
+    type: string
     inputBinding:
       prefix: --manta
 

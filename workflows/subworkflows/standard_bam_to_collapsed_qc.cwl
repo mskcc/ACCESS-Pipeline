@@ -13,6 +13,7 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
+      - $import: ../../resources/schemas/bam_sample.yaml
       - $import: ../../resources/schemas/collapsing_tools.yaml
       - $import: ../../resources/schemas/params/abra.yaml
       - $import: ../../resources/schemas/params/waltz.yaml
@@ -67,6 +68,24 @@ outputs:
   bam_dirs:
     type: Directory[]
     outputSource: make_bam_output_directories/directory
+
+  unfiltered_bams:
+    type:
+      type: array
+      items: File
+    outputSource: flatten_array_bams/output_bams
+
+  simplex_bams:
+    type:
+      type: array
+      items: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: separate_bams/simplex_bam_record
+
+  duplex_bams:
+    type:
+      type: array
+      items: ../../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: separate_bams/duplex_bam_record
 
   combined_qc:
     type: Directory
@@ -200,9 +219,14 @@ steps:
       valueFrom: ${return inputs.run_tools.java_8}
     marianas_path:
       valueFrom: ${return inputs.run_tools.marianas_path}
+
+    add_rg_SM: add_rg_SM
+    patient_id: patient_id
+    sample_class: sample_class
+
     collapsed_bam: flatten_array_bams/output_bams
-  out: [simplex_bam, duplex_bam]
-  scatter: [collapsed_bam]
+  out: [simplex_bam, simplex_bam_record, duplex_bam, duplex_bam_record]
+  scatter: [collapsed_bam, add_rg_SM, patient_id, sample_class]
   scatterMethod: dotproduct
 
   ##################################
@@ -213,11 +237,6 @@ steps:
   run: ../../cwl_tools/expression_tools/make_sample_output_dirs.cwl
   in:
     sample_id: add_rg_ID
-    standard_bam: standard_bams
-    # Collapsed, and after 2nd Indel Realignment:
-    unfiltered_bam: flatten_array_bams/output_bams
-    simplex_bam: separate_bams/simplex_bam
-    duplex_bam: separate_bams/duplex_bam
     r1_fastq: umi_collapsing/collapsed_fastq_1
     r2_fastq: umi_collapsing/collapsed_fastq_2
     first_pass_file: umi_collapsing/first_pass_output_file
@@ -228,10 +247,6 @@ steps:
     second_pass: umi_collapsing/second_pass_alt_alleles
   scatter: [
     sample_id,
-    standard_bam,
-    unfiltered_bam,
-    simplex_bam,
-    duplex_bam,
     r1_fastq,
     r2_fastq,
     first_pass_file,
