@@ -16,20 +16,6 @@ doc: |
 inputs:
 
   sample_id: string
-
-  standard_bam:
-    type: File
-    secondaryFiles: [^.bai]
-  unfiltered_bam:
-    type: File
-    secondaryFiles: [^.bai]
-  simplex_bam:
-    type: File
-    secondaryFiles: [^.bai]
-  duplex_bam:
-    type: File
-    secondaryFiles: [^.bai]
-
   r1_fastq: File
   r2_fastq: File
   first_pass_file: File
@@ -47,10 +33,6 @@ expression: |
   ${
     var output_files = [];
 
-    output_files.push(inputs.standard_bam);
-    output_files.push(inputs.unfiltered_bam);
-    output_files.push(inputs.simplex_bam);
-    output_files.push(inputs.duplex_bam);
     output_files.push(inputs.first_pass_insertions);
     output_files.push(inputs.second_pass_insertions);
     output_files.push(inputs.r1_fastq);

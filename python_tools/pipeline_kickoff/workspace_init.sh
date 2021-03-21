@@ -14,3 +14,5 @@ export PATH="/opt/common/CentOS_7-dev/bin:/opt/common/CentOS_6-dev/bin/current:/
 export LD_LIBRARY_PATH="/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib:$LD_LIBRARY_PATH"
 
 export TMPDIR=/scratch
+
+export TOIL_LSF_ARGS="-W 3600 -S 1 -app anyOS -R select[type==CentOS7]"

@@ -10,6 +10,7 @@ requirements:
   StepInputExpressionRequirement: {}
   SchemaDefRequirement:
     types:
+      - $import: ../resources/schemas/bam_sample.yaml
       - $import: ../resources/schemas/collapsing_tools.yaml
       - $import: ../resources/schemas/params/process_loop_umi_fastq.yaml
       - $import: ../resources/schemas/params/trimgalore.yaml
@@ -119,6 +120,30 @@ outputs:
   bam_dirs:
     type: Directory[]
     outputSource: standard_bam_to_collapsed_qc/bam_dirs
+
+  standard_bams:
+    type:
+      type: array
+      items: File
+    outputSource: standard_bam_generation/standard_bams
+
+  unfiltered_bams:
+    type:
+      type: array
+      items: File
+    outputSource: standard_bam_to_collapsed_qc/unfiltered_bams
+
+  simplex_bams:
+    type:
+      type: array
+      items: ../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: standard_bam_to_collapsed_qc/simplex_bams
+
+  duplex_bams:
+    type:
+      type: array
+      items: ../resources/schemas/bam_sample.yaml#bam_sample
+    outputSource: standard_bam_to_collapsed_qc/duplex_bams
 
   combined_qc:
     type: Directory
@@ -232,6 +257,9 @@ steps:
   out: [
     picard_qc,
     bam_dirs,
+    unfiltered_bams,
+    simplex_bams,
+    duplex_bams,
     combined_qc,
     qc_tables,
     hotspots_in_normals_data]

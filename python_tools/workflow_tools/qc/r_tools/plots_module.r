@@ -71,7 +71,6 @@ print_title = function(title_df, coverage_df, duplex_a_exon_coverage, project_na
     'Duplex Target Coverage')
   
   title = textGrob(label = 'MSK-ACCESS QC Report', gp=gpar(fontsize=22, col='black'))
-  project_name = textGrob(project_name, gp=gpar(fontsize=20, col='black'))
   date = textGrob(format(Sys.time(), '%a %b %d, %Y %H:%M'), gp=gpar(fontsize=20, col='black'))
   version = textGrob(paste('Pipeline Version: ', pipeline_version), gp=gpar(fontsize=20, col='black'))
   line = linesGrob(unit(c(0.05, 0.95), 'npc'), unit(1, 'npc'), gp=gpar(col='lightgrey', lwd=4))
@@ -84,8 +83,8 @@ print_title = function(title_df, coverage_df, duplex_a_exon_coverage, project_na
   title_grob <- tableGrob(title_df, rows=NULL, theme=TITLE_PAGE_THEME)
   
   # Arrange grobs
-  lay <- matrix(c(1,2,3,4,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6), byrow=TRUE)
-  gs = list(title, project_name, date, version, line, title_grob)
+  lay <- matrix(c(1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5), byrow=TRUE)
+  gs = list(title, date, version, line, title_grob)
   grid.arrange(grobs=gs, layout_matrix=lay)
   
   dev.off()

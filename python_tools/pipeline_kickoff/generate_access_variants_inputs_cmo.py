@@ -31,7 +31,7 @@ from python_tools.util import (
 # Variant_Calling_Project \
 # -o \
 # inputs.yaml \
-# -dn /home/patelju1/projects/Juber/HiSeq/5500-FF-new/run-5500-FF/FinalBams/DA-ret-004-pl-T01-IGO-05500-FF-18_bc427_Pool-05500-FF-Tube3-1_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam \
+# -dn default_hi_depth_normal__cl_aln_srt_MD_IR_FX_BR.bam \
 # -p \
 # ./test_pairs.tsv \
 # -tb \
@@ -309,6 +309,11 @@ def write_yaml_bams(
     # 1. Build lists of bams
     if args.pairing_file_path:
         pairing_file = pd.read_csv(args.pairing_file_path, sep='\t', header='infer').fillna('')
+
+        # Filter simplex bams to only those needed from pairing file
+        tumor_bam_ids = pairing_file['tumor_id']
+        simplex_bam_paths = [s for s in simplex_bam_paths if any([id in s for id in tumor_bam_ids])]
+
         validate_pairing_file(pairing_file, tumor_bam_paths, normal_bam_paths)
 
         ordered_tumor_bams, ordered_normal_bams, ordered_tn_genotyping_bams = parse_tumor_normal_pairing(
@@ -321,7 +326,7 @@ def write_yaml_bams(
         if not args.matched_mode:
             # If we aren't in matched mode, do variant calling with default normal
             # (pairing file is only used for genotyping)
-            ordered_normal_bams = [args.default_normal_path] * len(tumor_bam_paths)
+            ordered_normal_bams = [args.default_normal_path] * len(ordered_tumor_bams)
             # Todo: Need to genotype default normal?
             # ordered_tn_genotyping_bams = ordered_tn_genotyping_bams + [args.default_normal_path]
 
