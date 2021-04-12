@@ -14,7 +14,7 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: $(inputs.ram_min)
+    ramMin: 120000
     coresMin: $(inputs.cores_min)
     outdirMax: 120000
 
