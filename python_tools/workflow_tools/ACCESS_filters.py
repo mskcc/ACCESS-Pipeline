@@ -55,8 +55,6 @@ def convert_fillout_to_df(args):
         fillout_file = args.fillout_maf
         df_full_fillout = pd.read_csv(fillout_file, sep='\t', header=0)
         df_full_fillout['Chromosome'] = df_full_fillout['Chromosome'].astype(str)
-        df_full_fillout.drop('Tumor_Seq_Allele2', axis=1, inplace=True)
-        df_full_fillout.rename(columns = {'Tumor_Seq_Allele1':'Tumor_Seq_Allele2'}, inplace=True)
         df_full_fillout.set_index(mutation_key, drop=False, inplace=True)
         return df_full_fillout
     else:
