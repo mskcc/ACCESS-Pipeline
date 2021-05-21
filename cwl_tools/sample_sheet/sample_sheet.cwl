@@ -4,28 +4,13 @@ class: CommandLineTool
 cwlVersion: v1.0
 baseCommand: ["sh", "build_samplesheet.sh"]
 
-                    "Lane": lane,
-                    "SampleID": f.metadata["cmoSampleName"][2:].replace("_", "-"),
-                    "SampleRef": f.metadata["species"],
-                    "Index": index1,
-                    "Description": f.metadata["tumorOrNormal"],
-                    "Control": "N",
-                    "Recipe": f.metadata["recipe"],
-                    "Operator": "|".join(["AR", "-;-", f.metadata["sampleId"], f.metadata["sex"], "NOVASEQ"]),
-                    "SampleProject": "Project_" + self.request_id,
-                    "DnaInputNg": f.metadata["dnaInputNg"],
-                    "CaptureInputNg": f.metadata["captureInputNg"],
-                    "LibraryVolume": f.metadata["libraryVolume"],
-                    "PatientId": f.metadata["patientId"],
-                    "IgoID": f.metadata["sampleId"],
-
 requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing:
       - entryname: build_samplesheet.sh
         entry: |-
-          echo "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,DnaInputNg,CaptureInputNg,LibraryVolume,PatientId,IgoID"
+          echo "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,DnaInputNg,CaptureInputNg,LibraryVolume,PatientID,IgoID"
           echo "${
             return inputs.samples.map(function(x) { 
               return ["", x["Lane"], x["SampleID"], x["SampleRef"], x["Index"], x["Description"],
@@ -41,7 +26,7 @@ inputs:
         type: record
         fields:
           Lane:
-            type: string
+            type: int
           SampleID:
             type: string
           SampleRef:
