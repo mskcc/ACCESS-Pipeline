@@ -4,16 +4,33 @@ class: CommandLineTool
 cwlVersion: v1.0
 baseCommand: ["sh", "build_samplesheet.sh"]
 
+                    "Lane": lane,
+                    "SampleID": f.metadata["cmoSampleName"][2:].replace("_", "-"),
+                    "SampleRef": f.metadata["species"],
+                    "Index": index1,
+                    "Description": f.metadata["tumorOrNormal"],
+                    "Control": "N",
+                    "Recipe": f.metadata["recipe"],
+                    "Operator": "|".join(["AR", "-;-", f.metadata["sampleId"], f.metadata["sex"], "NOVASEQ"]),
+                    "SampleProject": "Project_" + self.request_id,
+                    "DnaInputNg": f.metadata["dnaInputNg"],
+                    "CaptureInputNg": f.metadata["captureInputNg"],
+                    "LibraryVolume": f.metadata["libraryVolume"],
+                    "PatientId": f.metadata["patientId"],
+                    "IgoID": f.metadata["sampleId"],
+
 requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing:
       - entryname: build_samplesheet.sh
         entry: |-
-          echo "Lane,Sample_ID,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description"
+          echo "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,DnaInputNg,CaptureInputNg,LibraryVolume,PatientId,IgoID"
           echo "${
             return inputs.samples.map(function(x) { 
-              return Object.values(x).join(",")
+              return ["", x["Lane"], x["SampleID"], x["SampleRef"], x["Index"], x["Description"],
+              x["Control"], x["Recipe"], x["Operator"], x["SampleProject"], x["DnaInputNg"] || "",
+              x["CaptureInputNg"] || "", x["LibraryVolume"] || "", x["PatientID"], x["IgoID"]].join(",")
             }).join("\n");
           }"
 inputs:
@@ -23,24 +40,34 @@ inputs:
       items:
         type: record
         fields:
-          lane:
+          Lane:
             type: string
-          sample_id:
+          SampleID:
             type: string
-          sample_plate:
+          SampleRef:
             type: string
-          sample_well:
+          Index:
             type: string
-          17_index_id:
+          Description:
             type: string
-          index:
+          Control:
             type: string
-          index2:
+          Recipe:
             type: string
-          sample_project:
+          Operator:
             type: string
-          description:
-            type: string?
+          SampleProject:
+            type: string
+          DnaInputNg:
+            type: float?
+          CaptureInputNg:
+            type: float?
+          LibraryVolume:
+            type: float?
+          PatientID:
+            type: string
+          IgoID:
+            type: string
 
 outputs:
   out:
