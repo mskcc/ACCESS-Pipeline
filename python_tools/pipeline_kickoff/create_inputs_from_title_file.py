@@ -8,8 +8,6 @@ import pandas as pd
 # constants include the paths to the config files
 from python_tools.constants import *
 from python_tools.util import (
-    DELIMITER,
-    INPUTS_FILE_DELIMITER,
     get_pos,
     reverse_complement,
     all_strings_are_substrings,
@@ -39,23 +37,27 @@ def load_fastqs(data_dir):
     folders_3 = filter(
         lambda folder: any([FASTQ_2_FILE_SEARCH in x for x in folder[2]]), folders_2
     )
+    folders_4 = filter(
+        lambda folder: any([SAMPLE_SHEET_FILE_SEARCH in x for x in folder[2]]),
+        folders_3,
+    )
 
     # Issue a warning if not all folders had necessary files (-1 to exclude topmost directory)
-    if not len(folders) - 1 == len(folders_3):
+    if not len(folders) - 1 == len(folders_4):
         print(
             DELIMITER
-            + "Warning, some samples may not have a Read 1 or Read 2 fastq"
+            + "Warning, some samples may not have a Read 1, Read 2, or sample sheet. "
             "Please manually check inputs.yaml"
         )
         print("All sample folders:")
         pprint.pprint(folders)
         print("Sample folders with correct result files:")
-        pprint.pprint(folders_3)
+        pprint.pprint(folders_4)
 
     # Take just the files
     files_flattened = [
         os.path.join(dirpath, f)
-        for (dirpath, dirnames, filenames) in folders_3
+        for (dirpath, dirnames, filenames) in folders_4
         for f in filenames
     ]
 
@@ -102,9 +104,9 @@ def sort_fastqs(fastq1, fastq2, sample_sheet, title_file):
     Lists of inputs in our yaml file need to be ordered the same order as each other.
     An alternate method might involve using Record types as a cleaner solution.
     """
-    fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f, use_investigator_sample_id=True))
-    fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f, use_investigator_sample_id=True))
-    sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s, use_investigator_sample_id=True))
+    fastq1 = sorted(fastq1, key=lambda f: get_pos(title_file, f))
+    fastq2 = sorted(fastq2, key=lambda f: get_pos(title_file, f))
+    sample_sheet = sorted(sample_sheet, key=lambda s: get_pos(title_file, s))
     return fastq1, fastq2, sample_sheet
 
 
@@ -118,10 +120,10 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
     found_boolv = np.array(
         [
             any([sample in f["path"] for f in fastq1])
-            for sample in title_file[TITLE_FILE__COLLAB_ID_COLUMN]
+            for sample in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]
         ]
     )
-    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__COLLAB_ID_COLUMN]
+    samples_not_found = title_file.loc[~found_boolv, TITLE_FILE__SAMPLE_ID_COLUMN]
 
     if samples_not_found.shape[0] > 0:
         print(
@@ -142,25 +144,25 @@ def remove_missing_samples_from_title_file(title_file, fastq1, title_file_path):
 
 def remove_missing_fastq_samples(fastq1, fastq2, sample_sheet, title_file):
     """
-    If a sample ID from the title file is not found in any of the paths to the fastqs, remove the fastq.
+    If a sample ID from the title file is not found in any of the paths to the fastqs, remove it from the title file.
 
     Todo: For the SampleSheet files, this relies on the parent folder containing the sample name
     """
     fastq1 = filter(
         lambda f: any(
-            [sid + SAMPLE_SEP_FASTQ_DELIMETER in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid in f["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
         ),
         fastq1,
     )
     fastq2 = filter(
         lambda f: any(
-            [sid + SAMPLE_SEP_FASTQ_DELIMETER in f["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid in f["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
         ),
         fastq2,
     )
     sample_sheet = filter(
         lambda s: any(
-            [sid in s["path"] for sid in title_file[TITLE_FILE__COLLAB_ID_COLUMN]]
+            [sid in s["path"] for sid in title_file[TITLE_FILE__SAMPLE_ID_COLUMN]]
         ),
         sample_sheet,
     )
@@ -305,16 +307,6 @@ def include_fastqs_params(fh, data_dir, title_file, title_file_path, force):
     fastq1, fastq2, sample_sheets = remove_missing_fastq_samples(
         fastq1, fastq2, sample_sheets, title_file
     )
-
-    # If there were missing sample sheets, fill them in with a dummy sample sheet
-    missing_sample_sheet_count = len(fastq1) - len(sample_sheets)
-    if missing_sample_sheet_count > 0:
-        from copy import deepcopy
-        dummy_sample_sheet = {'class': 'File', 'path': '/home/johnsoni/vendor_tools/SampleSheet.csv'}
-        # Using deepcopy to avoid anchors in resulting yaml
-        dummy_sample_sheets = [deepcopy(dummy_sample_sheet) for _ in range(missing_sample_sheet_count)]
-        sample_sheets = list(sample_sheets) + list(dummy_sample_sheets)
-
     # Get rid of entries from title file that are missing data files
     title_file = remove_missing_samples_from_title_file(
         title_file, fastq1, title_file_path
@@ -415,13 +407,24 @@ def write_inputs_file(args, title_file, output_file_name):
     :param title_file:
     :param output_file_name:
     """
+    tool_resources_file_path = TOOL_RESOURCES_PROD
+
+    if args.test:
+        run_params_path = RUN_PARAMS_TEST
+        run_files_path = RUN_FILES_TEST
+    else:
+        run_params_path = RUN_PARAMS
+        run_files_path = RUN_FILES
+
     # Actually start writing the inputs file
     fh = open(output_file_name, "wb")
 
     include_fastqs_params(
         fh, args.data_dir, title_file, args.title_file_path, args.force
     )
-    include_yaml_resources(fh, COLLAPSING_INPUTS)
+    include_yaml_resources(fh, run_params_path)
+    include_yaml_resources(fh, run_files_path)
+    include_yaml_resources(fh, tool_resources_file_path)
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml
@@ -620,7 +623,7 @@ def main():
     # This is done to ensure that the order of the samples is retained after indel realignment,
     # which groups the samples on a per-patient basis
     # Todo: This requirement / rule needs to be explicitly documented
-    title_file = title_file.sort_values(TITLE_FILE__PATIENT_ID_COLUMN).reset_index(
+    title_file = title_file.sort_values(TITLE_FILE__SAMPLE_ID_COLUMN).reset_index(
         drop=True
     )
 
