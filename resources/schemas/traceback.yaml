@@ -1,9 +1,9 @@
 type: record
 name: traceback
 fields:
-  - name: bam_files
-    type: File[]
-  - name: ids
-    type: string[]
   - name: traceback_mutation_file
     type: File
+  - name: traceback_sample_ids
+    type: string[]
+  - name: traceback_bams
+    type: File[]

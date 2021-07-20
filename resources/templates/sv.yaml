@@ -1,11 +1,11 @@
 sv_run_tools:
   java_8: /dmp/resources/prod/tools/system/java/jdk1.8.0_121/bin/java
-  r_path: string
-  manta:
-    {
-      class: Directory,
-      path: /home/jayakumg/software/ACCESS_tools/manta-1.5.0.centos6_x86_64,
-    }
-  sv_repo:
-    { class: Directory, path: /home/jayakumg/software/ACCESS_tools/ACCESS_SV }
+  manta: /home/jayakumg/software/ACCESS_tools/manta-1.5.0.centos6_x86_64
+  sv_repo: /home/jayakumg/software/ACCESS_tools/ACCESS_SV
   manta_python: /dmp/resources/prod/tools/system/python/production/bin/python
+
+ref_fasta:
+  {
+    class: File,
+    path: /dmp/data/pubdata/hg-fasta/VERSIONS/hg19/Homo_sapiens_assembly19.fasta,
+  }

@@ -3,8 +3,6 @@ name: sv_run_tools
 fields:
   - name: java_8
     type: string
-  - name: r_path
-    type: string
   - name: manta
     type: string
   - name: sv_repo
