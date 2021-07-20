@@ -102,7 +102,7 @@ def parse_arguments():
     return args
 
 
-def get_sampleID_and_sex(args):
+def get_sampleID_and_sex(args, paired_df):
     """
     Retrieve sample IDs (samples with "-T*") and patient sex from title file
     """
@@ -125,16 +125,25 @@ def get_sampleID_and_sex(args):
     return sample2sex
 
 
-def get_bam_list(args):
+def get_bam_list(args, paired_df):
     """
     Retrieve bam list from given tumor bam directory
     """
-    bamList = []
-    for bam in glob.glob(os.path.join(args.tumor_bams_directory, "*.bam")):
-        # Todo: CMO bams don't always end in 'T'
-        # if os.path.basename(bam).split('_')[0].split('-')[-1].startswith('T'):
-        bamList.append(bam)
-    return bamList
+    tumor_bamList, normal_bamList = ([],) * 2
+    all_tumor_bams = glob.glob(os.path.join(args.tumor_bams_directory, "*.bam"))
+    for i, k in paired_df.iterrows():
+        if k["normal_id"] == "":
+            continue
+        t_bam = [
+            b for b in all_tumor_bams if os.path.basename(b).startswith(k["tumor_id"])
+        ].pop()
+        tumor_bamList.append(t_bam)
+        # n_bam = [
+        #     b for b in bam_list if os.path.basename(b).startswith(k["normal_id"])
+        # ].pop()
+        # normal_bamList.append(n_bam)
+
+    return tumor_bamList
 
 
 def generate_manifest_file(args, sample2sex, bamList):
@@ -143,8 +152,6 @@ def generate_manifest_file(args, sample2sex, bamList):
     """
     fileName = os.path.join(args.output_directory, "tumor_manifest.txt")
     output = ""
-
-    print(sample2sex)
 
     for bam in bamList:
         sampleId = os.path.basename(bam).split("_")[0]
@@ -158,16 +165,15 @@ def generate_manifest_file(args, sample2sex, bamList):
     return fileName
 
 
-def create_inputs_file(args):
+def create_cnv_inputs_file(args, paired_df):
     """
     Create the inputs.yaml file for the ACCESS Copy Number Variant Calling pipeline
 
     :param args: argparse.ArgumentParser object
     """
-    validate_args(args)
 
-    sample2sex = get_sampleID_and_sex(args)
-    bamList = get_bam_list(args)
+    sample2sex = get_sampleID_and_sex(args, paired_df)
+    bamList = get_bam_list(args, paired_df)
     if not sample2sex or not bamList:
         raise Exception("Unable to load title file or get bam list")
 
@@ -175,7 +181,7 @@ def create_inputs_file(args):
     module = "cwl_tools/cnv"
 
     inputYamlString = {
-        "project_name": args.project_id,
+        "project_name": args.project_name,
         "file_path": os.path.join(path, module),
     }
 
@@ -186,7 +192,7 @@ def create_inputs_file(args):
         }
     }
 
-    with open(args.output_file_name, "w") as fh:
+    with open(os.path.join(args.output_directory, "inputs_cnv.yaml"), "w") as fh:
         fh.write("#### Inputs for Copy Number Variant Calling ####\n\n")
         for item in inputYamlString:
             fh.write("{}: {}\n".format(item, inputYamlString[item]))
@@ -195,48 +201,45 @@ def create_inputs_file(args):
 
         include_yaml_resources(fh, CNV_INPUTS)
 
-        if args.stand_alone:
-            fh.write("tmp_dir: {}\n".format(args.tmp_dir))
-            try:
-                include_yaml_resources(fh, VERSION_PARAM)
-            except IOError:
-                # that is if version.yaml is absent
-                fh.write("# Pipeline Run Version:\n")
-                include_version_info(fh)
-
-    return True
+        # fh.write("tmp_dir: {}\n".format(args.tmp_dir))
+        try:
+            include_yaml_resources(fh, VERSION_PARAM)
+        except IOError:
+            # that is if version.yaml is absent
+            fh.write("# Pipeline Run Version:\n")
+            include_version_info(fh)
 
 
-def validate_args(args):
-    """Arguments sanity check"""
+# def validate_args(args):
+#     """Arguments sanity check"""
 
-    # Either one of title file or pairing file is required for this process
-    if not args.title_file_path:
-        raise Exception(
-            "--title_file_path is required to determine tumor samples for copy number variant calling."
-        )
+#     # Either one of title file or pairing file is required for this process
+#     if not args.title_file_path:
+#         raise Exception(
+#             "--title_file_path is required to determine tumor samples for copy number variant calling."
+#         )
 
-    # Tumor bams folder is required for generating manifest list
-    if not args.tumor_bams_directory:
-        raise Exception(
-            "--tumor_bams_directory is required for copy number variant calling."
-        )
+#     # Tumor bams folder is required for generating manifest list
+#     if not args.tumor_bams_directory:
+#         raise Exception(
+#             "--tumor_bams_directory is required for copy number variant calling."
+#         )
 
-    if not args.output_file_name:
-        raise Exception(
-            "--output_file_name is required for copy number variant calling"
-        )
+#     if not args.output_directory
+#         raise Exception(
+#             "--output_file_name is required for copy number variant calling"
+#         )
 
-    if not args.output_directory:
-        raise Exception(
-            "--output_directory is required for copy number variant calling"
-        )
+#     if not args.output_directory:
+#         raise Exception(
+#             "--output_directory is required for copy number variant calling"
+#         )
 
 
 def main():
     """ Main """
     args = parse_arguments()
-    create_inputs_file(args)
+    create_cnv_inputs_file(args)
     return
 
 
