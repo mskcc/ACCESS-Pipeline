@@ -132,8 +132,8 @@ def get_bam_list(args, paired_df):
     tumor_bamList, normal_bamList = ([],) * 2
     all_tumor_bams = glob.glob(os.path.join(args.tumor_bams_directory, "*.bam"))
     for i, k in paired_df.iterrows():
-        if k["normal_id"] == "":
-            continue
+        #if k["normal_id"] == "":
+        #    continue
         t_bam = [
             b for b in all_tumor_bams if os.path.basename(b).startswith(k["tumor_id"])
         ].pop()
