@@ -3,6 +3,7 @@
 import os
 import sys
 import argparse
+from warnings import warn
 import pandas as pd
 
 from python_tools.util import extract_sample_id_from_bam_path
@@ -134,13 +135,11 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
             else:
                 return snv_types[len(Ref)]
 
-    def _TI_mutations_to_maf(TI_mutations):
+    def _TI_mutations_to_maf(TI_df):
         """
         helper function to reformat mutations from applicable previous project
         to maf format
         """
-        TI_df = pd.read_csv(TI_mutations, sep="\t", header="infer", dtype=str)
-
         TI_df[
             [
                 "Start_Position",
@@ -229,7 +228,6 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
     title_file_df = title_file_df[
         ["Pool", "Sample", "Patient_ID", "AccessionID", "Class"]
     ]
-    print(title_file_df["Patient_ID"])
     # get the list of input mutation files from the current project
     mutation_file_list = [exonic_filtered, silent_filtered]
     # read each of the file into a df
@@ -259,7 +257,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
         concat_df, title_file_df, how="left", left_on=["Sample"], right_on=["Sample"]
     )
     # remove
-    concat_df = concat_df[~concat_df["Class"].str.contains("Pool")][
+    concat_df = concat_df[~(concat_df["Class"].str.contains("Pool"))][
         [
             "Gene",
             "Chrom",
@@ -314,9 +312,20 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
     # if mutations from previous project provided, format them and add
     #  them to the df as well
     if TI_mutations:
-        concat_df = pd.concat(
-            [concat_df, _TI_mutations_to_maf(TI_mutations)], sort=False
-        )
+        try:
+            TI_mutations_df = pd.read_csv(
+                TI_mutations, sep="\t", header="infer", dtype=str
+            )
+            if len(TI_mutations_df.index) > 0:
+                concat_df = pd.concat(
+                    [concat_df, _TI_mutations_to_maf(TI_mutations_df)]
+                )
+        except EmptyDataError:
+            warn(
+                "{} is empty. Assuming that no prior reported variants reported for the patients in this project.".format(
+                    TI_mutations
+                )
+            )
     concat_df.to_csv(
         "traceback_inputs.maf", header=True, index=None, sep="\t", mode="w"
     )
