@@ -320,7 +320,7 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
                 concat_df = pd.concat(
                     [concat_df, _TI_mutations_to_maf(TI_mutations_df)]
                 )
-        except EmptyDataError:
+        except pd.Errors.EmptyDataError:
             warn(
                 "{} is empty. Assuming that no prior reported variants reported for the patients in this project.".format(
                     TI_mutations
