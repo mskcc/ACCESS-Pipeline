@@ -4,6 +4,7 @@ import logging
 import time
 import subprocess
 import argparse
+from warnings import warn
 import ruamel.yaml
 
 import pandas as pd
@@ -141,22 +142,26 @@ def create_traceback_inputs(
 
     # read traceback samples into a df and consume sampleIDs and file paths
     if args.traceback_samples:
-        traceback_samples_df = pd.read_csv(
-            args.traceback_samples, sep="\t", header=0, dtype=object
-        )
+        try:
+            traceback_samples_df = pd.read_csv(
+                args.traceback_samples, sep="\t", header=0, dtype=object
+            )
+        except pd.errors.EmptyDataError:
+            warn(
+                "{} is empty. Only bam files in the current project will be used for traceback.".format(
+                    args.traceback_samples
+                )
+            )
+            return
+
         # Drop samples by Patient_ID in the df if the Patient_ID is absent in the pairing file
         traceback_samples_df = traceback_samples_df[
             traceback_samples_df["MRN"].isin(title_file_df_select[GROUP_BY_ID])
         ]
-        traceback_mutations_df = pd.read_csv(
-            args.traceback_mutations, sep="\t", header=0, dtype=object
-        )
-        # check that one of traceback_samples.txt and traceback_input_mutations.txt
-        #  is not empty while the other has data.
-        if traceback_samples_df.empty ^ traceback_mutations_df.empty:
-            raise Exception(
-                "One of {} or {} has no data. Please check that both files are populated correctly.\n".format(
-                    "traceback_samples.txt", "traceback_input_mutations.txt"
+        if traceback_samples_df.empty:
+            warn(
+                "{} has no relevant bam files for patients in this project.".format(
+                    args.traceback_samples
                 )
             )
         # Determine bam type
