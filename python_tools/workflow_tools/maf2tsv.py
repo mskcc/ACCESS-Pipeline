@@ -24,6 +24,7 @@ from python_tools.constants import (
     MAF_DUMMY_COLUMNS,
     MAF_DUMMY_COLUMNS2,
     GNOMAD_COLUMNS,
+    GENE_BASED_FILTER,
 )
 
 
@@ -270,9 +271,9 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                 elif variant.Status:
                     nsd.write(format_var(variant))
                 elif is_exonic:
-                    nef.write(format(variant))
+                    nef.write(format_var(variant))
                 else:
-                    nsf.write(format(variant))
+                    nsf.write(format_var(variant))
             # exonic variants
             elif is_exonic:
                 variant_tuple = is_exonic
