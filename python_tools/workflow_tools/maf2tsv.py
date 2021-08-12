@@ -25,6 +25,7 @@ from python_tools.constants import (
     MAF_DUMMY_COLUMNS2,
     GNOMAD_COLUMNS,
     GENE_BASED_FILTER,
+    MUTATION_STATUS_BASED_FILTER,
 )
 
 
@@ -83,7 +84,7 @@ def maf2tsv(maf_file):
 
     # Read in the mutation maf
     try:
-        maf = pd.read_csv(maf_file, sep="\t", header=0)
+        maf = pd.read_csv(maf_file, sep="\t", header=0, dtype=object)
     except IOError:
         raise
 
@@ -223,6 +224,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
             header=0,
             sep="\t",
             usecols=["isoform", "gene_name", "refseq_id"],
+            dtype=object,
         )
     except IOError:
         raise
@@ -260,20 +262,34 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
 
         # Iterate over the maf file and determine status of each variant
         for variant in maf.itertuples():
+            if pd.isnull(variant.Status) or variant.Status == "":
+                mutation_status_filter = True
+            else:
+                mutation_status_filter = MUTATION_STATUS_BASED_FILTER(
+                    variant.Tumor_Sample_Barcode,
+                    variant.Status,
+                    variant.D_t_alt_count_fragment,
+                    variant.SD_t_alt_count_fragment,
+                )
+
             # set flag to classify if a variant is exonic
             is_exonic = IS_EXONIC_CLASS(
                 variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
             )
+            # gene based filtering for ACCESS-Solid vs. ACCESS liquid-plex
+            gene_based_filter = GENE_BASED_FILTER(
+                variant.Tumor_Sample_Barcode, variant.Hugo_Symbol
+            )
             # classify non-panel and non-canonical variants to filtered and dropped files
             if variant.Transcript_ID not in tx_list:
-                if variant.Status and is_exonic:
-                    ned.write(format_var(variant))
-                elif variant.Status:
-                    nsd.write(format_var(variant))
-                elif is_exonic:
+                if mutation_status_filter and is_exonic:
                     nef.write(format_var(variant))
-                else:
+                elif is_exonic:
+                    ned.write(format_var(variant))
+                elif mutation_status_filter:
                     nsf.write(format_var(variant))
+                else:
+                    nsd.write(format_var(variant))
             # exonic variants
             elif is_exonic:
                 variant_tuple = is_exonic
@@ -281,21 +297,23 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                     Hugo_Symbol=variant_tuple[0],  # Gene
                     Variant_Classification=variant_tuple[1],  # VariantClass
                     VCF_POS=variant_tuple[2],  # Start coordinate
-                    Transcript_ID=reformat_tx(variant.Transcript_ID, tx),  # TranscriptID
+                    Transcript_ID=reformat_tx(
+                        variant.Transcript_ID, tx
+                    ),  # TranscriptID
                 )
-                if variant.Status:
-                    ed.write(format_var(variant))
-                else:
+                if mutation_status_filter:
                     ef.write(format_var(variant))
+                else:
+                    ed.write(format_var(variant))
             # silent variants
             else:
                 variant = variant._replace(
                     Transcript_ID=reformat_tx(variant.Transcript_ID, tx)
                 )
-                if variant.Status:
-                    sd.write(format_var(variant))
-                else:
+                if mutation_status_filter:
                     sf.write(format_var(variant))
+                else:
+                    sd.write(format_var(variant))
 
 
 def get_project(titlefile):
@@ -304,7 +322,7 @@ def get_project(titlefile):
     """
     try:
         title_file = pd.read_csv(
-            titlefile, sep="\t", header=0, usecols=["Sample", "Pool"]
+            titlefile, sep="\t", header=0, usecols=["Sample", "Pool"], dtype=object
         )
     except IOError:
         raise
