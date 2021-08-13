@@ -32,7 +32,7 @@ lockfile==0.12.2
 matplotlib==2.2.2
 numpy==1.16.1
 pandas==0.20.0
-pybedtools==0.7.10
+#pybedtools==0.7.10
 PyPDF2==1.26.0
 pysam==0.15.2
 ruamel.yaml==0.14.0
