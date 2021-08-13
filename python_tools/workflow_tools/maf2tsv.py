@@ -46,7 +46,7 @@ def maf2tsv(maf_file):
     the columns to a different naming confirmation.
     """
 
-    def get_exon(maf_exon, maf_intron):
+    def get_exon(maf_exon, maf_intron, maf_cdna, maf_variant_class):
         """"
         helper function to determine the exonic or
         intronic location of a variant.
@@ -57,7 +57,18 @@ def maf2tsv(maf_file):
         except ValueError:  # Not exonic
             try:
                 intron, total_intron = str(maf_intron).split("/")
-                return "intron" + str(intron)
+                if maf_variant_class in ["Splice_Site", "Splice_Region"]:
+                    # if the variant spans an entire exon, do not impute
+                    #  exon number
+                    if "+" in maf_cdna and "-" in maf_cdna:
+                        return ""
+                    elif "+" in maf_cdna:
+                        return "exon" + str(intron)
+                    elif "-" in maf_cdna:
+                        return "exon" + str(int(intron) + 1)
+                    # if cannot impute exon number, return intron
+                    else:
+                        return "intron" + str(intron)
             except ValueError:  # Not intronic
                 return ""
 
@@ -132,7 +143,9 @@ def maf2tsv(maf_file):
         )
 
     # compute columns
-    maf["EXON"] = np.vectorize(get_exon, otypes=[str])(maf["EXON"], maf["INTRON"])
+    maf["EXON"] = np.vectorize(get_exon, otypes=[str])(
+        maf["EXON"], maf["INTRON"], maf["HGVSc"], maf["Variant_Classification"]
+    )
     maf = maf.drop(["INTRON"], axis=1)
 
     # Compute columns
@@ -238,6 +251,29 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
 
     # TODO: This dummy columns block is to be removed at some point
     maf = add_dummy_columns(maf, MAF_DUMMY_COLUMNS)
+
+    # Replace nan with "" for categorical columns and with
+    # "0" for depth and vaf columns
+    maf = maf.fillna(
+        {
+            "D_t_count_fragment": "0",
+            "D_t_ref_count_fragment": "0",
+            "D_t_alt_count_fragment": "0",
+            "D_t_vaf_fragment": "0",
+            "S_t_count_fragment": "0",
+            "S_t_ref_count_fragment": "0",
+            "S_t_alt_count_fragment": "0",
+            "S_t_vaf_fragment": "0",
+            "SD_t_count_fragment": "0",
+            "SD_t_ref_count_fragment": "0",
+            "SD_t_alt_count_fragment": "0",
+            "SD_t_vaf_fragment": "0",
+            "n_count_fragment": "0",
+            "n_ref_count_fragment": "0",
+            "n_alt_count_fragment": "0",
+            "n_vaf_fragment": "0",
+        }
+    ).fillna("")
 
     # Create exonic, silent, and nonpanel files.
     with open(outdir + "/" + project_name + EXONIC_FILTERED, "w") as ef, open(
