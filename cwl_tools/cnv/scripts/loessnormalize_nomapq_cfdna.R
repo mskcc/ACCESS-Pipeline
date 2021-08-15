@@ -12,7 +12,17 @@
 
 # R --slave --vanilla --args <prefix> <_ALL_intervalcoverage.txt> <gc_percent-file>
 library(dplyr)
-library(textplot)
+#library(textplot)
+
+# Todo: Turn these scripts into a proper R package
+source_local <- function(fname){
+  argv <- commandArgs(trailingOnly = FALSE)
+  base_dir <- dirname(substring(argv[grep("--file=", argv)], 8))
+  source(paste(base_dir, fname, sep="/"))
+}
+
+source_local('textplot.R')
+
 rm(list=ls(all=T));
 
 args = commandArgs(trailingOnly=TRUE)

@@ -20,7 +20,16 @@ library('DNAcopy');
 library('Ckmeans.1d.dp');
 library('rjson');
 
-library(textplot)
+#library(textplot)
+# Todo: Turn these scripts into a proper R package
+source_local <- function(fname){
+  argv <- commandArgs(trailingOnly = FALSE)
+  base_dir <- dirname(substring(argv[grep("--file=", argv)], 8))
+  source(paste(base_dir, fname, sep="/"))
+}
+source_local('textplot.R')
+
+
 args <- commandArgs(trailingOnly=TRUE);
 prefix <- args[1];
 stdnormal_loess <- args[2];
