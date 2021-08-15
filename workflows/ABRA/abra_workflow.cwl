@@ -18,10 +18,6 @@ requirements:
 inputs:
   run_tools: ../../resources/schemas/collapsing_tools.yaml#run_tools
 
-  abra__params: ../../resources/schemas/params/abra.yaml#abra__params
-  fix_mate_information__params: ../../resources/schemas/params/fix_mate_information.yaml#fix_mate_information__params
-  find_covered_intervals__params: ../../resources/schemas/params/find_covered_intervals.yaml#find_covered_intervals__params
-
   bams:
     type: File[]
     secondaryFiles:
@@ -29,6 +25,10 @@ inputs:
 
   reference_fasta: string
   patient_id: string
+
+  find_covered_intervals__params: ../../resources/schemas/params/find_covered_intervals.yaml#find_covered_intervals__params
+  abra__params: ../../resources/schemas/params/abra.yaml#abra__params
+  fix_mate_information__params: ../../resources/schemas/params/fix_mate_information.yaml#fix_mate_information__params
 
   fci__basq_fix: boolean?
 
@@ -90,6 +90,11 @@ steps:
         valueFrom: ${return inputs.input_file.basename.replace('.list', '.bed.srt')}
     out: [output_file]
 
+  make_abra_tmp_dir:
+    run: ../../cwl_tools/python/make_directory.cwl
+    in: []
+    out: [empty_dir]
+
   abra:
     run: ../../cwl_tools/abra/abra.cwl
     in:
@@ -104,10 +109,6 @@ steps:
       patient_id: patient_id
       reference_fasta: reference_fasta
 
-      ram_min:
-        valueFrom: $(inputs.params.ram_min)
-      cores_min:
-        valueFrom: $(inputs.params.cores_min)
 
       mad:
         valueFrom: $(inputs.params.mad)
@@ -127,6 +128,8 @@ steps:
         valueFrom: $(inputs.params.cons)
       threads:
         valueFrom: $(inputs.params.threads)
+        
+      working_directory: make_abra_tmp_dir/empty_dir
       out:
         valueFrom: $(inputs.input_bams.map(function(b){return b.basename.replace('.bam', '_IR.bam')}))
     out:
