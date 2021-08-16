@@ -159,7 +159,7 @@ run_tools:
   vardict_var2vcf_paired: /dmp/resources/prod/tools/bio/vardictjava/VERSIONS/VarDictJava-1.5.1/VarDict/var2vcf_paired.pl
   perl: /dmp/resources/prod/tools/system/perl/bin/perl
   vcf2maf: /dmp/resources/prod/tools/bio/vep/VERSIONS/dmp-vep/vcf2maf.pl
-  vep_path: /dmp/resources/prod/tools/bio/vep/VERSIONS/dmp-vep/
+  vep_path: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
   vep_data: /dmp/resources/prod/tools/bio/vep/VERSIONS/variant_effect_predictor_v86/
   tabix: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/tabix
   bgzip: /dmp/resources/prod/tools/bio/htslib/VERSIONS/htslib-1.3.2/bgzip
