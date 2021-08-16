@@ -154,26 +154,26 @@ def maf2tsv(maf_file):
 
     # compute various mutation depth and vaf metrics
     maf["D_t_count_fragment"] = (
-        maf["D_t_ref_count_fragment"] + maf["D_t_alt_count_fragment"]
+        maf["D_t_ref_count_fragment"].astype(int) + maf["D_t_alt_count_fragment"].astype(int)
     )
     maf["SD_t_count_fragment"] = (
-        maf["SD_t_ref_count_fragment"] + maf["SD_t_alt_count_fragment"]
+        maf["SD_t_ref_count_fragment"].astype(int) + maf["SD_t_alt_count_fragment"].astype(int)
     )
     maf["S_t_ref_count_fragment"] = (
-        maf["SD_t_ref_count_fragment"] - maf["D_t_ref_count_fragment"]
+        maf["SD_t_ref_count_fragment"].astype(int) - maf["D_t_ref_count_fragment"].astype(int)
     )
     maf["S_t_alt_count_fragment"] = (
-        maf["SD_t_alt_count_fragment"] - maf["D_t_alt_count_fragment"]
+        maf["SD_t_alt_count_fragment"].astype(int) - maf["D_t_alt_count_fragment"].astype(int)
     )
     maf["S_t_count_fragment"] = (
-        maf["S_t_ref_count_fragment"] + maf["S_t_alt_count_fragment"]
+        maf["S_t_ref_count_fragment"].astype(int) + maf["S_t_alt_count_fragment"].astype(int)
     )
-    maf["n_count_fragment"] = maf["n_ref_count_fragment"] + maf["n_alt_count_fragment"]
+    maf["n_count_fragment"] = maf["n_ref_count_fragment"].astype(int) + maf["n_alt_count_fragment"].astype(int)
     maf["S_t_vaf_fragment"] = (
-        maf["S_t_alt_count_fragment"] / maf["S_t_count_fragment"]
+        maf["S_t_alt_count_fragment"].astype(float) / maf["S_t_count_fragment"].astype(float)
     ).fillna(0)
     maf["SD_t_vaf_fragment_over_n_vaf_fragment"] = (
-        maf["SD_t_vaf_fragment"] / maf["n_vaf_fragment"]
+        maf["SD_t_vaf_fragment"].astype(float) / maf["n_vaf_fragment"].astype(float)
     ).fillna(0)
 
     # convert NaN and inf computed values to 0
@@ -307,7 +307,6 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                     variant.D_t_alt_count_fragment,
                     variant.SD_t_alt_count_fragment,
                 )
-
             # set flag to classify if a variant is exonic
             is_exonic = IS_EXONIC_CLASS(
                 variant.Hugo_Symbol, variant.Variant_Classification, variant.VCF_POS
