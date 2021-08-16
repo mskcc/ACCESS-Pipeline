@@ -3,15 +3,12 @@ threads: 4
 
 #####
 # Following sections should be filled in:
+tmp_dir: /dmp/analysis/SCRATCH
 
 # Files
 microsatellites:
   {
     class: File,
-    path: /home/jayakumg/data/ACCESS-data/resources/admie/microsatellites/microsatellites.list,
+    path: /dmp/data/ACCESS-data/admie/microsatellites/microsatellites.list,
   }
-model:
-  {
-    class: File,
-    path: /home/jayakumg/data/ACCESS-data/resources/admie/model/ADMIE.joblib,
-  }
+model: { class: File, path: /dmp/data/ACCESS-data/admie/model/ADMIE.joblib }

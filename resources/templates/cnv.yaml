@@ -8,20 +8,11 @@ threads: 8
 tmp_dir: /dmp/analysis/SCRATCH
 
 normal_sample_list:
-  {
-    class: File,
-    path: /home/jayakumg/data/ACCESS-data/resources/cnv/curated_normal_manifest.txt,
-  }
+  { class: File, path: /dmp/data/ACCESS-data/cnv/curated_normal_manifest.txt }
 targets_coverage_bed:
-  {
-    class: File,
-    path: /home/jayakumg/data/ACCESS-data/resources/cnv/ACCESS_targets_coverage.bed,
-  }
+  { class: File, path: /dmp/data/ACCESS-data/cnv/ACCESS_targets_coverage.bed }
 targets_coverage_annotation:
-  {
-    class: File,
-    path: /home/jayakumg/data/ACCESS-data/resources/cnv/ACCESS_targets_coverage.txt,
-  }
+  { class: File, path: /dmp/data/ACCESS-data/cnv/ACCESS_targets_coverage.txt }
 reference_fasta:
   {
     class: File,
