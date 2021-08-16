@@ -130,7 +130,7 @@ def get_bam_list(args, paired_df):
     Retrieve bam list from given tumor bam directory
     """
     tumor_bamList, normal_bamList = ([],) * 2
-    all_tumor_bams = glob.glob(os.path.join(args.tumor_bams_directory, "*.bam"))
+    all_tumor_bams = glob.glob(os.path.join(args.all_unique_bam_directory, "*.bam"))
     for i, k in paired_df.iterrows():
         #if k["normal_id"] == "":
         #    continue
