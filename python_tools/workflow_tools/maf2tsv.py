@@ -153,24 +153,27 @@ def maf2tsv(maf_file):
     maf["gnomAD_Max_AF"] = np.nanmax(maf[GNOMAD_COLUMNS].values, axis=1)
 
     # compute various mutation depth and vaf metrics
-    maf["D_t_count_fragment"] = (
-        maf["D_t_ref_count_fragment"].astype(int) + maf["D_t_alt_count_fragment"].astype(int)
-    )
-    maf["SD_t_count_fragment"] = (
-        maf["SD_t_ref_count_fragment"].astype(int) + maf["SD_t_alt_count_fragment"].astype(int)
-    )
-    maf["S_t_ref_count_fragment"] = (
-        maf["SD_t_ref_count_fragment"].astype(int) - maf["D_t_ref_count_fragment"].astype(int)
-    )
-    maf["S_t_alt_count_fragment"] = (
-        maf["SD_t_alt_count_fragment"].astype(int) - maf["D_t_alt_count_fragment"].astype(int)
-    )
-    maf["S_t_count_fragment"] = (
-        maf["S_t_ref_count_fragment"].astype(int) + maf["S_t_alt_count_fragment"].astype(int)
-    )
-    maf["n_count_fragment"] = maf["n_ref_count_fragment"].astype(float) + maf["n_alt_count_fragment"].astype(float)
+    maf["D_t_count_fragment"] = maf["D_t_ref_count_fragment"].astype(int) + maf[
+        "D_t_alt_count_fragment"
+    ].astype(int)
+    maf["SD_t_count_fragment"] = maf["SD_t_ref_count_fragment"].astype(int) + maf[
+        "SD_t_alt_count_fragment"
+    ].astype(int)
+    maf["S_t_ref_count_fragment"] = maf["SD_t_ref_count_fragment"].astype(int) - maf[
+        "D_t_ref_count_fragment"
+    ].astype(int)
+    maf["S_t_alt_count_fragment"] = maf["SD_t_alt_count_fragment"].astype(int) - maf[
+        "D_t_alt_count_fragment"
+    ].astype(int)
+    maf["S_t_count_fragment"] = maf["S_t_ref_count_fragment"].astype(int) + maf[
+        "S_t_alt_count_fragment"
+    ].astype(int)
+    maf["n_count_fragment"] = maf["n_ref_count_fragment"].astype(float) + maf[
+        "n_alt_count_fragment"
+    ].astype(float)
     maf["S_t_vaf_fragment"] = (
-        maf["S_t_alt_count_fragment"].astype(float) / maf["S_t_count_fragment"].astype(float)
+        maf["S_t_alt_count_fragment"].astype(float)
+        / maf["S_t_count_fragment"].astype(float)
     ).fillna(0)
     maf["SD_t_vaf_fragment_over_n_vaf_fragment"] = (
         maf["SD_t_vaf_fragment"].astype(float) / maf["n_vaf_fragment"].astype(float)
@@ -298,7 +301,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
 
         # Iterate over the maf file and determine status of each variant
         for variant in maf.itertuples():
-            if pd.isnull(variant.Status) or variant.Status == "":
+            if pd.isnull(variant.Status) or not isinstance(variant.Status, str):
                 mutation_status_filter = True
             else:
                 mutation_status_filter = MUTATION_STATUS_BASED_FILTER(
@@ -317,11 +320,11 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
             )
             # classify non-panel and non-canonical variants to filtered and dropped files
             if variant.Transcript_ID not in tx_list:
-                if mutation_status_filter and is_exonic:
+                if mutation_status_filter and gene_based_filter and is_exonic:
                     nef.write(format_var(variant))
                 elif is_exonic:
                     ned.write(format_var(variant))
-                elif mutation_status_filter:
+                elif mutation_status_filter and gene_based_filter:
                     nsf.write(format_var(variant))
                 else:
                     nsd.write(format_var(variant))
@@ -336,7 +339,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                         variant.Transcript_ID, tx
                     ),  # TranscriptID
                 )
-                if mutation_status_filter:
+                if mutation_status_filter and gene_based_filter:
                     ef.write(format_var(variant))
                 else:
                     ed.write(format_var(variant))
@@ -345,7 +348,7 @@ def filter_maf(maf, ref_tx_file, project_name, outdir):
                 variant = variant._replace(
                     Transcript_ID=reformat_tx(variant.Transcript_ID, tx)
                 )
-                if mutation_status_filter:
+                if mutation_status_filter and gene_based_filter:
                     sf.write(format_var(variant))
                 else:
                     sd.write(format_var(variant))
