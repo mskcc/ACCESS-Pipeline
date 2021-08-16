@@ -1,0 +1,156 @@
+# Parameters
+process_loop_umi_fastq__params:
+  umi_length: 3
+  output_project_folder: .
+
+trimgalore__params:
+  length: 25
+  paired: true
+  gzip: true
+  quality: 1
+  stringency: 3
+  suppress_warn: false
+
+add_or_replace_read_groups__params:
+  add_rg_PL: Illumina
+  add_rg_CN: MSKCC
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
+
+mark_duplicates__params:
+  create_index: true
+  assume_sorted: true
+  compression_level: 0
+  validation_stringency: LENIENT
+  duplicate_scoring_strategy: SUM_OF_BASE_QUALITIES
+
+find_covered_intervals__params:
+  minbq: 20
+  minmq: 20
+  cov: 20
+  rf: [FailsVendorQualityCheck, BadMate, UnmappedRead, BadCigar]
+  intervals: ['14', '16']
+
+abra__params:
+  #  kmers: string
+  ram_min: 30000
+  cores_min: 12
+  threads: 12
+  mad: 1000
+  sc: 100,30,80,15
+  mmr: 0.1
+  sga: 8,32,48,1
+  ca: 10,1
+  ws: 800,700
+  index: true
+  cons: true
+
+fix_mate_information__params:
+  sort_order: coordinate
+  validation_stringency: LENIENT
+  compression_level: 0
+  create_index: true
+
+base_recalibrator__params:
+  nct: 3
+  rf: BadCigar
+
+print_reads__params:
+  nct: 8
+  EOQ: true
+  baq: RECALCULATE
+
+marianas_collapsing__params:
+  min_mapping_quality: 1
+  min_base_quality: 20
+  mismatches: 0
+  wobble: 2
+  min_consensus_percent: 90
+
+waltz__params:
+  coverage_threshold: 1
+  min_mapping_quality: 20
+
+fci_2__basq_fix: true
+
+#####
+# Following sections should be filled in:
+tmp_dir: /dmp/analysis/SCRATCH
+
+# Files
+hotspots:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bedfiles/hotspot-list-union-v1-v2_with_TERT.txt,
+  }
+gene_list:
+  { class: File, path: /dmp/data/ACCESS-data/bedfiles/hg19-gene-list.bed }
+FP_config_file:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/fingerprinting/MSK-ACCESS-v1_0-TilingaAndFpSNPs.txt,
+  }
+reference_fasta: /dmp/data/ACCESS-data/bam_generation_test_data/fasta/chr14_chr16.fasta
+reference_fasta_fai: /dmp/data/ACCESS-data/bam_generation_test_data/fasta/chr14_chr16.fasta.fai
+pool_a_bed_file:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bam_generation_test_data/bed/MSK-ACCESS-v1_0-probe-A-14.bed,
+  }
+pool_b_bed_file:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bam_generation_test_data/bed/MSK-ACCESS-v1_0-probe-B-16.bed,
+  }
+bqsr__knownSites_dbSNP:
+  {
+    class: File, 
+    path: /dmp/data/ACCESS-data/bam_generation_test_data/vcf/dbsnp_137_14_16.b37.vcf,
+  }
+bqsr__knownSites_millis:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bam_generation_test_data/vcf/Mills_and_1000G_gold_standard-14_16.indels.b37.vcf,
+  }
+A_on_target_positions:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bedfiles/MSK-ACCESS-v1_0-A-on-target-positions.txt,
+  }
+B_on_target_positions:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bedfiles//MSK-ACCESS-v1_0-B-on-target-positions.txt,
+  }
+noise__good_positions_A:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bedfiles/MSK-ACCESS-v1_0-A-good-positions.txt,
+  }
+pool_a_bed_file_exonlevel:
+  {
+    class: File,
+    path: /dmp/data/ACCESS-data/bam_generation_test_data/bed/MSK-ACCESS-v1_0_panelA_canonicaltargets-chr14.bed,
+  }
+
+# Tools
+run_tools:
+  perl_5: /dmp/resources/prod/tools/system/perl/bin/perl
+  java_7: /dmp/resources/prod/tools/system/java/java-1.7.0-openjdk-1.7.0.9.x86_64/jre/bin/java
+  java_8: /dmp/resources/prod/tools/system/java/jdk1.8.0_121/bin/java
+  marianas_path: /dmp/resources/prod/tools/bio/ACCESS_tools/Marianas-1.8.0.jar
+  bioinfo_utils:
+    {
+      class: File,
+      path: /dmp/resources/prod/tools/bio/ACCESS_tools/BioinfoUtils-1.0.0.jar,
+    }
+  trimgalore_path: /dmp/resources/prod/tools/bio/trim_galore/production/trim_galore
+  bwa_path: /dmp/resources/prod/tools/bio/bwa/production/bwa
+  arrg_path: /dmp/resources/prod/tools/bio/ACCESS_tools/AddOrReplaceReadGroups-1.96.jar
+  picard_path: /dmp/resources/prod/tools/bio/ACCESS_tools/picard-2.8.1.jar
+  gatk_path: /dmp/resources/prod/tools/bio/gatk/VERSIONS/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
+  abra_path: /dmp/resources/prod/tools/bio/abra/VERSIONS/abra2-2.17/target/abra2-2.17-jar-with-dependencies.jar
+  fx_path: /dmp/resources/prod/tools/bio/picard/VERSIONS/picard-tools-1.96/FixMateInformation.jar
+  waltz_path: /dmp/resources/prod/tools/bio/ACCESS_tools/Waltz-2.0.jar
