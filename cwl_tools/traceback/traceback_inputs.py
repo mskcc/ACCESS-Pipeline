@@ -237,19 +237,36 @@ def group_mutations_maf(title_file, TI_mutations, exonic_filtered, silent_filter
     )
     # convert all all variant to maf and concat into a single df
     concat_df = pd.concat(df_from_each_file, ignore_index=True)
-    concat_df[
-        [
+    try:
+        concat_df[
+            [
+                "Start_Position",
+                "End_Position",
+                "Reference_Allele",
+                "Tumor_Seq_Allele2",
+                "Variant_Type",
+            ]
+        ] = pd.DataFrame(
+            concat_df.apply(
+                lambda x: _vcf_to_maf_coord(x["Start"], x["Ref"], x["Alt"]), axis=1
+            ).values.tolist()
+        )
+    except ValueError:
+        concat_df[
+            [
+                "Start_Position",
+                "End_Position",
+                "Reference_Allele",
+                "Tumor_Seq_Allele2",
+                "Variant_Type",
+            ]
+        ] = pd.DataFrame(columns=[
             "Start_Position",
             "End_Position",
             "Reference_Allele",
             "Tumor_Seq_Allele2",
             "Variant_Type",
-        ]
-    ] = pd.DataFrame(
-        concat_df.apply(
-            lambda x: _vcf_to_maf_coord(x["Start"], x["Ref"], x["Alt"]), axis=1
-        ).values.tolist()
-    )
+            ])
 
     concat_df["Tumor_Seq_Allele1"] = concat_df["Reference_Allele"]
 
