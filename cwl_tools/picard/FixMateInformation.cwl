@@ -7,7 +7,7 @@ arguments:
 - -Xmx24g
 - -jar
 - $(inputs.fix_mate_information)
-- TMP_DIR=/scratch
+- TMP_DIR=$(runtime.tmpdir)
 
 requirements:
   InlineJavascriptRequirement: {}
