@@ -168,6 +168,7 @@ def generate_pairing_file(args):
             GROUP_BY_ID: GROUP_BY_ID,
         },
     )
+    paired_df.drop_duplicates(inplace=True)
     paired_df.to_csv(
         os.path.join(os.getcwd(), TITLE_FILE_TO_PAIRED_FILE),
         sep="\t",
