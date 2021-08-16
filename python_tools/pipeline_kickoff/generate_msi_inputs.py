@@ -4,7 +4,8 @@ import ast
 import logging
 import argparse
 import ruamel.yaml
-from collections import defaultdict
+import pandas as pd
+from collections import defaultdict, OrderedDict
 
 from python_tools.util import include_yaml_resources, include_version_info
 from python_tools.constants import MSI_INPUTS, VERSION_PARAM
@@ -85,12 +86,12 @@ def get_bam_dics(args, paired_df):
     """
     Retrieve bam list from given standard bam directory
     """
-    tumorBamDic = {}
-    normalBamDic = {}
+    tumorBamDic = OrderedDict()
+    normalBamDic = OrderedDict()
 
     bam_list = glob.glob(os.path.join(args.standard_bams_directory, "*.bam"))
     for i, k in paired_df.iterrows():
-        if k["normal_id"] == "":
+        if pd.isnull(k["normal_id"]) or k["normal_id"] == "":
             continue
         t_bam = [
             b for b in bam_list if os.path.basename(b).startswith(k["tumor_id"])
