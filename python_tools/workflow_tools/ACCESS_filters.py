@@ -35,7 +35,7 @@ def extract_blacklist(args):
 def convert_annomaf_to_df(args):
     def cleanupMuTectColumns(df_annotation):
         df_annotation.loc[(df_annotation['MUTECT'] == 1) & (df_annotation['CallMethod'] != 'MuTect'),'CallMethod'] = 'VarDict,MuTect'
-        df_annotation.drop(['TYPE','FAILURE_REASON','MUTECT'], inplace=True, axis=1)
+        df_annotation.drop(['TYPE','FAILURE_REASON','MUTECT'], axis=1, inplace=True)
     
     if os.path.isfile(args.anno_maf):
         annotation_file = args.anno_maf
@@ -55,8 +55,8 @@ def convert_fillout_to_df(args):
         fillout_file = args.fillout_maf
         df_full_fillout = pd.read_csv(fillout_file, sep='\t', header=0)
         df_full_fillout['Chromosome'] = df_full_fillout['Chromosome'].astype(str)
-        df_full_fillout.drop('Tumor_Seq_Allele2', axis=1, inplace=True)
-        df_full_fillout.rename(columns = {'Tumor_Seq_Allele1':'Tumor_Seq_Allele2'}, inplace=True)
+        df_full_fillout.drop('Tumor_Seq_Allele1', axis=1, inplace=True)
+        #df_full_fillout.rename(columns = {'Tumor_Seq_Allele1':'Tumor_Seq_Allele2'}, inplace=True)
         df_full_fillout.set_index(mutation_key, drop=False, inplace=True)
         return df_full_fillout
     else:
@@ -135,7 +135,7 @@ def create_fillout_summary(df_fillout, alt_thres):
         raise
     
     #Drop columns that are in the index to eliminate error
-    df_fillout.drop(mutation_key, inplace=True, axis=1)
+    df_fillout.drop(mutation_key, axis=1, inplace=True)    
     # Make the dataframe with the fragment count summary of all the samples per mutation
     summary_table = df_fillout.pivot_table(index=mutation_key, columns='Tumor_Sample_Barcode', values='summary_fragment', aggfunc=lambda x: ' '.join(x))
 
@@ -338,22 +338,10 @@ def make_condensed_post_filter (df_post_filter):
     #Find list columns to keep in order
     keep=['Tumor_Sample_Barcode','caller_Norm_Sample_Barcode','Matched_Norm_Sample_Barcode', 'Chromosome','Start_Position', 'Reference_Allele',	'Tumor_Seq_Allele2', 'Variant_Classification','Hugo_Symbol','HGVSp_Short','HGVSc','all_effects','dbSNP_RS','hotspot_whitelist','ExAC_AF','CallMethod', 'SD_t_depth_count_fragment',	'SD_t_alt_count_fragment',	'SD_t_ref_count_fragment',	'SD_t_vaf_fragment','n_depth_count_fragment',	'n_alt_count_fragment',	'n_ref_count_fragment',	'n_vaf_fragment']
     col=list(df_post_filter)
-
-    # We want columns related to simplex-duplex values
-    sd_keep=grep(col,'(-SIMPLEX-DUPLEX)')
-
-    # We don't want columns related to curated values
-    toremove = grep(sd_keep, '(CURATED)')
-    for t in toremove:
-        sd_keep.remove(t)
-
-    keep.extend(sd_keep)
-
-    # We want columns related to normal values
-    keep.extend(grep(col,'(-NORMAL)'))
-
+    keep.extend(grep(col,"([^(CURATED)]-SIMPLEX-DUPLEX)"))
+    keep.extend(grep(col,"(-NORMAL)"))
     df_condensed=df_selected[keep]
-    return df_condensed
+    return df_condensed 
     
 
 def main():
