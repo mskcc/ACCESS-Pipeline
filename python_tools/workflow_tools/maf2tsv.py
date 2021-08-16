@@ -168,7 +168,7 @@ def maf2tsv(maf_file):
     maf["S_t_count_fragment"] = (
         maf["S_t_ref_count_fragment"].astype(int) + maf["S_t_alt_count_fragment"].astype(int)
     )
-    maf["n_count_fragment"] = maf["n_ref_count_fragment"].astype(int) + maf["n_alt_count_fragment"].astype(int)
+    maf["n_count_fragment"] = maf["n_ref_count_fragment"].astype(float) + maf["n_alt_count_fragment"].astype(float)
     maf["S_t_vaf_fragment"] = (
         maf["S_t_alt_count_fragment"].astype(float) / maf["S_t_count_fragment"].astype(float)
     ).fillna(0)
