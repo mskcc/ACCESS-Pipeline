@@ -689,7 +689,7 @@ def IS_EXONIC_CLASS(Gene, VariantClass, Coordinate):
     elif any(
         [
             Gene == "MET"
-            and VariantClass == "Intron"
+            and VariantClass in ["Intron", "Splice_Site", "Splice_Region"]
             and Coordinate >= 116411708
             and Coordinate <= 116414935
         ]
@@ -697,6 +697,46 @@ def IS_EXONIC_CLASS(Gene, VariantClass, Coordinate):
         return (Gene, "Splice_Site", Coordinate)
     else:
         return None
+
+
+def GENE_BASED_FILTER(sample, gene):
+    """
+    Special filter conditions for based on Gene names for
+    samples with -TBH suffix, which are from ACCESS-Liquidplex.
+    True indicates passing filters.
+    """
+    if re.match(r".*-TBH.*", sample):
+        if gene in ["BRAF", "IDH1", "IDH2", "TP53"]:
+            return True
+        else:
+            return False
+    else:
+        return True
+
+
+def MUTATION_STATUS_BASED_FILTER(
+    sample, mutation_status, duplex_alt_depth, simplex_duplex_alt_depth
+):
+    """
+    Special filter conditions for based on sample type and depth.
+    Currently, as long as mutation_status has any flag, the mutation will be
+    filtered. But this can be customized based on assay type.
+    """
+    return False
+    # Remove the above statement and use the block below
+    # for more custom filter based on flags
+    ALL_FLAGS = {
+        "Germline",
+        "LikelyGermline",
+        "BelowAltThreshold",
+        "LostbyGenotyper",
+        "occurrence_in_curated",
+        "InCurated",
+        "occurrence_in_normal",
+        "TNRatio-curatedmedian",
+    }
+    mutation_status = set(mutation.split(";"))
+    return mutation_status.disjoint(ALL_FLAGS)
 
 
 #########
