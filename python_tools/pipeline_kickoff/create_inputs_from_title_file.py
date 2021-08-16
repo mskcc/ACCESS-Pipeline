@@ -407,24 +407,16 @@ def write_inputs_file(args, title_file, output_file_name):
     :param title_file:
     :param output_file_name:
     """
-    tool_resources_file_path = TOOL_RESOURCES_PROD
-
-    if args.test:
-        run_params_path = RUN_PARAMS_TEST
-        run_files_path = RUN_FILES_TEST
-    else:
-        run_params_path = RUN_PARAMS
-        run_files_path = RUN_FILES
-
     # Actually start writing the inputs file
     fh = open(output_file_name, "wb")
 
     include_fastqs_params(
         fh, args.data_dir, title_file, args.title_file_path, args.force
     )
-    include_yaml_resources(fh, run_params_path)
-    include_yaml_resources(fh, run_files_path)
-    include_yaml_resources(fh, tool_resources_file_path)
+    if args.test:
+        include_yaml_resources(fh, COLLAPSING_INPUTS_TEST)
+    else:
+        include_yaml_resources(fh, COLLAPSING_INPUTS)
 
     fh.write(INPUTS_FILE_DELIMITER)
     # Include title_file in inputs.yaml

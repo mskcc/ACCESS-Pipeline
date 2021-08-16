@@ -14,6 +14,7 @@ TEMPLATES_FOLDER = os.path.join(RESOURCES_FOLDER, "templates")
 
 CNV_INPUTS = os.path.join(TEMPLATES_FOLDER, "cnv.yaml")
 COLLAPSING_INPUTS = os.path.join(TEMPLATES_FOLDER, "collapsing.yaml")
+COLLAPSING_INPUTS_TEST = os.path.join(TEMPLATES_FOLDER, "test_collapsing.yaml")
 MSI_INPUTS = os.path.join(TEMPLATES_FOLDER, "msi.yaml")
 SV_INPUTS = os.path.join(TEMPLATES_FOLDER, "sv.yaml")
 VARIANTS_INPUTS = os.path.join(TEMPLATES_FOLDER, "variants.yaml")
