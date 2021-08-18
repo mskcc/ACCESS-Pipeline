@@ -46,6 +46,7 @@ dependencies:
   - libxml2=2.9.9
   - make=4.2.1
   - ncurses=6.1
+  - nodejs=6.10.2=0
   - openssl=1.1.1d
   - pango=1.42.4
   - pcre=8.43
