@@ -11,7 +11,7 @@ requirements:
 arguments:
 # todo: ensure 0.2 is first in $PATH
 # or supply msisensor as run_tool
-- msisensor
+- $(inputs.msisensor)
 - msi
 
 stdout: $(inputs.sample_name + '_msi.stdout')

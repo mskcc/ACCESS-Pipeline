@@ -12,3 +12,4 @@ microsatellites:
     path: /dmp/data/ACCESS-data/admie/microsatellites/microsatellites.list,
   }
 model: { class: File, path: /dmp/data/ACCESS-data/admie/model/ADMIE.joblib }
+msisensor: /dmp/resources/prod/tools/bio/msisensor/production/msisensor

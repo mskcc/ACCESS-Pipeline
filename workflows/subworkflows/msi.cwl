@@ -13,6 +13,7 @@ inputs:
   threads: int
   microsatellites: File
   model: File
+  msisensor: string
 
   sample_name: string[]
 
@@ -70,6 +71,7 @@ steps:
   msisensor:
     run: ../../cwl_tools/msi/msisensor.cwl
     in:
+      msisensor: msisensor
       microsatellites: microsatellites
       tumor_bam: tumor_bam
       normal_bam: normal_bam
