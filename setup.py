@@ -87,6 +87,7 @@ SUPPORT_SCRIPTS = [
     "python_tools/workflow_tools/qc/aggregate_bam_metrics.sh",
     "cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R",
     "cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R",
+    "cwl_tools/cnv/scripts/textplot.R",
 ]
 
 
