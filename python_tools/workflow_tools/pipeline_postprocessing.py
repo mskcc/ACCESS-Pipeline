@@ -218,6 +218,7 @@ class AccessProject(object):
         dirs = list(
             filter(
                 select_conditions,
+                [self._process_dir] + 
                 [
                     os.path.join(self._process_dir, sub_dir)
                     for sub_dir in os.listdir(self._process_dir)
@@ -251,7 +252,11 @@ class AccessProject(object):
                 bam.startswith(sample_id + SAMPLE_SEP_FASTQ_DELIMETER)
                 for sample_id in self._sample_ids
             ]
-            matched_id = self._sample_ids[sample_bam_bool.index(True)]
+            try:
+                matched_id = self._sample_ids[sample_bam_bool.index(True)]
+            except ValueError:
+                # sampleID matching bam is not in the title_file
+                matched_id = None
             if matched_id:
                 new_bam = bam.replace(
                     matched_id + SAMPLE_SEP_FASTQ_DELIMETER,
