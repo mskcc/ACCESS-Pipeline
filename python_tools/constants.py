@@ -691,8 +691,8 @@ def IS_EXONIC_CLASS(Gene, VariantClass, Coordinate):
         [
             Gene == "MET"
             and VariantClass in ["Intron", "Splice_Site", "Splice_Region"]
-            and Coordinate >= 116411708
-            and Coordinate <= 116414935
+            and int(Coordinate) >= 116411708
+            and int(Coordinate) <= 116414935
         ]
     ):
         return (Gene, "Splice_Site", Coordinate)
