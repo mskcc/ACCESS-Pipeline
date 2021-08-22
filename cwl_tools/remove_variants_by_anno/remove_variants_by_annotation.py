@@ -60,7 +60,7 @@ def filter_by_annotation(args):
     Bool_exon = df_input['Variant_Classification'].isin(keep_exonic)
 
     Bool_MET =  (
-                    df_input['Variant_Classification'].isin(["Splice_Region", "Intron"]) &
+                    (df_input['Variant_Classification'].isin(["Splice_Region", "Intron"])) &
                     (df_input['Hugo_Symbol']=='MET') &
                     (
                         (
