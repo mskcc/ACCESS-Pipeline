@@ -69,7 +69,7 @@ def maf2tsv(maf_file):
                     # if cannot impute exon number, return intron
                     else:
                         return "intron" + str(intron)
-            except ValueError:  # Not intronic
+            except (TypeError, ValueError):  # Not intronic
                 return ""
 
     def customize_cosmic(cosmic_id, cosmic_occurrence):
@@ -142,11 +142,13 @@ def maf2tsv(maf_file):
             )
         )
 
-    # compute columns
+    # format cDNA, AA, exon columns
     maf["EXON"] = np.vectorize(get_exon, otypes=[str])(
         maf["EXON"], maf["INTRON"], maf["HGVSc"], maf["Variant_Classification"]
     )
     maf = maf.drop(["INTRON"], axis=1)
+    maf["HGVSc"] = maf["HGVSc"].apply(lambda x: "" if pd.isnull(x) else x)
+    maf["HGVSp_Short"] = maf["HGVSp_Short"].apply(lambda x: "" if pd.isnull(x) else x)
 
     # Compute columns
     # get max of gnomad
