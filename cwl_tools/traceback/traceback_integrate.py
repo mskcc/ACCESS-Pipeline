@@ -7,6 +7,8 @@ import argparse
 import pandas as pd
 import numpy as np
 
+from python_tools.constants import GENE_BASED_FILTER
+
 
 def integrate_genotypes(args):
     tbi_maf = pd.read_csv(
@@ -27,6 +29,13 @@ def integrate_genotypes(args):
             "Patient_ID": "MRN",
         },
     )
+    # allow only one unique projectID
+    projectIDs = set(sample_identifiers["Run"].values.tolist())
+    if len(projectIDs) > 1:
+        raise Exception("Multiple Pool/Project IDs detected in the title file.")
+    else:
+        current_project = projectIDs.pop()
+
     # add samples identifiers for samples from previous projects
     sample_identifiers_from_tb = (
         tbi_maf[["Run", "Tumor_Sample_Barcode", "Accession", "MRN"]]
@@ -66,7 +75,7 @@ def integrate_genotypes(args):
             "Start_Position",
             "End_Position",
             "Reference_Allele",
-            "Tumor_Seq_Allele1",
+            "Tumor_Seq_Allele2",
             "MRN",
         ],
         right_on=[
@@ -177,16 +186,18 @@ def integrate_genotypes(args):
     intersect_variants(
         args.exonic_filtered,
         args.exonic_dropped,
-        tbf,
+        tbi_maf,
         sample_identifiers,
         control_samples,
+        current_project,
     )
     intersect_variants(
         args.silent_filtered,
         args.silent_dropped,
-        tbf,
+        tbi_maf,
         sample_identifiers,
         control_samples,
+        current_project,
     )
 
     # prepare all variants for final traceback output
@@ -212,7 +223,7 @@ def integrate_genotypes(args):
     )
 
 
-def intersect_variants(filtered, dropped, tbf, sample_metadata, control_samples=[]):
+def intersect_variants(filtered, dropped, tbi_maf, sample_metadata, control_samples=[], poolID = ""):
     """
     parse genotyped data and re-classify filtered and dropped variants.
     """
@@ -231,6 +242,7 @@ def intersect_variants(filtered, dropped, tbf, sample_metadata, control_samples=
     )
 
     # write new filtered and dropped files
+    # Ideally this part should be redone using pd.merge instead of iteration for efficiency
     for i, var in enumerate(variants.itertuples()):
         Sample = var.Sample
         if Sample in control_samples:
@@ -239,37 +251,49 @@ def intersect_variants(filtered, dropped, tbf, sample_metadata, control_samples=
         Patient_ID = (
             sample_metadata[sample_metadata["Sample"] == Sample]["MRN"].tolist().pop()
         )
-        # select mutatons from traceback file that matches coordiante of the current variant
-        #  and belongs to any sample from this patient excluding the current one.
-        select = tbf[
-            (tbf["Ref"].values == var.Ref)
-            & (tbf["Alt"].values == var.Alt)
-            & (tbf["Pos"].apply(int).values == int(var.Start))
-            & (tbf["Sample"].str.contains(Patient_ID))
-            & ~(tbf["Sample"].str.contains(Sample + "_"))
+        # select mutatons from traceback input maf file that matches coordinate of 
+        #  the current variant and belongs to any sample from this patient excluding 
+        #  the ones in the current project.
+        select = tbi_maf[
+            (tbi_maf["VCF_REF"].values == var.Ref)
+            & (tbi_maf["VCF_ALT"].values == var.Alt)
+            & (tbi_maf["VCF_POS"].apply(int).values == int(var.Start))
+            & (tbi_maf["Tumor_Sample_Barcode"].str.contains(Patient_ID))
+            & (~(tbi_maf["Run"].values == poolID))
         ]
+        
+        # select = tbf[
+        #     (tbf["Ref"].values == var.Ref)
+        #     & (tbf["Alt"].values == var.Alt)
+        #     & (tbf["Pos"].apply(int).values == int(var.Start))
+        #     & (tbf["Sample"].str.contains(Patient_ID))
+        #     & ~(tbf["Sample"].str.contains(Sample + "_"))
+        # ]
         # if the variant is present in any prior IMAPCT sample at VF >= 0.02
         #  or prior ACCESS SIMPLEX-DUPLEX at VF >= 0.001, tag it as genotyped.
-        if (
-            select[
-                ~(select["Sample"].str.contains("DUPLEX"))
-                & (select["VF"].apply(float).values >= 0.02)
-            ].shape[0]
-            > 0
-            or select[
-                (select["Sample"].str.contains("DUPLEX"))
-                & (select["VF"].apply(float).values >= 0.001)
-            ].shape[0]
-            > 0
-        ):
+        # if (
+        #     select[
+        #        ~(select["Sample"].str.contains("DUPLEX"))
+        #        & (select["VF"].apply(float).values >= 0.02)
+        #    ].shape[0]
+        #    > 0
+        #    or select[
+        #        (select["Sample"].str.contains("DUPLEX"))
+        #        & (select["VF"].apply(float).values >= 0.001)
+        #    ].shape[0]
+        #    > 0
+        #):
+
+        if select.shape[0] > 0:
             mut_class = ",".join([variants["Mutation_Class"][i], "Genotyped"])
             variants.at[i, "Mutation_Class"] = (
                 mut_class[1:] if mut_class.startswith(",") else mut_class
             )
-    variants[~(variants["Mutation_Class"] == "")].to_csv(
+    
+    variants[(~(variants["Mutation_Class"] == "")) & (variants[["Sample", "Gene"]].apply(lambda x: GENE_BASED_FILTER(x.Sample, x.Gene), axis=1))].to_csv(
         filtered_target, header=True, index=None, sep="\t", mode="w"
     )
-    variants[variants["Mutation_Class"] == ""].to_csv(
+    variants[~((~(variants["Mutation_Class"] == "")) & (variants[["Sample", "Gene"]].apply(lambda x: GENE_BASED_FILTER(x.Sample, x.Gene), axis=1)))].to_csv(
         dropped_target, header=True, index=None, sep="\t", mode="w"
     )
 
