@@ -111,7 +111,7 @@ def get_sampleID_and_sex(args, paired_df):
     with open(args.title_file_path, "rU") as titleFile:
         tfDict = csv.DictReader(titleFile, delimiter="\t")
         for row in tfDict:
-            if row["Class"] == "Tumor":
+            if "Tumor" in row["Class"]:
                 if "Sex" in row:
                     sex = row["Sex"].replace("Female", "Female").replace("Male", "Male")
                 else:
