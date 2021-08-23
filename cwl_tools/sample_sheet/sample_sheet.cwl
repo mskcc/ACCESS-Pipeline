@@ -44,11 +44,11 @@ inputs:
           SampleProject:
             type: string
           DnaInputNg:
-            type: string?
+            type: Any?
           CaptureInputNg:
-            type: string?
+            type: Any?
           LibraryVolume:
-            type: string?
+            type: Any?
           PatientID:
             type: string
           IgoID:
