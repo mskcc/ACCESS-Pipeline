@@ -2,22 +2,14 @@
 
 class: CommandLineTool
 cwlVersion: v1.0
-baseCommand: ["sh", "build_samplesheet.sh"]
+baseCommand: ["ls", "-l"]
 
 requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing:
-      - entryname: build_samplesheet.sh
-        entry: |-
-          echo "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,DnaInputNg,CaptureInputNg,LibraryVolume,PatientID,IgoID" > sample_sheet.csv
-          echo "${
-            return inputs.samples.map(function(x) { 
-              return ["", x["Lane"], x["SampleID"], x["SampleRef"], x["Index"], x["Description"],
-              x["Control"], x["Recipe"], x["Operator"], x["SampleProject"], x["DnaInputNg"] || "",
-              x["CaptureInputNg"] || "", x["LibraryVolume"] || "", x["PatientID"], x["IgoID"]].join(",")
-            }).join("\n");
-          }" >> sample_sheet.csv
+      - entryname: samples.json
+        entry: $(inputs.samples)
 inputs:
   samples:
     type:
@@ -58,4 +50,4 @@ outputs:
   sample_sheet:
     type: File
     outputBinding:
-      glob: sample_sheet.csv
+      glob: samples.json
