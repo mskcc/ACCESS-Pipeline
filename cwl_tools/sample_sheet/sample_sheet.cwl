@@ -2,15 +2,18 @@
 
 class: CommandLineTool
 cwlVersion: v1.0
-baseCommand: ["ls", "-l"]
+baseCommand: ["python", "input-to-csv.py"]
 
 requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
+    class: "File"
     listing:
       - entryname: samples.json
-        class: "File"
         entry: $(inputs.samples)
+      - entryname: input-to-csv.py
+        entry: |-
+          import json; import csv; j = json.load(open('samples.json'));f=open('sample_sheet.csv', 'w');c=csv.DictWriter(f, fieldnames=['Lane','SampleID','SamplePlate','SampleWell','I7IndexID','Index','Index2','SampleProject','Description'], extrasaction='ignore'); f.write('Lane,Sample_ID,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description\n'); c.writerows(j)
 inputs:
   samples:
     type:
@@ -51,4 +54,4 @@ outputs:
   sample_sheet:
     type: File
     outputBinding:
-      glob: samples.json
+      glob: sample_sheet.csv
