@@ -7,7 +7,6 @@ baseCommand: ["python", "input-to-csv.py"]
 requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
-    class: InitialWorkDirRequirement
     listing:
       - entryname: samples.json
         entry: $(inputs.samples)
