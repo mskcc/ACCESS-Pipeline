@@ -9,6 +9,7 @@ requirements:
   InitialWorkDirRequirement:
     listing:
       - entryname: samples.json
+        class: "File"
         entry: $(inputs.samples)
 inputs:
   samples:
