@@ -377,6 +377,7 @@ steps:
       cov_and_family_type_A: main_plots_module/cov_and_family_type_A
       cov_and_family_type_B: main_plots_module/cov_and_family_type_B
       base_quality_plot: base_quality_plot/plot
+      family_sizes_all: main_plots_module/family_sizes_all
       family_sizes_simplex: main_plots_module/family_sizes_simplex
       family_sizes_duplex: main_plots_module/family_sizes_duplex
       noise_alt_percent: duplex_noise_plots_A/noise_alt_percent

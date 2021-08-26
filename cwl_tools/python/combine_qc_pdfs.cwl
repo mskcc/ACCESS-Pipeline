@@ -66,55 +66,61 @@ inputs:
     inputBinding:
       position: 11
 
-  family_sizes_simplex:
+  family_sizes_all:
     type: File
     inputBinding:
       position: 12
-
-  family_sizes_duplex:
+  
+  
+  family_sizes_simplex:
     type: File
     inputBinding:
       position: 13
 
-  noise_alt_percent:
+  family_sizes_duplex:
     type: File
     inputBinding:
       position: 14
 
-  noise_by_substitution:
+  noise_alt_percent:
     type: File
     inputBinding:
       position: 15
 
-  noise_contributing_sites:
+  noise_by_substitution:
     type: File
     inputBinding:
       position: 16
 
-  hotspots_in_normals_plot:
+  noise_contributing_sites:
     type: File
     inputBinding:
       position: 17
 
-  hotspots_in_normals_table_pdf:
+  hotspots_in_normals_plot:
     type: File
     inputBinding:
       position: 18
 
-  fingerprinting_qc:
+  hotspots_in_normals_table_pdf:
     type: File
     inputBinding:
       position: 19
 
-  gender_check:
+  fingerprinting_qc:
     type: File
     inputBinding:
       position: 20
 
-  pipeline_inputs:
+  gender_check:
     type: File
     inputBinding:
       position: 21
+
+  pipeline_inputs:
+    type: File
+    inputBinding:
+      position: 22
 
 outputs:
 

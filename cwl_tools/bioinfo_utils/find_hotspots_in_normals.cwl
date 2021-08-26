@@ -16,14 +16,13 @@ requirements:
           $(
             "sample_id	patient_id	sample_class	pileup\n" +
             inputs.sample_ids.map(function(sid, i) {
-              if (inputs.sample_classes[i] == 'Tumor') {
+              if (['Tumor', 'PoolTumor', 'PoolNormal'].includes(inputs.sample_classes[i])) {
                 var pileup = inputs.duplex_pileups[i].path;
               } else {
                 var pileup = inputs.unfiltered_pileups[i].path;
               }
 
               return sid + "\t" +
-                inputs.patient_ids[i] + "\t" +
                 inputs.sample_classes[i] + "\t" +
                 pileup;
             }).join("\n")

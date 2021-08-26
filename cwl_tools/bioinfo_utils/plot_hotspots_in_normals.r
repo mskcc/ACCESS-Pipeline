@@ -20,7 +20,7 @@ counts = read.table(
     INPUT_TABLE_FILENAME,
     sep = '\t',
     header = TRUE,
-    colClasses = c(rep('character', 4), rep('numeric', 3))
+    colClasses = c(rep('character', 3), rep('numeric', 3))
 )
 
 if (nrow(counts) == 0) {
