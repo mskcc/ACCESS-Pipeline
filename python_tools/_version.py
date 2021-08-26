@@ -3,7 +3,7 @@ from subprocess import check_output, CalledProcessError
 
 # User-defined version. This will be used as the package/build
 #  version, in case version cannot be retrived using git methods.
-__version__ = "1.1.0"
+__version__ = "3.0.0"
 
 
 def get_tag():
@@ -26,7 +26,7 @@ def get_commit(shorten=True):
                 "-n",
                 "1",
                 "--",
-                os.path.dirname(os.path.abspath(__file__)),
+                os.path.abspath(os.curdir),
             ]
         )
         .decode("utf-8")
