@@ -39,6 +39,7 @@ from __future__ import division
 import os
 import sys
 import vcf
+import gzip
 import time
 import logging
 import argparse
@@ -88,6 +89,7 @@ def run_std_filter(args):
         vcf_out = os.path.join(args.outdir,vcf_out)
 
     txt_out = vcf_out + '_STDfilter.txt'
+    vcf_complex_out = vcf_out + '_complex_STDfilter.vcf'
     vcf_out = vcf_out + '_STDfilter.vcf'
 
     vcf_reader = vcf.Reader(open(args.inputVcf, 'r'))
@@ -112,10 +114,29 @@ def run_std_filter(args):
     nsampleName = vcf_reader.samples[1]
 
     vcf_writer = vcf.Writer(open(vcf_out, 'w'), vcf_reader)
+    vcf_complex_writer = vcf.Writer(open(vcf_complex_out, 'w'), vcf_reader)
     txt_fh = open(txt_out, "wb")
     # Iterate through rows and filter mutations
     for record in vcf_reader:
         tcall = record.genotype(args.tsampleName)
+
+        # Pad complex indels for proper genotyping
+        if (record.INFO["TYPE"] == "Complex" and 
+                len(record.REF) != len(record.ALT) and 
+                record.INFO["SHIFT3"] > 0 and 
+                record.INFO["SHIFT3"] <= len(record.INFO["LSEQ"])):
+            padding_seq = record.INFO["LSEQ"][len(record.INFO["LSEQ"])-(record.INFO["SHIFT3"]+1):]
+            record.REF = padding_seq + record.REF
+            for alt in record.ALT:
+                alt.sequence = padding_seq + alt.sequence
+            record.POS = record.POS - (record.INFO["SHIFT3"]+1)
+            # TODO: add ID=SHIFT3_ADJUSTED to vcf header
+            record.INFO["SHIFT3_ADJUSTED"] = record.INFO["SHIFT3"]
+            record.INFO["SHIFT3"] = 0
+            complex_flag = True
+        else:
+            complex_flag = False
+            record.INFO["SHIFT3_ADJUSTED"] = record.INFO["SHIFT3"]
 
         keep_based_on_status = True
         if "Somatic" not in record.INFO['STATUS'] and args.filter_germline:
@@ -171,18 +192,33 @@ def run_std_filter(args):
 
         if tvf > nvfRF:
             if keep_based_on_status & (tmq >= int(args.mq)) & (nmq >= int(args.mq)) & (tdp >= int(args.dp)) & (tad >= int(args.ad)) & (tvf >= float(args.vf)):
-                vcf_writer.write_record(record)
+                if complex_flag:
+                    vcf_complex_writer.write_record(record)
+                else:
+                    vcf_writer.write_record(record)
                 out_line = str.encode(args.tsampleName + "\t" + record.CHROM + "\t" + str(record.POS) + "\t" + str(record.REF) + "\t" + str(record.ALT[0]) + "\t" + "." + "\n")
                 txt_fh.write(out_line)
 
     vcf_writer.close()
+    vcf_complex_writer.close()
     txt_fh.close()
 
-    # Normalize the events in the VCF, produce a bgzipped VCF, then tabix index it
+    # Normalize the non-complex events in the VCF, produce a bgzipped VCF, then tabix index it
     norm_gz_vcf = cmo_util.normalize_vcf(vcf_out, args.refFasta)
-    cmo_util.tabix_file(norm_gz_vcf)
-    return norm_gz_vcf
+    merged_vcf = merge_sort_bgzip_vcf(norm_gz_vcf, vcf_complex_out)
+    cmo_util.tabix_file(merged_vcf)
 
+
+def merge_sort_bgzip_vcf(bgzip_vcf, vcf):
+    with gzip.open(bgzip_vcf, 'a') as wvcf, open(vcf, 'r') as rvcf:
+        for line in rvcf:
+            if line.startswith("#"):
+                continue
+            wvcf.write(line)
+
+    cmo_util.sort_vcf(bgzip_vcf)
+    cmo_util.bgzip(bgzip_vcf, force=True)
+    return(bgzip_vcf)
 
 if __name__ == "__main__":
     start_time = time.time()
