@@ -46,7 +46,7 @@ def sort_vcf(vcf):
     subprocess.call(cmd)
 
 
-def bgzip(vcf):
+def bgzip(vcf, force=False):
     """
     gzip a VCF file
 
@@ -54,7 +54,12 @@ def bgzip(vcf):
     :return:
     """
     if re.search(r".gz$", vcf):
-        return vcf
+        if not force:
+            return vcf
+        else:
+            correct_vcf = re.sub(r".gz$", "", vcf)
+            os.rename(vcf, correct_vcf)
+            vcf = correct_vcf
 
     outfile = "%s.gz" % (vcf)
     cmd = [BGZIP_LOCATION, "-c", vcf]
