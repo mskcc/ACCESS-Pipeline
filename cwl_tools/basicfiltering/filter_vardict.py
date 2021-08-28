@@ -136,7 +136,7 @@ def run_std_filter(args):
             complex_flag = True
         else:
             complex_flag = False
-            record.INFO["SHIFT3_ADJUSTED"] = record.INFO["SHIFT3"]
+            record.INFO["SHIFT3_ADJUSTED"] = 0
 
         keep_based_on_status = True
         if "Somatic" not in record.INFO['STATUS'] and args.filter_germline:
