@@ -44,7 +44,7 @@ import time
 import logging
 import argparse
 
-from vcf.parser import _Info as VcfInfo, _Format as VcfFormat
+from vcf.parser import _Info as VcfInfo, _Format as VcfFormat, _vcf_metadata_parser as VcfMetadataParser
 
 from python_tools import cmo_util
 
@@ -96,6 +96,11 @@ def run_std_filter(args):
     vcf_reader.infos['set'] = VcfInfo('set', '.', 'String', 'The variant callers that reported this event', 'mskcc/basicfiltering', 'v0.2.1')
     vcf_reader.formats['DP'] = VcfFormat('DP', '1', 'Integer', 'Total read depth at this site')
     vcf_reader.formats['AD'] = VcfFormat('AD', 'R', 'Integer', 'Allelic depths for the ref and alt alleles in the order listed')
+    # Manually add the new SHIFT3_ADJUSTED header to the reader, which will then be passed to the writer
+    shift3_line = "##INFO=<ID=SHIFT3_ADJUSTED,Number=1,Type=Integer,Description=\"No. of bases to be shifted to 3 prime for deletions due to alternative alignment for complex variants\">"
+    meta_parser = VcfMetadataParser()
+    key, val = meta_parser.read_info(shift3_line)
+    vcf_reader.infos[key] = val
 
     allsamples = list(vcf_reader.samples)
 
