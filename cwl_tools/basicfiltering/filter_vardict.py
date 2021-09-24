@@ -97,7 +97,7 @@ def run_std_filter(args):
     vcf_reader.formats['DP'] = VcfFormat('DP', '1', 'Integer', 'Total read depth at this site')
     vcf_reader.formats['AD'] = VcfFormat('AD', 'R', 'Integer', 'Allelic depths for the ref and alt alleles in the order listed')
     # Manually add the new SHIFT3_ADJUSTED header to the reader, which will then be passed to the writer
-    shift3_line = "##INFO=<ID=SHIFT3_ADJUSTED,Number=1,Type=Integer,Description=\"No. of bases to be shifted to 3 prime for deletions due to alternative alignment for complex variants\">"
+    shift3_line = "##INFO=<ID=SHIFT3_ADJUSTED,Number=1,Type=Integer,Description=\"No. of bases to be shifted to 5 prime for complex variants to get the preferred left alignment for proper genotyping\">"
     meta_parser = VcfMetadataParser()
     key, val = meta_parser.read_info(shift3_line)
     vcf_reader.infos[key] = val
