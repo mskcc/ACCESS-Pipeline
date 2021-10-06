@@ -80,6 +80,11 @@ inputs:
     inputBinding:
       prefix: --fragment_count
 
+  generic_counting:
+    type: boolean
+    inputBinding:
+      prefix: --generic_counting
+
 outputs:
 
   fillout_out:
