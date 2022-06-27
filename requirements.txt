@@ -49,5 +49,5 @@ openpyxl==1.8.6
 coloredlogs==5.2
 pillow==3.4.2
 biopython==1.65
-reportlab==3.3.0
+reportlab==3.5.55
 
