@@ -43,7 +43,7 @@ xlrd==1.1.0
 # ACCESS-Variants
 filemagic==1.6.0
 pyvcf==0.6.8
-openpyxl==1.8.6
+openpyxl==2.4.2
 # todo: need to upgrade iAnnotateSV to 0.24.0
 # pandas==0.16.2
 coloredlogs==5.2
