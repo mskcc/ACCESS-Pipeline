@@ -24,7 +24,7 @@ galaxy-lib==17.9.3
 idna==2.6
 ipaddress==1.0.22
 isodate==0.6.0
-joblib==0.13.2
+joblib==1.2.0
 junit-xml==1.8
 kiwisolver==1.0.1
 lockfile==0.12.2
