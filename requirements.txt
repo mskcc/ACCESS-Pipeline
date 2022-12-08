@@ -10,7 +10,7 @@ backports.functools-lru-cache==1.5
 backports.ssl-match-hostname==3.5.0.1
 bd2k-python-lib==1.14a1.dev48
 CacheControl==0.11.7
-certifi==2019.3.9
+certifi==2022.12.7
 chardet==3.0.4
 cycler==0.10.0
 dill==0.2.7.1
