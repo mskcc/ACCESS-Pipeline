@@ -12,10 +12,9 @@
 
 # R --slave --vanilla --args <prefix> <_ALL_intervalcoverage.txt> <gc_percent-file>
 library(dplyr)
-library(textplot)
 rm(list=ls(all=T));
 
-
+source('/juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
 args = commandArgs(trailingOnly=TRUE)
 print(args)
 prefix <- args[2];
