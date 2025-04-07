@@ -6,8 +6,8 @@ requirements:
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
   ResourceRequirement:
-    ramMin: 32000
-    coresMin: 2
+    ramMin: 64000
+    coresMin: 4
   SchemaDefRequirement:
     types:
       - $import: ../../resources/schemas/variants_tools.yaml
