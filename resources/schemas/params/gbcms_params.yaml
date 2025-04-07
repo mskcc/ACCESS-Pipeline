@@ -6,3 +6,4 @@ fields:
   thread: int
   maq: int
   fragment_count: int
+  generic_counting: boolean

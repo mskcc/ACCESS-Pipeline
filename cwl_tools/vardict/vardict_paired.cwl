@@ -9,6 +9,9 @@ requirements:
       - $import: ../../resources/schemas/params/vardict.yaml
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
+  EnvVarRequirement:
+    envDef:
+      JAVA_HOME: "/opt/common/CentOS_6-dev/java/jdk1.8.0_31"
   ResourceRequirement:
     ramMin: 32000
     coresMin: 4

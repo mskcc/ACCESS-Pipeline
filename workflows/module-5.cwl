@@ -161,6 +161,8 @@ steps:
         valueFrom: $(inputs.gbcms_params.maq)
       fragment_count:
         valueFrom: $(inputs.gbcms_params.fragment_count)
+      generic_counting:
+        valueFrom: $(inputs.gbcms_params.generic_counting)
     out: [tb_fillout_out]
 
   traceback_integrate:
