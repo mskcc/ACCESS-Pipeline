@@ -3,8 +3,11 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
-  - class: InlineJavascriptRequirement
-  - class: ShellCommandRequirement
+  InlineJavascriptRequirement: {}
+  ShellCommandRequirement: {}
+  ResourceRequirement:
+    ramMin: 64000
+    coresMin: 4
 
 inputs:
   first_pass_file:
