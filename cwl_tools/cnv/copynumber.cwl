@@ -8,7 +8,7 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: copynumber_tm.batchdiff_cfdna.R
+baseCommand: /juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R
 
 inputs:
 
