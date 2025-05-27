@@ -174,6 +174,8 @@ steps:
         valueFrom: $(inputs.gbcms_params.maq)
       fragment_count:
         valueFrom: $(inputs.gbcms_params.fragment_count)
+      generic_counting:
+        valueFrom: $(inputs.gbcms_params.generic_counting)
     out: [fillout_out]
 
   access_filters:
