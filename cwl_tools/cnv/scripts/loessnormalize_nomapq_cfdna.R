@@ -12,13 +12,13 @@
 
 # R --slave --vanilla --args <prefix> <_ALL_intervalcoverage.txt> <gc_percent-file>
 library(dplyr)
+library(textplot)
 rm(list=ls(all=T));
 
-source('/juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
 args = commandArgs(trailingOnly=TRUE)
 print(args)
-prefix <- args[2];
 outdir <- args[1];
+prefix <- args[2];
 gcfile <- args[3];   # Example: "v4_hg19_all_GC200bp.txt";
 interval_file <- args[4];
 type <-args[5];
@@ -39,7 +39,7 @@ columnsKeep =  c("Order","Interval",colnames(d)[grep("_mean_cvg",colnames(d))])
 d = d[,columnsKeep]
 
 
-tiling.probes <- tar[grep("Tiling", tar$Target),'Interval'];
+tiling.probes <- tar[grep("panel_B", tar$Target),'Interval'];
 
 outtablename <- file.path(outdir,paste(prefix,"_",type,"_ALL_intervalnomapqcoverage_loess.txt",sep=""));
 #tar <- read.delim(gcfile,sep="\t",header=T,as.is=T,fill=T);
@@ -170,7 +170,7 @@ norm_rt <- do.call('cbind',lapply(seq(1,ncol(gc2),1),function(i){
 	plot(GC.inclY[-index.inclY],column_sqrt.all[-index.inclY],ylim=c(0,60),main=paste("SqRt_",colnames(gc2)[i],sep=""),col='black',xlim=c(0.2,0.9),xlab='pGC',ylab='sqrt_cov', cex=0.75);
 	par(new=T);
 	plot(GC.inclY[index.inclY],column_sqrt.all[index.inclY],ylim=c(0,60),col='red',xlim=c(0.2,0.9),xlab='',ylab='', cex=0.75);
-	legend(x='topright',col=c('black','red'),legend=c('Exonic/intron/msi/FP probe','Tiling probe'),pch=1);
+	legend(x='topright',col=c('black','red'),legend=c('Panel_A','Panel_B'),pch=1);
 	par(new=F);
 
 	plot(GC.inclY,temp2.all,ylim=c(0,60),main=paste("Loess fit. Span:",span.fits[i,'min'],sep=""));

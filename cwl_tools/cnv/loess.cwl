@@ -8,7 +8,7 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: /juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R
+baseCommand: loessnormalize_nomapq_cfdna.R
 
 arguments:
 - $(runtime.outdir)

@@ -20,7 +20,7 @@ library('DNAcopy');
 library('Ckmeans.1d.dp');
 library('rjson');
 
-source('/juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
+library(textplot)
 args <- commandArgs(trailingOnly=TRUE);
 prefix <- args[1];
 stdnormal_loess <- args[2];
@@ -54,6 +54,7 @@ tar$Order = row.names(tar)
 gc<-read.delim(covfile_loess,sep="\t",header=T,as.is=T,fill=T);
 
 gc_tiling = gc[grep("_", gc$genes),]
+
 
 #gc_tiling <- read.delim(paste(prefix,covfile_tiling,sep=""),sep="\t",header=T,as.is=T,fill=T);
 
@@ -113,9 +114,8 @@ d <-gc[,-c(1:3), drop=F];
 ##colnames(d) <- title[match(colnames(d),title[,'Barcode']),'Sample_ID'];
 
 panel.genes <- unique(gc[which(!grepl('_',gc[,3])),3]);
-#Collpse 'CDKN2Ap16INK4A' and 'CDKN2Ap14ARF' isoforms to CDKN2A
-#panel.genes <- panel.genes[which(!(panel.genes %in% c("","CDKN2A")))];
-#panel.genes <- c(panel.genes,'CDKN2Ap16INK4A','CDKN2Ap14ARF');
+panel.genes <- panel.genes[which(!(panel.genes %in% c("","CDKN2A")))];
+panel.genes <- c(panel.genes,'CDKN2Ap16INK4A','CDKN2Ap14ARF');
 panel.genes <- unique(panel.genes)
 
 tarG= tar[grep("_", tar$Gene, invert = T),]
@@ -154,6 +154,7 @@ colnames(d.stdn) <- paste('STDN_',colnames(d.stdn),sep="");
 ##if(length(index)>0){
 ##	d.stdn <- d.stdn[,-index];
 ##}
+
 
 ##d.stdn.bld  <- d.stdn[,which(!grepl('FFPE',colnames(d.stdn)))];
 ##d.stdn.ffpe <- d.stdn[,which(grepl('FFPE',colnames(d.stdn)))];
@@ -460,7 +461,6 @@ seg.clus.p <- function(logratio, genelabel, make.plots=F,sample.id){
 		ret <- segment.smoothed.cna.obj$output[which(segment.smoothed.cna.obj$output[,'chrom'] == chr),,drop=F];
 		return(ret[order(as.numeric(ret[,'loc.start']),decreasing=F),]);
 	}));
-
 	write.table(segment.smoothed.cna.obj.srt,
 			    paste(sample.id,"_",prefix,"_copynumber.seg",sep=""),
 			    col.names=T,row.names=F,quote=F);
@@ -818,7 +818,6 @@ analysis.out <- do.call('rbind',lapply(seq(1,length(patients),1),function(i){
 	best.norm.auto <- names(auto.noise)[which(auto.noise == min(auto.noise))][1];
 	best.nm.probes.auto <- normal[,best.norm.auto];
 	names(best.nm.probes.auto) <- gc[,'Interval'];
-
 	y.cov.pt <- median(as.numeric(tm.probes[grep('^Y\\:',gc[,'Interval'])]),na.rm=T);
 	if(gender != '-'){
 		pt.gender <- gender;
@@ -891,7 +890,7 @@ analysis.out <- do.call('rbind',lapply(seq(1,length(patients),1),function(i){
 	abline(h=-1,lty=2);
 	abline(h=1,lty=2);
 	mtext(c(1:22,'X'),side=1,line=0,at=numberpos,cex=0.7);
-	legend(x='topright',pch=20,col=c('navy','brown'),legend=c('Exonic/intron/msi/FP probe','Tiling probe'));
+	legend(x='topright',pch=20,col=c('navy','brown'),legend=c('Panel A','Panel B'));
 
 	sig.genes <- sig.genes[order(as.numeric(sig.genes[,'fc']),decreasing=T),,drop=F];
 	sig.gene.gains <- sig.genes;
