@@ -48,7 +48,7 @@ def main():
     sys.stdout.flush()
     args = parser.parse_args()
     threads= int(args.threads)
-
+    print(args)
     with Parallel(n_jobs=threads,verbose=1) as parallel:
         (patientSex)= ProcessArgs(args)
 
@@ -156,6 +156,20 @@ def parallelCov(cov_args):
         meancov = str(coverage / intlen)
         target = chr +":"+str(start)+"-"+str(end)
         targets.append(target)
+        if intlen in (0, None):
+            raise ValueError("Interval length (intlen) is zero or missing, cannot divide.")
+
+        if coverage is None:
+            raise ValueError("Coverage is missing.")
+
+        try:
+            meancov_val = float(coverage) / float(intlen)
+        except Exception as e:
+            raise ValueError("Failed to compute mean coverage: %s" % str(e))
+
+        # Check if mean coverage is zero or not a number
+        if meancov_val == 0 or str(meancov_val).strip().lower() in ("", "nan"):
+            raise ValueError("Mean coverage is zero or missing.")
         sampleCov.append(meancov)
     output.update({id:sampleCov})
     output.update({'Target':targets})

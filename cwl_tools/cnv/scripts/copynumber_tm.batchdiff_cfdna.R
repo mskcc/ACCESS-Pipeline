@@ -20,7 +20,7 @@ library('DNAcopy');
 library('Ckmeans.1d.dp');
 library('rjson');
 
-source('/juno/cmo/access/production/workflows/access_workflows/v1/pipeline_access_v2_cnv/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
+source('/home/buehlere/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
 args <- commandArgs(trailingOnly=TRUE);
 prefix <- args[1];
 stdnormal_loess <- args[2];
