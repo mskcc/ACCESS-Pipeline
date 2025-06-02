@@ -13,6 +13,7 @@
 # R --slave --vanilla --args <prefix> <_ALL_intervalcoverage.txt> <gc_percent-file>
 library(dplyr)
 library(textplot)
+options(error = traceback)
 rm(list=ls(all=T));
 
 args = commandArgs(trailingOnly=TRUE)
@@ -102,6 +103,7 @@ GC<-as.numeric(targets[,grep("GC_150",colnames(targets))]);
 index <- which(targets[,'Interval'] %in% tiling.probes);
 span.fits <- do.call('rbind',list(apply(gc2,2,function(column){
 	column_sqrt<-sqrt(column[index]);
+
 	gc.bias <- GC[index];
 
 	testspan <- function(spanvalue){
@@ -136,57 +138,89 @@ index.inclY <- which(targets.inclY[,'Interval'] %in% tiling.probes);
 
 GC.inclY <-as.numeric(targets.inclY[,grep("GC_150",colnames(targets.inclY))]);
 
-norm_rt <- do.call('cbind',lapply(seq(1,ncol(gc2),1),function(i){
-	column_sqrt<-sqrt(gc2.inclY[-index.inclY,i]);
-	gc.bias <- GC.inclY[-index.inclY];
-	loess.obj <-loess(column_sqrt~gc.bias,span=span.fits[i,'min']);
-	temp2<-predict(loess.obj);
-	normalized.filt<-(column_sqrt-temp2+median(column_sqrt))/(median(column_sqrt[which(column_sqrt != 0)]));
+norm_rt <- do.call('cbind', lapply(seq(1, ncol(gc2), 1), function(i) {
+  column_sqrt <- sqrt(gc2.inclY[-index.inclY, i]);
+  gc.bias <- GC.inclY[-index.inclY];
+  loess.obj <- loess(column_sqrt ~ gc.bias, span = span.fits[i, 'min']);
+  temp2 <- predict(loess.obj);
+  normalized.filt <- (column_sqrt - temp2 + median(column_sqrt)) / 
+                     (median(column_sqrt[which(column_sqrt != 0)]));
 
-	column_sqrt.tiling <- sqrt(gc2[index,i]); # exclude Y
-	gc.tiling <- GC[index]; 				  # exclude Y
+  column_sqrt.tiling <- sqrt(gc2[index, i]);        # exclude Y
+  gc.tiling <- GC[index];                           # exclude Y
 
-	column_sqrt.tiling.inclY <- sqrt(gc2.inclY[index.inclY,i]); # exclude Y
-	gc.tiling.inclY <- GC.inclY[index.inclY];
+  column_sqrt.tiling.inclY <- sqrt(gc2.inclY[index.inclY, i]); # include Y
+  gc.tiling.inclY <- GC.inclY[index.inclY];
 
-	#loess.obj.tiling <-loess(column_sqrt.tiling~gc.tiling,span=span.fits[i,'min']); # Learn model excluding Y, but apply on newdata which has Y.
-	#temp2.tiling<-predict(loess.obj.tiling,newdata=gc.tiling.inclY);
+  loess.obj.tiling <- loess(column_sqrt.tiling.inclY ~ gc.tiling.inclY, 
+                            span = span.fits[i, 'min']);
+  temp2.tiling <- predict(loess.obj.tiling);
 
-	loess.obj.tiling <-loess(column_sqrt.tiling.inclY~gc.tiling.inclY,span=span.fits[i,'min']);
-	temp2.tiling<-predict(loess.obj.tiling)
-	#normalized.tiling<-(column_sqrt.tiling.inclY-temp2.tiling+median(column_sqrt))/(median(column_sqrt[which(column_sqrt != 0)]));
-	normalized.tiling<-(column_sqrt.tiling.inclY-temp2.tiling+median(column_sqrt.tiling.inclY))/(median(column_sqrt.tiling.inclY[which(column_sqrt.tiling.inclY != 0)]));
-	temp2.all <- GC.inclY;
-	temp2.all[which(targets.inclY[,'Interval'] %in% tiling.probes)] <- temp2.tiling;
-	temp2.all[which(!(targets.inclY[,'Interval'] %in% tiling.probes))] <- temp2;
+  normalized.tiling <- (column_sqrt.tiling.inclY - temp2.tiling + 
+                        median(column_sqrt.tiling.inclY)) / 
+                        (median(column_sqrt.tiling.inclY[which(column_sqrt.tiling.inclY != 0)]));
 
-	normalized <-GC.inclY;
-	normalized[which(targets.inclY[,'Interval'] %in% tiling.probes)] <- normalized.tiling;
-	normalized[which(!(targets.inclY[,'Interval'] %in% tiling.probes))] <- normalized.filt;
+  temp2.all <- GC.inclY;
+  temp2.all[which(targets.inclY[, 'Interval'] %in% tiling.probes)] <- temp2.tiling;
+  temp2.all[which(!(targets.inclY[, 'Interval'] %in% tiling.probes))] <- temp2;
 
-	## Debug: Plot
-	column_sqrt.all <- sqrt(gc2.inclY[,i]);
-	par(mfrow=c(2,2))
-	plot(GC.inclY[-index.inclY],column_sqrt.all[-index.inclY],ylim=c(0,60),main=paste("SqRt_",colnames(gc2)[i],sep=""),col='black',xlim=c(0.2,0.9),xlab='pGC',ylab='sqrt_cov', cex=0.75);
-	par(new=T);
-	plot(GC.inclY[index.inclY],column_sqrt.all[index.inclY],ylim=c(0,60),col='red',xlim=c(0.2,0.9),xlab='',ylab='', cex=0.75);
-	legend(x='topright',col=c('black','red'),legend=c('Panel_A','Panel_B'),pch=1);
-	par(new=F);
+  normalized <- GC.inclY;
+  normalized[which(targets.inclY[, 'Interval'] %in% tiling.probes)] <- normalized.tiling;
+  normalized[which(!(targets.inclY[, 'Interval'] %in% tiling.probes))] <- normalized.filt;
 
-	plot(GC.inclY,temp2.all,ylim=c(0,60),main=paste("Loess fit. Span:",span.fits[i,'min'],sep=""));
-	##Normalize the data for the purpose of the graph.
+  ## Debug: Plot
+  column_sqrt.all <- sqrt(gc2.inclY[, i]);
+  par(mfrow = c(2, 2));
+  plot(GC.inclY[-index.inclY], column_sqrt.all[-index.inclY], ylim = c(0, 60),
+       main = paste("SqRt_", colnames(gc2)[i], sep = ""), col = 'black', 
+       xlim = c(0.2, 0.9), xlab = 'pGC', ylab = 'sqrt_cov', cex = 0.75);
+  par(new = TRUE);
+  plot(GC.inclY[index.inclY], column_sqrt.all[index.inclY], ylim = c(0, 60),
+       col = 'red', xlim = c(0.2, 0.9), xlab = '', ylab = '', cex = 0.75);
+  legend(x = 'topright', col = c('black', 'red'), legend = c('Panel_A', 'Panel_B'), pch = 1);
+  par(new = FALSE);
 
-        #normalized<-column_sqrt.all-temp2.all+median(column_sqrt);
+  plot(GC.inclY, temp2.all, ylim = c(0, 60), main = paste("Loess fit. Span:", span.fits[i, 'min'], sep = ""));
 
-	#plot(GC.inclY,normalized,ylim=c(0,2),main="Normalized")
-	plot(GC.inclY[index.inclY],normalized[index.inclY],ylim=c(0,2),main="Normalized", col="red", xlab="GC.inclY",xlim=c(0.2,0.9), cex=0.75 )
-	par(new=T)
-	plot(GC.inclY[-index.inclY],normalized[-index.inclY],ylim=c(0,2),main="Normalized", col="black", xlab='',ylab='',xlim=c(0.2,0.9), cex=0.75)
-	par(new=F)
-	fit<-loess(normalized~GC.inclY);
-	fit2<-predict(fit,newdata=GC.inclY);
-	plot(GC.inclY,fit2,ylim=c(0,2),main="Normalized fit")
-	return(normalized);
+  plot(GC.inclY[index.inclY], normalized[index.inclY], ylim = c(0, 2), 
+       main = "Normalized", col = "red", xlab = "GC.inclY", xlim = c(0.2, 0.9), cex = 0.75);
+  par(new = TRUE);
+  plot(GC.inclY[-index.inclY], normalized[-index.inclY], ylim = c(0, 2), 
+       main = "Normalized", col = "black", xlab = '', ylab = '', xlim = c(0.2, 0.9), cex = 0.75);
+  par(new = FALSE);
+
+  ## --- Safe loess fit + predict ---
+  cat(sprintf("DEBUG: [%s] loess fit with normalized ~ GC.inclY\n", colnames(gc2)[i]));
+  cat(" - length(normalized):", length(normalized), "\n");
+  cat(" - length(GC.inclY):", length(GC.inclY), "\n");
+  cat(" - any NA in normalized:", any(is.na(normalized)), "\n");
+  cat(" - any NA in GC.inclY:", any(is.na(GC.inclY)), "\n");
+
+  valid_idx <- which(!is.na(normalized) & !is.infinite(normalized) &
+                     !is.na(GC.inclY) & !is.infinite(GC.inclY));
+
+  if (length(valid_idx) < 10) {
+    cat("WARNING: Too few valid points for loess: ", length(valid_idx), "\n");
+    fit2 <- rep(NA, length(GC.inclY));
+  } else {
+    fit <- tryCatch({
+      loess(normalized[valid_idx] ~ GC.inclY[valid_idx]);
+    }, error = function(e) {
+      cat("ERROR in loess:\n");
+      print(e);
+      return(NULL);
+    });
+
+    if (!is.null(fit)) {
+      fit2 <- predict(fit, newdata = GC.inclY);
+    } else {
+      fit2 <- rep(NA, length(GC.inclY));
+    }
+  }
+
+  plot(GC.inclY, fit2, ylim = c(0, 2), main = "Normalized fit");
+
+  return(normalized);
 }));
 dev.off();
 
