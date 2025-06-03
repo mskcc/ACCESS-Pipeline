@@ -1,13 +1,13 @@
-![Build Status](https://travis-ci.com/mskcc/ACCESS-Pipeline.svg?token=7e9uBYr6xqTkAeLnyoYR&branch=master)
-
 # Getting Started
+
+This branch must be used when running XSV1 in the CNV pipeline. This is because XSV1 has a panel A / B concept and XSV2 doesn't. The main branch `IRIS/XS_V1` should work for running XSV1 and XSV2 in all other workflows. 
 
 Disclaimer: Running the pipeline depends on installation of certain dependencies. Moving to docker containers is the long term solution for this. For now these tools must be previously installed:
 
 External Dependencies
 | Tool | Version | Path | Notes
 | --- | --- |
-| textplot.R | internal  | /home/buehlere/miniconda3/envs/ACCESS10/lib/R/library/  |  Textplot (`/home/buehlere/access_tools/textplot`) must be copied into the virtual environment /home/buehlere/miniconda3/envs/ACCESS11/lib/R/library/ so library(texplot) works. I don't know where this package is from, but we need it for this pipeline.
+| textplot.R | internal  | /home/buehlere/miniconda3/envs/ACCESS10/lib/R/library/  |  Textplot (`/home/buehlere/access_tools/textplot`) must be copied into the virtual environment `/home/buehlere/miniconda3/envs/ACCESS11/lib/R/library/` so `library(texplot)` works. I don't know where this package is from, but we need it for this pipeline.
 
 
 ### 1. Copy the latest release of the pipeline
