@@ -14,7 +14,7 @@
 library(dplyr)
 rm(list=ls(all=T));
 
-source('/home/buehlere/ACCESS-Pipeline/cwl_tools/cnv/scripts/textplot.R');
+source('/home/buehlere/access_tools/textplot.R');
 args = commandArgs(trailingOnly=TRUE)
 print(args)
 prefix <- args[2];

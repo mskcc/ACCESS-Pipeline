@@ -91,7 +91,7 @@ ACCESS_ENV_PATH=$(echo $CONDA | sed "s/bin\/conda/envs\/${ACCESS_ENV}/")
         }
 
 printi "Creating conda environment: $ACCESS_ENV"
-conda env create --name $ACCESS_ENV --file $PWD/environment.yaml
+mamba env create --name "$ACCESS_ENV" --file "$PWD/environment.yaml"
 
 EXITCODE=$?
 [[ $EXITCODE == 0 ]] || exit $EXITCODE;

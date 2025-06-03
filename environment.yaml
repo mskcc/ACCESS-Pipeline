@@ -153,3 +153,6 @@ dependencies:
   - bwa=0.7.15
   - pybedtools=0.7.10
   - fastqc=0.11.7
+  - mamba
+  - perl-cgi
+  - perl-dbi
