@@ -7,7 +7,7 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 External Dependencies
 | Tool | Version | Path | Notes
 | --- | --- |
-| textplot.R | internal  | /home/buehlere/access_tools/textplot.R | This script was created by clinical. This is a quick fix for the cnv pipeline failing with XSv2 data. `textplot.R` is imported with`source('/home/buehlere/access_tools/textplot.R');` in the following files: `/home/buehlere/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R` and `/home/buehlere/ACCESS-Pipeline/cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R`
+| textplot.R | internal  | /usersoftware/core005/access/production/V1/tools/textplot.R | This script was created by clinical. This is a quick fix for the cnv pipeline failing with XSv2 data. `textplot.R` is imported with`source('/usersoftware/core005/access/production/V1/tools/textplot.R');` in the following files: `/usersoftware/core005/access/production/V1/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R` and `/usersoftware/core005/access/production/V1/ACCESS-Pipeline/cwl_tools/cnv/scripts/copynumber_tm.batchdiff_cfdna.R`
 
 
 ### 1. Copy the latest release of the pipeline
