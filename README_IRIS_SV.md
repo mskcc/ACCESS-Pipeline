@@ -7,17 +7,34 @@ Disclaimer: Running the pipeline depends on installation of certain dependencies
 External Dependencies
 | Tool | Version | Path | Notes
 | --- | --- |
-| [ACCESS_SV](https://github.com/mskcc/ACCESS_SV) | master | /home/buehlere/access_tools/ACCESS_SV/ | cloned from source using git clone --recursive https://github.com/mskcc/ACCESS_SV.git. Note that recursive must be used as the repository contains git lfs and submodules.
-| [iANNOTATESV](https://github.com/rhshah/iAnnotateSV/tree/master) | index_fix_py2 | https://github.com/rhshah/iAnnotateSV/tree/feature/index_fix_py2 | Note this is a submodule of ACCESS_SV and should be added using `git clone --recursive https://github.com/mskcc/ACCESS_SV.git`
-| [gitlfs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) | any | NA
+| [ACCESS_SV](https://github.com/mskcc/ACCESS_SV) | master | /usersoftware/core005/access/production/V1/tools/ACCESS_SV | cloned from source using git clone --recursive https://github.com/mskcc/ACCESS_SV.git. Note that recursive must be used as the repository contains git lfs and submodules.
+| [iANNOTATESV](https://github.com/rhshah/iAnnotateSV/tree/master) | feature/index_fix_py2 | /usersoftware/core005/access/production/V1/tools/ACCESS_SV/iAnnotateSV | Note this is a submodule of ACCESS_SV and should be added using `git clone --recursive https://github.com/mskcc/ACCESS_SV.git`
+| [gitlfs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) | any |/usersoftware/core005/access/production/V1/git-lfs-3.7.0
 
 Notes here are the location of the git lfs directories mentioned above:
-- `/home/buehlere/access_tools/ACCESS_SV/iAnnotateSV/iAnnotateSV/data/`
-- `/home/buehlere/access_tools/ACCESS_SV/`
+- `/usersoftware/core005/access/production/V1/tools/ACCESS_SV/iAnnotateSV/iAnnotateSV/data/`
+- `/usersoftware/core005/access/production/V1/tools/ACCESS_SV/`
 
 ### 1. Activate Conda Virtual Environment
 ```
 $ conda activate ACCESS
+```
+
+### 2. Initialize git-lfs
+#### install git-lfs
+```
+curl -LO https://github.com/git-lfs/git-lfs/releases/download/v3.7.0/git-lfs-linux-amd64-v3.7.0.tar.gz
+tar -xzf git-lfs-linux-amd64-v3.7.0.tar.gz
+cd git-lfs-3.7.0
+export PATH="\"(pwd)\":$PATH"
+git lfs install
+```
+#### download in ACCESS_SV
+```
+cd /usersoftware/core005/access/production/V1/tools/ACCESS_SV
+git lfs fetch 
+cd iAnnotateSV/
+git lfs fetch
 ```
 
 # Running the pipeline
