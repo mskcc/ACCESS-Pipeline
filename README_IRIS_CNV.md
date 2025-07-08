@@ -11,8 +11,16 @@ External Dependencies
 
 
 ### 1. Copy the latest release of the pipeline
+
+For V1: 
 ```
 $ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch IRIS/XS_V1_CNV
+```
+note the follow package was manually placed in the virtual environment since the origin is un-known: `/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/lib/R/library/textplot/`.
+
+For V2: 
+```
+$ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch IRIS/XS_V1
 ```
 
 ### 2. Conda Set-Up
