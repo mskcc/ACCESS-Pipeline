@@ -20,7 +20,7 @@ library('DNAcopy');
 library('Ckmeans.1d.dp');
 library('rjson');
 
-source('/home/buehlere/access_tools/textplot.R');
+source('/usersoftware/core005/access/production/V1/tools/textplot.R');
 args <- commandArgs(trailingOnly=TRUE);
 prefix <- args[1];
 stdnormal_loess <- args[2];
