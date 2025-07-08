@@ -29,21 +29,21 @@ update run_tools parameters in `./ACCESS-PIPELINE/resources/templates/variants.y
 
 ```
 run_tools:
-  bcftools: '/home/buehlere/access_tools/bcftools-1.9/bcftools'
-  gbcms: '/home/buehlere/access_tools/GetBaseCountsMultiSample-1.2.5/GetBaseCountsMultiSample'
+  bcftools: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
+  gbcms: '/usersoftware/core005/access/production/V1/tools/GetBaseCountsMultiSample-1.2.5/GetBaseCountsMultiSample'
   java_7: '/admin/software/migration-testing/java/jdk1.7.0_80/bin/java'
-  mutect: '/home/buehlere/access_tools/muTect/versions/v1.1.5/muTect-1.1.5.jar'
-  vardict: '/home/buehlere/access_tools/VarDictJava/VarDict/vardict'
-  vardict_testsomatic: '/home/buehlere/access_tools/VarDictJava/VarDict/testsomatic.R'
-  vardict_var2vcf_paired: '/home/buehlere/access_tools/VarDictJava/VarDict/var2vcf_paired.pl'
-  perl: '/home/buehlere/miniconda3/envs/ACCESS10/bin/perl'
-  vcf2maf: '/home/buehlere/access_tools/vcf2maf/mskcc-vcf2maf-2235eed/vcf2maf.pl'
-  vep_path: '/data1/test01/cci/test_data/test_v1_data/vep/v86/'
-  vep_data: '/data1/test01/cci/test_data/test_v1_data/vep/cache/'
-  tabix: '/home/buehlere/miniconda3/envs/ACCESS10/bin/tabix'
-  bgzip: '/home/buehlere/miniconda3/envs/ACCESS10/bin/bgzip'
-  sortbed: '/home/buehlere/miniconda3/envs/ACCESS10/bin/sortBed'
-  bcftools_1_6: '/home/buehlere/access_tools/bcftools-1.9/bcftools'
+  mutect: '/usersoftware/core005/access/production/V1/tools/muTect/versions/v1.1.5/muTect-1.1.5.jar'
+  vardict: '/usersoftware/core005/access/production/V1/tools/VarDictJava/VarDict/vardict'
+  vardict_testsomatic: '/usersoftware/core005/access/production/V1/tools/vardict/v1.5.1/vardict_328e00a/testsomatic.R'
+  vardict_var2vcf_paired: '/usersoftware/core005/access/production/V1/tools/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl'
+  perl: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/perl'
+  vcf2maf: '/usersoftware/core005/access/production/V1/tools/vcf2maf/mskcc-vcf2maf-2235eed/vcf2maf.pl'
+  vep_path: '/data1/core006/voyager/access/vep/v86/'
+  vep_data: '/data1/core006/voyager/access/cache/'
+  tabix: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/tabix'
+  bgzip: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/bgzip'
+  sortbed: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/sortBed'
+  bcftools_1_6: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
 ```
 and re-install:
 

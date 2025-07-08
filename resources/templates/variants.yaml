@@ -91,18 +91,18 @@ reference_bam_for_SV: File
 
 # Tools
 run_tools:
-  bcftools: string
-  gbcms: string
-  java_7: string
-  mutect: string
-  vardict: string
-  vardict_testsomatic: string
-  vardict_var2vcf_paired: string
-  perl: string
-  vcf2maf: string
-  vep_path: string
-  vep_data: string
-  tabix: string
-  bgzip: string
-  sortbed: string
-  bcftools_1_6: string
+  bcftools: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
+  gbcms: '/usersoftware/core005/access/production/V1/tools/GetBaseCountsMultiSample-1.2.5/GetBaseCountsMultiSample'
+  java_7: '/admin/software/migration-testing/java/jdk1.7.0_80/bin/java'
+  mutect: '/usersoftware/core005/access/production/V1/tools/muTect/versions/v1.1.5/muTect-1.1.5.jar'
+  vardict: '/usersoftware/core005/access/production/V1/tools/VarDictJava/VarDict/vardict'
+  vardict_testsomatic: '/usersoftware/core005/access/production/V1/tools/vardict/v1.5.1/vardict_328e00a/testsomatic.R'
+  vardict_var2vcf_paired: '/usersoftware/core005/access/production/V1/tools/vardict/v1.5.1/vardict_328e00a/var2vcf_paired.pl'
+  perl: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/perl'
+  vcf2maf: '/usersoftware/core005/access/production/V1/tools/vcf2maf/mskcc-vcf2maf-2235eed/vcf2maf.pl'
+  vep_path: '/data1/core006/voyager/access/vep/v86/'
+  vep_data: '/data1/core006/voyager/access/cache/'
+  tabix: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/tabix'
+  bgzip: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/bgzip'
+  sortbed: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/sortBed'
+  bcftools_1_6: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
