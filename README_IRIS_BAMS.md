@@ -11,13 +11,13 @@ External Dependencies
 | Java 7 | jdk1.7.0_80 | /admin/software/migration-testing/java/jdk1.7.0_80/bin/java | installed by BioTeam
 | Java 8 | jdk1.8.0_31 | /admin/software/migration-testing/java/jdk1.8.0_31/bin/java | installed by BioTeam
 | Node (must exist in PATH)| v10.24.0 | /usr/bin/node
-| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) | /home/buehlere/access_tools/trim_galore/Trim_Galore_v0.2.5/trim_galore | manually copied from juno, version is no longer available on GitHub
-| [Marianas](https://github.com/juberpatel/Marianas) | 1.8.0 | /home/buehlere/access_tools/Marianas-1.8.0.jar | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
-| [Waltz](https://github.com/juberpatel/Waltz) | 2.0 | /home/buehlere/access_tools/waltz/versions/v2.0.0/Waltz-2.0.jar | manually copied from juno, version is no longer available on GitHub.
-| [Picard] fixmate (https://github.com/broadinstitute/picard) | picard-2.8.1.jar | /home/buehlere/access_tools/picard/versions/v2.8.1/picard.jar | Version is still available on Github. However, I manually copied from juno as I'm not sure why the jars are separated out into sub-commands. This doesn't seem to be how picard is compiled currently. This is likely a quirk unique to the XSV1 pipeline. 
-| Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar | /home/buehlere/access_tools/picard/versions/v1.96/picard-tools-1.96/AddOrReplaceReadGroups.jar | Version is still available on Github. However, I manually copied from juno as I'm not sure why the jars are separated out into sub-commands. This doesn't seem to be how picard is compiled currently. This is likely a quirk unique to the XSV1 pipeline.,
-| [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 | /home/buehlere/access_tools/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
-| [Abra](https://github.com/mozack/abra2) | 2.17 | /home/buehlere/access_tools/abra2/abra2-2.17/abra2-2.17.jar | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
+| [Trimgalore](https://github.com/FelixKrueger/TrimGalore) | v0.2.5 (also needs to have paths to fastqc and cutadapt updated manually) | /usersoftware/core005/access/production/V1/tools/trim_galore/Trim_Galore_v0.2.5/trim_galore | manually copied from juno, version is no longer available on GitHub
+| [Marianas](https://github.com/juberpatel/Marianas) | 1.8.0 | /usersoftware/core005/access/production/V1/tools/Marianas-1.8.0.jar | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
+| [Waltz](https://github.com/juberpatel/Waltz) | 2.0 | /usersoftware/core005/access/production/V1/tools/waltz/versions/v2.0.0/Waltz-2.0.jar | manually copied from juno, version is no longer available on GitHub.
+| [Picard fixmate](https://github.com/broadinstitute/picard) | picard-2.8.1.jar | /usersoftware/core005/access/production/V1/tools/picard/versions/v1.96/picard-tools-1.96/FixMateInformation.jar | Version is still available on Github. However, I manually copied from juno as I'm not sure why the jars are separated out into sub-commands. This doesn't seem to be how picard is compiled currently. This is likely a quirk unique to the XSV1 pipeline. 
+| Picard AddOrReplaceReadGroups | AddOrReplaceReadGroups-1.96.jar | /usersoftware/core005/access/production/V1/tools/picard/versions/v1.96/picard-tools-1.96/AddOrReplaceReadGroups.jar | Version is still available on Github. However, I manually copied from juno as I'm not sure why the jars are separated out into sub-commands. This doesn't seem to be how picard is compiled currently. This is likely a quirk unique to the XSV1 pipeline.,
+| [GATK](https://github.com/broadgsa/gatk-protected) | 3.3.0 | /usersoftware/core005/access/production/V1/tools/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
+| [Abra](https://github.com/mozack/abra2) | 2.17 | /usersoftware/core005/access/production/V1/tools/abra2/abra2-2.17/abra2-2.17.jar" | Version is still available on Github, but manually copied from Juno. I was having trouble with the install. It still might be possible to build from source.
 
 Note: BWA, bedtools, cutadapt, fastqc, R and python were previously listed as external dependencies. These have now been added to the `environment.yaml`.
 
@@ -29,13 +29,23 @@ $ git clone https://github.com/mskcc/ACCESS-Pipeline.git --branch IRIS/XS_V1
 ```
 
 ### 2. Conda Set-Up
-Make sure conda is set up for your user:
-- conda install: https://docs.conda.io/projects/conda/en/stable/user-guide/install/linux.html
+Make sure micromamba is set up for your user:
+```
+mkdir -p /usersoftware/core005/access/production/V1/micromamba
+cd /usersoftware/core005/access/production/V1/micromamba
+curl -L https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj --strip-components=1 bin/micromamba
+echo 'export PATH=/usersoftware/core005/access/production/V1/micromamba:$PATH' >> ~/.bashrc
+source ~/.bashrc
+curl micro.mamba.pm/install.sh | bash
+echo 'MAMBA_ROOT_PREFIX=/usersoftware/core005/access/production/V1/micromamba' >> ~/.bashrc
+eval "$(micromamba shell hook --shell bash)"
+```
+more guidance: https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html
 
 ### 3. Run the installation
 This will create a new Conda environment, and install the pipeline and its dependencies
 ```
-$ ./setup.sh <ENV_NAME>
+$ micromamba env create --name ACCESS --file environment.yaml
 ```
 Note: I use mamba on IRIS, because the environment is quite complicated to solve, but you can edit `setup.sh` to use base conda instead.
 
