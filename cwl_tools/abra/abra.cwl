@@ -16,7 +16,7 @@ requirements:
   ResourceRequirement:
     ramMin: $(inputs.ram_min)
     coresMin: $(inputs.cores_min)
-    outdirMax: 120000
+    outdirMin: 120000
 
 inputs:
   java: string

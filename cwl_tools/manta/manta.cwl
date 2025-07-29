@@ -6,7 +6,7 @@ requirements:
   ResourceRequirement:
     coresMin: 8
     ramMin: 16000
-    outdirMax: 5000
+    outdirMin: 5000
 
 arguments:
 - Rscript

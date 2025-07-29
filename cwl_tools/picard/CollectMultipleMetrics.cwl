@@ -6,7 +6,7 @@ requirements:
   ResourceRequirement:
     ramMin: 20000
     coresMin: 1
-    outdirMax: 20000
+    outdirMin: 20000
 
 arguments:
 - $(inputs.java)

@@ -12,7 +12,7 @@ requirements:
   ResourceRequirement:
     ramMin: 32000
     coresMin: 4
-    outdirMax: 20000
+    outdirMin: 20000
 
 arguments:
 - $(inputs.vardict)

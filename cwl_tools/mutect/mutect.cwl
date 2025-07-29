@@ -22,7 +22,7 @@ requirements:
   ResourceRequirement:
     ramMin: 50000
     coresMin: 1
-    outdirMax: 20000
+    outdirMin: 20000
 
 inputs:
 

@@ -15,7 +15,7 @@ requirements:
   ResourceRequirement:
     ramMin: 25000
     coresMin: 2
-    outdirMax: 110000
+    outdirMin: 110000
 
 inputs:
   java: string

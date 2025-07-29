@@ -7,7 +7,7 @@ baseCommand: [make_umi_qc_tables.sh]
 requirements:
   ResourceRequirement:
     # Todo: why does this step use so much disk?
-    outdirMax: 300000
+    outdirMin: 300000
     ramMin: 4000
 
 inputs:
