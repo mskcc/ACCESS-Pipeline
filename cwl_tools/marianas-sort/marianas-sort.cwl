@@ -8,6 +8,8 @@ requirements:
   ResourceRequirement:
     ramMin: 64000
     coresMin: 4
+    outdirMin: 10000
+    tmpdirMin: 4000
 
 inputs:
   first_pass_file:
