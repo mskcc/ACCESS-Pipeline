@@ -96,6 +96,7 @@ outputs:
     type: File
     outputBinding:
       glob: 'second-pass-insertions.txt'
+      outputEval: $(self.basename.split()[0])
 
   second_pass_alt_alleles:
     type: File
