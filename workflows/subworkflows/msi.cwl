@@ -60,9 +60,6 @@ outputs:
   admie_stdout:
     type: File
     outputSource: admie/standard_out
-  admie_stderr:
-    type: File
-    outputSource: admie/standard_err
 
 
 steps:
