@@ -13,8 +13,7 @@ requirements:
 arguments:
 # todo: ensure 0.2 is first in $PATH
 # or supply msisensor as run_tool
-- msisensor
-- msi
+baseCommand: [/usersoftware/core005/access/production/V1/tools/msisensor/msisensor, msi]
 
 stdout: $(inputs.sample_name + '_msi.stdout')
 stderr: $(inputs.sample_name + '_msi.stderr')
