@@ -5,8 +5,10 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20000 # todo: how to get 4GB when dividing by 4!!!!!!!!!!....
+    ramMin: 20000   # 20 GB RAM
     coresMin: 4
+    tmpdirMin: 14000   
+    outdirMin: 3000    
 
 arguments:
 # todo: ensure 0.2 is first in $PATH
