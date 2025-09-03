@@ -41,12 +41,6 @@ outputs:
   msisensor_distribution:
     type: File[]
     outputSource: msisensor/msisensor_distribution
-  msisensor_stdout:
-    type: File[]
-    outputSource: msisensor/standard_out
-  msisensor_stderr:
-    type: File[]
-    outputSource: msisensor/standard_err
 
   distance_vectors:
     type: File
