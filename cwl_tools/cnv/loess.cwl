@@ -8,7 +8,7 @@ requirements:
     coresMin: 1
     ramMin: 10000
 
-baseCommand: /home/buehlere/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R
+baseCommand: /usersoftware/core005/access/production/V1/ACCESS-Pipeline/cwl_tools/cnv/scripts/loessnormalize_nomapq_cfdna.R
 
 arguments:
 - $(runtime.outdir)
