@@ -54,10 +54,6 @@ outputs:
     outputBinding:
       glob: $('*copynumber_segclusp.probes.txt')
 
-  intragenic_file:
-    type: File
-    outputBinding:
-      glob: $('*copynumber_segclusp.intragenic.txt')
 
   copy_pdf:
     type: File

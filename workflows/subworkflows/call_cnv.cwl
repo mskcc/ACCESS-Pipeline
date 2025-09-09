@@ -51,9 +51,6 @@ outputs:
     probes_file:
         type: File
         outputSource: copy_number/probes_file
-    intragenic_file:
-        type: File
-        outputSource: copy_number/intragenic_file
     copy_pdf:
         type: File
         outputSource: copy_number/copy_pdf
@@ -110,4 +107,4 @@ steps:
         default: MIN
       targets_coverage_annotation: targets_coverage_annotation
 
-    out: [genes_file, probes_file, copy_pdf, intragenic_file, seg_files]
+    out: [genes_file, probes_file, copy_pdf, seg_files]

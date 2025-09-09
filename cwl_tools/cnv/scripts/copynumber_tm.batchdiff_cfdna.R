@@ -976,9 +976,9 @@ if(doFull != "FULL"){
 	  idx = NULL # write an empty intragenic file, for now
 	 # idx <- which(analysis.out[,'table'] == 'Intragenic_loss');
 	 # if(length(idx) > 0){
-	  intragenic.table <- analysis.out[idx,];
-	  intragenic.table$sample = gsub("\\.", "-", intragenic.table$sample)
-	  intragenic.table$sample = gsub("^X", "", intragenic.table$sample)	
-	  write.table(intragenic.table[,-which(colnames(intragenic.table) == 'table')],paste(prefix,"_copynumber_segclusp.intragenic.txt",sep=''),sep='\t',row.names=F,col.names=T,quote=F);
+	#   intragenic.table <- analysis.out[idx,];
+	#   intragenic.table$sample = gsub("\\.", "-", intragenic.table$sample)
+	#   intragenic.table$sample = gsub("^X", "", intragenic.table$sample)	
+	#   write.table(intragenic.table[,-which(colnames(intragenic.table) == 'table')],paste(prefix,"_copynumber_segclusp.intragenic.txt",sep=''),sep='\t',row.names=F,col.names=T,quote=F);
 	 # }
-}
+} 
