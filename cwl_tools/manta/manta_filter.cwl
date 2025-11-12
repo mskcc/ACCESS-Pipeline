@@ -10,6 +10,8 @@ requirements:
   ShellCommandRequirement: {}
   ResourceRequirement:
     ramMin: 2000
+    tmpdirMin: 40000   
+    outdirMin: 3000  
 
 baseCommand: samtools
 
