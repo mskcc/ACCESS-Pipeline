@@ -7,7 +7,7 @@ requirements:
   ResourceRequirement:
     ramMin: 20000   # 20 GB RAM
     coresMin: 4
-    tmpdirMin: 14000   
+    tmpdirMin: 20000   
     outdirMin: 3000    
 
 arguments:
