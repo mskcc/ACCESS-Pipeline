@@ -7,6 +7,8 @@ requirements:
   ResourceRequirement:
     coresMin: 8
     ramMin: 10000
+    tmpdirMin: 30000
+    outdirMin: 5000
 
 baseCommand: cfdna_scna
 
