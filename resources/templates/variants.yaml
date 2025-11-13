@@ -91,7 +91,7 @@ reference_bam_for_SV: File
 
 # Tools
 run_tools:
-  bcftools: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/bcftools'
+  bcftools: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
   gbcms: '/usersoftware/core005/access/production/V1/tools/GetBaseCountsMultiSample-1.2.5/GetBaseCountsMultiSample'
   java_7: '/admin/software/migration-testing/java/jdk1.7.0_80/bin/java'
   mutect: '/usersoftware/core005/access/production/V1/tools/muTect/versions/v1.1.5/muTect-1.1.5.jar'
