@@ -10,6 +10,8 @@ requirements:
   ResourceRequirement:
     ramMin: 10000
     coresMin: 2
+    tmpdirMin: 6000     
+    outdirMin: 6000   
 
 doc: |
   Filter snps/indels from the output of vardict
