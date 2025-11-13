@@ -43,7 +43,7 @@ run_tools:
   tabix: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/tabix'
   bgzip: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/bgzip'
   sortbed: '/usersoftware/core005/access/production/V1/micromamba/envs/ACCESS/bin/sortBed'
-  bcftools_1_6: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/'
+  bcftools_1_6: '/usersoftware/core005/access/production/V1/tools/bcftools-1.9/bcftools'
 ```
 and re-install:
 
