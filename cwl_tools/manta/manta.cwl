@@ -6,6 +6,7 @@ requirements:
   ResourceRequirement:
     coresMin: 8
     ramMin: 16000
+    tmpdirMin: 32000
     outdirMin: 5000
 
 arguments:
