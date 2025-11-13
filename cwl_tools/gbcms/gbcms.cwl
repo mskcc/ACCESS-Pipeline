@@ -8,6 +8,8 @@ requirements:
   ResourceRequirement:
     ramMin: 64000
     coresMin: 4
+    tmpdirMin: 10000
+    outdirMin: 5000
   SchemaDefRequirement:
     types:
       - $import: ../../resources/schemas/variants_tools.yaml
