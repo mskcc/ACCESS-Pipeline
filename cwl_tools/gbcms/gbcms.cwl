@@ -6,9 +6,9 @@ requirements:
   InlineJavascriptRequirement: {}
   ShellCommandRequirement: {}
   ResourceRequirement:
-    ramMin: 64000
+    ramMin: $(Math.min(inputs.genotyping_bams.length * 1600 + 8000, 240000))
     coresMin: 4
-    tmpdirMin: 70000     
+    tmpdirMin: $(Math.min(inputs.genotyping_bams.length * 1600 + 8000, 240000))
     outdirMin: 20000
   SchemaDefRequirement:
     types:
