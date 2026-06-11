@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat /tmp/gbcms/src/gbcms/pipeline.py)",
+      "Read(//private/tmp/gbcms/src/gbcms/**)"
+    ]
+  }
+}
